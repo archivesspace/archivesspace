@@ -1,3 +1,43 @@
+<%
+  def local_access_restriction_types_for_options
+    JSONModel.enum_values("restriction_type").map {|type|
+      [I18n.t("enumerations.restriction_type.#{type}", type), type]
+    }.sort_by(&:first)
+  end
+%>
+
+<% define_template "rights_restriction", jsonmodel_definition(:rights_restriction) do |form| %>
+  <%= form.label_and_date("begin") %>
+  <%= form.label_and_date("end") %>
+  <div class="control-group">
+    <%= form.label("local_access_restriction_type") %>
+    <div class="controls">
+      <% if form.readonly? %>
+        <ul>
+          <% Array.wrap(form.obj['local_access_restriction_type']).
+                   map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                   sort.each do |type| %>
+            <li><%= type %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= select_tag(form.path("local_access_restriction_type[]"),
+                       options_for_select(local_access_restriction_types_for_options, form.obj['local_access_restriction_type']),
+                       {
+                         :id => form.id_for("local_access_restriction_type"),
+                         :multiple => "multiple",
+                         :class => "span12",
+                         :size => local_access_restriction_types_for_options.length
+                       })
+        %>
+        <span class="help-inline"><%= I18n.t("rights_restriction.local_access_restriction_type_inline_help") %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+
 <div id="template_note_summary"><!--
   <div class="subrecord-summary-title">
     {if type != ""}
@@ -18,15 +58,43 @@
   {/if}
 --></div>
 
+<% form_note_type ||= nil %>
+  
+<% if ( inline? && form_note_type )  %>
+  <% define_template "#{form_note_type}_note_type_selector_inline" do |form, item| %>
+    <% if item %>
+      <% form.emit_template(item["jsonmodel_type"]) %>
+    <% else %>
+      <div class="subrecord-form-fields">
+        <div class="form-group required">
+          <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+          <div class="col-sm-4">
+            <select class="form-control top-level-note-type">
+              <option></option>
+              <% model_note_types = all_note_types ? all_note_types : note_types_for(form['jsonmodel_type']) %> 
+              <% model_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+                <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+        <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+  <% end %>
+<% end %>
+
 <% define_template "note_type_selector" do |form, item| %>
   <% if item %>
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group required">
-        <label class="control-label"><%= I18n.t("note.note_type") %></label>
-        <div class="controls">
-          <select class="top-level-note-type">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="col-sm-4">
+          <select class="form-control top-level-note-type">
             <option></option>
             <% note_types_for(form['jsonmodel_type']).sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
               <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
@@ -43,7 +111,7 @@
 
 <% define_template "note_type_nil" do |form | %>
   <div class="inline-subform">
-    <div class="control-group">
+    <div class="form-group">
       <div class="control-label"></div>
       <div class="controls"><%= I18n.t("note._frontend.messages.select_a_note_type") %></div>
     </div>
@@ -56,7 +124,7 @@
     <div class="tabbable tabs-below">
       <div class="tab-content">
         <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
-          <%= form.textarea(nil, item, :class => "mixed-content") %>
+          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content"}) %>
         </div>
         <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
           <%= clean_note(item).html_safe %>
@@ -75,14 +143,14 @@
 
 
 <% define_template "content_items" do |form, opts = {}| %>
-  <div class="control-group <% if opts[:required] %>required<% end %>">
+  <div class="form-group <% if opts[:required] %>required<% end %>">
     <label class="control-label"><%= I18n.t("content_items.content") %></label>
     <div class="controls content-list">
       <%= form.list_for((form["content"] || [""]), "content[]") do |item| %>
         <% form.emit_template("content_item", item) %>
       <% end %>
       <% if not form.readonly? %>
-        <button class="btn btn-mini add-content-item-btn"><%= I18n.t("note._frontend.action.add_content_item") %></button>
+        <button class="btn btn-xs btn-default add-content-item-btn"><%= I18n.t("note._frontend.action.add_content_item") %></button>
       <% end %>
     </div>
   </div>
@@ -123,14 +191,14 @@
       <%= form.label_and_select("enumeration", form.possible_options_for("enumeration", true)) %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("orderedlist_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn"><%= I18n.t("note._frontend.action.add_note_orderedlist") %></button>
+            <button class="btn btn-xs btn-default add-item-btn"><%= I18n.t("note._frontend.action.add_note_orderedlist") %></button>
           <% end %>
         </div>
       </div>
@@ -140,7 +208,7 @@
 <% end %>
 
 <% define_template "orderedlist_item" do |form, item| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :escape => false) %></div>
 <% end %>
 
 
@@ -149,7 +217,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group required">
+      <div class="form-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="multipart-note-type">
@@ -186,11 +254,21 @@
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
+      <% if form.readonly? && ["accessrestrict", "userestrict"].include?(form.obj["type"]) %>
+        <section id="notes_restriction">
+      <% else %>
+        <section id="notes_restriction" style="display: none">
+      <% end %>
+        <% form.push("rights_restriction", form.obj["rights_restriction"] || {}) do |form| %>
+          <% form.emit_template("rights_restriction") %>
+        <% end %>
+      </section>
+
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <button class="btn btn-small add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            <button class="btn btn-sm btn-default add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -212,7 +290,7 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="control-group required">
+      <div class="form-group required">
         <label class="control-label"><%= I18n.t("note.note_type") %></label>
         <div class="controls">
           <select class="bioghist-note-type">
@@ -248,7 +326,7 @@
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group pull-right">
-              <button class="btn btn-small add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+              <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
         </h5>
@@ -323,8 +401,8 @@
       <% if not form.readonly? %>
         <div class="subrecord-form-heading">
           <div class="btn-group note_outline_level_btns">
-            <button class="btn btn-mini add-sub-item-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
-            <button class="btn btn-mini add-sub-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_level") %></button>
+            <button class="btn btn-xs btn-default add-sub-item-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
+            <button class="btn btn-xs btn-default add-sub-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_level") %></button>
           </div>
         </div>
       <% end %>
@@ -349,14 +427,14 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
         <div class="controls note-outline-levels">
           <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
             <% form.emit_template("note_outline_level", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
+            <button class="btn btn-xs btn-default add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
           <% end %>
         </div>
       </div>
@@ -378,7 +456,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_definedlist.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
+            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -413,7 +491,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_index.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_index_item") %></button>
+            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_index_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -449,7 +527,7 @@
         <h5 class="subrecord-form-heading">
           <%= I18n.t("note_chronology.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_chronology_item") %></button>
+            <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_chronology_item") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -465,14 +543,14 @@
 <% define_template "chronology_item" do |form, item| %>
   <div class="subrecord-form-fields" data-type="chronology_item">
     <%= form.label_and_textfield("event_date") %>
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
       <div class="controls">
         <%= form.list_for(form["events"], "events[]") do |event| %>
           <% form.emit_template("chronology_item_event", event) %>
         <% end %>
         <% if not form.readonly? %>
-          <button class="btn btn-mini add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
+          <button class="btn btn-xs btn-default add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
         <% end %>
       </div>
     </div>
@@ -480,11 +558,11 @@
 <% end %>
 
 <% define_template "chronology_item_event" do |form, event| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, event) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, event, { :escape => false }) %></div>
 <% end %>
 
 <% define_template "bib_item" do |form, item| %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, { :escape => false }) %></div>
 <% end %>
 
 <% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>
@@ -501,14 +579,14 @@
 
       <hr/>
 
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("note_bibliography.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("bib_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-mini add-item-btn"><%= I18n.t("note._frontend.action.add_note_bibliography_item") %></button>
+            <button class="btn btn-xs btn-default add-item-btn"><%= I18n.t("note._frontend.action.add_note_bibliography_item") %></button>
           <% end %>
         </div>
       </div>

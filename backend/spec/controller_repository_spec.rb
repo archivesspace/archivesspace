@@ -8,8 +8,8 @@ describe 'Repository controller' do
 
       repos = JSONModel(:repository).all
 
-      repos.any? { |repo| repo.repo_code == repo_code }.should be_true
-      repos.any? { |repo| repo.repo_code == generate(:repo_code) }.should be_false
+      repos.any? { |repo| repo.repo_code == repo_code }.should == true
+      repos.any? { |repo| repo.repo_code == generate(:repo_code) }.should == false
     end
   end
 
@@ -71,9 +71,9 @@ describe 'Repository controller' do
   it "creating a repository automatically creates the standard set of groups" do
     groups = JSONModel(:group).all.map {|group| group.group_code}
 
-    groups.include?("repository-managers").should be_true
-    groups.include?("repository-archivists").should be_true
-    groups.include?("repository-viewers").should be_true
+    groups.include?("repository-managers").should == true
+    groups.include?("repository-archivists").should == true
+    groups.include?("repository-viewers").should == true
   end
 
 
@@ -168,16 +168,16 @@ describe 'Repository controller' do
     end
 
 
-    it "will refuse to delete a repository with records" do
+    it "will not refuse to delete a repository with records" do
       victim_repo = make_test_repo("TARGET_REPO")
 
       create(:json_accession)
 
       expect {
         JSONModel(:repository).find(victim_repo).delete
-      }.to raise_error(ConflictException)
+      }.to_not raise_error
 
-      Repository[:id => victim_repo].should_not be(nil)
+      Repository[:id => victim_repo].should be(nil)
     end
 
   end

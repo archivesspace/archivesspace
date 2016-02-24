@@ -1,0 +1,24 @@
+JSON Schema: Enumeration
+/config/enumerations
+Properties
+
+string	uri
+
+string (max length: 255)	name
+
+string	default_value
+
+boolean	editable
+
+array (string)	relationships
+
+array (JSONModel(:enumeration_value) object)	enumeration_values
+
+array (string)	values
+
+array (string)	readonly_values
+
+
+
+
+

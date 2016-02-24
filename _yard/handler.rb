@@ -39,11 +39,17 @@ class SchemaHandler < YARD::Handlers::Ruby::Legacy::Base
   def process
     name = parser.file.sub(/\.rb/, '').sub(/.*\//, '') + "_schema"
     schema_object = register YARD::CodeObjects::SchemaObject.new(:root, name)
+    
     schema_object[:schema] = schema_object[:source] = statement.to_s
 
+    accession_browse_column_enum, resource_browse_column_enum, digital_object_browse_column_enum = nil
+    
     s = eval("#{schema_object[:source]}")
+    return "" unless s.is_a?(Hash) 
+    
     schema_object[:uri] = s[:schema]["uri"]
     schema_object[:properties] = s[:schema]["properties"]
+
 
   end
 end

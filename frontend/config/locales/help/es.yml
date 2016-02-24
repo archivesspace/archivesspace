@@ -1,0 +1,151 @@
+﻿es:
+  help:
+    icon: "<span class='context-help-icon icon-question-sign'></span>"
+    help_center: Centro de ayuda ArchivesSpace
+    default_tooltip: Centro de ayuda ArchivesSpace
+    topics:
+      # Accession help tooltips
+      accession: Ayuda sobre acta de ingreso
+      accession_basic_information: Ayuda sobre información básica
+      accession_extents: Ayuda en extensión
+      accession_dates: Ayuda en las fechas
+      accession_related_resources: Ayuda sobre recursos relacionados
+      accession_linked_agents: Ayuda sobre autoridad enlaces
+      accession_subjects: Ayuda sobre materias
+      accession_external_documents: Ayuda sobre documentos externos
+      accession_rights_statements: Ayuda sobre las declaraciones de derechos
+      accession_deaccessions: Ayuda en expurgos
+      accession_instances: Ayuda en las representaciones de
+      accession_collection_management: Ayuda en la gestión de la colección de acta de ingreso
+      accession_classification: Ayuda sobre clasificaciones
+      accession_user_defined: Ayuda sobre definidos por el usuario
+      # Resource help tooltips
+      resource: Ayuda sobre recursos
+      resource_basic_information: Ayuda sobre información básica
+      resource_dates: Ayuda en las fechas
+      resource_extents: Ayuda en extensión de recursos
+      resource_finding_aid: Ayudar en la búsqueda de ayuda
+      resource_related_accessions: Ayuda sobre acta de ingreso relacionadas
+      resource_linked_agents: Ayuda sobre autoridad enlaces
+      resource_subjects: Ayuda sobre materias
+      resource_notes: Ayuda sobre notas
+      resource_external_documents: Ayuda sobre documentos externos
+      resource_rights_statements: Ayuda sobre las declaraciones de derechos
+      resource_instances: Ayuda en las instancias de
+      resource_deaccessions: Ayuda en expurgos de recursos
+      resource_collection_management: Ayuda en la gestión de la colección de recursos
+      resource_classification: Ayuda sobre clasificaciones
+      resource_user_defined: Ayuda sobre definidos por el usuario
+      # Archival Object help tooltips
+      archival_object: Ayuda sobre objetos de archiving
+      archival_object_basic_information: Ayuda sobre información básica
+      archival_object_dates: Ayuda en las fechas
+      archival_object_extents: Ayuda en extensión de objetos de archivo
+      archival_object_finding_aid: Ayudar en la búsqueda de ayuda
+      archival_object_related_accessions: Ayuda sobre entradas relacionadas
+      archival_object_linked_agents: Ayuda sobre autoridad enlaces
+      archival_object_subjects: Ayuda sobre materias
+      archival_object_notes: Ayuda sobre notas
+      archival_object_external_documents: Ayuda sobre documentos externos
+      archival_object_rights_statements: Ayuda sobre las declaraciones de derechos
+      archival_object_instances: Ayuda en las instancias de
+      archival_object_deaccessions: Ayuda en expurgo de objetos de archivo
+      archival_object_collection_management: Ayuda en la gestión de la colección de objetos de archivo
+      archival_object_classification: Ayuda sobre clasificaciones
+      archival_object_user_defined: Ayuda sobre definidos por el usuario
+      # Digital Object help tooltips
+      digital_object: Ayuda sobre objeto Digital
+      digital_object_basic_information: Ayuda sobre información básica
+      digital_object_dates: Ayuda en las fechas
+      digital_object_extents: Ayuda en extensión de objetos digitales
+      digital_object_finding_aid: Ayudar en la búsqueda de ayuda
+      digital_object_related_accessions: Ayuda sobre entradas relacionadas
+      digital_object_linked_agents: Ayuda sobre autoridad enlaces
+      digital_object_subjects: Ayuda sobre materias
+      digital_object_notes: Ayuda sobre notas
+      digital_object_external_documents: Ayuda sobre documentos externos
+      digital_object_rights_statements: Ayuda sobre las declaraciones de derechos
+      digital_object_instances: Ayuda en las representaciones de
+      digital_object_deaccessions: Ayuda en expurgo de objetos digitales
+      digital_object_collection_management: Ayuda en la gestión de la colección de objetos digitales
+      digital_object_classification: Ayuda sobre clasificaciones
+      digital_object_user_defined: Ayuda sobre definidos por el usuario
+      # Digital Object Component help tooltips
+      digital_object_component: Ayuda sobre los componentes del objeto Digital
+      digital_object_component_basic_information: Ayuda sobre información básica
+      digital_object_component_dates: Ayuda en las fechas
+      digital_object_component_extents: Ayuda en cantidad de componentes de objetos digitales
+      digital_object_component_finding_aid: Ayudar en la búsqueda de ayuda
+      digital_object_component_related_accessions: Ayuda sobre acta de ingreso relacionadas
+      digital_object_component_linked_agents: Ayuda sobre autoridad enlaces
+      digital_object_component_subjects: Ayuda sobre materias
+      digital_object_component_notes: Ayuda sobre notas
+      digital_object_component_external_documents: Ayuda sobre documentos externos
+      digital_object_component_rights_statements: Ayuda sobre las declaraciones de derechos
+      digital_object_component_instances: Ayuda en las instancias de
+      digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos digitales
+      digital_object_component_collection_management: Ayuda en la gestión de la colección de componentes de objetos digitales
+      digital_object_component_classification: Ayuda sobre clasificaciones
+      digital_object_component_user_defined: Ayuda sobre definidos por el usuario
+      # Subjects
+      subject: Ayuda sobre materias
+      subject_basic_information: Ayuda sobre información básica
+      subject_terms: Ayuda sobre descriptores
+      subject_external_documents: Ayuda sobre documentos externos
+      # Agent Persons
+      agent_person: Ayudar a las personas (autoridad)
+      agent_person_dates_of_existence: Ayuda en las fechas de la existencia
+      agent_person_names: Ayuda con los nombres
+      agent_person_contact_details: Ayuda sobre los datos de contacto
+      agent_person_notes: Ayuda sobre notas
+      agent_person_related_agents: Ayuda sobre autoridades relacionadas
+      agent_person_external_documents: Ayuda sobre documentos externos
+      # Agent Family
+      agent_family: Ayuda en familia (autoridad)
+      agent_family_dates_of_existence: Ayuda en las fechas de la existencia
+      agent_family_names: Ayuda con los nombres
+      agent_family_contact_details: Ayuda sobre los datos de contacto
+      agent_family_notes: Ayuda sobre notas
+      agent_family_related_agents: Ayuda sobre autoridades relacionadas
+      agent_family_external_documents: Ayuda sobre documentos externos
+      # Agent Corporate Entity
+      agent_corporate_entity: Ayuda sobre entidad corporativa (autoridad)
+      agent_corporate_entity_dates_of_existence: Ayuda en las fechas de la existencia
+      agent_corporate_entity_names: Ayuda con los nombres
+      agent_corporate_entity_contact_details: Ayuda sobre los datos de contacto
+      agent_corporate_entity_notes: Ayuda sobre notas
+      agent_corporate_entity_related_agents: Ayuda sobre autoridades relacionadas
+      agent_corporate_entity_external_documents: Ayuda sobre documentos externos
+      # Agent Software
+      agent_software: Ayuda sobre Software (autoridad)
+      agent_software_dates_of_existence: Ayuda en las fechas de la existencia
+      agent_software_names: Ayuda con los nombres
+      agent_software_contact_details: Ayuda sobre los datos de contacto
+      agent_software_notes: Ayuda sobre notas
+      agent_software_related_agents: Ayuda sobre autoridades relacionadas
+      agent_software_external_documents: Ayuda sobre documentos externos
+      # Location
+      location: Ayuda en localizaciones
+      # Event
+      event: Ayuda sobre eventos
+      event_basic_information: Ayuda sobre información básica
+      event_date: Ayuda en la fecha/hora del evento
+      event_linked_agents: Ayuda sobre enlaces de autoridad
+      event_linked_records: Ayuda sobre enlaces de registro
+      # Classification
+      classification: Ayuda sobre clasificaciones
+      classification_term: Ayuda sobre clasificaciones
+      # Import
+      import: Ayuda sobre la importación de datos
+      # Search
+      search: Ayudar en la búsqueda y navegación
+      # Manage Groups
+      repository_groups: Ayudar en la gestión de grupos
+      # Manage User Access
+      repository_users: Ayuda sobre la asignación de grupo de usuario
+      # Repositories
+      repository: Ayudar en la gestión de repositorios
+      # Manage Users
+      user: Ayudar en la gestión de usuarios
+      # Controlled Value Lists
+      enumeration: Ayuda sobre listas de valor controlado

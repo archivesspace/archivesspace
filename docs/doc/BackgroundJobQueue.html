@@ -1,0 +1,715 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: BackgroundJobQueue
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!BackgroundJobQueue.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (B)</a> &raquo;
+    
+    
+    <span class="title">BackgroundJobQueue</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: BackgroundJobQueue
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">BackgroundJobQueue</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/lib/background_job_queue.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="JOB_TIMEOUT_SECONDS-constant" class="">JOB_TIMEOUT_SECONDS =
+          
+        </dt>
+        <dd><pre class="code"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:job_timeout_seconds</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_queued_job-instance_method" title="#find_queued_job (instance method)">- (Object) <strong>find_queued_job</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_stale_job-instance_method" title="#find_stale_job (instance method)">- (Object) <strong>find_stale_job</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_next_job-instance_method" title="#get_next_job (instance method)">- (Object) <strong>get_next_job</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_pending_job-instance_method" title="#run_pending_job (instance method)">- (Object) <strong>run_pending_job</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_background_thread-instance_method" title="#start_background_thread (instance method)">- (Object) <strong>start_background_thread</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="init-class_method">
+  
+    + (<tt>Object</tt>) <strong>init</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 139</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
+    <span class='comment val'># clear out stale jobs on start</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_while while kw'>while</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+        <span class='rubyid_stale identifier id'>stale</span> <span class='assign token'>=</span> <span class='rubyid_find_stale_job identifier id'>find_stale_job</span>
+        <span class='rubyid_stale identifier id'>stale</span><span class='dot token'>.</span><span class='rubyid_finish identifier id'>finish</span><span class='lparen token'>(</span><span class='symbol val'>:canceled</span><span class='rparen token'>)</span>
+        <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_stale identifier id'>stale</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+    <span class='rubyid_end end kw'>end</span>
+    
+
+    <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='rubyid_BackgroundJobQueue constant id'>BackgroundJobQueue</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_start_background_thread identifier id'>start_background_thread</span>
+  <span class='rubyid_end end kw'>end</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="find_queued_job-instance_method">
+  
+    - (<tt>Object</tt>) <strong>find_queued_job</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 40</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_find_queued_job identifier id'>find_queued_job</span>
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+
+      <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='dot token'>.</span>
+        <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;queued&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+        <span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:time_submitted</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_job identifier id'>job</span>
+
+      <span class='rubyid_begin begin kw'>begin</span>
+        <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span> <span class='assign token'>=</span> <span class='string val'>&quot;running&quot;</span>
+        <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_time_started identifier id'>time_started</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+        <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
+
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_job identifier id'>job</span>
+      <span class='rubyid_rescue rescue kw'>rescue</span>
+        <span class='comment val'># Someone got this job.</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Skipped job: #{job}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>2</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="find_stale_job-instance_method">
+  
+    - (<tt>Object</tt>) <strong>find_stale_job</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 17</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_find_stale_job identifier id'>find_stale_job</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+    <span class='rubyid_stale_job identifier id'>stale_job</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='dot token'>.</span>
+      <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;running&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+      <span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='leq op'>&lt;=</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_JOB_TIMEOUT_SECONDS constant id'>JOB_TIMEOUT_SECONDS</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span> 
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_stale_job identifier id'>stale_job</span>
+      <span class='rubyid_begin begin kw'>begin</span>
+        <span class='rubyid_stale_job identifier id'>stale_job</span><span class='dot token'>.</span><span class='rubyid_time_started identifier id'>time_started</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+        <span class='rubyid_stale_job identifier id'>stale_job</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_stale_job identifier id'>stale_job</span>
+      <span class='rubyid_rescue rescue kw'>rescue</span>
+        <span class='comment val'># If we failed to save the job, another thread must have grabbed it</span>
+        <span class='comment val'># first.</span>
+        <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_next_job-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_next_job</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 66</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_next_job identifier id'>get_next_job</span>
+  <span class='rubyid_find_stale_job identifier id'>find_stale_job</span> <span class='orop op'>||</span> <span class='rubyid_find_queued_job identifier id'>find_queued_job</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_pending_job-instance_method">
+  
+    - (<tt>Object</tt>) <strong>run_pending_job</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 71</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_pending_job identifier id'>run_pending_job</span>
+  <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_get_next_job identifier id'>get_next_job</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_job identifier id'>job</span>
+
+  <span class='rubyid_finished identifier id'>finished</span> <span class='assign token'>=</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_job_canceled identifier id'>job_canceled</span> <span class='assign token'>=</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_watchdog_thread identifier id'>watchdog_thread</span> <span class='assign token'>=</span> <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_finished identifier id'>finished</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span>
+      <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Running job #{job.class.to_s}:#{job.id}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='lbrack token'>[</span><span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span> <span class='eqq op'>===</span> <span class='string val'>&quot;canceled&quot;</span>
+          <span class='comment val'># Notify the running import that we've been manually canceled</span>
+          <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Received cancel request for job #{job.id}&quot;</span><span class='rparen token'>)</span>
+          <span class='rubyid_job_canceled identifier id'>job_canceled</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_sleep identifier id'>sleep</span> <span class='lbrack token'>[</span><span class='integer val'>5</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_JOB_TIMEOUT_SECONDS constant id'>JOB_TIMEOUT_SECONDS</span> <span class='div op'>/</span> <span class='integer val'>2</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_runner identifier id'>runner</span> <span class='assign token'>=</span> <span class='rubyid_JobRunner constant id'>JobRunner</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_canceled identifier id'>canceled</span><span class='lparen token'>(</span><span class='rubyid_job_canceled identifier id'>job_canceled</span><span class='rparen token'>)</span>
+    <span class='rubyid_runner identifier id'>runner</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span>
+
+    <span class='rubyid_finished identifier id'>finished</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_watchdog_thread identifier id'>watchdog_thread</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_job_canceled identifier id'>job_canceled</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span>
+      <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_finish identifier id'>finish</span><span class='lparen token'>(</span><span class='symbol val'>:canceled</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_finish identifier id'>finish</span><span class='lparen token'>(</span><span class='symbol val'>:completed</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Job #{job.id} failed: #{$!} #{$@}&quot;</span><span class='rparen token'>)</span>
+    <span class='comment val'># If anything went wrong, make sure the watchdog thread still stops.</span>
+    <span class='rubyid_finished identifier id'>finished</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_watchdog_thread identifier id'>watchdog_thread</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span>
+
+    <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_finish identifier id'>finish</span><span class='lparen token'>(</span><span class='symbol val'>:failed</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Completed job #{job.class.to_s}:#{job.id}&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start_background_thread-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start_background_thread</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/background_job_queue.rb', line 124</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_start_background_thread identifier id'>start_background_thread</span>
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_begin begin kw'>begin</span>
+        <span class='rubyid_run_pending_job identifier id'>run_pending_job</span>
+      <span class='rubyid_rescue rescue kw'>rescue</span>
+        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Error in job manager thread: #{$!} #{$@}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_sleep identifier id'>sleep</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:job_poll_seconds</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:06 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

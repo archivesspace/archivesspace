@@ -1,0 +1,684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Converter
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!Converter.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (C)</a> &raquo;
+    
+    
+    <span class="title">Converter</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Converter
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Converter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/converters/converter.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="AccessionConverter.html" title="AccessionConverter (class)">AccessionConverter</a></span>, <span class='object_link'><a href="DigitalObjectConverter.html" title="DigitalObjectConverter (class)">DigitalObjectConverter</a></span>, <span class='object_link'><a href="EACConverter.html" title="EACConverter (class)">EACConverter</a></span>, <span class='object_link'><a href="EADConverter.html" title="EADConverter (class)">EADConverter</a></span>, <span class='object_link'><a href="MarcXMLConverter.html" title="MarcXMLConverter (class)">MarcXMLConverter</a></span></p>
+</div>
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Converter/ConverterMappingError.html" title="Converter::ConverterMappingError (class)">ConverterMappingError</a></span>, <span class='object_link'><a href="Converter/ConverterNotFound.html" title="Converter::ConverterNotFound (class)">ConverterNotFound</a></span>
+    
+  
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#for-class_method" title="for (class method)">+ (Object) <strong>for</strong>(type, input_file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inherited-class_method" title="inherited (class method)">+ (Object) <strong>inherited</strong>(subclass) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_import_types-class_method" title="list_import_types (class method)">+ (Object) <strong>list_import_types</strong>(show_hidden = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>List all available import types.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#register_converter-class_method" title="register_converter (class method)">+ (Object) <strong>register_converter</strong>(subclass) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_output_path-instance_method" title="#get_output_path (instance method)">- (Object) <strong>get_output_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Converter) <strong>initialize</strong>(input_file) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of Converter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_files-instance_method" title="#remove_files (instance method)">- (Object) <strong>remove_files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>forcibly remove files in the event of an interruption.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Converter (class)">Converter</a></span></tt>) <strong>initialize</strong>(input_file) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of Converter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_input_file identifier id'>input_file</span><span class='rparen token'>)</span>
+  <span class='rubyid_@input_file ivar id'>@input_file</span> <span class='assign token'>=</span> <span class='rubyid_input_file identifier id'>input_file</span>
+  <span class='rubyid_@batch ivar id'>@batch</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceImport constant id'>ASpaceImport</span><span class='colon2 op'>::</span><span class='rubyid_RecordBatch constant id'>RecordBatch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="for-class_method">
+  
+    + (<tt>Object</tt>) <strong>for</strong>(type, input_file) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Converter/ConverterNotFound.html" title="Converter::ConverterNotFound (class)">ConverterNotFound</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 74</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for identifier id'>for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='rparen token'>)</span>
+  <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@converters ivar id'>@converters</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_converter identifier id'>converter</span><span class='bitor op'>|</span>
+    <span class='rubyid_converter identifier id'>converter</span> <span class='assign token'>=</span> <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_instance_for identifier id'>instance_for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_input_file identifier id'>input_file</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_converter identifier id'>converter</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_converter identifier id'>converter</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ConverterNotFound constant id'>ConverterNotFound</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No suitable converter found for #{type}&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inherited-class_method">
+  
+    + (<tt>Object</tt>) <strong>inherited</strong>(subclass) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 45</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_inherited identifier id'>inherited</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
+  <span class='comment val'># We name Converter explicitly so that subclasses of subclasses still get</span>
+  <span class='comment val'># registered at the top-most level.</span>
+  <span class='rubyid_Converter constant id'>Converter</span><span class='dot token'>.</span><span class='rubyid_register_converter identifier id'>register_converter</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list_import_types-class_method">
+  
+    + (<tt>Object</tt>) <strong>list_import_types</strong>(show_hidden = false) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>List all available import types.  Subclasses have the option of hiding
+certain import types that they actually support (for example, for
+suppressing imports that exist to support a plugin or user script, but
+shouldn&#8217;t be shown to end users)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 56</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_list_import_types identifier id'>list_import_types</span><span class='lparen token'>(</span><span class='rubyid_show_hidden identifier id'>show_hidden</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_seen_types identifier id'>seen_types</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@converters ivar id'>@converters</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_converter identifier id'>converter</span><span class='bitor op'>|</span>
+    <span class='rubyid_converter identifier id'>converter</span><span class='dot token'>.</span><span class='rubyid_import_types identifier id'>import_types</span><span class='lparen token'>(</span><span class='rubyid_show_hidden identifier id'>show_hidden</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_import identifier id'>import</span><span class='bitor op'>|</span>
+      <span class='comment val'># Plugins might define their own converters that replace the standard</span>
+      <span class='comment val'># ones.  Only show one instance of each importer.</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_seen_types identifier id'>seen_types</span><span class='lbrack token'>[</span><span class='rubyid_import identifier id'>import</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+        <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_seen_types identifier id'>seen_types</span><span class='lbrack token'>[</span><span class='rubyid_import identifier id'>import</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+        <span class='rubyid_import identifier id'>import</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='lparen token'>(</span><span class='integer val'>1</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="register_converter-class_method">
+  
+    + (<tt>Object</tt>) <strong>register_converter</strong>(subclass) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 36</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_converter identifier id'>register_converter</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
+  <span class='rubyid_@converters ivar id'>@converters</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># Add the most recently created subclass to the beginning of the list so we</span>
+  <span class='comment val'># give it preference when searching.</span>
+  <span class='rubyid_@converters ivar id'>@converters</span><span class='dot token'>.</span><span class='rubyid_unshift identifier id'>unshift</span><span class='lparen token'>(</span><span class='rubyid_subclass identifier id'>subclass</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_output_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>get_output_path</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 14</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_output_path identifier id'>get_output_path</span>
+  <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_get_output_path identifier id'>get_output_path</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_files-instance_method">
+  
+    - (<tt>Object</tt>) <strong>remove_files</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>forcibly remove files in the event of an interruption</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/converter.rb', line 20</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_remove_files identifier id'>remove_files</span>
+  <span class='rubyid_@batch ivar id'>@batch</span><span class='dot token'>.</span><span class='rubyid_each_open_file_path identifier id'>each_open_file_path</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span>
+    <span class='float val'>3</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> 
+      <span class='rubyid_begin begin kw'>begin</span> 
+        <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
+        <span class='rubyid_break break kw'>break</span> 
+      <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Errno constant id'>Errno</span><span class='colon2 op'>::</span><span class='rubyid_EACCES constant id'>EACCES</span> <span class='comment val'># sometimes windows does not like this. let's wait and retry.</span>
+        <span class='rubyid_sleep identifier id'>sleep</span><span class='lparen token'>(</span><span class='integer val'>1</span><span class='rparen token'>)</span> <span class='comment val'># just in case it's open by something else..</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_i identifier id'>i</span> <span class='eq op'>==</span> <span class='integer val'>2</span> 
+        <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Cannot remove #{path}...giving up.&quot;</span>
+      <span class='rubyid_end end kw'>end</span> 
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:03 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 class ArchivesSpaceService < Sinatra::Base
 
   BASE_SEARCH_PARAMS =
-    [["q", String, "A search query string",
+    [["q", String, "A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml",
       :optional => true],
      ["aq", JSONModel(:advanced_query), "A json string containing the advanced query",
       :optional => true],
@@ -19,9 +19,15 @@ class ArchivesSpaceService < Sinatra::Base
       :optional => true],
      ["filter_term", [String], "A json string containing the term/value pairs to be applied as filters.  Of the form: {\"fieldname\": \"fieldvalue\"}.",
       :optional => true],
-     ["exclude",
+     ["simple_filter", [String], "A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.",
+      :optional => true],
+      ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",
+      :optional => true],
+      ["hl",
+      BooleanParam,
+      "Whether to use highlighting",
       :optional => true],
      ["root_record",
       String,

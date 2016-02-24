@@ -29,16 +29,16 @@
               <td>
                 <% record['linked_records'].each do |link| %>
                   <div><%= I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %>:
-                    <%= link['_resolved']['title'] %>
+                    <%= link['_resolved']['display_string'] || link['_resolved']['title'] %>
                   </div>
                 <% end %>
               </td>
               <td><%= display_audit_info(record, :format => 'compact') %></td>
               <td class="table-record-actions">
                 <div class="btn-group pull-right">
-                  <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-mini" %>
+                  <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-xs btn-default" %>
                   <% if !event['_resolved']['suppressed'] %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-mini btn-primary" %>
+                    <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-xs btn-primary" %>
                   <% end %>
                 </div>
               </td>

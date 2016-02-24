@@ -9,19 +9,32 @@ module ASpaceImport
     module SAX
 
       module ClassMethods
-        def with(path, &block)
+       
+        def handler_name(path, prefix = '' )
           @sticky_nodes ||= {}
           parts = path.split("/").reverse
-          handler_name = ""
+          handler_name = prefix 
           while parts.length > 1
             @sticky_nodes[parts.last] = true
             handler_name << "_#{parts.pop}"
           end
 
           handler_name << "_#{parts.pop}"
-
-          define_method(handler_name, block)
         end
+        
+        def with(path, &block)
+          define_method(handler_name(path), block)
+        end
+        
+        def and_in_closing(path, &block)
+          define_method(handler_name(path, "_closing"), block)
+        end
+
+        def ignore(path)
+          with(path) { @ignore = true }
+          and_in_closing(path) { @ignore = false }
+        end
+        
 
         def ensure_configuration
           @configured ||= false
@@ -58,7 +71,9 @@ module ASpaceImport
 
 
       def run
-        @reader = Nokogiri::XML::Reader(IO.read(@input_file))
+        @reader = Nokogiri::XML::Reader( IO.read(@input_file).gsub(/\s\s+/, " ")) do |config|
+          config.noblanks.strict
+        end
         node_queue = node_queue_for(@reader)
         @contexts = []
         @context_nodes = {}
@@ -75,7 +90,9 @@ module ASpaceImport
           case node.node_type
 
           when 1
-             
+            
+            next if @ignore
+
             # Nokogiri Reader won't create events for closing tags on empty nodes
             # https://github.com/sparklemotion/nokogiri/issues/928
             # handle_closer(node) if node.self_closing? #<--- don't do this it's horribly slow
@@ -152,6 +169,12 @@ module ASpaceImport
         @node_shadow = nil
         @empty_node = false
         node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
+    
+        if self.respond_to?("_closing_#{@node_name}")
+          $stderr.puts "HI!" 
+          self.send("_closing_#{@node_name}", node)
+        end
+
         if @context_nodes[node_info[0]] && @context_nodes[node_info[0]][node_info[1]]
           @context_nodes[node_info[0]][node_info[1]].reverse.each do |type|
             close_context(type)
@@ -164,6 +187,8 @@ module ASpaceImport
 
       def open_context(type, properties = {})
         obj = ASpaceImport::JSONModel(type).new
+        obj["import_context"]= pprint_current_node
+
         @contexts.push(type)
         @batch << obj
         @context_nodes[@node_name] ||= []
@@ -193,16 +218,25 @@ module ASpaceImport
 
 
       def inner_xml
-        @node.inner_xml.strip
+        @node.inner_xml.gsub("&","&amp;").strip
       end
 
+      def outer_xml
+        @node.outer_xml.strip
+      end
+
+      def pprint_current_node
+        Nokogiri::XML::Builder.new( :encoding => 'UTF-8' ) {|b|
+          b.send(@node.name.intern, @node.attributes).cdata(" ... ")
+        }.doc.root.to_s
+      end
 
       def append(obj = context_obj, property, value)
         property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][property.to_s])
         return unless property_type[0].match(/string/) && value.is_a?(String)
         filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(value)
         if obj.send(property)
-          obj.send(property).send(:<<, property)
+          obj.send(property).send(:<<, filtered_value)
         else
           obj.send("#{property}=", filtered_value)
         end

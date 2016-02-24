@@ -1,5 +1,6 @@
 require 'date'
 require 'time'
+require 'barcode_check'
 
 module JSONModel::Validations
   extend JSONModel
@@ -203,7 +204,7 @@ module JSONModel::Validations
   def self.check_container_location(hash)
     errors = []
 
-    errors << ["end_date", "is required"] if hash["end_date"].nil? and hash["status"] == "previous"
+    errors << ["end_date", "is required if status is previous"] if hash["end_date"].nil? and hash["status"] == "previous"
 
     errors
   end
@@ -219,6 +220,13 @@ module JSONModel::Validations
   def self.check_container(hash)
     errors = []
     got_current = false
+    
+    required_container_fields = [["barcode_1"],
+                                ["type_1", "indicator_1"]]
+
+    if !required_container_fields.any? { |fieldset| fieldset.all? {|field| hash[field]} }
+      errors << [ :type_1, "either type_1 or barcode is required" ]
+    end
 
     if !hash["container_extent_number"].nil? and hash["container_extent_number"] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
       errors << ["container_extent", "must be a number with no more than nine digits and five decimal places"]
@@ -248,16 +256,25 @@ module JSONModel::Validations
   end
 
 
-  def self.check_instance(hash)
+  def self.check_instance_pre_managed_container(hash)
     errors = []
 
     if hash["instance_type"] == "digital_object"
-      errors << ["digital_object", "is required"] if hash["digital_object"].nil?
+      errors << ["digital_object", "Can't be empty"] if hash["digital_object"].nil?
+
     elsif hash["instance_type"]
-      errors << ["container", "is required"] if hash["container"].nil?
+      errors << ["container", "Can't be empty"] if hash["container"].nil?
     end
 
     errors
+  end
+    
+  def self.check_instance(hash)
+      if hash['sub_container']
+        []
+      else
+        check_instance_pre_managed_container(hash)
+      end
   end
 
 
@@ -267,6 +284,50 @@ module JSONModel::Validations
     end
   end
 
+  def self.check_sub_container(hash)
+      errors = []
+
+      if (!hash["type_2"].nil? && hash["indicator_2"].nil?) || (hash["type_2"].nil? && !hash["indicator_2"].nil?)
+        errors << ["type_2", "container 2 requires both a type and indicator"]
+      end
+
+      if (hash["type_2"].nil? && hash["indicator_2"].nil? && (!hash["type_3"].nil? || !hash["indicator_3"].nil?))
+        errors << ["type_2", "container 2 is required if container 3 is provided"]
+      end
+
+      if (!hash["type_3"].nil? && hash["indicator_3"].nil?) || (hash["type_3"].nil? && !hash["indicator_3"].nil?)
+        errors << ["type_3", "container 3 requires both a type and indicator"]
+      end
+
+      errors
+  end
+
+  if JSONModel(:sub_container)
+      JSONModel(:sub_container).add_validation("check_sub_container") do |hash|
+        check_sub_container(hash)
+      end
+  end
+
+
+  def self.check_container_profile(hash)
+      errors = []
+
+      # Ensure depth, width and height have no more than 2 decimal places
+      ["depth", "width", "height"].each do |k|
+        if !hash[k].nil? &&  hash[k] !~ /\A\d+(\.\d\d?)?\Z/
+          errors << [k, "must be a number with no more than 2 decimal places"]
+        end
+      end
+
+      errors
+  end
+
+  if JSONModel(:container_profile)
+      JSONModel(:container_profile).add_validation("check_container_profile") do |hash|
+        check_container_profile(hash)
+      end
+  end
+
 
   def self.check_collection_management(hash)
     errors = []
@@ -274,6 +335,13 @@ module JSONModel::Validations
     if !hash["processing_total_extent"].nil? and hash["processing_total_extent_type"].nil?
       errors << ["processing_total_extent_type", "is required if total extent is specified"]
     end
+    
+    [ "processing_hours_per_foot_estimate", "processing_total_extent", "processing_hours_total"  ].each do |k|
+        if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
+                  errors << [k, "must be a number with no more than nine digits and five decimal places"]
+        end
+    end
+
 
     errors
   end
@@ -422,5 +490,15 @@ module JSONModel::Validations
       end
     end
   end
+
+
+  JSONModel(:find_and_replace_job).add_validation("only target properties on the target schemas") do |hash|
+    target_model = JSONModel(hash['record_type'].intern)
+    target_property = hash['property']
+
+    target_model.schema['properties'].has_key?(target_property) ? [] : [["property", "#{target_model.to_s} does not have a property named '#{target_property}'"]]
+  end
+
+
 
 end

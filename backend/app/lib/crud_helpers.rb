@@ -3,7 +3,6 @@ module CrudHelpers
   def handle_update(model, id, json, opts = {})
     obj = model.get_or_die(id)
     obj.update_from_json(json, opts)
-
     updated_response(obj, json)
   end
 
@@ -56,7 +55,7 @@ module CrudHelpers
 
     if pagination_data[:page]
       # Classic pagination mode
-      paginated = dataset.paginate(pagination_data[:page], pagination_data[:page_size])
+      paginated = dataset.extension(:pagination).paginate(pagination_data[:page], pagination_data[:page_size])
 
       listing_response(paginated, model)
 
@@ -70,9 +69,35 @@ module CrudHelpers
     end
   end
 
+
+  def self.with_record_conflict_reporting(model, json)
+    begin
+      yield
+    rescue Sequel::ValidationFailed => e
+      if e.errors && e.errors.any? {|key, errors| errors[0].end_with?("must be unique")}
+        existing_record = model.find_matching(json)
+
+        if existing_record
+          e.errors[:conflicting_record] = [existing_record.uri]
+        end
+      end
+
+      raise $!
+    end
+  end
+
+
+  def with_record_conflict_reporting(model, json)
+    CrudHelpers::with_record_conflict_reporting(model, json) do
+      yield
+    end
+  end
+
+
   private
 
   def listing_response(dataset, model)
+
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
     jsons = model.sequel_to_jsonmodel(objs).map {|json|
       if json.is_a?(JSONModelType)

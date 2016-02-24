@@ -2,11 +2,11 @@
 
 <%= form_for @classification, :as => "classification", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_form"} do |f| %>
   <%= form_context :classification, @classification do |form| %>
-    <div class="row-fluid">
-       <div class="span3">
+    <div class="row">
+       <div class="col-md-3">
           <%= render_aspace_partial :partial => "classifications/sidebar" %>
-       </div> <!-- span3 -->
-       <div class="span9">
+       </div> <!-- col-md-3 -->
+       <div class="col-md-9">
          <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
          <div class="record-pane">
 
@@ -14,7 +14,7 @@
 
            <div class="form-actions">
               <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("classification._singular") %></button>
-              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+              <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
            </div>
          </div>
        </div>

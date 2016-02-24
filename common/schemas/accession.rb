@@ -25,24 +25,33 @@
 
       "provenance" => {"type" => "string", "maxLength" => 65000},
 
+      "related_accessions" => {
+        "type" => "array",
+        "items" => {"type" => [{"type" => "JSONModel(:accession_parts_relationship) object"},
+                               {"type" => "JSONModel(:accession_sibling_relationship) object"}]},
+      },
+
+
       "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
 
       "publish" => {"type" => "boolean"},
-
-      "classification" => {
-        "type" => "object",
-        "subtype" => "ref",
-        "properties" => {
-          "ref" => {
-            "type" => [{"type" => "JSONModel(:classification) uri"},
-                       {"type" => "JSONModel(:classification_term) uri"}],
-            "ifmissing" => "error"
-          },
-          "_resolved" => {
-            "type" => "object",
-            "readonly" => "true"
-          }
-        }
+      "classifications" => {
+              "type" => "array",
+              "items" => {
+                "type" => "object",
+                "subtype" => "ref",
+                "properties" => {
+                  "ref" => {
+                    "type" => [ { "type" => "JSONModel(:classification) uri"},
+                                { "type" => "JSONModel(:classification_term) uri" }],
+                    "ifmissing" => "error"
+                  },
+                  "_resolved" => {
+                                "type" => "object",
+                                "readonly" => "true"
+                              }
+                }
+              }
       },
 
       "subjects" => {

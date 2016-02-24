@@ -41,6 +41,18 @@
           }
         }
       },
+      
+      "series" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:archival_object) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      },
 
       "position" => {"type" => "integer", "required" => false},
 
@@ -55,6 +67,12 @@
       },
 
       "has_unpublished_ancestor" => {"type" => "boolean", "readonly" => "true"},
+
+      "representative_image" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      }
+
     },
   },
 }

@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-   <%= @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : @resource.title %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
+   <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -45,6 +45,7 @@
           <%= form.label_and_textfield "ead_location" %>
           <hr/>
           <%= form.label_and_textarea "finding_aid_title" %>
+          <%= form.label_and_textarea "finding_aid_subtitle" %>
           <%= form.label_and_textarea "finding_aid_filing_title" %>
           <%= form.label_and_textfield "finding_aid_date" %>
           <%= form.label_and_textarea "finding_aid_author" %>
@@ -53,14 +54,14 @@
           <%= form.label_and_textarea "finding_aid_sponsor" %>
           <%= form.label_and_textarea "finding_aid_edition_statement" %>
           <%= form.label_and_textarea "finding_aid_series_statement" %>
-          <%= form.label_and_textfield "finding_aid_revision_date" %>
-          <%= form.label_and_textarea "finding_aid_revision_description" %>
           <%= form.label_and_select "finding_aid_status", form.possible_options_for("finding_aid_status", true) %>
           <%= form.label_and_textarea "finding_aid_note" %>
         </fieldset>
       </div>
     </div>
   </section>
+  
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "revision_statements"} %>
 
 <% end %>
 
@@ -72,12 +73,12 @@
 <%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
 <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
-<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>
-<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classification", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "classifications"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
+<%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
   <%= form_plugins_for("resource", form) %>

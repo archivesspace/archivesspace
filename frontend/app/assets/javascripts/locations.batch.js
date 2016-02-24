@@ -1,5 +1,5 @@
 //= require form
-
+//= require locations.crud
 $(function() {
   $("button.preview-locations").on("click", function() {
     var $form = $(this).closest("form");

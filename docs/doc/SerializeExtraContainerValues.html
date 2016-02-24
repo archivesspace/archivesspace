@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: SerializeExtraContainerValues
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!SerializeExtraContainerValues.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (S)</a> &raquo;
+    
+    
+    <span class="title">SerializeExtraContainerValues</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: SerializeExtraContainerValues
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="EADSerializer.html" title="EADSerializer (class)">EADSerializer</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/exporters/lib/serialize_extra_container_values.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="SerializeExtraContainerValues/AltRenderCalculator.html" title="SerializeExtraContainerValues::AltRenderCalculator (class)">AltRenderCalculator</a></span>
+    
+  
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">+ (Object) <strong>included</strong>(base) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#altrender_calculator-instance_method" title="#altrender_calculator (instance method)">- (Object) <strong>altrender_calculator</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#manage_containers_serialize_container-instance_method" title="#manage_containers_serialize_container (instance method)">- (Object) <strong>manage_containers_serialize_container</strong>(inst, xml, fragments) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    + (<tt>Object</tt>) <strong>included</strong>(base) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/serialize_extra_container_values.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_class_eval identifier id'>class_eval</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_container identifier id'>serialize_container</span><span class='lparen token'>(</span><span class='rubyid_inst identifier id'>inst</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
+      <span class='rubyid_manage_containers_serialize_container identifier id'>manage_containers_serialize_container</span><span class='lparen token'>(</span><span class='rubyid_inst identifier id'>inst</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="altrender_calculator-instance_method">
+  
+    - (<tt>Object</tt>) <strong>altrender_calculator</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/serialize_extra_container_values.rb', line 31</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_altrender_calculator identifier id'>altrender_calculator</span>
+  <span class='comment val'># Each EAD export gets its own serializer instance, so we can safely store</span>
+  <span class='comment val'># state between calls here.</span>
+  <span class='rubyid_@altrender_calculator ivar id'>@altrender_calculator</span> <span class='opasgn op'>||=</span> <span class='rubyid_AltRenderCalculator constant id'>AltRenderCalculator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="manage_containers_serialize_container-instance_method">
+  
+    - (<tt>Object</tt>) <strong>manage_containers_serialize_container</strong>(inst, xml, fragments) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/serialize_extra_container_values.rb', line 37</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_manage_containers_serialize_container identifier id'>manage_containers_serialize_container</span><span class='lparen token'>(</span><span class='rubyid_inst identifier id'>inst</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
+  <span class='rubyid_@parent_id ivar id'>@parent_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='lparen token'>(</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span>
+    <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='dstring node'>&quot;type_#{n}&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='dstring node'>&quot;indicator_#{n}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@container_id ivar id'>@container_id</span> <span class='assign token'>=</span> <span class='rubyid_prefix_id identifier id'>prefix_id</span><span class='lparen token'>(</span><span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:parent</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@parent_id ivar id'>@parent_id</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@parent_id ivar id'>@parent_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@container_id ivar id'>@container_id</span>
+    <span class='rubyid_@parent_id ivar id'>@parent_id</span> <span class='assign token'>=</span> <span class='rubyid_@container_id ivar id'>@container_id</span>
+
+    <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{n}&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{n}&quot;</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_n identifier id'>n</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'instance_type'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.instance_instance_type.#{inst['instance_type']}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'instance_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'barcode_1'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; [#{inst['container']['barcode_1']}]&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'top_container'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_altrender identifier id'>altrender</span> <span class='assign token'>=</span> <span class='rubyid_altrender_calculator identifier id'>altrender_calculator</span><span class='dot token'>.</span><span class='rubyid_for_top_container_uri identifier id'>for_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'top_container'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+          <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:altrender</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_altrender identifier id'>altrender</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span><span class='lparen token'>(</span><span class='rubyid_atts identifier id'>atts</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_sanitize_mixed_content identifier id'>sanitize_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:56 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

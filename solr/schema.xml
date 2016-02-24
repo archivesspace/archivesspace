@@ -64,13 +64,14 @@
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="notes" type="text_general" indexed="true" stored="false" multiValued="false"/>
+   <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false"/>
 
-   <field name="subjects_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
-   <field name="creators_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
-   <field name="agents_text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="subjects_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="creators_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
 
    <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="summary" type="text_general" indexed="false" stored="true" multiValued="false" />
 
    <!-- Archival Record properties required for facets -->
    <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
@@ -110,7 +111,8 @@
    <field name="first_term_type" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Resource stores some Finding Aid data -->
-   <field name="finding_aid_title" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_title" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_filing_title" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Location properties required for facets -->
    <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
@@ -142,15 +144,18 @@
    <!-- A JSON blob representing the classification path -->
    <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
 
-   <!-- Fields to allow view of linked records (for classifications/locations -->
-   <field name="classification_uri" type="string" indexed="true" stored="true" multiValued="false" />
+   <!-- Fields to allow view of linked records (for classifications/locations/events -->
+   <field name="classification_paths" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="classification_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="linked_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="outcome" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Collection Management fields -->
+   <field name="cm_uri" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="parent_title" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="parent_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="processing_priority" type="string" indexed="true" stored="true" multiValued="false" />
@@ -176,6 +181,9 @@
    <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Enum Fields -->
+   <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+   
 
    <!-- Dynamic fields for site-specific use -->
    <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
@@ -305,7 +313,6 @@
 
   <!-- Copy fields ... perhaps for sort fields -->
   <copyField source="title" dest="title_sort"/>
-  <copyField source="json" dest="fullrecord"/>
   <copyField source="subjects" dest="subjects_text"/>
   <copyField source="agents" dest="agents_text"/>
   <copyField source="creators" dest="creators_text"/>

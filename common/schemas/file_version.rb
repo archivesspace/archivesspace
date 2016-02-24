@@ -17,10 +17,11 @@
       "file_format_name" => {"type" => "string", "dynamic_enum" => "file_version_file_format_name"},
       "file_format_version" => {"type" => "string", "maxLength" => 255},
       "file_size_bytes" => {"type" => "integer"},
+      "is_representative" => {"type" => "boolean", "default" => false},
 
       "checksum" => {"type" => "string", "maxLength" => 255},
       "checksum_method" => {"type" => "string", "dynamic_enum" => "file_version_checksum_methods"},
-
+      "caption" => {"type" => "string", "maxLength" => 16384},
     },
   },
 }

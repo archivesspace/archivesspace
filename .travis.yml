@@ -1,47 +1,59 @@
-language: ruby
-
+language: java
 jdk:
-  - openjdk7
-  - oraclejdk7
-  - openjdk6
-
+- openjdk7
+- oraclejdk7
+- oraclejdk8
 env:
-  # These sets of environment variables determine which tasks to run and
-  # which database the tests will run against. The build script honors any 
-  # ArchivesSpace options set in JAVA_OPTS, so we don't need an additional
-  # configuration file for now.
+  global:
+  - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
+  - DISPLAY=:99.0
+  - SCREENSHOT_ON_ERROR=1
+  matrix:
   - DB=mysql TASK=travis:test
   - DB=derby TASK=travis:test
-  - DB=mysql TASK=travis:selenium
-  - DB=derby TASK=travis:selenium
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
+  - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
+  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
   - DB=mysql TASK=travis:selenium:public
   - DB=derby TASK=travis:selenium:public
   - TASK=dist
-
+before_install:
+- /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
+  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24
+- export DISPLAY=:99.0
 before_script:
-  - "export INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log"
-  # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
-  - "export DISPLAY=:99.0"
-  - "export SCREENSHOT_ON_ERROR=1"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 
-  - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar); fi
-  - if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root"; fi
-  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default character set utf8;"; fi
-
+- sleep 3
+- if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar);
+  fi
+- if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root";
+  fi
+- if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
+  character set utf8;"; fi
 branches:
-  # only:
-  #   - master
   except:
-    - gh-pages
-
+  - gh-pages
 script:
-  - build/run $TASK
-
-after_failure:
-  - build/run dump-file -Ddump.file=/var/tmp/aspace-integration.log
-
+- build/run $TASK $TASK_OPTS
 notifications:
-  irc: "irc.freenode.org#archivesspace"
-  # don't send email for now, until we know who we want to receive it
+  irc: irc.freenode.org#archivesspace
   email: false
+addons:
+  artifacts:
+    debug: true
+    bucket: astravisartifacts 
+    paths:
+    - $( ls /var/tmp/*.png | tr "\n" ":" )
+    - $( ls /tmp/*.png | tr "\n" ":" )
+    - $( ls /var/tmp/*.html | tr "\n" ":" )
+    - $( ls /var/log/mysql/* | tr "\n" ":" )
+    - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
+sudo: false

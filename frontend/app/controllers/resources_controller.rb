@@ -1,11 +1,12 @@
 class ResourcesController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree],
-                      "update_archival_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
+  set_access_control  "view_repository" => [:index, :show, :tree, :models_in_graph],
+                      "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "suppress_archival_record" => [:suppress, :unsuppress],
-                      "transfer_archival_record" => [:transfer]
+                      "transfer_archival_record" => [:transfer],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def index
@@ -36,10 +37,57 @@ class ResourcesController < ApplicationController
         flash.now[:info] = I18n.t("resource._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
         flash[:spawned_from_accession] = acc.id
       end
+
+    elsif user_prefs['default_values']
+      defaults = DefaultValues.get 'resource'
+
+      if defaults
+        @resource.update(defaults.values)
+        @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('resource._singular')}"
+      end
+
     end
 
     return render_aspace_partial :partial => "resources/new_inline" if params[:inline]
   end
+
+
+  def defaults
+    defaults = DefaultValues.get 'resource'
+
+    values = defaults ? defaults.form_values : {:title => I18n.t("resource.title_default", :default => "")}
+
+    @resource = Resource.new(values)._always_valid!
+
+    @form_title = I18n.t("default_values.form_title.resource")
+
+
+    render "defaults"
+  end
+
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "resource",
+                                "lock_version" => params[:resource].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:resource], 
+                                                                        JSONModel(:resource).schema
+                                                                        )
+                              }).save
+
+      flash[:success] = "Defaults updated"
+
+      redirect_to :controller => :resources, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :resources, :action => :defaults
+    end
+
+  end
+
 
 
   def transfer
@@ -180,9 +228,9 @@ class ResourcesController < ApplicationController
 
 
   def merge
-    handle_merge(JSONModel(:resource).uri_for(params[:id]),
-                 params[:ref],
-                 'resource')
+    handle_merge( params[:refs],
+                  JSONModel(:resource).uri_for(params[:id]),
+                  'resource')
   end
 
 
@@ -209,14 +257,27 @@ class ResourcesController < ApplicationController
   end
 
 
+  def models_in_graph
+    list_uri = JSONModel(:resource).uri_for(params[:id]) + "/models_in_graph"
+    list = JSONModel::HTTP.get_json(list_uri)
+
+    render :json => list.map {|type|
+      [type, I18n.t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
+    }
+  end
+
   private
 
   def fetch_tree
     flash.keep # keep the flash... just in case this fires before the form is loaded
 
-    tree = {}
+    tree = []
 
-    limit_to = params[:node_uri] || "root"
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/resources/") 
+                 params[:node_uri]
+               else
+                 "root"
+               end
 
     if !params[:hash].blank?
       node_id = params[:hash].sub("tree::", "").sub("#", "")
@@ -227,7 +288,11 @@ class ResourcesController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
+    tree = JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
       node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
       node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
       node['containers'].each{|container|
@@ -235,11 +300,34 @@ class ResourcesController < ApplicationController
         container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
         container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
       }
-      node['parent'] = "#{parent["node_type"]}_#{parent["id"]}" if parent
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
+      }
+
+      if node['node_type'] == 'resource' || node['record_uri'] == limit_to
+#        node['state'] = {'opened' => true}
+      end
+
     end
 
     tree
+
   end
 
 
@@ -247,12 +335,16 @@ class ResourcesController < ApplicationController
   def fetch_resolved(id)
     resource = JSONModel(:resource).find(id, find_opts)
 
-    if resource['classification'] && resource['classification']['_resolved']
-      resolved = resource['classification']['_resolved']
-      resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+    if resource['classifications'] 
+      resource['classifications'].each do |classification|
+        next unless classification['_resolved']
+        resolved = classification["_resolved"] 
+        resolved['title'] = ClassificationHelper.format_classification(resolved['path_from_root'])
+      end 
     end
 
     resource
   end
+
 
 end

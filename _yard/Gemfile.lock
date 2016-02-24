@@ -1,8 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    kramdown (0.14.1)
-    yard (0.8.3)
+    kramdown (1.8.0)
+    yard (0.8.7.6)
 
 PLATFORMS
   java

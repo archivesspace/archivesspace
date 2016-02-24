@@ -6,7 +6,7 @@ RSpec::Matchers.define :have_node do |path|
       false
     end
   end
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     prefix = ""
     while path.slice(0) == '/'
       prefix << path.slice!(0)
@@ -32,7 +32,7 @@ RSpec::Matchers.define :have_node do |path|
       "Expected XML document to contain node #{path}."
     end
   end
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "Expected that #{actual} would not have node #{path}."
   end
   description do
@@ -50,7 +50,7 @@ RSpec::Matchers.define :have_attribute do |att, val|
     end
   end
 
-  failure_message_for_should do |node|
+  failure_message do |node|
     if val and node.attr(att)
       "Expected '#{node.name}/@#{att}' to be '#{val}', not '#{node.attr(att)}'."
     else
@@ -58,7 +58,7 @@ RSpec::Matchers.define :have_attribute do |att, val|
     end
   end
 
-  failure_message_for_should_not do |node|
+  failure_message_when_negated do |node|
     "Unexpected attribute '#{att}' on node '#{node.name}'."
   end
 end
@@ -71,17 +71,44 @@ RSpec::Matchers.define :have_inner_text do |expected|
     if regex_mode
       node.inner_text =~ expected
     else
-      node.inner_text == expected
+      node.inner_text.strip == expected.strip
     end
   end
 
-  failure_message_for_should do |node|
+  failure_message do |node|
     infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected}'"
     name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to #{infinitive}. Found string: '#{node.inner_text}'."
   end
 
-  failure_message_for_should_not do |node|
+  failure_message_when_negated do |node|
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to contain something other than '#{txt}'."
+  end
+end
+
+RSpec::Matchers.define :have_inner_markup do |expected|
+  regex_mode = expected.is_a?(Regexp)
+
+  match do |node|
+    if regex_mode
+      markup =~ expected
+    else
+      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+      markup == expected_markup 
+    end
+  end
+
+  failure_message do |node|
+      markup = node.inner_html.strip.delete(' ').gsub("'", '"')
+      expected_markup = expected.strip.delete(' ').gsub("'", '"')
+    infinitive = regex_mode ? "match /#{expected}/" : "contain '#{expected_markup}'"
+    name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
+    "Expected node '#{name}' to #{infinitive}. Found string: '#{markup}'."
+  end
+
+  failure_message_when_negated do |node|
     name = node.is_a?(Nokogiri::XML::NodeSet) ? node.map{|n| n.name}.uniq.join(' | ') : node.name
     "Expected node '#{name}' to contain something other than '#{txt}'."
   end
@@ -124,7 +151,7 @@ RSpec::Matchers.define :have_tag do |expected|
     end
   end
 
-  failure_message_for_should do |doc|
+  failure_message do |doc|
     if nodeset.nil? || nodeset.empty?
       "Could find no #{tag} in #{doc.to_xml}"
     else
@@ -132,7 +159,7 @@ RSpec::Matchers.define :have_tag do |expected|
     end
   end
 
-  failure_message_for_should_not do |doc|
+  failure_message_when_negated do |doc|
     "Did not expect to find #{tag} in #{doc.to_xml}"
   end
 end
@@ -145,7 +172,7 @@ RSpec::Matchers.define :have_schema_location do |expected|
     schema_location && schema_location.value == expected
   end
 
-  failure_message_for_should do |doc|
+  failure_message do |doc|
     "Expected document's schema location to be #{expected}"
   end
 end
@@ -166,7 +193,7 @@ RSpec::Matchers.define :have_namespaces do |expected|
     diff.empty?
   end
 
-  failure_message_for_should do |doc|
+  failure_message do |doc|
     "Expected document to have namespaces #{expected.inspect}, not #{doc.namespaces.inspect}"
   end
 end

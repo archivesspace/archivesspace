@@ -2,7 +2,8 @@ class ClassificationsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree],
                       "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
-                      "delete_classification_record" => [:delete]
+                      "delete_classification_record" => [:delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def index
@@ -22,6 +23,12 @@ class ClassificationsController < ApplicationController
 
   def new
     @classification = JSONModel(:classification).new(:title => I18n.t("classification.title_default", :default => ""))._always_valid!
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'classification'
+      @classification.update(defaults.values) if defaults
+    end
+
 
     return render_aspace_partial :partial => "classifications/new_inline" if params[:inline]
   end
@@ -80,6 +87,38 @@ class ClassificationsController < ApplicationController
   end
 
 
+  def defaults
+    defaults = DefaultValues.get 'classification'
+
+    values = defaults ? defaults.form_values : {}
+
+    @classification = JSONModel(:classification).new(values)._always_valid!
+    @form_title = I18n.t("default_values.form_title.classification")
+
+    render "defaults"
+  end
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "classification",
+                                "lock_version" => params[:classification].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:classification],
+                                                                        JSONModel(:classification).schema)
+                              }).save
+
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      redirect_to :controller => :classifications, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :classifications, :action => :defaults
+    end
+  end
+
+
+
   def accept_children
     handle_accept_children(JSONModel(:classification))
   end
@@ -95,9 +134,15 @@ class ClassificationsController < ApplicationController
   private
 
   def fetch_tree
-    tree = {}
+    flash.keep
 
-    limit_to = params[:node_uri] || "root"
+    tree = []
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/classifications/") 
+                 params[:node_uri]
+               else
+                 "root"
+               end
+
 
     if !params[:hash].blank?
       node_id = params[:hash].sub("tree::", "").sub("#", "")
@@ -108,8 +153,32 @@ class ClassificationsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+    tree = JSONModel(:classification_tree).find(nil, :classification_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
+
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
+      }
+
     end
 
     tree

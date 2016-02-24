@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ASFop
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!ASFop.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">ASFop</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: ASFop
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ASFop</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/lib/AS_fop.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#output-instance_method" title="#output (instance method)">- (Object) <strong>output</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute output.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#source-instance_method" title="#source (instance method)">- (Object) <strong>source</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute source.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#xslt-instance_method" title="#xslt (instance method)">- (Object) <strong>xslt</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute xslt.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ASFop) <strong>initialize</strong>(source, output = nil) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ASFop.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_fo-instance_method" title="#to_fo (instance method)">- (Object) <strong>to_fo</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_pdf-instance_method" title="#to_pdf (instance method)">- (Object) <strong>to_pdf</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>returns a temp file with the converted PDF.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_pdf_stream-instance_method" title="#to_pdf_stream (instance method)">- (Object) <strong>to_pdf_stream</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="ASFop (class)">ASFop</a></span></tt>) <strong>initialize</strong>(source, output = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of ASFop</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='comma token'>,</span> <span class='rubyid_output identifier id'>output</span><span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>  
+ <span class='rubyid_@source ivar id'>@source</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span>
+ <span class='rubyid_@output ivar id'>@output</span> <span class='assign token'>=</span> <span class='rubyid_output identifier id'>output</span> <span class='integer val'>? </span><span class='rubyid_output identifier id'>output</span> <span class='colon op'>:</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>'fop.pdf'</span><span class='rparen token'>)</span> 
+ <span class='rubyid_@xslt ivar id'>@xslt</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_StaticAssetFinder constant id'>StaticAssetFinder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'stylesheets'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>'as-ead-pdf.xsl'</span><span class='rparen token'>)</span><span class='rparen token'>)</span> 
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="output=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="output-instance_method">
+  
+    - (<tt>Object</tt>) <strong>output</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute output</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 20</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_output identifier id'>output</span>
+  <span class='rubyid_@output ivar id'>@output</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="source=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="source-instance_method">
+  
+    - (<tt>Object</tt>) <strong>source</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute source</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_source identifier id'>source</span>
+  <span class='rubyid_@source ivar id'>@source</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="xslt=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="xslt-instance_method">
+  
+    - (<tt>Object</tt>) <strong>xslt</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute xslt</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 21</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_xslt identifier id'>xslt</span>
+  <span class='rubyid_@xslt ivar id'>@xslt</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="to_fo-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_fo</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 30</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_fo identifier id'>to_fo</span>
+  <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XSLT constant id'>XSLT</span><span class='lparen token'>(</span><span class='rubyid_@xslt ivar id'>@xslt</span><span class='comma token'>,</span> <span class='label val'>system_id:</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>'stylesheets'</span><span class='comma token'>,</span> <span class='string val'>'as-ead-pdf.xsl'</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
+  <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XML constant id'>XML</span><span class='lparen token'>(</span><span class='rubyid_@source ivar id'>@source</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_pdf-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_pdf</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>returns a temp file with the converted PDF</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 36</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_pdf identifier id'>to_pdf</span>
+  <span class='rubyid_begin begin kw'>begin</span> 
+    <span class='rubyid_fo identifier id'>fo</span> <span class='assign token'>=</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_to_fo identifier id'>to_fo</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_inputstream identifier id'>to_inputstream</span>
+    <span class='rubyid_fopfac identifier id'>fopfac</span> <span class='assign token'>=</span> <span class='rubyid_FopFactory constant id'>FopFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span>
+    <span class='rubyid_fopfac identifier id'>fopfac</span><span class='dot token'>.</span><span class='rubyid_setBaseURL identifier id'>setBaseURL</span><span class='lparen token'>(</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>'stylesheets'</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_fop identifier id'>fop</span> <span class='assign token'>=</span> <span class='rubyid_fopfac identifier id'>fopfac</span><span class='dot token'>.</span><span class='rubyid_newFop identifier id'>newFop</span><span class='lparen token'>(</span><span class='rubyid_MimeConstants constant id'>MimeConstants</span><span class='colon2 op'>::</span><span class='rubyid_MIME_PDF constant id'>MIME_PDF</span><span class='comma token'>,</span> <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_to_outputstream identifier id'>to_outputstream</span><span class='rparen token'>)</span> 
+    <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_TransformerFactory constant id'>TransformerFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span><span class='dot token'>.</span><span class='rubyid_newTransformer identifier id'>newTransformer</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+    <span class='rubyid_res identifier id'>res</span> <span class='assign token'>=</span> <span class='rubyid_SAXResult constant id'>SAXResult</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fop identifier id'>fop</span><span class='dot token'>.</span><span class='rubyid_getDefaultHandler identifier id'>getDefaultHandler</span><span class='rparen token'>)</span>
+    <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_StreamSource constant id'>StreamSource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fo identifier id'>fo</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_res identifier id'>res</span><span class='rparen token'>)</span>
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@output ivar id'>@output</span> 
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_pdf_stream-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_pdf_stream</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop.rb', line 51</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_pdf_stream identifier id'>to_pdf_stream</span>
+  <span class='rubyid_begin begin kw'>begin</span> 
+    <span class='rubyid_fo identifier id'>fo</span> <span class='assign token'>=</span> <span class='rubyid_StringIO constant id'>StringIO</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_to_fo identifier id'>to_fo</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_inputstream identifier id'>to_inputstream</span>  
+    <span class='rubyid_fop identifier id'>fop</span> <span class='assign token'>=</span> <span class='rubyid_FopFactory constant id'>FopFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span><span class='dot token'>.</span><span class='rubyid_newFop identifier id'>newFop</span><span class='lparen token'>(</span><span class='rubyid_MimeConstants constant id'>MimeConstants</span><span class='colon2 op'>::</span><span class='rubyid_MIME_PDF constant id'>MIME_PDF</span><span class='comma token'>,</span> <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_to_outputstream identifier id'>to_outputstream</span><span class='rparen token'>)</span>
+    <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_TransformerFactory constant id'>TransformerFactory</span><span class='dot token'>.</span><span class='rubyid_newInstance identifier id'>newInstance</span><span class='dot token'>.</span><span class='rubyid_newTransformer identifier id'>newTransformer</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+    <span class='rubyid_res identifier id'>res</span> <span class='assign token'>=</span> <span class='rubyid_SAXResult constant id'>SAXResult</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fop identifier id'>fop</span><span class='dot token'>.</span><span class='rubyid_getDefaultHandler identifier id'>getDefaultHandler</span><span class='rparen token'>)</span>
+    <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_StreamSource constant id'>StreamSource</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fo identifier id'>fo</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_res identifier id'>res</span><span class='rparen token'>)</span>
+    <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_rewind identifier id'>rewind</span>
+    <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span>
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
+   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span> 
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:59 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

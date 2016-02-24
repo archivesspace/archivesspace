@@ -1,4 +1,4 @@
-<% if user_can?('update_archival_record') %>
+<% if user_can?('update_digital_object_record') %>
   <%= render_aspace_partial(:partial => '/shared/component_toolbar',
              :locals => {
                :parent_link => {:controller => :digital_objects, :action => :edit, :id => JSONModel(:digital_object).id_for(@digital_object_component.digital_object["ref"]), :anchor => "digital_object_component_#{@digital_object_component.id}"},

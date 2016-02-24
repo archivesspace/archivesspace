@@ -1294,11 +1294,11 @@ Sequel.migration do
 
     create_editable_enum('digital_object_level', ["collection", "work", "image"])
 
-    create_editable_enum('extent_extent_type', ["cassettes", "cubic_feet", "files", "gigabytes", "leaves", "linear_feet", "megabytes", "photographic_prints", "photographic_slides", "reels", "sheets", "terabytes", "volumes"])
+    create_editable_enum('extent_extent_type', ["cassettes", "cubic_feet",  "gigabytes", "leaves", "linear_feet", "megabytes", "photographic_prints", "photographic_slides", "reels", "sheets", "terabytes", "volumes"])
 
     create_editable_enum('event_event_type',
                          ["accession", "accumulation",
-                          "acknowledgement", "acknowledgement_sent",
+                          "acknowledgement_sent", "acknowledgement_received",
                           "agreement_signed", "agreement_received",
                           "agreement_sent", "appraisal", "assessment", "capture",
                           "cataloged", "collection", "compression",
@@ -1323,7 +1323,7 @@ Sequel.migration do
                                               'copyright_transfer',
                                               'processed'])
 
-    create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "page", "reel", "volume"])
+    create_editable_enum('container_type', ["box", "carton", "case", "folder", "frame", "object", "reel"])
 
     create_editable_enum('agent_contact_salutation', ["mr", "mrs", "ms", "madame", "sir"])
 
@@ -1341,18 +1341,19 @@ Sequel.migration do
 
 
     create_editable_enum('file_version_use_statement',
-                ["audio-clip",
+                [ "application",
+                  "application-pdf",
+                  "audio-clip",
                  "audio-master",
                  "audio-master-edited",
                  "audio-service",
-                 "audio-streaming",
                  "image-master",
                  "image-master-edited",
                  "image-service",
                  "image-service-edited",
                  "image-thumbnail",
                  "text-codebook",
-                 "text-data",
+                 "test-data",
                  "text-data_definition",
                  "text-georeference",
                  "text-ocr-edited",
@@ -1382,7 +1383,7 @@ Sequel.migration do
     create_enum("container_location_status", ["current", "previous"], "current")
 
     create_enum("date_type", ["single", "bulk", "inclusive"])
-    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other", "usage", "existence"])
+    create_enum("date_label", ["broadcast", "copyright", "creation", "deaccession", "digitized", "event", "issued", "modified", "publication", "agent_relation", "other", "usage", "existence", "record_keeping"])
     create_enum("date_certainty", ["approximate", "inferred", "questionable"])
 
     create_enum("deaccession_scope", ["whole", "part"], "whole")
@@ -1397,14 +1398,14 @@ Sequel.migration do
 
     create_enum("name_person_name_order", ["inverted", "direct"], "inverted")
 
-    create_enum("note_digital_object_type", ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent", "altformavail", "originalsloc", "note", "acqinfo", "inscription", "langmaterial", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"])
+    create_enum("note_digital_object_type", ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent","altformavail", "originalsloc", "note", "acqinfo", "inscription", "langmaterial", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"])
     create_enum("note_multipart_type", ["accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial"])
     create_enum("note_orderedlist_enumeration", ["arabic", "loweralpha", "upperalpha", "lowerroman", "upperroman"])
     create_enum("note_singlepart_type", ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"])
 
     create_enum("note_bibliography_type", ["bibliography"])
     create_enum("note_index_type", ["index"])
-    create_enum("note_index_item_type", ["name", "person", "family", "corporate_entity", "subject", "function", "occupation", "title", "geographic_name"])
+    create_enum("note_index_item_type", ["name", "person", "family", "corporate_entity", "subject", "function", "occupation", "title", "geographic_name", "genre_form"])
 
     create_enum("country_iso_3166", ["AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"])
 

@@ -1,16 +1,17 @@
 require "java"
-require "flying_saucer"
-java_import org.xhtmlrenderer.pdf.ITextRenderer
+
+#java_import org.xhtmlrenderer.pdf.ITextRenderer
 
 class PDFResponse
 
-  def initialize(report, html_report, base_url)
+  def initialize(report, params )
     @report = report
-    @html_report = html_report
-    @base_url = base_url
+    @html_report = params[:html_report].call 
+    @base_url = params[:base_url] || "/"
   end
 
   def generate
+    
     estimated_pdf_length = @html_report.length
     output = java.io.ByteArrayOutputStream.new(estimated_pdf_length)
     begin
@@ -42,7 +43,7 @@ class PDFResponse
   def render_pdf(dom, output)
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
 
-    renderer.set_document(dom, base_url)
+    renderer.set_document(dom, @base_url)
     renderer.layout
 
     renderer.create_pdf(output)

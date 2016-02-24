@@ -7,7 +7,7 @@ class RightsStatement < Sequel::Model(:rights_statement)
   include ExternalDocuments
   include AutoGenerator
 
-  set_model_scope :repository
+  set_model_scope :global
 
   auto_generate :property => :identifier,
                 :generator => proc  { |json|

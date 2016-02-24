@@ -1,0 +1,706 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: FRONTEND_BOWER_COMPONENTS_SORTABLE_README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_BOWER_COMPONENTS_SORTABLE_README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_BOWER_COMPONENTS_SORTABLE_README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="sortable">Sortable</h1>
+<p>Sortable is a minimalist JavaScript library for reorderable drag-and-drop lists.</p>
+
+<p>Demo: http://rubaxa.github.io/Sortable/</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Supports touch devices and <a href="http://caniuse.com/#search=drag">modern</a> browsers (including IE9)</li>
+  <li>Can drag from one list to another or within the same list</li>
+  <li>CSS animation when moving items</li>
+  <li>Supports drag handles <em>and selectable text</em> (better than voidberg’s html5sortable)</li>
+  <li>Smart auto-scrolling</li>
+  <li>Built using native HTML5 drag and drop API</li>
+  <li>Supports <a href="meteor/README.md">Meteor</a>, <a href="#ng">AngularJS</a> and <a href="#react">React</a></li>
+  <li>Supports any CSS library, e.g. <a href="#bs">Bootstrap</a></li>
+  <li>Simple API</li>
+  <li><a href="#cdn">CDN</a></li>
+  <li>No jQuery (but there is <a href="#jq">support</a>)</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="articles">Articles</h3>
+<ul>
+  <li><a href="https://github.com/RubaXa/Sortable/wiki/Sortable-v1.0-—-New-capabilities/">Sortable v1.0 — New capabilities</a> (December 22, 2014)</li>
+  <li><a href="https://github.com/RubaXa/Sortable/wiki/Sorting-with-the-help-of-HTML5-Drag'n'Drop-API/">Sorting with the help of HTML5 Drag’n’Drop API</a> (December 23, 2013)</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="usage">Usage</h3>
+<p>```html</p>
+<ul id="items">
+	<li>item 1</li>
+	<li>item 2</li>
+	<li>item 3</li>
+</ul>
+<p>```</p>
+
+<p><code>js
+var el = document.getElementById('items');
+var sortable = Sortable.create(el);
+</code></p>
+
+<p>You can use any element for the list and its elements, not just <code>ul</code>/<code>li</code>. Here is an <a href="http://jsbin.com/luxero/2/edit?html,js,output">example with <code>div</code>s</a>.</p>
+
+<hr />
+
+<h3 id="options">Options</h3>
+<p>```js
+var sortable = new Sortable(el, {
+	group: “name”,  // or { name: “…”, pull: [true, false, clone], put: [true, false, array] }
+	sort: true,  // sorting inside list
+	disabled: false, // Disables the sortable if set to true.
+	store: null,  // @see Store
+	animation: 150,  // ms, animation speed moving items when sorting, <code>0</code> — without animation
+	handle: “.my-handle”,  // Drag handle selector within list items
+	filter: “.ignore-elements”,  // Selectors that do not lead to dragging (String or Function)
+	draggable: “.item”,  // Specifies which items inside the element should be sortable
+	ghostClass: “sortable-ghost”,  // Class name for the drop placeholder
+	dataIdAttr: ‘data-id’,</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>scroll:</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='regexp val'>//</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_HTMLElement constant id'>HTMLElement</span>
+<span class='label val'>scrollSensitivity:</span> <span class='integer val'>30</span><span class='comma token'>,</span> <span class='regexp val'>//</span> <span class='rubyid_px identifier id'>px</span><span class='comma token'>,</span> <span class='rubyid_how identifier id'>how</span> <span class='rubyid_near identifier id'>near</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_mouse identifier id'>mouse</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_an identifier id'>an</span> <span class='rubyid_edge identifier id'>edge</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_start identifier id'>start</span> <span class='rubyid_scrolling identifier id'>scrolling</span><span class='dot token'>.</span>
+<span class='label val'>scrollSpeed:</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='regexp val'>//</span> <span class='rubyid_px identifier id'>px</span>
+
+<span class='label val'>setData:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='rubyid_dataTransfer identifier id'>dataTransfer</span><span class='comma token'>,</span> <span class='rubyid_dragEl identifier id'>dragEl</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_dataTransfer identifier id'>dataTransfer</span><span class='dot token'>.</span><span class='rubyid_setData identifier id'>setData</span><span class='lparen token'>(</span><span class='string val'>'Text'</span><span class='comma token'>,</span> <span class='rubyid_dragEl identifier id'>dragEl</span><span class='dot token'>.</span><span class='rubyid_textContent identifier id'>textContent</span><span class='rparen token'>)</span><span class='semicolon token'>;</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_dragging identifier id'>dragging</span> <span class='rubyid_started identifier id'>started</span>
+<span class='label val'>onStart:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_oldIndex identifier id'>oldIndex</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_element identifier id'>element</span> <span class='rubyid_index identifier id'>index</span> <span class='rubyid_within identifier id'>within</span> <span class='rubyid_parent identifier id'>parent</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_dragging identifier id'>dragging</span> <span class='rubyid_ended identifier id'>ended</span>
+<span class='label val'>onEnd:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_oldIndex identifier id'>oldIndex</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_element identifier id'>element</span><span class='string val'>'s old index within parent
+  evt.newIndex;  // element'</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_new identifier id'>new</span> <span class='rubyid_index identifier id'>index</span> <span class='rubyid_within identifier id'>within</span> <span class='rubyid_parent identifier id'>parent</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_Element constant id'>Element</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_dropped identifier id'>dropped</span> <span class='rubyid_into identifier id'>into</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_another identifier id'>another</span> <span class='rubyid_list identifier id'>list</span>
+<span class='label val'>onAdd:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_var identifier id'>var</span> <span class='rubyid_itemEl identifier id'>itemEl</span> <span class='assign token'>=</span> <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_item identifier id'>item</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_dragged identifier id'>dragged</span> <span class='rubyid_HTMLElement constant id'>HTMLElement</span>
+  <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_from identifier id'>from</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_previous identifier id'>previous</span> <span class='rubyid_list identifier id'>list</span>
+  <span class='regexp val'>//</span> <span class='plus op'>+</span> <span class='rubyid_indexes identifier id'>indexes</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_onEnd identifier id'>onEnd</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_Changed constant id'>Changed</span> <span class='rubyid_sorting identifier id'>sorting</span> <span class='rubyid_within identifier id'>within</span> <span class='rubyid_list identifier id'>list</span>
+<span class='label val'>onUpdate:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_var identifier id'>var</span> <span class='rubyid_itemEl identifier id'>itemEl</span> <span class='assign token'>=</span> <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_item identifier id'>item</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_dragged identifier id'>dragged</span> <span class='rubyid_HTMLElement constant id'>HTMLElement</span>
+  <span class='regexp val'>//</span> <span class='plus op'>+</span> <span class='rubyid_indexes identifier id'>indexes</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_onEnd identifier id'>onEnd</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_Called constant id'>Called</span> <span class='rubyid_by identifier id'>by</span> <span class='rubyid_any identifier id'>any</span> <span class='rubyid_change identifier id'>change</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_list identifier id'>list</span> <span class='lparen token'>(</span><span class='rubyid_add identifier id'>add</span> <span class='div op'>/</span> <span class='rubyid_update identifier id'>update</span> <span class='div op'>/</span> <span class='rubyid_remove identifier id'>remove</span><span class='rparen token'>)</span>
+<span class='label val'>onSort:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='regexp val'>//</span> <span class='rubyid_same identifier id'>same</span> <span class='rubyid_properties identifier id'>properties</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_onUpdate identifier id'>onUpdate</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_Element constant id'>Element</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_removed identifier id'>removed</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_into identifier id'>into</span> <span class='rubyid_another identifier id'>another</span> <span class='rubyid_list identifier id'>list</span>
+<span class='label val'>onRemove:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='regexp val'>//</span> <span class='rubyid_same identifier id'>same</span> <span class='rubyid_properties identifier id'>properties</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_onUpdate identifier id'>onUpdate</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+<span class='regexp val'>//</span> <span class='rubyid_Attempt constant id'>Attempt</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_drag identifier id'>drag</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_filtered identifier id'>filtered</span> <span class='rubyid_element identifier id'>element</span>
+<span class='label val'>onFilter:</span> <span class='rubyid_function identifier id'>function</span> <span class='lparen token'>(</span><span class='regexp val'>/**Event*/e</span><span class='rubyid_vt identifier id'>vt</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_var identifier id'>var</span> <span class='rubyid_itemEl identifier id'>itemEl</span> <span class='assign token'>=</span> <span class='rubyid_evt identifier id'>evt</span><span class='dot token'>.</span><span class='rubyid_item identifier id'>item</span><span class='semicolon token'>;</span>  <span class='regexp val'>//</span> <span class='rubyid_HTMLElement constant id'>HTMLElement</span> <span class='rubyid_receiving identifier id'>receiving</span> <span class='rubyid_the identifier id'>the</span> <span class='xstring val'>`mousedown|tapstart`</span> <span class='rubyid_event identifier id'>event</span><span class='dot token'>.</span>
+<span class='rbrace token'>}</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='semicolon token'>;</span> <span class='xstring val'>``</span><span class='xstring val'>`
+</span></code></pre>
+
+<hr />
+
+<h4 id="group-option"><code>group</code> option</h4>
+<p>To drag elements from one list into another, both lists must have the same <code>group</code> value.
+You can also define whether lists can give away, give and keep a copy (<code>clone</code>), and receive elements.</p>
+
+<ul>
+  <li>name: <code>String</code> — group name</li>
+  <li>pull: <code>true|false|'clone'</code> — ability to move from the list. <code>clone</code> — copy the item, rather than move.</li>
+  <li>put: <code>true|false|["foo", "bar"]</code> — whether elements can be added from other lists, or an array of group names from which elements can be taken. Demo: http://jsbin.com/naduvo/2/edit?html,js,output</li>
+</ul>
+
+<hr />
+
+<h4 id="sort-option"><code>sort</code> option</h4>
+<p>Sorting inside list</p>
+
+<p>Demo: http://jsbin.com/xizeh/2/edit?html,js,output</p>
+
+<hr />
+
+<h4 id="disabled-options"><code>disabled</code> options</h4>
+<p>Disables the sortable if set to <code>true</code>.</p>
+
+<p>Demo: http://jsbin.com/xiloqu/1/edit?html,js,output</p>
+
+<p>```js
+var sortable = Sortable.create(list);</p>
+
+<p>document.getElementById(“switcher”).onclick = function () {
+	var state = sortable.option(“disabled”); // get</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_sortable identifier id'>sortable</span><span class='dot token'>.</span><span class='rubyid_option identifier id'>option</span><span class='lparen token'>(</span><span class='string val'>&quot;disabled&quot;</span><span class='comma token'>,</span> <span class='notop op'>!</span><span class='rubyid_state identifier id'>state</span><span class='rparen token'>)</span><span class='semicolon token'>;</span> <span class='regexp val'>//</span> <span class='rubyid_set identifier id'>set</span> <span class='rbrace token'>}</span><span class='semicolon token'>;</span> <span class='xstring val'>``</span><span class='xstring val'>`
+</span></code></pre>
+
+<hr />
+
+<h4 id="handle-option"><code>handle</code> option</h4>
+<p>To make list items draggable, Sortable disables text selection by the user.
+That’s not always desirable. To allow text selection, define a drag handler,
+which is an area of every list element that allows it to be dragged around.</p>
+
+<p>Demo: http://jsbin.com/newize/1/edit?html,js,output</p>
+
+<p><code>js
+Sortable.create(el, {
+	handle: ".my-handle"
+});
+</code></p>
+
+<p>```html</p>
+<ul>
+	<li><span class="my-handle">::</span> list item text one
+	<li><span class="my-handle">::</span> list item text two
+
+```
+
+```css
+.my-handle {
+	cursor: move;
+	cursor: -webkit-grabbing;
+}
+```
+
+
+---
+
+
+#### `filter` option
+
+
+```js
+Sortable.create(list, {
+	filter: ".js-remove, .js-edit",
+	onFilter: function (evt) {
+		var item = el.item,
+			ctrl = evt.target;
+
+		if (Sortable.utils.is(ctrl, ".js-remove")) {  // Click on remove button
+			item.parentNode.removeChild(item); // remove sortable item
+		}
+		else if (Sortable.utils.is(ctrl, ".js-edit")) {  // Click on edit link
+			// ...
+		}
+	}
+})
+```
+
+
+---
+
+
+#### `ghostClass` option
+Class name for the drop placeholder.
+
+Demo: http://jsbin.com/hunifu/1/edit?css,js,output
+
+```css
+.ghost {
+  opacity: 0.4;
+}
+```
+
+```js
+Sortable.create(list, {
+  ghostClass: "ghost"
+});
+```
+
+
+---
+
+
+#### `scroll` option
+If set to `true`, the page (or sortable-area) scrolls when coming to an edge.
+
+Demo:
+ - `window`: http://jsbin.com/boqugumiqi/1/edit?html,js,output 
+ - `overflow: hidden`: http://jsbin.com/kohamakiwi/1/edit?html,js,output
+
+
+---
+
+
+#### `scrollSensitivity` option
+Defines how near the mouse must be to an edge to start scrolling.
+
+
+---
+
+
+#### `scrollSpeed` option
+The speed at which the window should scroll once the mouse pointer gets within the `scrollSensitivity` distance.
+
+
+---
+
+
+<a name="ng"></a>
+### Support AngularJS
+Include [ng-sortable.js](ng-sortable.js)
+
+Demo: http://jsbin.com/naduvo/1/edit?html,js,output
+
+```html
+<div ng-app="myApp" ng-controller="demo">
+	<ul ng-sortable="">
+		<li ng-repeat="item in items">{item}</li>
+	</ul>
+
+	<ul ng-sortable="{ group: 'foobar' }">
+		<li ng-repeat="item in foo">{item}</li>
+	</ul>
+
+	<ul ng-sortable="barConfig">
+		<li ng-repeat="item in bar">{item}</li>
+	</ul>
+</div>
+```
+
+
+```js
+angular.module('myApp', ['ng-sortable'])
+	.controller('demo', ['$scope', function ($scope) {
+		$scope.items = ['item 1', 'item 2'];
+		$scope.foo = ['foo 1', '..'];
+		$scope.bar = ['bar 1', '..'];
+		$scope.barConfig = {
+			group: 'foobar',
+			animation: 150,
+			onSort: function (/** ngSortEvent */evt){
+				// @see https://github.com/RubaXa/Sortable/blob/master/ng-sortable.js#L18-L24
+			}
+		};
+	}]);
+```
+
+
+---
+
+
+<a name="react"></a>
+### Support React
+Include [react-sortable-mixin.js](react-sortable-mixin.js).
+See [more options](react-sortable-mixin.js#L26).
+
+
+```jsx
+var SortableList = React.createClass({
+	mixins: [SortableMixin],
+
+	getInitialState: function() {
+		return {
+			items: ['Mixin', 'Sortable']
+		};
+	},
+
+	handleSort: function (/** Event */evt) { /*..*/ },
+
+	render: function() {
+		return <ul>{
+			this.state.items.map(function (text) {
+				return <li>text</li>
+			})
+		}</ul>
+	}
+});
+
+React.render(<sortablelist />, document.body);
+
+
+//
+// Groups
+//
+var AllUsers = React.createClass({
+	mixins: [SortableMixin],
+
+	sortableOptions: {
+		ref: "user",
+		group: "shared",
+		model: "users"
+	},
+
+	getInitialState: function() {
+		return { users: ['Abbi', 'Adela', 'Bud', 'Cate', 'Davis', 'Eric']; };
+	},
+
+	render: function() {
+		return (
+			<h1>Users</h1>
+			<ul ref="users">{
+				this.state.users.map(function (text) {
+					return <li>text</li>
+				})
+			}</ul>
+		);
+	}
+});
+
+var ApprovedUsers = React.createClass({
+	mixins: [SortableMixin],
+	sortableOptions: { group: "shared" },
+
+	getInitialState: function() {
+		return { items: ['Hal', 'Judy']; };
+	},
+
+	render: function() {
+		return <ul>{
+			this.state.items.map(function (text) {
+				return <li>text</li>
+			})
+		}</ul>
+	}
+});
+
+React.render(<div>
+	<allusers />
+	<hr />
+	<approvedusers />
+</div>, document.body);
+```
+
+
+---
+
+
+<a name="ko"></a>
+### Support KnockoutJS
+Include [knockout-sortable.js](knockout-sortable.js)
+
+```html
+<div data-bind="sortable: yourObservableArray, options: {/* sortable options here */}">
+	<!-- optional item template here -->
+</div>
+
+<div data-bind="draggable: yourObservableArray, options: {/* sortable options here */}">
+	<!-- optional item template here -->
+</div>
+```
+
+Using this bindingHandler sorts the observableArray when the user sorts the HTMLElements.
+
+The sortable/draggable bindingHandlers supports the same syntax as Knockouts built in [template](http://knockoutjs.com/documentation/template-binding.html) binding except for the `data` option, meaning that you could supply the name of a template or specify a separate templateEngine. The difference between the sortable and draggable handlers is that the draggable has the sortable `group` option set to `false` and the `sort` option set to false by default (overridable).
+
+Other attributes are:
+*	options: an object that contains settings for the underlaying sortable, ie `group`,`handle`, events etc.
+*	collection: if your `foreach` array is a computed then you would supply the underlaying observableArray that you would like to sort here.
+
+
+---
+
+
+### Method
+
+
+##### option(name:`String`[, value:`*`]):`*`
+Get or set the option.
+
+
+
+##### closest(el:`String`[, selector:`HTMLElement`]):`HTMLElement|null`
+For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+
+
+##### toArray():`String[]`
+Serializes the sortable's item `data-id`'s (`dataIdAttr` option) into an array of string.
+
+
+##### sort(order:`String[]`)
+Sorts the elements according to the array.
+
+```js
+var order = sortable.toArray();
+sortable.sort(order.reverse()); // apply
+```
+
+
+##### save()
+Save the current sorting (see [store](#store))
+
+
+##### destroy()
+Removes the sortable functionality completely.
+
+
+---
+
+
+<a name="store"></a>
+### Store
+Saving and restoring of the sort.
+
+```html
+<ul>
+	<li data-id="1">order</li>
+	<li data-id="2">save</li>
+	<li data-id="3">restore</li>
+</ul>
+```
+
+```js
+Sortable.create(el, {
+	group: "localStorage-example",
+	store: {
+		/**
+		 * Get the order of elements. Called once during initialization.
+		 * @param   Sortable  sortable
+		 * @returns Array
+		 */
+		get: function (sortable) {
+			var order = localStorage.getItem(sortable.options.group);
+			return order ? order.split('|') : [];
+		},
+
+		/**
+		 * Save the order of elements. Called onEnd (when the item is dropped).
+		 * @param Sortable  sortable
+		 */
+		set: function (sortable) {
+			var order = sortable.toArray();
+			localStorage.setItem(sortable.options.group, order.join('|'));
+		}
+	}
+})
+```
+
+
+---
+
+
+<a name="bs"></a>
+### Bootstrap
+Demo: http://jsbin.com/luxero/2/edit?html,js,output
+
+```html
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+
+
+<!-- Latest Sortable -->
+<script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
+
+
+<!-- Simple List -->
+<ul id="simpleList" class="list-group">
+	<li class="list-group-item">This is <a href="http://rubaxa.github.io/Sortable/">Sortable</a></li>
+	<li class="list-group-item">It works with Bootstrap...</li>
+	<li class="list-group-item">...out of the box.</li>
+	<li class="list-group-item">It has support for touch devices.</li>
+	<li class="list-group-item">Just drag some elements around.</li>
+</ul>
+
+<script>
+    // Simple list
+    Sortable.create(simpleList, { /* options */ });
+</script>
+```
+
+
+---
+
+
+### Static methods &amp; properties
+
+
+
+##### Sortable.create(el:`HTMLElement`[, options:`Object`]):`Sortable`
+Create new instance.
+
+
+---
+
+
+##### Sortable.active:`Sortable`
+Link to the active instance.
+
+
+---
+
+
+##### Sortable.utils
+* on(el`:HTMLElement`, event`:String`, fn`:Function`) — attach an event handler function
+* off(el`:HTMLElement`, event`:String`, fn`:Function`) — remove an event handler
+* css(el`:HTMLElement`)`:Object` — get the values of all the CSS properties
+* css(el`:HTMLElement`, prop`:String`)`:Mixed` — get the value of style properties
+* css(el`:HTMLElement`, prop`:String`, value`:String`) — set one CSS properties
+* css(el`:HTMLElement`, props`:Object`) — set more CSS properties
+* find(ctx`:HTMLElement`, tagName`:String`[, iterator`:Function`])`:Array` — get elements by tag name
+* bind(ctx`:Mixed`, fn`:Function`)`:Function` — Takes a function and returns a new one that will always have a particular context
+* is(el`:HTMLElement`, selector`:String`)`:Boolean` — check the current matched set of elements against a selector
+* closest(el`:HTMLElement`, selector`:String`[, ctx`:HTMLElement`])`:HTMLElement|Null` — for each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree
+* toggleClass(el`:HTMLElement`, name`:String`, state`:Boolean`) — add or remove one classes from each element
+
+
+---
+
+
+<a name="cdn"></a>
+### CDN
+
+```html
+<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.2.0/Sortable.min.js"></script>
+
+
+<!-- jsDelivr :: Sortable (http://www.jsdelivr.com/) -->
+<script src="//cdn.jsdelivr.net/sortable/1.2.0/Sortable.min.js"></script>
+
+
+<!-- jsDelivr :: Sortable :: Latest (http://www.jsdelivr.com/) -->
+<script src="//cdn.jsdelivr.net/sortable/latest/Sortable.min.js"></script>
+```
+
+
+---
+
+
+<a name="jq"></a>
+### jQuery compatibility
+To assemble plugin for jQuery, perform the following steps:
+
+```bash
+  cd Sortable
+  npm install
+  grunt jquery
+```
+
+Now you can use `jquery.fn.sortable.js`:<br />
+(or `jquery.fn.sortable.min.js` if you run `grunt jquery:min`)
+
+```js
+  $("#list").sortable({ /* options */ }); // init
+  
+  $("#list").sortable("widget"); // get Sortable instance
+  
+  $("#list").sortable("destroy"); // destroy Sortable instance
+  
+  $("#list").sortable("method-name"); // call an instance method
+  
+  $("#list").sortable("method-name", "foo", "bar"); // call an instance method with parameters
+```
+
+
+---
+
+
+### Contributing (Issue/PR)
+
+Please, [read this](CONTRIBUTING.md). 
+
+
+---
+
+
+## MIT LICENSE
+Copyright 2013-2015 Lebedev Konstantin &lt;ibnRubaXa@gmail.com&gt;
+http://rubaxa.github.io/Sortable/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</li></li></ul>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:50 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

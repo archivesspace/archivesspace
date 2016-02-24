@@ -9,13 +9,14 @@ require 'factory_girl'
 if ENV['ASPACE_BACKEND_URL']
 
   include FactoryGirl::Syntax::Methods
+  I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
   I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
 
   JSONModel::init(:client_mode => true, :strict_mode => true,
                   :url => ENV['ASPACE_BACKEND_URL'],
                   :priority => :high)
 
-  load 'factories.rb'
+  require_relative 'factories.rb'
 
   auth = JSONModel::HTTP.post_form('/users/admin/login', {:password => 'admin'})
   JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
@@ -41,16 +42,19 @@ else
 
   Thread.current[:active_test_user] = User.find(:username => 'admin')
 
-  def get_xml(uri)
+  def get_xml(uri, raw = false)
     response = get(uri)
     if response.status == 200
-      Nokogiri::XML::Document.parse(response.body)
+      if raw
+        response.body
+      else 
+        Nokogiri::XML::Document.parse(response.body)
+      end 
     else
       raise "Invalid response from backend for URI #{uri}: #{response.body}"
     end
   end
 
-  $repo_record = JSONModel(:repository).find($repo_id)
 end
 
 
@@ -60,7 +64,27 @@ end
 
 
 def get_marc(rec)
-  get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+  marc.instance_eval do
+    def df(tag, ind1=nil, ind2=nil)
+      selector ="@tag='#{tag}'"
+      selector += " and @ind1='#{ind1}'" if ind1
+      selector += " and @ind2='#{ind2}'" if ind2
+      datafields = self.xpath("//xmlns:datafield[#{selector}]")
+      datafields.instance_eval do
+        def sf(code)
+          self.xpath("xmlns:subfield[@code='#{code}']")
+        end
+        def sf_t(code)
+          sf(code).inner_text
+        end
+      end
+
+      datafields
+    end
+  end
+
+  marc
 end
 
 
@@ -73,8 +97,14 @@ def get_dc(rec)
   get_xml("/repositories/#{$repo_id}/digital_objects/dublin_core/#{rec.id}.xml")
 end
 
+def get_labels(rec)
+  get_xml("/repositories/#{$repo_id}/resource_labels/#{rec.id}.tsv", true )
+end
+
 
 def get_eac(rec, repo_id = $repo_id)
+  repo_record = JSONModel(:repository).find($repo_id)
+  
   case rec.jsonmodel_type
   when 'agent_person'
     get_xml("/repositories/#{repo_id}/archival_contexts/people/#{rec.id}.xml")

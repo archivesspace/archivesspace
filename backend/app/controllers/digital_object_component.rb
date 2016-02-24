@@ -4,7 +4,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Digital Object Component")
     .params(["digital_object_component", JSONModel(:digital_object_component), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :created],
              [400, :error]) \
   do
@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["digital_object_component", JSONModel(:digital_object_component), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :updated],
              [400, :error]) \
   do
@@ -31,7 +31,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["parent", Integer, "The parent of this node in the tree", :optional => true],
             ["position", Integer, "The position of this node in the tree", :optional => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :updated],
              [400, :error]) \
   do

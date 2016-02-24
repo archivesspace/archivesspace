@@ -570,8 +570,8 @@ records in the system.  The major actors in the permissions model are:
     members.
 
   * Permissions -- An action that a user can perform.  For example, A
-    user with the `update_archival_record` permission is allowed to
-    update the major record types for a repository.
+    user with the `update_accession_record` permission is allowed to
+    update accessions for a repository.
 
 To summarize, a user can perform an action within a repository if they
 are a member of a group that has been assigned permission to perform

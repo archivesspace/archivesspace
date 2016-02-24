@@ -1,5 +1,8 @@
-require 'bundler'
+require 'bundler/setup'
 Bundler.require
+
+Rack::Utils.key_space_limit = 655360 # x10 Rack default
+Rack::Utils.param_depth_limit = 200 # x2 Rack default
 
 if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
   require 'aspace_coverage'
@@ -13,14 +16,17 @@ require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
-require_relative 'lib/batch_import_job_queue'
+require_relative 'lib/background_job_queue'
 require_relative 'lib/export'
 require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
-
+require_relative 'lib/resequencer'
+require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
+
+require 'barcode_check'
 
 require 'uri'
 require 'sinatra/base'
@@ -84,12 +90,38 @@ class ArchivesSpaceService < Sinatra::Base
       if !DB.connected?
         Log.error("***** DATABASE CONNECTION FAILED *****\n" +
                   "\n" +
-                  "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url]}).\n\n" +
+                  "ArchivesSpace could not connect to your specified database URL (#{AppConfig[:db_url_redacted]}).\n\n" +
                   "Please check your configuration and try again.")
         raise "Database connection failed"
       end
 
       require_relative "model/ASModel"
+
+      # let's check that our migrations have passed and we're on the right
+      # schema_info version
+      unless AppConfig[:ignore_schema_info_check] 
+        schema_info = 0
+        DB.open do |db| schema_info =  db[:schema_info].get(:version) end
+        if schema_info != ASConstants.SCHEMA_INFO
+          Log.error("***** DATABASE MIGRATION ERROR *****\n" +
+                    "\n" +
+                    "ArchivesSpace has encountered a problem with your database schema info version.\n\n" +
+                    "The schema info version should be #{ ASConstants.SCHEMA_INFO} for ArchivesSpace version #{ ASConstants.VERSION}.\n " +
+                    "However, your schema info version is set at #{schema_info}\n" + 
+                    "Please ensure your migrations have been run and completed by using the setup-database script.\n\n ")
+          raise "Schema Info Mismatch. Expected #{ ASConstants.SCHEMA_INFO }, received #{ schema_info } for ASPACE version #{ ASConstants.VERSION }. "
+
+        end
+      end 
+      
+      if AppConfig[:enable_jasper] && DB.supports_jasper? 
+        require_relative 'model/reports/jasper_report' 
+        require_relative 'model/reports/jasper_report_register' 
+        JasperReport.compile if AppConfig[:compile_jasper] 
+        JasperReportRegister.register_reports
+      end
+
+
 
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
@@ -102,8 +134,7 @@ class ArchivesSpaceService < Sinatra::Base
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
 
-
-      BatchImportJobQueue.init if ASpaceEnvironment.environment != :unit_test
+      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
 
       if ASpaceEnvironment.environment == :production
@@ -140,7 +171,7 @@ class ArchivesSpaceService < Sinatra::Base
           end
         end
 
-        if AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
+        if AppConfig[:enable_solr] && AppConfig[:solr_backup_schedule] && AppConfig[:solr_backup_number_to_keep] > 0
           settings.scheduler.cron(AppConfig[:solr_backup_schedule],
                                   :tags => 'solr_backup') do
             Log.info("Creating snapshot of Solr index and indexer state")
@@ -172,6 +203,20 @@ class ArchivesSpaceService < Sinatra::Base
 
       Notifications.notify("BACKEND_STARTED")
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
+      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
+     
+     
+      # this checks the system_event table to see if we've already run the CMM
+      # for the upgrade from =< v1.4.2
+      unless ContainerManagementConversion.already_run? 
+        Log.info("\n") 
+        Log.info("*" * 100 )
+        Log.info("Migrating existing containers to the new container model...")
+        ContainerManagementConversion.new.run
+        Log.info("Completed: existing containers have been migrated to the new container model.")
+        Log.info("*" * 100 )
+        Log.info("\n") 
+      end
 
     rescue
       ASUtils.dump_diagnostics($!)
@@ -267,9 +312,11 @@ class ArchivesSpaceService < Sinatra::Base
 
   get '/' do
     sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
+    
     request.accept.each do |type|
         case type
           when 'application/json'
+            content_type :json 
             halt sys_info.to_json
         end
     end  

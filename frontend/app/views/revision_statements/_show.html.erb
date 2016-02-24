@@ -1,0 +1,30 @@
+<%
+   section_id = "revision_statement" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= I18n.t("revision_statement._plural") %></h3>
+  <div class="panel-group details" id="<%= section_id %>_accordion">
+    <% revision_statements.each_with_index do | rs, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_revision_statement_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-4">
+              <%= rs['date'] %> 
+            </div>
+            <div class="col-md-7">
+              <%= rs['description'] %>
+            </div>
+          </div>
+        </div>
+        <div id="<%= section_id %>_revision_statement_<%= index %>" class="panel-collapse collapse">
+          <%= read_only_view(rs) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+

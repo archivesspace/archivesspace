@@ -4,6 +4,7 @@ require 'converter_spec_helper'
 require_relative '../app/converters/eac_converter'
 
 describe 'EAC converter' do
+
   let(:my_converter) {
     EACConverter
   }
@@ -12,6 +13,7 @@ describe 'EAC converter' do
     File.expand_path("../app/exporters/examples/eac/feynman-richard-phillips-1918-1988-cr.xml",
                      File.dirname(__FILE__))
   }
+
 
   it "did something" do
     record = convert(test_file).first

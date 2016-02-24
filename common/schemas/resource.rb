@@ -42,6 +42,7 @@
 
       # Finding aid
       "finding_aid_title" => {"type" => "string", "maxLength" => 65000},
+      "finding_aid_subtitle" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_filing_title" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_date" => {"type" => "string", "maxLength" => 255},
       "finding_aid_author" => {"type" => "string", "maxLength" => 65000},
@@ -50,13 +51,16 @@
       "finding_aid_sponsor" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_edition_statement" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_series_statement" => {"type" => "string", "maxLength" => 65000},
-      "finding_aid_revision_date" => {"type" => "string", "maxLength" => 255},
-      "finding_aid_revision_description" => {"type" => "string", "maxLength" => 65000},
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
       "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
+      
+      "revision_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:revision_statement) object"}},
+      
+      # Dates (overrides abstract schema)
+      "dates" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:date) object"}},
 
       "instances" => {"type" => "array", "items" => {"type" => "JSONModel(:instance) object"}},
       "deaccessions" => {"type" => "array", "items" => {"type" => "JSONModel(:deaccession) object"}},
@@ -78,22 +82,24 @@
           }
         }
       },
-
-
-      "classification" => {
-        "type" => "object",
-        "subtype" => "ref",
-        "properties" => {
-          "ref" => {
-            "type" => [{"type" => "JSONModel(:classification) uri"},
-                       {"type" => "JSONModel(:classification_term) uri"}],
-            "ifmissing" => "error"
-          },
-          "_resolved" => {
-            "type" => "object",
-            "readonly" => "true"
-          }
-        }
+     
+      "classifications" => {
+              "type" => "array",
+              "items" => {
+                "type" => "object",
+                "subtype" => "ref",
+                "properties" => {
+                  "ref" => {
+                    "type" => [ { "type" => "JSONModel(:classification) uri"},
+                                { "type" => "JSONModel(:classification_term) uri" }],
+                    "ifmissing" => "error"
+                  },
+                  "_resolved" => {
+                                "type" => "object",
+                                "readonly" => "true"
+                              }
+                }
+              }
       },
 
       "notes" => {
@@ -103,6 +109,11 @@
                                {"type" => "JSONModel(:note_multipart) object"},
                                {"type" => "JSONModel(:note_singlepart) object"}]},
       },
+
+      "representative_image" => {
+        "type" => "JSONModel(:file_version) object",
+        "readonly" => true
+      }
 
     },
   },

@@ -1,8 +1,10 @@
+AppConfig[:default_admin_password] = "admin"
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
 AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
 AppConfig[:solr_indexing_frequency_seconds] = 30
+AppConfig[:solr_facet_limit] = 100
 
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
@@ -24,11 +26,18 @@ AppConfig[:cookie_prefix] = "archivesspace"
 # cores and/or more records per thread means more memory used).
 AppConfig[:indexer_records_per_thread] = 25
 AppConfig[:indexer_thread_count] = 4
+AppConfig[:indexer_solr_timeout_seconds] = 300
 
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
-AppConfig[:db_max_connections] = 10
+AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)&/, '\1=[REDACTED]&') }
+AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
+
+# Set to true to log all SQL statements.  Note that this will have a performance
+# impact!
+AppConfig[:db_debug_log] = false
+
 # Set to true if you have enabled MySQL binary logging
 AppConfig[:mysql_binlog] = false
 
@@ -44,10 +53,23 @@ AppConfig[:solr_backup_number_to_keep] = 1
 
 AppConfig[:backend_url] = "http://localhost:8089"
 AppConfig[:frontend_url] = "http://localhost:8080"
+
+# Proxy URLs
+# If you are serving user-facing applications via proxy
+# (i.e., another domain or port, or via https, or for a prefix) it is
+# recommended that you record those URLs in your configuration
+AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
+AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
+
+# Don't override _prefix or _proxy_prefix unless you know what you're doing
 AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:solr_url] = "http://localhost:8090"
+AppConfig[:indexer_url] = "http://localhost:8091"
 AppConfig[:public_url] = "http://localhost:8081"
 AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:docs_url] = "http://localhost:8888"
 
 # Setting any of the four keys below to false will prevent the associated
 # applications from starting. Temporarily disabling the frontend and public
@@ -57,14 +79,16 @@ AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%
 AppConfig[:enable_backend] = true
 AppConfig[:enable_frontend] = true
 AppConfig[:enable_public] = true
+AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
+AppConfig[:enable_docs] = true
 
-# Some use cases want the ability to shutdown the Jetty service using Jetty's 
+# Some use cases want the ability to shutdown the Jetty service using Jetty's
 # ShutdownHandler, which allows a POST request to a specific URI to signal
 # server shutdown. The prefix for this URI path is set to /xkcd to reduce the
 # possibility of a collision in the path configuration. So, full path would be
-# /xkcd/shutdown?token={randomly generated password} 
-# The launcher creates a password to use this, which is stored 
+# /xkcd/shutdown?token={randomly generated password}
+# The launcher creates a password to use this, which is stored
 # in the data directory. This is not turned on by default.
 #
 AppConfig[:use_jetty_shutdown_handler] = false
@@ -113,7 +137,21 @@ AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local', 'aspace_feedback', 'lcnaf']
+AppConfig[:plugins] = ['local',  'lcnaf', 'aspace-public-formats']
+
+# URL to direct the feedback link
+# You can remove this from the footer by making the value blank.
+AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
+
+
+#
+# The following are used by the aspace-public-formats plugin
+# https://github.com/archivesspace/aspace-public-formats
+AppConfig[:public_formats_resource_links] = []
+AppConfig[:public_formats_digital_object_links] = []
+AppConfig[:xsltproc_path] = nil
+AppConfig[:xslt_path] = nil
+
 
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
@@ -123,19 +161,48 @@ AppConfig[:help_enabled] = true
 AppConfig[:help_url] = "http://docs.archivesspace.org"
 AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
 
-# Proxy URLs 
-# If you are serving user-facing applications via proxy
-# (i.e., another domain or port, or via https) it is 
-# recommended that you record those URLs in your configuration
-AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
-AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }
-AppConfig[:import_job_path] = proc { File.join(AppConfig[:shared_storage], "import_jobs") }
-AppConfig[:import_poll_seconds] = 5
-AppConfig[:import_timeout_seconds] = 300
+
+# formerly known as :import_job_path
+AppConfig[:job_file_path] = proc { AppConfig.has_key?(:import_job_path) ? AppConfig[:import_job_path] : File.join(AppConfig[:shared_storage], "job_files") }
+
+# this too
+AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ? AppConfig[:import_poll_seconds] : 5 }
+
+# and this
+AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
-AppConfig[:import_jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
+AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
 AppConfig[:max_location_range] = 1000
+
+# Schema Info check
+# ASpace backend will not start if the db's schema_info version is not set
+# correctly for this version of ASPACE. This is to ensure that all the
+# migrations have run and completed before starting the app. You can override
+# this check here. Do so at your own peril. 
+AppConfig[:ignore_schema_info_check] = false
+
+# Jasper Reports
+# (https://community.jaspersoft.com/project/jasperreports-library)
+# require compilation. This can be done at startup. Please note, if you are
+# using Java 8 and you want to compile at startup, keep this setting at false,
+# but be sure to use the JDK version.
+AppConfig[:enable_jasper] = true
+AppConfig[:compile_jasper] = true
+
+# There are some conditions that has caused tree nodes ( ArchivalObjects, DO
+# Components, and ClassificationTerms) to lose their sequence pointers and
+# position setting. This will resequence these tree nodes prior to startup.
+# If is recogmended that this be used very infrequently and should not be set
+# to true for all startups ( as it will take a considerable amount of time )
+AppConfig[:resequence_on_startup] = false
+
+# This is a URL that points to some demo data that can be used for testing,
+# teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
+AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip" 
+
+# Expose external ids in the frontend
+AppConfig[:show_external_ids] = false

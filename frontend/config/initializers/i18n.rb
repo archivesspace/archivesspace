@@ -1,3 +1,5 @@
+require 'aspace_i18n_enumeration_support'
+
 module I18n
 
   # Override the I18n string pattern to take into account
@@ -32,14 +34,10 @@ module I18n
 
 
   def self.t(*args)
-    self.t_raw(*args).html_safe
+    results =  self.t_raw(*args)
+    results.nil? ? "" : results.html_safe
   end
 
-  def self.t_raw(*args)
-    return ((args[1] || {})[:default] || "") if args[0] && args[0].end_with?(".")
-
-    self.translate(*args)
-  end
 end
 
 I18n.exception_handler = :try_really_hard_to_find_a_key

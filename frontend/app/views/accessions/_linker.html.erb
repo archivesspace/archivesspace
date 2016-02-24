@@ -4,11 +4,27 @@
    else
      selected_json = "{}"
    end
+
+  exclude_ids = [] if exclude_ids.blank?
+
 %>
-<div class="control-group required">
-   <label class="control-label"><%= I18n.t "accession._singular" %></label>
-   <div class="controls">
-       <div class="input-append linker-wrapper">
+<div class="form-group required">
+    <% if form.obj.has_key?('_resolved') %>
+    
+      <input type="text" 
+        class='prelinker' 
+        name="<%= form.path %>[_resolved]"
+        value="<%= selected_json %>" />
+        
+      <input type="text" 
+        class='prelinker' 
+        name="<%= form.path %>[ref]"
+        value="<%= form.obj["ref"] %>" />
+
+    <% end %>
+   <label class="control-label col-sm-2"><%= I18n.t "accession._singular" %></label>
+   <div class="controls col-sm-8">
+       <div class="input-group linker-wrapper">
           <input type="text" class="linker"
             id="<%= form.id_for("ref") %>"
             data-label="<%= I18n.t "accession._singular" %>"
@@ -16,18 +32,31 @@
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ACCESSION_FACETS %>"
+            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ACCESSION_FACETS, :display_identifier => true,  :exclude => exclude_ids %>"
             data-selected="<%= selected_json %>"
             data-format_property="display_string"
             data-multiplicity="one"
             data-types='["accession"]'
+            data-exclude='<%= exclude_ids.to_json %>'
           />
-         <div class="btn-group dropdown pull-right">
+          
+          <div class="btn-group dropdown pull-right">
            <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
            <ul class="dropdown-menu">
              <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
            </ul>
          </div>
+         <% if form.obj.has_key?('_resolved') %>
+          <input type="text" 
+            class='prelinker' 
+            name="<%= form.path %>[_resolved]"
+            value="<%= selected_json %>" />
+            
+          <input type="text" 
+            class='prelinker' 
+            name="<%= form.path %>[ref]"
+            value="<%= form.obj["ref"]  %>" />
+          <% end %>
        </div>
    </div>
 </div>

@@ -5,7 +5,7 @@
   <h4><%= I18n.t("container._singular") %></h4>
 
   <div class="container-subrecord">
-    <%= read_only_view(container, :label_css => "span4") %>
+    <%= read_only_view(container, :label_css => "col-md-4") %>
     <% if container["container_locations"].length > 0 %>
       <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => container["container_locations"] } %>
     <% end %>

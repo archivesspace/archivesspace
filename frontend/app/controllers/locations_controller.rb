@@ -1,8 +1,11 @@
 class LocationsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create, :delete]
+                      "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create, :delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
+
+  LOCATION_STICKY_PARAMS = ["building", "floor", "room", "area" ]
 
   def index
     @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
@@ -18,7 +21,16 @@ class LocationsController < ApplicationController
   end
 
   def new
-    @location = JSONModel(:location).new._always_valid!
+    location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
+    @location = JSONModel(:location).new(location_params)._always_valid!
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'location'
+
+      @location.update(defaults.values) if defaults
+    end
+
+
     render_aspace_partial :partial => "locations/new" if inline?
   end
 
@@ -37,8 +49,14 @@ class LocationsController < ApplicationController
                   return render :json => @location.to_hash if inline?
 
                   flash[:success] = I18n.t("location._frontend.messages.created")
-                  return redirect_to :controller => :locations, :action => :new if params.has_key?(:plus_one)
+                  if params.has_key?(:plus_one)
+                     sticky_params = { :controller => :locations, :action => :new}
+                     @location.to_hash.each_pair do |k,v|
+                        sticky_params[k] = v if LOCATION_STICKY_PARAMS.include?(k)
+                     end
 
+                     return redirect_to sticky_params
+                  end
                   redirect_to :controller => :locations, :action => :edit, :id => id
                 })
   end
@@ -54,23 +72,77 @@ class LocationsController < ApplicationController
                 })
   end
 
-  def batch
-    @location_batch = JSONModel(:location_batch).new
+  def defaults
+    defaults = DefaultValues.get 'location'
+
+    values = defaults ? defaults.form_values : {}
+
+    @location = JSONModel(:location).new(values)._always_valid!
+
+    render "defaults"
   end
 
-  def batch_create
+  def update_defaults
+
     begin
-      batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
+      DefaultValues.from_hash({
+                                "record_type" => "location",
+                                "lock_version" => params[:location].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:location],
+                                                                        JSONModel(:location).schema)
+                              }).save
 
-      @location_batch = JSONModel(:location_batch).from_hash(batch, false)
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      redirect_to :controller => :locations, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :locations, :action => :defaults
+    end
+  end
 
-      uri = "#{JSONModel::HTTP.backend_url}/locations/batch"
-      if params["dry_run"]
-        uri += "?dry_run=true"
+
+  def batch
+    @is_batch_update = false
+    @action = "create" # we use this for some label in the view..
+
+    if request.post? # if it's a post, we're starting an update
+      @is_batch_update = true
+      @action = "update" # we use this for some label in the view..
+      @location_batch = JSONModel(:location_batch_update).new(params)._always_valid!
+    else # we're just creatinga new batch from scratch
+      location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
+      @location_batch = JSONModel(:location_batch).new(location_params)
+    end
+  end
+
+
+
+  def batch_create
+
+    begin
+      if params[:location_batch][:record_uris] && params[:location_batch][:record_uris].length > 0
+        batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch_update).schema)
+        @location_batch = JSONModel(:location_batch_update).from_hash(batch, false)._always_valid!
+
+        uri = "#{JSONModel::HTTP.backend_url}/locations/batch_update"
+        response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
+
+        batch_response = ASUtils.json_parse(response.body)
+      else
+
+        batch = cleanup_params_for_schema(params[:location_batch], JSONModel(:location_batch).schema)
+
+        @location_batch = JSONModel(:location_batch).from_hash(batch, false)
+
+        uri = "#{JSONModel::HTTP.backend_url}/locations/batch"
+        if params["dry_run"]
+          uri += "?dry_run=true"
+        end
+        response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
+
+        batch_response = ASUtils.json_parse(response.body)
       end
-      response = JSONModel::HTTP.post_json(URI(uri), batch.to_json)
-
-      batch_response = ASUtils.json_parse(response.body)
 
       if batch_response.kind_of?(Hash) and batch_response.has_key?("error")
         if params["dry_run"]
@@ -85,7 +157,22 @@ class LocationsController < ApplicationController
       if params["dry_run"]
         render_aspace_partial :partial => "locations/batch_preview", :locals => {:locations => batch_response}
       else
-        flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+
+        # we want 'created' or 'updated' messages displayed
+        if @location_batch.jsonmodel_type == "location_batch_update"
+          flash[:success] = I18n.t("location_batch._frontend.messages.updated", :number_created => batch_response.length)
+        else
+          flash[:success] = I18n.t("location_batch._frontend.messages.created", :number_created => batch_response.length)
+        end
+
+        if params.has_key?(:plus_one)
+           sticky_params = { :controller => :locations, :action => :batch}
+           @location_batch.to_hash.each_pair do |k,v|
+              sticky_params[k] = v if LOCATION_STICKY_PARAMS.include?(k)
+           end
+
+           return redirect_to sticky_params
+        end
         redirect_to :action => :index
       end
     rescue JSONModel::ValidationException => e

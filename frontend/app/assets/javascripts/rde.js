@@ -25,6 +25,7 @@ $(function() {
       var STICKY_COLUMN_IDS =  AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_STICKY_COLUMN)) : null;
       var COLUMN_WIDTHS =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_WIDTHS)) : null;
       var COLUMN_ORDER =  AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER) ? JSON.parse(AS.prefixed_cookie(COOKIE_NAME_COLUMN_ORDER)) : null;
+      var DEFAULT_VALUES = {};
 
       // store section data
       var SECTION_DATA = {};
@@ -95,6 +96,7 @@ $(function() {
 
 
       var addRow = function(event) {
+
         var $currentRow = $(event.target).closest("tr");
         if ($currentRow.length === 0) {
           $currentRow = $("table tbody tr:last", $rde_form);
@@ -121,7 +123,7 @@ $(function() {
               var $target = $(":input:first", $("td", $row).get(i));
 
               if ($source.is(":checkbox")) {
-                if ($source.attr("checked")) {
+                if ($source.is(":checked")) {
                   $target.attr("checked", "checked");
                 } else {
                   $target.removeAttr("checked");
@@ -129,6 +131,9 @@ $(function() {
               } else {
                 $target.val($source.val());
               }
+            } else if (DEFAULT_VALUES[$th.attr('id')]) {
+              var $target = $(":input:first", $("td", $row).get(i));
+              $target.val(DEFAULT_VALUES[$th.attr('id')]);
             }
           }
 
@@ -151,6 +156,7 @@ $(function() {
         });
 
         $currentRow.after($row);
+        initOtherLevelHandler(current_row_index);
         return $row;
       };
 
@@ -161,6 +167,7 @@ $(function() {
         }
       });
 
+      // TODO - use hotkeys for this?
       $modal.on("keydown", ":input, input[type='text']", function(event) {
         var $row = $(event.target).closest("tr");
         var $cell = $(event.target).closest("td");
@@ -178,8 +185,8 @@ $(function() {
           return true;
         } else if (event.keyCode === 37) { // left
           if (event.shiftKey) {
-            event.preventDefault();
-            $(":input:visible:first", $cell.prev()).focus();
+           event.preventDefault();
+            $(":input:visible:first", prevActiveCell($cell)).focus();
           }
         } else if (event.keyCode === 40) { // down
           if (event.shiftKey) {
@@ -198,7 +205,7 @@ $(function() {
         } else if (event.keyCode === 39) { // right
           if (event.shiftKey) {
             event.preventDefault();
-            $(":input:visible:first", $cell.next()).focus();
+            $(":input:visible:first", nextActiveCell($cell)).focus();
           }
         } else {
           // we're cool.
@@ -235,7 +242,7 @@ $(function() {
               var $input = $("[id='"+$rde_form.data("jsonmodel-type")+"_children__"+$row.data("index")+"__"+name.replace(/\//g, "__")+"_']", $row);
               var $header = $($(".fieldset-labels th", $table).get($input.first().closest("td").index()));
 
-              $input.closest(".control-group").addClass("error");
+              $input.closest(".form-group").addClass("has-error");
 
               var $error = $("<div class='error'>");
 
@@ -245,7 +252,7 @@ $(function() {
                 $error.text($($(".fieldset-labels th", $table).get($input.closest("td").index())).text());
               }
               $error.append(" - ").append(error);
-              $error.append("<span class='icon icon-chevron-right'>");
+              $error.append("<span class='glyphicon glyphicon-chevron-right'>");
               $errorSummaryList.append($error);
 
               $error.data("target", $input.first().attr("id"));
@@ -303,10 +310,12 @@ $(function() {
         initAutoValidateFeature();
         applyColumnOrder();
         initColumnReorderFeature();
+        initRdeTemplates();
         applyPersistentStickyColumns();
         initColumnShowHideWidget();
         initFillFeature();
         initShowInlineErrors();
+        initOtherLevelHandler();
       };
 
 
@@ -317,6 +326,26 @@ $(function() {
           $table.removeClass("show-inline-errors");
         }
       };
+
+
+      var initOtherLevelHandler = function(index) {
+        var index = index || 0;
+        var $select = $("td[data-col='colLevel']:eq("+index+") select");
+
+        if($select.val() === 'otherlevel') {
+          enableCell("colOtherLevel", index);
+        } else {
+          disableCell("colOtherLevel", index);
+        }
+
+        $select.change(function() {
+          if ($(this).val() === 'otherlevel') {
+            enableCell("colOtherLevel", index);
+          } else {
+            disableCell("colOtherLevel", index);
+          }
+        });
+      }
 
 
       var initAutoValidateFeature = function() {
@@ -570,6 +599,12 @@ $(function() {
             var currentIndex = $th.index();
             var $col = $($("col", $colgroup).get(currentIndex));
 
+            // show hidden stuff so we get the section headers right
+            // we'll reapply visibility at the end
+            if (!isVisible(colId) && targetIndex > 0) {
+              showColumn(currentIndex);
+            }
+
             if (targetIndex !== currentIndex) {
                 $th.insertBefore($("th", $row).get(targetIndex));
                 $col.insertBefore($("col", $colgroup).get(targetIndex));
@@ -588,8 +623,281 @@ $(function() {
               $sectionRow.append($("<th>").data("id", $th.data("section")).addClass("section-"+$th.data("section")).attr("colspan", "1").text(SECTION_DATA[$th.data("section")]));
             }
           });
+
+          applyPersistentVisibleColumns()
         }
       };
+
+
+      var templateList = null;
+      var initRdeTemplates = function() {
+        initSaveTemplateFeature();
+        loadRdeTemplateList(function() {
+          initManageTemplatesFeature();
+          initSelectTemplateFeature();
+        });
+      };
+
+      var loadRdeTemplateList = function(cb) {
+        var recordType = $rde_form.data("child-type");
+
+        $.ajax({
+          url: $rde_form.data("list-templates-uri"),
+          type: 'GET',
+          dataType: 'json',
+          success: function(_templateList_) {
+            templateList = _.filter(_templateList_, function(t) {
+              return t.record_type === recordType;
+            });
+            cb();
+          },
+          error: function(xhr, status, err) {
+            console.log(err);
+          }
+        });
+      };
+
+
+      var initSaveTemplateFeature = function() {
+        var $saveContainer = $("#saveTemplateForm", $modal);
+        var $containerToggle = $("button.save-template", $modal);
+        var $input = $("#templateName", $saveContainer);
+        var $btnSave = $(".btn-primary", $saveContainer);
+
+        // Setup global events
+        $containerToggle.off("click").on("click", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $containerToggle.toggleClass("active");
+          $saveContainer.slideToggle();
+        });
+
+        $input.on('change keyup paste', function() {
+          if ($(this).val().length > 0) {
+            $btnSave.removeAttr("disabled").removeClass("disabled");
+          } else {
+            $btnSave.prop('disabled', true);
+          }
+        });
+
+        $btnSave.click(function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          var template = {
+            record_type: $rde_form.data("child-type"),
+            name: $input.val(),
+            order: [],
+            visible: [],
+            defaults: {},
+          }
+
+          var $firstRow = $("table tbody tr:first", $rde_form);
+
+         $("table .fieldset-labels th", $rde_form).each(function() {
+            var colId = $(this).attr("id");
+
+            template.order.push(colId);
+            if ($(this).is(":visible")) {
+              template.visible.push(colId);
+            }
+
+            var $cellOne =  $("td[data-col='"+colId+"']", $firstRow);
+
+           if ($("input", $cellOne).length) {
+             template.defaults[colId] = $("input", $cellOne).val();
+           } else if ($("select", $cellOne).length) {
+             template.defaults[colId] = $("select", $cellOne).val();
+           }
+
+
+          });
+
+          template.defaults = _.pick(template.defaults, function(n) {
+            return n.length > 0;
+          });
+
+          $.ajax({
+            url: $rde_form.data("save-template-uri"),
+            type: "POST",
+            data: {template: template},
+            dataType: "json",
+            success: function(data) {
+              loadRdeTemplateList(function() {
+                initManageTemplatesFeature();
+                initSelectTemplateFeature();
+              });
+              $containerToggle.toggleClass("active");
+              $saveContainer.slideToggle();
+            },
+            error: function(xhr, status, err) {
+              console.log(err);
+            }
+          });
+
+        });
+      };
+
+
+      var initManageTemplatesFeature = function() {
+        var $manageContainer = $("#manageTemplatesForm", $modal);
+        var $containerToggle = $("button.manage-templates", $modal);
+
+        var $templatesTable = $('table tbody', $manageContainer);
+
+        var templatesToDelete = [];
+
+        $containerToggle.off("click").on("click", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          templatesToDelete = [];
+
+
+          // toggle other panel if it is active
+          if (!$(this).hasClass("active")) {
+            $(".active", $(this).closest(".btn-group")).trigger("click");
+          }
+
+          $templatesTable.empty();
+          renderTable();
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle();
+        });
+
+
+        $("button.btn-cancel", $manageContainer).off("click").on("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle(function() {
+            templatesToDelete = [];
+          });
+        });
+
+
+        $("button.btn-primary", $manageContainer).off("click").on("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          $.ajax({
+            url: $rde_form.data("list-templates-uri") + "/batch_delete",
+            type: 'POST',
+            dataType: 'json',
+            data: {ids: templatesToDelete},
+            success: function(updatedTemplateList) {
+              templateList = updatedTemplateList;
+              initSelectTemplateFeature();
+            },
+            error: function(xhr, status, err) {
+              console.log(err);
+            }
+          });
+
+          $containerToggle.toggleClass("active");
+          $manageContainer.slideToggle();
+        });
+
+
+        var renderTable = function() {
+          _.each(templateList, function(item) {
+            $templatesTable.append(AS.renderTemplate("rde_template_table_row", {item: item}));
+          });
+
+          $("button", $templatesTable).click(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var $id = $(this).closest("tr").data('templateId');
+
+            if (_.indexOf(templatesToDelete, $id) > -1) {
+              _.remove(templatesToDelete, $id)
+              $(this).text("Remove");
+            } else {
+              templatesToDelete.push($id);
+              $(this).text("Keep");
+            }
+          });
+        };
+
+
+        $.ajax({
+          url: $rde_form.data("list-templates-uri"),
+          type: 'GET',
+          dataType: 'json',
+          success: function(_templateList_) {
+            templateList = _templateList_;
+          }
+        });
+      };
+
+
+      var applyTemplate = function(template) {
+        COLUMN_ORDER = template.order;
+        VISIBLE_COLUMN_IDS = template.visible;
+        DEFAULT_VALUES = template.defaults;
+
+        applyColumnOrder();
+
+        var $firstRow = $("tbody tr:first", $rde_form);
+
+        _.each($("td", $firstRow), function(td) {
+          var $td = $( td );
+          var colId = $td.data('col');
+          var $$input = $(":input:first", $td)
+          if (DEFAULT_VALUES[colId] && ($$input.data('value-from-template') || $$input.val().length < 1)) {
+            $$input.val(DEFAULT_VALUES[colId]);
+            $$input.data('value-from-template', true);
+          }
+        });
+      };
+
+
+      var initSelectTemplateFeature = function() {
+
+        var $select = $("#rde_select_template");
+
+        $select.change(function() {
+          var id = $("option:selected", $select).val();
+          $.ajax({
+            url: $rde_form.data("template-base-uri") + "/" + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function(template) {
+              applyTemplate(template);
+              $select.attr('data-style', 'btn-success');
+              $select.selectpicker('refresh');
+            }
+          });
+
+
+        });
+
+        var renderOptions = function() {
+          $select.empty();
+
+          $select.append($("<option>", {disabled : "disabled" , selected: 'selected'})
+                         .text($select.data('prompt-text')));
+
+          _.each(templateList, function(item) {
+
+            $select.append($("<option>", {value : item.id })
+                           .text(item.name));
+
+          });
+
+          $select.selectpicker('refresh');
+        };
+
+        renderOptions();
+      };
+
 
       var initColumnReorderFeature = function() {
         var $reorderContainer = $("#columnReorderForm", $modal);
@@ -692,7 +1000,7 @@ $(function() {
           return isVisible($colHeader.attr("id"));
         });
         $select.multiselect({
-          buttonClass: 'btn btn-small',
+          buttonClass: 'btn btn-small btn-default',
           buttonWidth: 'auto',
           maxHeight: 300,
           buttonContainer: '<div class="btn-group" />',
@@ -827,6 +1135,50 @@ $(function() {
         $col.hide();
       };
 
+
+      var showColumn = function(index) {
+        $table.showColumns(index+1);
+        var $col = $($("table colgroup col").get(index));
+        $table.width($table.width() + $col.width());
+        $col.show();
+      }
+
+      var enableCell = function(colId, rowIndex) {
+        var row = $("tbody tr")[rowIndex];
+        var cell = $("td[data-col='"+colId+"']", row);
+
+        cell.removeClass("disabled");
+        $('input', cell).removeAttr("disabled");
+      }
+
+      var disableCell = function(colId, rowIndex) {
+        var row = $("tbody tr")[rowIndex];
+        var cell = $("td[data-col='"+colId+"']", row);
+
+        cell.addClass("disabled");
+        $('input', cell).attr("disabled", "disabled");
+      };
+
+      var prevActiveCell = function($cell) {
+        var prev = $cell.prev();
+        if (prev.hasClass('disabled')) {
+          return prevActiveCell(prev);
+        } else {
+          return prev;
+        }
+      };
+
+
+      var nextActiveCell = function($cell) {
+        var next = $cell.next();
+        if (next.hasClass('disabled')) {
+          return nextActiveCell(next);
+        } else {
+          return next;
+        }
+      };
+
+
       var validateAllRows = function() {
         validateRows($("tbody tr", $table));
       };
@@ -911,6 +1263,8 @@ $(function() {
         validateAllRows();
       });
     });
+
+    $("select.selectpicker", $modal).selectpicker();
   };
 
   $(document).bind("rdeload.aspace", function(event, $node, $modal) {

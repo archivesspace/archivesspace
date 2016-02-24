@@ -1,7 +1,7 @@
 <%= setup_context :object => @classification %>
 
-<div class="row-fluid" xmlns="http://www.w3.org/1999/html">
-  <div class="span12">
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <div class="col-md-12">
     <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @classification} %>
   </div>
 </div>

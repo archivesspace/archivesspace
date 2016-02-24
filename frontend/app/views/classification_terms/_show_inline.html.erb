@@ -1,8 +1,8 @@
-<div class="row-fluid">
-  <div class="span3">
+<div class="row">
+  <div class="col-md-3">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :classification_term, @classification_term do |readonly| %>
@@ -25,7 +25,7 @@
         </section>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"classification_uri" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"classification_uris" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
 
     </div>
   </div>

@@ -1,7 +1,7 @@
 <%= setup_context :title => I18n.t("enumeration._plural") %>
 
-<div class="row-fluid">
-  <div class="span12">
+<div class="row">
+  <div class="col-md-12">
     <div class="record-pane">
       <%= link_to_help :topic => "enumeration" %>
 
@@ -9,8 +9,8 @@
 
       <div class="form-horizontal">
         <fieldset>
-          <div class="control-group required">
-            <label class="control-label" for="enum_selector"><%= I18n.t("enumeration._frontend.messages.name_selector") %></label>
+          <div class="form-group required">
+            <label class="control-label col-md-3" for="enum_selector"><%= I18n.t("enumeration._frontend.messages.name_selector") %></label>
             <div class="controls">
               <%
                 enum_options = @enumerations.map {|e|
@@ -18,7 +18,7 @@
                    JSONModel(:enumeration).id_for(e["uri"])]
                 }.sort {|a, b| a[0] <=> b[0]}
               %>
-              <%= select_tag "enum_selector", options_for_select([""].concat(enum_options), params[:id]), :style => "width: auto; max-with: 100%;" %>
+              <%= select_tag "enum_selector", options_for_select([""].concat(enum_options), params[:id]), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
             </div>
           </div>
         </fieldset>

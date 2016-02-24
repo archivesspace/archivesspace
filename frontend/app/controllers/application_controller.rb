@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   rescue_from ArchivesSpace::SessionGone, :with => :destroy_user_session
   rescue_from ArchivesSpace::SessionExpired, :with => :destroy_user_session
   rescue_from RecordNotFound, :with => :render_404
+  rescue_from AccessDeniedException, :with => :render_403
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
@@ -126,10 +127,10 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def handle_merge(victim_uri, target_uri, merge_type, extra_params = {})
+  def handle_merge(victims, target_uri, merge_type, extra_params = {})
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target_uri}
-    request.victims = [{'ref' => victim_uri}]
+    request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
 
     begin
       request.save(:record_type => merge_type)
@@ -138,7 +139,7 @@ class ApplicationController < ActionController::Base
       resolver = Resolver.new(target_uri)
       redirect_to(resolver.view_uri)
     rescue ValidationException => e
-      flash[:error] = e.errors
+      flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
     rescue RecordNotFound => e
       flash[:error] = I18n.t("errors.error_404")
@@ -152,9 +153,11 @@ class ApplicationController < ActionController::Base
                                          "children[]" => params[:children],
                                          "position" => params[:index].to_i)
 
+
+
+
     if response.code == '200'
       render :json => {
-        :parent => params[:id],
         :position => params[:index].to_i
       }
     else
@@ -166,11 +169,13 @@ class ApplicationController < ActionController::Base
   def find_opts
     {
       "resolve[]" => ["subjects", "related_resources", "linked_agents",
-                      "container_locations", "digital_object", "classification",
+                      "revision_statements", 
+                      "container_locations", "digital_object", "classifications",
                       "related_agents", "resource", "parent", "creator",
                       "linked_instances", "linked_records", "related_accessions",
                       "linked_events", "linked_events::linked_records",
-                      "linked_events::linked_agents"]
+                      "linked_events::linked_agents",
+                      "top_container", "container_profile"]
     }
   end
 
@@ -196,6 +201,18 @@ class ApplicationController < ActionController::Base
   helper_method :user_prefs
   def user_prefs
     session[:preferences] || self.class.user_preferences(session)
+  end
+
+  def user_repository_cookie
+    cookies[user_repository_cookie_key]
+  end
+
+  def user_repository_cookie_key
+    "#{AppConfig[:cookie_prefix]}_#{session[:user]}_repository"
+  end
+
+  def set_user_repository_cookie(repository_uri)
+    cookies[user_repository_cookie_key] = repository_uri
   end
 
 
@@ -280,7 +297,17 @@ class ApplicationController < ActionController::Base
     end
 
     if not session[:repo] and not @repositories.empty?
-      self.class.session_repo(session, @repositories.first.uri)
+      if user_repository_cookie
+        if @repositories.any?{|repo| repo.uri == user_repository_cookie}
+          self.class.session_repo(session, user_repository_cookie)
+        else
+          # delete the cookie as the stored repository uri is no longer valid
+          cookies.delete(user_repository_cookie_key)
+        end
+      else
+        set_user_repository_cookie(@repositories.first.uri)
+        self.class.session_repo(session, @repositories.first.uri)
+      end
     end
   end
 
@@ -313,7 +340,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_403
-    return render :template => "403", :layout => nil if inline?
+    return render :status => 403, :template => "403", :layout => nil if inline?
 
     render "/403"
   end
@@ -413,7 +440,7 @@ class ApplicationController < ActionController::Base
       # associations.  In these cases, split up the values and create
       # separate records to be created.
 
-      associations_to_expand = ['linked_agents', 'subjects']
+      associations_to_expand = ['linked_agents', 'subjects', 'classifications']
 
       associations_to_expand.each do |association|
         if hash.has_key?(association)
@@ -463,7 +490,7 @@ class ApplicationController < ActionController::Base
   end
 
   def params_for_backend_search
-    params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
+    params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term", "simple_filter"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
@@ -475,6 +502,11 @@ class ApplicationController < ActionController::Base
     if params_for_search["filter_term"]
       params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject{|v| v.blank?}
       params_for_search.delete("filter_term")
+    end
+    
+    if params_for_search["simple_filter"]
+      params_for_search["simple_filter[]"] = Array(params_for_search["simple_filter"]).reject{|v| v.blank?}
+      params_for_search.delete("simple_filter")
     end
 
     if params_for_search["exclude"]
@@ -491,6 +523,12 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def prepare_tree_nodes(node, &block)
+    node['children'].map{|child_node| prepare_tree_nodes(child_node, &block) }
+    block.call(node)
+  end
+
+
   def handle_transfer(model)
     old_uri = model.uri_for(params[:id])
     response = JSONModel::HTTP.post_form(model.uri_for(params[:id]) + "/transfer",
@@ -503,6 +541,47 @@ class ApplicationController < ActionController::Base
     end
 
     redirect_to(:action => :index, :deleted_uri => old_uri)
+  end
+
+
+  helper_method :default_advanced_search_queries
+  def default_advanced_search_queries
+    [{"i" => 0, "type" => "text"}]
+  end
+
+
+  helper_method :advanced_search_queries
+  def advanced_search_queries
+    return default_advanced_search_queries if !params["advanced"]
+
+    indexes = params.keys.collect{|k| k[/^v(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
+
+    return default_advanced_search_queries if indexes.empty?
+
+    indexes.map {|i|
+      query = {
+        "i" => i.to_i,
+        "op" => params["op#{i}"],
+        "field" => params["f#{i}"],
+        "value" => params["v#{i}"],
+        "type" => params["t#{i}"]
+      }
+
+      if query["op"] === "NOT"
+        query["op"] = "AND"
+        query["negated"] = true
+      end
+
+      if query["type"] == "date"
+        query["comparator"] = params["dop#{i}"]
+      end
+
+      if query["type"] == "boolean"
+        query["value"] = query["value"] == "true"
+      end
+
+      query
+    }
   end
 
 end

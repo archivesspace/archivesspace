@@ -3,6 +3,7 @@ require 'asconstants'
 require 'exceptions'
 
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
   protect_from_forgery
 
   before_filter :establish_session

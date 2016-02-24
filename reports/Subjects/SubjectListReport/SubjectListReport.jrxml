@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubjectsRecords" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="18" isTitleNewPage="true" uuid="4e5bb6b2-47da-4426-9162-0300e7f7da88">
+	<property name="reportTitle" value="Subject list"/>
+	<property name="reportDescription" value="Displays selected subject record(s). Report lists subject term, subject term type, and subject source."/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="ReportHeader" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     subject.`id` AS subject_id,
+     subject.`title` AS subject_title,
+     subject.`source_id` AS subject_source_id,
+     GetTermType(subject.`id`) AS subject_term_type,
+     enumeration_value.`value` AS subject_source
+FROM
+     subject
+INNER JOIN
+     enumeration_value
+	ON subject.`source_id` = enumeration_value.`id`]]>
+	</queryString>
+	<field name="subject_id" class="java.lang.Integer"/>
+	<field name="subject_title" class="java.lang.String"/>
+	<field name="subject_source_id" class="java.lang.Integer"/>
+	<field name="subject_term_type" class="java.lang.String"/>
+	<field name="subject_source" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="157" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-5" mode="Transparent" x="14" y="90" width="509" height="60" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="7b940dac-6e66-43e3-9652-067a0ed9b221"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="20" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportHeader}.equals("") ? "Subject Records List" : $P{ReportHeader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement key="textField" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="269" y="5" width="134" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="7a9adcd1-1c36-45ad-94d1-b51919687c6d"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Term Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="textField-1" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="5" width="269" height="25" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="95c56ffa-5314-4bba-bfbd-1a9413600357"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Subject]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="textField" positionType="Float" stretchType="RelativeToTallestObject" x="403" y="5" width="127" height="25" isPrintWhenDetailOverflows="true" uuid="4e2142b2-a4b4-4cf1-819b-cc144abb6f8a"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Source]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-1" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="269" height="20" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="6206fd0f-ebb7-46f0-9921-97c58c15ecbf"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject_title}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Transparent" x="269" y="0" width="134" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="fb6eb7da-7157-40a1-bb94-7cac2ed2de09"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject_term_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" stretchType="RelativeToTallestObject" x="403" y="0" width="127" height="20" isPrintWhenDetailOverflows="true" uuid="45bdf363-0cc7-4342-ae6c-a5e8f9d5df64"/>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject_source}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="46" splitType="Stretch">
+			<elementGroup/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-4" mode="Transparent" x="0" y="13" width="527" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="ebf820c8-1f8f-4fc1-ab4e-03e5e6f08a04"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportHeader}.equals("") ? "Subject Records List"  : $P{ReportHeader}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="6" width="533" height="1" uuid="8cf7734d-acf2-49c2-8b78-b7f8c6176e02"/>
+			</line>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-2" positionType="Float" mode="Transparent" x="420" y="30" width="69" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="cd1ac6cd-aafc-4759-b5d7-094305ab96d4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-3" positionType="Float" mode="Transparent" x="503" y="30" width="26" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="f71ab9c0-9040-4033-a581-3a9c7bd5583a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="MMMMM dd, yyyy" isBlankWhenNull="false">
+				<reportElement key="textField-6" positionType="Float" x="0" y="30" width="199" height="15" forecolor="#000000" uuid="983a938d-03f7-49ae-a550-b7bdcfd41b14"/>
+				<textElement>
+					<font fontName="Arial" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="30" width="14" height="15" uuid="20cfb0e6-6596-4009-8d9d-8768f36d7ba6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[of]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

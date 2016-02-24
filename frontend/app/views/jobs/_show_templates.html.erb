@@ -2,24 +2,24 @@
   <section id="job_status" data-poll-url="<%= url_for(:controller => :jobs, :action => :status, :id => job.id) %>" data-current-status="<%= @job.status %>">
     <h3><%= I18n.t("job._frontend.section.status") %></h3>
 
-    <div class="job-status control-group">
+    <div class="job-status form-group">
       <label class="control-label"><%= I18n.t("job.status") %></label>
       <div class="controls label-only">
         <%= I18n.t("job.status_#{job.status}", :default => job.status) %>
       </div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("job.time_submitted") %></label>
       <div class="controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
     </div>
     <% if job.time_started %>
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("job.time_started") %></label>
         <div class="controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
       </div>
     <% end %>
     <% if job.time_finished %>
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label"><%= I18n.t("job.time_finished") %></label>
         <div class="controls label-only"><%= Time.parse(job.time_finished).getlocal %></div>
       </div>
@@ -29,29 +29,82 @@
 
 
 <% define_template "job", jsonmodel_definition(:job) do |form, job| %>
+
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
     <%= form.label_with_field "import_type", job['import_type'] %>
 
-    <div class="control-group">
-      <label class="control-label"><%= I18n.t("job.filenames") %></label>
-      <div class="controls label-only"><%= job.filenames.join("<br/>").html_safe %></div>
-    </div>
-
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("repository._singular") %></label>
       <div class="controls label-only"><%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %></div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label"><%= I18n.t("job.owner") %></label>
       <div class="controls label-only"><%= job.owner %></div>
     </div>
 
+    <% form.emit_template job.job['jsonmodel_type'], job.job %>
+
     <%= display_audit_info(@job) %>
   </section>
 <% end %>
+
+
+<% define_template "import_job", jsonmodel_definition(:import_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("import_job.filenames") %></label>
+      <div class="controls label-only"><%= job['filenames'].join("<br/>").html_safe %></div>
+    </div>
+
+<% end %>
+
+
+<% define_template "find_and_replace_job", jsonmodel_definition(:find_and_replace_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("find_and_replace_job.find") %></label>
+      <div class="controls label-only"><%= job['find'] %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("find_and_replace_job.replace") %></label>
+      <div class="controls label-only"><%= job['replace'] %></div>
+    </div>
+
+<% end %>
+
+<% define_template "print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
+      <div class="controls label-only"><%= job['source'] %></div>
+    </div>
+
+<% end %>
+
+<% define_template "container_conversion_job", jsonmodel_definition(:container_conversion_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
+      <div class="controls label-only"><%= job['source'] %></div>
+    </div>
+
+<% end %>
+
+<% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
+      <div class="controls label-only"><%= job['report_type'] %></div>
+    </div>
+
+<% end %>
+
+
+
 
 <div id="template_job_running_notice"><!--
   <div class="alert alert-info">
@@ -67,14 +120,14 @@
 --></div>
 
 <div id="template_job_failed_notice"><!--
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <p><%= I18n.t("job._frontend.messages.status_changed_failed") %></p>
     <button class="btn btn-danger btn-refresh"><%= I18n.t("actions.refresh_page") %></button>
   </div>
 --></div>
 
 <div id="template_job_canceled_notice"><!--
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <p><%= I18n.t("job._frontend.messages.status_canceled_completed") %></p>
     <button class="btn btn-danger btn-refresh"><%= I18n.t("actions.refresh_page") %></button>
   </div>

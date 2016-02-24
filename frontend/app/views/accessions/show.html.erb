@@ -1,14 +1,14 @@
 <%= setup_context(:object => @accession) %>
 
-<div class="row-fluid">
-   <div class="span3">
+<div class="row">
+   <div class="col-md-3">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
-   <div class="span9">
+   <div class="col-md-9">
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2><%= @accession.display_string %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= @accession.display_string %> <span class="label label-info label-default"><%= I18n.t("accession._singular") %></span></h2>
   
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
@@ -59,6 +59,10 @@
            <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
          <% end %>
            
+         <% if @accession.related_accessions.length > 0 %>
+           <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
+         <% end %>
+
          <% if not @accession.subjects.blank? %>
            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
          <% end %>
@@ -83,8 +87,8 @@
            <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
 
-        <% if @accession.classification %>
-          <%= render_aspace_partial :partial => "classification/show", :locals => { :classification => @accession.classification, :context => readonly, :section_id => "resource_classification_" } %>
+        <% if @accession.classifications %>
+          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
         <% end %>
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
@@ -92,6 +96,10 @@
          <% if @accession.user_defined %>
            <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
          <% end %>
+
+        <% if @accession.external_ids.length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @accession.external_ids, :context => readonly, :section_id => "accession_external_ids_" } %>
+        <% end %>
 
 
          <%= show_plugins_for(@accession, readonly) %>

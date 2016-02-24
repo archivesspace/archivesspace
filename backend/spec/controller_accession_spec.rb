@@ -3,16 +3,6 @@ require 'spec_helper'
 
 describe 'Accession controller' do
 
-  before(:all) do
-    RequestContext.in_global_repo do
-      pref = Preference[:user_id => nil]
-
-      pref.update_from_json(JSONModel(:preference).from_hash(:defaults => {'show_suppressed' => true},
-                                                             :lock_version => pref.lock_version))
-    end
-  end
-
-
   it "lets you create an accession and get it back" do
     opts = {:title => 'The accession title'}
 
@@ -31,7 +21,7 @@ describe 'Accession controller' do
     acc = build(:json_accession)
     acc.uri = "#{$repo}/accessions/9999"
 
-    expect { acc.save }.to raise_error
+    expect { acc.save }.to raise_error(RecordNotFound)
   end
 
 

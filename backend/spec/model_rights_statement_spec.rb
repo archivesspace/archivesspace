@@ -29,7 +29,7 @@ describe 'Rights Statement model' do
   end
 
 
-  it "Enforces identifier uniqueness within a single repository" do
+  it "Does not Enforce identifier uniqueness within a single repository" do
     repo_one = create(:repo)
     repo_two = create(:repo)
     
@@ -39,7 +39,7 @@ describe 'Rights Statement model' do
       RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
       RightsStatement.create_from_json(build(:json_rights_statement, opts), :repo_id => repo_one.id)
 
-    }.to raise_error
+    }.to_not raise_error
 
     # No problems here
     expect {
@@ -61,7 +61,7 @@ describe 'Rights Statement model' do
     opts.delete(:jurisdiction)
 
     # this is ok though
-    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_rights_statement(opts) }.to_not raise_error
   end
 
 
@@ -82,7 +82,7 @@ describe 'Rights Statement model' do
 
     opts[:statute_citation] = generate(:alphanumstr)
     
-    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_rights_statement(opts) }.to_not raise_error
   end
 
 
@@ -97,7 +97,7 @@ describe 'Rights Statement model' do
 
     opts[:license_identifier_terms] = generate(:alphanumstr)
 
-    expect { create_rights_statement(opts) }.to_not raise_error(JSONModel::ValidationException)
+    expect { create_rights_statement(opts) }.to_not raise_error
   end
 
   it "Allows a rights statement to be created with an external document" do

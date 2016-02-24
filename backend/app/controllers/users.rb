@@ -232,6 +232,20 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/logout')
+    .description("Log out the current session")
+    .permissions([])
+    .returns([200, "Session logged out"]) \
+  do
+    if session
+      Session.expire(session.id)
+      json_response('status' => 'session_logged_out')
+    else
+      json_response('status' => 'no_active_session')
+    end
+  end
+
+
   private
 
   def check_admin_access

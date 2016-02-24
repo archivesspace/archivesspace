@@ -1,0 +1,14 @@
+JSON Schema: External_document
+
+Properties
+
+string (max length: 16384)	title
+
+string (max length: 16384)	location
+
+boolean	publish
+
+
+
+
+

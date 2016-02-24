@@ -1,6 +1,10 @@
+//= require linker 
 $(function () {
 
   var init = function () {
+    
+    $("#merge-dropdown .linker:not(.initialised)").linker();
+    
     $('.merge-form .btn-cancel').on('click', function () {
       $('.merge-action').trigger("click");
     });
@@ -39,14 +43,19 @@ $(function () {
 
     $(".merge-form .merge-button").on("click", function(event) {
       var formvals = $(".merge-form").serializeObject();
-      if (!formvals["merge[ref]"]) {
+      
+      if ( formvals["merge[ref]"] && !formvals["merge[ref][]"] ) {
+        formvals["merge[ref][]"] = formvals["merge[ref]"]; 
+      }
+      
+      if (!formvals["merge[ref][]"]) {
         $(".missing-ref-message", ".merge-form").show();
         event.preventDefault();
         event.stopImmediatePropagation();
         return false;
       } else {
         $(".missing-ref-message", ".merge-form").hide();
-        $(this).data("form-data", {"ref": formvals["merge[ref]"]});
+        $(this).data("form-data", {"refs": formvals["merge[ref][]"]});
       }
     });
   };

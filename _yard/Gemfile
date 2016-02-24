@@ -1,5 +1,7 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-gem "yard"
-gem "kramdown"
+group :doc do
+  gem "yard"
+  gem "kramdown"
+end

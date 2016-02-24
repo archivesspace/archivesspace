@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: RestrictionCalculator::Implementation
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!RestrictionCalculator/Implementation.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (I)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RestrictionCalculator.html" title="RestrictionCalculator (module)">RestrictionCalculator</a></span></span>
+     &raquo; 
+    <span class="title">Implementation</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: RestrictionCalculator::Implementation
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/model/mixins/restriction_calculator.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#expand_to_tree-class_method" title="expand_to_tree (class method)">+ (Object) <strong>expand_to_tree</strong>(model, id_set) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="expand_to_tree-class_method">
+  
+    + (<tt>Object</tt>) <strong>expand_to_tree</strong>(model, id_set) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/restriction_calculator.rb', line 70</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expand_to_tree identifier id'>expand_to_tree</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='rbrace token'>}</span> <span class='rubyid_unless unless_mod kw'>unless</span>  <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_included_modules identifier id'>included_modules</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_rec_ids identifier id'>rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_id_set identifier id'>id_set</span>
+  <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_rec_ids identifier id'>rec_ids</span>
+
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:parent_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_break break kw'>break</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_rec_ids identifier id'>rec_ids</span> <span class='opasgn op'>+=</span> <span class='rubyid_new_rec_ids identifier id'>new_rec_ids</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_rec_ids identifier id'>rec_ids</span> <span class='assign token'>=</span> <span class='rubyid_rec_ids identifier id'>rec_ids</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
+
+  <span class='lbrace token'>{</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_rec_ids identifier id'>rec_ids</span><span class='comma token'>,</span>
+    <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_root_model identifier id'>root_model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_rec_ids identifier id'>rec_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:55 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

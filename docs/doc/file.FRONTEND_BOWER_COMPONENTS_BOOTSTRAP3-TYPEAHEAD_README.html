@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="bootstrap-3-typeahead">Bootstrap 3 Typeahead</h1>
+
+<p>For simple autocomplete use cases there seems to be nothing wrong with the dropped typeahead plugin. Here you will find the typeahead autocomplete plugin for Twitter&#8217;s Bootstrap 2 ready to use with Twitter&#8217;s Bootstrap 3. The original code is written by <a href="http://twitter.com/mdo">@mdo</a> and <a href="http://twitter.com/fat">@fat</a>.</p>
+
+<p>Users who migrate their website or app from Twitter&#8217;s Bootstrap 2 to Bootstrap 3 can also use this plugin to keep their current autocomplete functions. See for a complete list of migrations steps: <a href="http://bassjobsen.weblogs.fm/migrate-your-templates-from-twitter-bootstrap-2-x-to-twitter-bootstrap-3/">Migrate your templates from Twitter Bootstrap 2.x to Twitter Bootstrap 3</a></p>
+
+<p>With Twitter Bootstrap 3 the typeahead plugin had been dropped. <a href="http://twitter.com/mdo">@mdo</a> says: &#8220;in favor of folks using <a href="https://github.com/twitter/typeahead.js">Twitter&#8217;s typeahead</a>. Twitter&#8217;s typeahead has more features than the old bootstrap-typeahead.js and less bugs.&#8221; Twitter&#8217;s typeahead don&#8217;t work direct with Bootstrap 3. The DOM structure of the dropdown menu used by <code>typeahead.js</code> differs from the DOM structure of the Bootstrap dropdown menu. You&#8217;ll need to load some additional CSS in order to get the <code>typeahead.js</code> dropdown menu to fit the default Bootstrap&#8217;s theme. Try <a href="https://github.com/bassjobsen/typeahead.js-bootstrap-css">extended Bootstrap&#8217;s LESS</a> or if your are looking for a more a more extended version try: <a href="https://github.com/hyspace/typeahead.js-bootstrap3.less/blob/master/typeahead.less">typeahead.js-bootstrap3.less</a>.</p>
+
+<p>~~<code>Typeahead.js</code> doesn&#8217;t seem ready for the new Twitter Bootstrap 3 at the moment. Code is not up to date and fixes are need. See also:
+<a href="http://stackoverflow.com/questions/18167246/typeahead-problems-with-bootstrap-3-0-rc1">Typeahead problems with Bootstrap 3.0 RC1</a>.~~</p>
+
+<h1 id="download">Download</h1>
+
+<ul>
+  <li>
+    <p>Download the latest <a href="https://github.com/bassjobsen/Bootstrap-3-Typeahead/blob/master/bootstrap3-typeahead.js">bootstrap3-typeahead.js</a> or <a href="https://github.com/bassjobsen/Bootstrap-3-Typeahead/blob/master/bootstrap3-typeahead.min.js">bootstrap3-typeahead.min.js</a>.</p>
+  </li>
+  <li>
+    <p>Include it in your source after jQuery and Bootstrap Javascript.</p>
+  </li>
+</ul>
+
+<h2 id="full-integration-with-bootstrap-3-typeahead">Full integration with Bootstrap 3 Typeahead</h2>
+<p>Download the latest version of Boostrap from <a href="https://github.com/twbs/bootstrap/archive/master.zip">Bootstrap</a>. Copy <code>bootstrap3-typeahead.js</code> to the js/ folder. Edit <code>gruntfile.js</code> and add <code>bootstrap3-typeahead.js</code> to the plugins&#8217; list.
+Build your own version with typeahead with <code>grunt dist</code>.</p>
+
+<h1 id="css">CSS</h1>
+<p>There is no additional css required to use the plugin. Bootstrap&#8217;s css contains all required styles in the <code>.dropdown-menu</code> class. The original CSS add a <code>z-index</code> of 1051 to the dropdownmenu via the typeahead class. You could add this if you need it.
+<code>.typeahead { z-index: 1051;}</code> (less or css).</p>
+
+<h1 id="usage">Usage</h1>
+
+<pre class="code ruby"><code class="ruby"><span class='lt op'>&lt;</span><span class='rubyid_input identifier id'>input</span> <span class='rubyid_type identifier id'>type</span><span class='assign token'>=</span><span class='string val'>&quot;text&quot;</span> <span class='rubyid_data identifier id'>data</span><span class='minus op'>-</span><span class='rubyid_provide identifier id'>provide</span><span class='assign token'>=</span><span class='string val'>&quot;typeahead&quot;</span><span class='gt op'>&gt;</span>
+</code></pre>
+
+<p>You&#8217;ll want to set <code>autocomplete="off"</code> to prevent default browser menus from appearing over the Bootstrap typeahead dropdown.</p>
+
+<h2 id="via-data-attributes">Via data attributes</h2>
+<p>Add data attributes to register an element with typeahead functionality as shown in the example above.</p>
+
+<h2 id="via-javascript">Via JavaScript</h2>
+
+<p>Call the typeahead manually with:</p>
+
+<pre class="code ruby"><code class="ruby">$<span class='lparen token'>(</span><span class='string val'>'.typeahead'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_typeahead identifier id'>typeahead</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>Destroys previously initialized typeaheads. This entails reverting DOM modifications and removing event handlers:</p>
+
+<pre class="code ruby"><code class="ruby">$<span class='lparen token'>(</span><span class='string val'>'.typeahead'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_typeahead identifier id'>typeahead</span><span class='lparen token'>(</span><span class='string val'>'destroy'</span><span class='rparen token'>)</span>
+</code></pre>
+
+<h1 id="javascript-example">Javascript Example</h1>
+
+<h2 id="loading-a-collection">Loading a collection</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_$. gvar id'>$.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'example_collection.json'</span><span class='comma token'>,</span> <span class='rubyid_function identifier id'>function</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+  $<span class='lparen token'>(</span><span class='string val'>&quot;#name&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_typeahead identifier id'>typeahead</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>source:</span><span class='rubyid_data identifier id'>data</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='semicolon token'>;</span>
+<span class='rbrace token'>}</span><span class='comma token'>,</span><span class='string val'>'json'</span><span class='rparen token'>)</span><span class='semicolon token'>;</span>
+<span class='regexp val'>//e</span><span class='rubyid_xample_collection identifier id'>xample_collection</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span>
+<span class='regexp val'>//</span> <span class='lbrack token'>[</span><span class='string val'>&quot;item1&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;item2&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;item3&quot;</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h2 id="using-json-objects-instead-of-simple-strings">Using JSON objects instead of simple strings</h2>
+
+<p>You can add all the properties you wish on your objects, as long as you provide a &#8220;name&#8221; attribute OR you provide your own displayText method. The other values are for you, to be able to match the selected item with something in your model.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_var identifier id'>var</span> <span class='rubyid_$input gvar id'>$input</span> <span class='assign token'>=</span> $<span class='lparen token'>(</span><span class='string val'>'.typeahead'</span><span class='rparen token'>)</span><span class='semicolon token'>;</span>
+<span class='rubyid_$input gvar id'>$input</span><span class='dot token'>.</span><span class='rubyid_typeahead identifier id'>typeahead</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='label val'>source:</span><span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='label val'>id:</span> <span class='string val'>&quot;someId1&quot;</span><span class='comma token'>,</span> <span class='label val'>name:</span> <span class='string val'>&quot;Display name 1&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> 
+      <span class='lbrace token'>{</span><span class='label val'>id:</span> <span class='string val'>&quot;someId2&quot;</span><span class='comma token'>,</span> <span class='label val'>name:</span> <span class='string val'>&quot;Display name 2&quot;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+      <span class='label val'>autoSelect:</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='semicolon token'>;</span> 
+<span class='rubyid_$input gvar id'>$input</span><span class='dot token'>.</span><span class='rubyid_change identifier id'>change</span><span class='lparen token'>(</span><span class='rubyid_function identifier id'>function</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_var identifier id'>var</span> <span class='rubyid_current identifier id'>current</span> <span class='assign token'>=</span> <span class='rubyid_$input gvar id'>$input</span><span class='dot token'>.</span><span class='rubyid_typeahead identifier id'>typeahead</span><span class='lparen token'>(</span><span class='string val'>&quot;getActive&quot;</span><span class='rparen token'>)</span><span class='semicolon token'>;</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_current identifier id'>current</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+    <span class='regexp val'>//</span> <span class='rubyid_Some constant id'>Some</span> <span class='rubyid_item identifier id'>item</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_model identifier id'>model</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_active! fid id'>active!</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_current identifier id'>current</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='rubyid_$input gvar id'>$input</span><span class='dot token'>.</span><span class='rubyid_val identifier id'>val</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+      <span class='regexp val'>//</span> <span class='rubyid_This constant id'>This</span> <span class='rubyid_means identifier id'>means</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_exact identifier id'>exact</span> <span class='rubyid_match identifier id'>match</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_found identifier id'>found</span><span class='dot token'>.</span> <span class='rubyid_Use constant id'>Use</span> <span class='rubyid_toLowerCase identifier id'>toLowerCase</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_want identifier id'>want</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_insensitive identifier id'>insensitive</span> <span class='rubyid_match identifier id'>match</span><span class='dot token'>.</span>
+    <span class='rbrace token'>}</span> <span class='rubyid_else else kw'>else</span> <span class='lbrace token'>{</span>
+      <span class='regexp val'>//</span> <span class='rubyid_This constant id'>This</span> <span class='rubyid_means identifier id'>means</span> <span class='rubyid_it identifier id'>it</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_only identifier id'>only</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_partial identifier id'>partial</span> <span class='rubyid_match identifier id'>match</span><span class='comma token'>,</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_can identifier id'>can</span> <span class='rubyid_either identifier id'>either</span> <span class='rubyid_add identifier id'>add</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_new identifier id'>new</span> <span class='rubyid_item identifier id'>item</span> 
+      <span class='regexp val'>//</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_take identifier id'>take</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_active identifier id'>active</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_don identifier id'>don</span><span class='string val'>'t want new items
+    }
+  } else {
+    // Nothing is active so it is a new value (or maybe empty value)
+  }
+});
+</span></code></pre>
+
+<h1 id="options">Options</h1>
+
+<p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-source=""</code>.</p>
+
+<table class="table table-bordered table-striped">
+              <thead>
+               <tr>
+                 <th style="width: 100px;">Name</th>
+                 <th style="width: 50px;">type</th>
+                 <th style="width: 100px;">default</th>
+                 <th>description</th>
+               </tr>
+              </thead>
+              <tbody>
+                <tr>
+                 <td>source</td>
+                 <td>array, function</td>
+                 <td>[ ]</td>
+                 <td>The data source to query against. May be an array of strings, an array of JSON object with a name property or a function. The function accepts two arguments, the <code>query</code> value in the input field and the <code>process</code> callback. The function may be used synchronously by returning the data source directly or asynchronously via the <code>process</code> callback's single argument.</td>
+               </tr>
+               <tr>
+                 <td>items</td>
+                 <td>number</td>
+                 <td>8</td>
+                 <td>The max number of items to display in the dropdown. Can also be set to 'all'</td>
+               </tr>
+               <tr>
+                 <td>minLength</td>
+                 <td>number</td>
+                 <td>1</td>
+                 <td>The minimum character length needed before triggering autocomplete suggestions. You can set it to 0 so suggestion are shown even when there is no text when lookup function is called.</td>
+               </tr>
+               <tr>
+                 <td>showHintOnFocus</td>
+                 <td>boolean</td>
+                 <td>false</td>
+                 <td>If hints should be shown when applicable as soon as the input gets focus.</td>
+               </tr>
+              <tr>
+                 <td>scrollHeight</td>
+                 <td>number, function</td>
+                 <td>0</td>
+                 <td>Number of pixels the scrollable parent container scrolled down (scrolled out the viewport).</td>
+               </tr>
+               <tr>
+                 <td>matcher</td>
+                 <td>function</td>
+                 <td>case insensitive</td>
+                 <td>The method used to determine if a query matches an item. Accepts a single argument, the <code>item</code> against which to test the query. Access the current query with <code>this.query</code>. Return a boolean <code>true</code> if query is a match.</td>
+               </tr>
+               <tr>
+                 <td>sorter</td>
+                 <td>function</td>
+                 <td>exact match,<br /> case sensitive,<br /> case insensitive</td>
+                 <td>Method used to sort autocomplete results. Accepts a single argument <code>items</code> and has the scope of the typeahead instance. Reference the current query with <code>this.query</code>.</td>
+               </tr>
+               <tr>
+                 <td>updater</td>
+                 <td>function</td>
+                 <td>returns selected item</td>
+                 <td>The method used to return selected item. Accepts a single argument, the <code>item</code> and has the scope of the typeahead instance.</td>
+               </tr>
+               <tr>
+                 <td>highlighter</td>
+                 <td>function</td>
+                 <td>highlights all default matches</td>
+                 <td>Method used to highlight autocomplete results. Accepts a single argument <code>item</code> and has the scope of the typeahead instance. Should return html.</td>
+               </tr>
+			   <tr>
+                 <td>displayText</td>
+                 <td>function</td>
+                 <td>item.name || item</td>
+                 <td>Method used to get textual representation of an item of the sources. Accepts a single argument <code>item</code> and has the scope of the typeahead instance. Should return a String.</td>
+               </tr>
+              <tr>
+                 <td>autoSelect</td>
+                 <td>boolean</td>
+                 <td>true</td>
+                 <td>Allows you to dictate whether or not the first suggestion is selected automatically. Turning autoselect off also means that the input won't clear if nothing is selected and <kbd>enter</kbd> or <kbd>tab</kbd> is hit.</td>
+               </tr>
+               <tr>
+                 <td>afterSelect</td>
+                 <td>function</td>
+                 <td>$.noop()</td>
+                 <td>Call back function to execute after selected an item. It gets the current active item in parameter if any.</td>
+               </tr>
+			   <tr>
+                 <td>delay</td>
+                 <td>integer</td>
+                 <td>0</td>
+                 <td>Adds a delay between lookups.</td>
+               </tr>
+              <tr>
+              <tr>
+                <td>addItem</td>
+                <td>JSON object</td>
+                <td>false</td>
+                <td>Adds an item to the end of the list, for example "New Entry". This could be used, for example, to pop a dialog when an item is not found in the list of data. Example: <a href="http://cl.ly/image/2u170I1q1G3A/addItem.png">http://cl.ly/image/2u170I1q1G3A/addItem.png</a></td>
+              
+            
+
+Methods
+=======
+
+	.typeahead(options): Initializes an input with a typeahead.
+	.lookup: To trigger the lookup function externally
+	.getActive: To get the currently active item, you will get a String or a JSOn object depending on how you initialized typeahead. Works only for the first match.
+
+
+
+Bower
+=====
+
+To use with [Bower](http://bower.io/). Add to your bower.json file:
+
+
+	{
+            "name": "MyProject",
+            "dependencies": {
+            "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#master"
+            }
+       }
+
+Bloodhound
+==========	
+[Bloodhound](https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md) is the [typeahead.js](https://github.com/twitter/typeahead.js) suggestion engine, since version 0.10.0. Bloodhound is robust, flexible, and offers advanced functionalities such as prefetching, intelligent caching, fast lookups, and backfilling with remote data. To use Bloodhound with Bootstrap-3-Typeahead:
+
+	// instantiate the bloodhound suggestion engine
+	var numbers = new Bloodhound({
+	datumTokenizer: Bloodhound.tokenizers.whitespace,
+	queryTokenizer: Bloodhound.tokenizers.whitespace,
+	local:  ["(A)labama","Alaska","Arizona","Arkansas","Arkansas2","Barkansas"]
+	});
+	 
+	// initialize the bloodhound suggestion engine
+	numbers.initialize();
+
+	$('.typeahead').typeahead(
+	{
+	items: 4,
+	source:numbers.ttAdapter()	
+	});
+	
+
+Bootstrap Tags Input
+====================
+[Bootstrap Tags Input](http://timschlechter.github.io/bootstrap-tagsinput/examples/) is a jQuery plugin providing a Twitter Bootstrap user interface for managing tags. Bootstrap Tags Input has a typeahead option which allows you to set the source:
+
+    $('input').tagsinput({
+      typeahead: {
+        source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+      }
+    });
+
+or
+
+    $('input').tagsinput({
+      typeahead: {                  
+        source: function(query) {
+          return $.get('http://someservice.com');
+        }
+      }
+    });
+
+See also: https://github.com/bassjobsen/Bootstrap-3-Typeahead/issues/40	
+</tr></tr></tbody></table>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

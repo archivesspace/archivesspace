@@ -1,0 +1,95 @@
+<% can_edit = user_can?("update_container_record") %>
+
+<%
+  multiselect = true if multiselect.nil?
+  show_edit_actions = true if show_edit_actions.nil?
+  top_containers = results['response']['docs']
+  num_found = results['response']["numFound"].to_i
+  rows = results['responseHeader']['params']['rows'].to_i
+%>
+<% if rows < num_found %>
+  <div class="alert alert-warning"><%= I18n.t("top_container._frontend.messages.max_results_limit_reached") %></div>
+  <p><%= I18n.t("top_container._frontend.messages.max_results_limit_details", {:visible => [rows, num_found].min, :num_found => num_found}) %></p>
+<% else %>
+  <p><%= I18n.t("top_container._frontend.messages.results_summary", {:num_found => num_found}) %></p>
+<% end %>
+
+<p>
+  <small><%= I18n.t("top_container._frontend.messages.bulk_selection_sort_help") %></small>
+  <br/>
+  <small><%= I18n.t("search_results.help.row_selection") %></small>
+</p>
+
+<table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
+  <thead>
+    <tr class="sortable-columns">
+      <th><% if multiselect %><%= check_box_tag "select_all" %><% end %></th>
+      <th><%= I18n.t("top_container._frontend.bulk_operations.collection_singular") %></th>
+      <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
+      <th><%= I18n.t("container_profile._singular") %></th>
+      <th><%= I18n.t("top_container.indicator") %></th>
+      <th><%= I18n.t("top_container.barcode") %></th>
+      <th><%= I18n.t("top_container._frontend.bulk_operations.current_location") %></th>
+      <th><%= I18n.t("top_container.ils_holding_id") %></th>
+      <th><%= I18n.t("top_container.ils_item_id") %></th>
+      <th><%= I18n.t("top_container.restricted") %></th>
+      <th><%= I18n.t("top_container.exported_to_ils") %></th>
+      <% if show_edit_actions %><th><!-- Actions --></th><% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% top_containers.each do |doc| %>
+      <% container_json = ASUtils.json_parse(doc['json']) %>
+      <tr>
+        <td>
+          <% if multiselect %>
+            <%= check_box_tag "uri", container_json['uri'], false, "data-display-string" => doc['title'] %>
+          <% else %>
+            <%= radio_button_tag "linker-item", container_json["uri"], false, :"data-object" => container_json.to_json %>
+          <% end %>
+        </td>
+        <td class="top-container-collection">
+          <% if doc['collection_identifier_stored_u_sstr'] %>
+            <ul class="linked-records-listing count-<%= Array(doc['collection_identifier_stored_u_sstr']).length %>">
+              <% Array(doc['collection_identifier_stored_u_sstr']).zip(Array(doc['collection_display_string_u_sstr'])).each do |identifier, display| %>
+                <li><span class="collection-identifier"><%= identifier %></span> <span class="collection-display-string"><%= display %></span</li>
+              <% end %>
+            </ul>
+          <% end %>
+        </td>
+        <td class="top-container-series">
+          <% if doc['series_level_u_sstr'] %>
+            <ul class="linked-records-listing count-<%= Array(doc['series_level_u_sstr']).length %>">
+              <% Array(doc['series_level_u_sstr']).zip(Array(doc['series_identifier_stored_u_sstr'])).each do |level, identifier| %>
+                <li><span class="series-level"><%= level %></span> <span class="series-identifier"><%= identifier %></span></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </td>
+        <td class="top-container-profile"><%= Array(doc['container_profile_display_string_u_sstr']).first %></td>
+        <td class="top-container-indicator"><%= container_json['indicator'] %></td>
+        <td class="top-container-barcode"><%= container_json['barcode'] %></td>
+        <td><%= Array(doc['location_display_string_u_sstr']).first %></td>
+        <td><%= container_json['ils_holding_id'] %></td>
+        <td><%= container_json['ils_item_id'] %></td>
+        <td><%= I18n.t("boolean.#{container_json['restricted']}") %></td>
+        <% if container_json['exported_to_ils'].blank? %>
+          <td><%= I18n.t("top_container.not_exported") %></td>
+        <% else %>
+          <td><%= container_json['exported_to_ils'] %></td>
+        <% end %>
+
+        <% if show_edit_actions %>
+        <td>
+          <div class="btn-group pull-right">
+            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn btn-xs btn-default" %>
+            <% if can_edit %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-xs btn-primary" %>
+            <% end %>
+          </div>
+        </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

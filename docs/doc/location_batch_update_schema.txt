@@ -1,0 +1,12 @@
+JSON Schema: Location_batch_update
+
+Properties
+
+string (max length: 255)	building
+
+array (JSONModel(:location) uri)	record_uris
+
+
+
+
+

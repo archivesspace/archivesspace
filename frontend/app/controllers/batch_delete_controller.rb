@@ -3,8 +3,12 @@ class BatchDeleteController < ApplicationController
   set_access_control  "delete_archival_record" => [:archival_records],
                       "delete_subject_record" => [:subjects],
                       "delete_agent_record" => [:agents],
-                      "delete_classification_record" => [:classifications]
-
+                      "delete_classification_record" => [:classifications],
+                      "administer_system" => [:locations]
+  
+  def locations
+    delete_records(params[:record_uris])
+  end
 
   def archival_records
     delete_records(params[:record_uris])

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README_PREFIX
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README_PREFIX.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README_PREFIX</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h2 id="running-archivesspace-under-a-prefix">Running ArchivesSpace under a prefix</h2>
+
+<p>This document describes a simple approach for those wishing to deviate from the recommended
+practive of running each user-facing ArchivesSpace application on its own subdomain, and instead
+serve each application under a prefix, e.g.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org/s</span><span class='rubyid_taff identifier id'>taff</span>
+<span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org/</span><span class='rubyid_public identifier id'>public</span>
+</code></pre>
+
+<p>This configuration described in this document is one possible approach,
+and to keep things simple the following are assumed:</p>
+
+<ul>
+  <li>
+    <p>ArchivesSpace is running on a single Linux server</p>
+  </li>
+  <li>
+    <p>The server is running the Apache 2.2+ webserver</p>
+  </li>
+</ul>
+
+<p>Unless otherwise stated, it is assumed that you have root access on
+your machines, and all commands are to be run as root (or with sudo).</p>
+
+<h2 id="step-1-setup-proxies-in-your-apache-configuration">Step 1: Setup proxies in your Apache configuration</h2>
+
+<p>The following edits can be made in the httpd.conf file itself, or in an included file:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+</code></pre>
+
+<p>Now restart Apache.</p>
+
+<h2 id="step-2-install-and-configure-archivesspace">Step 2: Install and configure ArchivesSpace</h2>
+
+<p>Follow the instructions in the main README to download and install ArchiveSpace.</p>
+
+<p>Open the file <code>archivesspace/config/config.rb</code> and add the following lines:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:frontend_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'http://aspace.myarchive.org/staff'</span>
+<span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'http://aspace.myarchive.org/public'</span>
+</code></pre>
+
+<p>(Note: These lines should NOT begin with a &#8216;#&#8217; character.)</p>
+
+<p>Start ArchivesSpace.</p>
+
+<h2 id="step-3-optional-lock-down-ports-8080-and-8081">Step 3: (Optional) Lock down ports 8080 and 8081</h2>
+
+<p>By default, the staff and public applications are accessible on ports 8080 and 8081</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org:8080
+http:/</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='label val'>org:</span><span class='integer val'>8081</span>
+</code></pre>
+
+<p>Since these are not the URLs at which users should access the application, you will probably
+want to close them off. See README_HTTPS for more information on closing ports using iptables.</p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:48 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

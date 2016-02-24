@@ -8,7 +8,9 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "id_0" => "abc123", "level" => "collection", "language" => "eng", "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    resource = JSONModel(:resource).from_hash("title" => "a resource", "dates" => [{  "date_type" => "single", "label" => "creation", "expression" => "1901" }],
+                                              "id_0" => "abc123", "level" => "collection", "language" => "eng",
+                                              "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
     id = resource.save
 
     JSONModel(:resource).find(id).title.should eq("a resource")
@@ -29,7 +31,7 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
-    }.to raise_error
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -91,10 +93,10 @@ describe 'Resources controller' do
     end
 
     resources = JSONModel(:resource).all(:page => 1)['results']
-    resources.any? { |res| res.title == generate(:generic_title) }.should be_false
+    resources.any? { |res| res.title == generate(:generic_title) }.should == false
 
     powers.each do |p|
-      resources.any? { |res| res.title == p }.should be_true
+      resources.any? { |res| res.title == p }.should == true
     end
   end
 
@@ -212,7 +214,6 @@ describe 'Resources controller' do
                       })
 
     obj = JSONModel(:resource).find(resource.id)
-
     obj['instances'][0]['container']['container_locations'][0]['status'] = 'current'
     obj.save
   end
@@ -241,18 +242,14 @@ describe 'Resources controller' do
 
     }
 
-    expect{ l.call(location_one) }.to raise_error
+    expect{ l.call(location_one) }.to raise_error { |error|
+
+      error.should be_a(JSONModel::ValidationException)
+      error.errors.keys.should eq(["container_locations/0/status"])
+    }
+
+
     expect{ l.call(location_two) }.to_not raise_error
-
-    err = nil
-    begin
-      l.call(location_one)
-    rescue
-      err = $!
-    end
-
-    err.should be_an_instance_of(ValidationException)
-    err.errors.keys.should eq(["instances/0/container/container_locations/0/status"])
   end
 
 
@@ -440,7 +437,7 @@ describe 'Resources controller' do
 
     expect {
       resource.save
-    }.to raise_error
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -597,6 +594,19 @@ describe 'Resources controller' do
 
     ao = JSONModel(:archival_object).find(archival_object.id)
     ao[:notes].first['items'].first['reference_ref']['ref'].should eq(linked_uri)
+  end
+
+
+  it "can list the record types in the object's graph" do
+    extents = [build(:json_extent)]
+
+    resource = create(:json_resource, :extents => extents)
+    uri = JSONModel(:resource).uri_for(resource.id) + "/models_in_graph"
+
+    list = JSONModel::HTTP.get_json(uri)
+    list.should include('extent');
+    list.should_not include('subject');
+
   end
 
 end

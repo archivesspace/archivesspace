@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: BUILD_README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.BUILD_README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: BUILD_README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="archivesspace-build-system">ArchivesSpace Build System</h1>
+
+<h2 id="running-the-build-system">Running the build system</h2>
+
+<p>To run the build system, use the <code>build/run</code> script from your
+ArchivesSpace project directory.  This will display a list of all
+available build tasks.  This document describes a few of the important
+ones.</p>
+
+<h2 id="bootstrapping">Bootstrapping</h2>
+
+<p>The bootstrap task:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_bootstrap identifier id'>bootstrap</span>
+</code></pre>
+
+<p>Will bootstrap your development environment by downloading all
+dependencies&#8211;JRuby, Gems, Solr, etc..</p>
+
+<h2 id="running-a-development-environment">Running a development environment</h2>
+
+<p>To run a development instance of all ArchivesSpace components:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_devserver identifier id'>devserver</span>
+ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>frontend:</span><span class='rubyid_devserver identifier id'>devserver</span>
+ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_devserver identifier id'>devserver</span>
+ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_indexer identifier id'>indexer</span>
+</code></pre>
+
+<p>These should be run in different terminal sessions and do not need to be run
+in a specific order or are all required.
+You can also clear your database and search indexes with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
+</code></pre>
+
+<h2 id="running-the-tests">Running the tests</h2>
+
+<p>ArchivesSpace uses a combination of RSpec, integration and Selenium
+tests.  You will need to have Firefox on your path.  Then, to run all
+tests:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_test identifier id'>test</span>
+</code></pre>
+
+<p>See also: selenium/README.md for more information on the Selenium
+tests.</p>
+
+<p>It&#8217;s also useful to be able to run the backend unit tests separately.
+To do this, run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_test identifier id'>test</span>
+</code></pre>
+
+<p>You can also run a single spec file with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dspec constant id'>Dspec</span><span class='assign token'>=</span><span class='string val'>&quot;myfile_spec.rb&quot;</span>
+</code></pre>
+
+<p>or a single example with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&quot;does something important&quot;</span>
+</code></pre>
+
+<h2 id="coverage-reports">Coverage reports</h2>
+
+<p>You can run the coverage reports using:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_coverage identifier id'>coverage</span>
+</code></pre>
+
+<p>This runs all of the above tests in coverage mode and, when the run
+finishes, produces a set of HTML reports within the <code>coverage</code>
+directory in your ArchivesSpace project directory.</p>
+
+<h2 id="building-a-distribution">Building a distribution</h2>
+
+<p>To build an ArchivesSpace release, use the <code>build_release</code> script from
+your project directory:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_build_release identifier id'>build_release</span>
+</code></pre>
+
+<h2 id="generating-api-documentation">Generating API documentation</h2>
+
+<p>To generate documentation for backend endpoints:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>doc:</span><span class='rubyid_yard identifier id'>yard</span>
+</code></pre>
+
+<p>The generated HTML will be placed in the <code>doc</code> directory in your archivesspace root.</p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

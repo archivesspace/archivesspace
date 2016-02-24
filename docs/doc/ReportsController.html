@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ReportsController
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!ReportsController.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">ReportsController</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: ReportsController
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></li>
+          
+            <li class="next">ReportsController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">frontend/app/controllers/reports_controller.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download-instance_method" title="#download (instance method)">- (Object) <strong>download</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#index-instance_method" title="#index (instance method)">- (Object) <strong>index</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationController.html#can_access%3F-class_method" title="ApplicationController.can_access? (method)">can_access?</a></span>, <span class='object_link'><a href="ApplicationController.html#permission_mappings-class_method" title="ApplicationController.permission_mappings (method)">permission_mappings</a></span>, <span class='object_link'><a href="ApplicationController.html#set_access_control-class_method" title="ApplicationController.set_access_control (method)">set_access_control</a></span></p>
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="download-instance_method">
+  
+    - (<tt>Object</tt>) <strong>download</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/reports_controller.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_download identifier id'>download</span>
+  <span class='rubyid_@report_data ivar id'>@report_data</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/reports&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_report identifier id'>report</span> <span class='assign token'>=</span> <span class='rubyid_@report_data ivar id'>@report_data</span><span class='lbrack token'>[</span><span class='string val'>'reports'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'report_key'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_@report_params ivar id'>@report_params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'report_params'</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='rubyid_Queue constant id'>Queue</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/reports/#{report['uri_suffix']}&quot;</span><span class='comma token'>,</span> <span class='rubyid_@report_params ivar id'>@report_params</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_report_response identifier id'>report_response</span><span class='bitor op'>|</span>
+        <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'Content-Disposition'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_report_response identifier id'>report_response</span><span class='lbrack token'>[</span><span class='string val'>'Content-Disposition'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_report_response identifier id'>report_response</span><span class='lbrack token'>[</span><span class='string val'>'Content-Type'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_queue identifier id'>queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='symbol val'>:ok</span>
+        <span class='rubyid_report_response identifier id'>report_response</span><span class='dot token'>.</span><span class='rubyid_read_body identifier id'>read_body</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='bitor op'>|</span>
+          <span class='rubyid_queue identifier id'>queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_chunk identifier id'>chunk</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+      <span class='rubyid_queue identifier id'>queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_$! gvar id'>$!</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+    <span class='rubyid_ensure ensure kw'>ensure</span>
+      <span class='rubyid_queue identifier id'>queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='symbol val'>:EOF</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_first_on_queue identifier id'>first_on_queue</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_first_on_queue identifier id'>first_on_queue</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+    <span class='rubyid_@report_errors ivar id'>@report_errors</span> <span class='assign token'>=</span> <span class='rubyid_first_on_queue identifier id'>first_on_queue</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_report identifier id'>report</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_queue identifier id'>queue</span><span class='assign token'>=</span><span class='lparen token'>(</span><span class='rubyid_queue identifier id'>queue</span><span class='rparen token'>)</span>
+      <span class='rubyid_@queue ivar id'>@queue</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+      <span class='rubyid_while while kw'>while</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+        <span class='rubyid_elt identifier id'>elt</span> <span class='assign token'>=</span> <span class='rubyid_@queue ivar id'>@queue</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+        <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_elt identifier id'>elt</span> <span class='eqq op'>===</span> <span class='symbol val'>:EOF</span>
+        <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span><span class='dot token'>.</span><span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="index-instance_method">
+  
+    - (<tt>Object</tt>) <strong>index</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/reports_controller.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
+  <span class='rubyid_@report_data ivar id'>@report_data</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/reports&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@report_params ivar id'>@report_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:19:13 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

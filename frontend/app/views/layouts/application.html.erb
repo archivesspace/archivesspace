@@ -22,8 +22,9 @@
   <% end %>
 
   <script>
-    APP_PATH = "<%= j(AppConfig[:frontend_prefix]) %>";
+    APP_PATH = "<%= j(AppConfig[:frontend_proxy_prefix]) %>";
     COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
+    FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
   </script>
 
   <%= javascript_include_tag "application" %>
@@ -43,17 +44,20 @@
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
 
-   <header>
-     <%= render "shared/browser_support" %>
-     <%= render "shared/header_global" %>
-     <%= render "site/branding" %>
-     <% if current_repo %><%= render "shared/header_repository" %><% end %>
-   </header>
+  <div class="container-fluid center-block">
+    <header>
+      <%= render "shared/browser_support" %>
+      <%= render "shared/header_global" %>
+      <%= render "site/branding" %>
+    </header>
 
    <div class="content-pane container">
-      <div class="container">
-       <%= yield %>
-      </div>
+     <% if current_repo %>
+       <div class="row">
+         <%= render "shared/header_repository" %>
+       </div>
+     <% end %>
+     <%= yield %>
    </div>
 
    <footer>
@@ -61,5 +65,7 @@
    </footer>
 
    <%= render "shared/templates" %>
+
+  </div>
 </body>
 </html>

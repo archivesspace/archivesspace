@@ -1,7 +1,7 @@
 <%= form_for @digital_object, :as => "digital_object", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :digital_object, @digital_object do |form| %>
-    <div class="row-fluid">
-      <div class="span12">
+    <div class="row">
+      <div class="col-md-12">
         <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>
       </div>
     </div>

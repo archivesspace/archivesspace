@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: resources_instances_list
+description: "Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned locations."

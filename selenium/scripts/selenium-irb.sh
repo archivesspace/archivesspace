@@ -20,4 +20,24 @@ def it(*stuff)
   yield
 end
 
+class IRB::Locale
+
+  private
+  def real_load(path, priv)
+    begin 
+      src = IRB::MagicFile.open(path){|f| f.read}
+      
+      if priv
+        eval("self", TOPLEVEL_BINDING).extend(Module.new {eval(src, nil, path)})
+      else
+        eval(src, TOPLEVEL_BINDING, path)
+      end
+    rescue Exception
+      $stderr.puts "burrp" 
+      $stderr.puts path
+    end
+  end
+
+end
+
 IRB.start()'

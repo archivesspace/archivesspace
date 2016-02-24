@@ -2,8 +2,10 @@
 //= require notes.crud
 //= require dates.crud
 //= require related_agents.crud
+//= require rights_statements.crud
 //= require form
 //= require merge_dropdown
+//= require add_event_dropdown
 
 $(function() {
 
@@ -12,38 +14,27 @@ $(function() {
     var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
     var $sortNameField = $(":input[name$=\"[sort_name]\"]", $subform);
 
-    // we are migrating away from dates in the name form. 
-    // but we want existing data to persist in the form until we migrate off
-    // so, this code hides dates if there is no value.
-    var dates = $(":input[name$=\"[dates]\"]", $subform);
-    if ( dates.val() == "") { 
-      dates.closest(".control-group").hide();
-    }
 
-		var disableSortName = function() {
-			$sortNameField.attr("readonly","readonly");
-			$sortNameField.prop('disabled', true);
-			$sortNameField.attr("readonly","readonly");
-			$userEnteredSortNameValue = $sortNameField[0].value;
-			$sortNameField[0].value = $checkbox.attr("display_text_when_checked");
-		}
+    var disableSortName = function() {
+      $sortNameField.attr("readonly","readonly");
+      $sortNameField.prop('disabled', true);
+      $sortNameField.attr("readonly","readonly");
+      $userEnteredSortNameValue = $sortNameField[0].value;
+      $sortNameField[0].value = $checkbox.attr("display_text_when_checked");
+    }
 
 
     if ($checkbox.is(":checked")) {
       disableSortName();
-      // $sortNameField.closest(".control-group").hide();
     }
 
     $checkbox.change(function() {
       if ($checkbox.is(":checked")) {
-				disableSortName();
-        // $sortNameField.attr("readonly","readonly");
-        // $sortNameField.closest(".control-group").hide();
+        disableSortName();
       } else {
-				$sortNameField.prop('disabled', false);
+        $sortNameField.prop('disabled', false);
         $sortNameField.removeAttr("readonly");
-				$sortNameField[0].value = $userEnteredSortNameValue;
-        // $sortNameField.closest(".control-group").show();
+        $sortNameField[0].value = $userEnteredSortNameValue;
       }
     });
 
@@ -124,8 +115,15 @@ $(function() {
     $(document).triggerHandler("subrecordcreated.aspace", ["term", $("#terms", $subform)]);
   };
 
-
-
+  // We need to trigger this event here, since there is not tree.js to do it
+  // for us. 
+  $(document).ready(function() {
+    if ($("#form_agent").length) {
+      $(document).triggerHandler("loadedrecordform.aspace", [$("#form_agent")] ); 
+      $(document).triggerHandler("loadedrecordsubforms.aspace", [$("#form_agent")] ); 
+    }
+  });
+  
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));

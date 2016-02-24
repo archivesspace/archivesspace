@@ -1,0 +1,16 @@
+JSON Schema: Abstract_note
+
+Properties
+
+string (max length: 65000)	label
+
+boolean	publish
+
+string (max length: 255)	persistent_id
+
+string (max length: 65000)	ingest_problem
+
+
+
+
+

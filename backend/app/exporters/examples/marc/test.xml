@@ -1,0 +1,25 @@
+<marcxml:record xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mets="http://www.loc.gov/METS/">
+	    <marcxml:leader>00841cz  a2200181n  4500</marcxml:leader>
+	    <marcxml:controlfield tag="001">n88218900</marcxml:controlfield>
+	    <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+	    <marcxml:controlfield tag="005">19890222071833.5</marcxml:controlfield>
+	    <marcxml:controlfield tag="008">890119n| acannaab           |a aaa      </marcxml:controlfield>
+	    <marcxml:datafield tag="010" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">n  88218900 </marcxml:subfield>
+  </marcxml:datafield>
+	    <marcxml:datafield tag="035" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">(DLC)n  88218900</marcxml:subfield>
+  </marcxml:datafield>
+	    <marcxml:datafield tag="040" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">DLC</marcxml:subfield>
+    <marcxml:subfield code="c">DLC</marcxml:subfield>
+    <marcxml:subfield code="e">AACR2</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="690" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">Virginia Military Institute</marcxml:subfield>
+    <marcxml:subfield code="x">Archives</marcxml:subfield>
+    <marcxml:subfield code="x">Faculty publications</marcxml:subfield>
+    <marcxml:subfield code="x">Alumni publications.</marcxml:subfield>
+  </marcxml:datafield>
+
+</marcxml:record>

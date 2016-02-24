@@ -6,12 +6,12 @@
 
 <%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@event)) do |f| %>
   <%= form_context :event, @event do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
-      <div class="span9">
-        <%= render_aspace_partial :partial => "toolbar" %>
+      <div class="col-md-9">
+        <%= render_aspace_partial :partial => "toolbar", :locals => { :record_title => record_title } %>
         <div class="record-pane">
           <%= link_to_help :topic => "event" %>
           <h2><%= record_title %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
@@ -19,7 +19,7 @@
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

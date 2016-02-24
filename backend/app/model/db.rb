@@ -6,6 +6,12 @@ class DB
   Sequel.database_timezone = :utc
   Sequel.typecast_timezone = :utc
 
+  # When performing a query like ds.filter(:col => []), don't turn it into
+  # SELECT ... WHERE col != col.  MySQL doesn't optimize this at all and
+  # performs a full table scan.
+  Sequel.extension :empty_array_ignore_nulls
+
+
   SUPPORTED_DATABASES = [
                          {
                            :pattern => /jdbc:mysql/,
@@ -25,11 +31,11 @@ class DB
       end
 
       begin
-        Log.info("Connecting to database: #{AppConfig[:db_url]}")
+        Log.info("Connecting to database: #{AppConfig[:db_url_redacted]}. Max connections: #{AppConfig[:db_max_connections]}")
         pool = Sequel.connect(AppConfig[:db_url],
                               :max_connections => AppConfig[:db_max_connections],
                               :test => true,
-                              #:loggers => [Logger.new($stderr)]
+                              :loggers => (AppConfig[:db_debug_log] ? [Logger.new($stderr)] : [])
                               )
 
         # Test if any tables exist
@@ -332,9 +338,18 @@ eof
       raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")
     end
   end
+  
+  def self.supports_jasper?
+    ![:derby, :h2].include?(@pool.database_type)
+  end
 
 
   def self.supports_mvcc?
+    ![:derby, :h2].include?(@pool.database_type)
+  end
+
+
+  def self.supports_join_updates?
     ![:derby, :h2].include?(@pool.database_type)
   end
 

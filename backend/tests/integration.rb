@@ -158,6 +158,7 @@ def run_tests(opts)
 
   puts "Create a subject with no terms"
   r = do_post({
+                :source => "local", 
                 :terms => [],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
@@ -167,7 +168,8 @@ def run_tests(opts)
 
   puts "Create a subject"
   r = do_post({
-                :terms => [
+                :source => "local", 
+                  :terms => [
                            :term => "Some term #{$me}",
                            :term_type => "function",
                            :vocabulary => "/vocabularies/1"
@@ -183,6 +185,7 @@ def run_tests(opts)
   r = do_post({
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
+                :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ], 
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :language => "eng",
                 :level => "collection",
@@ -335,26 +338,12 @@ def run_tests(opts)
 
   puts "Records can be queried by their external ID"
   r = do_get(url("/by-external-id?eid=rhubarb"), true)
-  r.code == '303' or fail("fetch by external ID", r)
+  r.code == '303' or r.code == '300' or fail("fetch by external ID", r)
 
 
-  puts "It can generate accession reports"
-  r = do_post({
-                :id_0 => "thisthat#{$me}",
-                :title => "This & That (#{$$})",
-                :accession_date => "2011-01-01"
-              }.to_json,
-              url("/repositories/#{repo_id}/accessions"))
-
-  ["pdf", "json", "xlsx", "csv"].each do |fmt|
-    r = do_get(url("/repositories/#{repo_id}/reports/unprocessed_accessions?format=#{fmt}"), true)
-    r.code == '200' or fail("Accession report (#{fmt})", r)
-  end
 
 
   puts "It refuses to delete a non-empty repository"
-  r = do_delete(url("/repositories/#{repo_id}"))
-  r.code == '409' or fail("Delete should not have succeeded", r)
   r = do_get(url("/repositories/#{repo_id}/groups"))
   (r[:body].count > 0) or fail("Groups should not be gone", r)
 

@@ -14,7 +14,7 @@ $(function() {
       }
 
       if (type === "") {
-        $(this).parents(".control-group:first").after(AS.renderTemplate("template_rights_type_nil"));
+        $(this).parents(".form-group:first").after(AS.renderTemplate("template_rights_type_nil"));
         return;
       }
 
@@ -28,7 +28,7 @@ $(function() {
 
       var $rights_type_subform = $(AS.renderTemplate("template_rights_type_"+type, template_data));
 
-      $(this).parents(".control-group:first").after($rights_type_subform);
+      $(this).parents(".form-group:first").after($rights_type_subform);
 
       $rights_type_subform.setValuesFromObject(values);
 

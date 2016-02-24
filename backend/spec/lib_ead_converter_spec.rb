@@ -5,21 +5,22 @@ require 'converter_spec_helper'
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
-  let(:my_converter) {
+
+  def my_converter
     EADConverter
-  }
+  end
 
 
   let (:test_doc_1) {
     src = <<ANEAD
 <c id="1" level="file">
-  <unittitle>oh well</unittitle>
+  <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
   <container id="cid1" type="Box" label="Text">1</container>
   <container parent="cid2" type="Folder"></container>
-  <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
   <c id="2" level="file">
     <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
+    <controlaccess><persname rules="dacs" source='local' id='thesame'>Art, Makah</persname></controlaccess>
   </c>
 </c>
 ANEAD
@@ -28,20 +29,55 @@ ANEAD
   }
 
 
+  
   it "should be able to manage empty tags" do
     converter = EADConverter.new(test_doc_1)
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(2)
+    parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
+  end
+  
+  it "should remove unitdate from unittitle" do
+    converter = EADConverter.new(test_doc_1)
+    converter.run
+    parsed = JSON(IO.read(converter.get_output_path))
+
+    parsed.length.should eq(3)
+    parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
+    parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
+  
+  end
+
+  it "should be link to existing agents with authority_id" do
+  
+    json =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame',
+                     'source' => 'local'
+                     )])
+   
+    agent =    AgentPerson.create_from_json(json)
+    
+    converter = EADConverter.new(test_doc_1)
+    converter.run
+    parsed = JSON(IO.read(converter.get_output_path))
+   
+    # these lines are ripped out of StreamingImport
+    new_agent_json = parsed.find { |r| r['jsonmodel_type'] == 'agent_person' }
+    record = JSONModel(:agent_person).from_hash(new_agent_json, true, false)
+    new_agent = AgentPerson.ensure_exists(record, nil) 
+    
+
+    agent.should eq(new_agent)
   end
 
 
   describe "EAD Import Mappings" do
-    let(:test_file) {
+    def test_file
       File.expand_path("../app/exporters/examples/ead/at-tracer.xml", File.dirname(__FILE__))
-    }
+    end
 
     before(:all) do
       parsed = convert(test_file)
@@ -98,13 +134,22 @@ ANEAD
       # 	ELSE
     end
 
-    it "maps '<extent>' correctly" do
+    it "maps '<physdesc>' correctly" do
+      # <extent> tag mapping
       #  	IF value starts with a number followed by a space and can be parsed
       @resource['extents'][0]['number'].should eq("5.0")
       @resource['extents'][0]['extent_type'].should eq("Linear feet")
-
+ 
       # 	ELSE
       @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
+
+
+      # further physdesc tags - dimensions and physfacet tags are mapped appropriately
+      @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
+      @resource['extents'][0]['physical_details'].should eq("Resource-PhysicalFacet-AT")
+
+      # physdesc altrender mapping
+      @resource['extents'][0]['portion'].should eq("part")
     end
 
 
@@ -125,7 +170,7 @@ ANEAD
 
     it "maps '<unittitle>' correctly" do
       # 	IF nested in <archdesc><did>
-      @resource["title"].should eq("Resource--Title-AT")
+      @resource["title"].should eq('Resource--<title render="italic">Title</title>-AT')
       # 	IF nested in <c><did>
       @archival_objects['12']['title'].should eq("Resource-C12-AT")
     end
@@ -149,11 +194,11 @@ ANEAD
     end
 
     it "maps '<editionstmt>' correctly" do
-      @resource['finding_aid_edition_statement'].should eq("<p>Resource-FindingAidEdition-AT</p>")
+      @resource['finding_aid_edition_statement'].should eq("Resource-FindingAidEdition-AT")
     end
 
     it "maps '<seriesstmt>' correctly" do
-      @resource['finding_aid_series_statement'].should eq("<p>Resource-FindingAidSeries-AT</p>")
+      @resource['finding_aid_series_statement'].should eq("Resource-FindingAidSeries-AT")
     end
 
     it "maps '<sponsor>' correctly" do
@@ -164,7 +209,7 @@ ANEAD
     end
 
     it "maps '<titleproper>' correctly" do
-      @resource['finding_aid_title'].should eq("Resource-FindingAidTitle-AT\n<num>Resource.ID.AT</num>")
+      @resource['finding_aid_title'].should eq("Resource-FindingAidTitle-AT <num>Resource.ID.AT</num>")
     end
 
     it "maps '<titleproper type=\"filing\">' correctly" do
@@ -176,7 +221,8 @@ ANEAD
     end
 
     it "maps '<revisiondesc>' correctly" do
-      @resource['finding_aid_revision_description'].should eq("<change>\n<date>Resource-FindingAidRevisionDate-AT</date>\n<item>Resource-FindingAidRevisionDescription-AT</item>\n</change>")
+      @resource['revision_statements'][0]['description'].should eq("Resource-FindingAidRevisionDescription-AT")
+      @resource['revision_statements'][0]['date'].should eq("Resource-FindingAidRevisionDate-AT")
     end
 
     # NAMES
@@ -317,28 +363,28 @@ ANEAD
         note_content(note)
       }.flatten
 
-      nc[0].should eq("<p>Resource-ConditionsGoverningAccess-AT</p>")
+      nc[0].should eq("Resource-ConditionsGoverningAccess-AT")
       nc[1].should eq("<legalstatus>Resource-LegalStatus-AT</legalstatus>")
     end
 
     it "maps '<accruals>' correctly" do
-      note_content(get_note_by_type(@resource, 'accruals')).should eq("<p>Resource-Accruals-AT</p>")
+      note_content(get_note_by_type(@resource, 'accruals')).should eq("Resource-Accruals-AT")
     end
 
     it "maps '<acqinfo>' correctly" do
-      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("<p>Resource-ImmediateSourceAcquisition</p>")
+      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("Resource-ImmediateSourceAcquisition")
     end
 
     it "maps '<altformavail>' correctly" do
-      note_content(get_note_by_type(@resource, 'altformavail')).should eq("<p>Resource-ExistenceLocationCopies-AT</p>")
+      note_content(get_note_by_type(@resource, 'altformavail')).should eq("Resource-ExistenceLocationCopies-AT")
     end
 
     it "maps '<appraisal>' correctly" do
-      note_content(get_note_by_type(@resource, 'appraisal')).should eq("<p>Resource-Appraisal-AT</p>")
+      note_content(get_note_by_type(@resource, 'appraisal')).should eq("Resource-Appraisal-AT")
     end
 
     it "maps '<arrangement>' correctly" do
-      note_content(get_note_by_type(@resource, 'arrangement')).should eq("<p>Resource-Arrangement-Note</p>")
+      note_content(get_note_by_type(@resource, 'arrangement')).should eq("Resource-Arrangement-Note")
     end
 
     it "maps '<bioghist>' correctly" do
@@ -348,7 +394,7 @@ ANEAD
     end
 
     it "maps '<custodhist>' correctly" do
-      note_content(get_note_by_type(@resource, 'custodhist')).should eq("<p>Resource--CustodialHistory-AT</p>")
+      note_content(get_note_by_type(@resource, 'custodhist')).should eq("Resource--CustodialHistory-AT")
     end
 
     it "maps '<dimensions>' correctly" do
@@ -356,7 +402,7 @@ ANEAD
     end
 
     it "maps '<fileplan>' correctly" do
-      note_content(get_note_by_type(@resource, 'fileplan')).should eq("<p>Resource-FilePlan-AT</p>")
+      note_content(get_note_by_type(@resource, 'fileplan')).should eq("Resource-FilePlan-AT")
     end
 
     it "maps '<langmaterial>' correctly" do
@@ -375,8 +421,7 @@ ANEAD
       # 	IF nested in <archdesc> OR <c>
 
       # 	ELSE, IF nested in <notestmnt>
-      @resource['finding_aid_note'].should eq("<p>Resource-FindingAidNote-AT</p>")
-      # 	ELSE
+      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4") 
     end
 
     it "maps '<odd>' correctly" do
@@ -521,7 +566,7 @@ ANEAD
 
     it "maps '<container>' correctly" do
       i = @archival_objects['02']['instances'][0]
-      i['instance_type'].should eq('mixed_materials')
+      i['instance_type'].should eq('text')
       i['container']['indicator_1'].should eq('2')
       i['container']['indicator_2'].should eq('2')
       #   @type
@@ -566,9 +611,50 @@ ANEAD
     end
   end
 
+  describe "Mapping '<unitid>' without altering content" do
+    def test_doc
+      src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+  <did>
+       <descgrp>
+          <processinfo/>
+      </descgrp>
+      <unittitle>unitid test</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <unitid>Resource_ID/AT-thing.stuff</unitid>
+      <physdesc>
+       (folders 14–15 of 15 folders)
+        <extent>5.0 Linear feet</extent>
+      </physdesc>
+    </did>
+    <dsc>
+    <c id="1" level="file" audience="internal">
+      <unittitle>oh well</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+    </c>
+    </dsc>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before do
+      parsed = convert(test_doc)
+      @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
+      @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "captures unitid content verbatim" do
+      expect(@resource["id_0"]).to eq("Resource_ID/AT-thing.stuff")
+    end
+  end
+
   describe "Mapping the EAD @audience attribute" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
   <did>
@@ -576,6 +662,7 @@ ANEAD
           <processinfo/>                                                 
       </descgrp>  
       <unittitle>Resource--Title-AT</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <unitid>Resource.ID.AT</unitid>
       <physdesc>
        (folders 14–15 of 15 folders)
@@ -598,7 +685,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before do
       parsed = convert(test_doc)
@@ -617,13 +704,14 @@ ANEAD
   end
 
   describe "Non redundant mapping" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection">
     <did>
       <unittitle>Resource--Title-AT</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <physdesc>
         <extent>5.0 Linear feet</extent>
         <extent>Resource-ContainerSummary-AT</extent>
@@ -660,7 +748,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before do
       parsed = convert(test_doc)
@@ -692,13 +780,14 @@ ANEAD
 
   # https://www.pivotaltracker.com/story/show/65722286
   describe "Mapping the unittitle tag" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>一般行政文件 [2]</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <physdesc>
         <extent>5.0 Linear feet</extent>
         <extent>Resource-ContainerSummary-AT</extent>
@@ -709,7 +798,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     it "maps the unittitle tag correctly" do
       json = convert(test_doc)
@@ -721,13 +810,14 @@ ANEAD
 
 
   describe "Mapping the langmaterial tag" do
-    let (:test_doc) {
-          src = <<ANEAD
+    def test_doc
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -741,7 +831,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     it "should map the langcode to language, and the language text to a note" do
       json = convert(test_doc)
@@ -755,13 +845,14 @@ ANEAD
 
 
   describe "extent and physdesc mapping logic" do
-    let(:doc1) {
+    def doc1
       src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -777,15 +868,16 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
-    let (:doc2) {
-          src = <<ANEAD
+    def doc2
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -799,15 +891,16 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
-    let (:doc3) {
-          src = <<ANEAD
+    def doc3
+      src = <<ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>Title</unittitle>
       <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <langmaterial>
         <language langcode="eng">English</language>
       </langmaterial>
@@ -823,7 +916,7 @@ ANEAD
 ANEAD
 
       get_tempfile_path(src)
-    }
+    end
 
     before(:all) do
       @resource1 = convert(doc1).select {|rec| rec['jsonmodel_type'] == 'resource'}.last
@@ -849,15 +942,15 @@ ANEAD
   end
 
  describe "DAO and DAOGROUPS" do
-    let(:test_file) {
-      File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
-    }
    
    before(:all) do 
-     parsed = convert(test_file)
+      test_file = File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
+      parsed = convert(test_file)
+
       @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
       @notes = @digital_objects.inject([]) { |c, rec| c + rec["notes"] } 
-      @resources = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @resources = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}
+      @resource = @resources.last  
       @archival_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}
       @file_versions = @digital_objects.inject([]) { |c, rec| c + rec["file_versions"] } 
    end
@@ -865,7 +958,7 @@ ANEAD
    it "should make all the digital, archival objects and resources" do
       @digital_objects.length.should == 5 
       @archival_objects.length.should == 8 
-      @resources.length.should == 21
+      @resources.length.should == 1
       @file_versions.length.should == 11
    end
 
@@ -880,6 +973,35 @@ ANEAD
  
  end
 
+ 
+  describe "EAD With frontpage" do
 
+    before(:all) do
+      test_file = File.expand_path("../app/exporters/examples/ead/vmi.xml", File.dirname(__FILE__))
 
+      @parsed = convert(test_file)
+      @resource = @parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
+      @archival_objects = @parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "shouldn't overwrite the finding_aid_title/titleproper from frontpage" do
+      @resource["finding_aid_title"].should eq("Proper Title") 
+      @resource["finding_aid_title"].should_not eq("TITLEPAGE titleproper") 
+    end
+
+    it "should not have any of the titlepage content" do
+      @parsed.to_s.should_not include("TITLEPAGE")
+    end
+   
+    it "should have instances grouped by their container @id/@parent relationships" do
+      instances = @archival_objects.first["instances"] 
+      instances.length.should eq(3)
+      instances.each_with_index do |v,index|
+        
+        container = v["container"]
+        (1..( index + 1)) .to_a.each { |i|  container["indicator_#{i.to_s}"].should eq(( i + index ).to_s)  }
+      end
+    end
+
+  end
 end

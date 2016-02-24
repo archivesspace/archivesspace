@@ -18,8 +18,11 @@
 //= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto
+//= require jquery.hotkeys
 //= require utils
 //= require header
 //= require linker
-
+//= require lodash
+//= require bootstrap-select
+//= require bootstrap3-typeahead
 AS.tree_data = {};

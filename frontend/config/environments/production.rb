@@ -8,7 +8,7 @@ ArchivesSpace::Application.configure do
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true 
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -21,13 +21,13 @@ ArchivesSpace::Application.configure do
 
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = false 
 
   # Generate digests for assets URLs
   config.assets.digest = true
 
   # If a prefix has been specified, use it!
-  config.assets.prefix = AppConfig[:frontend_prefix] + "assets"
+  config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
   config.assets.manifest = File.join(Rails.public_path, "assets")
 
   # Specifies the header that your server uses for sending files
@@ -56,12 +56,15 @@ ArchivesSpace::Application.configure do
   config.assets.precompile = [Proc.new {|file|
                                 file =~ /.*\.js$/ or
                                 file =~ /jstree/ or
+                                file =~ /css-spinners\/.*/ or
                                 file =~ /codemirror\/.*/ or
                                 file =~ /codemirror\/util\/.*/ or
                                 file =~ /.*\.(png|jpg|gif)$/ or
+                                file =~ /.*\.(eot|svg|ttf|woff|woff2)$/ or
                                 file =~ /themes\/.*\/(application|bootstrap).css/ or
                                 file =~ /rde.css/ or
-                                file =~ /jquery.kiketable.colsizable.css/
+                                file =~ /jquery.kiketable.colsizable.css/ or
+                                file =~ /bootstrap-select\/.*/
                               }]
 
   # Disable delivery errors, bad email addresses will be ignored

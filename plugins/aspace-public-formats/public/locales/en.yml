@@ -1,0 +1,10 @@
+en:
+  plugins:
+    public_formats:
+      dc: DUBLIN CORE
+      ead: EAD
+      html: HTML
+      marcxml: MARCXML
+      mets: METS
+      ead_pdf: EAD-PDF
+      mods: MODS

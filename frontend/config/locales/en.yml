@@ -13,18 +13,23 @@ en:
     container_labels: Download Container Labels
     create: Create
     cut: Cut
+    defaults: Default Values
     edit: Edit
+    edit_batch: Edit Batch
     edit_groups: Edit Groups
+    edit_default_values: Edit Default Values
+    edit_default_archival_object_values: Edit Component Defaults
     export: Export
     view: View
     spawn: Spawn
+    show_all: Show All
     transfer_record: Transfer
     link_to: Link To
     add_prefix: Add
-    merge_confirm_title: Merge this record?
-    merge_subject_confirm_message: "The subject '%{target}' will be deleted and any linked records will be re-linked to the subject you selected."
-    merge_agent_confirm_message: "The agent '%{target}' will be deleted and any linked records will be re-linked to the agent you selected."
-    merge_resource_confirm_message: "The resource '%{target}' will be deleted and any linked records will be re-linked to the record you selected."
+    merge_confirm_title: Merge into this record?
+    merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
+    merge_agent_confirm_message: "The agent '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this agent."
+    merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -52,12 +57,18 @@ en:
     unsuppress_confirm_title: Unsuppress this Record?
     unsuppress_confirm_message: "false"
     unable_to_move_message: "Unable to Move Record"
+    move_ordering_problem_message: "Record Move Ordering Issue"
     delete: Delete
-    delete_confirm_title: Delete this Record?
+    delete_confirm_title: "Delete this Record? %{title}"
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
+    delete_repository_confirm_title: "Delete this Repository? %{name}"
+    delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p><p>To continue please enter '%{repository}' below:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
+    edit_multiple: Edit Records
+    edit_multiple_confirm_title: Edit Records?
+    edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
     export_eac: Download EAC-CPF
     export_ead: Download EAD
     export_mods: Download MODS
@@ -69,13 +80,21 @@ en:
     finish_editing: Close Record
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>You have unsaved changes - Save or Revert to access toolbar and record tree</span></small>"
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
+    print_to_pdf: Print Resource To PDF
+    resource_to_pdf: Resource to Print
+    download_pdf: Download PDF
+    download_report: Download Report
+    click_to_show: Please click to load records. 
 
+  database_warning:
+    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
+  
   states:
     auto_generated: System generates when saved
 
@@ -83,6 +102,7 @@ en:
     include_unpublished: Include unpublished
     include_daos: Include &lt;dao&gt; tags
     numbered_cs: Use numbered &lt;c&gt; tags
+    print_pdf: Print to PDF
 
   pagination:
     first: First
@@ -104,6 +124,7 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    result_identifier: Identifier
     filtered_by: Filtered By
     modified: Last Modified by
     created: Created by
@@ -122,7 +143,7 @@ en:
       source: Source
       rules: Rules
       parent_type: Record Type
-      processing_priority: Priority
+      processing_priority: Processing Priority
       processing_status: Status
       publish: Published
       temporary: Temporary
@@ -132,6 +153,19 @@ en:
       classification_uri: Classification
       location_uris: Location
       agents: Agent
+      creators: Creator
+      fullrecord: Keyword
+      subjects_text: Subject
+      title: Title
+      creators_text: Creator
+      notes: Notes
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+    help:
+      row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
+
 
   search_sorting:
     sort_by: "Sort by:"
@@ -142,7 +176,7 @@ en:
     title_sort: Title
     user_mtime: Modified
     primary_type: Record Type
-    processing_priority: Priority
+    processing_priority: Processing Priority
     processing_status: Status
     parent_id: Record Type
     create_time: Created
@@ -172,6 +206,27 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
 
+  advanced_search:
+    operator:
+      AND: And
+      OR: Or
+      NOT: Not
+    date_operator:
+      equal: equals
+      greater_than: greater than
+      lesser_than: less than
+    boolean_field:
+      true_value: "True"
+      false_value: "False"
+    button_text: Search
+    reset: Clear
+    nav_switcher:
+      show: Show Advanced
+      hide: Hide Advanced
+    index_switcher:
+      show: Show Advanced Search
+      hide: Hide Advanced Search
+
   become-user:
     become-user: Become User
     failed: Failed to switch to the specified user
@@ -190,10 +245,15 @@ en:
     import_digital_object_csv: Digital Object CSV
     search_all: All Records
     search_placeholder: Search All Records
+    search_button_title: Search All Records
+    show_advanced_search_button_title: Show Advanced Search
+    hide_advanced_search_button_title: Hide Advanced Search
     plugins: Plug-ins
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
     manage_users: Manage Users
+    manage_container_profiles: Manage Container Profiles
+    manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     user_global_preferences: My Global Preferences
     user_repo_preferences: My Repository Preferences
@@ -208,7 +268,7 @@ en:
     register_prefix: Need an account?
     list_reports: Reports
     global_admin: System
-
+    system_info: System Information
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -224,6 +284,9 @@ en:
     agents:
       success: Agents deleted
       error: "Unable to delete agents:"
+    locations:
+      success: Locations deleted
+      error: "Unable to delete locations:"
 
   browser_support:
     bronze: ArchivesSpace does not fully support this browser.  Please consider upgrading your browser to the latest versions of either Chrome, Firefox or Internet Explorer.
@@ -232,6 +295,7 @@ en:
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
+    message_logged_in: Your friendly archives management tool.
 
   breadcrumb:
     home: Home
@@ -272,6 +336,25 @@ en:
       error_prefix: Error importing file
       complete: Import Complete
 
+  default_values:
+    form_title:
+      archival_object: Component Record Defaults
+      resource: Resource Record Defaults
+      accession: Accession Record Defaults
+      subject: Subject Record Defaults
+      agent_person: Agent Record Defaults (Person)
+      agent_family: Agent Record Defaults (Family)
+      agent_corporate_entity: Agent Record Defaults (Corporate Entity)
+      agent_software: Agent Record Defaults (Software)
+      digital_object: Digital Object Defaults
+      digital_object_component: Digital Object Component Defaults
+      location: Location Record Defaults
+      event: Event Record Defaults
+      classification: Classification Record Defaults
+      classification_term: Classification Term Defaults
+    messages:
+      defaults_updated: Defaults Updated
+
   errors:
     sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
@@ -290,6 +373,7 @@ en:
         deleted: Accession <strong>%{accession.display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
+        spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
       section:
         basic_information: Basic Information
       action:
@@ -302,7 +386,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        merge_description: Merge this agent into...
+        merge_description: Select below agents to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
@@ -318,6 +402,11 @@ en:
     _frontend:
       action:
         add: Add Contact
+
+  telephone:
+    _frontend:
+      action:
+        add: Add Telephone Number
 
   agent_corporate_entity:
     _frontend:
@@ -429,7 +518,7 @@ en:
         updated: "Digital Object <strong>%{digital_object.title}</strong> Updated"
         deleted: "Digital Object <strong>%{digital_object.title}</strong> Deleted"
         published: "The Digital Object <strong>%{digital_object.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge this digital object into...
+        merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
@@ -467,6 +556,7 @@ en:
   enumeration:
     _frontend:
       messages:
+        value_updated: Value Updated
         deleted: Value Deleted
         delete_error: Failed to delete Value
         delete_conflict: "Unable to delete Value as it's currently being referenced by a record"
@@ -514,6 +604,7 @@ en:
     _frontend:
       action:
         add: Add File Version
+        make_representative: Make Representative
 
   group:
     _frontend:
@@ -552,7 +643,8 @@ en:
         add_child: Add Subcomponent
         add_sibling: Add Sibling
         create: Create Location
-        batch: Batch Locations
+        batch: Create Batch Locations
+        batch_edit: Edit Batch Locations
         save: Save Location
         single: Single Location
         delete_confirm_message: "<p>Please be aware you <strong>cannot undo this action.</strong>.</p><p> If this Location is currently linked to one or more instances it cannot be deleted.</p>"
@@ -564,12 +656,15 @@ en:
         ranges: Coordinate Ranges
       messages:
         created: "<strong>%{number_created} Locations</strong> Created"
-        location_info: "Define the base values that will be applied to all locations generated from the <strong>Coordinate Ranges</strong> below."
+        updated: "<strong>%{number_created} Locations</strong> Updated"
+        location_batch_info: "Define the base values that will be applied to all locations generated from the <strong>Coordinate Ranges</strong> below."
+        location_batch_update_info: "Please enter the values you like applied below."
         ranges_info: "Please note, any Coordinate fields entered in the above <strong>Base Location</strong> will be replaced with the values generated by the ranges below.  A maximum of %{max_range} locations will be created."
         number_to_create: Number of Locations
         warning: Depending on the size of your ranges, this process may take a few minutes to complete.
       action:
         create: Create Locations
+        update: Update Locations
         preview: Preview Locations
         preview_short: Preview
         creating: Batch In Progress...
@@ -606,6 +701,7 @@ en:
         note_definedlist_item: Add Item
         expand: Expand
         collapse: Collapse
+        apply_note_order: Apply Standard Note Order
 
   related_accession:
     _frontend:
@@ -623,6 +719,11 @@ en:
     _frontend:
       action:
         add: Add Related Resource
+
+  revision_statement:
+    _frontend:
+      action:
+        add: Add Revision Statement
 
   repository:
     _frontend:
@@ -657,7 +758,7 @@ en:
         spawned: "A new Resource has been spawned from Accession <strong>%{accession.display_string}</strong>"
         deleted: "Resource <strong>%{resource.title}</strong> deleted"
         published: "The Resource <strong>%{resource.title}</strong>, its subrecords and components have been published"
-        merge_description: Merge this resource into...
+        merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
@@ -702,7 +803,7 @@ en:
         updated: Subject Saved
         deleted: Subject Deleted
         merged: Subject(s) Merged
-        merge_description: Merge this subject into...
+        merge_description: Select subjects below to merge into
         please_select_a_subject_to_merge: Please select a subject
       section:
         basic_information: Basic Information
@@ -748,6 +849,7 @@ en:
     sections:
       basic_information: Basic Information
       date: Date
+      extent: Extent
       instance: Instance
       notes: Notes
       file_version: File Version
@@ -763,6 +865,9 @@ en:
       reorder_toggle: Reorder Columns
       validate_rows: Validate Rows
       inline_errors_toggle: View Inline Errors
+      save_template: Save as Template
+      select_template: Choose Template
+      manage_templates: Remove Templates
     fill_column:
       basic: Basic
       sequence: Sequence
@@ -778,6 +883,11 @@ en:
       sequence_to_required: To is required
     reorder_columns:
       apply_order: Apply Column Order
+    save_template:
+      save_template: Save Template
+      template_name: Template name
+      confirm_removal: Confirm Removal
+    default_template: Default Template
     messages:
       error_prefix: Row
       success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
@@ -785,6 +895,7 @@ en:
       rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
       rows_no_errors: "All rows are valid"
       error_summary_header: "Errors in row:"
+      select_prompt: Apply an RDE Template
     help:
       keyboard_shortcuts: |
                   <div><strong>Keyboard Shortcuts</strong></div>
@@ -806,7 +917,6 @@ en:
       reset: |
                   <div><strong>Reset Form</strong></div>
                   <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
-
   update_monitor:
     save_failed: <strong>Failed to save your changes</strong>
     stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
@@ -816,9 +926,9 @@ en:
     _frontend:
       audit_data: Audit Data
       actions:
-        create: Create Import Job
-        save: Queue Import Job
-        new: New Import Job
+        create: Create Job
+        save: Queue Job
+        new: New Background Job
         cancel: Cancel Job
         add_file: Add file
         follow_log: Follow Log
@@ -826,9 +936,10 @@ en:
         basic_information: Basic Information
         status: Job Status
         logs: Log
-        generated_uris: Imported Records
+        generated_uris: New & Modified Records
         active_jobs: Active Jobs
         archived_jobs: Archived Jobs
+        files: Files
       messages:
         status_changed_running: The import job has started running. Refreshing Page...
         status_changed_completed: The import job has completed.
@@ -841,3 +952,222 @@ en:
         queue_position_next: This import is next in the queue.
         queue_position: "This import is %{position} in the queue."
         drag_and_drop_hint: Drag and drop files here
+        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
+        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        report_instructions: Choose a report to run by using the <b>Select</b> button. 
+
+  shortcuts:
+    quick_reference_window: "Quick Reference: Keyboard Shortcuts"
+    actions:
+      this_reference: "This shortcut reference"
+      close_modal: "Close a modal window (e.g., this one)"
+      toggle_shortcuts: "Enable / disable keyboard shortcuts"
+      save_record: "Save the record being edited"
+      close_record: "Close a record being edited"
+      open_browse: "Open Browse menu"
+      open_create: "Open Create menu"
+                    
+  instance_container:
+    container: Container
+
+  sub_container:
+    top_container: Top Container
+    top_container_tooltip: |
+        <p>REQUIRED FIELD. The highest level container in which the described material is housed.</p>
+        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
+    type_2: Child Type
+    type_2_tooltip: |
+        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    indicator_2: Child Indicator
+    indicator_2_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    type_3: Grandchild Type
+    type_3_tooltip: |
+        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    indicator_3: Grandchild Indicator
+    indicator_3_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
+    _singular: Sub Container
+    _plural: Sub Containers
+    _frontend:
+      action:
+        add: Add Container Instance
+
+  top_container:
+    indicator: Indicator
+    indicator_tooltip: |
+        <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
+    barcode: Barcode
+    barcode_tooltip: |
+        <p>Used to record the barcode that uniquely identifies the highest level container.</p>
+    type: Container Type 
+    ils_holding_id: ILS Holding ID
+    ils_holding_id_tooltip: |
+        <p>Identifier of associated holding record in the library ILS</p>
+    ils_item_id: ILS Item ID
+    ils_item_id_tooltip: |
+        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
+    exported_to_ils: Exported to ILS
+    not_exported: Not exported
+    restricted: Restricted?
+    parent: Parent Container
+
+    managed_container_2_type: Child Container Type
+    managed_container_2_type_tooltip: |
+        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_2_indicator: Child Container Indicator
+    managed_container_2_indicator_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    managed_container_3_type: Grandchild Container Type
+    managed_container_3_type_tooltip: |
+        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
+    barcode_length_for_this_repository: "Barcode length for this repository:"
+    characters: characters
+
+    batch_delete:
+      success: Top Containers successfully deleted
+      error: There was a problem deleting Top Containers
+
+    _singular: Top Container
+    _plural: Top Containers
+
+    _frontend:
+      section:
+        active_restrictions: Active Restrictions
+        linked_records: Linked Records
+        basic_information: Container Information
+      action:
+        add: Add Top Container
+        create: Create a Top Container
+        save: Save Top Container
+      messages:
+        created: Top Container Created
+        updated: Top Container Updated
+        filter_required: Please provide a filter
+        max_results_limit_reached: Not all results have been listed. Please refine your search.
+        max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
+        results_summary: "Matching results: <strong>%{num_found}</strong>"
+        bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        bulk_action_success: Top Containers successfully updated
+        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        no_active_restrictions: No Active Restrictions
+      bulk_operations:
+        title: Bulk Operations
+        collection_singular: Resource/Accession
+        collection_plural: Resources/Accessions
+        collection_resource_singular: Resource
+        collection_resource_plural: Resources
+        collection_accession_singular: Accession
+        collection_accession_plural: Accessions
+        series: Series
+        current_location: Current Location
+        keyword_criteria: Keyword
+        exported_to_ils_true: "Yes"
+        exported_to_ils_false: "No"
+        empty: Unassociated containers
+        empty_true: "Yes"
+        empty_false: "No"
+        search: Search
+        update_ils_holding_ids: Update ILS Holding IDs
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_container_profiles: Update Container Profiles
+        update_container_profiles_help: Choose a Container Profile for all selected containers.
+        update_locations: Update Locations
+        update_locations_help: Choose a Location for all selected containers.
+        rapid_barcode_entry: Rapid Barcode Entry
+        rapid_barcode_entry_existing_barcode: Existing Barcode
+        rapid_barcode_entry_new_barcode: New Barcode
+        batch_delete: Delete Top Containers
+        batch_delete_help: Delete all selected containers.
+        update_n_records: "Update %{n} records"
+        delete_n_records: "Delete %{n} records"
+
+  container_profile:
+    _singular: Container Profile
+    _plural: Container Profiles
+    _frontend:
+      action:
+        save: Save Container Profile
+        edit: Edit Container Profile
+        create: Create Container Profile
+      messages:
+        created: Container Profile Created
+        updated: Container Profile Updated
+      section:
+        basic_information: Basic Information
+    name: Name
+    name_tooltip: |
+        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>  
+        <p>Examples:</p>
+        <ul>
+        <li>document box</li>
+        <li>Paige 15</li>
+        <li>small card file box</li>
+        </ul>
+    url: URL
+    url_tooltip: |
+        <p>A hyperlink for an external description of the container.</p>
+    dimension_units: Dimension Units
+    dimension_units_tooltip: |
+        <p>Unit of measurement for dimensions.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
+    extent_dimension: Extent Dimension
+    extent_dimension_tooltip: |
+        <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
+    extent_dimension_depth: Depth
+    extent_dimension_depth_tooltip: |
+        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    extent_dimension_height: Height
+    extent_dimension_height_tooltip: |
+        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    extent_dimension_width: Width
+    extent_dimension_width_tooltip: |
+        <p>Numeric value for the width (side to side dimension) of the container.</p>
+    depth: Depth
+    depth_tooltip: |
+        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    height: Height
+    height_tooltip: |
+        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    width: Width
+    width_tooltip: |
+        <p>Numeric value for the width (side to side dimension) of the container.</p>
+  rights_restriction:
+    begin: Restriction Begin
+    begin_tooltip: |
+        <p>For a time-bound restriction, the beginning date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+    end: Restriction End
+    end_tooltip: |
+        <p>For a time-bound restriction, the ending date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+    local_access_restriction_type: Local Access Restriction Type
+    local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
+    local_access_restriction_type_tooltip: |
+        <p>For restrictions that are not time-bound, an indication of the reason for the restriction.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
+    linked_records: Linked Record
+    restriction_note_type: Note Type
+
+  extent_calculator:
+    no_object_message: Please specify an object to run the extent calculator on.
+    report_title: Calculated Extent Report
+    container_profile_header: Container Profile
+    count_header: Count
+    extent_header: Extent
+    no_profile: <span class="text-error">NO PROFILE</span>
+    all_containers_label: All Containers
+    timestamp_label: Report generated at
+    extent_record_header: Extent Record
+    create_extent: Create Extent
+    calculate_extent: Calculate Extent
+    create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
+    waiting_for_report_message: Calculating extent ...
+    container_summary_type:
+      _singular: container
+      _plural: containers

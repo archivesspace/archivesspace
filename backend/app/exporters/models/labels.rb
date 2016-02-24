@@ -100,10 +100,14 @@ class LabelModel < ASpaceExport::ExportModel
       instances.each do |i|
         c = i['container']
         next unless c
-
-        if c['type_1'] && c['indicator_1'] && c['barcode_1']
-          rows << ["#{c['type_1']} #{c['indicator_1']}", c['barcode_1']]
+        crow = [] 
+        if c['type_1'] && c['indicator_1'] 
+          crow << "#{c['type_1']} #{c['indicator_1']}"
         end
+        if c['barcode_1']
+          crow << c['barcode_1']
+        end
+        rows << crow
       end
       rows.push(*generate_label_rows(obj.children))
 

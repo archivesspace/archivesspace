@@ -99,6 +99,17 @@ digital_object_browse_column_enum = [
         "required" => false
       },
 
+      "default_values" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
+      },
+
+      "note_order" => {
+        "type" => "array",
+        "items" => {"type" => "string"}
+      }
+
     },
   },
 }

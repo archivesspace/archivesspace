@@ -8,6 +8,38 @@ en:
     "true": "True"
     "false": "False"
 
+  user_defined: &user_defined_attributes
+    boolean_1: Boolean 1
+    boolean_2: Boolean 2
+    boolean_3: Boolean 3
+    integer_1: Integer 1
+    integer_2: Integer 2
+    integer_3: Integer 3
+    real_1: Real 1
+    real_2: Real 2
+    real_3: Real 3
+    string_1: String 1
+    string_2: String 2
+    string_3: String 3
+    string_4: String 4
+    text_1: Text 1
+    text_2: Text 2
+    text_3: Text 3
+    text_4: Text 4
+    text_5: Text 5
+    date_1: Date 1
+    date_1_inline_help: e.g. YYYY-MM-DD
+    date_2: Date 2
+    date_2_inline_help: e.g. YYYY-MM-DD
+    date_3: Date 3
+    date_3_inline_help: e.g. YYYY-MM-DD
+    enum_1: Controlled Value 1
+    enum_2: Controlled Value 2
+    enum_3: Controlled Value 3
+    enum_4: Controlled Value 4
+    _singular: User Defined
+    _plural: User Defined
+
   content_items:
     content: Content
     content_tooltip: |
@@ -43,6 +75,8 @@ en:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    user_defined:
+      <<: *user_defined_attributes
     title: Title
     title_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
@@ -100,6 +134,7 @@ en:
 
   location: &location_attributes
     title: Title
+    temporary_question: Temporary?
     temporary: Temporary
     temporary_tooltip: |
         <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
@@ -146,6 +181,7 @@ en:
         <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
+    holdings: Holdings
     _singular: Location
     _plural: Locations
 
@@ -168,10 +204,10 @@ en:
         <p>REQUIRED FIELD. Indicates whether the location statement for this record is current or refers to a previous location for the described instance.</p>
     start_date: Start Date
     start_date_tooltip: |
-        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p> 
+        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p>
     end_date: End Date
     end_date_tooltip: |
-        <p>Indicates the date at which the described instance was moved from this location.</p> 
+        <p>Indicates the date at which the described instance was moved from this location.</p>
     note: Note
     note_tooltip: |
         <p>Used to record additional information about the instance and its relation to this location.</p>
@@ -201,9 +237,13 @@ en:
     # ref_tooltip is not displaying
     ref_tooltip: |
         <p>The Agent related to the material described in the record.</p>
-        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p> 
+        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p>
     terms: Terms
     title: Title
+    title_tooltip: |
+        <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
+        <p>For example,</p>
+        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
     _singular: Agent Link
     _plural: Agent Links
 
@@ -258,14 +298,14 @@ en:
         <p>REQUIRED SUBRECORD: Associates one or more Agents as a participant in this Event.</p>
     linked_records_tooltip: |
         <p>REQUIRED SUBRECORD: Associates Accessions, Digital Objects, or Resources with this Event.</p>
-    types:      
+    types:
       accession: Accession
       accumulation: Accumulation
       acknowledgement: Acknowledgement
       acknowledgement_sent: Acknowledgement Sent
       agreement_signed: Agreement Signed
       agreement_received: Agreement Received
-      agreement_sent: Agreement Sent 
+      agreement_sent: Agreement Sent
       appraisal: Appraisal
       assessment: Assessment
       capture: Capture
@@ -414,7 +454,7 @@ en:
         </ul>
     dates: Dates
     dates_tooltip: |
-        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p> 
+        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p>
         <p>Dates of existence for the named entity.</p>
         <p>Examples:<p>
         <ul>
@@ -519,11 +559,7 @@ en:
     post_code_tooltip: |
         <p>Mail or zip code for the contact person’s address.</p>
     telephone: Telephone
-    telephone_tooltip: |
-        <p>Telephone number for the contact person.</p>
     telephone_ext: Telephone Extension
-    telephone_ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
     fax: Fax
     fax_tooltip: |
         <p>Fax number for the contact person.</p>
@@ -538,6 +574,16 @@ en:
         <p>Additional notes or contact information for the contact person.</p>
     _singular: Contact
     _plural: Contact Details
+
+  telephone: &telephone
+    _plural: Telephone Numbers
+    number_type: Number Type
+    number: Number
+    number_tooltip: |
+        <p>Telephone number for the contact person.</p>
+    ext: Telephone Extension
+    ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
 
   note_attributes: &note_attributes
     label: Label
@@ -719,6 +765,9 @@ en:
   instance_container:
     <<: *instance_attributes
 
+  instance_digital_object:
+    <<: *instance_attributes
+
   file_version:
     _plural: File Versions
     _singular: File Version
@@ -776,6 +825,8 @@ en:
         <li>SHA-256</li>
         </ul>
     identifier: Identifier
+    caption: Caption
+    is_representative: Representative
 
   extent: &extent_attributes
     portion: Portion
@@ -819,7 +870,7 @@ en:
     _singular: Extent
 
   container: &container_attributes
-    type_1: Container 1 Type 
+    type_1: Container 1 Type
     type_1_tooltip: &container_type_tooltip |
         <p>The type of the primary container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
@@ -869,6 +920,13 @@ en:
     document_link: Document Link
     _plural: External Documents
     _singular: External Document
+
+  external_id:
+    _plural: External IDs
+    _singular: External ID
+    source: Source
+    external_id: External ID
+
 
   rights_statement: &rights_statement_attributes
     identifier: Identifier
@@ -1016,19 +1074,19 @@ en:
 
   date_type_inclusive:
     <<: *date_attributes
- 
+
   date_type_range:
     <<: *date_attributes
 
   date_label:
     <<: *date_attributes
-    
+
   existence_date:
     <<: *date_attributes
-    
+
   usage_date:
     <<: *date_attributes
-    
+
   archival_record_date:
     <<: *date_attributes
 
@@ -1037,10 +1095,12 @@ en:
 
   accession:
     <<: *section_tooltips
+    user_defined:
+      <<: *user_defined_attributes
     accession_date: Accession Date
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
-        <p>REQUIRED FIELD: The date the accession took place. It is not 
+        <p>REQUIRED FIELD: The date the accession took place. It is not
         necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
@@ -1152,14 +1212,36 @@ en:
     title_tooltip: |
         <p>The title assigned to an accession or resource. The accession title
         need not be the same as the resource title. Moreover, a title need not
-        be expressed for the accession record, as it can be implicitly 
+        be expressed for the accession record, as it can be implicitly
         inherited from the resource record to which the accession is
         linked.</p>
         <p>See DACS 2.3.18-2.3.22</p>
     related_resources_tooltip: |
         <p>Used for linking associated Resources with this Accession.</p>
+    relator: Relator
+    relator_type: Relator Type
     _singular: Accession
     _plural: Accessions
+
+  interrelated_accession:
+    _plural: Related Accessions
+    relationship_type: Relationship type
+
+  accession_sibling_relationship:
+    _singular: Sibling Relationship
+    relator: This Accession
+    sibling_of: Sibling of
+    relator_type: Relator Type
+    bound_with: "\"Bound with\" Relationship"
+
+  accession_parts_relationship:
+    _singular: "\"Part of\" Relationship"
+    part: "\"Part of\" Relationship"
+    relator: This Accession
+    forms_part_of: Forms Part of
+    has_part: Has Part
+    relator_type: Relator Type
+
 
   agent: &agent_attributes
     type: Agent Type
@@ -1230,7 +1312,7 @@ en:
     ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
-        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p> 
+        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
@@ -1300,7 +1382,10 @@ en:
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
-      update_archival_record: create/update accessions, resources, archival objects and digital objects in this repository
+      update_vocabulary_record: create/update vocabulary records
+      update_accession_record: create/update accessions in this repository
+      update_resource_record: create/update resources in this repository
+      update_digital_object_record: create/update digital objects in this repository
       update_event_record: create/update event records in this repository
       view_repository: view the records in this repository
       view_suppressed: view suppressed records in this repository
@@ -1315,13 +1400,24 @@ en:
       transfer_archival_record: transfer major record types between repositories
       manage_subject_record: create/update/delete subject records
       manage_agent_record: create/update/delete agent records
+      manage_vocabulary_record: create/update/delete vocabulary records
+      import_records: initiate import jobs
+      cancel_importer_job: cancel an import job
+      update_container_record: create/update top container records
+      manage_container_record: delete/bulk update top container records
+      manage_container_profile_record: create/update/delete container profile records
     _singular: Group
     _plural: Groups
 
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    user_defined:
+      <<: *user_defined_attributes
     id_0: Identifier
+    id_1: Identifier 2
+    id_2: Identifier 3
+    id_3: Identifier 4
     id_0_tooltip: |
         <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
         <p>See DACS 2.1.3</p>
@@ -1375,6 +1471,7 @@ en:
         <li>Inventory of the Papers of the Reese Family</li>
         <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
         </ul>
+    finding_aid_subtitle: Finding Aid Subtitle
     finding_aid_filing_title: Finding Aid Filing Title
     finding_aid_filing_title_tooltip: |
         <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
@@ -1406,12 +1503,6 @@ en:
     finding_aid_series_statement: Series Statement
     finding_aid_series_statement_tooltip: |
         <p>Indicates any bibliographic series to which the finding aid belongs.</p>
-    finding_aid_revision_date: Revision Date
-    finding_aid_revision_date_tooltip: |
-        <p>Specifies the date the finding aid was last revised.</p>
-    finding_aid_revision_description: Revision Description
-    finding_aid_revision_description_tooltip: |
-        <p>A description of the last revision(s) done to the finding aid.</p>
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
         <p>Indicates the status of the finding aid.</p>
@@ -1424,6 +1515,16 @@ en:
   related_accession:
     _singular: Related Accession
     _plural: Related Accessions
+
+  revision_statement:
+    _singlular: Revision Statement
+    _plural: Revision Statements
+    date: Revision Date
+    date_tooltip: |
+        <p>Specifies the date the finding aid was last revised.</p>
+    description: Revision Description
+    description_tooltip: |
+        <p>A description of the last revision(s) done to the finding aid.</p>
 
   related_resource:
     _singular: Related Resource
@@ -1580,7 +1681,7 @@ en:
         <ul>
         <li>Catalog record number: 21345672</li>
         </ul>
-    processing_hours_per_foot_estimate: Processing hrs/ft Estimate
+    processing_hours_per_foot_estimate: Processing hrs/unit Estimate
     processing_hours_per_foot_estimate_tooltip: |
         <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing Total Extent
@@ -1592,7 +1693,7 @@ en:
     processing_hours_total: Total Processing Hours
     processing_hours_total_short: Total hours
     processing_hours_total_tooltip: |
-        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent"</p>
+        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent". The value can be overwritten to reflect the actual processing time and not a value based on the estimated processing hrs/unit value.</p>
     processing_plan: Processing Plan
     processing_plan_tooltip: |
         <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
@@ -1602,7 +1703,7 @@ en:
         <li>Margaret's students will create descriptive records.</li>
         <li>Project manager will review, output, and load the encoded finding aid.</li>
         </ul>
-    processing_priority: Priority
+    processing_priority: Processing Priority
     processing_priority_tooltip: |
         <p>Indicates the priority assigned to processing of an archival unit.</p>
         <p>Values in this Controlled Value List may be modified.</p>
@@ -1630,7 +1731,7 @@ en:
     processors_tooltip: |
         <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
     rights_determined: Rights determined?
-    rights_determined_tooltip: | 
+    rights_determined_tooltip: |
         <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
@@ -1638,37 +1739,6 @@ en:
     _singular: Collection Management
     _plural: Collection Management
 
-  user_defined:
-    boolean_1: Boolean 1
-    boolean_2: Boolean 2
-    boolean_3: Boolean 3
-    integer_1: Integer 1
-    integer_2: Integer 2
-    integer_3: Integer 3
-    real_1: Real 1
-    real_2: Real 2
-    real_3: Real 3
-    string_1: String 1
-    string_2: String 2
-    string_3: String 3
-    string_4: String 4
-    text_1: Text 1
-    text_2: Text 2
-    text_3: Text 3
-    text_4: Text 4
-    text_5: Text 5
-    date_1: Date 1
-    date_1_inline_help: e.g. YYYY-MM-DD
-    date_2: Date 2
-    date_2_inline_help: e.g. YYYY-MM-DD
-    date_3: Date 3
-    date_3_inline_help: e.g. YYYY-MM-DD
-    enum_1: Controlled Value 1
-    enum_2: Controlled Value 2
-    enum_3: Controlled Value 3
-    enum_4: Controlled Value 4
-    _singular: User Defined
-    _plural: User Defined
 
   enumeration:
     # tooltips not displaying
@@ -1680,6 +1750,9 @@ en:
         <p>The value for the Controlled Value List you wish to add or edit.</p>
         <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
+    position: Position
+    suppress: Suppress
+    unsuppress: Unsuppress
     merge_into: Merge Into
     _singular: Controlled Value List
     _plural: Controlled Value lists
@@ -1720,6 +1793,8 @@ en:
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     publish_tooltip: Whether to publish new records by default.
+    default_values: Pre-populate Records?
+    default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_1_tooltip: The field to show in column 1.
@@ -1753,6 +1828,7 @@ en:
     digital_object_browse_column_4_tooltip: The field to show in column 4.
     digital_object_browse_column_5: Column 5
     digital_object_browse_column_5_tooltip: The field to show in column 5.
+    note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
     _singular: Defaults
@@ -1804,18 +1880,23 @@ en:
       You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
     location_must_be_unique_within_a_record: Must be unique within a record
     location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
+    cannot_be_previous_if_location_is_not_temporary: Cannot transfer to previous if the location is not temporary.
     authority_id_must_be_unique: Authority ID is already in use
+    either_type_1_or_barcode_is_required: A container must contain Container 1 Type or Barcode.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Must be a number with no more than nine digits and five decimal places.
+    container_2_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
+    container_3_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
+    container_2_is_required_if_container_3_is_provided: You must provide a Child Container if you provide a Grandchild Container
+    a_barcode_must_be_unique_within_a_repository: A barcode must be unique within a repository
+    container_profile_name_not_unique: Container Profile name must be unique
+    must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
+    length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
+    is_required_if_status_is_previous: is required if 'Status' is 'Previous'
 
   job:
-    _singular: Import Job
-    _plural: Import Jobs
-    import_type: Import Type
-    import_type_ead_xml: EAD
-    import_type_accession_csv: Accession CSV
-    import_type_digital_object_csv: Digital Object CSV
-    import_type_eac_xml: EAC
-    import_type_marcxml: MarcXML
-    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    _singular: Background Job
+    _plural: Background Jobs
+    job_type: Job Type
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -1826,4 +1907,53 @@ en:
     time_started: Time Started
     time_finished: Time Completed
     owner: Owner
+    show_description: Show Description
+
+  import_job:
+    _singular: Import Job
     filenames: Import Files
+    import_type: Import Type
+    import_type_ead_xml: EAD
+    import_type_accession_csv: Accession CSV
+    import_type_digital_object_csv: Digital Object CSV
+    import_type_eac_xml: EAC
+    import_type_marcxml: MarcXML (Resource)
+    import_type_marcxml_accession: MarcXML (Accession)
+    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+
+  find_and_replace_job:
+    _singular: Find and Replace Job
+    find: String to find
+    replace: Replacement string
+    jsonmodel_type: Record or subrecord type
+    record_type: Record or subrecord type
+    property: Target property
+
+  advanced_search:
+    type:
+      text: Text
+      date: Date
+      boolean: Boolean
+      controlled_value: Controlled Value
+    text:
+      keyword: Keyword
+      title: Title
+      creators: Creator
+      notes: Notes
+      subjects: Subject
+    boolean:
+      published: Published?
+      suppressed: Suppressed?
+    date:
+      create_time: Created
+      user_mtime: Updated
+  system_info:
+    frontend: Frontend UI
+    backend: Backend
+    frontend_info: Frontend System Information
+    frontend_log: Frontend Log
+    backend_info: Backend System Information
+    backend_log: Backend Log
+
+  resource_component:
+    _singular: Resource Component

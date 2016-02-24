@@ -1,0 +1,14 @@
+JSON Schema: Preference
+/repositories/:repo_id/preferences
+Properties
+
+string	uri
+
+integer	user_id
+
+JSONModel(:defaults) object	defaults
+
+
+
+
+

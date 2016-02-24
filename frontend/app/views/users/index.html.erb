@@ -1,18 +1,17 @@
 <%= setup_context :title => @manage_access ? I18n.t("user._frontend.section.manage_access") : I18n.t("user._plural") %>
 
-<div class="row-fluid">
-   <div class="span3"></div>
-   <div class="span9">
+<div class="row">
+   <div class="col-md-3"></div>
+   <div class="col-md-9">
      <% if not @manage_access %>
-       <div class="row-fluid">
-         <div class="span12">
-           <div class="record-toolbar">
-             <div class="btn-group pull-right">
-               <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-small" %>
-             </div>
-           </div>
+
+       <div class="record-toolbar">
+         <div class="btn-group pull-right">
+           <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
          </div>
+         <br style="clear:both" /> <!-- So dirty! -->
        </div>
+
      <% end %>
 
     <div class="record-pane">
@@ -41,9 +40,9 @@
               <td>
                  <div class="btn-group" style="float: right">
                    <% if @manage_access %>
-                    <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-mini" %>
+                    <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default" %>
                    <% else %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-mini btn-primary" %>
+                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
                    <% end %>
                  </div>
               </td>

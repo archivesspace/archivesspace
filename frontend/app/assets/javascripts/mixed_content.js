@@ -15,25 +15,27 @@ $(function() {
       }
 
       var selected;
-      
-      var updateExcluded = function() {
-        return $this.closest('.mixed-content-anchor').find("[class$=-type]" ).map(function() {
-          return this.value;
-        }).get();
-      };
 
+      var noteTypes = generateNoteTypes($this);  
+      var tagList = generateTagWhitelist(noteTypes);
 
-      $this.addClass("initialised");
-
-      var $wrapWithAction = $(AS.renderTemplate("mixed_content_wrap_action_template", {tags: AS.mixedContentElements}));
+      var $wrapWithAction = $(AS.renderTemplate("mixed_content_wrap_action_template", {tags: tagList}));
       var $wrapWithActionSelect = $("select", $wrapWithAction);
 
       var $editor = CodeMirror.fromTextArea($this[0], {
         value: $this.val(),
         
         onFocus: function() {  
-            var excludes = updateExcluded();  
-            generateXMLHints(excludes); 
+            // we need to check to see if the values have been changed.   
+            noteTypes = generateNoteTypes($this);  
+            tagList = generateTagWhitelist(noteTypes);
+            generateXMLHints(tagList);
+                 
+            $wrapWithActionSelect.empty();     
+
+            $.each(tagList, function(tag, def) {
+                $wrapWithActionSelect.append("<option>" + tag + "</option>");                 
+            }); 
         }, 
         mode: 'text/html',
         smartIndent: false,
@@ -70,6 +72,7 @@ $(function() {
       });
 
       $this.data("CodeMirror", $editor);
+      $this.addClass("initialised");
 
       var onWrapActionChange = function(event) {
         if ($editor.somethingSelected() && $wrapWithActionSelect.val() != "") {
@@ -89,7 +92,36 @@ $(function() {
     });
   };
 
-  var generateXMLHints = function(excludes) {
+
+  var generateNoteTypes = function(inputBox) {
+      var noteTypes = inputBox.closest('.mixed-content-anchor > ul > li').find("[class$=-type]" ).map(function() {
+                                return this.value;
+                        }).get();
+      return noteTypes; 
+  }
+
+
+  // We need to filter out some tags to not be included in certain note types
+  var generateTagWhitelist = function(noteTypes) {
+    noteTypes = (typeof noteTypes === "undefined") ? [] : noteTypes;
+    whitelist = {};
+    if (AS.mixedContentElements) {
+      $.each(AS.mixedContentElements, function(tag, def) {
+        var exclude = false;
+        // check if the definition has the noteType in its exclude list 
+        if ( def.exclude ) {
+          exclude = ( $(def.exclude).filter(noteTypes).length > 0 ); 
+        }
+        // if not, add it to the whitelist 
+        if ( !exclude ) { 
+          whitelist[tag]  = def;
+        }
+      });
+    };
+    return whitelist;
+  }
+ 
+  var generateXMLHints = function(tagList) {
     var addToPath = function(path, defs) {
       
       CodeMirror.xmlHints[path] = [];
@@ -112,24 +144,16 @@ $(function() {
     };
 
 
-    excludes = (typeof excludes === "undefined") ? [] : excludes;
-
-    if (AS.mixedContentElements) {
+    tagList = (typeof tagList === "undefined") ? {} : tagList;
+    
+    if (tagList) {
       CodeMirror.xmlHints['<'] = [];
-      $.each(AS.mixedContentElements, function(tag, def) {
-        var exclude = false;
-        if ( def.exclude ) {
-          exclude = ( $(def.exclude).filter(excludes).length > 0 ); 
-        }
-        
-        if ( !exclude ) { 
+      $.each(tagList, function(tag, def) {
           CodeMirror.xmlHints['<'].push(tag);
           CodeMirror.xmlHints["<" + tag + " "] = def.attributes || [];
-         
-          if (def.elements && !exclude ) {
+          if (def.elements  ) {
             addToPath("<" + def.tag + "><", def.elements);
           }
-        }
       });
     } else {
       throw "No mixed content rules found: AS.mixedContentElements is null"
@@ -143,10 +167,10 @@ $(function() {
     $("textarea.mixed-content:not(.initialised)", subform).mixedContent();
   });
 
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+  $(document).bind("expandcontainer.aspace", function(event, $container) {
     $("textarea.mixed-content:not(.initialised)", $container).mixedContent();
   });
 
-  $("textarea.mixed-content:not(.initialised)").mixedContent();
+  // $("textarea.mixed-content:not(.initialised)").mixedContent();
 });
 

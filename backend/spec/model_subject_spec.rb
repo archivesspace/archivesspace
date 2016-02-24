@@ -6,6 +6,7 @@ describe 'Subject model' do
     @count += 1
     Term.create_from_json(JSONModel(:term).
                           from_hash({
+                                      'source' => 'local',
                                       "term" => "test#{Time.now.to_i}_#{@count}",
                                       "term_type" => "cultural_context",
                                       "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
@@ -30,7 +31,8 @@ describe 'Subject model' do
     term_id = createTerm.id
     subject = Subject.create_from_json(JSONModel(:subject).
                                        from_hash({
-                                                   "terms" => [
+                                                    "source" => 'local', 
+                                                    "terms" => [
                                                                JSONModel(:term).uri_for(term_id)
                                                               ],
                                                    "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
@@ -46,7 +48,7 @@ describe 'Subject model' do
     term_id_2 = createTerm.id
     term_id_3 = createTerm.id
     subject = Subject.create_from_json(JSONModel(:subject).
-                                       from_hash({
+                                       from_hash({ 'source' => 'local',
                                                    "terms" => [
                                                                JSONModel(:term).uri_for(term_id_0),
                                                                JSONModel(:term).uri_for(term_id_1),
@@ -96,7 +98,7 @@ describe 'Subject model' do
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri})
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
@@ -105,12 +107,27 @@ describe 'Subject model' do
   end
 
 
+
+  it "allows authority ids to have spaces and funny characters" do
+    vocab = create(:json_vocab)
+    
+    expect {
+      create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => "H0w N0w Br0wn C9w"})
+    }.to_not raise_error
+
+    expect {
+      create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => " Ke$ha!!"})
+    }.to_not raise_error
+
+  end
+  
+
   it "generates a subject title" do
     term_id_0 = createTerm
     term_id_1 = createTerm
 
     subject = Subject.create_from_json(JSONModel(:subject).
-                                         from_hash({
+                                         from_hash({ 'source' => 'local',
                                                      "terms" => [
                                                        JSONModel(:term).uri_for(term_id_0.id),
                                                        JSONModel(:term).uri_for(term_id_1.id)

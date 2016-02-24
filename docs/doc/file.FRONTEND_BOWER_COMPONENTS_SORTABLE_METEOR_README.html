@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><p>Reactive reorderable lists with <a href="http://rubaxa.github.io/Sortable/">Sortable</a>,
+backed by <a href="http://meteor.com">Meteor.js</a> collections:</p>
+
+<ul>
+  <li>new elements arriving in the collection will update the list as you expect</li>
+  <li>elements removed from the collection will be removed from the list</li>
+  <li>drag and drop between lists updates collections accordingly</li>
+</ul>
+
+<p>Demo: http://rubaxa-sortable.meteor.com</p>
+
+<h1 id="meteor">Meteor</h1>
+
+<p>If you&#8217;re new to Meteor, here&#8217;s what the excitement is all about -
+<a href="https://www.youtube.com/watch?v=fsi0aJ9yr2o">watch the first two minutes</a>; you&#8217;ll be hooked by 1:28.
+That screencast is from 2012. In the meantime, Meteor has become a mature JavaScript-everywhere web
+development framework. Read more at <a href="http://www.meteorpedia.com/read/Why_Meteor">Why Meteor</a>.</p>
+
+<h1 id="usage">Usage</h1>
+
+<p>Simplest invocation - order will be lost when the page is refreshed:</p>
+
+<p><code>handlebars
+{{sortable &lt;collection|cursor|array&gt;}}
+</code></p>
+
+<p>Persist the sort order in the &#8216;order&#8217; field of each document in the collection:</p>
+
+<p><code>handlebars
+{{sortable items=&lt;collection|cursor|array&gt; sortField="order"}}
+</code></p>
+
+<p>Along with <code>items</code>, <code>sortField</code> is the only Meteor-specific option. If it&#8217;s missing, the package will
+assume there is a field called &#8220;order&#8221; in the collection, holding unique <code>Number</code>s such that every
+<code>order</code> differs from that before and after it by at least 1. Basically, keep to 0, 1, 2, &#8230; .
+Try not to depend on a particular format for this field; it <em>is</em> though guaranteed that a <code>sort</code> will
+produce lexicographical order, and that the order will be maintained after an arbitrary number of
+reorderings, unlike with <a href="http://programmers.stackexchange.com/questions/266451/maintain-ordered-collection-by-updating-as-few-order-fields-as-possible">naive solutions</a>.</p>
+
+<h2 id="passing-options-to-the-sortable-library">Passing options to the Sortable library</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='lbrace token'>{</span><span class='lbrace token'>{</span><span class='rubyid_sortable identifier id'>sortable</span> <span class='rubyid_items identifier id'>items</span><span class='assign token'>=</span><span class='lt op'>&lt;</span><span class='rubyid_collection identifier id'>collection</span><span class='bitor op'>|</span><span class='rubyid_cursor identifier id'>cursor</span><span class='bitor op'>|</span><span class='rubyid_array identifier id'>array</span><span class='gt op'>&gt;</span> <span class='rubyid_option1 identifier id'>option1</span><span class='assign token'>=</span><span class='rubyid_value1 identifier id'>value1</span> <span class='rubyid_option2 identifier id'>option2</span><span class='assign token'>=</span><span class='rubyid_value2 identifier id'>value2</span><span class='dot3 op'>...</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='lbrace token'>{</span><span class='lbrace token'>{</span><span class='rubyid_sortable identifier id'>sortable</span> <span class='rubyid_items identifier id'>items</span><span class='assign token'>=</span><span class='lt op'>&lt;</span><span class='rubyid_collection identifier id'>collection</span><span class='bitor op'>|</span><span class='rubyid_cursor identifier id'>cursor</span><span class='bitor op'>|</span><span class='rubyid_array identifier id'>array</span><span class='gt op'>&gt;</span> <span class='rubyid_options identifier id'>options</span><span class='assign token'>=</span><span class='rubyid_myOptions identifier id'>myOptions</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>For available options, please refer to <a href="../README.md#options">the main README</a>. You can pass them directly
+or under the <code>options</code> object. Direct options (<code>key=value</code>) override those in <code>options</code>. It is best
+to pass presentation-related options directly, and functionality-related settings in an <code>options</code>
+object, as this will enable designers to work without needing to inspect the JavaScript code:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='lt op'>&lt;</span><span class='rubyid_template identifier id'>template</span> <span class='rubyid_name identifier id'>name</span><span class='assign token'>=</span><span class='string val'>&quot;myTemplate&quot;</span><span class='gt op'>&gt;</span>
+  <span class='dot3 op'>...</span>
+  <span class='lbrace token'>{</span><span class='lbrace token'>{</span><span class='rubyid_sortable identifier id'>sortable</span> <span class='rubyid_items identifier id'>items</span><span class='assign token'>=</span><span class='rubyid_Players constant id'>Players</span> <span class='rubyid_handle identifier id'>handle</span><span class='assign token'>=</span><span class='string val'>&quot;.sortable-handle&quot;</span> <span class='rubyid_ghostClass identifier id'>ghostClass</span><span class='assign token'>=</span><span class='string val'>&quot;sortable-ghost&quot;</span> <span class='rubyid_options identifier id'>options</span><span class='assign token'>=</span><span class='rubyid_playerOptions identifier id'>playerOptions</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='lt op'>&lt;</span><span class='regexp val'>/template&gt;
+</span></code></pre>
+
+<p>Define the options in a helper for the template that calls Sortable:</p>
+
+<p><code>js
+Template.myTemplate.helpers({
+    playerOptions: function () {
+        return {
+            group: {
+                name: "league",
+                pull: true,
+                put: false
+            },
+            sort: false
+        };
+    }
+});
+</code></p>
+
+<h2 id="events">Events</h2>
+
+<p>All the original Sortable events are supported. In addition, they will receive
+the data context in <code>event.data</code>. You can access <code>event.data.order</code> this way:</p>
+
+<p><code>handlebars
+{{sortable items=players options=playersOptions}}
+</code></p>
+
+<p><code>js
+Template.myTemplate.helpers({
+    playersOptions: function () {
+        return {
+            onSort: function(/**Event*/event) {
+                console.log('Moved player #%d from %d to %d',
+                    event.data.order, event.oldIndex, event.newIndex
+                );
+            }
+        };
+    }
+});
+</code></p>
+
+<h1 id="issues">Issues</h1>
+
+<p>If you encounter an issue while using this package, please CC @dandv when you file it in this repo.</p>
+
+<h1 id="todo">TODO</h1>
+
+<ul>
+  <li>Array support</li>
+  <li>Tests</li>
+  <li>Misc. - see reactivize.js</li>
+</ul>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:50 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

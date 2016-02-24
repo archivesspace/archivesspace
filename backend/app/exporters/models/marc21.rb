@@ -16,7 +16,7 @@ class MARCModel < ASpaceExport::ExportModel
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => df_handler('lang', '041', '0', ' ', 'a'),
+    :language => :handle_language,
     :dates => :handle_dates,
   }
 
@@ -117,7 +117,7 @@ class MARCModel < ASpaceExport::ExportModel
     string += date['end'] ? date['end'][0..3] : "    "
     string += "xx"
     18.times { string += ' ' }
-    string += obj.language
+    string += (obj.language || '|||')
     string += ' d'
 
     string
@@ -153,17 +153,25 @@ class MARCModel < ASpaceExport::ExportModel
     df('245', '1', '0').with_sfs(['a', title])
   end
 
+
+  def handle_language(langcode)
+    df('041', '0', ' ').with_sfs(['a', langcode])
+    df('040', '0', ' ').with_sfs(['b', langcode])
+    df('049', '0', ' ').with_sfs(['a', langcode])
+  end
+
+
   def handle_dates(dates)
     return false if dates.empty?
 
-    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types| 
-      dates.find {|date| types.include? date['date_type'] } 
+    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+      dates.find {|date| types.include? date['date_type'] }
     }.compact
 
     dates.each do |date|
-      code = date['date_type'] == 'bulk' ? 'g' : 'f' 
+      code = date['date_type'] == 'bulk' ? 'g' : 'f'
       val = nil
-      if date['expression'] && date['date_type'] != 'bulk' 
+      if date['expression'] && date['date_type'] != 'bulk'
         val = date['expression']
       elsif date['date_type'] == 'single'
         val = date['begin']
@@ -211,6 +219,8 @@ class MARCModel < ASpaceExport::ExportModel
                       ['656', '7']
                     when 'function'
                       ['656', '7']
+                    else
+                      ['650', source_to_code(subject['source'])]
                     end
       sfs = [['a', term['term']]]
 
@@ -229,7 +239,7 @@ class MARCModel < ASpaceExport::ExportModel
         sfs << ['2', subject['source']]
       end
 
-      df(code, ' ', ind2).with_sfs(*sfs)
+      df!(code, ' ', ind2).with_sfs(*sfs)
     end
   end
 
@@ -452,7 +462,7 @@ class MARCModel < ASpaceExport::ExportModel
                   when 'abstract'
                     ['520', '3', ' ', 'a']
                   when 'prefercite'
-                    ['534', '8', ' ', 'a']
+                    ['524', '8', ' ', 'a']
                   when 'acqinfo'
                     ind1 = note['publish'] ? '1' : '0'
                     ['541', ind1, ' ', 'a']

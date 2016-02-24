@@ -59,7 +59,7 @@ class ArchivesSpaceService
 
 
     # Create the admin user
-    self.create_system_user(User.ADMIN_USERNAME, "Administrator", User.ADMIN_USERNAME)
+    self.create_system_user(User.ADMIN_USERNAME, "Administrator", AppConfig[:default_admin_password])
     self.create_group(Group.ADMIN_GROUP_CODE, "Administrators", [User.ADMIN_USERNAME], [])
 
 
@@ -106,8 +106,16 @@ class ArchivesSpaceService
                       "The ability to manage a given repository",
                       :level => "repository")
 
-    Permission.define("update_archival_record",
-                      "The ability to create and modify the major archival record types: accessions/resources/digital objects/components/collection management",
+    Permission.define("update_accession_record",
+                      "The ability to create and modify accessions records",
+                      :level => "repository")
+
+    Permission.define("update_resource_record",
+                      "The ability to create and modify resources records",
+                      :level => "repository")
+
+    Permission.define("update_digital_object_record",
+                      "The ability to create and modify digital objects records",
                       :level => "repository")
 
     Permission.define("update_event_record",
@@ -130,7 +138,6 @@ class ArchivesSpaceService
                       "The ability to delete the major archival record types: accessions/resources/digital objects/components/collection management/events",
                       :level => "repository")
 
-
     Permission.define("view_suppressed",
                       "The ability to view suppressed records in a given repository",
                       :level => "repository")
@@ -151,6 +158,10 @@ class ArchivesSpaceService
                       "Track concurrent updates to records",
                       :level => "global",
                       :system => true)
+
+    Permission.define("import_records",
+                      "The ability to initiate an importer job",
+                      :level => "repository")
 
     Permission.define("cancel_importer_job",
                       "The ability to cancel a queued or running importer job",
@@ -178,9 +189,13 @@ class ArchivesSpaceService
                       :implied_by => 'manage_agent_record',
                       :level => "global")
 
+    Permission.define("manage_vocabulary_record",
+                      "The ability to create, modify and delete a vocabulary record",
+                      :level => "repository")
+
     Permission.define("update_vocabulary_record",
                       "The ability to create and modify vocabulary records",
-                      :implied_by => 'update_archival_record',
+                      :implied_by => 'manage_vocabulary_record',
                       :level => "global")
 
     Permission.define("update_location_record",
@@ -224,6 +239,28 @@ class ArchivesSpaceService
     Permission.define("merge_archival_record",
                       "The ability to merge archival records records",
                       :level => "repository")
+
+
+    Permission.define("manage_rde_templates",
+                      "The ability to create and delete RDE templates",
+                      :level => "repository")
+
+    Permission.define("update_container_record",
+                  "The ability to create and update container records",
+                  :level => "repository")
+
+    Permission.define("manage_container_record",
+                  "The ability to delete and bulk update container records",
+                  :level => "repository")
+
+    Permission.define("manage_container_profile_record",
+                  "The ability to create, modify and delete a container profile record",
+                  :level => "repository")
+
+    Permission.define("update_container_profile_record",
+                  "The ability to create/update/delete container profile records",
+                  :implied_by => 'manage_container_profile_record',
+                  :level => "global")
 
   end
 

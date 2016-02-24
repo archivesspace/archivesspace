@@ -1,0 +1,18 @@
+.abstract {
+
+  .more {
+    visibility: hidden;
+    display: none;
+  }
+
+  &.expanded {
+    .more {
+      visibility: visible;
+      display: inline;
+    }
+  }
+
+  .expander .fa{
+    font-size: 0.8em;
+  }
+}

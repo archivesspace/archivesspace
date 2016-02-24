@@ -1,37 +1,46 @@
 <%= form.label_and_textfield "description", :required => true %>
 
-<div class="control-group group-member-control-group">
-  <label for="group_member_usernames_" class="control-label"><%= I18n.t("group.member_usernames") %></label>
-  <div class="controls">
-    <div class="member-toolbar">
-      <div class="input-append">
-        <input id="new-member" class="input-medium" type="text" autocomplete="off" placeholder="Username" />
-        <button id="add-new-member" class="btn btn-small"><%= I18n.t("actions.add") %></button>
+<div class="form-group group-member-form-group">
+  <label for="group_member_usernames_" class="control-label col-xs-2"><%= I18n.t("group.member_usernames") %></label>
+    <div class="member-toolbar col-xs-10">
+      <div class="form-group">
+        <div class="input-group col-xs-6">
+          <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="Username" />
+          <span class="input-group-btn">
+            <button id="add-new-member" class="btn btn-default"><%= I18n.t("actions.add") %></button>
+
+            <button id="remove-member" class="btn btn-default" disabled="disabled"><%= I18n.t("actions.remove") %></button>
+
+          </span>
+        </div>
+
+        <select id="<%= form.id_for("member_usernames") %>" class="form-control" multiple="multiple">
+          <% (@group.member_usernames or []).each do |username| %>
+            <option class="group-member" value="<%= username %>"><%= username %></option>
+          <% end %>
+        </select>
       </div>
-      <button id="remove-member" class="btn btn-small" disabled="disabled"><%= I18n.t("actions.remove") %></button>
     </div>
-    <select id="<%= form.id_for("member_usernames") %>" multiple="multiple">
-      <% (@group.member_usernames or []).each do |username| %>
-      <option class="group-member" value="<%= username %>"><%= username %></option>
-      <% end %>
-    </select>
-  </div>
+
 </div>
 
-<div class="control-group">
-    <label for="permissionlist" class="control-label"><%= I18n.t("group.permissions") %></label>
-    <div class="controls">
+<div class="form-group">
+    <label for="permissionlist" class="control-label col-xs-2"><%= I18n.t("group.permissions") %></label>
+    <div class="col-xs-10">
       <% JSONModel(:permission).all(:level => "repository").each do |permission| %>
-        <label class="checkbox" for="<%= permission.permission_code %>">
-          <input id="<%= permission.permission_code %>"
-                 name="group[grants_permissions][]"
-                 type="checkbox"
-                 <% if @group.grants_permissions.include?(permission.permission_code) %>
-                 checked="checked"
-                 <% end %>
-                 value="<%= permission.permission_code %>" />
-          <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
-        </label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input id="<%= permission.permission_code %>"
+                   name="group[grants_permissions][]"
+                   type="checkbox"
+            <% if @group.grants_permissions.include?(permission.permission_code) %>
+                   checked="checked"
+            <% end %>
+                   value="<%= permission.permission_code %>" />
+          </span>
+          <input type="text" disabled class="form-control" value="<%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>" />
+
+        </div>
       <% end %>
     </div>
 </div>

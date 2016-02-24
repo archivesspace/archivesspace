@@ -6,8 +6,8 @@
 %>
 
 <% if !other_repositories.empty? %>
-  <div id="transfer-dropdown" class="btn btn-inline-form" data-no-change-tracking="true">
-    <a class="btn btn-small dropdown-toggle transfer-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.transfer") %>">
+  <div id="transfer-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
+    <a class="btn btn-sm btn-default dropdown-toggle transfer-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.transfer") %>">
       <%= I18n.t("actions.transfer") %> <span class="caret"></span>
     </a>
     <ul class="dropdown-menu open-aligned-right transfer-form">
@@ -15,22 +15,22 @@
         <p><%= I18n.t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>
         <fieldset>
-          <div class="alert alert-error missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.transfer_target" %></div>
-          <%= form.label_and_select "ref", other_repositories %>
+          <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.transfer_target" %></div>
+          <%= form.label_and_select "ref", other_repositories, :layout => 'stacked' %>
         </fieldset>
         <div class="form-actions">
           <%=
              button_confirm_action(I18n.t("actions.transfer"),
                                    url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params)),
                                    {
-                                     :class => "btn pull-left transfer-button",
+                                     :class => "btn pull-left btn-default transfer-button",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
                                      :"data-confirm-btn-label" => "#{I18n.t("actions.transfer")}",
                                      :"data-confirm-btn-class" => "btn"
                                    })
           %>
-          <a class="btn pull-right btn-cancel" href="#"><%= I18n.t("actions.cancel") %></a>
+          <a class="btn pull-right btn-default btn-cancel" href="#"><%= I18n.t("actions.cancel") %></a>
         </div>
         <% end %>
       </li>

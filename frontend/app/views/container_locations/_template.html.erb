@@ -1,7 +1,7 @@
 <% define_template "container_location", jsonmodel_definition(:container_location) do |form| %>
   <div class="subrecord-form-fields">
     <%= form.label_and_select "status", form.possible_options_for("status") %>
-    <%= form.label_and_date "start_date" %>
+    <%= form.label_and_date "start_date",  :default =>  Time.now.strftime("%Y-%m-%d")  %>
     <%= form.label_and_date "end_date" %>
     <%= form.label_and_textarea "note" %>
     <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form }%>

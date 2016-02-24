@@ -12,7 +12,7 @@ module ASpaceImport
 
 
       def configure_cell_handlers(row)
-        headers = row.map {|s| s.strip}.reject{|s| s.empty? }
+        headers = row.map {|s| s ||= ""; s.strip}.reject{|s| s.empty? }
         c = configuration
         bad_headers = []
         headers.each {|h| bad_headers << h unless h.match /^[a-z]*_[a-z0-9_]*$/ }

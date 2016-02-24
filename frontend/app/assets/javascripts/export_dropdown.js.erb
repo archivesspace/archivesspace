@@ -8,9 +8,8 @@ $(function () {
       e.stopPropagation();
     });
     $('.record-toolbar').on('click', 'a.download-ead-action', function(e) {
-      var url = AS.quickTemplate(decodeURIComponent($("#download-ead-dropdown").data("download-ead-url")), {include_unpublished: $("input#include-unpublished").is(':checked'), include_daos: $("input#include-daos").is(':checked'), numbered_cs: $("input#numbered-cs").is(':checked')});
-
-      location.href = url
+      var url = AS.quickTemplate(decodeURIComponent($("#download-ead-dropdown").data("download-ead-url")), { testme: true,  include_unpublished: $("input#include-unpublished").is(':checked'), include_daos: $("input#include-daos").is(':checked'), numbered_cs: $("input#numbered-cs").is(':checked'), print_pdf: $("input#print-pdf").is(':checked')});
+      location.href = url;
     });
   });
 

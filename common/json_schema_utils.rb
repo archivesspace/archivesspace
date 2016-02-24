@@ -104,6 +104,14 @@ module JSONSchemaUtils
          msgs[:errors][fragment_join(path)] = ["Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
        }
      },
+     {
+       :failed_attribute => ['ArchivesSpaceReadOnlyDynamicEnum'],
+       :pattern => /The property '#\/.*?' value "(.*?)" .*values: (.*) in schema/,
+       :do => ->(msgs, message, path, invalid, valid_set) {
+         msgs[:attribute_types][fragment_join(path)] = 'ArchivesSpaceReadOnlyDynamicEnum'
+         msgs[:errors][fragment_join(path)] = ["Protected read-only list #{path}. Invalid value '#{invalid}'.  Must be one of: #{valid_set}"]
+       }
+     },
 
      {
        :failed_attribute => ['Type', 'ArchivesSpaceType'],
@@ -118,6 +126,10 @@ module JSONSchemaUtils
 
            if msgs[:state][fragment_join(path)].length == 1
              msgs[:errors][fragment_join(path)] = ["Must be a #{desired_type} (you provided a #{actual_type})"]
+             # a little better messages for malformed uri 
+             if desired_type =~ /uri$/
+              msgs[:errors][fragment_join(path)].first << " (malformed or invalid uri? check if referenced object exists.)"
+             end
            else
              msgs[:errors][fragment_join(path)] = ["Must be one of: #{msgs[:state][fragment_join(path)].join (", ")} (you provided a #{actual_type})"]
            end
@@ -383,7 +395,7 @@ module JSONSchemaUtils
     # A number of different types.  Match them up based on the value of the 'jsonmodel_type' property
     schema_types = possible_schemas.map {|schema| schema.is_a?(Hash) ? schema["type"] : schema}
 
-    jsonmodel_type = elt["jsonmodel_type"]
+    jsonmodel_type = elt["jsonmodel_type"] || elt[:jsonmodel_type]
 
     if !jsonmodel_type
       raise JSONModel::ValidationException.new(:errors => {"record" => ["Can't unambiguously match #{elt.inspect} against schema types: #{schema_types.inspect}. " +

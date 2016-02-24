@@ -1,0 +1,1698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: JSONModel::Validations
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSONModel/Validations.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (V)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSONModel.html" title="JSONModel (module)">JSONModel</a></span></span>
+     &raquo; 
+    <span class="title">Validations</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: JSONModel::Validations
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1"><span class='object_link'><a href="../JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+      
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">common/validations.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_archival_object-class_method" title="check_archival_object (class method)">+ (Object) <strong>check_archival_object</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_authority_id-class_method" title="check_authority_id (class method)">+ (Object) <strong>check_authority_id</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>https://www.pivotaltracker.com/story/show/51373893.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_collection_management-class_method" title="check_collection_management (class method)">+ (Object) <strong>check_collection_management</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_container-class_method" title="check_container (class method)">+ (Object) <strong>check_container</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_container_location-class_method" title="check_container_location (class method)">+ (Object) <strong>check_container_location</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_container_profile-class_method" title="check_container_profile (class method)">+ (Object) <strong>check_container_profile</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_date-class_method" title="check_date (class method)">+ (Object) <strong>check_date</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_digital_object_component-class_method" title="check_digital_object_component (class method)">+ (Object) <strong>check_digital_object_component</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_identifier-class_method" title="check_identifier (class method)">+ (Object) <strong>check_identifier</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_instance-class_method" title="check_instance (class method)">+ (Object) <strong>check_instance</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_instance_pre_managed_container-class_method" title="check_instance_pre_managed_container (class method)">+ (Object) <strong>check_instance_pre_managed_container</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_location-class_method" title="check_location (class method)">+ (Object) <strong>check_location</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_name-class_method" title="check_name (class method)">+ (Object) <strong>check_name</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_otherlevel-class_method" title="check_otherlevel (class method)">+ (Object) <strong>check_otherlevel</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_rights_statement-class_method" title="check_rights_statement (class method)">+ (Object) <strong>check_rights_statement</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_source-class_method" title="check_source (class method)">+ (Object) <strong>check_source</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Specification: https://www.pivotaltracker.com/story/show/41430143 See also: https://www.pivotaltracker.com/story/show/51373893.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_sub_container-class_method" title="check_sub_container (class method)">+ (Object) <strong>check_sub_container</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_user_defined-class_method" title="check_user_defined (class method)">+ (Object) <strong>check_user_defined</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#normalise_date-class_method" title="normalise_date (class method)">+ (Object) <strong>normalise_date</strong>(date) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Take a date like YYYY or YYYY-MM and pad to YYYY-MM-DD.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_sloppy_date-class_method" title="parse_sloppy_date (class method)">+ (Object) <strong>parse_sloppy_date</strong>(s) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a valid date or throws if the input is invalid.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="../JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="../JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="../JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="../JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="../JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="../JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="../JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="../JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="../JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="../JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="../JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="../JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="../JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="../JSONModel.html#models-instance_method" title="JSONModel#models (method)">models</a></span>, <span class='object_link'><a href="../JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="../JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="../JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="../JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="../JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="../JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="../JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="../JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="../JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="../JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="check_archival_object-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_archival_object</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 400</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_archival_object identifier id'>check_archival_object</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;dates&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;one or more required (or enter a Title)&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be an empty string (or enter a Date)&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_authority_id-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_authority_id</strong>(hash) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>https://www.pivotaltracker.com/story/show/51373893</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 50</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_authority_id identifier id'>check_authority_id</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_warnings identifier id'>warnings</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;authority_id&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_warnings identifier id'>warnings</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required if there is an authority id&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_warnings identifier id'>warnings</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_collection_management-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_collection_management</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 332</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_collection_management identifier id'>check_collection_management</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;processing_total_extent&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;processing_total_extent_type&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;processing_total_extent_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required if total extent is specified&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+  
+  <span class='lbrack token'>[</span> <span class='string val'>&quot;processing_hours_per_foot_estimate&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_total_extent&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_hours_total&quot;</span>  <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/^\-?\d{0,9}(\.\d{1,5})?$/</span>
+                <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='string val'>&quot;must be a number with no more than nine digits and five decimal places&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_container-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_container</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 220</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_container identifier id'>check_container</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_got_current identifier id'>got_current</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  
+  <span class='rubyid_required_container_fields identifier id'>required_container_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;barcode_1&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                              <span class='lbrack token'>[</span><span class='string val'>&quot;type_1&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;indicator_1&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_required_container_fields identifier id'>required_container_fields</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_fieldset identifier id'>fieldset</span><span class='bitor op'>|</span> <span class='rubyid_fieldset identifier id'>fieldset</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span> <span class='symbol val'>:type_1</span><span class='comma token'>,</span> <span class='string val'>&quot;either type_1 or barcode is required&quot;</span> <span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_extent_number&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_extent_number&quot;</span><span class='rbrack token'>]</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/^\-?\d{0,9}(\.\d{1,5})?$/</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;container_extent&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must be a number with no more than nine digits and five decimal places&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_extent&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_extent_type&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;container_extent_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required if container extent is specified &quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_locations&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_loc identifier id'>loc</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_loc identifier id'>loc</span><span class='lbrack token'>[</span><span class='string val'>&quot;status&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;current&quot;</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_got_current identifier id'>got_current</span>
+        <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;container_locations&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;only one location can be current&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_break break kw'>break</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_got_current identifier id'>got_current</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_container_location-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_container_location</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+204
+205
+206
+207
+208
+209
+210</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 204</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_container_location identifier id'>check_container_location</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end_date&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required if status is previous&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end_date&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;status&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;previous&quot;</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_container_profile-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_container_profile</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 312</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_container_profile identifier id'>check_container_profile</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='comment val'># Ensure depth, width and height have no more than 2 decimal places</span>
+    <span class='lbrack token'>[</span><span class='string val'>&quot;depth&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;width&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;height&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span>  <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\A\d+(\.\d\d?)?\Z/</span>
+        <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='string val'>&quot;must be a number with no more than 2 decimal places&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_date-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_date</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 107</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_date identifier id'>check_date</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='assign token'>=</span> <span class='rubyid_parse_sloppy_date identifier id'>parse_sloppy_date</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;not a valid date&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span>
+      <span class='comment val'># If padding our end date with months/days would cause it to fall before</span>
+      <span class='comment val'># the start date (e.g. if the start date was '2000-05' and the end date</span>
+      <span class='comment val'># just '2000'), use the start date in place of end.</span>
+      <span class='rubyid_end_s identifier id'>end_s</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+              <span class='rubyid_else else kw'>else</span>
+                <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span>
+              <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_end_date identifier id'>end_date</span> <span class='assign token'>=</span> <span class='rubyid_parse_sloppy_date identifier id'>parse_sloppy_date</span><span class='lparen token'>(</span><span class='rubyid_end_s identifier id'>end_s</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;not a valid date&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_date identifier id'>end_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_date identifier id'>end_date</span> <span class='lt op'>&lt;</span> <span class='rubyid_begin_date identifier id'>begin_date</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;expression&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;expression&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required unless a begin or end date is given&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;begin&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required unless an expression or an end date is given&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required unless an expression or a begin date is given&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_digital_object_component-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_digital_object_component</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 424</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_digital_object_component identifier id'>check_digital_object_component</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;label&quot;</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_fields identifier id'>fields</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
+    <span class='rubyid_fields identifier id'>fields</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='string val'>&quot;you must provide a label, title or date&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_identifier-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_identifier</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 9</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_identifier identifier id'>check_identifier</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>4</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;id_#{i}&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_drop_while identifier id'>drop_while</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;identifier&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not contain blank entries&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_instance-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_instance</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+272
+273
+274
+275
+276
+277
+278</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 272</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_instance identifier id'>check_instance</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'sub_container'</span><span class='rbrack token'>]</span>
+      <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_check_instance_pre_managed_container identifier id'>check_instance_pre_managed_container</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_instance_pre_managed_container-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_instance_pre_managed_container</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 259</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_instance_pre_managed_container identifier id'>check_instance_pre_managed_container</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;instance_type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;digital_object&quot;</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;digital_object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Can't be empty&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;digital_object&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;instance_type&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;container&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Can't be empty&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;container&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_location-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_location</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 178</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_location identifier id'>check_location</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># When creating a location, a minimum of one of the following is required:</span>
+  <span class='comment val'>#   * Barcode</span>
+  <span class='comment val'>#   * Classification</span>
+  <span class='comment val'>#   * Coordinate 1 Label AND Coordinate 1 Indicator</span>
+  <span class='rubyid_required_location_fields identifier id'>required_location_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;barcode&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                              <span class='lbrack token'>[</span><span class='string val'>&quot;classification&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                              <span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_1_indicator&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;coordinate_1_label&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_required_location_fields identifier id'>required_location_fields</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_fieldset identifier id'>fieldset</span><span class='bitor op'>|</span> <span class='rubyid_fieldset identifier id'>fieldset</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='symbol val'>:location_fields_error</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_name-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_name</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 59</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_name identifier id'>check_name</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;sort_name&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;Property is required but was missing&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;sort_name&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;sort_name_auto_generate&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_otherlevel-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_otherlevel</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+390
+391
+392
+393
+394
+395
+396
+397
+398</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 390</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_otherlevel identifier id'>check_otherlevel</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_warnings identifier id'>warnings</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;level&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;otherlevel&quot;</span>
+    <span class='rubyid_warnings identifier id'>warnings</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;other_level&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;other_level&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_warnings identifier id'>warnings</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_rights_statement-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_rights_statement</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 154</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_rights_statement identifier id'>check_rights_statement</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;rights_type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;intellectual_property&quot;</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;ip_status&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;missing required property&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;ip_status&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;jurisdiction&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;missing required property&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;jurisdiction&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;rights_type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;license&quot;</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;license_identifier_terms&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;missing required property&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;license_identifier_terms&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;rights_type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;statute&quot;</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;statute_citation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;missing required property&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;statute_citation&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;jurisdiction&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;missing required property&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;jurisdiction&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_source-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_source</strong>(hash) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Specification:
+https://www.pivotaltracker.com/story/show/41430143
+See also: https://www.pivotaltracker.com/story/show/51373893</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 33</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_source identifier id'>check_source</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># non-authorized forms don't need source or rules</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_errors identifier id'>errors</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'authorized'</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;rules&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;rules&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required when 'source' is blank&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;is required when 'rules' is blank&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_sub_container-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_sub_container</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 287</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_sub_container identifier id'>check_sub_container</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container 2 requires both a type and indicator&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container 2 is required if container 3 is provided&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container 3 requires both a type and indicator&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_user_defined-class_method">
+  
+    + (<tt>Object</tt>) <strong>check_user_defined</strong>(hash) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 357</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_user_defined identifier id'>check_user_defined</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='lbrack token'>[</span><span class='string val'>&quot;integer_1&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;integer_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;integer_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/^\-?\d+$/</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='string val'>&quot;must be an integer&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='lbrack token'>[</span><span class='string val'>&quot;real_1&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;real_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;real_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/^\-?\d{0,9}(\.\d{1,5})?$/</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='string val'>&quot;must be a number with no more than nine digits and five decimal places&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="normalise_date-class_method">
+  
+    + (<tt>Object</tt>) <strong>normalise_date</strong>(date) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Take a date like YYYY or YYYY-MM and pad to YYYY-MM-DD</p>
+
+<p>Note: this might not yield a valid date.  The only goal is that something
+valid on the way in remains valid on the way out.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 85</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_normalise_date identifier id'>normalise_date</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
+  <span class='rubyid_negated identifier id'>negated</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_parts identifier id'>parts</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/^-/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='regexp val'>/-/</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Pad out to the right length</span>
+  <span class='rubyid_padded identifier id'>padded</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_parts identifier id'>parts</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='string val'>'01'</span><span class='comma token'>,</span> <span class='string val'>'01'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_take identifier id'>take</span><span class='lparen token'>(</span><span class='integer val'>3</span><span class='rparen token'>)</span>
+
+  <span class='lparen token'>(</span><span class='rubyid_negated identifier id'>negated</span> <span class='integer val'>? </span><span class='string val'>&quot;-&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='rubyid_padded identifier id'>padded</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_sloppy_date-class_method">
+  
+    + (<tt>Object</tt>) <strong>parse_sloppy_date</strong>(s) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a valid date or throws if the input is invalid.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 98</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_sloppy_date identifier id'>parse_sloppy_date</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_normalise_date identifier id'>normalise_date</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>'%Y-%m-%d'</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_$! gvar id'>$!</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:57 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

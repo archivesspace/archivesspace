@@ -8,6 +8,8 @@ require 'java'
 require 'config/config-distribution'
 require 'asutils'
 
+require 'aspace_logger'
+
 require "rails_config_bug_workaround"
 
 
@@ -34,6 +36,8 @@ module ArchivesSpace
     config.paths["app/controllers"].concat(ASUtils.find_local_directories("frontend/controllers"))
     config.paths["app/models"].concat(ASUtils.find_local_directories("frontend/models"))
 
+    # Tell rails if the application is being deployed under a prefix
+    config.action_controller.relative_url_root = AppConfig[:frontend_proxy_prefix].sub(/\/$/, '')
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -50,6 +54,7 @@ module ArchivesSpace
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
 
     config.i18n.default_locale = AppConfig[:locale]
+    config.logger = ActiveSupport::TaggedLogging.new(ASpaceLogger.new($stderr))
 
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
@@ -93,6 +98,9 @@ module ArchivesSpace
 
     config.assets.precompile += %w( *.js )
 
+    # Add fonts directory
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+
     # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
       # i18n locales
@@ -122,6 +130,14 @@ module ArchivesSpace
 end
 
 
+# force load our JSONModels so the are registered rather than lazy initialised
+# we need this for parse_reference to work
+
+Rails.application.config.after_initialize do
+  JSONModel(:top_container)
+  JSONModel(:sub_container)
+  JSONModel(:container_profile)
+end
 
 # Load plugin init.rb files (if present)
 ASUtils.find_local_directories('frontend').each do |dir|
@@ -136,4 +152,3 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
 end
-

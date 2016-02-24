@@ -103,7 +103,7 @@ module ASpaceImport
           @context.pop
         end
         if @context.length == 1
-          @batch.flush 
+          @batch.flush
         end
       end
 
@@ -136,14 +136,19 @@ module ASpaceImport
             if value[:rel].is_a?(Proc)
               value[:rel].call(obj, sub_obj)
             else
-              property_type = ASpaceImport::Utils.get_property_type(obj.class.schema['properties'][value[:rel].to_s])
+              property_def = obj.class.schema['properties'][value[:rel].to_s]
+              if property_def.nil?
+                raise Converter::ConverterMappingError.new("The converter maps '#{key}' to a bad target (property '#{value[:rel]}' on record_type '#{obj.jsonmodel_type}').")
+              end
+
+              property_type = ASpaceImport::Utils.get_property_type(property_def)
               filtered_value = ASpaceImport::Utils.value_filter(property_type[0]).call(sub_obj)
               obj[value[:rel]] << filtered_value
             end
           end
 
         else
-          raise "Don't know how to handle a (#{key.class.name}) => (#{value.class.name}) situation"
+          raise Converter::ConverterMappingError.new("Bad types in mapping: (#{key.class.name}) => (#{value.class.name})")
         end
       end
 

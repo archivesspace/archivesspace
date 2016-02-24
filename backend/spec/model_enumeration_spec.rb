@@ -32,7 +32,7 @@ describe 'Enumerations model' do
       include ASModel
       include DynamicEnums
 
-      uses_enums(:property => 'role', :uses_enum => 'test_role_enum')
+      uses_enums(:property => 'role', :uses_enum => ['test_role_enum'])
     end
   end
 
@@ -54,7 +54,7 @@ describe 'Enumerations model' do
   it "throws an error if you link to an enumeration that doesn't really exist..." do
     expect {
       @model.new(:role => 'penguin')
-    }.to raise_error
+    }.to raise_error(RuntimeError)
   end
 
 
@@ -62,7 +62,7 @@ describe 'Enumerations model' do
     expect {
       Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'tomato_enum',
                                                                      :values => ['tomato', 'tomato']))
-    }.to raise_error
+    }.to raise_error Sequel::UniqueConstraintViolation
 
     #note: test fails in mysql if the :name value is repeated, even though the first order failed
     expect {
@@ -85,7 +85,7 @@ describe 'Enumerations model' do
     model = Class.new(Sequel::Model(:model_with_enums)) do
       include ASModel
       include DynamicEnums
-      uses_enums(:property => 'role', :uses_enum => 'case_test_role_enum')
+      uses_enums(:property => 'role', :uses_enum => ['case_test_role_enum'])
     end
 
     RequestContext.open(:create_enums => true) do
@@ -117,12 +117,25 @@ describe 'Enumerations model' do
   end
 
 
-  it "refuses to migrate from one enumeration set to another" do
+  it "can't migrate from one enumeration set to another" do
     obj = @model.create(:role => 'battlemage')
 
     expect {
       Enumeration[:name => 'test_role_enum'].migrate('battlemage', 'mushroom')
-    }.to raise_error
+    }.to raise_error(NotFoundException)
+  end
+
+ it "protects non-editable enums from being messed with" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
+                                                                          :values => ["banana"] ))
+
+	$testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+                                update(:editable => 0)
+
+    expect {
+      Enumeration.apply_values(enum, {'values' => [ "more bananas" ]})
+    }.to raise_error(AccessDeniedException)
+
   end
 
 
@@ -136,7 +149,7 @@ describe 'Enumerations model' do
 
 
     expect {
-      Enumeration.apply_values(enum, {'values' => []})
+      Enumeration.apply_values(enum, {'values' => [ "banana" ]})
     }.to raise_error(AccessDeniedException)
 
     expect {

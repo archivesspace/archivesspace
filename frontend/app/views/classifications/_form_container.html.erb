@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "classification" %>
 
 <h2>
-   <%= @classification.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("classification._singular")}" : @classification.title %>  <span class="label label-info"><%= I18n.t("classification._singular") %></span>
+   <%= @form_title ? @form_title : @classification.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("classification._singular")}" : @classification.title %>  <span class="label label-info"><%= I18n.t("classification._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -9,7 +9,6 @@
 <%= hidden_field_tag "id", @classification.id %>
 
 <fieldset>
-
   <% define_template("classification", jsonmodel_definition(:classification)) do |form| %>
     <section id="basic_information">
       <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
@@ -21,6 +20,8 @@
       <% form.push("creator", form["creator"] || {}) do %>
         <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
+     
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 
     </section>
   <% end %>

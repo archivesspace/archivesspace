@@ -85,6 +85,7 @@ class RepositoriesController < ApplicationController
   def select
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
     self.class.session_repo(session, selected.uri)
+    set_user_repository_cookie selected.uri
 
     flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
 

@@ -1,0 +1,31 @@
+<%
+   if params['location'].blank?
+     selected_json = "{}"
+   else
+     selected_json = params['location']['_resolved']
+   end
+
+   linkable_types = ["location"]
+
+%>
+
+<div class="input-group linker-wrapper">
+  <input type="text" class="linker"
+         id="location"
+         data-label="<%= I18n.t("location._singular") %>"
+         data-label_plural="<%= I18n.t("location._plural") %>"
+         data-name="ref"
+         data-path="location"
+         data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
+         data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
+         data-selected="<%= selected_json %>"
+         data-multiplicity="one"
+         data-types='<%= linkable_types.to_json %>'
+  />
+  <div class="input-group-btn">
+    <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+    </ul>
+  </div>
+</div>

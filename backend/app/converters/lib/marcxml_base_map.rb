@@ -1,11 +1,48 @@
 
 module MarcXMLBaseMap
+
+  AUTH_SUBJECT_SOURCE = {
+    'a'=>"Library of Congress Subject Headings",
+    'b'=>"LC subject headings for children's literature",
+    'c'=>"Medical Subject Headings",
+    'd'=>"National Agricultural Library subject authority file",
+    'k'=>"Canadian Subject Headings",
+    'n'=>"Not applicable",
+    'r'=>"Art and Architecture Thesaurus",
+    's'=>"Sears List of Subject Headings",
+    'v'=>"R\u00E9pertoire de vedettes-matic\u00E8re",
+    'z'=>"Other"
+  }
+
+  BIB_SUBJECT_SOURCE = {
+    '0'=>"Library of Congress Subject Headings",
+    '1'=>"LC subject headings for children's literature",
+    '2'=>"Medical Subject Headings",
+    '3'=>"National Agricultural Library subject authority file",
+    '4'=>"Source not specified",
+    '5'=>"Canadian Subject Headings",
+    '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
+  }
+
+  def record_type(type_of_record = nil, subject_source = nil)
+    @type ||= { type: :bibliographic, subject_source: nil }
+    if type_of_record
+      @type[:type] = type_of_record == 'z' ? :authority : :bibliographic
+    end
+    if subject_source
+      @type[:subject_source] = subject_source and @type[:type] == :authority ? subject_source : nil
+    end
+    @type
+  end
+
+  alias_method :set_record_type, :record_type
+
   def subject_template(getterms, getsrc)
     {
       :obj => :subject,
       :rel => :subjects,
       :map => {
-        "self::datafield" => Proc.new{|subject, node|
+        "self::datafield" => -> subject, node {
           subject.terms = getterms.call(node)
           subject.source = getsrc.call(node)
           subject.vocabulary = '/vocabularies/1'
@@ -23,23 +60,19 @@ module MarcXMLBaseMap
 
 
   def sets_subject_source
-    Proc.new{|node|
-      {
-        '0'=>"Library of Congress Subject Headings",
-        '1'=>"LC subject headings for children's literature",
-        '2'=>"Medical Subject Headings",
-        '3'=>"National Agricultural Library subject authority file",
-        '4'=>"Source not specified",
-        '5'=>"Canadian Subject Headings",
-        '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
-      }[node.attr('ind2')] || node.xpath("subfield[@code='2']").inner_text
+    -> node {
+      if record_type[:type] == :authority
+        AUTH_SUBJECT_SOURCE[ record_type[:subject_source] ] || 'Source not specified'
+      else
+        BIB_SUBJECT_SOURCE[node.attr('ind2')] || ( !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified' )
+      end
     }
   end
 
 
   def agent_template
     {
-      :rel => Proc.new {|resource, agent|
+      :rel => -> resource, agent {
         resource[:linked_agents] << {
           # stashed value for the role
           :role => agent['_role'] || 'subject',
@@ -49,15 +82,18 @@ module MarcXMLBaseMap
         }
       },
       :map => {
-        "subfield[@code='e']" => Proc.new{|agent, node|
+        "subfield[@code='e']" => -> agent, node {
           agent['_relator'] = node.inner_text
         },
-        "subfield[@code='4']" => Proc.new{|agent, node|
+        "subfield[@code='4']" => -> agent, node {
           agent['_relator'] = node.inner_text unless agent['_relator']
         },
         "self::datafield" => {
           :defaults => {
-            :name_order => 'direct'
+            :name_order => 'direct',
+            :source => 'ingest'
+          
+          
           }
         }
       }
@@ -71,7 +107,7 @@ module MarcXMLBaseMap
       "subfield[@code='b']" => :number,
       "subfield[@code='c']" => :title,
 
-      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='d']" => :dates,
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
       "subfield[@code='h']" => adds_prefixed_qualifier('Medium'),
@@ -119,7 +155,7 @@ module MarcXMLBaseMap
     {
       "subfield[@code='a']" => :family_name,
       "subfield[@code='c']" => :qualifier,
-      "subfield[@code='d']" => sets_use_date_from_code_d,
+      "subfield[@code='d']" => :dates,
       "subfield[@code='f']" => adds_prefixed_qualifier('Date of work'),
       "subfield[@code='g']" => adds_prefixed_qualifier('Miscellaneous information'),
       "subfield[@code='q']" => adds_prefixed_qualifier('', ''),
@@ -207,6 +243,24 @@ module MarcXMLBaseMap
             :name_order => 'direct',
             :source => 'ingest'
           }
+        },
+        "//datafield[@tag='610']" => {
+          :obj => :name_corporate_entity,
+          :rel => :names,
+          :map => name_corp_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
+        },
+        "//datafield[@tag='611']" => {
+          :obj => :name_corporate_entity,
+          :rel => :names,
+          :map => name_corp_map,
+          :defaults => {
+            :name_order => 'direct',
+            :source => 'ingest'
+          }
         }
       }
     })
@@ -217,7 +271,8 @@ module MarcXMLBaseMap
   def creators_and_sources
     {
       :map => {
-        "subfield[@code='e']" => Proc.new{|agent, node|
+        "subfield[@code='d']" => :dates,  
+        "subfield[@code='e']" => -> agent, node {
           agent['_role'] = case
                            when ['Auctioneer (auc)',
                                  'Bookseller (bsl)',
@@ -234,6 +289,7 @@ module MarcXMLBaseMap
         },
         "self::datafield" => {
           :map => {
+            "//controlfield[@tag='001']" => :authority_id, 
             "@ind1" => sets_name_order_from_ind1,
             "subfield[@code='v']" => adds_prefixed_qualifier('Form subdivision'),
             "subfield[@code='x']" => adds_prefixed_qualifier('General subdivision'),
@@ -289,7 +345,7 @@ module MarcXMLBaseMap
       :obj => :note_bibliography,
       :rel => :notes,
       :map => {
-        "self::datafield" => Proc.new {|note, node|
+        "self::datafield" => -> note, node {
           content = template ? subfield_template(template, node, *tmpl_args) : node.inner_text
           note.send('label=', label)
           note.content << content
@@ -304,7 +360,7 @@ module MarcXMLBaseMap
       :obj => :note_singlepart,
       :rel => :notes,
       :map => {
-        "self::datafield" => Proc.new {|note, node|
+        "self::datafield" => -> note, node {
           content = template ? subfield_template(template, node, *tmpl_args) : node.inner_text
           note.send('label=', label)
           note.type = note_type
@@ -320,7 +376,7 @@ module MarcXMLBaseMap
       :obj => :note_multipart,
       :rel => :notes,
       :map => {
-        "self::datafield" => Proc.new {|note, node|
+        "self::datafield" => -> note, node {
           content = template ? subfield_template(template, node, *tmpl_args) : node.inner_text
 
           label = label.call(node) if label.is_a?(Proc)
@@ -335,7 +391,7 @@ module MarcXMLBaseMap
 
 
   def adds_agent_term(term_type, prefix = "")
-    Proc.new{|agent, node|
+    -> agent, node {
       agent['_terms'] ||= []
       make(:term) do |term|
         term.term_type = term_type
@@ -348,7 +404,7 @@ module MarcXMLBaseMap
 
 
   def sets_primary_and_rest_of_name
-    Proc.new {|name, node|
+    -> name, node {
       val = node.inner_text
       if val.match(/\A(.+),\s*(.+)\s*\Z/)
         name['primary_name'] = $1
@@ -361,7 +417,7 @@ module MarcXMLBaseMap
 
 
   def sets_name_order_from_ind1
-    Proc.new {|name, node|
+    -> name, node {
       name['name_order'] = case node.value
                            when '1'
                              'inverted'
@@ -373,7 +429,7 @@ module MarcXMLBaseMap
 
 
   def sets_name_source_from_code
-    Proc.new {|name, node|
+    -> name, node {
       src = ASpaceMappings::MARC21.get_aspace_source_code(node.value)
       name.source = src if src
     }
@@ -381,17 +437,28 @@ module MarcXMLBaseMap
 
 
   def sets_other_name_source
-    Proc.new {|name, node|
+    -> name, node {
       name.source = node.inner_text unless name.source
     }
   end
 
 
   def sets_use_date_from_code_d
-    Proc.new {|name, node|
+    -> name, node {
+      
+      date_begin, date_end = nil
+      date_type = 'single'
+      
+      if  node.inner_text.strip =~ /^([0-9]{4})-([0-9]{4})$/
+        date_begin,date_end = node.inner_text.strip.split("-")  
+        date_type = "range"
+      end
+      
       make(:date) do |date|
         date.label = 'other'
-        date.date_type = 'single'
+        date.date_type = date_type
+        date.begin = date_begin
+        date.end = date_end
         date.expression = node.inner_text
         name.use_dates << date
       end
@@ -400,7 +467,7 @@ module MarcXMLBaseMap
 
 
   def adds_prefixed_qualifier(prefix, separator = ': ')
-    Proc.new {|name, node|
+    -> name, node {
       val = node.inner_text
       if val
         name.qualifier ||= ""
@@ -412,7 +479,7 @@ module MarcXMLBaseMap
 
 
   def appends_subordinate_name_2
-    Proc.new{|name, node|
+    -> name, node {
       name.subordinate_name_2 ||= ""
       name.subordinate_name_2 += " " unless name.subordinate_name_2.empty?
       name.subordinate_name_2 += node.inner_text
@@ -484,7 +551,7 @@ module MarcXMLBaseMap
 
   def is_fallback_resource_title
     {
-      :rel => Proc.new {|resource, obj|
+      :rel => -> resource, obj {
         resource['_fallback_titles'] ||= []
         if obj.respond_to?(:subnotes)
           resource['_fallback_titles'] << obj.subnotes[0]['content']
@@ -494,6 +561,11 @@ module MarcXMLBaseMap
   end
 
 
+  # this should be called 'build_base_map'
+  # because the extending class calls it
+  # when it is configuring itself, and the 
+  # result may depend on methods defined in
+  # the extending class. 
   def BASE_RECORD_MAP
     {
       :obj => :resource,
@@ -501,21 +573,20 @@ module MarcXMLBaseMap
        :level => 'collection',
       },
       :map => {
-
         #LEADER
-        "//leader" => Proc.new { |resource, node|
+        "//leader" =>  -> resource, node { 
           values = node.inner_text.strip
-          if values[7] == 'm'
-            resource.level = 'item'
-          else
-            resource.level = 'collection'
-          end
-        
+          set_record_type values[6]
+
+          if resource.respond_to?(:level)
+            resource.level = "item" if  values[7] == 'm'  
+          end 
         }, 
 
         #CONTROLFIELD
-        "//controlfield[@tag='008']" => Proc.new {|resource, node|
+        "//controlfield[@tag='008']" => -> resource, node {
           control = node.inner_text.strip
+          set_record_type nil, control[11]
           resource.language = control[35..37]
 
           if %w(i k s).include?(control[6])
@@ -539,13 +610,13 @@ module MarcXMLBaseMap
         },
 
         # ID_0, ID_1, ID_2, ID_3
-        "datafield[@tag='852']" => Proc.new {|resource, node|
+        "datafield[@tag='852']" => -> resource, node {
           id = concatenate_subfields(%w(k h i m), node, '_')
           resource.id_0 = id unless id.empty?
         },
 
 
-        "datafield[@tag='090']" => Proc.new {|resource, node|
+        "datafield[@tag='090']" => -> resource, node {
           if resource.id_0.nil? or resource.id_0.empty?
             id = concatenate_subfields(('a'..'z'), node, '_')
             resource.id_0 = id unless id.empty?
@@ -574,7 +645,7 @@ module MarcXMLBaseMap
         "datafield[@tag='242']" => multipart_note('odd',  'Translation of Title', "{$a: }{$b }{[$h] }{$n, }{$p, }{$y}){ / $c}"),
 
         # TITLE
-        "datafield[@tag='245']" => Proc.new {|resource, node|
+        "datafield[@tag='245']" => -> resource, node {
           resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
 
           expression = concatenate_subfields(%w(f g), node, '-')
@@ -595,7 +666,7 @@ module MarcXMLBaseMap
         },
 
         "datafield[@tag='246'][@ind2='0']" => multipart_note('odd',
-                                                             Proc.new{|node|
+                                                             -> node {
                                                                {
                                                                  '0'=>'Portion of title',
                                                                  '1'=>'Parallel title',
@@ -611,24 +682,24 @@ module MarcXMLBaseMap
                                                              "{$a: }{$b }{[$h] }{$f, }{$n }{$p, }{$g})"
                                                              ),
 
-        "datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "$a / $b"),
+        "datafield[@tag='250']" => multipart_note('odd', 'Edition Statement', "{$a} / {$b}"),
 
-        "datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "$a"),
+        "datafield[@tag='254']" => multipart_note('odd', 'Musical Presentation Statement', "{$a}"),
 
         "datafield[@tag='255']" => multipart_note('odd', 'Mathematical map data', %q|
-                                            Statement of scale--$a; Statement of projection--$b; Statement of
-                                            coordinates--$c; Statement of zone--$d; Statement of equinox--$e;
-                                            Ourter G-ring coordinate pairs--$f; ExclusionG-ring coordinate pairs--$g.
+                                            Statement of scale--{$a}; Statement of projection--{$b}; Statement of
+                                            coordinates--{$c}; Statement of zone--{$d}; Statement of equinox--{$e};
+                                            Ourter G-ring coordinate pairs--{$f}; ExclusionG-ring coordinate pairs--{$g}.
                                             |),
 
-        "datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "$a"),
+        "datafield[@tag='256']" => singlepart_note('physdesc', 'Computer file Characteristics', "{$a}"),
 
-        "datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "$a"),
+        "datafield[@tag='257']" => multipart_note('odd', 'Country of Producing Entity for Archival Films', "{$a}"),
 
-        "datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "$a, $b."),
+        "datafield[@tag='258']" => multipart_note('odd', 'Stamp description', "{$a}, {$b}."),
 
-        "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "$c"), {
-                                         "self::datafield" => Proc.new {|resource, node|
+        "datafield[@tag='260']" => mix(multipart_note('odd', 'Publication Date', "{$c}"), {
+                                         "self::datafield" => -> resource, node {
                                            if resource['_needs_date']
                                              make(:date) do |date|
                                                date.label = 'publication'
@@ -646,7 +717,16 @@ module MarcXMLBaseMap
           :obj => :extent,
           :rel => :extents,
           :map => {
-            "self::datafield" => Proc.new {|extent, node|
+            "self::datafield" => -> extent, node {  
+              ex = node.xpath('.//subfield[@code="a"]') 
+              if ex.length > 0
+                ext = ex.first.text 
+                if ext =~ /^([0-9\.]+)+\s+(.*)$/
+                  extent.number = $1
+                  extent.extent_type = $2
+                end 
+              end
+              
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },
@@ -663,7 +743,7 @@ module MarcXMLBaseMap
                                             |),
 
         "datafield[@tag='342']" => multipart_note('odd',
-                                                  Proc.new {|node|
+                                                  -> node {
                                                     label = 'Geospatial Reference Dimension: '
                                                     map = {
                                                       'ind1' => {
@@ -749,13 +829,15 @@ module MarcXMLBaseMap
                                             |),
 
         # 500s
-        "datafield[@tag='500']" => multipart_note('accessrestrict', 'General Note', "{$3: }{$a}"),
+        "datafield[@tag='500']" => multipart_note('odd', 'General Note', "{$3: }{$a}"),
 
         "datafield[@tag='501']" => multipart_note('odd', 'With Note', "{$a}"),
 
         "datafield[@tag='502']" => multipart_note('odd', 'Thesis / Dissertation Note', "{$a}"),
 
         "datafield[@tag='504']" => bibliography_note_template('Bibliographic References', "{$a }{$b}"),
+        
+        "datafield[@tag='505']" => multipart_note('odd', 'Cumulative Index/Finding Aids Note', "{$a}"),
 
         "datafield[@tag='506']" => multipart_note('accessrestrict', ' Restrictions on Access', "{$3: }{$a, }{$b, }{$c, }{$d, }{$e, }{$u}."),
 
@@ -791,7 +873,7 @@ module MarcXMLBaseMap
 
         "datafield[@tag='520'][@ind1!='3' and @ind1!='8']" => multipart_note(
                                                                              'odd',
-                                                                             Proc.new{|node|
+                                                                             -> node {
                                                                                {'0'=>'Subject', '1'=>'Review', '2'=>'Scope and content'}[node.attr('ind1')] || "Summary"
                                                                              },
                                                                              "{$3: }{$a. }{($u) }{\n$b}"),
@@ -800,7 +882,7 @@ module MarcXMLBaseMap
 
         "datafield[@tag='521'][@ind1!='8']" => multipart_note(
                                                               'odd',
-                                                              Proc.new{|node|
+                                                              -> node {
                                                                 {
                                                                   '0'=>'Reading grade level',
                                                                   '1'=>'Interest age level',
@@ -834,7 +916,7 @@ module MarcXMLBaseMap
                                                   {'ind1'=>{'1'=>'Holder of originals', '2'=>'Holder of duplicates'}}),
 
         # FINDING AID SPONSOR
-        "datafield[@tag='536']" => Proc.new{|resource, node|
+        "datafield[@tag='536']" => -> resource, node {
           resource.finding_aid_sponsor=subfield_template(%q|
                                               {Text of note--$a; }{Contract number--$b; }{Grant number--$c; }
                                               {Undifferentiated number--$d; }{Program element number--$f; }{Task number--$g; }
@@ -857,7 +939,7 @@ module MarcXMLBaseMap
 
         "datafield[@tag='545']" => multipart_note(
                                                   'bioghist',
-                                                  Proc.new{|node|
+                                                  -> node {
                                                     {
                                                       '0'=>'Biographical sketch',
                                                       '1'=>'Administrative history',
@@ -905,7 +987,7 @@ module MarcXMLBaseMap
 
         #SUBJECTS
         "datafield[@tag='630' or @tag='130' or @tag='430']" => subject_template(
-                                                                                Proc.new{|node|
+                                                                                -> node {
                                                                                   terms = []
                                                                                   terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
                                                                                   node.xpath("subfield").each do |sf|
@@ -922,7 +1004,7 @@ module MarcXMLBaseMap
                                                                                 sets_subject_source),
 
         "datafield[@tag='650' or @tag='150' or @tag='450']" => subject_template(
-                                                                                Proc.new{|node|
+                                                                                -> node {
                                                                                   terms = []
                                                                                   node.xpath("subfield").each do |sf|
                                                                                     terms << make_term(
@@ -942,7 +1024,7 @@ module MarcXMLBaseMap
                                                                                 sets_subject_source),
 
         "datafield[@tag='651' or @tag='151' or @tag='451']" => subject_template(
-                                                                                Proc.new{|node|
+                                                                                -> node {
                                                                                   terms = []
                                                                                   node.xpath("subfield").each do |sf|
                                                                                     terms << make_term(
@@ -959,7 +1041,7 @@ module MarcXMLBaseMap
                                                                                 sets_subject_source),
 
         "datafield[@tag='655' or @tag='155' or @tag = '455']" => subject_template(
-                                                                                  Proc.new{|node|
+                                                                                  -> node {
                                                                                     terms = []
                                                                                     # FIXME: subfield `c` not handled
                                                                                     node.xpath("subfield").each do |sf|
@@ -978,7 +1060,7 @@ module MarcXMLBaseMap
                                                                                   sets_subject_source),
 
         "datafield[@tag='656']" => subject_template(
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       terms = []
                                                       node.xpath("subfield").each do |sf|
                                                         terms << make_term(
@@ -993,12 +1075,12 @@ module MarcXMLBaseMap
                                                       end
                                                       terms
                                                     },
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
                                                     }),
 
         "datafield[@tag='657']" => subject_template(
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       terms = []
                                                       node.xpath("subfield").each do |sf|
                                                         terms << make_term(
@@ -1012,18 +1094,19 @@ module MarcXMLBaseMap
                                                       end
                                                       terms
                                                     },
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       node.attr('ind2') == '7' ? node.xpath("subfield[@code='2']").inner_text : nil
                                                     }),
 
         "datafield[starts-with(@tag, '69')]" => subject_template(
-                                                                 Proc.new{|node|
-                                                                   term = ""
+                                                                 -> node {
+                                                                   terms = []
                                                                    hsh = {}
                                                                    node.xpath("subfield").each do |subnode|
                                                                      code = subnode.attr('code')
                                                                      val = subnode.inner_text
-                                                                     hsh[code] = val
+                                                                     hsh[code] ||= []
+                                                                     hsh[code] << val
                                                                    end
                                                                    srtd_keys = hsh.keys.sort do |one, two|
                                                                      if one == '3'
@@ -1040,14 +1123,14 @@ module MarcXMLBaseMap
                                                                    end
                                                                    srtd_keys.each do |k|
                                                                      if hsh[k] and !hsh[k].empty?
-                                                                       term += "--" unless term.empty?
-                                                                       term += hsh[k]
+                                                                       hsh[k].each do |t|  
+                                                                        terms << make_term('topical', t)
+                                                                       end 
                                                                      end
                                                                    end
-
-                                                                   [make_term('topical', term)]
+                                                                  terms
                                                                  },
-                                                                 Proc.new{|node| 'local'},
+                                                                 -> node {'local'},
                                                                  ),
 
         #700s
@@ -1088,30 +1171,30 @@ module MarcXMLBaseMap
         "datafield[@tag='740']" => multipart_note('odd', 'Related / Analytical Title', "{$a }{[$h] }{$p, }{$n}."),
 
         "datafield[@tag='752']" => subject_template(
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       terms = []
                                                       %w(a b c d f g).each do |code|
-                                                        val = node.xpath("subfield[@code='#{code}']")
+                                                        val = node.xpath("subfield[@code='#{code}']").inner_text
                                                         terms << make_term('geographic', val)
                                                       end
 
                                                       terms
                                                     },
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       node.xpath("subfield[@code='2']").inner_text
                                                     }),
 
         "datafield[@tag='754']" => subject_template(
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       term = concatenate_subfields(%w(a c d x z), node, '--')
                                                       [make_term('topical', term)]
                                                     },
-                                                    Proc.new{|node|
+                                                    -> node {
                                                       node.xpath("subfield[@code='2']").inner_text
                                                     }),
 
         # last minute checks for the top-level record
-        "self::record" => Proc.new {|resource, node|
+        "self::record" => -> resource, node {
 
           if !resource.title && resource['_fallback_titles'] && !resource['_fallback_titles'].empty?
             resource.title = resource['_fallback_titles'].shift

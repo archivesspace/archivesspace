@@ -1,0 +1,40 @@
+JSON Schema: Rights_statement
+
+Properties
+
+string	rights_type
+
+string (max length: 255)	identifier
+
+boolean	active
+
+string (max length: 255)	materials
+
+string	ip_status
+
+date	ip_expiration_date
+
+string (max length: 255)	license_identifier_terms
+
+string (max length: 255)	statute_citation
+
+string	jurisdiction
+
+string (max length: 255)	type_note
+
+string (max length: 65000)	permissions
+
+string (max length: 65000)	restrictions
+
+date	restriction_start_date
+
+date	restriction_end_date
+
+string (max length: 255)	granted_note
+
+array (JSONModel(:external_document) object)	external_documents
+
+
+
+
+

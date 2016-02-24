@@ -5,25 +5,27 @@
 <section id="<%= section_id %>">
   <h3><%= I18n.t("collection_management._singular") %></h3>
   <div class="accordion details" id="<%= section_id %>_accordian">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <div class="row-fluid accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_collection_management">
-          <div class="span1">
-            <span class="icon-chevron-right"></span>
-            <span class="icon-chevron-down"></span>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_collection_management">
+          <div class="col-md-1">
+            <span class="glyphicon"></span>
           </div>
-          <div class="span4">
+          <div class="col-md-4">
             <%= I18n.t("collection_management.processing_status") %>:
-            <strong><%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => "--") %></strong>
+            <strong><%= I18n.t("enumerations.collection_management_processing_status.#{collection_management['processing_status'] || 'none'}", :default => collection_management['processing_status']) %></strong>
           </div>
-          <div class="span4">
+          <div class="col-md-4">
             <%= I18n.t("collection_management.processing_priority") %>:
-            <strong><%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => "--") %></strong>
+            <strong><%= I18n.t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => collection_management['processing_priority']) %></strong>
           </div>
         </div>
       </div>
       <div id="<%= section_id %>_collection_management" class="accordion-body collapse">
         <%= read_only_view(collection_management) %>
+        <% if ASUtils.wrap(collection_management["external_ids"]).length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => collection_management["external_ids"], :section_id => "collection_management_external_ids_" } %>
+        <% end %>
       </div>
     </div>
   </div>

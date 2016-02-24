@@ -10,9 +10,10 @@
   background-image: none;
 }
 
+
 .archives-tree-container {
-  margin: -14px -20px 10px !important;
-  padding: 0 0 10px;
+  margin: -14px -15px 10px -15px !important;
+  padding: 10px 0 10px 0;
   position: relative;
   background-color: #F3F3F3;
   #gradient > .vertical(#F3F3F3, #EDEDED);
@@ -92,6 +93,7 @@
       display: block;
       padding: 2px 0px !important;
       border: 1px solid transparent;
+      line-height: 16px;
       height: auto !important;
       overflow: hidden;
 
@@ -105,7 +107,7 @@
         width: 120px;
         margin-left: 2px;
         color: #666;
-        padding-left: 2px;
+        padding-left: 4px;
         overflow: hidden;
 
         &.field-column-1 {
@@ -156,23 +158,31 @@
 
     a > .jstree-icon {
       display: inline-block;
-      width: 14px;
-      height: 14px;
       .ie7-restore-right-whitespace();
+      height: 100%;
       line-height: 14px;
       vertical-align: text-top;
-      background-image: asset-url(@iconSpritePath) !important;
-      background-position: 14px 14px;
-      background-repeat: no-repeat;
-    }
-
-    a > .jstree-icon {
-      background-position: -384px -120px;
+      /* padding-right: 20px; */
     }
   }
-
+  
+  .spinner {
+      display: none; 
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      padding-right: 0 !important;
+      font-size: 30px;
+      margin-right: 10px !important;
+  }
+  
+  #archives_tree_overlay {
+    z-index: 100;
+    opacity: 0.1; 
+  }
+  
   #archives_tree_toolbar {
-    padding: 0 20px;
+    padding: 0 15px;
 
     > .btn-toolbar {
       border-bottom: 1px solid #E6E6E6;
@@ -184,6 +194,10 @@
       max-width: 400px;
       max-height: 200px;
       overflow: auto;
+    }
+
+    a.move-node.disabled {
+      color: #ddd !important;
     }
   }
   .ui-resizable-handle {
@@ -228,37 +242,15 @@
   }
 }
 
+
+a > .jstree-icon {
+  background-position: -1000px -1000px !important;
+}
+
 .jstree-open > a > .jstree-icon {
   background-position: -408px -120px !important;
 }
 
-.archival_object > a > .jstree-icon {
-  background-position: @iconArchivalObjectBackgroundPosition !important;
-}
-
-.digital_object_component > a > .jstree-icon {
-  background-position: @iconDigitalObjectComponentBackgroundPosition !important;
-}
-
-.new > a > .jstree-icon {
-  background-position: -456px -96px !important;
-}
-
-.resource > a > .jstree-icon {
-  background-position: @iconResourceBackgroundPosition !important;
-}
-
-.accession > a > .jstree-icon {
-  background-position: @iconAccessionBackgroundPosition !important;
-}
-
-.classification > a > .jstree-icon {
-  background-position: @iconClassificationBackgroundPosition !important;
-}
-
-.classification_term > a > .jstree-icon {
-  background-position: @iconClassificationTermBackgroundPosition !important;
-}
 
 .archives-tree-container.expanded {
   .box-shadow(1px 1px 5px rgba(0, 0, 0, 0.4));
@@ -292,6 +284,33 @@
   .opacity(95);
   .box-shadow(3px 3px 10px rgba(0, 0, 0, 0.6));
   z-index: 1;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+.jstree-icon.spinner {
+  padding-right: 0 !important;
+  font-size: 5px;
+  margin-right: 10px !important;
+}
+  
+
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+.jstree-default a.jstree-loading .jstree-icon {
+  background:none !important;
 }
 
 @media (max-width: 1200px) {

@@ -1,3 +1,5 @@
+.DS_Store
+_site
 build/*.jar
 build/solr_backups/*
 *.war
@@ -5,9 +7,9 @@ build/gems
 derby.log
 frontend/doc
 backend/doc
-doc
 config/config.rb
 *.swp
+*.out
 .idea
 /lib
 coverage
@@ -29,4 +31,9 @@ common/ARCHIVESSPACE_VERSION
 API.md
 config/gemnasium.yml
 build/demo_db_backups
+*.jasper
 .bundle
+*/node_modules
+locales.diff
+*/bower_components
+Gemfile.local

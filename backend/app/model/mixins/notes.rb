@@ -107,11 +107,17 @@ module Notes
       super
     end
 
-
     def apply_notes(obj, json)
       if obj.note_dataset.first
-      	SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-      	obj.note_dataset.delete
+    	association = self.association_reflection(:note)                                                                            
+        # MySQL supports modifying joins, derby does not... 
+        begin 
+          SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
+             .filter( association[:key] => obj.id  ).delete 
+        rescue Sequel::InvalidOperation # for derby
+          SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
+        end
+        obj.note_dataset.delete 
       end
       populate_persistent_ids(json)
 
@@ -132,16 +138,13 @@ module Notes
                                  :guid => m.fetch(:guid))
         end
 
-        # Persistent IDs exist in the context of the tree they belong to (or
-        # just their record, if there's no tree).
-
-        note_obj.add_persistent_ids(extract_persistent_ids(note),
-                                    *obj.persistent_id_context)
-
+	note_obj.add_persistent_ids(extract_persistent_ids(note),
+				     *obj.persistent_id_context)
+        
         obj.add_note(note_obj)
       end
-
-      obj
+        
+    	obj
     end
 
 
@@ -162,10 +165,12 @@ module Notes
                                                [proc {|hash, schema|
                                                   if hash['jsonmodel_type'] == 'note_index'
                                                     hash["items"].each do |item|
-                                                      referenced_record = klass.filter(:root_record_id => root_id,
-                                                                                       :ref_id => item["reference"]).first
-                                                      if !referenced_record.nil?
-                                                        item["reference_ref"] = {"ref" => referenced_record.uri}
+                                                      if item["reference"]
+                                                        referenced_record = klass.filter(:root_record_id => root_id,
+                                                                                         :ref_id => item["reference"]).first
+                                                        if !referenced_record.nil?
+                                                          item["reference_ref"] = {"ref" => referenced_record.uri}
+                                                        end
                                                       end
                                                     end
                                                   end
@@ -183,20 +188,22 @@ module Notes
                                              [proc {|hash, schema|
                                                 if hash['jsonmodel_type'] == 'note_index'
                                                   hash["items"].each do |item|
-                                                    (parent_id, parent_type) = obj.persistent_id_context
-                                                    persistent_id_record = NotePersistentId.filter(:parent_id => parent_id,
-                                                                                                   :parent_type => parent_type,
-                                                                                                   :persistent_id => item["reference"]).first
-                                                    if !persistent_id_record.nil?
-                                                      note = Note[persistent_id_record[:note_id]]
+                                                    if item["reference"]
+                                                      (parent_id, parent_type) = obj.persistent_id_context
+                                                      persistent_id_record = NotePersistentId.filter(:parent_id => parent_id,
+                                                                                                     :parent_type => parent_type,
+                                                                                                     :persistent_id => item["reference"]).first
+                                                      if !persistent_id_record.nil?
+                                                        note = Note[persistent_id_record[:note_id]]
 
-                                                      referenced_record = Note.associations.map {|association|
-                                                        next if association == :note_persistent_id
-                                                        note.send(association)
-                                                      }.compact.first
+                                                        referenced_record = Note.associations.map {|association|
+                                                          next if association == :note_persistent_id
+                                                          note.send(association)
+                                                        }.compact.first
 
-                                                      if referenced_record
-                                                        item["reference_ref"] = {"ref" => referenced_record.uri}
+                                                        if referenced_record
+                                                          item["reference_ref"] = {"ref" => referenced_record.uri}
+                                                        end
                                                       end
                                                     end
                                                   end

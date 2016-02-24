@@ -1,0 +1,12 @@
+JSON Schema: External_id
+
+Properties
+
+string (max length: 255)	external_id
+
+string (max length: 255)	source
+
+
+
+
+

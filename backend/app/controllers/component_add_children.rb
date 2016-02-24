@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:archival_record_children), "The children to add to the resource", :body => true],
           ["id", :id],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -23,7 +23,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:archival_record_children), "The children to add to the archival object", :body => true],
           ["id", Integer, "The ID of the archival object to add children to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -41,7 +41,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:digital_record_children), "The component children to add to the digital object", :body => true],
           ["id", :id],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -59,7 +59,7 @@ class ArchivesSpaceService < Sinatra::Base
   .params(["children", JSONModel(:digital_record_children), "The children to add to the digital object component", :body => true],
           ["id", Integer, "The ID of the digital object component to add children to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -77,7 +77,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Archival Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -92,7 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Resource to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_resource_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -107,7 +107,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Digital Object to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -122,7 +122,7 @@ class ArchivesSpaceService < Sinatra::Base
           ["id", Integer, "The ID of the Digital Object Component to move children to"],
           ["position", Integer, "The index for the first child to be moved to"],
           ["repo_id", :repo_id])
-  .permissions([:update_archival_record])
+  .permissions([:update_digital_object_record])
   .returns([200, :created],
            [400, :error],
            [409, :error]) \
@@ -166,16 +166,41 @@ class ArchivesSpaceService < Sinatra::Base
   def accept_children_response(target_class, child_class)
     target = target_class.get_or_die(params[:id])
 
-    position = params[:position]
-    parent_id = (target_class == child_class) ? params[:id] : nil
+    unless params[:children].empty?
+      position = params[:position]
+      parent_id = (target_class == child_class) ? params[:id] : nil
+
+      # This has been flipped.  Due to changes in the tree_nodes, the values should
+      # be processed using the lowest to highest.  This reverses the previous process
+      # Does this cause any undo problems?
+      first_uri = params[:children][0]
+      first_obj = child_class.get_or_die(child_class.my_jsonmodel.id_for(first_uri))
+     
+     
+      # ok, we are keeping it in the same parent and moving down the list, we
+      # need to reverse to make sure the placement happens correctly.
+      # If the first_obj doesn't have a parent_id, that means it's at the top
+      # of the food chain, so we can check if the target is a Tree, not a TreeNode. 
+      # Otherwise, we are moving into another parent.
+      if ( target.id == first_obj.parent_id || ( target.class.included_modules.include?(Trees) && first_obj.parent_id.nil? ) )  && first_obj.absolute_position < position
+        ordered = params[:children].each_with_index.to_a.reverse
+      else
+        ordered = params[:children].each_with_index
+      end
 
 
-    params[:children].each_with_index do |uri, i|
-      child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
-      child.update_position_only(parent_id, position + i)
+      begin
+        last_child = nil 
+        ordered.each do |uri, i|
+          last_child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
+          last_child.update_position_only(parent_id, position + i )
+        end
+      ensure
+        # close out the gaps.  
+        last_child.order_siblings if last_child
+      end
     end
 
     updated_response(target)
   end
-
 end

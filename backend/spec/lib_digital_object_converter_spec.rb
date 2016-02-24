@@ -5,16 +5,15 @@ require 'converter_spec_helper'
 require_relative '../app/converters/digital_object_converter'
 
 describe 'Digital Object converter' do
-  let(:my_converter) {
-    DigitalObjectConverter
-  }
 
-  let(:test_file) {
-    File.expand_path("../app/exporters/examples/digital_object/test_digital_object.csv",
-                     File.dirname(__FILE__))
-  }
+  def my_converter
+    DigitalObjectConverter
+  end
+
 
   before(:all) do
+    test_file = File.expand_path("../app/exporters/examples/digital_object/aspace_digital_object_import_template.csv",
+                                 File.dirname(__FILE__))
     @records = convert(test_file)
     @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }
   end
@@ -29,14 +28,18 @@ describe 'Digital Object converter' do
   end
 
 
-  it "maps digital_object_processing_started_date to collection_management.processing_started_date" do    
-    @digital_objects[0]['collection_management']['processing_started_date'].should match(/\d{4}-\d{2}-\d{2}/)
+
+  it "maps digital_object_file version information to the object" do
+    @digital_objects[0]['file_versions'].length.should eq(1)
+    {"jsonmodel_type"=>"file_version", "uri"=>nil, "file_uri"=>"http://aspace.me", "publish"=>nil, "use_statement"=>"It's all good", "xlink_actuate_attribute"=>"onRequest", "xlink_show_attribute"=>"embed", "file_format_name"=>"jpeg", "file_format_version"=>"1", "file_size_bytes"=>100, "checksum"=>"xxxxxxx", "checksum_method"=>"md5"}.each do |k, v|
+      @digital_objects[0]["file_versions"][0][k].should eq(v)
+    end
   end
 
 
   describe "utf-8 encoding" do
     let(:test_file_bom) {
-      File.expand_path('../app/exporters/examples/digital_object/test_digital_object_utf8_bom.csv', 
+      File.expand_path('../app/exporters/examples/digital_object/test_digital_object_utf8_bom.csv',
                        File.dirname(__FILE__))
     }
 
@@ -51,4 +54,3 @@ describe 'Digital Object converter' do
     end
   end
 end
-

@@ -7,7 +7,7 @@ var AS = {};
 // initialise ajax modal
 $(function() {
   AS.openAjaxModal = function(href) {
-    $("body").append('<div class="modal hide" id="tempAjaxModal"></div>');
+    $("body").append('<div class="modal" id="tempAjaxModal"></div>');
 
     var $modal = $("#tempAjaxModal");
 
@@ -19,14 +19,14 @@ $(function() {
           $modal.remove();
           $modal = $(html);
 
-          $("body").append($modal.addClass("hide"));
+          $("body").append($modal);
         } else {
           $modal.append(html);
         }
 
-        $modal.on("shown",function() {
+        $modal.on("shown.bs.modal",function() {
           $modal.find("input[type!=hidden]:first").focus();
-        }).on("hidden", function() {
+        }).on("hidden.bs.modal", function() {
           $modal.remove();
         });
 
@@ -69,20 +69,13 @@ $(function() {
 
 // sidebar action
 $(function() {
-  var getSubMenuHTML = function() {
-    return $("<ul class='nav-list-submenu'></ul>");
-  };
-
-  var getSubMenuItemHTML = function(anItem) {
-    var $li = $("<li>");
-    var $link = $("<a>");
-    $link.addClass("nav-list-submenu-link");
-    $link.attr("href", "javascript:void(0);");
-    if ($(".error", anItem).length > 0) {
-      $link.addClass("has-errors");
-    }
-    $li.append($link);
-    return $li;
+  
+  var getSubMenuHTML = function(numberOfRecords) {
+    if ( numberOfRecords < 1 ) { 
+      return ''; 
+    } else {
+      return  $("<span class='nav-list-record-count badge'>" + numberOfRecords + "</span>") 
+     }
   };
 
   var refreshSidebarSubMenus = function() {
@@ -91,41 +84,20 @@ $(function() {
       // show the sub record bits
       return;
     }
-    $(".nav-list-submenu").remove();
-    $("#archivesSpaceSidebar .nav-list > li").each(function() {
+    $(".nav-list-record-count").remove();
+    $("#archivesSpaceSidebar .as-nav-list > li").each(function() {
       var $nav = $(this);
       var $link = $("a", $nav);
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
-      var $submenu = getSubMenuHTML();
-      //if ($items.length > 1) {
-        for (var i=0; i<$items.length; i++) {
-          $submenu.append(getSubMenuItemHTML($items[i]));
-        }
-        $link.append($submenu);
-      //}
-    });
-  };
-
-  var bindSidebarEvents = function() {
-    $("#archivesSpaceSidebar .nav-list").on("click", "> li > a", function(event) {
-      event.preventDefault();
-
-      var $target_item = $(this);
-      $($target_item.attr("href")).ScrollTo({
-        callback: function() {
-          $(".active", "#archivesSpaceSidebar").removeClass("active");
-          var $active = $target_item.parents("li:first");
-          $active.addClass("active");
-        }
-      });
+      var $submenu = getSubMenuHTML($items.length);
+      $link.append($submenu);
     });
   };
 
    var initSidebar = function() {
-    $("#archivesSpaceSidebar .nav-list:not(.initialised)").each(function() {
-      $.proxy(bindSidebarEvents, this)();
+    $("#archivesSpaceSidebar .as-nav-list:not(.initialised)").each(function() {
       $(this).affix({
         offset: {
           top: function() {
@@ -133,22 +105,6 @@ $(function() {
           },
           bottom: 100
         }
-      });
-
-      $(this).on("click", ".nav-list-submenu-link", function(event) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        var $this = $(this);
-
-        var $section = $($this.parent().closest("a").attr("href"));
-        var $target = $($(".subrecord-form-list:first > li", $section)[$this.parent().index()]);
-        $target.ScrollTo({
-          callback: function() {
-            $(".active", "#archivesSpaceSidebar").removeClass("active");
-            $this.parent().parent().closest("li").addClass("active");
-          }
-        });
       });
 
       $(this).addClass("initialised");
@@ -177,20 +133,19 @@ $(function() {
 });
 
 // date fields and datepicker initialisation
-$.fn.combobox.defaults.template = '<div class="combobox-container input-append"><input type="hidden" /><input type="text" autocomplete="off" /><span class="add-on btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><span class="icon-remove"></span></span></span></div>';
+$.fn.combobox.defaults.template = '<div class="combobox-container input-group"><input type="hidden" /><input type="text" autocomplete="off"/><span class="input-group-btn btn dropdown-toggle" data-dropdown="dropdown"><span class="caret"/><span class="combobox-clear"><span class="icon-remove"></span></span></span></div>';
 $(function() {
   var initDateFields = function(scope) {
     scope = scope || $(document.body);
     $(".date-field:not(.initialised)", scope).each(function() {
       var $dateInput = $(this);
-      $dateInput.wrap("<div class='input-append'></div>");
+      $dateInput.wrap("<div class='input-group date'></div>");
       $dateInput.addClass("initialised");
-      var $btn = $("<button type='button' class='btn'><span class='icon-calendar'></span></button>");
-      $dateInput.after($btn);
-      $btn.datepicker($dateInput.data()).on("changeDate", function() {
-          $dateInput.val($btn.data("date"));
-          $btn.datepicker("hide");
-      });
+
+      var $addon = "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
+      $dateInput.after($addon);
+
+      $dateInput.parent(".date").datepicker($dateInput.data());
     });
   };
   initDateFields();
@@ -199,6 +154,9 @@ $(function() {
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initDateFields(subform);
+  });
+  $(document).bind("initdatefields.aspace", function(event, container) {
+    initDateFields(container);
   });
 });
 
@@ -221,6 +179,9 @@ $(function() {
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initComboboxFields(subform);
   });
+  $(document).bind("initcomboboxfields.aspace", function(event, container) {
+    initComboboxFields(container);
+  });
 });
 
 
@@ -233,7 +194,7 @@ $(function() {
   var initPopovers = function(scope) {
     scope = scope || $(document.body);
     $(".has-popover:not(.initialised)", scope)
-      .popover(popoverOptions) 
+      .popover(popoverOptions)
       .click(function(e) {
         e.preventDefault();
       }).addClass("initialised");
@@ -294,8 +255,8 @@ $(function() {
           $this.off("mouseleave");
 
           $this.tooltip("show");
-          $(".tooltip-inner", $this.data("tooltip").$tip).prepend('<span class="tooltip-close icon-remove-circle icon-white"></span>');
-          $(".tooltip-close", $this.data("tooltip").$tip).click(function() {
+          $(".tooltip-inner", $this.data("bs.tooltip").$tip).prepend('<span class="tooltip-close glyphicon glyphicon-remove-circle icon-white"></span>');
+          $(".tooltip-close", $this.data("bs.tooltip").$tip).click(function() {
             $this.trigger("click");
           });
           openedViaClick = true;
@@ -312,6 +273,15 @@ $(function() {
   });
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     initTooltips(subform);
+  });
+
+  $(document).bind("shown.bs.modal", function(events) {
+    $(".modal-content").delegate($(".has-tooltip"), "mouseenter", function() {
+      initTooltips($( this ));
+      $("a.has-tooltip", $( this )).on("click", function() {
+        window.open($( this ).attr('href'));
+      });
+    });
   });
 });
 
@@ -335,8 +305,12 @@ $(function() {
   });
 });
 
+
+
+
 AS.templateCache = [];
-AS.renderTemplate = function(templateId, data) {
+AS.renderTemplate = function(templateId, data, cb) {
+
   if (!AS.templateCache[templateId]) {
     var templateNode = $("#"+templateId).get(0);
     if (templateNode) {
@@ -360,6 +334,13 @@ AS.quickTemplate = function(templateHTML, data) {
   return TrimPath.parseTemplate(templateHTML).process(data);
 };
 
+AS.stripHTML =  function(string) {
+  if (string === null || string === undefined) {
+    return "";
+  }
+  var rex = /(<([^>]+)>)/ig;
+  return $.trim(string.replace(rex, ""));
+};
 
 AS.encodeForAttribute = function(string) {
   if (string === null || string === undefined) {
@@ -377,15 +358,33 @@ AS.openQuickModal = function(title, message) {
  *  id : String - id of the modal element
  *  title : String - to be applied as the modal header
  *  contents : String/HTML - the contents of the modal
- *  fillScreen : String/false - 'full'-98% of screen, 'container'-match the container width, false-standard modal size
+ *  size : String/false - 'full'-98% of screen, 'large' - larger modal, 'container' - match the container width, false-standard modal size
  *  modalOpts : object - any twitter bootstrap options to pass on the modal dialog upon init.
  *  initiatedBy : Element - the link/button that initiated the modal. This element will be focused again upon close.
  */
-AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initiatedBy) {
-  $("body").append(AS.renderTemplate("modal_custom_template", {id:id,title:title,content: "", fill: fillScreen||false}));
+AS.openCustomModal = function(id, title, contents, modalSize, modalOpts, initiatedBy) {
+  var templateData = {
+    id:id,
+    title:title,
+    content: "",
+  }
+
+  // phase out the class on .modal in favor of .modal-dialog
+  if (modalSize === 'large') {
+    templateData.dialogClass = 'modal-lg';
+    templateData.fill = false;
+  } else if (modalSize == 'full') {
+    templateData.dialogClass = 'modal-jumbo';
+    templateData.fill = false;
+  } else {
+    templateData.fill = modalSize;
+    templateData.dialogClass = false;
+  }
+
+  $("body").append(AS.renderTemplate("modal_custom_template", templateData));
   var $modal = $("#"+id);
-  $modal.append(contents);
-  $modal.on("hidden", function() {
+  $modal.find('.modal-content').append(contents);
+  $modal.on("hidden.bs.modal", function() {
     $modal.remove();
     $(window).unbind("resize", resizeModal);
 
@@ -396,19 +395,19 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initia
 
   var resizeModal = function() {
     var height;
-    if (fillScreen === 'full') {
+    if (modalSize === 'full' || 'large') {
       height = $(window).height() - ($(window).height() * 0.03);
     } else {
       height = $(window).height() - ($(window).height() * 0.2);
     }
 
     $modal.height(height); // -20% for 10% top and bottom margins
-    var modalBodyHeight = $modal.height() - $(".modal-header", $modal).height() - $(".modal-footer", $modal).height() - 80;
+    var modalBodyHeight = $modal.height() - $(".modal-header", $modal).outerHeight() - $(".modal-footer", $modal).outerHeight() - 95;
     $(".modal-body", $modal).height(modalBodyHeight);
-    $modal.css("marginLeft", -$modal.width() / 2);
+    // $modal.css("marginLeft", -$modal.width() / 2);
   }
 
-  if (fillScreen) {
+  if (modalSize) {
     $modal.on("shown resize", resizeModal);
     $(window).resize(resizeModal);
   }
@@ -422,6 +421,8 @@ AS.openCustomModal = function(id, title, contents, fillScreen, modalOpts, initia
 
   $modal.modal('show');
 
+  $(".linker:not(.initialised)", $modal).linker();
+
   return $modal;
 };
 
@@ -432,7 +433,7 @@ $.fn.serializeObject = function() {
   $(this).each(function() {
 
     if ($(this).is("form")) {
-      var a = this.serializeArray();
+      var a = $(this).serializeArray();
       $.each(a, function() {
         if (o[this.name] !== undefined) {
           if (!o[this.name].push) {
@@ -446,7 +447,14 @@ $.fn.serializeObject = function() {
     } else {
       // NOTE: THIS DOESN'T WORK FOR RADIO ELEMENTS (YET)
       $(":input", this).each(function() {
-        o[this.name] = $(this).val();
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push($(this).val() || '');
+        } else {
+          o[this.name] = $(this).val() || '';
+        }
       });
     }
 
@@ -465,10 +473,10 @@ $.fn.setValuesFromObject = function(obj) {
 
 
 AS.addControlGroupHighlighting = function(parent) {
-  $(".control-group :input", parent).on("focus", function() {
-    $(this).parents(".control-group:first").addClass("active");
+  $(".form-group :input", parent).on("focus", function() {
+    $(this).parents(".form-group:first").addClass("active");
   }).on("blur", function() {
-    $(this).parents(".control-group:first").removeClass("active");
+    $(this).parents(".form-group:first").removeClass("active");
   });
 };
 
@@ -537,11 +545,20 @@ AS.initAddAsYouGoActions = function($form, $list) {
       $asYouGo.hide();
     }
 
-    var btnsToReplicate = $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form);
+    var btnsToReplicate =  $(".subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn", $form)
+    btnsToReplicate = btnsToReplicate.map( function() {
+        var $btn = $(this);
+        if ( $btn.hasClass('show-all') && numberOfSubRecords() < 5   )
+          return;
+        else
+          return this;
+    });
+
     var fillToPercentage = 100; // full width
 
     btnsToReplicate.each(function() {
       var $btn = $(this);
+
       var $a = $("<a href='#'>+</a>");
       var btnText = $btn.val().length ? $btn.val() : $btn.text();
       $a.css("width", Math.floor(fillToPercentage / btnsToReplicate.length) + "%");
@@ -550,6 +567,7 @@ AS.initAddAsYouGoActions = function($form, $list) {
         // we need to differentiate the links
         $a.text(btnText);
         $a.addClass("has-label");
+        if ($btn.hasClass('show-all')) { $a.addClass('show-all'); }
       } else {
         // just add a title and we'll have a '+'
         $a.attr("title", btnText);
@@ -622,8 +640,6 @@ AS.prefixed_cookie = function(cookie_name, value) {
     args[0] = COOKIE_PREFIX + '_' + args[0];
     return $.cookie.apply(this, args);
 };
-
-
 
 
 // Sub Record Sorting
@@ -782,7 +798,7 @@ $(function() {
 
       // add a close icon to the alert
       var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
-      $close.append($("<span>").addClass("icon icon-remove"));
+      $close.append($("<span>").addClass("glyphicon glyphicon-remove"));
       $close.click(handleCloseAlert);
 
       $alert.prepend($close);
@@ -797,4 +813,92 @@ $(function() {
 
     $(".alert:not(.with-hide-alert)").initCloseAlertAction();
   });
+});
+
+// shortcuts
+$(function() {
+  var initFormShortcuts = function() {
+    var $form = $(this);
+
+  };
+
+  $(document).bind('keydown', 'shift+/', function() {
+    if (!$('#ASModal').length) {
+      AS.openAjaxModal(APP_PATH + "shortcuts");
+    }
+
+  });
+
+  $(document).bind('keydown', 'esc', function() {
+    if ($('#ASModal').length) {
+      $('#ASModal').modal('hide').data('bs.modal', null);
+    }
+  });
+
+  $(document).bind('keydown', 'ctrl+x', function() {
+    $(document).trigger("formclosed.aspace");
+  });
+
+  $(document).bind('keydown', 'shift+b', function() {
+    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown');
+  });
+
+  $(document).bind('keydown', 'shift+c', function() {
+    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown');
+  });
+
+  $(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+      case 's':
+        event.preventDefault();
+        console.log('ctrl-s');
+        break;
+      }
+    }
+});
+
+  var traverseMenuDown = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.next() : $(this).find('li:first');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }
+  };
+
+  var traverseMenuUp = function() {
+    var $current = $(this).find('ul li.active');
+    var $next = $current.length ? $current.prev() : $(this).find('li:last');
+
+    if ($next.length){
+      $next.addClass('active');
+      $current.removeClass('active');
+    }
+  };
+
+  var clickActive = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var $active = $(this).find('ul li.active');
+    if ($active.length) {
+      $active.find('a:first')[0].click();
+    }
+  };
+
+
+  $('li.dropdown').on({
+    'shown.bs.dropdown': function() {
+      $(this).bind("keydown", 'down', traverseMenuDown);
+      $(this).bind("keydown", 'up', traverseMenuUp);
+      $(this).bind("keydown", 'return', clickActive);
+    },
+    'hide.bs.dropdown': function() {
+      $(this).unbind("keydown", traverseMenuDown);
+      $(this).unbind("keydown", traverseMenuUp);
+      $(this).unbind('keydown', clickActive);
+    }
+  });
+
 });

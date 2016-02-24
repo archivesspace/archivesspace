@@ -1,7 +1,7 @@
-require 'logger'
+require 'aspace_logger'
 
 class Log
-  @@logger = Logger.new($stderr)
+  @@logger = ASpaceLogger.new($stderr)
 
   def self.noisiness(log_level)
     @@logger.sev_threshold = log_level.constantize
@@ -26,6 +26,10 @@ class Log
   def self.warn(s) @@logger.warn(prepare(s)) end
   def self.error(s) @@logger.error(prepare(s)) end
 
+  # this gets the backlog and starts the recording timer
+  def self.backlog
+    @@logger.backlog_and_flush 
+  end
 
   def self.filter_passwords(params)
     if params.is_a? String

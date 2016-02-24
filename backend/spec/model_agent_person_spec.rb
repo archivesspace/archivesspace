@@ -13,6 +13,16 @@ describe 'Agent model' do
   end
 
 
+  it "doesn't have a leading whitespace in the sort name" do
+
+    n1 = build(:json_name_person, :rest_of_name => nil)
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
+
+    AgentPerson[agent[:id]].name_person.first[:sort_name].should match(Regexp.new("^#{n1.primary_name}.*"))
+  end
+
+
   it "allows agents to have a linked contact details" do
 
     c1 = build(:json_agent_contact)
@@ -47,11 +57,11 @@ describe 'Agent model' do
 
     expect { n1 = build(:json_name_person, :authority_id => 'wooo', :source => nil).to_hash }.to raise_error(JSONModel::ValidationException)
 
-    JSONModel::strict_mode(false)
+    JSONModel.strict_mode(false)
 
     expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.to_not raise_error
 
-    JSONModel::strict_mode(true)
+    JSONModel.strict_mode(true)
 
   end
 
@@ -65,7 +75,7 @@ describe 'Agent model' do
                 }
               )
 
-    expect { n1.to_hash }.to_not raise_error(JSONModel::ValidationException)
+    expect { n1.to_hash }.to_not raise_error
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
 
@@ -228,6 +238,22 @@ describe 'Agent model' do
                                                             'authorized' => true)]))
       end
     }.to raise_error(Sequel::ValidationFailed)
+  end
+
+  it "returns the existing agent if an name authority id is already in place " do
+    json =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame'
+                     )])
+    json2 =    build( :json_agent_person,
+                     :names => [build(:json_name_person,
+                     'authority_id' => 'thesame'
+                     )])
+   
+    a1 =    AgentPerson.create_from_json(json)
+    a2 =    AgentPerson.ensure_exists(json2, nil)
+    
+    a1.should eq(a2) # the names should still be the same as the first authority_id names 
   end
 
 

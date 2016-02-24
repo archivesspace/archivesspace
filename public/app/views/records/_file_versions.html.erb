@@ -6,7 +6,7 @@
         <li class="result">
           <% if file.embed %>
             <%= render_aspace_partial :partial => "file_version_embed/#{file.embed_type}", :locals => {:file => file} %>
-          <% elsif  file.uri && file.uri.scheme.match(/^http/) %>
+          <% elsif  file.uri && file.uri.scheme && file.uri.scheme.match(/^(http|file)/) %>
             <%= link_to file.uri.to_s, file.uri.to_s %>
           <% else %>
             <%= file['file_uri'] %>

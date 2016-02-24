@@ -1,9 +1,10 @@
 class DigitalObjectComponentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_archival_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
+                      "update_digital_object_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
-                      "delete_archival_record" => [:delete]
+                      "delete_archival_record" => [:delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def new
@@ -11,6 +12,14 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_component.title = I18n.t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
+
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'digital_object_component'
+
+      @digital_object_component.update(defaults.values) if defaults
+      @form_title = I18n.t("digital_object_component.title_default")
+    end
+
 
     return render_aspace_partial :partial => "digital_object_components/new_inline" if inline?
 
@@ -102,6 +111,41 @@ class DigitalObjectComponentsController < ApplicationController
 
   def accept_children
     handle_accept_children(JSONModel(:digital_object_component))
+  end
+
+  def defaults
+    defaults = DefaultValues.get 'digital_object_component'
+
+    values = defaults ? defaults.form_values : {}
+
+    @digital_object_component = JSONModel(:digital_object_component).new(values)._always_valid!
+
+    @digital_object_component.display_string = I18n.t("default_values.form_title.digital_object_component")
+
+    render "defaults"
+  end
+
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "digital_object_component",
+                                "lock_version" => params[:digital_object_component].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:digital_object_component],
+                                                                        JSONModel(:digital_object_component).schema
+                                                                        )
+                              }).save
+
+      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+
+      redirect_to :controller => :digital_object_components, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :digital_object_components, :action => :defaults
+    end
+
   end
 
 

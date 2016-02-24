@@ -1,7 +1,7 @@
 
  <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
  <fieldset>
-   <%= form.label_and_textfield "username", :required => true %>
+   <%= form.label_and_textfield "username", { :field_opts => { :readonly => !!@user.id }, :required => true } %>
    <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "input-xxlarge"}, :required => true} %>
    
    <%= form.label_and_textfield "email", {:field_opts => {:size => 30, :class => "input-large"}} %>

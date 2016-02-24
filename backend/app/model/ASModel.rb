@@ -21,6 +21,7 @@ module ASModel
     base.instance_eval do
       plugin :optimistic_locking
       plugin :validation_helpers
+      plugin :after_initialize
     end
 
     base.extend(JSONModel)

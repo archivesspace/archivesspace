@@ -11,6 +11,19 @@ module ApplicationHelper
     @title = title
   end
 
+  def title_or_finding_aid_filing_title(resource)
+    if resource["finding_aid_filing_title"] && !resource["finding_aid_filing_title"].nil? && resource["finding_aid_filing_title"].length > 0
+      title = resource["finding_aid_filing_title"]
+    elsif resource["title"] && !resource["title"].nil?
+      title = resource["title"]
+    else
+      title = resource["display_string"]
+    end
+    MixedContentParser::parse(title, url_for(:root)).to_s.html_safe
+  
+  
+  end
+  
   def icon_for(type)
     "<span class='icon-#{type}' title='#{I18n.t("#{type}._singular")}'></span>".html_safe
   end
@@ -71,6 +84,8 @@ module ApplicationHelper
     # retain any advanced search params
     advanced = (opts["advanced"] || params["advanced"])
     search_params["advanced"] = advanced.blank? || advanced === 'false' ? false : true
+    search_params[:action] = :advanced_search if search_params["advanced"]
+    
     (0..2).each do |i|
       search_params["v#{i}"] = params["v#{i}"]
       search_params["f#{i}"] = params["f#{i}"]
@@ -117,6 +132,10 @@ module ApplicationHelper
   def render_aspace_partial(args)
     defaults = {:formats => [:html], :handlers => [:erb]}
     return render(defaults.merge(args))
+  end
+
+  def proxy_localhost?
+    AppConfig[:frontend_proxy_url] =~ /localhost/
   end
 
 end

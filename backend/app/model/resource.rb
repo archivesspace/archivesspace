@@ -22,6 +22,11 @@ class Resource < Sequel::Model(:resource)
   include Classifications
   include Events
   include Publishable
+  include RevisionStatements
+  include ReindexTopContainers
+  include RightsRestrictionNotes 
+  include MapToAspaceContainer
+  include RepresentativeImages
 
   enable_suppression
 

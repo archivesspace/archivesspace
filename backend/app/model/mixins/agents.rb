@@ -40,8 +40,8 @@ module Agents
         include DynamicEnums
 
         enums = []
-        enums << {:property => 'role', :uses_enum => role_enum} if role_enum
-        enums << {:property => 'relator', :uses_enum => relator_enum} if relator_enum
+        enums << {:property => 'role', :uses_enum => [role_enum]} if role_enum
+        enums << {:property => 'relator', :uses_enum => [relator_enum]} if relator_enum
 
         uses_enums(*enums)
       end

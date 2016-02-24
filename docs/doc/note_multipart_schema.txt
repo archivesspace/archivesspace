@@ -1,0 +1,14 @@
+JSON Schema: Note_multipart
+
+Properties
+
+string	type
+
+JSONModel(:rights_restriction) object	rights_restriction
+
+array ([{"type"=>"JSONModel(:note_chronology) object"}, {"type"=>"JSONModel(:note_orderedlist) object"}, {"type"=>"JSONModel(:note_definedlist) object"}, {"type"=>"JSONModel(:note_text) object"}])	subnotes
+
+
+
+
+

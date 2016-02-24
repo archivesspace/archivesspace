@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_inventory
+description: "Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.  "

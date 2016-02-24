@@ -6,8 +6,18 @@ module SearchHelper
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
+    
+    search_params["simple_filters"] = Array(opts["simple_filters"] || params["simple_filters"]).clone
+
+    if params["multiplicity"]
+      search_params["multiplicity"] = params["multiplicity"] 
+    end
 
     sort = (opts["sort"] || params["sort"])
+
+    if show_identifier_column? 
+      search_params["display_identifier"] = true
+    end
 
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
@@ -35,6 +45,18 @@ module SearchHelper
 
     search_params["q"] = opts["q"] || params["q"]
 
+    # retain advanced search params
+    if params["advanced"]
+      search_params["advanced"] = params["advanced"]
+      params.keys.each do |param_key|
+        ["op", "f", "v", "dop", "t"].each do |adv_search_prefix|
+          if param_key =~ /^#{adv_search_prefix}\d+/
+            search_params[param_key] = params[param_key]
+          end
+        end
+      end
+    end
+
     search_params.reject{|k,v| k.blank? or v.blank?}
   end
 
@@ -54,6 +76,9 @@ module SearchHelper
     @no_title = true
   end
 
+  def show_identifier_column?
+    @display_identifier
+  end
 
   def show_title_column?
     @search_data.has_titles? && !@no_title
@@ -73,16 +98,23 @@ module SearchHelper
   def title_sort_label
     @title_column_header or I18n.t("search_sorting.title_sort")
   end
+  
+  def identifier_column_header_label
+    I18n.t("search_results.result_identifier")
+  end
 
 
   def can_edit_search_result?(record)
+    return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
     return user_can?('update_location_record') if record['primary_type'] === "location"
     return user_can?('update_subject_record') if record['primary_type'] === "subject"
     return user_can?('update_classification_record') if ["classification", "classification_term"].include?(record['primary_type'])
     return user_can?('update_agent_record') if Array(record['types']).include?("agent")
 
-    user_can?('update_archival_record')
+    return user_can?('update_accession_record') if record['primary_type'] === "accession"
+    return user_can?('update_resource_record') if ["resource", "archival_object"].include?(record['primary_type'])
+    return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
   end
 
 
@@ -97,6 +129,14 @@ module SearchHelper
     @extra_columns.push(col)
   end
 
+  def add_identifier_column
+    prop = "identifier" 
+    add_column(identifier_column_header_label,
+                   proc { |record|
+                      record[prop] || ASUtils.json_parse(record['json'])[prop]
+                   }, :sortable => true, :sort_by => prop)
+
+  end
 
   def add_browse_columns(model, enum_locales = {})
     (1..5).to_a.each do |n|

@@ -1,0 +1,24 @@
+JSON Schema: Abstract_classification
+
+Properties
+
+string	uri
+
+string (max length: 255)	identifier
+
+string (max length: 16384)	title
+
+string (max length: 65000)	description
+
+boolean	publish
+
+array (Object (identifier, title))	path_from_root
+
+array (Object (ref, _resolved))	linked_records
+
+object	creator
+
+
+
+
+

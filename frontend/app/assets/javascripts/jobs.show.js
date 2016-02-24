@@ -10,6 +10,12 @@ $(function() {
 
   var initLoggingSpool = function() {
     var $logSection = $("#logs");
+    
+    if ( typeof $logSection.data("status-poll-interval") != 'undefined' ) {
+       LOG_POLL_INTERVAL = parseInt( $logSection.data("status-poll-interval")); 
+    }
+   
+
     var $logSpool = $("#logSpool", $logSection);
     var $followLogBtn = $(".btn-follow-log", $logSection);
 
@@ -34,7 +40,7 @@ $(function() {
           var dataLength = data.length;
           $(".alert", $logSection).remove();
           $logSpool.slideDown();
-          $logSpool.append(data);
+          $logSpool.append($("<div>").text(data));
           offset +=dataLength;
 
           if (dataLength === 0) {
@@ -103,7 +109,7 @@ $(function() {
           var templateName = "template_job_"+json.status + "_notice";
           var $li = $("<li>");
           $li.append(AS.renderTemplate(templateName));
-          $("#archivesSpaceSidebar .nav-list").append($li);
+          $("#archivesSpaceSidebar .as-nav-list").append($li);
 
           // Auto-reload the page if status changed from 'queued'
           if (old_status === "queued") {
@@ -116,6 +122,9 @@ $(function() {
           $("#queueMessage").html(json.queue_position_message);
           STATUS_POLL = setTimeout(pollStatus, STATUS_POLL_INTERVAL);
         }
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
       }
     });
   };

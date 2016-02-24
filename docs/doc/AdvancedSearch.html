@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: AdvancedSearch
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!AdvancedSearch.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">AdvancedSearch</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: AdvancedSearch
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">AdvancedSearch</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">common/advanced_search.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="AdvancedSearch/AdvancedSearchField.html" title="AdvancedSearch::AdvancedSearchField (class)">AdvancedSearchField</a></span>
+    
+  
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_field-class_method" title="define_field (class method)">+ (Object) <strong>define_field</strong>(opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields_matching-class_method" title="fields_matching (class method)">+ (Object) <strong>fields_matching</strong>(query) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_definitions-class_method" title="load_definitions (class method)">+ (Object) <strong>load_definitions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_default-class_method" title="set_default (class method)">+ (Object) <strong>set_default</strong>(type, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#solr_field_for-class_method" title="solr_field_for (class method)">+ (Object) <strong>solr_field_for</strong>(field) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="define_field-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_field</strong>(opts) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/advanced_search.rb', line 3</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_@fields ivar id'>@fields</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='lbrack token'>[</span><span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_AdvancedSearchField constant id'>AdvancedSearchField</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fields_matching-class_method">
+  
+    + (<tt>Object</tt>) <strong>fields_matching</strong>(query) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/advanced_search.rb', line 9</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fields_matching identifier id'>fields_matching</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
+  <span class='rubyid_load_definitions identifier id'>load_definitions</span>
+
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+    <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:to_s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_definitions-class_method">
+  
+    + (<tt>Object</tt>) <strong>load_definitions</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/advanced_search.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_load_definitions identifier id'>load_definitions</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@loaded ivar id'>@loaded</span>
+    <span class='rubyid_require identifier id'>require</span> <span class='string val'>'search_definitions'</span>
+
+    <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='lparen token'>(</span><span class='string val'>&quot;search_definitions.rb&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span>
+        <span class='rubyid_load identifier id'>load</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_@loaded ivar id'>@loaded</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_default-class_method">
+  
+    + (<tt>Object</tt>) <strong>set_default</strong>(type, name) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/advanced_search.rb', line 43</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_default identifier id'>set_default</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Unknown field: #{name}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+      <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_is_default identifier id'>is_default</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="solr_field_for-class_method">
+  
+    + (<tt>Object</tt>) <strong>solr_field_for</strong>(field) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/advanced_search.rb', line 18</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_solr_field_for identifier id'>solr_field_for</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
+  <span class='rubyid_load_definitions identifier id'>load_definitions</span>
+  <span class='rubyid_field identifier id'>field</span> <span class='assign token'>=</span> <span class='rubyid_@fields ivar id'>@fields</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Unrecognized search field: #{field}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_solr_field identifier id'>solr_field</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:15 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

@@ -1,0 +1,1256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Notes::ClassMethods
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!Notes/ClassMethods.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Notes.html" title="Notes (module)">Notes</a></span></span>
+     &raquo; 
+    <span class="title">ClassMethods</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="../schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Module: Notes::ClassMethods
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">backend/app/model/mixins/notes.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_notes-instance_method" title="#apply_notes (instance method)">- (Object) <strong>apply_notes</strong>(obj, json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_subnote_metadata-instance_method" title="#apply_subnote_metadata (instance method)">- (Object) <strong>apply_subnote_metadata</strong>(json, subnote_metadata) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#calculate_object_graph-instance_method" title="#calculate_object_graph (instance method)">- (Object) <strong>calculate_object_graph</strong>(object_graph, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_from_json-instance_method" title="#create_from_json (instance method)">- (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_persistent_ids-instance_method" title="#extract_persistent_ids (instance method)">- (Object) <strong>extract_persistent_ids</strong>(note) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_delete-instance_method" title="#handle_delete (instance method)">- (Object) <strong>handle_delete</strong>(ids_to_delete) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_publish_flag-instance_method" title="#handle_publish_flag (instance method)">- (Object) <strong>handle_publish_flag</strong>(ids, val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_subnote_metadata-instance_method" title="#load_subnote_metadata (instance method)">- (Object) <strong>load_subnote_metadata</strong>(notes) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#populate_metadata-instance_method" title="#populate_metadata (instance method)">- (Object) <strong>populate_metadata</strong>(note) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#populate_persistent_ids-instance_method" title="#populate_persistent_ids (instance method)">- (Object) <strong>populate_persistent_ids</strong>(json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_note_component_references-instance_method" title="#resolve_note_component_references (instance method)">- (Object) <strong>resolve_note_component_references</strong>(obj, json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_note_persistent_id_references-instance_method" title="#resolve_note_persistent_id_references (instance method)">- (Object) <strong>resolve_note_persistent_id_references</strong>(obj, json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_note_references-instance_method" title="#resolve_note_references (instance method)">- (Object) <strong>resolve_note_references</strong>(obj, json) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sequel_to_jsonmodel-instance_method" title="#sequel_to_jsonmodel (instance method)">- (Object) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apply_notes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_notes</strong>(obj, json) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 110</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_notes identifier id'>apply_notes</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_note_dataset identifier id'>note_dataset</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+  <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='rparen token'>)</span>                                                                            
+    <span class='comment val'># MySQL supports modifying joins, derby does not... </span>
+    <span class='rubyid_begin begin kw'>begin</span> 
+      <span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='comma token'>,</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='symbol val'>:subnote_metadata</span><span class='comma token'>,</span> <span class='symbol val'>:note_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>                  
+         <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span> <span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>  <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> 
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_InvalidOperation constant id'>InvalidOperation</span> <span class='comment val'># for derby</span>
+      <span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:note_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_note_dataset identifier id'>note_dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_note_dataset identifier id'>note_dataset</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span> 
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_populate_persistent_ids identifier id'>populate_persistent_ids</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_metadata identifier id'>metadata</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_populate_metadata identifier id'>populate_metadata</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
+    <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'publish'</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_note_obj identifier id'>note_obj</span> <span class='assign token'>=</span> <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:notes_json_schema_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_schema_version identifier id'>schema_version</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_publish identifier id'>publish</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:notes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_metadata identifier id'>metadata</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='bitor op'>|</span>
+      <span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_m identifier id'>m</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                             <span class='symbol val'>:note_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note_obj identifier id'>note_obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+                             <span class='symbol val'>:guid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_m identifier id'>m</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:guid</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_note_obj identifier id'>note_obj</span><span class='dot token'>.</span><span class='rubyid_add_persistent_ids identifier id'>add_persistent_ids</span><span class='lparen token'>(</span><span class='rubyid_extract_persistent_ids identifier id'>extract_persistent_ids</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+         <span class='mult op'>*</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_persistent_id_context identifier id'>persistent_id_context</span><span class='rparen token'>)</span>
+    
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_note identifier id'>add_note</span><span class='lparen token'>(</span><span class='rubyid_note_obj identifier id'>note_obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+    
+  <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_subnote_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>apply_subnote_metadata</strong>(json, subnote_metadata) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 233</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_subnote_metadata identifier id'>apply_subnote_metadata</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_subnote_metadata identifier id'>subnote_metadata</span><span class='rparen token'>)</span>
+  <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                       <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                          <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'subnote_guid'</span><span class='rbrack token'>]</span>
+                                            <span class='rubyid_guid identifier id'>guid</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'subnote_guid'</span><span class='rbrack token'>]</span>
+                                            <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_subnote_metadata identifier id'>subnote_metadata</span><span class='lbrack token'>[</span><span class='rubyid_guid identifier id'>guid</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+                                            <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'subnote_guid'</span><span class='rparen token'>)</span>
+                                          <span class='rubyid_end end kw'>end</span>
+
+                                          <span class='rubyid_hash identifier id'>hash</span>
+                                        <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_json identifier id'>json</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="calculate_object_graph-instance_method">
+  
+    - (<tt>Object</tt>) <strong>calculate_object_graph</strong>(object_graph, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 281</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_object_graph identifier id'>calculate_object_graph</span><span class='lparen token'>(</span><span class='rubyid_object_graph identifier id'>object_graph</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_column identifier id'>column</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{self.table_name}_id&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
+
+  <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_column identifier id'>column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_ids_for identifier id'>ids_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+             <span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_add_objects identifier id'>add_objects</span><span class='lparen token'>(</span><span class='rubyid_Note constant id'>Note</span><span class='comma token'>,</span> <span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_from_json-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 151</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+  <span class='rubyid_apply_notes identifier id'>apply_notes</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract_persistent_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>extract_persistent_ids</strong>(note) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 87</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_persistent_ids identifier id'>extract_persistent_ids</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                       <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                          <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'persistent_id'</span><span class='rbrack token'>]</span>
+                                            <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'persistent_id'</span><span class='rbrack token'>]</span>
+                                          <span class='rubyid_end end kw'>end</span>
+
+                                          <span class='rubyid_hash identifier id'>hash</span>
+                                        <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_delete-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_delete</strong>(ids_to_delete) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 103</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
+  <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='rparen token'>)</span>
+  <span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:note_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+
+  <span class='rubyid_super super kw'>super</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_publish_flag-instance_method">
+  
+    - (<tt>Object</tt>) <strong>handle_publish_flag</strong>(ids, val) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 37</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_publish_flag identifier id'>handle_publish_flag</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='rparen token'>)</span>
+  <span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:note_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                  <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_val identifier id'>val</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_subnote_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>load_subnote_metadata</strong>(notes) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227
+228
+229
+230</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 224</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_load_subnote_metadata identifier id'>load_subnote_metadata</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
+  <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_SubnoteMetadata constant id'>SubnoteMetadata</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:note_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                       <span class='rubyid_all identifier id'>all</span><span class='dot token'>.</span>
+                       <span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sm identifier id'>sm</span><span class='bitor op'>|</span>
+         <span class='lbrack token'>[</span><span class='rubyid_sm identifier id'>sm</span><span class='dot token'>.</span><span class='rubyid_guid identifier id'>guid</span><span class='comma token'>,</span> <span class='rubyid_sm identifier id'>sm</span><span class='rbrack token'>]</span>
+       <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="populate_metadata-instance_method">
+  
+    - (<tt>Object</tt>) <strong>populate_metadata</strong>(note) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 60</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_populate_metadata identifier id'>populate_metadata</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
+  <span class='rubyid_metadata identifier id'>metadata</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_toplevel identifier id'>toplevel</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                                <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                                   <span class='rubyid_if if kw'>if</span> <span class='rubyid_toplevel identifier id'>toplevel</span>
+                                                     <span class='rubyid_toplevel identifier id'>toplevel</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+                                                     <span class='rubyid_hash identifier id'>hash</span>
+                                                   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='dstring node'>&quot;#{hash['jsonmodel_type']}&quot;</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>'note_'</span><span class='rparen token'>)</span>
+                                                     <span class='rubyid_guid identifier id'>guid</span> <span class='assign token'>=</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span>
+
+                                                     <span class='rubyid_metadata identifier id'>metadata</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+                                                       <span class='symbol val'>:guid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_guid identifier id'>guid</span><span class='comma token'>,</span>
+                                                       <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Publishable constant id'>Publishable</span><span class='dot token'>.</span><span class='rubyid_db_value_for identifier id'>db_value_for</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+                                                     <span class='rbrace token'>}</span>
+
+                                                     <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'subnote_guid'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_guid identifier id'>guid</span><span class='rparen token'>)</span>
+                                                   <span class='rubyid_else else kw'>else</span>
+                                                     <span class='rubyid_hash identifier id'>hash</span>
+                                                   <span class='rubyid_end end kw'>end</span>
+                                                 <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='lbrack token'>[</span><span class='rubyid_metadata identifier id'>metadata</span><span class='comma token'>,</span> <span class='rubyid_result identifier id'>result</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="populate_persistent_ids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>populate_persistent_ids</strong>(json) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 46</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_populate_persistent_ids identifier id'>populate_persistent_ids</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                         <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                            <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'persistent_id'</span><span class='rbrack token'>]</span>
+                                              <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'persistent_id'</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span>
+                                            <span class='rubyid_end end kw'>end</span>
+
+                                            <span class='rubyid_hash identifier id'>hash</span>
+                                          <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve_note_component_references-instance_method">
+  
+    - (<tt>Object</tt>) <strong>resolve_note_component_references</strong>(obj, json) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 157</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_note_component_references identifier id'>resolve_note_component_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:node_record_type</span><span class='rparen token'>)</span>
+    <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
+    <span class='comment val'># If the object doesn't have a root record, it IS a root record.</span>
+    <span class='rubyid_root_id identifier id'>root_id</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span> <span class='colon op'>:</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
+
+    <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+      <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                           <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                              <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'note_index'</span>
+                                                <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
+                                                  <span class='rubyid_if if kw'>if</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference&quot;</span><span class='rbrack token'>]</span>
+                                                    <span class='rubyid_referenced_record identifier id'>referenced_record</span> <span class='assign token'>=</span> <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_id identifier id'>root_id</span><span class='comma token'>,</span>
+                                                                                     <span class='symbol val'>:ref_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+                                                    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_referenced_record identifier id'>referenced_record</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+                                                      <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference_ref&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_referenced_record identifier id'>referenced_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+                                                    <span class='rubyid_end end kw'>end</span>
+                                                  <span class='rubyid_end end kw'>end</span>
+                                                <span class='rubyid_end end kw'>end</span>
+                                              <span class='rubyid_end end kw'>end</span>
+
+                                              <span class='rubyid_hash identifier id'>hash</span>
+                                            <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve_note_persistent_id_references-instance_method">
+  
+    - (<tt>Object</tt>) <strong>resolve_note_persistent_id_references</strong>(obj, json) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 185</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_note_persistent_id_references identifier id'>resolve_note_persistent_id_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span>
+                                         <span class='lbrack token'>[</span><span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
+                                            <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'note_index'</span>
+                                              <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
+                                                <span class='rubyid_if if kw'>if</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference&quot;</span><span class='rbrack token'>]</span>
+                                                  <span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_parent_type identifier id'>parent_type</span><span class='rparen token'>)</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_persistent_id_context identifier id'>persistent_id_context</span>
+                                                  <span class='rubyid_persistent_id_record identifier id'>persistent_id_record</span> <span class='assign token'>=</span> <span class='rubyid_NotePersistentId constant id'>NotePersistentId</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
+                                                                                                 <span class='symbol val'>:parent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_type identifier id'>parent_type</span><span class='comma token'>,</span>
+                                                                                                 <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+                                                  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_persistent_id_record identifier id'>persistent_id_record</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+                                                    <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_Note constant id'>Note</span><span class='lbrack token'>[</span><span class='rubyid_persistent_id_record identifier id'>persistent_id_record</span><span class='lbrack token'>[</span><span class='symbol val'>:note_id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+
+                                                    <span class='rubyid_referenced_record identifier id'>referenced_record</span> <span class='assign token'>=</span> <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_associations identifier id'>associations</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_association identifier id'>association</span><span class='bitor op'>|</span>
+                                                      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_association identifier id'>association</span> <span class='eq op'>==</span> <span class='symbol val'>:note_persistent_id</span>
+                                                      <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='rparen token'>)</span>
+                                                    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+
+                                                    <span class='rubyid_if if kw'>if</span> <span class='rubyid_referenced_record identifier id'>referenced_record</span>
+                                                      <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&quot;reference_ref&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_referenced_record identifier id'>referenced_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+                                                    <span class='rubyid_end end kw'>end</span>
+                                                  <span class='rubyid_end end kw'>end</span>
+                                                <span class='rubyid_end end kw'>end</span>
+                                              <span class='rubyid_end end kw'>end</span>
+                                            <span class='rubyid_end end kw'>end</span>
+
+                                            <span class='rubyid_hash identifier id'>hash</span>
+                                          <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve_note_references-instance_method">
+  
+    - (<tt>Object</tt>) <strong>resolve_note_references</strong>(obj, json) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 218</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_note_references identifier id'>resolve_note_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_resolve_note_component_references identifier id'>resolve_note_component_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_resolve_note_persistent_id_references identifier id'>resolve_note_persistent_id_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sequel_to_jsonmodel-instance_method">
+  
+    - (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/notes.rb', line 249</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_association identifier id'>association</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='symbol val'>:note</span><span class='rparen token'>)</span>
+  <span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_Note constant id'>Note</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_objs identifier id'>objs</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+    <span class='rubyid_record_id identifier id'>record_id</span> <span class='assign token'>=</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='rubyid_association identifier id'>association</span><span class='lbrack token'>[</span><span class='symbol val'>:key</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+    <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_record_id identifier id'>record_id</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_record_id identifier id'>record_id</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_note identifier id'>note</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='rubyid_subnote_metadata identifier id'>subnote_metadata</span> <span class='assign token'>=</span> <span class='rubyid_load_subnote_metadata identifier id'>load_subnote_metadata</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
+    <span class='rubyid_my_notes identifier id'>my_notes</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+      <span class='rubyid_parsed identifier id'>parsed</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_apply_subnote_metadata identifier id'>apply_subnote_metadata</span><span class='lparen token'>(</span><span class='rubyid_parsed identifier id'>parsed</span><span class='comma token'>,</span> <span class='rubyid_subnote_metadata identifier id'>subnote_metadata</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_parsed identifier id'>parsed</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+      <span class='rubyid_parsed identifier id'>parsed</span>
+    <span class='rbrace token'>}</span>
+
+    <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='rubyid_my_notes identifier id'>my_notes</span>
+
+    <span class='rubyid_resolve_note_references identifier id'>resolve_note_references</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_jsons identifier id'>jsons</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:51 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

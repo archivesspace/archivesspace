@@ -5,7 +5,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["accession", JSONModel(:accession), "The updated record", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_accession_record])
     .returns([200, :updated]) \
   do
     handle_update(Accession, params[:id], params[:accession])
@@ -16,7 +16,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Create an Accession")
     .params(["accession", JSONModel(:accession), "The record to create", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_accession_record])
     .returns([200, :created]) \
   do
     handle_create(Accession, params[:accession])

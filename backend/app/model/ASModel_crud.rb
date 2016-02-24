@@ -12,7 +12,7 @@ module ASModel
     end
 
     Sequel.extension :inflector
-
+    Sequel.extension(:core_extensions)
 
     def self.set_audit_fields(json, obj)
       ['created_by', 'last_modified_by'].each do |field|
@@ -162,6 +162,15 @@ module ASModel
 
           # Tell the nested record to clear its own nested records
           Array(self.send(nested_record_defn[:association][:name])).each do |nested_record|
+
+            # not stoked on this ,but some one_to_one's (collection_management
+            # ) get indexed with an id that refs the parent. so we need to
+            # tombstone the uri that points back to the parent uri
+            if nested_record_defn[:association][:type] == :one_to_one
+              context_uri =  "#{self.uri}##{self.class.to_s.downcase}_#{nested_record.class.to_s.underscore}"
+              Tombstone.create(:uri => context_uri)
+            end
+            
             nested_record.delete
           end
         elsif nested_record_defn[:association][:type] === :many_to_many
@@ -261,6 +270,11 @@ module ASModel
         break if object_graph.models.length == successfully_deleted_models.length
 
         unless progressed
+          if last_error && DB.is_retriable_exception(last_error)
+            # Give us a chance to retry after a deadlock
+            raise last_error
+          end
+
           raise ConflictException.new("Record deletion failed: #{last_error}")
         end
       end
@@ -302,7 +316,7 @@ module ASModel
     # that they'll need to fetch the latest representation.
     #
     # For example, this flag is used when the user's data is combined with a
-    # system-generated ID to create a record.  The user needs to refetch to ensure
+
     # that their local copy of the record includes the system-generated data too.
     def system_modified?
       @system_modified
@@ -431,7 +445,7 @@ module ASModel
         enums = []
         @jsonmodel.schema['properties'].each do |prop, defn|
           if defn["dynamic_enum"]
-            enums << {:property => prop, :uses_enum => defn['dynamic_enum']}
+            enums << {:property => prop, :uses_enum => [defn['dynamic_enum']]}
           end
         end
 

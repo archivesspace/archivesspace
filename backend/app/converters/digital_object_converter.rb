@@ -166,6 +166,17 @@ class DigitalObjectConverter < Converter
       'user_defined_enum_3' => 'user_defined.enum_3',
       'user_defined_enum_4' => 'user_defined.enum_4',
 
+      'file_version_file_uri' => 'file_version.file_uri',
+      'file_version_publish' => 'file_version.publish',
+      'file_version_use_statement' => 'file_version.use_statement',
+      'file_version_xlink_actuate_attribute' => 'file_version.xlink_actuate_attribute',
+      'file_version_xlink_show_attribute' => 'file_version.xlink_show_attribute',
+      'file_version_file_format_name' => 'file_version.file_format_name',
+      'file_version_file_format_version' => 'file_version.file_format_version',
+      'file_version_file_size_bytes' => 'file_version.file_size_bytes',
+      'file_version_checksum' => 'file_version.checksum',
+      'file_version_checksum_method' => 'file_version.checksum_method',
+      
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
       #    :defaults - hash which maps property keys to default values if nothing shows up in the source date
@@ -319,7 +330,14 @@ class DigitalObjectConverter < Converter
           digital_object = cache.find {|obj| obj.class.record_type == 'digital_object'}
           digital_object.user_defined = this
         }
-      }
+      },
+      
+      :file_version => {
+        :on_row_complete => Proc.new {|cache, this|
+          digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
+          digital_object.file_versions << this
+        }
+      },
     }
   end
 
@@ -343,7 +361,7 @@ class DigitalObjectConverter < Converter
         # Not sure how best to handle this, assuming for now that the built-in ASpace agent exists:
         event.linked_agents << {'role' => 'executing_program', 'ref' => '/agents/software/1'}
         event.date = date
-        event.linked_records << {'role' => 'subject', 'ref' => digital_object.uri}
+        event.linked_records << {'role' => 'source', 'ref' => digital_object.uri}
       }
     }
   end

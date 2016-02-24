@@ -326,7 +326,7 @@ describe 'Relationships' do
 
     expect {
       cherry.save
-    }.to_not raise_error(Sequel::Plugins::OptimisticLocking::Error)
+    }.to_not raise_error
   end
 
 

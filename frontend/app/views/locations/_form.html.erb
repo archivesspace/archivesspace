@@ -1,7 +1,8 @@
 <% define_template("location", jsonmodel_definition(:location)) do |form| %>
   <fieldset>
     <section id="basic_information">
-      <%= form.label_and_select "temporary", form.possible_options_for("temporary", true) %>
+    <%= form.label_and_boolean "temporary_question", {}, false %> 
+    <%= form.label_and_select "temporary", form.possible_options_for("temporary", true), :field_opts =>  { :disabled => true, :class => "location_temporary" } %>
       <hr/>
       <%= form.label_and_textfield "building" %>
       <%= form.label_and_textfield "floor" %>
@@ -23,4 +24,7 @@
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
 <% form.emit_template("location") %>
-<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+<%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
+
+<%= form_plugins_for("location", form) %>
+

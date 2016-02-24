@@ -1,0 +1,26 @@
+JSON Schema: Container_profile
+/container_profiles
+Properties
+
+string	uri
+
+string	name
+
+string	url
+
+string	dimension_units
+
+string	extent_dimension
+
+string	height
+
+string	width
+
+string	depth
+
+string	display_string
+
+
+
+
+

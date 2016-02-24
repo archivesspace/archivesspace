@@ -1,16 +1,16 @@
 class RecordsController < ApplicationController
-
+  include ApplicationHelper  
   before_filter :get_repository
 
   def resource
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
     raise RecordNotFound.new if (!resource || !resource.publish)
-
+    breadcrumb_title = title_or_finding_aid_filing_title(resource) 
     @resource = ResourceView.new(resource)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [@resource.finding_aid_status === 'completed' ? @resource.finding_aid_title : @resource.title, "#", "resource"]
+      [breadcrumb_title, "#", "resource"]
     ]
   end
 
@@ -32,7 +32,8 @@ class RecordsController < ApplicationController
 
       if record["node_type"] === "resource"
         @resource_uri = record['record_uri']
-        @breadcrumbs.push([record["finding_aid_status"] === 'completed' ? record["finding_aid_title"] : record["title"], url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
+        breadcrumb_title = title_or_finding_aid_filing_title(record) 
+        @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
       else
         @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
       end

@@ -20,7 +20,9 @@ class FileVersionView
 
   def uri
     begin
-      @uri ||= URI(@record['file_uri'])
+      uri = @record['file_uri'].gsub(/\\/, '/' ) # bit of a hack for windows uri 
+      uri = "file:///#{uri}" unless uri.match(/^(http|file|)/) 
+      @uri ||= URI(uri)
     rescue URI::InvalidURIError => e
       nil
     end

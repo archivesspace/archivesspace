@@ -1,0 +1,10 @@
+JSON Schema: Note_outline_level
+
+Properties
+
+array ([{"type"=>"string"}, {"type"=>"JSONModel(:note_outline_level) object"}])	items
+
+
+
+
+

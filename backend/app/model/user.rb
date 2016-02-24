@@ -20,10 +20,13 @@ class User < Sequel::Model(:user)
                   :name_order => 'direct',
                   :sort_name_auto_generate => true
               }])
-      agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
 
-      opts['agent_record_type'] = :agent_person
-      opts['agent_record_id'] = agent_obj.id
+      CrudHelpers.with_record_conflict_reporting(AgentPerson, agent) do
+        agent_obj = AgentPerson.create_from_json(agent, :system_generated => true)
+
+        opts['agent_record_type'] = :agent_person
+        opts['agent_record_id'] = agent_obj.id
+      end
     end
 
     obj = super(json, opts)
@@ -228,7 +231,12 @@ class User < Sequel::Model(:user)
     raise AccessDeniedException.new("Can't delete system user") if self.is_system_user == 1
 
     DBAuth.delete_user(self.username)
-
+ 
+    # transfer all import jobs to the admin user
+    admin_user = User.select(:id).where( :username => "admin" ).first
+    Job.filter(:owner_id => self.id).update( :owner_id => admin_user.id )
+    
+    Preference.filter(:user_id => self.id).delete
     self.remove_all_group
 
     super

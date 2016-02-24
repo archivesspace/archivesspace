@@ -10,7 +10,7 @@ module ASUtils
     result = {}
 
     hash.each do |key, value|
-      result[key.to_s] = value
+      result[key.to_s] = value.is_a?(Date) ? value.to_s : value 
     end
 
     result
@@ -82,7 +82,7 @@ module ASUtils
     [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
      File.join(*[File.dirname(__FILE__), "..", root].compact)].find {|dir|
-      Dir.exists?(dir)
+      dir && Dir.exists?(dir)
     }
   end
 
@@ -109,14 +109,14 @@ module ASUtils
     end
   end
 
-
-  def self.dump_diagnostics(exception = nil)
+ def self.get_diagnostics(exception = nil )
     runtime = java.lang.Runtime.getRuntime
-    diagnostics = {
-      :environment => java.lang.System.getenv,
-      :jvm_properties => java.lang.System.getProperties,
+   {
+      :version =>ASConstants.VERSION,  
+      :environment => java.lang.System.getenv.to_hash,
+      :jvm_properties => java.lang.System.getProperties.to_hash,
       :globals => Hash[global_variables.map {|v| [v, eval(v.to_s)]}],
-      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitised : "not loaded",
+      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitized : "not loaded",
       :memory => {
         :free => runtime.freeMemory,
         :max => runtime.maxMemory,
@@ -125,7 +125,11 @@ module ASUtils
       :cpu_count => runtime.availableProcessors,
       :exception => exception && {:msg => exception, :backtrace => exception.backtrace}
     }
+   
+ end
 
+  def self.dump_diagnostics(exception = nil)
+    diagnostics = self.get_diagnostics( exception ) 
     tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, "w") do |fh|
       fh.write(JSON.pretty_generate(diagnostics))
@@ -168,6 +172,29 @@ EOF
       if File.exists?(gemfile)
         context.instance_eval(File.read(gemfile))
       end
+    end
+  end
+
+
+  # Borrowed from: file activesupport/lib/active_support/core_ext/array/wrap.rb, line 36
+  def self.wrap(object)
+    if object.nil?
+      []
+    elsif object.respond_to?(:to_ary)
+      object.to_ary || [object]
+    else
+      [object]
+    end
+  end
+
+  # find a nested key inside a hash
+  def self.search_nested(hash,key)
+    if hash.respond_to?(:key?) && hash.key?(key)
+      hash[key]
+    elsif hash.respond_to?(:each)
+      obj = nil
+      hash.find{ |*a| obj=self.search_nested(a.last,key) }
+      obj 
     end
   end
 

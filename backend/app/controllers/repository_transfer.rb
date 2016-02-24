@@ -5,10 +5,10 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_accession_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(Accession, params[:id])
+    handle_transfer(Accession, params[:id], :update_accession_record)
   end
 
 
@@ -17,10 +17,10 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_resource_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(Resource, params[:id])
+    handle_transfer(Resource, params[:id], :update_resource_record)
   end
 
 
@@ -29,10 +29,10 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["target_repo", String, "The URI of the target repository"],
             ["repo_id", :repo_id])
-    .permissions([:update_archival_record])
+    .permissions([:update_digital_object_record])
     .returns([200, :moved]) \
   do
-    handle_transfer(DigitalObject, params[:id])
+    handle_transfer(DigitalObject, params[:id], :update_digital_object_record)
   end
 
 
@@ -63,14 +63,14 @@ class ArchivesSpaceService < Sinatra::Base
   private
 
 
-  def handle_transfer(model, id)
+  def handle_transfer(model, id, perm)
     target_id = JSONModel(:repository).id_for(params[:target_repo])
     target = target_id && Repository[target_id]
 
     raise BadParamsException.new(:target_repo => ["Repository not found"]) if !target
 
     RequestContext.open(:repo_id => target.id) do
-      if !current_user.can?(:update_archival_record)
+      if !current_user.can?(perm)
         raise AccessDeniedException.new(:target_repo => ["Permission denied"])
       end
     end

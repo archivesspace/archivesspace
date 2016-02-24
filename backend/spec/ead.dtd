@@ -1,0 +1,4612 @@
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                      ENCODED ARCHIVAL DESCRIPTION                     -->
+<!--                       DOCUMENT TYPE DEFINITION                        -->
+<!--                             VERSION 2002                              -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                    Prepared and Maintained by the                     -->
+<!--              Encoded Archival Description Working Group               -->
+<!--                 of the Society of American Archivists                 -->
+<!--                               and the                                 -->
+<!--             Network Development and MARC Standards Office             -->
+<!--                      of the Library of Congress                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                    Society of American Archivists                     -->
+<!--                               Chicago                                 -->
+<!--                                 2002                                  -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--         Encoded Archival Description Document Type Definition         -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--                 EAD Technical Document No. 1, Part 1                  -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--  This file constitutes version 2002 of the Encoded Archival           -->
+<!--  Description Document Type Definition released in September 2002.     -->
+<!--  Version 2002 of the DTD supersedes version 1.0, released in August   -->
+<!--  1998.                                                                -->
+<!--                                                                       -->
+<!--  The SAA Encoded Archival Description Working Group is responsible    -->
+<!--  for updating and editing the EAD DTD (EAD Technical Document No. 1)  -->
+<!--  and Tag Library (EAD Technical Document No. 2).                      -->
+<!--                                                                       -->
+<!--  The LC Network Development and MARC Standards Office serves as the   -->
+<!--  maintenance agency for online EAD documentation, including storage   -->
+<!--  and delivery of electronic files and maintenance of the EAD Internet -->
+<!--  site, located at http://lcweb.loc.gov/ead/.                          -->
+<!--                                                                       -->
+<!--  Published by the Society of American Archivists.                     -->
+<!--                                                                       -->
+<!--  Tag Library available from:                                          -->
+<!--                                                                       -->
+<!--                     Society of American Archivists                    -->
+<!--                     527 S. Wells Street, 5th floor                    -->
+<!--                     Chicago, IL 60607                                 -->
+<!--                                                                       -->
+<!--                     Phone:    312/922-0140                            -->
+<!--                     Fax:      312/347-1452                            -->
+<!--                     Email:    info@archivists.org                     -->
+<!--                     Internet: www.archivists.org                      -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!--  (c) Society of American Archivists, 2002. All rights reserved.       -->
+<!--                                                                       -->
+<!--   ISBN 1-931666-00-8                                                  -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    PUBLIC IDENTIFIER FOR EAD DTD:
+
+  '+//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD)
+   Version 2002)//EN'
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                            INTRODUCTION                               -->
+<!--                                                                       -->
+<!--       Name:    Encoded Archival Description Document Type Definition  -->
+<!--                  File name: ead.dtd                                   -->
+<!--                  Version: 2002                                        -->
+<!--                  Version date: 20021204                               -->
+<!--                                                                       -->
+<!--       Editor:  Daniel V. Pitti                                        -->
+<!--                Institute for Advanced Technology in the Humanities    -->
+<!--                University of Virginia                                 -->
+<!--                                                                       -->
+<!--       Purpose: To encode that class of archival finding aids known as -->
+<!--       inventories and registers, which are reference tools produced   -->
+<!--       by archives, libraries, universities, associations, agencies,   -->
+<!--       and other organizations to describe, control, and provide       -->
+<!--       access to archival and manuscript materials.                    -->
+<!--                                                                       -->
+<!--       Contact: EAD listserv of the Library of Congress Network        -->
+<!--       Development and MARC Standards Office. To subscribe to this     -->
+<!--       listserv, send a one-line message to LISTSERV@LOC.GOV           -->
+<!--       containing the text: SUBSCRIBE EAD YourName. Once subscribed,   -->
+<!--       submit messages to EAD@LOC.GOV.                                 -->
+<!--                                                                       -->
+<!--       Official EAD Internet site, located at                          -->
+<!--       http://lcweb.loc.gov/ead/                                       -->
+<!--                                                                       -->
+<!--       Dependencies:                                                   -->
+<!--                                                                       -->
+<!--        XML applications                                               -->
+<!--                                                                       -->
+<!--       	  ISO Character Entities (Optional)                            -->
+<!--           Added Latin 1                                               -->
+<!--           Added Latin 2                                               -->
+<!--           Alternative Greek Symbols                                   -->
+<!--           Diacritical Marks                                           -->
+<!--           General Technical                                           -->
+<!--           Greek Letters                                               -->
+<!--           Greek Symbols                                               -->
+<!--           Monotoniko Greek                                            -->
+<!--           Non-Russian Cyrillic                                        -->
+<!--           Numeric and Special Graphic                                 -->
+<!--           Publishing                                                  -->
+<!--           Russian Cyrillic                                            -->
+<!--                                                                       -->
+<!--       ISO Character Entity files for XML applications can be obtained -->
+<!--       at http://www.oasis-open.org/docbook/xmlcharent/ These files    -->
+<!--       represent the most authoritative source currently available.    -->
+<!--       Note, though, that revision of the files is not complete, and   -->
+<!--       thus the site should be monitored for updated files.            -->
+<!--                                                                       -->
+<!--        SGML applications                                              -->
+<!--                                                                       -->
+<!--       	  EAD SGML Declaration                                         -->
+<!--       	   eadsgml.dcl (distributed with ead.dtd)                      -->
+<!--                                                                       -->
+<!--       	  ISO Character Entities                                       -->
+<!--           Added Latin 1                                               -->
+<!--           Added Latin 2                                               -->
+<!--           Alternative Greek Symbols                                   -->
+<!--           Diacritical Marks                                           -->
+<!--           General Technical                                           -->
+<!--           Greek Letters                                               -->
+<!--           Greek Symbols                                               -->
+<!--           Monotoniko Greek                                            -->
+<!--           Non-Russian Cyrillic                                        -->
+<!--           Numeric and Special Graphic                                 -->
+<!--           Publishing                                                  -->
+<!--           Russian Cyrillic                                            -->
+<!--                                                                       -->
+<!--       ISO Character Entity files for SGML applications can be         -->
+<!--       purchased from the International Standards Organization         -->
+<!--       (http://www.iso.ch/iso/en/ISOOnline.openerpage), though they    -->
+<!--       are also distributed with most SGML-compliant software.         -->
+<!--       Character sets distributed with software should be examined to  -->
+<!--       determine that the files have not been modified.                -->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                        SPONSOR INFORMATION                            -->
+<!--                                                                       -->
+<!--  The EAD is a cooperative effort sponsored by several institutions    -->
+<!--  and professional associations. Its development has been supported    -->
+<!--  through a series of fellowships and grants.                          -->
+<!--                                                                       -->
+<!--  The Society of American Archivists (SAA) through the EAD Working     -->
+<!--  Group is responsible for the intellectual content of EAD and for     -->
+<!--  monitoring and assisting in its ongoing development. The working     -->
+<!--  group includes representatives from the Library of Congress, the     -->
+<!--  U.S. National Archives and Records Administration, and RLG; and      -->
+<!--  archivists from Australia, Canada, the Netherlands, France, the      -->
+<!--  United Kingdom, and the United States.                               -->
+<!--                                                                       -->
+<!--  The Library of Congress Network Development and MARC Standards       -->
+<!--  Office is the international maintenance agency for the standard.     -->
+<!--                                                                       -->
+<!--  Funding agencies who have contributed generously to the development  -->
+<!--  of the standard include:                                             -->
+<!--                                                                       -->
+<!--    Department of Education (Title IIA grant) to the University of     -->
+<!--    California, Berkeley, for developing a prototype encoding standard -->
+<!--    and database for finding aids;                                     -->
+<!--                                                                       -->
+<!--    The Library, University of California, Berkeley, for supporting    -->
+<!--    ongoing development of a community-based standard;                 -->
+<!--                                                                       -->
+<!--    Commission on Preservation and Access for a three-day conference   -->
+<!--    (4-6 April 1995) on the Berkeley Finding Aid Project (BFAP);       -->
+<!--                                                                       -->
+<!--    University of Michigan Bentley Historical Library, Andrew W.       -->
+<!--    Mellon Foundation, and the National Endowment for the Humanities   -->
+<!--    (Division of Preservation and Access) for assembling               -->
+<!--    representatives from the archival community for a week-long (22-29 -->
+<!--    July 1995) Bentley fellowship program to develop design principles -->
+<!--    and revise the BFAP data model and DTD;                            -->
+<!--                                                                       -->
+<!--    Library of Congress National Digital Library Program for           -->
+<!--    sponsoring a three-day meeting (1-3 November 1995) of the Bentley  -->
+<!--    team and other experts to review the Bentley model and for         -->
+<!--    providing the technical support of an SGML consulting firm to make -->
+<!--    modifications and supply accompanying documentation for an alpha   -->
+<!--    version of the DTD;                                                -->
+<!--                                                                       -->
+<!--    Council on Library Resources (now the Council on Library and       -->
+<!--    Information Resources) for supporting meetings of the EAD          -->
+<!--    development team in Los Angeles, California (4-6 January 1996) and -->
+<!--    Berkeley, California (27-29 April 1996) and for sponsoring the     -->
+<!--    development of the beta version tag library and application        -->
+<!--    guidelines and the development and publication of the revised      -->
+<!--    version 1.0 tag library under the auspices of the Society of       -->
+<!--    American Archivists;                                               -->
+<!--                                                                       -->
+<!--    Gladys Krieble Delmas Foundation for funding a three-day meeting   -->
+<!--    (31 October -2 November 1997) of the EAD Working Group to consider -->
+<!--    changes to the beta version of the DTD;                            -->
+<!--                                                                       -->
+<!--    The Institute of Museum and Library Services for funding to        -->
+<!--    support the writing and publication of the EAD Application         -->
+<!--    Guidelines under the auspices of the SAA (1999);                   -->
+<!--                                                                       -->
+<!--    The National Historical Publications and Records Commission for    -->
+<!--    funding a meeting of the EAD Working Group in Washington, D.C.     -->
+<!--    (27-29 April 2001) to consider changes from Version 1.0 to Version -->
+<!--    2002 and for publication support for the 2002 tag library.         -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--              ENCODED ARCHIVAL DESCRIPTION WORKING GROUP               -->
+<!--                                                                       -->
+<!--  Past Members                                                         -->
+<!--                                                                       -->
+<!--    Jackie Dooley (UC Irvine) 1995-2000                                -->
+<!--    Wendy Duff (University of Toronto) 1998-2000                       -->
+<!--    Ricky Erway (RLG) 1997-1998                                        -->
+<!--    Anne Gilliland-Swetland (UCLA) 1995-1998                           -->
+<!--    Steve Hensen (Duke University) 1995-2000                           -->
+<!--    Eric Miller (OCLC) 1995-1998                                       -->
+<!--    Chris Petter (University of Victoria, BC) 1997                     -->
+<!--    Janice Ruth (LC Manuscripts Division) 1995-1998                    -->
+<!--    Rob Spindler (Arizona State University) 1997-1998                  -->
+<!--    Meg Sweet (Public Record Office, London) 1996-2002                 -->
+<!--    Rich Szary (Yale University) 1997-1998                             -->
+<!--    Sharon Thibodeau (NARA) 1995-1998                                  -->
+<!--    Anne Van Camp (RLG) 1999-2000                                      -->
+<!--    Helena Zinkham (LC Prints and Photographs Division) 1995-1998      -->
+<!--                                                                       -->
+<!--  Current Members (October 2002)                                       -->
+<!--                                                                       -->
+<!--    Randall K. Barry (Library of Congress, Network Development and     -->
+<!--      MARC Standards Office) 1997-                                     -->
+<!--    Catherine Dherent (Direction des Archives de France) 2000-         -->
+<!--    Michael Fox (Minnesota Historical Society) 1995-                   -->
+<!--    Tim Hutchinson (University of Saskatchewan Archives) 2000-         -->
+<!--    Kris Kiesling (University of Texas at Austin) 1995-                -->
+<!--    Bill Landis (UCLA/UC Irvine) 1997-                                 -->
+<!--    Gavan McCarthy (University of Melbourne, Australian Science and    -->
+<!--      Technology Heritage Center) 2000-                                -->
+<!--    Daniel Pitti (University of Virginia) 1995-                        -->
+<!--    Merrilee Proffitt (RLG) 2001-                                      -->
+<!--    Lydia J. E. Reid (NARA) 2000-                                      -->
+<!--    Henny van Schie (Nationaal Archief, Den Haag) 2002-                -->
+<!--    Bill Stockting (Public Record Office, London) 2002-                -->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                          VERSION HISTORY                              -->
+<!--                                                                       -->
+<!--  ALPHA 0.1                                                            -->
+<!--    Daniel V. Pitti, editor                                            -->
+<!--    University of California, Berkeley, The Library                    -->
+<!--    Date: 1995-10                                                      -->
+<!--                                                                       -->
+<!--    In October 1993, the University of California, Berkeley Library    -->
+<!--    began a two-year research and demonstration project to investigate -->
+<!--    the desirability and feasibility of developing an encoding         -->
+<!--    standard for machine-readable finding aids. Daniel V. Pitti,       -->
+<!--    director of the Berkeley Finding Aid Project (BFAP), wrote the     -->
+<!--    FindAid DTD and oversaw the creation of a prototype database.      -->
+<!--    Campbell Crabtree, Tim Hoyer, Gabriela Montoya, Alvin Pollock, and -->
+<!--    other Library and Bancroft Library staff assisted Pitti in this    -->
+<!--    work and in subsequent efforts to develop a community-based        -->
+<!--    encoding standard.                                                 -->
+<!--                                                                       -->
+<!--    In July 1995, Pitti assembled a team of archivists and an SGML     -->
+<!--    expert to meet at the Bentley Historical Library in Ann Arbor,     -->
+<!--    Michigan, to analyze the FindAid DTD and data model developed by   -->
+<!--    the BFAP. The Bentley Team for Encoded Archival Description        -->
+<!--    Development produced a new data model and the "Ann Arbor Accords:  -->
+<!--    Principles and Criteria for an SGML Document Type Definition (DTD) -->
+<!--    for Finding Aids." These two documents provided the framework for  -->
+<!--    the initial draft (version 0.1) of the EAD DTD.                    -->
+<!--                                                                       -->
+<!--    Members of the Bentley team assembled by Pitti were Steven J.      -->
+<!--    DeRose, Electronic Book Technologies; Jackie Dooley, University of -->
+<!--    California, Irvine; Michael J. Fox, Minnesota Historical Society;  -->
+<!--    Steven Hensen, Duke University; Kris Kiesling, University of Texas -->
+<!--    at Austin; Janice E. Ruth, Library of Congress; Sharon Thibodeau,  -->
+<!--    National Archives and Records Administration; and Helena Zinkham,  -->
+<!--    Library of Congress.                                               -->
+<!--                                                                       -->
+<!--  ALPHA 0.2                                                            -->
+<!--    Daniel V. Pitti, co-editor                                         -->
+<!--    University of California, Berkeley, The Library                    -->
+<!--      with the                                                         -->
+<!--    ATLIS Consulting Group (Debbie Lapeyre)                            -->
+<!--      Rockville, Maryland  20852                                       -->
+<!--      (under contract with the National Digital Library Program,       -->
+<!--      Library of Congress)                                             -->
+<!--    Date: 1995-12                                                      -->
+<!--                                                                       -->
+<!--    The Bentley team together with Debbie Lapeyre of ATLIS Consulting  -->
+<!--    Group, Anne Gilliland-Swetland of the University of California,    -->
+<!--    Los Angeles, and Marla Banks, Randall Barry, Beth Davis-Brown,     -->
+<!--    LeeEllen Friedland, and Belinda Urquiza of the Library of Congress -->
+<!--    met in November 1995 at the Library of Congress to review the 0.1  -->
+<!--    DTD and describe the results of initial testing. The results of    -->
+<!--    that meeting are reflected in the 0.2 version of the DTD.          -->
+<!--                                                                       -->
+<!--  ALPHA 0.3                                                            -->
+<!--    Daniel V. Pitti, co-editor                                         -->
+<!--    University of California, Berkeley, The Library                    -->
+<!--      with the                                                         -->
+<!--    ATLIS Consulting Group (Debbie Lapeyre)                            -->
+<!--      Rockville, Maryland  20852                                       -->
+<!--      (under contract with the National Digital Library Program,       -->
+<!--      Library of Congress)                                             -->
+<!--    Date: 1996-01                                                      -->
+<!--                                                                       -->
+<!--    A subset of the Bentley team (Michael Fox, Steven Hensen, Kris     -->
+<!--    Kiesling, Daniel Pitti, and Janice Ruth) met with                  -->
+<!--    Gilliland-Swetland and Thomas La Porte, DreamWorks SKG, in January -->
+<!--    1996 at the University of California, Los Angeles to outline the   -->
+<!--    application guidelines and review the 0.2 DTD and draft tag        -->
+<!--    library. The simplifications and corrections developed in that     -->
+<!--    meeting are reflected in version 0.3.                              -->
+<!--                                                                       -->
+<!--  BETA                                                                 -->
+<!--    Daniel V. Pitti, editor                                            -->
+<!--    University of California, Berkeley, The Library                    -->
+<!--    Date: 1996-06                                                      -->
+<!--                                                                       -->
+<!--    On April 27-29, 1996, in Berkeley, California, the original        -->
+<!--    Bentley Development Team for Encoded Archival Description and      -->
+<!--    Randall Barry, Anne Gilliland-Swetland, Thomas La Porte, Tim       -->
+<!--    Hoyer, and Jack Von Euw, University of California, Berkeley, met   -->
+<!--    to review the draft EAD guidelines and to discuss changes to the   -->
+<!--    alpha EAD which had been suggested by team members and early       -->
+<!--    implementors. The corrections and additions developed in that      -->
+<!--    meeting and in subsequent communication are reflected in the beta  -->
+<!--    version of the EAD DTD.                                            -->
+<!--                                                                       -->
+<!--  VERSION 1.0                                                          -->
+<!--    Daniel V. Pitti, editor                                            -->
+<!--    Institute for Advanced Technology in the Humanities,               -->
+<!--      University of Virginia                                           -->
+<!--    Date: 1998-08                                                      -->
+<!--                                                                       -->
+<!--    In June 1997, the EAD Working Group invited the archival community -->
+<!--    to submit to the EAD listserv formal comments and suggestions for  -->
+<!--    changes to the EAD DTD. Comments were collected for three months.  -->
+<!--    On 31 October- 2 November 1997, the EAD Working Group met in       -->
+<!--    Washington D.C. to review and consider the submitted suggestions   -->
+<!--    and comments, and to approve changes to be incorporated into the   -->
+<!--    Version 1.0 DTD.                                                   -->
+<!--                                                                       -->
+<!--    Members of the EAD Working Group meeting in Washington, D.C., were -->
+<!--    Kris Kiesling, Chair; Randall Barry; Jackie Dooley; Wendy Duff,    -->
+<!--    University of Toronto; Ricky Erway, Research Libraries Group;      -->
+<!--    Michael Fox; Steven Hensen; William Landis, University of          -->
+<!--    California, Los Angeles; Daniel Pitti, University of Virginia;     -->
+<!--    Janice Ruth; Robert Spindler, Arizona State University; Meg Sweet, -->
+<!--    Public Record Office (UK); Richard Szary, Yale University; Sharon  -->
+<!--    Thibodeau; and Helena Zinkham.                                     -->
+<!--                                                                       -->
+<!--  VERSION 2002                                                         -->
+<!--    Daniel V. Pitti, editor                                            -->
+<!--    Institute for Advanced Technology in the Humanities,               -->
+<!--      University of Virginia                                           -->
+<!--    Date: 2002-10                                                      -->
+<!--                                                                       -->
+<!--    In December 2000, the EAD Working Group invited the archival       -->
+<!--    community to submit to the official EAD web site suggestions for   -->
+<!--    changes to the Version 1.0 DTD.  Comments were collected for three -->
+<!--    months (19 December 2000 - 23 March 2001).  On 27-29 April 2001,   -->
+<!--    the Working Group met in Washington, D.C. to review and consider   -->
+<!--    the 67 submissions and to approve changes to be incorporated into  -->
+<!--    the Version 2002 DTD.  Members of and representatives to the EAD   -->
+<!--    Working Group meeting in Washington, D.C. were Kris Kiesling,      -->
+<!--    chair; Randall Barry; Catherine Dherent, Archives de France;       -->
+<!--    Jackie Dooley; Joanne Evans, University of Melbourne; Michael Fox; -->
+<!--    Steven Hensen; Tim Hutchinson, University of Saskatchewan; William -->
+<!--    Landis; Daniel Pitti; Merrilee Proffitt, Research Libraries Group; -->
+<!--    Lydia Reid, US National Archives and Records Administration; and   -->
+<!--    Meg Sweet.                                                         -->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!-- CHANGES TO VERSION 1.0
+
+  The following conventions are used for brevity and clarity: element names
+  are represented in angle brackets, e.g., <admininfo>; attribute names are
+  preceded by @. <c#> is used to represent <c01>-<c12>. NMTOKEN values from
+  attributes type lists are given in double quotes, e.g., "singlequote".
+
+  NO DESCRIPTION OF CHANGE
+
+  1. The following elements have been deprecated using conditional sections:
+    <add>, <admininfo>, <dentry>, <drow>, <organization>, and <tspec>.
+
+    Related change(s): see 6, 18, and 19.
+
+  2. The following attributes on <archdesc>, <archdescgrp<, <c> and all <c#>
+    have been deprecated using conditional sections: @langmaterial,
+    @legalstatus, and @otherlegalstatus.
+
+    Related change(s): see 20 and 25.
+
+  3. Linking and pointing elements made compatible (though not conformant)
+    with W3C XML Linking Language (XLink) Version 1.0 (W3C Recommendation 27
+    June 2001: http://www.w3.org/TR/xlink/). "Compatible" means than the EAD
+    linking and pointing elements and attributes are not fully compliant with
+    the XLink recommendation, but are sufficiently structured and semantically
+    rich to support transformation into compliant elements and attributes
+    using XSLT or other transformation techniques.
+
+    While elements and attributes names may remain unchanged, user should
+    consult the EAD Tag Library Version 2002 and the W3C XLink Recommendation
+    for precise semantics.
+
+    Revision led to the following changes:
+
+    -Created two new elements: <arc> and <resource>. New elements added to
+     content models of <linkgrp> and <daogrp>.
+
+    -<bibref>, <title>, <extref>, <archref> removed from the content models
+     of <refloc> and <extrefloc> (though retained in the DTD in other content
+     models).
+
+    -Attribute changes affecting <title>, <dao>, <bibref>, <archref>, <ref>,
+     <extref>, <extptr>, and <ptr>:
+      o Values "auto" and "user" in the enumerated list of @actuate changed
+        to "onload", "onrequest", "actuateother", and "actuatenone"
+      o Attributes @behavior, @content-role, @content-title, and @inline
+        removed
+      o Values "showother" and "shownone" added to the enumerated list of
+        @show.
+      o Attribute @arcrole added
+      o Attribute @xlink:form name changed to @linktype
+
+    -Attribute changes affecting <linkgrp> and <daogrp>:
+      o Attributes @content-role, @content-title, and @inline removed
+      o Attribute @xlink:form name changed to @linktype
+
+    -Attribute changes affecting <daoloc>, <ptrloc>, <extptrloc>, <refloc>,
+     and <extrefloc>:
+      o Attributes @actuate and @show removed
+      o Attribute @xlink:form name changed to @linktype
+      o Added attribute @label
+
+   Related change(s): see 4.
+
+  4. In order to make the attributes on <note> semantically consistent with
+    the related attributes on linking and pointing elements, values "auto" and
+    "user" in the enumerated list of @actuate changed to "onload",
+    "onrequest".
+
+    Related change(s): see 3.
+
+  5. New attribute @tpattern of attribute type NMTOKEN added to <dsc>, <c>
+    and all <c#>.
+
+    Related change(s): None.
+
+  6. <table>, subelements of <table>, and attributes revised to bring <table>
+    into conformance with the OASIS XML Exchange Table Model
+    (http://www.oasis-open.org/specs/tm9901.html)
+
+    Changes also applied to functionally similar and <dsc>-tabular elements
+    (DEPRECATED) <tspec> and <dentry>.
+
+    Revision led to the following changes:
+
+    -<spanspec> and <tfoot> removed (with impact on <tspec> and <tgroup>).
+
+    -@rotate and @spanname removed from <entry> and <dentry>; @orient,
+     @shortentry, @tabstyle, @tocentry removed from <table>; @char, @charoff,
+     @tgroupstyle removed from <tgroup>.
+
+    Related change(s): see 7.
+
+  7. The following attributes have been removed:
+    @extent and @pubstatus from <title> and <titleproper>
+    @numbered from <bibliography>
+    @systemid, @source, and @type from <eadid>.
+    @othersource from <corpname>, <famname>, <function>, <genreform>,
+     <geogname>, <name>, <occupation>, <persname>, <subject>, and <title>.
+    @othertype from <container>.
+    @othertype from <archdesc> and <archdescgrp>.
+
+    Related change(s): see 6, 11, 12, 13 and 35.
+
+  8. Values "class" and "subfonds" added to the enumerated list of @level on
+    <archdesc>, <archdescgrp>, <c> and all <c#>.
+
+    Related change(s): see 39.
+
+  9. Values "quoted" and "boldquoted" removed from the enumerated list of
+    @render on <emph>, <title> and <titleproper>.
+
+    Related change(s): see 10.
+
+  10. Values "singlequote", "doublequote", "bolddoublequote", and
+    "boldsinglequote" added to the enumerated list of @render on <emph>,
+    <title> and <titleproper>.
+
+    Related change(s): see 9.
+
+  11. Changed type of @source from enumerated to NMTOKEN. Attribute @source
+    is available on the following: <corpname>, <famname>, <function>,
+    <genreform>, <geogname>, <name>, <occupation>, <persname>, <physdesc>,
+    <physfacet>, <subject>, and <title>.
+
+    Related change(s): see 7 and 33.
+
+  12. Changed type of @type on <container> from enumerated to NMTOKEN.
+
+    Related change(s): see 7.
+
+  13. Changed type of @type on <archdesc> and <archdescgrp> from enumerated
+    to NMTOKEN.
+
+    Related change(s): see 7.
+
+  14. Changed type of @findaidstatus on <eadheader> from enumerated to
+    NMTOKEN.
+
+    Related change(s): None.
+
+  15. Value "single" removed from the enumerated list of @type on <unitdate>.
+
+    Related change(s): see 30.
+
+  16. Changed attribute default value of @type on <dsc> from #REQUIRED to
+    #IMPLIED.
+
+    Related change(s): see 40.
+
+  17. Added @xmlns (XML NameSpace) to <ead> and <eadgrp>. The attribute is
+    controlled by a conditional section which by default is IGNORE because of
+    disagreement and inconsistency concerning interpretation and use of XML
+    NameSpace in DTD. The attribute is supplied primarily to declare a
+    NameSpace for EAD, and for use in experimenting with XML Schema and
+    RelaxNG.
+
+    Related change(s): None.
+
+  18. Content models of <archdesc>, <archdescgrp>, <c>, and all <c#> modified
+    to include optionally the descriptive elements formerly available in
+    <admininfo> and <add>. The following were added to the modified content
+    models: <accessrestrict>, <accruals>, <acqinfo>, <altformavail>,
+    <appraisal>, <bibliography>, <custodhist>, <fileplan>, <index>,
+    <otherfindaid>, <prefercite>, <processinfo>, <relatedmaterial>,
+    <separatedmaterial>, and <userestrict>. Content models of each revised to
+    be recursive (in order to match new siblings).
+
+    Related change(s): see 1, 19, 23, and 24.
+
+  19. Created new element <descgrp> as alternative to deprecated <add> and
+    <admininfo>. New element added to content models of <archdesc>,
+    <archdescgrp>, <c>, and all <c#>. Content model of <descgrp> permits
+    arbitrary grouping of the following descriptive elements:
+    <accessrestrict>, <accruals>, <acqinfo>, <altformavail>, <appraisal>,
+    <arrangement>, <bibliography>, <bioghist>, <controlaccess>, <custodhist>,
+    <descgrp>, <fileplan>, <index>, <odd>, <originalsloc>, <otherfindaid>,
+    <phystech>, <prefercite>, <processinfo>, <relatedmaterial>,
+    <scopecontent>, <separatedmaterial>, and <userestrict>.
+
+    Related change(s): see 1, 18, 23 and 24.
+
+  20. Created new element <langmaterial>. New element added to content model
+    of <did>, <archref>, and <dentry>. Content model includes repeatable
+    <language>.
+
+    Related change(s): see 2.
+
+  21. Added @scriptcode with attribute type NMTOKEN to attribute list of
+    <language>.
+
+    Related change(s): 38.
+
+  22. Created new element <materialspec>. New element added to content model
+    of <did>, <archref>, and <dentry>.
+
+    Related change(s): None.
+
+  23. Created new element <originalsloc>. New element added to content models
+    of <archdesc>, <archdescgrp>, <c>, all <c#>, and <descgrp>.
+
+    Related change(s): see 18 and 19.
+
+  24. Created new element <phystech>. New element added to content models of
+    <archdesc>, <archdescgrp>, <c>, all <c#>, and <descgrp>.
+
+    Related change(s): see 18 and 19.
+
+  25. Created new element <legalstatus>. In addition to the common attributes,
+    <legalstatus> has @type of attribute type NMTOKEN. New element added to
+    content model of <accessrestrict>.
+
+    Related change(s): see 2.
+
+  26. Created new element <descrules>. New element added to content model of
+    <profiledesc>.
+
+    Related change(s): see 33.
+
+  27. Added attribute @type with attribute type CDATA to attribute list of
+    <separatedmaterial>, <relatedmaterial>, <genreform>, <note>,
+    <processinfo>, and <title>.
+
+    Related change(s): None.
+
+  28. Revised content model of <unittitle> to include <bibseries>, <edition>,
+    and <imprint>.
+
+    Related change(s): None.
+
+  29. Revised content model of <indexentry> and <namegrp> to include <title>.
+
+    Related change(s): None.
+
+  30. Added new attribute @datechar with attribute type CDATA to attribute
+    list of <unitdate>.
+
+    Related change(s): see 15.
+
+  31. Added new attributes @calendar with attribute type NMTOKEN and default
+    value "gregorian"; and @era with attribute type NMTOKEN and default value
+    "ce" to attribute list of <unitdate> and <date>.
+
+    Related change(s): None.
+
+  32. Added new attribute @langcode with attribute type NMTOKEN to attribute
+    list of <abstract>.
+
+    Related change(s): see 38.
+
+  33. Added new attribute @rules with attribute type NMTOKEN to the attribute
+    list of <corpname>, <famname>, <function>, <genreform>, <geogname>,
+    <name>, <occupation>, <persname>, <physdesc>, <physfacet>, <subject>, and
+    <title>.
+
+    Related change(s): see 11 and 26.
+
+  34. Added attribute @label with attribute type CDATA to the attribute list
+    of <dimensions>, <extent>, and <physfacet>.
+
+    Related change(s): None.
+
+  35. Added the following new attributes to the attribute list of <eadid>:
+    @countrycode, @identifier, @mainagencycode, @publicid, @url, and @urn.
+    @identifier, @publicid, @url, and @urn have attribute type CDATA.
+    @countrycode and @mainagencycode have attribute type NMTOKEN.
+
+    Related change(s): see 7.
+
+  36. Revised content model of <did> to require at least one of the following:
+    <abstract>, <container>, <dao>, <daogrp>, <langmaterial>, <materialspec>,
+    <note>, <origination>, <physdesc>, <physloc>, <repository>, <unitdate>,
+    <unitid>, or <unittitle>.
+
+    Related change(s): None.
+
+  37. Added the following new attributes, all with attribute type NMTOKEN, to
+    the attribute list of <eadheader>: @scriptencoding with default value
+    "iso15924"; @dateencoding with default value "iso8601"; @countryencoding
+    with default value "iso3166-1"; and @repositoryencoding with default value
+    "iso15511". Default value of attribute @langencoding on <eadheader>
+    changed from #IMPLIED to "iso639-2b" and attribute type changed from CDATA
+    to NMTOKEN.
+
+    Related change(s): None.
+
+  38. Added @langcode with attribute type NMTOKEN to the attribute list
+    of <language>.
+
+    Related change(s): see 21 and 32.
+
+  39. Attribute type of @otherlevel on <archdesc>, <archdescgrp>, <c> and all
+    <c#> changed from CDATA to NMTOKEN.
+
+    Related change(s): see 8.
+
+  40. Attribute type of @othertype on <dsc> changed from CDATA to NMTOKEN.
+
+    Related change(s): see 16.
+
+  41. Attribute type of  @countrycode and @repositorycode on <unitid> changed
+    from CDATA to NMTOKEN.
+
+    Related change(s): None.
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--              CHANGE HISTORY (POST VERSION 2002)                       -->
+<!--                                                                       -->
+<!--  NUM  YYYYMMDD     DESCRIPTION OF CHANGE
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--                                                                       -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    PART I
+    CONDITIONAL SECTION CONTROL
+     A. Deprecated Elements
+     B. XML Namespace Attribute
+     C. Tabular Elements and Attributes
+     D. SGML SDATA Character Entities
+     E. XML Character Entities
+     F. Notation Declarations
+     G. EADGRP elements and attributes
+     H. Local Attribute Modification
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    Conditional Sections are used to control the availability of particular
+    features in the EAD DTD. Conditional sections include declarations that
+    may optionally be included or excluded (or ignored) in the dtd, depending
+    upon whether the keyword INCLUDE or IGNORE is used in defining the
+    parameter entity controlling the section or sections.
+
+    The following sections contain either a parameter entity controlling one
+    or more conditional sections, or a both such a parameter entity and the
+    controlled section.
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    A. CONDITIONAL SECTION: Deprecated Elements
+
+    Version 1.0 elements and attributes deprecated in 2002
+    Entity name: deprecate
+    Default: IGNORE
+
+    Note: Does not include the deprecated tabular elements in the  dsc,
+    which are separately controlled (below) with conditional sections.
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % deprecate
+  'IGNORE'
+                                                                             >
+<![%deprecate;[
+<!ENTITY % m.organization.dep
+  'organization |'
+                                                                             >
+<!ENTITY % m.desc.base.dep
+  'admininfo | add | '
+                                                                             >
+<!ENTITY % a.langmaterial
+  'langmaterial
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.legalstatus
+  'legalstatus
+    (public | private | otherlegalstatus)
+    #IMPLIED
+   otherlegalstatus
+    CDATA
+    #IMPLIED'
+                                                                             >
+                                                                           ]]>
+<!--=======================================================================-->
+<!--
+    B. CONDITIONAL SECTION: XML Namespace Attribute
+
+    XML Namespace attribute on ead element and eadgrp element
+    Entity name: namespace
+    Default: IGNORE
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % namespace
+  'IGNORE'
+                                                                             >
+<![%namespace;[
+<!ENTITY % a.ns
+   'xmlns CDATA  #FIXED "urn:isbn:1-931666-00-8"'
+                                                                             >
+                                                                           ]]>
+<!--=======================================================================-->
+<!--
+    C. CONDITIONAL SECTION: Tabular Elements and Attributes
+
+    Tabular elements and attributes on dsc and relevant dsc subelements
+    Entity name: tabular
+    Default: IGNORE
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % tabular
+  'IGNORE'
+                                                                             >
+<!--
+    Conditional sections controlled by %tabular; will be found in element
+    and attribute sections below.
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    D. CONDITIONAL SECTION: SGML SDATA Character Entities
+
+    Entity name: sgmlchar
+    Default: IGNORE
+
+    NOTE: if keyword changed to INCLUDE, then XML character entities
+    conditional section controlled by %xmlchar; will be changed to IGNORE
+    without further modifications.
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % sgmlchar
+  'IGNORE'
+                                                                             >
+<![%sgmlchar;[
+<!ENTITY % xmlchar
+  'IGNORE'
+                                                                             >
+<!ENTITY % isolat1 PUBLIC
+  'ISO 8879:1986//ENTITIES Added Latin 1//EN'
+  'isolat1.gml'
+                                                                             >
+<!ENTITY % isolat2 PUBLIC
+  'ISO 8879:1986//ENTITIES Added Latin 2//EN'
+  'isolat2.gml'
+                                                                             >
+<!ENTITY % isonum PUBLIC
+  'ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN'
+  'isonum.gml'
+                                                                             >
+<!ENTITY % isopub PUBLIC
+  'ISO 8879:1986//ENTITIES Publishing//EN'
+  'isopub.gml'
+                                                                             >
+<!ENTITY % isotech PUBLIC
+  'ISO 8879:1986//ENTITIES General Technical//EN'
+  'isotech.gml'
+                                                                             >
+<!ENTITY % isodia PUBLIC
+  'ISO 8879:1986//ENTITIES Diacritical Marks//EN'
+  'isodia.gml'
+                                                                             >
+<!ENTITY % isocyr1 PUBLIC
+  'ISO 8879:1986//ENTITIES Russian Cyrillic//EN'
+  'isocyr1.gml'
+                                                                             >
+<!ENTITY % isocyr2 PUBLIC
+  'ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN'
+  'isocyr2.gml'
+                                                                             >
+<!ENTITY % isogrk1 PUBLIC
+  'ISO 8879:1986//ENTITIES Greek Letters//EN'
+  'isogrk1.gml'
+                                                                             >
+<!ENTITY % isogrk2 PUBLIC
+  'ISO 8879:1986//ENTITIES Monotoniko Greek//EN'
+  'isogrk2.gml'
+                                                                             >
+<!ENTITY % isogrk3 PUBLIC
+  'ISO 8879:1986//ENTITIES Greek Symbols//EN'
+  'isogrk3.gml'
+                                                                             >
+<!ENTITY % isogrk4 PUBLIC
+  'ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN'
+   'isogrk4.gml'
+                                                                             >
+<!--
+    Character Entity References
+      By default, all declared sets are referenced. Sets that are not
+      needed can be removed our "commented"
+                                                                           -->
+%isolat1; %isolat2;
+
+%isonum; %isopub; %isotech; %isodia;
+
+%isocyr1; %isocyr2;
+
+%isogrk1; %isogrk2; %isogrk3; %isogrk4;
+                                                                           ]]>
+<!--=======================================================================-->
+<!--
+    E. CONDITIONAL SECTION: XML Character Entities
+
+    Entity name: xmlchar
+    Default: IGNORE
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % xmlchar
+  'IGNORE'
+                                                                            >
+<![%xmlchar;[
+<!ENTITY % isolat1 PUBLIC
+  'ISO 8879:1986//ENTITIES Added Latin 1//EN//XML'
+  'iso-lat1.ent'
+                                                                             >
+<!ENTITY % isolat2 PUBLIC
+  'ISO 8879:1986//ENTITIES Added Latin 2//EN//XML'
+  'iso-lat2.ent'
+                                                                             >
+<!ENTITY % isonum PUBLIC
+  'ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML'
+  'iso-num.ent'
+                                                                             >
+<!ENTITY % isopub PUBLIC
+  'ISO 8879:1986//ENTITIES Publishing//EN//XML'
+  'iso-pub.ent'
+                                                                             >
+<!ENTITY % isotech PUBLIC
+  'ISO 8879:1986//ENTITIES General Technical//EN//XML'
+  'iso-tech.ent'
+                                                                             >
+<!ENTITY % isodia PUBLIC
+  'ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML'
+  'iso-dia.ent'
+                                                                             >
+<!ENTITY % isocyr1 PUBLIC
+  'ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML'
+  'iso-cyr1.ent'
+                                                                             >
+<!ENTITY % isocyr2 PUBLIC
+  'ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML'
+  'iso-cyr2.ent'
+                                                                             >
+<!ENTITY % isogrk1 PUBLIC
+  'ISO 8879:1986//ENTITIES Greek Letters//EN//XML'
+  'iso-grk1.ent'
+                                                                             >
+<!ENTITY % isogrk2 PUBLIC
+  'ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML'
+  'iso-grk2.ent'
+                                                                             >
+<!ENTITY % isogrk3 PUBLIC
+  'ISO 8879:1986//ENTITIES Greek Symbols//EN//XML'
+  'iso-grk3.ent'
+                                                                             >
+<!ENTITY % isogrk4 PUBLIC
+  'ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML'
+  'iso-grk4.ent'
+                                                                             >
+<!--
+    Character Entity References
+      By default, all declared sets are referenced. Sets that are not
+      needed can be removed our "commented"
+                                                                           -->
+%isolat1; %isolat2;
+
+%isonum; %isopub; %isotech; %isodia;
+
+%isocyr1; %isocyr2;
+
+%isogrk1; %isogrk2; %isogrk3; %isogrk4;
+                                                                           ]]>
+<!--=======================================================================-->
+<!--
+    F. CONDITIONAL SECTION: Notation Declarations
+
+    Entity name: notation
+    Default: INCLUDE
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % notation
+  'INCLUDE'
+                                                                             >
+<![%notation;[
+<!--
+    The following declarations are for ISO standard notations.
+                                                                           -->
+<!NOTATION sgml     PUBLIC
+  'ISO 8879:1986//NOTATION Information processing - Text and office
+   systems - Standard Generalized Markup Language (SGML)//EN'
+  ''
+                                                                             >
+<!NOTATION jpeg     PUBLIC
+  'ISO/IEC 10918:1993//NOTATION Digital Compression and Coding of
+   Continuous-tone Still Images (JPEG)//EN'
+  ''
+                                                                             >
+<!NOTATION mpeg1vid PUBLIC
+  'ISO/IEC 11172-2:1993//NOTATION Information technology - Coding
+   of moving pictures and associated audio for digital storage media
+   at up to about 1,5 Mbit/s - Part 2: Video//EN'
+  ''
+                                                                             >
+<!NOTATION mpeg1aud PUBLIC
+  'ISO/IEC 11172-3:1993//NOTATION Information technology - Coding
+   of moving pictures and associated audio for digital storage
+   media at up to about 1,5 Mbit/s - Part 3: Audio//EN'
+  ''
+                                                                             >
+<!NOTATION mpeg2vid PUBLIC
+  'ISO/IEC 13818-2:1995//NOTATION Information technology - Coding
+   of moving pictures and associated audio: Part 2. Video//EN'
+  ''
+                                                                             >
+<!NOTATION mpeg2aud PUBLIC
+  'ISO/IEC 13818-3:1995//NOTATION Coding of moving pictures and
+   associated audio: Part 3. Audio//EN'
+  ''
+                                                                             >
+<!NOTATION xml PUBLIC
+  'ISO 8879:1986//NOTATION Extensible Markup Language (XML) 1.0//EN'
+  ''
+                                                                             >
+<!--
+    The following notation declarations are for proprietary notations. These
+    declarations are taken from _Making Hypermedia Work: A User's Guide to
+    Hytime / Steven J. DeRose and David G. Durand (Boston: Kluwer Academic
+    Publishers), pp. 322ff. (ISBN 0-7923-9432-1). If owners of these notations
+    register FPI's, it is recommended that these be used instead of those
+    listed below.
+                                                                            -->
+<!NOTATION pcx      PUBLIC
+  '+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION ZSoft PCX bitmap//EN'
+  ''
+                                                                             >
+<!NOTATION gif      PUBLIC
+  '+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION CompuServe Graphic
+   Interchange Format//EN'
+  ''
+                                                                             >
+<!NOTATION tiff     PUBLIC
+  '+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION Aldus/Microsoft Tagged
+   Interchange File Format//EN'
+  ''
+                                                                             >
+<!NOTATION eps  PUBLIC
+  '+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION Adobe Systems
+   Encapulated PostScript//EN'
+  ''
+                                                                             >
+<!NOTATION pict PUBLIC
+  '+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION Apple Computer
+   Quickdraw Picture//EN'
+  ''
+                                                                             >
+<!--
+    The following are EAD declared notations, that is, notations considered
+    to be important to the archival community, though not formally declared
+    by an authoritative body.
+                                                                           -->
+<!NOTATION html SYSTEM
+  'http://www.w3.org/MarkUp/'
+                                                                             >
+<!--
+    Email Address
+                                                                           -->
+<!NOTATION email SYSTEM
+  'http://www.ietf.org/rfc/rfc2368.txt'
+                                                                             >
+<!--
+    Metadata Encoding & Transmission Standard
+                                                                           -->
+<!NOTATION mets SYSTEM
+  'http://www.loc.gov/standards/mets/'
+                                                                             >
+<!--
+    Encoded Archival Description
+                                                                           -->
+<!NOTATION ead SYSTEM
+  'urn:isbn:1-931666-00-8'
+                                                                             >
+<!--
+    Metadata Object Description Schema
+                                                                           -->
+<!NOTATION mods SYSTEM
+  'http://www.loc.gov/standards/mods/'
+                                                                             >
+<!--
+    Scalable Vector Graphics
+                                                                           -->
+<!NOTATION svg SYSTEM
+  'http://www.w3.org/TR/SVG/'
+                                                                             >
+<!--
+    Portable Network Graphics
+                                                                           -->
+<!NOTATION pdf SYSTEM
+  'http://www.w3.org/TR/REC-png'
+                                                                             >
+                                                                           ]]>
+<!--=======================================================================-->
+<!--
+    G. CONDITIONAL SECTION: EADGRP elements and attributes
+
+    Entity name: eadgrp
+    Default: IGNORE
+
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % eadgrp
+  'IGNORE'
+                                                                             >
+<!--
+    Conditional sections controlled by %eadgrp; will be found in element and
+    attribute declaration sections below.
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    H. CONDITIONAL SECTION: Local Attribute Modification
+
+    References local file containing local modification of modifiable
+     attributes
+    Entity name: eadlocal
+    Default: IGNORE
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % eadlocal
+  'IGNORE'
+                                                                             >
+<![%eadlocal;[
+<!ENTITY % attrsmod
+  SYSTEM 'eadlocal.ent'
+                                                                             >
+%attrsmod;
+                                                                           ]]>
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    PART II
+    PARAMETER ENTITIES FOR ELEMENT AND ATTRIBUTE MODELS
+     A. Parameter Entities for Element Models
+     B. Parameter Entities for Modifiable Attributes
+     C. Parameter Entities for Unmodifiable Attributes
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    A. Parameter Entities for Element Models
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Basic Building Blocks
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % m.render
+  'emph | lb'
+                                                                             >
+<!ENTITY % m.ptrs
+  'ptr | extptr'
+                                                                             >
+<!ENTITY % m.refs
+  'ref | extref | linkgrp | bibref | title | archref'
+                                                                             >
+<!ENTITY % m.access
+  'corpname | famname | geogname | name | occupation | persname | subject |
+   genreform | function'
+                                                                             >
+<!ENTITY % m.access.title
+  '%m.access; | title'
+                                                                             >
+<!ENTITY % m.data
+  '%m.access; | date | num | origination | repository | unitdate | unittitle'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Phrase Components
+
+    Phrase component models are widely used groups of elements.
+    The models are defined progressively, the models progress from
+    the least complex to the most complex.
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Bare Phrase
+                                                                           -->
+<!ENTITY % m.phrase.bare
+  '%m.ptrs; | %m.render;'
+                                                                             >
+<!--
+    Basic Phrase
+
+    m.phrase.basic.norefs is used in content model of bibref
+    and archref, and in the model used by ref and archref,
+    where inclusion of ref elements is selective
+                                                                           -->
+<!ENTITY % m.phrase.basic.norefs
+  '%m.phrase.bare; | abbr | expan'
+                                                                             >
+<!ENTITY % m.phrase.basic
+  '%m.phrase.basic.norefs; | %m.refs;'
+                                                                             >
+<!--
+    Phrase Plus
+
+    m.phrase.plus.norefs used in content model of
+    para.content.norefs which is used in content model of ref
+    and archref, where inclusion of ref elements is selective.
+                                                                           -->
+<!ENTITY % m.phrase.plus.norefs
+  '%m.phrase.basic.norefs; | %m.data;'
+                                                                             >
+<!ENTITY % m.phrase.plus
+  '%m.phrase.basic.norefs; | %m.data; | %m.refs;'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Intermediate-level Components
+
+    Elements that can occur within paragraphs.
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % m.inter.noquote
+  'address | chronlist | list | note | table'
+                                                                             >
+<!ENTITY % m.inter
+  '%m.inter.noquote; | blockquote'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Paragraph-level Components
+
+    Paragraph and elements that can occur at the same level as
+    paragraph.
+                                                                           -->
+<!--=======================================================================-->
+<!ENTITY % m.blocks
+  '%m.inter; | p'
+                                                                             >
+<!--
+    m.block.noquote used in content model of blockquote
+                                                                           -->
+<!ENTITY % m.blocks.noquote
+  '%m.inter.noquote; | p'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Components for Descriptive Elements
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Descriptive Identification Elements
+                                                                           -->
+<!ENTITY % m.did
+  'abstract | container | dao | daogrp | langmaterial | materialspec |
+   note | origination | physdesc | physloc | repository | unitdate |
+   unitid | unittitle'
+                                                                             >
+<!--
+    Descriptive Elements
+                                                                           -->
+<!--
+    m.desc.base.dep enables deprecating add and admininfo
+    overridden by conditional section
+                                                                           -->
+<!ENTITY % m.desc.base.dep
+  ''
+                                                                             >
+<!--
+    m.organization.dep, also deprecated, is treated exceptionally
+    because it is a member of both the descriptive elements and
+    in the content model of scopecontent
+                                                                           -->
+<!ENTITY % m.organization.dep
+  ''
+                                                                             >
+<!--
+    m.desc.base used in descgrp, dentry (DEPRECATED) and archdescgrp.
+                                                                           -->
+<!ENTITY % m.desc.base
+  '%m.desc.base.dep; %m.organization.dep; accessrestrict | accruals |
+   acqinfo | altformavail | appraisal | arrangement | bibliography |
+   bioghist | controlaccess | custodhist | descgrp | fileplan | index |
+   odd | originalsloc | otherfindaid | phystech | prefercite |
+   processinfo | relatedmaterial | scopecontent | separatedmaterial |
+   userestrict'
+                                                                             >
+<!--
+    m.desc.full used in archdesc and c's.
+                                                                           -->
+<!ENTITY % m.desc.full
+  '%m.desc.base; | dsc | dao | daogrp | note'
+                                                                             >
+<!--
+    m.scopecontent is used to overcome parsing error reported
+    XMetal 3.0 RulesMaker, though no other parser tested reports
+    the same error. XMetal reports error for parameter entity
+    referenced directly in an element declaration content model
+    with a preceding or trailing connector, e.g. 'organization |'.
+                                                                           -->
+<!ENTITY % m.scopecontent
+  '%m.organization.dep; %m.blocks;'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Phrase and Block Elements Combined
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    m.para.content used in p, event, and item.
+                                                                           -->
+<!ENTITY % m.para.content
+  '%m.phrase.plus; | %m.inter;'
+                                                                             >
+<!--
+    para.content.norefs used in ref elements, where inclusion of
+    ref elements is selective.
+                                                                           -->
+<!ENTITY % m.para.content.norefs
+  '%m.phrase.plus.norefs; | %m.inter;'
+                                                                             >
+<!--
+    m.table.entry used in entry subelement of table.
+                                                                           -->
+<!ENTITY % m.table.entry
+  '%m.phrase.plus; | address | list | note'
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    B. Parameter Entities for Modifiable Attributes
+
+    Entity name components:
+      am = attribute-modifiable
+      element name
+      attribute name
+    Exception: access and xlink elements treated as groups.
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!ENTITY % am.access.rules
+  'rules
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.access.source
+  'source
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dates.calendar
+  'calendar
+    NMTOKEN
+    "gregorian"'
+                                                                             >
+<!ENTITY % am.dates.era
+  'era
+    NMTOKEN
+    "ce"'
+                                                                             >
+<!ENTITY % am.dsctab.tpattern
+  'tpattern
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.abstract.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.abstract.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.abstract.langcode
+  'langcode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.abstract.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.accessrestrict.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.accessrestrict.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.accruals.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.acqinfo.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.altformavail.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.altformavail.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.appraisal.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.archdesc.relatedencoding
+  'relatedencoding
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.archdesc.type
+  'type
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<![%eadgrp;[
+<!ENTITY % am.archdescgrp.relatedencoding
+  'relatedencoding
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.archdescgrp.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+                                                                           ]]>
+<!ENTITY % am.arrangement.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.author.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.bibliography.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.bibref.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.bibseries.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.bioghist.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.change.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.chronlist.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.container.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.container.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.container.type
+  'type
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.controlaccess.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.corpname.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.corpname.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.creation.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.custodhist.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.date.certainty
+  'certainty
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.date.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.date.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.desc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.desc.otherlevel
+  'otherlevel
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.descgrp.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.descgrp.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.descrules.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.did.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dimensions.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dimensions.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dimensions.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dimensions.unit
+  'unit
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dsc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.dsc.othertype
+  'othertype
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<![%eadgrp;[
+<!ENTITY % am.dscgrp.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+                                                                           ]]>
+<!ENTITY % am.ead.relatedencoding
+  'relatedencoding
+    CDATA
+    #IMPLIED'
+                                                                             >
+<![%eadgrp;[
+<!ENTITY % am.eadgrp.relatedencoding
+  'relatedencoding
+    CDATA
+    #IMPLIED'
+                                                                             >
+                                                                           ]]>
+<!ENTITY % am.eadheader.countryencoding
+  'countryencoding
+    NMTOKEN
+    "iso3166-1"'
+                                                                             >
+<!ENTITY % am.eadheader.dateencoding
+  'dateencoding
+    NMTOKEN
+    "iso8601"'
+                                                                             >
+<!ENTITY % am.eadheader.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.eadheader.findaidstatus
+  'findaidstatus
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.eadheader.langencoding
+  'langencoding
+    NMTOKEN
+    "iso639-2b"'
+                                                                             >
+<!ENTITY % am.eadheader.relatedencoding
+  'relatedencoding
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.eadheader.repositoryencoding
+  'repositoryencoding
+    NMTOKEN
+    "iso15511"'
+                                                                             >
+<!ENTITY % am.eadheader.scriptencoding
+  'scriptencoding
+    NMTOKEN
+    "iso15924"'
+                                                                             >
+<!ENTITY % am.eadid.countrycode
+  'countrycode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.eadid.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.eadid.mainagencycode
+   'mainagencycode
+     NMTOKEN
+     #IMPLIED'
+                                                                             >
+<!ENTITY % am.edition.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.editionstmt.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.extent.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.extent.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.extent.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.extent.unit
+  'unit
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.famname.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.famname.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.filedesc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.fileplan.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.function.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.genreform.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.genreform.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.geogname.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.geogname.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.imprint.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.index.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.langmaterial.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.langmaterial.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.language.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.language.langcode
+  'langcode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.language.scriptcode
+  'scriptcode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.langusage.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.legalstatus.type
+  'type
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.list.mark
+  'mark
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.materialspec.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.materialspec.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.materialspec.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.name.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.name.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.note.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.note.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.note.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.notestmt.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.num.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.num.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.occupation.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.odd.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.odd.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.originalsloc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.originalsloc.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.origination.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.origination.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.otherfindaid.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.persname.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.persname.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physdesc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physdesc.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physdesc.rules
+  'rules
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physdesc.source
+  'source
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.rules
+  'rules
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.source
+  'source
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physfacet.unit
+  'unit
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physloc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physloc.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.physloc.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.phystech.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.phystech.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.prefercite.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.processinfo.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.processinfo.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.profiledesc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.publicationstmt.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.publisher.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.relatedmaterial.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.relatedmaterial.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.repository.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.repository.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.revisiondesc.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.runner.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.scopecontent.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.separatedmaterial.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.separatedmaterial.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.seriesstmt.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.sponsor.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.subarea.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.subject.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.subtitle.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.title.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.title.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.titleproper.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.titleproper.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.titlestmt.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitdate.certainty
+  'certainty
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitdate.datechar
+  'datechar
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitdate.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitdate.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitid.countrycode
+  'countrycode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitid.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitid.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitid.repositorycode
+  'repositorycode
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unitid.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unittitle.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unittitle.label
+  'label
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.unittitle.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.userestrict.encodinganalog
+  'encodinganalog
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % am.userestrict.type
+  'type
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    C. Parameter Entities for Unmodifiable Attributes
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    XML Namespace
+                                                                           -->
+<!ENTITY % a.ns
+   ''
+                                                                             >
+<!--
+    Binary
+
+    Used in Oasis xml table model: zero(s) = no; anything
+    else = yes
+                                                                           -->
+<!ENTITY % yesorno
+  'NMTOKEN'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    "Semi-closed" Attribute Value Lists
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    av.level used on archdesc, archdescgrp, and c's.
+                                                                           -->
+<!ENTITY % av.level
+  'class | collection | file | fonds | item | otherlevel |
+   recordgrp | series | subfonds | subgrp | subseries'
+                                                                             >
+<!--
+    av.render used on emph and title.
+                                                                           -->
+<!ENTITY % av.render
+  'altrender | bold | bolddoublequote | bolditalic |
+   boldsinglequote | boldsmcaps | boldunderline | doublequote |
+   italic | nonproport | singlequote | smcaps | sub | super |
+   underline'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Shared Attributes
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Common Attributes
+
+    Used on most ead elements.
+                                                                           -->
+<!ENTITY % a.common
+  'id
+    ID
+    #IMPLIED
+
+   altrender
+    CDATA
+    #IMPLIED
+
+   audience
+    (external | internal)
+    #IMPLIED'
+                                                                             >
+<!--
+    Access Attributes
+
+    Used on all access elements.
+                                                                           -->
+<!ENTITY % a.access
+  '%am.access.source;
+   %am.access.rules;
+
+   authfilenumber
+    CDATA
+    #IMPLIED
+
+   normal
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!--
+    Description attributes
+
+    Note: Both a.langmaterial and a.legalstatus deprecated in
+    version 2002
+                                                                           -->
+
+<!ENTITY % a.langmaterial
+  ''
+                                                                             >
+<!ENTITY % a.legalstatus
+  ''
+                                                                             >
+<!--
+    Attributes shared by both archdesc, archdescgrp, and c's.
+                                                                           -->
+<!ENTITY % a.desc.base
+  '%am.desc.otherlevel;
+   %a.langmaterial;
+   %a.legalstatus;
+   %am.desc.encodinganalog;'
+                                                                             >
+<!--
+    a.desc.top used on archdesc and archdescgrp
+
+    Note: level attribute is #REQUIRED
+                                                                           -->
+<!ENTITY % a.desc.top
+  '%a.common;
+
+   level
+    (%av.level;)
+    #REQUIRED
+
+   %a.desc.base;'
+                                                                             >
+<!--
+    a.desc.c used on c's
+
+    Note: level attribute is #IMPLIED
+                                                                           -->
+<!ENTITY % a.desc.c
+  '%a.common;
+
+   level
+    (%av.level;)
+    #IMPLIED
+
+   %a.desc.base;
+   %am.dsctab.tpattern;'
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Linking Element Attributes
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    XLink Attribute Sets
+                                                                           -->
+<!ENTITY % a.simple
+  'linktype
+    (simple)
+    #FIXED
+    "simple"'
+                                                                             >
+<!ENTITY % a.extended
+  'linktype
+    (extended)
+    #FIXED
+    "extended"'
+                                                                             >
+<!ENTITY % a.locator
+  'linktype
+    (locator)
+    #FIXED
+    "locator"'
+                                                                             >
+<!ENTITY % a.arc
+  'linktype
+    (arc)
+    #FIXED
+    "arc"'
+                                                                             >
+<!ENTITY % a.resource
+  'linktype
+    (resource)
+    #FIXED
+    "resource"'
+                                                                             >
+<!ENTITY % a.href
+  'href
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.action
+  'show
+    (new | replace | embed | showother | shownone)
+    #IMPLIED
+
+   actuate
+    (onload | onrequest | actuateother | actuatenone)
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.title
+  'title
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.arcrole
+  'arcrole
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.role
+  'role
+    CDATA
+    #IMPLIED'
+                                                                             >
+<!ENTITY % a.label
+  'label
+    NMTOKEN
+    #IMPLIED'
+                                                                             >
+<!--
+    Shared Combinations of XLink Attributes
+                                                                           -->
+<!ENTITY % a.internal.ptr
+  'target
+    IDREF
+    #IMPLIED
+
+   xpointer
+    CDATA
+    #IMPLIED
+
+   %a.simple;
+   %a.href;
+   %a.role;
+   %a.arcrole;
+   %a.title;
+   %a.action;'
+                                                                             >
+<!ENTITY % a.external.ptr
+  'entityref
+    ENTITY
+    #IMPLIED
+
+   xpointer
+    CDATA
+    #IMPLIED
+
+   %a.simple;
+   %a.href;
+   %a.role;
+   %a.arcrole;
+   %a.title;
+   %a.action;'
+                                                                             >
+<!ENTITY % a.linkgrp
+  '%a.extended;
+   %a.role;
+   %a.title;'
+                                                                             >
+<!ENTITY % a.loc.internal.ptr
+  'target
+    IDREF
+    #IMPLIED
+
+   xpointer
+    CDATA
+    #IMPLIED
+
+   %a.locator;
+   %a.href;
+   %a.role;
+   %a.title;
+   %a.label;'
+                                                                             >
+<!ENTITY % a.loc.external.ptr
+  'entityref
+    ENTITY
+    #IMPLIED
+
+   xpointer
+    CDATA
+    #IMPLIED
+
+   %a.locator;
+   %a.href;
+   %a.role;
+   %a.title;
+   %a.label;'
+                                                                             >
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    PART III
+    ENCODED ARCHIVAL DESCRIPTION ELEMENT AND ATTRIBUTE DECLARATIONS
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    ROOT ELEMENT DECLARATIONS: ead and eadgrp
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    EAD
+                                                                           -->
+<!ELEMENT ead
+   (eadheader, frontmatter?, archdesc)
+                                                                             >
+<!ATTLIST ead
+   %a.ns;
+   %a.common;
+   %am.ead.relatedencoding;
+                                                                             >
+<!--
+    EAD Group
+                                                                           -->
+<![%eadgrp;[
+<!ELEMENT eadgrp
+   (eadheader, frontmatter?, archdescgrp+)
+                                                                             >
+<!ATTLIST eadgrp
+   %a.ns;
+   %a.common;
+   %am.eadgrp.relatedencoding;
+                                                                             >
+                                                                           ]]>
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    EAD Header Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    EAD Header
+                                                                           -->
+<!ELEMENT eadheader
+   (eadid, filedesc, profiledesc?, revisiondesc?)
+                                                                             >
+<!ATTLIST eadheader
+   %a.common;
+   %am.eadheader.langencoding;
+   %am.eadheader.scriptencoding;
+   %am.eadheader.dateencoding;
+   %am.eadheader.countryencoding;
+   %am.eadheader.repositoryencoding;
+   %am.eadheader.relatedencoding;
+   %am.eadheader.findaidstatus;
+   %am.eadheader.encodinganalog;
+                                                                             >
+<!--
+    EAD Identifier
+                                                                           -->
+<!ELEMENT eadid
+   (#PCDATA)
+                                                                             >
+<!ATTLIST eadid
+   publicid
+    CDATA
+     #IMPLIED
+
+   urn
+    CDATA
+     #IMPLIED
+
+   url
+    CDATA
+     #IMPLIED
+
+   %am.eadid.countrycode;
+   %am.eadid.mainagencycode;
+
+   identifier
+    CDATA
+    #IMPLIED
+
+   %am.eadid.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    File Description Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    File Description
+                                                                           -->
+<!ELEMENT filedesc
+   (titlestmt, editionstmt?, publicationstmt?, seriesstmt?,
+    notestmt?)
+                                                                             >
+<!ATTLIST filedesc
+   %a.common;
+   %am.filedesc.encodinganalog;
+                                                                             >
+<!--
+    Title Statement
+                                                                           -->
+<!ELEMENT titlestmt
+   (titleproper+, subtitle*, author?, sponsor?)
+                                                                             >
+<!ATTLIST titlestmt
+   %a.common;
+   %am.titlestmt.encodinganalog;
+                                                                             >
+<!--
+    Title Proper
+                                                                           -->
+<!ELEMENT titleproper
+   (#PCDATA | %m.phrase.bare; | abbr | date | expan | num)*
+                                                                             >
+<!ATTLIST titleproper
+   %a.common;
+
+   render
+    (%av.render;)
+    #IMPLIED
+
+   %am.titleproper.type;
+   %am.titleproper.encodinganalog;
+                                                                             >
+<!--
+    Subtitle
+                                                                           -->
+<!ELEMENT subtitle
+  (#PCDATA | %m.phrase.bare; | abbr | date | expan | num)*
+                                                                             >
+<!ATTLIST subtitle
+   %a.common;
+   %am.subtitle.encodinganalog;
+                                                                             >
+<!--
+    Author
+                                                                           -->
+<!ELEMENT author
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST author
+   %a.common;
+   %am.author.encodinganalog;
+                                                                             >
+<!--
+    Sponsor
+                                                                           -->
+<!ELEMENT sponsor
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST sponsor
+   %a.common;
+   %am.sponsor.encodinganalog;
+                                                                             >
+<!--
+    Edition Statement
+                                                                           -->
+<!ELEMENT editionstmt
+   (edition | p)+
+                                                                             >
+<!ATTLIST editionstmt
+   %a.common;
+   %am.editionstmt.encodinganalog;
+                                                                             >
+<!--
+    Publication Statement
+                                                                           -->
+<!ELEMENT publicationstmt
+   (publisher | date | address | num | p)+
+                                                                             >
+<!ATTLIST publicationstmt
+   %a.common;
+   %am.publicationstmt.encodinganalog;
+                                                                             >
+<!--
+    Series Statement
+                                                                           -->
+<!ELEMENT seriesstmt
+   (titleproper | num | p)+
+                                                                             >
+<!ATTLIST seriesstmt
+   %a.common;
+   %am.seriesstmt.encodinganalog;
+                                                                             >
+<!--
+    Note Statement
+                                                                           -->
+<!ELEMENT notestmt
+   (note)+
+                                                                             >
+<!ATTLIST notestmt
+   %a.common;
+   %am.notestmt.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Profile Description Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Profile Description
+                                                                           -->
+<!ELEMENT profiledesc
+   (creation?, langusage?, descrules?)
+                                                                             >
+<!ATTLIST profiledesc
+   %a.common;
+   %am.profiledesc.encodinganalog;
+                                                                             >
+<!--
+    Creation
+                                                                           -->
+<!ELEMENT creation
+   (#PCDATA | %m.phrase.basic; | date)*
+                                                                             >
+<!ATTLIST creation
+   %a.common;
+   %am.creation.encodinganalog;
+                                                                             >
+<!--
+    Language Usage
+                                                                           -->
+<!ELEMENT langusage
+    (#PCDATA | %m.phrase.basic; | language)*
+                                                                             >
+<!ATTLIST langusage
+   %a.common;
+   %am.langusage.encodinganalog;
+                                                                             >
+<!--
+    Descriptive Rules
+                                                                           -->
+<!ELEMENT descrules
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST descrules
+   %a.common;
+   %am.descrules.encodinganalog;
+                                                                             >
+<!--
+    Revision Description
+                                                                           -->
+<!ELEMENT revisiondesc
+    (list | change+)
+                                                                             >
+<!ATTLIST revisiondesc
+   %a.common;
+   %am.revisiondesc.encodinganalog;
+                                                                             >
+<!--
+    Change
+                                                                           -->
+<!ELEMENT change
+   (date, item+)
+                                                                             >
+<!ATTLIST change
+   %a.common;
+   %am.change.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Front Matter Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Front Matter
+                                                                           -->
+<!ELEMENT frontmatter
+   (titlepage?, div*)
+                                                                             >
+<!ATTLIST frontmatter
+   %a.common;
+                                                                             >
+<!--
+    Title Page
+                                                                           -->
+<!ELEMENT titlepage
+   (%m.blocks; | author | date | edition | num | publisher |
+    bibseries | sponsor | titleproper | subtitle)+
+                                                                             >
+<!ATTLIST titlepage
+   %a.common;
+                                                                             >
+<!--
+    Division
+                                                                           -->
+<!ELEMENT div
+   (head?, (%m.blocks;)*, div*)
+                                                                             >
+<!ATTLIST div
+   %a.common;
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Archival Description Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Archival Description
+                                                                           -->
+<!ELEMENT archdesc
+   (runner*, did, (%m.desc.full;)*)
+                                                                             >
+<!ATTLIST archdesc
+   %a.desc.top;
+   %am.archdesc.type;
+   %am.archdesc.relatedencoding;
+                                                                             >
+<!--
+    Archival Description Group
+                                                                           -->
+<![%eadgrp;[
+<!ELEMENT archdescgrp
+   (runner*, did, (%m.desc.base; | dscgrp | dao | daogrp | note)*)
+                                                                             >
+<!ATTLIST archdescgrp
+   %a.desc.top;
+   %am.archdescgrp.type;
+   %am.archdescgrp.relatedencoding;
+                                                                             >
+                                                                           ]]>
+<!--
+    Runner
+                                                                           -->
+<!ELEMENT runner
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST runner
+   %a.common;
+
+   placement
+    (header | footer | watermark)
+    #IMPLIED
+
+   %am.runner.role;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Descriptive Identification Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!ELEMENT did
+   (head?, (%m.did;)+)
+                                                                             >
+<!ATTLIST did
+   %a.common;
+   %am.did.encodinganalog;
+                                                                             >
+<!--
+    Physical Description
+                                                                           -->
+<!ELEMENT physdesc
+   (#PCDATA | %m.phrase.basic; | dimensions | physfacet | extent |
+    date | %m.access;)*
+                                                                             >
+<!ATTLIST physdesc
+   %a.common;
+   %am.physdesc.label;
+   %am.physdesc.encodinganalog;
+   %am.physdesc.source;
+   %am.physdesc.rules;
+                                                                             >
+<!--
+    Dimensions
+                                                                           -->
+<!ELEMENT dimensions
+   (#PCDATA | %m.phrase.basic; | dimensions)*
+                                                                             >
+<!ATTLIST dimensions
+   %a.common;
+   %am.dimensions.label;
+   %am.dimensions.type;
+   %am.dimensions.unit;
+   %am.dimensions.encodinganalog;
+                                                                             >
+<!--
+    Physical Facet
+                                                                           -->
+<!ELEMENT physfacet
+   (#PCDATA | %m.phrase.basic; | %m.access; | date)*
+                                                                             >
+<!ATTLIST physfacet
+   %a.common;
+   %am.physfacet.label;
+   %am.physfacet.type;
+   %am.physfacet.unit;
+   %am.physfacet.source;
+   %am.physfacet.rules;
+   %am.physfacet.encodinganalog;
+                                                                             >
+<!--
+    Extent
+                                                                           -->
+<!ELEMENT extent
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST extent
+   %a.common;
+   %am.extent.label;
+   %am.extent.type;
+   %am.extent.unit;
+   %am.extent.encodinganalog;
+                                                                             >
+<!--
+    Origination
+                                                                           -->
+<!ELEMENT origination
+   (#PCDATA | %m.phrase.basic;| corpname | famname | name |
+    persname)*
+                                                                             >
+<!ATTLIST origination
+   %a.common;
+   %am.origination.label;
+   %am.origination.encodinganalog;
+                                                                             >
+<!--
+    Repository
+                                                                           -->
+<!ELEMENT repository
+   (#PCDATA | %m.phrase.basic; | address | corpname | name |
+    subarea)*
+                                                                             >
+<!ATTLIST repository
+   %a.common;
+   %am.repository.label;
+   %am.repository.encodinganalog;
+                                                                             >
+<!--
+    Subordinate Area
+                                                                           -->
+<!ELEMENT subarea
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST subarea
+   %a.common;
+   %am.subarea.encodinganalog;
+                                                                             >
+<!--
+    Unit Date
+                                                                           -->
+<!ELEMENT unitdate
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST unitdate
+   %a.common;
+   %am.unitdate.label;
+
+   type
+    (bulk | inclusive)
+    #IMPLIED
+
+   %am.unitdate.datechar;
+   %am.dates.era;
+   %am.dates.calendar;
+
+   normal
+    CDATA
+    #IMPLIED
+
+   %am.unitdate.certainty;
+   %am.unitdate.encodinganalog;
+                                                                             >
+<!--
+    Unit Identifier
+                                                                           -->
+<!ELEMENT unitid
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST unitid
+   %a.common;
+   %am.unitid.label;
+   %am.unitid.type;
+   %am.unitid.countrycode;
+   %am.unitid.repositorycode;
+
+   identifier
+    CDATA
+    #IMPLIED
+
+   %am.unitid.encodinganalog;
+                                                                             >
+<!--
+    Container
+                                                                           -->
+<!ELEMENT container
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST container
+   %a.common;
+   %am.container.label;
+   %am.container.type;
+   %am.container.encodinganalog;
+
+   parent
+    IDREFS
+    #IMPLIED
+                                                                             >
+<!--
+    Physical Location
+                                                                           -->
+<!ELEMENT physloc
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST physloc
+   %a.common;
+   %am.physloc.label;
+   %am.physloc.type;
+   %am.physloc.encodinganalog;
+
+    parent
+    IDREFS
+    #IMPLIED
+                                                                             >
+<!--
+    Unit Title
+                                                                           -->
+<!ELEMENT unittitle
+   (#PCDATA | %m.phrase.basic; | %m.access; | unitdate | num |
+    date | bibseries | edition | imprint)*
+                                                                             >
+<!ATTLIST unittitle
+   %a.common;
+   %am.unittitle.label;
+   %am.unittitle.encodinganalog;
+   %am.unittitle.type;
+                                                                             >
+<!--
+    Abstract
+                                                                           -->
+<!ELEMENT abstract
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST abstract
+   %a.common;
+   %am.abstract.label;
+   %am.abstract.encodinganalog;
+   %am.abstract.type;
+   %am.abstract.langcode;
+                                                                             >
+<!--
+    Language of Material
+                                                                           -->
+<!ELEMENT langmaterial
+   (#PCDATA | %m.phrase.basic; | language)*
+                                                                             >
+<!ATTLIST langmaterial
+   %a.common;
+   %am.langmaterial.label;
+   %am.langmaterial.encodinganalog;
+                                                                             >
+<!--
+    Language
+                                                                           -->
+<!ELEMENT language
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST language
+   %a.common;
+   %am.language.langcode;
+   %am.language.scriptcode;
+   %am.language.encodinganalog;
+                                                                             >
+<!--
+    Material Specification
+                                                                           -->
+<!ELEMENT materialspec
+   (#PCDATA | %m.phrase.basic; | num | materialspec)*
+                                                                             >
+<!ATTLIST materialspec
+   %a.common;
+   %am.materialspec.label;
+   %am.materialspec.type;
+   %am.materialspec.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Descriptive Block Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Descriptive Group
+                                                                           -->
+<!ELEMENT descgrp
+   (head?, (%m.blocks; | %m.desc.base;)+)
+                                                                             >
+<!ATTLIST descgrp
+   %a.common;
+   %am.descgrp.type;
+   %am.descgrp.encodinganalog;
+                                                                             >
+<!--
+    Administrative Information (DEPRECATED)
+                                                                           -->
+<![%deprecate;[
+<!ELEMENT admininfo
+   (head?, (%m.blocks; | accessrestrict | acqinfo | altformavail |
+    appraisal | custodhist | prefercite | processinfo |
+    userestrict | accruals | admininfo)+)
+                                                                             >
+<!ATTLIST admininfo
+   %a.common;
+
+   type
+    CDATA
+    #IMPLIED
+
+   encodinganalog
+    CDATA
+    #IMPLIED
+                                                                             >
+                                                                           ]]>
+<!--
+    Accruals
+                                                                           -->
+<!ELEMENT accruals
+   (head?, (%m.blocks; | accruals)+)
+                                                                             >
+<!ATTLIST accruals
+   %a.common;
+   %am.accruals.encodinganalog;
+                                                                             >
+<!--
+    Access Restrictions
+                                                                           -->
+<!ELEMENT accessrestrict
+   (head?, (%m.blocks; | legalstatus | accessrestrict)+)
+                                                                             >
+<!ATTLIST accessrestrict
+   %a.common;
+   %am.accessrestrict.encodinganalog;
+   %am.accessrestrict.type;
+                                                                             >
+<!--
+    Legal Status
+                                                                           -->
+<!ELEMENT legalstatus
+   (#PCDATA | %m.phrase.bare; | date)*
+                                                                             >
+<!ATTLIST legalstatus
+   %a.common;
+   %am.legalstatus.type;
+                                                                             >
+<!--
+    Acquisitions Information
+                                                                           -->
+<!ELEMENT acqinfo
+   (head?, (%m.blocks; | acqinfo)+)
+                                                                             >
+<!ATTLIST acqinfo
+   %a.common;
+   %am.acqinfo.encodinganalog;
+                                                                             >
+<!--
+    Alternative Form Available
+                                                                           -->
+<!ELEMENT altformavail
+   (head?, (%m.blocks; | altformavail)+)
+                                                                             >
+<!ATTLIST altformavail
+   %a.common;
+   %am.altformavail.encodinganalog;
+   %am.altformavail.type;
+                                                                             >
+<!--
+    Originals Location
+                                                                           -->
+<!ELEMENT originalsloc
+   (head?, (%m.blocks; | originalsloc)+)
+                                                                             >
+<!ATTLIST originalsloc
+   %a.common;
+   %am.originalsloc.encodinganalog;
+   %am.originalsloc.type;
+                                                                             >
+<!--
+    Physical Characteristics and Technical Requirements
+                                                                           -->
+<!ELEMENT phystech
+   (head?, (%m.blocks; | phystech)+)
+                                                                             >
+<!ATTLIST phystech
+   %a.common;
+   %am.phystech.encodinganalog;
+   %am.phystech.type;
+                                                                             >
+<!--
+    Appraisal
+                                                                           -->
+<!ELEMENT appraisal
+   (head?, (%m.blocks; | appraisal)+)
+                                                                             >
+<!ATTLIST appraisal
+   %a.common;
+   %am.appraisal.encodinganalog;
+                                                                             >
+<!--
+    Custodial History
+                                                                           -->
+<!ELEMENT custodhist
+   (head?, (%m.blocks; | custodhist | acqinfo)+)
+                                                                             >
+<!ATTLIST custodhist
+   %a.common;
+   %am.custodhist.encodinganalog;
+                                                                             >
+<!--
+    Preferred Citation
+                                                                           -->
+<!ELEMENT prefercite
+   (head?, (%m.blocks; | prefercite)+)
+                                                                             >
+<!ATTLIST prefercite
+   %a.common;
+   %am.prefercite.encodinganalog;
+                                                                             >
+<!--
+    Processing Information
+                                                                           -->
+<!ELEMENT processinfo
+   (head?, (%m.blocks; | processinfo)+)
+                                                                             >
+<!ATTLIST processinfo
+   %a.common;
+   %am.processinfo.type;
+   %am.processinfo.encodinganalog;
+                                                                             >
+<!--
+    Use Restrictions
+                                                                           -->
+<!ELEMENT userestrict
+   (head?, (%m.blocks; | userestrict)+)
+                                                                             >
+<!ATTLIST userestrict
+   %a.common;
+   %am.userestrict.encodinganalog;
+   %am.userestrict.type;
+                                                                             >
+<!--
+    Biography or History
+                                                                           -->
+<!ELEMENT bioghist
+   (head?, (%m.blocks; | bioghist | dao | daogrp)+)
+                                                                             >
+<!ATTLIST bioghist
+   %a.common;
+   %am.bioghist.encodinganalog;
+                                                                             >
+<!--
+    Controlled Access
+                                                                           -->
+<!ELEMENT controlaccess
+   (head?, (%m.blocks;| %m.access.title; | controlaccess)+)
+                                                                             >
+<!ATTLIST controlaccess
+   %a.common;
+   %am.controlaccess.encodinganalog;
+                                                                             >
+<!--
+    Other Descriptive Data
+                                                                           -->
+<!ELEMENT odd
+   (head?, (%m.blocks; | dao | daogrp | odd)+)
+                                                                             >
+<!ATTLIST odd
+   %a.common;
+   %am.odd.type;
+   %am.odd.encodinganalog;
+                                                                             >
+<!--
+    Scope and Content
+                                                                           -->
+<!ELEMENT scopecontent
+   (head?, (%m.scopecontent; | arrangement |
+    scopecontent | dao | daogrp)+)
+                                                                             >
+<!ATTLIST scopecontent
+   %a.common;
+   %am.scopecontent.encodinganalog;
+                                                                             >
+<!--
+    Arrangement
+                                                                           -->
+<!ELEMENT arrangement
+   (head?, (%m.blocks; | arrangement)+)
+                                                                             >
+<!ATTLIST arrangement
+   %a.common;
+   %am.arrangement.encodinganalog;
+                                                                             >
+<!--
+    Organization (DEPRECATED)
+                                                                           -->
+<![%deprecate;[
+<!ELEMENT organization
+   (head?, (%m.blocks; | organization)+)
+                                                                             >
+<!ATTLIST organization
+   %a.common;
+
+   encodinganalog
+    CDATA
+    #IMPLIED
+                                                                             >
+                                                                           ]]>
+<!--
+    Adjunct Descriptive Data (DEPRECATED)
+                                                                           -->
+<![%deprecate;[
+<!ELEMENT add
+   (head?, (%m.blocks; | bibliography | fileplan | index |
+    relatedmaterial | separatedmaterial | add | otherfindaid)+)
+                                                                             >
+<!ATTLIST add
+   %a.common;
+
+   type
+    CDATA
+    #IMPLIED
+
+   encodinganalog
+    CDATA
+    #IMPLIED
+                                                                             >
+                                                                           ]]>
+<!--
+    Bibliography
+                                                                           -->
+<!ELEMENT bibliography
+   (head?, (%m.blocks; | %m.refs; | bibliography)+)
+                                                                             >
+<!ATTLIST bibliography
+   %a.common;
+   %am.bibliography.encodinganalog;
+                                                                             >
+<!--
+    File Plan
+                                                                           -->
+<!ELEMENT fileplan
+   (head?, (%m.blocks; | fileplan)+)
+                                                                             >
+<!ATTLIST fileplan
+   %a.common;
+   %am.fileplan.encodinganalog;
+                                                                             >
+<!--
+    Related Material
+                                                                           -->
+<!ELEMENT relatedmaterial
+   (head?, (%m.blocks; | %m.refs; | relatedmaterial)+)
+                                                                             >
+<!ATTLIST relatedmaterial
+   %a.common;
+   %am.relatedmaterial.type;
+   %am.relatedmaterial.encodinganalog;
+                                                                             >
+<!--
+    Separated Material
+                                                                           -->
+<!ELEMENT separatedmaterial
+   (head?, (%m.blocks; |%m.refs; | separatedmaterial)+)
+                                                                             >
+<!ATTLIST separatedmaterial
+   %a.common;
+   %am.separatedmaterial.type;
+   %am.separatedmaterial.encodinganalog;
+                                                                             >
+<!--
+    Other Finding Aid
+                                                                           -->
+<!ELEMENT otherfindaid
+   (head?, (%m.blocks; | %m.refs; | otherfindaid)+)
+                                                                             >
+<!ATTLIST otherfindaid
+   %a.common;
+   %am.otherfindaid.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Index Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Index
+                                                                           -->
+<!ELEMENT index
+   (head?,(%m.blocks;)*, ((listhead?, indexentry+) |
+    index+))
+                                                                             >
+<!ATTLIST index
+   %a.common;
+   %am.index.encodinganalog;
+                                                                             >
+<!--
+    Index Entry
+                                                                           -->
+<!ELEMENT indexentry
+   ((namegrp | %m.access.title;), (ptrgrp | ptr | ref)?, indexentry*)
+                                                                             >
+<!ATTLIST indexentry
+   %a.common;
+                                                                             >
+<!--
+    Name Group
+                                                                           -->
+<!ELEMENT namegrp
+   (%m.access.title; | note)+
+                                                                             >
+<!ATTLIST namegrp
+   %a.common;
+                                                                             >
+<!--
+    Pointer Group
+                                                                           -->
+<!ELEMENT ptrgrp
+   (ptr | ref)+
+                                                                             >
+<!ATTLIST ptrgrp
+   %a.common;
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Description of Subordinate Components Element Declarations
+
+    Conditional sections are used for "tabular" and "nontabular"
+    models for dsc and all c's.
+
+    Tabular elements are DEPRECATED.
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<![%tabular;[
+<!--
+    Note: if %tabular; is INCLUDE, then %nontabular is IGNORE by
+    default.
+                                                                           -->
+<!ENTITY % nontabular
+  'IGNORE'
+                                                                             >
+<!--
+    Description of Subordinate Components
+                                                                           -->
+<!ELEMENT dsc
+   ((head?, tspec?, (%m.blocks;)*),
+    (((thead?, ((c, thead?)+ | (c01, thead?)+)) | dsc*)))
+                                                                             >
+                                                                           ]]>
+<!--
+    Note: when %nontabulr; is INCLUDE, then the following entity
+    is overridden with the value IGNORE.
+                                                                           -->
+<!ENTITY % nontabular
+  'INCLUDE'
+                                                                             >
+<![%nontabular;[
+<!ELEMENT dsc
+   ((head?, (%m.blocks;)*),
+    (((thead?, ((c, thead?)+ | (c01, thead?)+)) | dsc*)))
+                                                                             >
+                                                                           ]]>
+<!ATTLIST dsc
+   %a.common;
+
+   type
+    (analyticover | combined | in-depth | othertype)
+    #IMPLIED
+
+   %am.dsc.othertype;
+   %am.dsc.encodinganalog;
+   %am.dsctab.tpattern;
+                                                                             >
+<!--
+    Description of Subordinate Components Group
+                                                                           -->
+<![%eadgrp;[
+<!ELEMENT dscgrp
+   (head?, (%m.blocks;)*, ead+)
+                                                                             >
+<!ATTLIST dscgrp
+   %a.common;
+   %am.dscgrp.encodinganalog;
+                                                                             >
+                                                                           ]]>
+<!--
+    Table Specification
+                                                                           -->
+<![%tabular;[
+<!ELEMENT tspec
+   (colspec+)
+                                                                             >
+<!--
+    Descriptive Row
+                                                                           -->
+<!ELEMENT drow
+   (dentry+)
+                                                                             >
+<!ATTLIST drow
+   %a.common;
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+                                                                             >
+<!--
+    Descriptive Entry
+                                                                           -->
+<!ELEMENT dentry
+   (%m.did; | %m.desc.base;)*
+                                                                             >
+<!ATTLIST dentry
+   %a.common;
+
+   colname
+    NMTOKEN
+    #IMPLIED
+
+   namest
+    NMTOKEN
+    #IMPLIED
+
+   nameend
+    NMTOKEN
+    #IMPLIED
+
+   morerows
+    NMTOKEN
+    '0'
+
+   colsep
+    %yesorno;
+    #IMPLIED
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+
+   align
+    (left | right | center | justify | char)
+    #IMPLIED
+
+   charoff
+    NMTOKEN
+    #IMPLIED
+
+   char
+    CDATA
+    #IMPLIED
+                                                                             >
+                                                                           ]]>
+<!--
+    Component Description (Recursive)
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c
+   ((head?, did, (%m.desc.full;)*, (thead?, c+)*) | (drow+, c*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c
+   (head?, did, (%m.desc.full;)*, (thead?, c+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 1
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c01
+   ((head?, did, (%m.desc.full;)*, (thead?, c02+)*) |
+    (drow+, c02*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c01
+   (head?, did, (%m.desc.full;)*, (thead?, c02+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c01
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 2
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c02
+   ((head?, did, (%m.desc.full;)*, (thead?, c03+)*) |
+    (drow+, c03*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c02
+   (head?, did, (%m.desc.full;)*, (thead?, c03+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c02
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 3
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c03
+   ((head?, did, (%m.desc.full;)*, (thead?, c04+)*) |
+    (drow+, c04*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c03
+   (head?, did, (%m.desc.full;)*, (thead?, c04+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c03
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 4
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c04
+   ((head?, did, (%m.desc.full;)*, (thead?, c05+)*) |
+   (drow+, c05*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c04
+   (head?, did, (%m.desc.full;)*, (thead?, c05+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c04
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 5
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c05
+   ((head?, did, (%m.desc.full;)*, (thead?, c06+)*) |
+   (drow+, c06*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c05
+   (head?, did, (%m.desc.full;)*, (thead?, c06+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c05
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 6
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c06
+   ((head?, did, (%m.desc.full;)*, (thead?, c07+)*) |
+   (drow+, c07*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c06
+   (head?, did, (%m.desc.full;)*, (thead?, c07+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c06
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 7
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c07
+   ((head?, did, (%m.desc.full;)*, (thead?, c08+)*) |
+   (drow+, c08*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c07
+   (head?, did, (%m.desc.full;)*, (thead?, c08+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c07
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 8
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c08
+   ((head?, did, (%m.desc.full;)*, (thead?, c09+)*) |
+   (drow+, c09*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c08
+   (head?, did, (%m.desc.full;)*, (thead?, c09+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c08
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 9
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c09
+   ((head?, did, (%m.desc.full;)*, (thead?, c10+)*) |
+   (drow+, c10*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c09
+   (head?, did, (%m.desc.full;)*, (thead?, c10+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c09
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 10
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c10
+   ((head?, did, (%m.desc.full;)*, (thead?, c11+)*) |
+   (drow+, c11*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c10
+   (head?, did, (%m.desc.full;)*, (thead?, c11+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c10
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 11
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c11
+   ((head?, did, (%m.desc.full;)*, (thead?, c12+)*) |
+   (drow+, c12*))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c11
+   (head?, did, (%m.desc.full;)*, (thead?, c12+)*)
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c11
+   %a.desc.c;
+                                                                             >
+<!--
+    Component Description 12
+                                                                           -->
+<![%tabular;[
+<!ELEMENT c12
+   ((head?, did, (%m.desc.full;)*) | (drow+))
+                                                                             >
+                                                                           ]]>
+<![%nontabular;[
+<!ELEMENT c12
+   ((head?, did, (%m.desc.full;)*))
+                                                                             >
+                                                                           ]]>
+<!ATTLIST c12
+   %a.desc.c;
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Shared Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Head
+                                                                           -->
+<!ELEMENT head
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST head
+   %a.common;
+
+   althead
+    CDATA
+    #IMPLIED
+                                                                             >
+<!--
+    Paragraph
+                                                                           -->
+<!ELEMENT p
+   (#PCDATA | %m.para.content;)*
+                                                                             >
+<!ATTLIST p
+   %a.common;
+                                                                             >
+<!--
+    Emphasis
+                                                                           -->
+<!ELEMENT emph
+   (#PCDATA | %m.phrase.basic;)*
+                                                                             >
+<!ATTLIST emph
+
+   render
+    (%av.render;)
+    #IMPLIED
+
+   id
+    ID
+    #IMPLIED
+
+   altrender
+    CDATA
+    #IMPLIED
+                                                                             >
+<!--
+    Line Break
+                                                                           -->
+<!ELEMENT lb                 EMPTY
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Linking Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Digital Archival Object (xlink type 'simple')
+                                                                           -->
+<!ELEMENT dao
+   (daodesc?)
+                                                                             >
+<!ATTLIST dao
+   %a.common;
+   %a.external.ptr;
+                                                                             >
+<!--
+    Digital Archival Object Locator (xlink type 'locator')
+                                                                           -->
+<!ELEMENT daoloc
+   (daodesc?)
+                                                                             >
+<!ATTLIST daoloc
+   %a.common;
+   %a.loc.external.ptr;
+                                                                             >
+<!--
+    Digital Archival Object Description
+                                                                           -->
+<!ELEMENT daodesc
+   (head?, (%m.blocks;)+)
+                                                                             >
+<!ATTLIST daodesc
+   %a.common;
+                                                                             >
+<!--
+    Digital Archival Object Group (xlink type: 'extended')
+                                                                           -->
+<!ELEMENT daogrp
+   (daodesc?, (daoloc | ptrloc | extptrloc | refloc | extrefloc |
+    arc | resource)+)
+                                                                             >
+<!ATTLIST daogrp
+   %a.common;
+   %a.linkgrp;
+                                                                             >
+<!--
+    Arc (xlink type: 'arc')
+                                                                           -->
+<!ELEMENT arc
+   EMPTY
+                                                                             >
+<!ATTLIST arc
+   %a.common;
+   %a.arc;
+   %a.arcrole;
+   %a.title;
+   %a.action;
+
+   from
+    NMTOKEN
+    #IMPLIED
+
+   to
+    NMTOKEN
+    #IMPLIED
+                                                                             >
+<!--
+    Resource (xlink type 'resource')
+                                                                           -->
+<!ELEMENT resource
+   (#PCDATA | %m.render;)*
+
+                                                                             >
+<!ATTLIST resource
+   %a.common;
+   %a.resource;
+   %a.role;
+   %a.title;
+   %a.label;
+                                                                             >
+<!--
+    Pointer (xlink type 'simple')
+                                                                           -->
+<!ELEMENT ptr
+   EMPTY
+                                                                             >
+<!ATTLIST ptr
+   %a.common;
+   %a.internal.ptr;
+                                                                             >
+<!--
+    Pointer Locator (xlink type 'locator')
+                                                                           -->
+<!ELEMENT ptrloc
+   EMPTY
+                                                                             >
+<!ATTLIST ptrloc
+   %a.common;
+   %a.loc.internal.ptr;
+                                                                             >
+<!--
+    External Pointer (xlink type 'simple')
+                                                                           -->
+<!ELEMENT extptr
+   EMPTY
+                                                                             >
+<!ATTLIST extptr
+   %a.common;
+   %a.external.ptr;
+                                                                             >
+<!--
+    External Pointer Locator (xlink type 'locator')
+                                                                           -->
+<!ELEMENT extptrloc
+   EMPTY
+                                                                             >
+<!ATTLIST extptrloc
+   %a.common;
+   %a.loc.external.ptr;
+                                                                             >
+<!--
+    Reference (xlink type 'simple')
+                                                                           -->
+<!ELEMENT ref
+   (#PCDATA | %m.para.content.norefs; | bibref | title | extref |
+    archref)*
+                                                                             >
+<!ATTLIST ref
+   %a.common;
+   %a.internal.ptr;
+                                                                             >
+<!--
+    Reference Locator (xlink type 'locator')
+                                                                           -->
+<!ELEMENT refloc
+   (#PCDATA | %m.para.content.norefs;)*
+                                                                             >
+<!ATTLIST refloc
+   %a.common;
+   %a.loc.internal.ptr;
+                                                                             >
+<!--
+    External Reference (xlink type 'simple')
+                                                                           -->
+<!ELEMENT extref
+   (#PCDATA | %m.para.content.norefs; | bibref | title | archref |
+    ref)*
+                                                                             >
+<!ATTLIST extref
+   %a.common;
+   %a.external.ptr;
+                                                                             >
+<!--
+    External Reference Locator (xlink type 'locator')
+                                                                           -->
+<!ELEMENT extrefloc
+   (#PCDATA | %m.para.content.norefs;)*
+                                                                             >
+<!ATTLIST extrefloc
+   %a.common;
+   %a.loc.external.ptr;
+                                                                             >
+<!--
+    Link Group (xlink type 'extended')
+                                                                           -->
+<!ELEMENT linkgrp
+   (ptrloc | extptrloc | refloc | extrefloc | arc | resource)+
+                                                                             >
+<!ATTLIST linkgrp
+   %a.common;
+   %a.linkgrp;
+                                                                             >
+<!--
+    Title (xlink type 'simple')
+                                                                           -->
+<!ELEMENT title
+   (#PCDATA | %m.phrase.bare; | date | num)*
+                                                                             >
+<!ATTLIST title
+   %a.common;
+   %am.title.type;
+
+   render
+    (%av.render;)
+    #IMPLIED
+
+   %a.access;
+   %a.external.ptr;
+   %am.title.encodinganalog;
+                                                                             >
+<!--
+    Archival Reference (xlink type 'simple')
+                                                                           -->
+<!ELEMENT archref
+   (#PCDATA | %m.phrase.basic.norefs; | bibref | ref | title |
+    extref | %m.did;)*
+                                                                             >
+<!ATTLIST archref
+   %a.common;
+   %a.external.ptr;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Bibliographic Reference Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Bibliographic Reference (xlink type 'simple')
+                                                                           -->
+<!ELEMENT bibref
+   (#PCDATA | %m.phrase.basic.norefs; | edition | imprint |
+    name | num | bibseries | ref | title | famname | persname |
+    corpname | extref | archref)*
+                                                                             >
+<!ATTLIST bibref
+   %a.common;
+   %a.external.ptr;
+   %am.bibref.encodinganalog;
+                                                                             >
+<!--
+    Edition
+                                                                           -->
+<!ELEMENT edition
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST edition
+   %a.common;
+   %am.edition.encodinganalog;
+                                                                             >
+<!--
+    Bibliographic Series
+                                                                           -->
+<!ELEMENT bibseries
+   (#PCDATA | %m.phrase.bare; | title | num)*
+                                                                             >
+<!ATTLIST bibseries
+   %a.common;
+   %am.bibseries.encodinganalog;
+                                                                             >
+<!--
+    Imprint
+                                                                           -->
+<!ELEMENT imprint
+   (#PCDATA | %m.phrase.bare; | publisher | geogname | date)*
+                                                                             >
+<!ATTLIST imprint
+   %a.common;
+   %am.imprint.encodinganalog;
+                                                                             >
+<!--
+    Publisher
+                                                                           -->
+<!ELEMENT publisher
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST publisher
+   %a.common;
+   %am.publisher.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Access Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Corporate Name
+                                                                           -->
+<!ELEMENT corpname
+   (#PCDATA | %m.phrase.bare; | subarea)*
+                                                                             >
+<!ATTLIST corpname
+   %a.common;
+   %a.access;
+   %am.corpname.role;
+   %am.corpname.encodinganalog;
+                                                                             >
+<!--
+    Family Name
+                                                                           -->
+<!ELEMENT famname
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST famname
+   %a.common;
+   %a.access;
+   %am.famname.role;
+   %am.famname.encodinganalog;
+                                                                             >
+<!--
+    Geographic Name
+                                                                           -->
+<!ELEMENT geogname
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST geogname
+   %a.common;
+   %a.access;
+   %am.geogname.role;
+   %am.geogname.encodinganalog;
+                                                                             >
+<!--
+    Genre or Form
+                                                                           -->
+<!ELEMENT genreform
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST genreform
+   %a.common;
+   %am.genreform.type;
+   %a.access;
+   %am.genreform.encodinganalog;
+                                                                             >
+<!--
+    Name
+                                                                           -->
+<!ELEMENT name
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST name
+   %a.common;
+   %a.access;
+   %am.name.role;
+   %am.name.encodinganalog;
+                                                                             >
+<!--
+    Occupation
+                                                                           -->
+<!ELEMENT occupation
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST occupation
+   %a.common;
+   %a.access;
+   %am.occupation.encodinganalog;
+                                                                             >
+<!--
+    Function
+                                                                           -->
+<!ELEMENT function
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST function
+   %a.common;
+   %a.access;
+   %am.function.encodinganalog;
+                                                                             >
+<!--
+    Personal Name
+                                                                           -->
+<!ELEMENT persname
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST persname
+   %a.common;
+   %a.access;
+   %am.persname.role;
+   %am.persname.encodinganalog;
+                                                                             >
+<!--
+    Subject
+                                                                           -->
+<!ELEMENT subject
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST subject
+   %a.common;
+   %a.access;
+   %am.subject.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Date
+                                                                           -->
+<!ELEMENT date
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST date
+   %a.common;
+   %am.date.type;
+   %am.dates.era;
+   %am.dates.calendar;
+
+   normal
+    CDATA
+    #IMPLIED
+
+   %am.date.certainty;
+   %am.date.encodinganalog;
+                                                                             >
+<!--
+    Number
+                                                                           -->
+<!ELEMENT num
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST num
+   %a.common;
+   %am.num.type;
+   %am.num.encodinganalog;
+                                                                             >
+<!--
+    Abbreviation
+                                                                           -->
+<!ELEMENT abbr
+   (#PCDATA)
+                                                                             >
+<!ATTLIST abbr
+   %a.common;
+
+   expan
+    CDATA
+    #IMPLIED
+                                                                             >
+<!--
+    Expansion
+                                                                           -->
+<!ELEMENT expan
+   (#PCDATA)
+                                                                             >
+<!ATTLIST expan
+   %a.common;
+
+   abbr
+    CDATA
+    #IMPLIED
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Address Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Address
+                                                                           -->
+<!ELEMENT address
+   (addressline+)
+                                                                             >
+<!ATTLIST address
+   %a.common;
+                                                                             >
+<!--
+    Address Line
+                                                                           -->
+<!ELEMENT addressline
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST addressline
+   %a.common;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Chronological List Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    Chronological List
+                                                                           -->
+<!ELEMENT chronlist
+   (head?, (listhead)?, (chronitem)+)                                                                             >
+<!ATTLIST chronlist
+   %a.common;
+   %am.chronlist.encodinganalog;
+                                                                             >
+<!--
+    Chronological Item
+                                                                           -->
+<!ELEMENT chronitem
+   (date, (event | eventgrp))
+                                                                             >
+<!ATTLIST chronitem
+   %a.common;
+                                                                             >
+<!--
+    Event
+                                                                           -->
+<!ELEMENT event
+   (#PCDATA | %m.para.content;)*
+                                                                             >
+<!ATTLIST event
+   %a.common;
+                                                                             >
+<!--
+    Event Group
+                                                                           -->
+<!ELEMENT eventgrp
+   (event+)
+                                                                             >
+<!ATTLIST eventgrp
+   %a.common;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    List Element Declarations
+                                                                           -->
+<!--=======================================================================-->
+<!--
+    List
+                                                                           -->
+<!ELEMENT list
+   (head?, (item+ | (listhead?, defitem+)))
+                                                                             >
+<!ATTLIST list
+   %a.common;
+
+   type
+    (simple | deflist | marked | ordered)
+    #IMPLIED
+
+   %am.list.mark;
+
+   numeration
+    (arabic | upperalpha | loweralpha | upperroman | lowerroman)
+    #IMPLIED
+
+   continuation
+    (continues | starts)
+    #IMPLIED
+                                                                             >
+<!--
+    List Head
+                                                                           -->
+<!ELEMENT listhead
+   (head01?, head02?)
+                                                                             >
+<!ATTLIST listhead
+   %a.common;
+                                                                             >
+<!--
+    Head 1
+                                                                           -->
+<!ELEMENT head01
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST head01
+   %a.common;
+                                                                             >
+<!--
+    Head 2
+                                                                           -->
+<!ELEMENT head02
+   (#PCDATA | %m.phrase.bare;)*
+                                                                             >
+<!ATTLIST head02
+   %a.common;
+                                                                             >
+<!--
+    Item
+                                                                           -->
+<!ELEMENT item
+   (#PCDATA | %m.para.content;)*
+                                                                             >
+<!ATTLIST item
+   %a.common;
+                                                                             >
+<!--
+    Label
+                                                                           -->
+<!ELEMENT label
+   (#PCDATA | %m.phrase.plus;)*
+                                                                             >
+<!ATTLIST label
+   %a.common;
+                                                                             >
+<!--
+    Definition Item
+                                                                           -->
+<!ELEMENT defitem
+   (label, item)
+                                                                             >
+<!ATTLIST defitem
+   %a.common;
+                                                                             >
+<!--=======================================================================-->
+<!--
+    Block Quote
+                                                                           -->
+<!ELEMENT blockquote
+   (%m.blocks.noquote;)+
+                                                                             >
+<!ATTLIST blockquote
+   %a.common;
+                                                                             >
+<!--
+    Note
+                                                                           -->
+<!ELEMENT note
+   (%m.blocks;)+
+                                                                             >
+<!ATTLIST note
+   %a.common;
+   %am.note.type;
+   %am.note.label;
+
+   show
+   (embed | new)
+    #IMPLIED
+
+   actuate
+   (onload | onrequest)
+    #IMPLIED
+
+   %am.note.encodinganalog;
+                                                                             >
+<!--=======================================================================-->
+<!--=======================================================================-->
+<!--
+    Table Element Declarations
+
+    Oasis XML Exchange Table Model
+
+    Note: Modified by expanding parameter entities; adding a.common
+    attributes to non-empty elements; title element is ead head
+    element. entry content is defined in parameter entity section
+    Parameter Entities for Elements above.
+                                                                           -->
+<!--
+    Table
+                                                                           -->
+<!ELEMENT table
+   (head?,  tgroup+)
+                                                                             >
+<!ATTLIST table
+   %a.common;
+
+   frame
+    (top|bottom|topbot|all|sides|none)
+    #IMPLIED
+
+   colsep
+    %yesorno;
+    #IMPLIED
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   pgwide
+    %yesorno;
+    #IMPLIED
+                                                                             >
+<!--
+    Table Group
+                                                                           -->
+<!ELEMENT tgroup
+   (colspec*,thead?,tbody)
+                                                                             >
+<!ATTLIST tgroup
+   %a.common;
+
+   cols
+    NMTOKEN
+    #REQUIRED
+
+   colsep
+    %yesorno;
+    #IMPLIED
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   align
+    (left|right|center|justify|char)
+    #IMPLIED
+
+                                                                             >
+<!--
+    Column Specification
+                                                                           -->
+<!ELEMENT colspec
+   EMPTY
+                                                                             >
+<!ATTLIST colspec
+   colnum
+    NMTOKEN
+    #IMPLIED
+
+   colname
+    NMTOKEN
+    #IMPLIED
+
+   colwidth
+    CDATA
+    #IMPLIED
+
+   colsep
+    %yesorno;
+    #IMPLIED
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   align
+    (left|right|center|justify|char)
+    #IMPLIED
+
+   char
+    CDATA
+    #IMPLIED
+
+   charoff
+    NMTOKEN
+    #IMPLIED
+                                                                             >
+<!--
+    Table Head
+                                                                           -->
+<!ELEMENT thead
+   (row+)
+                                                                             >
+<!ATTLIST thead
+   %a.common;
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+                                                                             >
+<!--
+    Table Body
+                                                                           -->
+<!ELEMENT tbody
+   (row+)
+                                                                             >
+<!ATTLIST tbody
+   %a.common;
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+                                                                             >
+<!--
+    Row
+                                                                           -->
+<!ELEMENT row
+   (entry+)
+                                                                             >
+<!ATTLIST row
+   %a.common;
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+                                                                             >
+<!--
+    Entry
+                                                                           -->
+<!ELEMENT entry
+   (#PCDATA | %m.table.entry;)*
+                                                                             >
+<!ATTLIST entry
+   %a.common;
+
+   colname
+    NMTOKEN
+    #IMPLIED
+
+   namest
+    NMTOKEN
+    #IMPLIED
+
+   nameend
+    NMTOKEN
+    #IMPLIED
+
+   morerows
+    NMTOKEN
+    #IMPLIED
+
+   colsep
+    %yesorno;
+    #IMPLIED
+
+   rowsep
+    %yesorno;
+    #IMPLIED
+
+   align
+    (left|right|center|justify|char)
+    #IMPLIED
+
+   char
+    CDATA
+    #IMPLIED
+
+   charoff
+    NMTOKEN
+    #IMPLIED
+
+   valign
+    (top|middle|bottom)
+    #IMPLIED
+                                                                             >
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--
+    END ENCODED ARCHIVAL DESCRIPTION DOCUMENT TYPE DEFINITION
+    (EAD DTD)
+                                                                           -->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->

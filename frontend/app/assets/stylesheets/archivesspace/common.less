@@ -7,6 +7,7 @@ body {
 h2 > .label {
   margin-top: @baseLineHeight / 2;
   vertical-align: top;
+  font-size: 40%;
 }
 
 .tab-content {
@@ -14,13 +15,26 @@ h2 > .label {
 }
 
 .record-pane {
+  margin-right: -15px;
   padding: 10px;
-  margin: 0;
-  border: 1px solid #EEE;
   border-top: none;
 
   h2 {
     margin-top: 0;
+  }
+  .emph {
+    &.render-none {font-style: italic;}
+    &.render-bold, &.render-bolddoublequote, &.render-bolditalic, &.render-boldsinglequote, &.render-boldsmcaps, &.render-boldunderline {font-weight: bold}
+    &.render-italic, &.render-bolditalic {font-style: italic;}
+    &.render-smcaps, &.render-boldsmcaps, {font-variant: small-caps;}
+    &.render-sub {vertical-align: sub; font-size: 80%;}
+    &.render-super {vertical-align: super; font-size: 80%;}
+    &.render-underline {text-decoration: underline;}
+    &.render-nonproport {color: #666;}
+    &.render-doublequote:before, &.render-bolddoublequote:before {content: '"'}
+    &.render-doublequote:after, &.render-bolddoublequote:after {content: '"'}
+    &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
+    &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
   }
 }
 
@@ -57,6 +71,10 @@ h2 > .label {
   }
 }
 
+.locked .alert { 
+    display: none; 
+}
+
 .alert {
   &.with-hide-alert {
     position: relative;
@@ -74,5 +92,33 @@ h2 > .label {
         .opacity(50);
       }
     }
+  }
+}
+
+td .btn-group {
+  display: flex;
+  white-space: nowrap;
+}
+
+#font {
+  #family {
+    .serif() {
+      font-family: @serifFontFamily;
+    }
+    .sans-serif() {
+      font-family: @sansFontFamily;
+    }
+    .monospace() {
+      font-family: @monoFontFamily;
+    }
+  }
+  .shorthand(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+  .sans-serif(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+    #font > #family > .sans-serif;
+    #font > .shorthand(@size, @weight, @lineHeight);
   }
 }

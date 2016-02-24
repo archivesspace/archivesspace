@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_cataloged
+description: "Displays only those accessions that have been cataloged. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected that are checked as cataloged, and the total extent number for those records cataloged."

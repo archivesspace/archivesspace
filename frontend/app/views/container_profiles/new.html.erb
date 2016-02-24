@@ -1,0 +1,29 @@
+<%= setup_context :object => @container_profile %>
+
+<%= form_for @container_profile, :as => "container_profile", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_context :container_profile, @container_profile do |form| %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "sidebar" %>
+      </div>
+      <div class="col-md-9">
+        <%#= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+        <%= render_aspace_partial :partial => "toolbar" %>
+        <div class="record-pane">
+          <%= link_to_help :topic => "container_profile" %>
+          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("container_profile._singular") %> <span class="label label-info"><%= I18n.t("container_profile._singular") %></span></h2>
+
+          <%= render_aspace_partial :partial => "container_profiles/form", :locals => {:form => form} %>
+          <div class="form-actions">
+            <div class="btn-group">
+              <button type="submit" class="btn
+              btn-primary"><%= I18n.t("container_profile._frontend.action.save") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+            </div>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

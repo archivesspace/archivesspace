@@ -8,6 +8,7 @@ module AgentManager
 
   @@registered_agents ||= {}
 
+  class AuthorizedNameError < Sequel::ValidationFailed; end
 
   def self.register_agent_type(agent_class, opts)
     opts[:model] = agent_class
@@ -149,9 +150,33 @@ module AgentManager
 
       def ensure_exists(json, referrer)
         DB.attempt {
+          self.ensure_authorized_name(json)
+          
+          authorized_name = json['names'].find {|name| name['authorized']}
+          if authorized_name["authority_id"]
+            authorized_name_id = NameAuthorityId.find(:authority_id => authorized_name["authority_id"])
+            raise AgentManager::AuthorizedNameError, "Agent Authorized Name: Agent cannot have a authorized name with an existing authorized id" if authorized_name_id 
+          end
+         
           self.create_from_json(json)
         }.and_if_constraint_fails {|exception|
-          agent = find(:agent_sha1 => calculate_hash(json))
+         
+
+          if exception.is_a? AgentManager::AuthorizedNameError
+            authorized_name = json['names'].find {|name| name['authorized']}
+            
+            agent_type = json["jsonmodel_type"] 
+            name_type = authorized_name["jsonmodel_type"]
+           
+            agent = join(name_type.intern, "#{agent_type}_id".intern => "#{agent_type}__id".intern)
+                      .join(:name_authority_id, "#{name_type}_id".intern => "#{name_type}__id".intern )
+                      .where( Sequel.qualify(:name_authority_id, :authority_id) => authorized_name["authority_id"] )
+                      .and( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
+                      
+
+          else
+            agent = find_matching(json)
+          end
 
           if !agent
             # The agent exists but we can't find it.  This could mean it was
@@ -162,8 +187,15 @@ module AgentManager
             raise RetryTransaction.new
           end
 
+          
           agent
+        
         }
+      end
+
+
+      def find_matching(json)
+        find(:agent_sha1 => calculate_hash(json))
       end
 
 
@@ -206,7 +238,7 @@ module AgentManager
 
         json.agent_contacts.each do |contact|
           fields << hash_chunk(JSONModel(:agent_contact).from_hash(contact),
-                               %w(name salutation telephone address_1 address_2 address_3 city region country post_code telephone_ext fax email email_signature note))
+                               %w(name salutation telephone address_1 address_2 address_3 city region country post_code email email_signature note))
         end
 
         json.external_documents.each do |doc|

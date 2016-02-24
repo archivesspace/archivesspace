@@ -25,7 +25,7 @@ module RecordChildren
       if child["dates"]
         if child["dates"][0].reject{|k,v| v.blank?}.empty?
           child.delete("dates")
-        else
+        elsif child["dates"][0]["label"].empty?
           child["dates"][0]["label"] = "other"
         end
       end

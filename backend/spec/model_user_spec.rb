@@ -67,7 +67,7 @@ describe 'User model' do
     pass1 = generate(:alphanumstr)
     pass2 = generate(:alphanumstr)
     new_user = create(:user)
-    
+    new_user.source.should eq("local")    
     DBAuth.set_password(new_user.username, pass1)
     
     AuthenticationManager.authenticate(new_user.username, pass1).username.should eq(new_user.username)
@@ -76,8 +76,9 @@ describe 'User model' do
     
     AuthenticationManager.authenticate(new_user.username, pass1).should be nil
     
-    AuthenticationManager.authenticate(new_user.username, pass2).username.should eq(new_user.username)
-    
+    authed = AuthenticationManager.authenticate(new_user.username, pass2)
+    authed.username.should eq(new_user.username)
+    authed.source.should eq("DBAuth") 
   end
 
 
@@ -123,5 +124,28 @@ describe 'User model' do
     user.permissions[repo_b.uri].sort.should eq(["update_location_record", "view_repository"])
     user.permissions[Repository.GLOBAL].sort.should eq(["update_location_record"])
   end
+
+  it "can delete a user even if it has preferences and import jobs" do
+
+    group = Group.create_from_json(build(:json_group), :repo_id => $repo_id)
+    new_user = create(:user)
+
+    new_user.add_to_groups(group)
+    
+   json = build(:json_job,
+               :job_type => 'import_job',
+               :job => build(:json_import_job, :import_type => 'nonce')) 
+    
+    
+    Job.create_from_json(json, :repo_id => $repo_id, :user => new_user)
+  
+    RequestContext.open(:repo_id => Repository.global_repo_id) do
+      Preference.create_from_json(build(:json_preference, :user_id => new_user.id))
+    end
+
+    new_user.delete
+
+  end
+
 
 end

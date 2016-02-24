@@ -1,19 +1,18 @@
 <%= setup_context(:title => I18n.t("repository._plural")) %>
 
-<div class="row-fluid">
-  <div class="span3">
-    <%= render_aspace_partial :partial => "search/filter" %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <% if user_can?('manage_repository') %>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="record-toolbar">
-            <div class="btn-group pull-right">
-              <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-small" %>
-            </div>
-          </div>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <%= link_to I18n.t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
+        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

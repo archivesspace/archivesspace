@@ -4,13 +4,13 @@ require 'converter_spec_helper'
 require_relative '../app/converters/marcxml_converter'
 
 describe 'MARCXML converter' do
-  let(:my_converter) {
-    MarcXMLConverter
-  }
 
+  def my_converter
+    MarcXMLConverter
+  end
 
   describe "Basic MARCXML to ASPACE mappings" do
-    let (:test_doc_1) {
+    def test_doc_1
       src = <<END
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -59,6 +59,7 @@ describe 'MARCXML converter' do
                   <subfield code="d">SF D</subfield>
                   <subfield code="a">SF A</subfield>
                   <subfield code="x">SF X</subfield>
+                  <subfield code="x">SF XII</subfield>
                   <subfield code="3">SF 3</subfield>
               </datafield>
 
@@ -67,7 +68,7 @@ describe 'MARCXML converter' do
 END
 
       get_tempfile_path(src)
-    }
+    end
 
 
     before(:all) do
@@ -98,7 +99,11 @@ END
     end
 
     it "maps field 69* to resource['subjects']" do
-      @subjects[0]['terms'][0]['term'].should eq("SF 3--SF A--SF D--SF X")
+      @subjects[0]['terms'][0]['term'].should eq("SF 3")
+      @subjects[0]['terms'][1]['term'].should eq("SF A")
+      @subjects[0]['terms'][2]['term'].should eq("SF D")
+      @subjects[0]['terms'][3]['term'].should eq("SF X")
+      @subjects[0]['terms'][4]['term'].should eq("SF XII")
     end
 
     it "maps field 040 subfield e to resource.finding_aid_description_rules" do
@@ -129,7 +134,7 @@ END
         @people = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_person'}
         @people.instance_eval do
           def by_name(name)
-            self.select {|p| 
+            self.select {|p|
               if name.match(/(.+),\s*(.+)/)
                 (p['names'][0]['primary_name'] == $1) && (p['names'][0]['rest_of_name'] == $2)
               else
@@ -150,7 +155,7 @@ END
         @subjects = parsed.select {|rec| rec['jsonmodel_type'] == 'subject'}
 
         @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-        @notes = @resource['notes']
+        @notes = @resource['notes'].map { |note| note_content(note) }
       end
 
       before(:all) do
@@ -194,8 +199,8 @@ END
         @families.select{|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count.should eq(3)
       end
 
-      it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].use_dates[].expression" do
-        @people.select{|p| p['names'][0]['use_dates'][0]['expression'] == 'PNames-Dates-AT'}.count.should eq(3)
+      it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].dates" do
+        @people.select{|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count.should eq(3)
       end
 
       it "prepends and maps datafield[@tag='600']/subfield[@code='g'] to agent_(family|person).names[].qualifier" do
@@ -260,56 +265,64 @@ END
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
         @resource['extents'][0]['container_summary'].should eq("5.0 Linear feet (Resource-ContainerSummary-AT)")
+        @resource['extents'][0]['number'].should eq("5.0")
+        @resource['extents'][0]['extent_type'].should eq("Linear feet")
+      end
+
+      it "maps datafield[@tag='260'] to resource.notes[] using template '$a'" do
+        @notes.should include('1889-1945')
       end
 
       it "maps datafield[@tag='351'] to resource.notes[] using template '$3: $a. $b. $c'" do
-        note_content(@notes[0]).should eq('Resource-Arrangement-Note Resource-FilePlan-AT.')
+        @notes.should include('Resource-Arrangement-Note Resource-FilePlan-AT.')
       end
 
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
-        note_content(@notes[5]).should eq('Material Specific Details:Resource-MaterialSpecificDetails-AT')
+        @notes.should include('Material Specific Details:Resource-MaterialSpecificDetails-AT')
       end
 
-      it "maps datafield[@tag='506'] to resource.notes[] using template '$3: $a, $b, $c, $d, $e, $u.'" do
-        note_content(@notes[11]).should eq('Resource-ConditionsGoverningAccess-AT.')
+      it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
+        @notes.should include('CumulativeIndexFindingAidsNote-AT')
+      end
+
+      it "maps datafield[@tag='506'] to resource.notes[] using template '$a'" do
+        @notes.should include('Resource-ConditionsGoverningAccess-AT.')
       end
 
       it "maps datafield[@tag='520'] to resource.notes[] using template '$3:  $a. ($u) [line break] $b.'" do
-        note_content(@notes[12]).should eq('Resource-Abstract-AT.')
-        @notes[12]['label'].should eq("Summary")
+        @notes.should include('Resource-Abstract-AT.')
       end
 
       it "maps datafield[@tag='524'] to resource.notes[] using template '$3: $a. $2.'" do
-        note_content(@notes[14]).should eq('Resource-PreferredCitation-AT.')
+        @notes.should include('Resource-PreferredCitation-AT.')
       end
 
       it "maps datafield[@tag='535'] to resource.notes[] using template 'Indicator 1 [Holder of originals | Holder of duplicates]: $3--$a. $b, $c. $d ($g).'" do
-        note_content(@notes[16]).should eq('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
+        @notes.should include('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
       end
 
       it "maps datafield[@tag='540'] to resource.notes[] using template '$3: $a. $b. $c. $d ($u).'" do
-        note_content(@notes[17]).should eq('Resource-ConditionsGoverningUse-AT.')
+        @notes.should include('Resource-ConditionsGoverningUse-AT.')
       end
 
       it "maps datafield[@tag='541'] to resource.notes[] using template '#3: Source of acquisition--$a. Address--$b. Method of acquisition--$c; Date of acquisition--$d. Accession number--$e: Extent--$n; Type of unit--$o. Owner--$f. Purchase price--$h.'" do
-        note_content(@notes[19]).should eq('Source of acquisition--Resource-ImmediateSourceAcquisition.')
+        @notes.should include('Source of acquisition--Resource-ImmediateSourceAcquisition.')
       end
 
       it "maps datafield[@tag='544'] to resource.notes[] using template 'Indicator 1 [ Associated Materials | Related Materials]--$3: Title--$t. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
-        note_content(@notes[20]).should eq('Custodian--Resource-RelatedArchivalMaterials-AT.')
+        @notes.should include('Custodian--Resource-RelatedArchivalMaterials-AT.')
       end
 
       it "maps datafield[@tag='545'] to resource.notes[] using template '$a ($u). [Line break] $b.'" do
-        note_content(@notes[21]).should eq('Resource-BiographicalHistorical-AT.')
+        @notes.should include('Resource-BiographicalHistorical-AT.')
       end
 
       it "maps datafield[@tag='546'] to resource.notes[] using template '$3: $a ($b).'" do
-        note_content(@notes[22]).should eq('Resource-LanguageMaterials-AT.')
-        @notes[22]['label'].should eq('Language of Material')
+        @notes.should include('Resource-LanguageMaterials-AT.')
       end
 
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
-        note_content(@notes[23]).should eq('Resource--CustodialHistory-AT.')
+        @notes.should include('Resource--CustodialHistory-AT.')
       end
 
       it "maps datafield[@tag='630'] to subject" do
@@ -327,8 +340,8 @@ END
     end
   end
 
-  describe "Importing Authority Files" do
-    it "can import an authority record" do
+  describe "Importing Name Authority Files" do
+    it "can import a name authority record" do
       john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 
@@ -338,9 +351,10 @@ END
 
       new_record = json.last
 
+      new_record['names'][0]['authority_id'].should eq("n88218900")
       new_record['names'][0]['primary_name'].should eq("Davis")
       new_record['names'][0]['rest_of_name'].should eq("John W.")
-      new_record['names'][0]['use_dates'][0]['expression'].should eq("1873-1955")
+      new_record['names'][0]['dates'].should eq("1873-1955")
 
       # Unauthorized names are added too
       new_record['names'][1]['primary_name'].should eq("Davis")
@@ -348,6 +362,24 @@ END
     end
   end
 
+  describe "Importing Subject Authority Files" do
+    it "can import a subject authority record" do
+      cyberpunk_file = File.expand_path("../app/exporters/examples/marc/authority_cyberpunk.xml",
+                                    File.dirname(__FILE__))
+
+      converter = MarcXMLConverter.for_subjects_and_agents_only(cyberpunk_file)
+      converter.run
+      json = JSON(IO.read(converter.get_output_path))
+
+      # ensure we get them in a standard order
+      badass, cyberpunk = json.sort_by { |j| j['terms'][0]['term'] }
+      badass['terms'][0]['term'].should eq("Badass sci-fi")
+      badass['source'].should eq("Library of Congress Subject Headings")
+
+      cyberpunk['terms'][0]['term'].should eq("Cyberpunk")
+      cyberpunk['source'].should eq("Library of Congress Subject Headings")
+    end
+  end
 
   describe "008 string handling" do
     let (:test_doc) {
@@ -384,7 +416,7 @@ marc
 
 
   describe "Name Order handling" do
-    let(:name_order_test_doc) {
+    def name_order_test_doc
       src = <<ROTFL
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -445,7 +477,7 @@ marc
 ROTFL
 
       get_tempfile_path(src)
-    }
+    end
 
     before(:all) do
       converter = MarcXMLConverter.for_subjects_and_agents_only(name_order_test_doc)
@@ -461,7 +493,7 @@ ROTFL
       @names.map{|name| name['name_order']}.should eq(%w(inverted direct inverted direct inverted direct))
     end
 
-    it "splits primary_name and rest_of_name" do      
+    it "splits primary_name and rest_of_name" do
       @names[0]['primary_name'].should eq('a1')
       @names[0]['rest_of_name'].should eq('foo')
     end
@@ -496,14 +528,14 @@ ROTFL
       <marc:subfield code="a">5.00</marc:subfield>
       <marc:subfield code="f">linear feet.</marc:subfield>
     </marc:datafield>
-  </marc:record>    
+  </marc:record>
 </marc:collection>
 OMFG
 
       get_tempfile_path(src)
     }
 
-    before(:all) do
+    before(:each) do
       json = convert(date_dupes_test_doc)
       @resource = json.last
     end
@@ -526,6 +558,7 @@ OMFG
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <foo:record>
+    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
       <foo:datafield tag="245" ind2=" " ind1="1">
         <foo:subfield code="a">SF A</foo:subfield>
       </foo:datafield>
@@ -545,6 +578,7 @@ MARC
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <leader>00000npm a2200000 u 4500</leader>
+    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
     <foo:datafield tag="245" ind2=" " ind1="1">
       <foo:subfield code="a">SF A</foo:subfield>
     </foo:datafield>
@@ -607,6 +641,10 @@ MARC
             resource.title = "TITLE"
           end
 
+          if resource.dates.nil? || resource.dates.empty?
+            resource.dates << ASpaceImport::JSONModel(:date).from_hash({:expression => "1945", :label => "creation", "date_type" => "single"})
+          end
+          
           if resource.extents.nil? || resource.extents.empty?
             resource.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
           end
@@ -633,6 +671,89 @@ MARC
       # regular converter should still produce an invalid record
       converter = MarcXMLConverter.new(test_doc)
       expect { converter.run }.to raise_error(JSONModel::ValidationException)
+    end
+  end
+
+  # It might happen that a converter mapping targets a property that doesn't
+  # exist, especially if a mapping is reused for different record types.
+  describe "Handling bad mappings" do
+
+    def test_doc
+      src = <<MARC
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <datafield tag="245" ind2=" " ind1="1">
+      <subfield code="a">SF A</subfield>
+    </datafield>
+    <datafield tag="9999" ind2=" " ind1="1">
+      <subfield code="a">SF A</subfield>
+    </datafield>
+  </record>
+MARC
+      get_tempfile_path(src)
+    end
+
+    let (:subconverter) {
+      class BadMarcXMLAccessionConverter < MarcXMLConverter
+        def self.import_types(*args)
+          {:name => 'marc2accession', :description => "make accessions from marc"}
+        end
+
+
+        def self.instance_for(type, input_file)
+          if type == 'marc2accession'
+            self.new(input_file)
+          end
+        end
+      end
+
+      BadMarcXMLAccessionConverter.configure do |config|
+        config['/record'] = {
+          :obj => :accession,
+          :map => {
+            'self::record' => Proc.new {|accession, node|
+              if !accession.title
+                accession.title = "TITLE"
+              end
+
+              if accession.extents.nil? || accession.extents.empty?
+                accession.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
+              end
+
+              if accession.id_0.nil? or accession.id.empty?
+                accession.id_0 = "ID"
+              end
+            },
+            'datafield[@tag="9999"]' => {
+              :obj => :note_singlepart,
+              :rel => :notes, # Accessions don't take notes!
+              :map => {
+                "self::datafield" => -> note, node {
+                  note.send('label=', "my note")
+                  note.type = 'odd'
+                  note.content = 'my note content'
+                }
+              }
+            }
+          }
+        }
+
+      end
+
+      BadMarcXMLAccessionConverter
+    }
+
+    it "raises a ConverterMappingError" do
+
+      # regular converter should produce an invalid record
+      converter = subconverter.new(test_doc)
+      expect {
+        converter.run
+        json = JSON(IO.read(converter.get_output_path))
+        puts json.inspect
+
+      }.to raise_error(Converter::ConverterMappingError, "The converter maps 'datafield[@tag=\"9999\"]' to a bad target (property 'notes' on record_type 'accession')." )
+
     end
   end
 end

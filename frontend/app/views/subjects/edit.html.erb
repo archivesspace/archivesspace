@@ -2,11 +2,11 @@
 
 <%= form_for @subject, :as => "subject", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@subject)) do |f| %>
   <%= form_context :subject, @subject do |form| %>
-    <div class="row-fluid">
-      <div class="span3">
+    <div class="row">
+      <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "subject" %>
@@ -15,7 +15,7 @@
           <%= render_aspace_partial :partial => "subjects/form", :locals => {:form => form} %>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("subject._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

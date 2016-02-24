@@ -49,6 +49,7 @@ class NamePerson < Sequel::Model(:name_person)
                   result << ", #{json["dates"]}" if json["dates"]
                   result << " (#{json["qualifier"]})" if json["qualifier"]
 
+                  result.lstrip!    
                   result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }

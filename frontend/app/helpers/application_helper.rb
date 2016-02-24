@@ -1,3 +1,5 @@
+require 'mixed_content_parser'
+
 module ApplicationHelper
 
   def include_controller_js
@@ -14,6 +16,13 @@ module ApplicationHelper
     if ["batch_create"].include?(controller.action_name)
       scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
+
+    if ["defaults", "update_defaults"].include?(controller.action_name)
+      ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
+
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+    end
+
 
     scripts.html_safe
   end
@@ -39,7 +48,7 @@ module ApplicationHelper
       type = options[:type] || object["jsonmodel_type"]
       controller = options[:controller] || type.to_s.pluralize
 
-      title = options[:title] || object["title"] || object["username"]
+      title = (options[:title] || object["title"] || object["username"]).to_s
 
       breadcrumb_trail.push(["#{I18n.t("#{controller.to_s.singularize}._plural")}", {:controller => controller, :action => :index}])
 
@@ -103,7 +112,8 @@ module ApplicationHelper
               :target => "_blank", 
               :title => title,
               :class => "context-help has-tooltip",
-              "data-placement" => "left"
+              "data-placement" => "left",
+              "data-container" => "body",
             }.merge(opts[:link_opts] || {})
            )
   end
@@ -169,7 +179,7 @@ module ApplicationHelper
     button_confirm_action(opts[:label] || I18n.t("actions.delete"),
                           url,
                           {
-                            :class => "btn btn-small btn-danger delete-record",
+                            :class => "btn btn-sm btn-danger delete-record",
                             :"data-title" => I18n.t("actions.delete_confirm_title"),
                             :"data-message" => I18n.t("actions.delete_confirm_message"),
                             :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}",
@@ -180,7 +190,7 @@ module ApplicationHelper
 
   def button_delete_multiple_action(target_action)
     button_delete_action(url_for(:controller => :batch_delete, :action => target_action), {
-      :class => "btn btn-small btn-danger multiselect-enabled",
+      :class => "btn btn-sm btn-danger multiselect-enabled",
       :"data-multiselect" => "#tabledSearchResults",
       :"data-title" => I18n.t("actions.delete_multiple_confirm_title"),
       :"data-message" => I18n.t("actions.delete_multiple_confirm_message"),
@@ -188,10 +198,29 @@ module ApplicationHelper
       :disabled => "disabled"
     })
   end
+  
+  def button_edit_multiple_action(target_controller, target_action = :batch, opts = {} )
+    label = opts[:label] || I18n.t("actions.edit_batch") 
+    btn_opts = { 
+      :"data-target" => url_for(:controller => target_controller, :action => target_action), 
+      :class => "btn btn-sm btn-default multiselect-enabled edit-batch",
+      :method => "post",
+      :type => "button",
+      :"data-multiselect" => "#tabledSearchResults",
+      :"data-confirmation" => true,
+      :"data-title" => I18n.t("actions.edit_multiple_confirm_title"),
+      :"data-message" => I18n.t("actions.edit_multiple_confirm_message"),
+      :"data-confirm-btn-label" => "#{I18n.t("actions.edit_multiple")}",
+      :"data-authenticity_token" => form_authenticity_token,
+      :disabled => "disabled"
+    }.merge(opts)
+
+    button_tag(label, btn_opts)
+  end
 
   def display_audit_info(hash, opts = {})
     fmt = opts[:format] || 'wide'
-    html = "<div class='row-fluid'><div class='audit-display-#{fmt}'><small>"
+    html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']
       if fmt == 'wide'
         html << "<strong>#{I18n.t("search_results.created")} #{hash['created_by']}</strong>"
@@ -207,7 +236,7 @@ module ApplicationHelper
         html << "</dl>"
       end
     end
-    html << "</small></div></div>"
+    html << "</small></div><div class='clearfix'></div>"
     html.html_safe
   end
 
@@ -225,5 +254,26 @@ module ApplicationHelper
     defaults = {:formats => [:html], :handlers => [:erb]}
     return render(defaults.merge(args))
   end
+  
+  def clean_mixed_content(content)
+    content = content.to_s
+    return content if content.blank? 
+    MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } ).to_s.html_safe
+  end
 
+  def proxy_localhost?
+    AppConfig[:public_proxy_url] =~ /localhost/
+  end
+
+  def add_new_event_url(record)
+    if record.jsonmodel_type == "agent"
+      url_for(:controller => :events, :action => :new, :agent_uri => record.uri,  :event_type => "${event_type") 
+    else
+      url_for(:controller => :events, :action => :new, :record_uri => record.uri, :record_type => record.jsonmodel_type, :event_type => "${event_type}") 
+    end
+  end
+
+  def show_external_ids?
+    AppConfig[:show_external_ids] == true
+  end
 end

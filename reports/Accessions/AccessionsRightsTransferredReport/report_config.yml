@@ -1,0 +1,3 @@
+report_type: jdbc
+uri_suffix: accessions_rights_transferred
+description: "Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred."

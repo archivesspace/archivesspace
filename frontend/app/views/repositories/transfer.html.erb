@@ -4,15 +4,15 @@
    other_repositories = @repositories.reject {|r| r['uri'] == session[:repo]}.map {|r| [r['repo_code'], r['uri']]}
 %>
 
-<div class="row-fluid">
-  <div class="span3"> </div>
-  <div class="span9">
+<div class="row">
+  <div class="col-md-3"> </div>
+  <div class="col-md-9">
       <h2><%= @repository.repository['name'] %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <% if !@transfer_errors.blank? %>
-        <div class="alert alert-error">
+        <div class="alert alert-danger">
           <h3><%= I18n.t('repository._frontend.messages.transfer_failed') %></h3>
           <ul>
             <% @transfer_errors.each do |uri, errors| %>

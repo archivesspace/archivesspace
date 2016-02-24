@@ -7,7 +7,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    handle_create(AgentCorporateEntity, params[:agent])
+    with_record_conflict_reporting(AgentCorporateEntity, params[:agent]) do
+      handle_create(AgentCorporateEntity, params[:agent])
+    end
   end
 
 
@@ -30,7 +32,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    handle_update(AgentCorporateEntity, params[:id], params[:agent])
+    with_record_conflict_reporting(AgentCorporateEntity, params[:agent]) do
+      handle_update(AgentCorporateEntity, params[:id], params[:agent])
+    end
   end
 
 
@@ -39,7 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", Integer, "ID of the corporate entity agent"],
             ["resolve", :resolve])
     .permissions([])
-    .returns([200, "(:agent)"],
+    .returns([200, "(:agent_corporate_entity)"],
              [404, "Not found"]) \
   do
     json_response(resolve_references(AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id])),

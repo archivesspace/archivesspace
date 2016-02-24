@@ -1,11 +1,12 @@
 class DigitalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree],
-                      "update_archival_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
+                      "update_digital_object_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "suppress_archival_record" => [:suppress, :unsuppress],
-                      "transfer_archival_record" => [:transfer]
+                      "transfer_archival_record" => [:transfer],
+                      "manage_repository" => [:defaults, :update_defaults]
 
 
   def index
@@ -37,8 +38,54 @@ class DigitalObjectsController < ApplicationController
   def new
     @digital_object = JSONModel(:digital_object).new({:title => I18n.t("digital_object.title_default", :default => "")})._always_valid!
 
+    if user_prefs['default_values']
+      defaults = DefaultValues.get 'digital_object'
+
+      if defaults
+        @digital_object.update(defaults.values)
+        @form_title = "#{I18n.t('actions.new_prefix')} #{I18n.t('digital_object._singular')}"
+      end
+    end
+
     return render_aspace_partial :partial => "digital_objects/new" if params[:inline]
   end
+
+
+  def defaults
+    defaults = DefaultValues.get 'digital_object'
+
+    values = defaults ? defaults.form_values : {:title => I18n.t("digital_object.title_default", :default => "")}
+
+    @digital_object = JSONModel(:digital_object).new(values)._always_valid!
+
+    @form_title = I18n.t("default_values.form_title.digital_object")
+
+    render "defaults"
+  end
+
+
+  def update_defaults
+
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "digital_object",
+                                "lock_version" => params[:digital_object].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:digital_object],
+                                                                        JSONModel(:digital_object).schema
+                                                                        )
+                              }).save
+
+      flash[:success] = "Defaults updated"
+
+      redirect_to :controller => :digital_objects, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :digital_objects, :action => :defaults
+    end
+
+  end
+
 
 
   def edit
@@ -121,8 +168,8 @@ class DigitalObjectsController < ApplicationController
 
 
   def merge
-    handle_merge(JSONModel(:digital_object).uri_for(params[:id]),
-                 params[:ref],
+    handle_merge(  params[:refs] ,
+                  JSONModel(:digital_object).uri_for(params[:id]),
                  'digital_object')
   end
 
@@ -210,7 +257,11 @@ class DigitalObjectsController < ApplicationController
   def fetch_tree
     tree = {}
 
-    limit_to = params[:node_uri] || "root"
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/digital_objects/") 
+                 params[:node_uri]
+               else
+                 "root"
+               end
 
     if !params[:hash].blank?
       node_id = params[:hash].sub("tree::", "").sub("#", "")
@@ -221,11 +272,34 @@ class DigitalObjectsController < ApplicationController
       end
     end
 
-    parse_tree(JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated), nil) do |node, parent|
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => params[:id], :limit_to => limit_to).to_hash(:validated)
+
+    prepare_tree_nodes(tree) do |node|
+
+      node['text'] = node['title']
       node['level'] = I18n.t("enumerations.digital_object_level.#{node['level']}", :default => node['level']) if node['level']
       node['digital_object_type'] = I18n.t("enumerations.digital_object_digital_object_type.#{node['digital_object_type']}", :default => node['digital_object_type']) if node['digital_object_type']
 
-      tree["#{node["node_type"]}_#{node["id"]}"] = node.merge("children" => node["children"].collect{|child| "#{child["node_type"]}_#{child["id"]}"})
+      node_db_id = node['id']
+
+      node['id'] = "#{node["node_type"]}_#{node["id"]}"
+
+      if node['has_children'] && node['children'].empty?
+        node['children'] = true
+      end
+
+      node['type'] = node['node_type']
+
+      node['li_attr'] = {
+        "data-uri" => node['record_uri'],
+        "data-id" => node_db_id,
+        "rel" => node['node_type']
+      }
+      node['a_attr'] = {
+        "href" => "#tree::#{node['id']}",
+        "title" => node["title"]
+      }
+
     end
 
     tree

@@ -4,13 +4,15 @@ describe 'Classification models' do
 
   let(:creator) { create(:json_agent_person) }
   let(:classification) { create_classification }
+  let(:resource) { create(:json_resource) }
 
   def create_classification
     classification = build(:json_classification,
                            :title => "top-level classification",
                            :identifier => "abcdef",
                            :description => "A classification",
-                           :creator => {'ref' => creator.uri})
+                           :creator => {'ref' => creator.uri},
+                          :linked_records => [ 'ref' => resource.uri ])
 
     Classification.create_from_json(classification)
   end
@@ -50,6 +52,11 @@ describe 'Classification models' do
                                              :parent => {'ref' => term.uri})
 
     classification.tree['children'][0]['children'][0]['title'].should eq(second_term.title)
+  
+    expect {
+      ClassificationTerm.resequence( classification.repo_id )
+    }.to_not raise_error
+  
   end
 
 
@@ -85,7 +92,7 @@ describe 'Classification models' do
                                  :title => "same titles",
                                  :identifier => "same IDs",
                                  :parent => {'ref' => term1.uri})
-    }.to_not raise_error(Sequel::ValidationFailed)
+    }.to_not raise_error
   end
 
 

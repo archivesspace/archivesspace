@@ -146,9 +146,11 @@
             <!-- The fo:page-sequence establishes headers, footers and the body of the page.-->            
             <!-- Cover page layout -->            
             <fo:page-sequence master-reference="cover-page">
-                <fo:static-content flow-name="xsl-region-after">
-                    <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt" mode="coverPage"/>
-                </fo:static-content>
+                <xsl:if test="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt">
+                  <fo:static-content flow-name="xsl-region-after">
+                        <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt" mode="coverPage"/>
+                    </fo:static-content>
+               </xsl:if>   
                 <fo:flow flow-name="xsl-region-body">                                   
                     <xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="coverPage"/>
                 </fo:flow>               
@@ -263,7 +265,12 @@
         -->
         <xsl:apply-templates select="local:parseDate(.)"/>
     </xsl:template>
-    <!-- This template can be modified to include repository specific icons, use the template as a example.  -->
+    <!--
+        This template can be modified to include repository specific icons,
+        use the template as an example. PDF exports only support this single
+        icon template for an image in this directory specified by filename
+        i.e. src="myicon.png"
+    -->
     <xsl:template name="icon">
         <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
             <fo:external-graphic src="archivesspace.small.png" content-height="75%" content-width="75%"/>
@@ -1271,21 +1278,23 @@
     
     <!-- Collection Inventory (dsc) templates -->
     <xsl:template match="ead:archdesc/ead:dsc">
-        <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
-            <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
-                <fo:table-column column-number="1" column-width="4in"/>
-                <fo:table-column column-number="2" column-width="1in"/>
-                <fo:table-column column-number="3" column-width="1in"/>
-                <fo:table-column column-number="4" column-width="1in"/>
-                <fo:table-body>
-                    <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
-                        <xsl:call-template name="tableHeaders"/>
-                    </xsl:if>
-                    <xsl:apply-templates select="*[not(self::ead:head)]"/>
-                </fo:table-body>
-            </fo:table>
-        </fo:block>        
+        <xsl:if test="count(child::*) >= 1">
+		<fo:block xsl:use-attribute-sets="section">
+		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+		    <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
+			<fo:table-column column-number="1" column-width="4in"/>
+			<fo:table-column column-number="2" column-width="1in"/>
+			<fo:table-column column-number="3" column-width="1in"/>
+			<fo:table-column column-number="4" column-width="1in"/>
+			<fo:table-body>
+			    <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
+				<xsl:call-template name="tableHeaders"/>
+			    </xsl:if>
+			    <xsl:apply-templates select="*[not(self::ead:head)]"/>
+			</fo:table-body>
+		    </fo:table> 
+		</fo:block>        
+	</xsl:if> 
     </xsl:template>
 
     <!--

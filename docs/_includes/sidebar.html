@@ -1,0 +1,84 @@
+<div id="sidebar" class="sidebar">
+  <div>
+    <!-- <h2>Search</h2> -->
+    <div class="searchbox">
+      <form onsubmit='google_site_search()'>
+        <input type="text" id="google-search" class="searchbox-input" placeholder="Search the docs" />
+      </form>
+
+      <script language="Javascript" type="text/javascript">
+          function google_site_search()
+            {
+                var query = document.getElementById("google-search").value;
+                  window.open("http://google.com/search?q=" + query
+                  + "%20site:" + "http://archivesspace.github.io/archivesspace");
+                  }
+                </script>
+    </div>
+  </div>
+  <!-- <section>
+    <h2>Newsletter</h2>
+    <div id="mc_embed_signup" style="margin-left: 1.5em; margin-top: 0.5em;">
+      <form
+         action="http://travis-ci.us7.list-manage.com/subscribe/post?u=8ce724a4c9af4dace663cd39c&amp;id=44f8dff14c"
+         method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate"
+         target="_blank" novalidate>
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required/>
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </form>
+    </div>
+  </section>
+  <section>
+    <h2><a href="http://travis-ci.com/?utm_source=docs.travis-ci.org&utm_medium=referral&utm_content=textlink&utm_campaign=docsite_sidebar">Travis CI for Private Repositories</a></h2>
+  </section> -->
+
+  <section>
+    <h2>Menu</h2>
+    <nav>
+      <ul>
+        <li><a href="/archivesspace/user/system-requirements/">System Requirements</a></li>
+        <li><a href="/archivesspace/user/getting-started/">Getting started</a></li>
+        <li><a href="/archivesspace/user/configuring-archivesspace/">Configuring ArchivesSpace</a></li>
+        <li><a href="/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/">Upgrading ArchivesSpace</a></li>
+        <li><a href="/archivesspace/user/running-archivesspace-as-a-unix-daemon/">Running ArchivesSpace as a Unix daemon</a></li>
+        <li><a href="/archivesspace/user/running-archivesspace-as-a-windows-service/">Running ArchivesSpace as a Windows Service</a></li>
+        <li><a href="/archivesspace/user/running-archivesspace-against-mysql/">Setting up MySQL for Production</a></li>
+        <li><a href="/archivesspace/user/backup-and-recovery/">Backup and Recovery</a></li>
+        <li><a href="/archivesspace/user/re-creating-indexes/">Re-creating your indexes</a></li>
+        <li><a href="/archivesspace/user/resetting-passwords/">Resetting Passwords</a></li>
+        <li><a href="/archivesspace/user/tuning-archivesspace/">Tuning ArchivesSpace</a></li>
+        <li><a href="/archivesspace/user/configuring-ldap-authentication/">Configuring LDAP authentication</a></li>
+        <li><a href="/archivesspace/user/archivesspace-plug-ins-readme/">Plugins and Local Customizations</a></li>
+        <li><a href="/archivesspace/user/running-archivesspace-under-a-prefix/">Deploying under a URL prefix</a></li>
+        <li><a href="/archivesspace/user/running-archivesspace-with-external-solr/">Using an external Solr index</a></li>
+        <li><a href="/archivesspace/user/application-monitoring-with-new-relic/">Monitoring with New Relic</a></li>
+      </ul>
+      <h2>Developer Guides</h2>
+      <ul>
+        <li><a href="/archivesspace/user/archivesspace-architecture-overview">Architecture Overview</a></li>
+        <li><a href="{{ site.baseurl }}/api">The API</a></li>
+        <li><a href="/archivesspace/user/archivesspace-build-system">Building ArchivesSpace</a></li>
+        <li><a href="/archivesspace/user/selenium-test-suite">Running Selenium Tests</a></li>
+        <li><a href="{{ site.baseurl }}/doc">Ruby YARD Documentation</a></li>
+        <li><div class="status-circle status">Status:</div>
+          <a href="https://travis-ci.org/archivesspace/archivesspace">Travis CI Status</a>
+        </li>
+      </ul>
+    </nav>
+  </section>
+  <section>
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="https://twitter.com/archivesspace">Twitter</a></li>
+      <li><a href="irc://chat.freenode.net/%23archivesspace">IRC</a></li>
+      <li><a href="http://github.com/archivesspace">GitHub</a></li>
+      <li><a href="mailto:ArchivesSpaceHome@lyrasis.org">Email</a></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Contributing</h2>
+    <p>This documentation site is open source.
+      The <a href="https://github.com/archivesspace/archivesspace/tree/gh-pages">README in our Git repository</a> explains how to contribute.</p>
+      <p>This documentation was based on the <a href="https://travis-ci.org">Travis CI</a> documentation. It uses <a href="https://github.com/jekyll/jekyll">Jekyll</a> and <a href="https://github.com/tripit/slate">Slate</a></p>
+  </section>
+</div><!-- /#sidebar -->

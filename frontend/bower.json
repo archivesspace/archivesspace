@@ -1,0 +1,111 @@
+{
+  "name": "ArchivesSpaceFrontend",
+  "version": "1.2.0-a1",
+  "homepage": "https://github.com/archivesspace/archivesspace",
+  "authors": [
+    "Brian Hoffman <brianjhoffman@gmail.com>"
+  ],
+  "description": "Assets for Staff UI for ArchivesSpace",
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0",
+    "jstree": "git@github.com:vakata/jstree#~3.2.1",
+    "lodash": "~3.6.0",
+    "jquery.scrollTo": "~2.1.0",
+    "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
+    "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1",
+    "Sortable": "git@github.com:RubaXa/Sortable.git#v1.2.0",
+    "jquery.tablesorter": "~2.23.2"
+  },
+  "install": {
+    "path": {
+      "js": "vendor/assets/javascripts",
+      "css": "vendor/assets/stylesheets",
+      "map": "vendor/assets/stylesheets"
+    },
+    "sources": {
+      "jquery.hotkeys": {
+        "mapping": [
+          {
+            "bower_components/jquery.hotkeys/jquery.hotkeys.js": "../jquery.hotkeys.js"
+          }
+        ]
+      },
+      "jstree": {
+        "mapping": [
+          {
+            "bower_components/jstree/dist/jstree.js": "../jstree.js"
+          },
+          {
+            "bower_components/jstree/dist/themes/default/style.css": "style.css.less"
+          }
+        ]
+      },
+      "lodash": {
+        "mapping": [
+          {
+            "bower_components/lodash/lodash.js": "../lodash.js"
+          }
+        ]
+      },
+      "bootstrap3-typeahead": {
+        "mapping": [
+          {
+            "bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js": "../bootstrap3-typeahead.js"
+          }
+        ]
+      },
+      "jquery.scrollTo": {
+        "mapping": [
+          {
+            "bower_components/jquery.scrollTo/jquery.scrollTo.js": "../jquery.scrollTo.js"
+          }
+        ]
+      },
+      "bootstrap-select": {
+        "mapping": [
+          {
+            "bower_components/bootstrap-select/dist/js/bootstrap-select.js": "../bootstrap-select.js"
+          },
+          {
+            "bower_components/bootstrap-select/dist/css/bootstrap-select.css": "bootstrap-select.css.less"
+          }
+        ]
+      },
+      "Sortable": {
+        "mapping": [
+          {
+            "bower_components/Sortable/Sortable.js": "../Sortable.js"
+          }
+        ]
+      },
+      "jquery.tablesorter": {
+        "mapping": [
+          {
+            "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.min.js": "../jquery.tablesorter.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.min.js": "../jquery.tablesorter.widgets.min.js"
+          },
+          {
+            "bower_components/jquery.tablesorter/dist/css/theme.bootstrap.min.css": "theme.bootstrap.min.css"
+          }
+        ]
+      }
+
+    },
+    "ignore": [
+      "jquery"
+    ]
+  }
+}

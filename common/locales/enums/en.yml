@@ -5,11 +5,15 @@ en:
       outcome: Outcome
       transfer: Transfer
     linked_agent_archival_record_relators:
+      abr: Abridger
       act: Actor
+      adi: Art director
       adp: Adapter
       anl: Analyst
       anm: Animator
       ann: Annotator
+      ape: Appellee
+      apl: Appellant
       app: Applicant
       arc: Architect
       arr: Arranger
@@ -21,11 +25,12 @@ en:
       att: Attributed name
       auc: Auctioneer
       aut: Author
-      aqt: Author in quotations or text extracts
+      aqt: Author in quotations or text abstracts 
       aft: Author of afterword, colophon, etc.
       aud: Author of dialog
       aui: Author of introduction, etc.
       aus: Author of screenplay, etc.
+      ato: Autographer
       ant: Bibliographic antecedent
       bnd: Binder
       bdd: Binding designer
@@ -35,12 +40,16 @@ en:
       bjd: Bookjacket designer
       bpd: Bookplate designer
       bsl: Bookseller
+      brl: Braille embosser
+      brd: Broadcaster
       cll: Calligrapher
       ctg: Cartographer
+      cas: Caster
       cns: Censor
       chr: Choreographer
       cng: Cinematographer
       cli: Client
+      cor: Collection registrar
       clb: Collaborator
       col: Collector
       clt: Collotyper
@@ -71,6 +80,8 @@ en:
       crr: Corrector
       crp: Correspondent
       cst: Costume designer
+      cou: Court governed
+      crt: Court reporter
       cov: Cover designer
       cre: Creator
       cur: Curator of an exhibition
@@ -83,6 +94,7 @@ en:
       dft: Defendant-appellant
       dfe: Defendant-appellee
       dgg: Degree grantor
+      dgs: Degree supervisor
       dln: Delineator
       dpc: Depicted
       dpt: Depositor
@@ -95,16 +107,23 @@ en:
       drm: Draftsman
       dub: Dubious author
       edt: Editor
+      edc: Editor of compilation
+      edm: Editor of moving image work
       elg: Electrician
       elt: Electrotyper
+      enj: Enacting jurisdiction
       eng: Engineer
       egr: Engraver
       etr: Etcher
       evp: Event place
-      exp: Expert
+      exp: Appraiser
       fac: Facsimilist
       fld: Field director
+      fmd: Film director
+      fds: Film distributor
       flm: Film editor
+      fmp: Film producer
+      fmk: Filmmaker
       fpy: First party
       frg: Forger
       fmo: Former owner
@@ -113,6 +132,7 @@ en:
       grt: Graphic technician
       hnr: Honoree
       hst: Host
+      his: Host institution
       ilu: Illuminator
       ill: Illustrator
       ins: Inscriber
@@ -120,6 +140,9 @@ en:
       ive: Interviewee
       ivr: Interviewer
       inv: Inventor
+      isb: Issuing body
+      jud: Judge
+      jug: Jurisdiction governed
       lbr: Laboratory
       ldr: Laboratory director
       lsa: Landscape architect
@@ -141,22 +164,26 @@ en:
       mfr: Manufacturer
       mrb: Marbler
       mrk: Markup editor
+      med: Medium
       mdc: Metadata contact
       mte: Metal-engraver
+      mtk: Minute taker
       mod: Moderator
       mon: Monitor
       mcp: Music copyist
       msd: Musical director
       mus: Musician
       nrt: Narrator
+      osp: Onscreen presenter
       opn: Opponent
       orm: Organizer of meeting
       org: Originator
       oth: Other
       own: Owner
+      pan: Panelist
       ppm: Papermaker
       pta: Patent applicant
-      pth: Patent holder
+      pth: Patentee
       pat: Patron
       prf: Performer
       pma: Permitting agency
@@ -165,12 +192,16 @@ en:
       ptt: Plaintiff-appellant
       pte: Plaintiff-appellee
       plt: Platemaker
+      pra: Praeses
+      pre: Presenter
       prt: Printer
       pop: Printer of plates
       prm: Printmaker
       prc: Process contact
       pro: Producer
+      prn: Production company
       pmn: Production manager
+      prs: Production designer
       prd: Production personnel
       prp: Production place
       prg: Programmer
@@ -181,10 +212,12 @@ en:
       pbl: Publisher
       pbd: Publishing director
       ppt: Puppeteer
+      rdd: Radio director
+      rpc: Radio producer
       rcp: Recipient
       rce: Recording engineer
       rcd: Recordist
-      red: Redactor
+      red: Redaktor
       ren: Renderer
       rpt: Reporter
       rps: Repository
@@ -196,6 +229,7 @@ en:
       rse: Respondent-appellee
       rpy: Responsible party
       rsg: Restager
+      rsr: Restorationist
       rev: Reviewer
       rbr: Rubricator
       sce: Scenarist
@@ -204,6 +238,7 @@ en:
       scl: Sculptor
       spy: Second party
       sec: Secretary
+      sll: Seller
       std: Set designer
       stg: Setting
       sgn: Signer
@@ -211,6 +246,7 @@ en:
       sds: Sound designer
       spk: Speaker
       spn: Sponsor
+      sgd: Stage director
       stm: Stage manager
       stn: Standards body
       str: Stereotyper
@@ -219,6 +255,8 @@ en:
       srv: Surveyor
       tch: Teacher
       tcd: Technical director
+      tld: Television director
+      tlp: Television producer
       ths: Thesis advisor
       trc: Transcriber
       trl: Translator
@@ -226,11 +264,18 @@ en:
       tyg: Typographer
       uvp: University place
       vdg: Videographer
+      vac: Voice actor
       voc: Vocalist
       wit: Witness
-      wde: Wood-engraver
+      wde: Wood engraver
       wdc: Woodcutter
       wam: Writer of accompanying material
+      wac: Writer of added commentary
+      wal: Writer of added lyrics
+      wat: Writer of added text
+      win: Writer of introduction
+      wpr: Writer of preface
+      wst: Writer of supplementary textual content
     linked_agent_event_roles:
       authorizer: Authorizer
       executing_program: Executing Program
@@ -268,10 +313,12 @@ en:
       terabytes: Terabytes
       volumes: Volumes
     collection_management_processing_priority:
+      none: Not specified
       high: High
       medium: Medium
       low: Low
     collection_management_processing_status:
+      none: Not specified
       new: New
       in_progress: In Progress
       completed: Completed
@@ -299,6 +346,7 @@ en:
       accumulation: Accumulation
       acknowledgement: Acknowledgement
       acknowledgement_sent: Acknowledgement Sent
+      acknowledgement_received: Acknowledgement Received
       agreement_received: Agreement Received
       agreement_sent: Agreement Sent
       agreement_signed: Agreement Signed
@@ -323,8 +371,13 @@ en:
       migration: Migration
       normalization: Normalization
       processed: Processed
+      processing_new: Processing New
+      processing_started: Processing Started
+      processing_in_progress: Processing in Progress
+      processing_completed: Processing Completed
       publication: Publication
       replication: Replication
+      rights_transferred: Rights Transferred
       validation: Validation
       virus_check: Virus Check
     resource_resource_type:
@@ -938,6 +991,7 @@ en:
       inclusive: Inclusive Dates
       range: Range
     date_label:
+      record_keeping: Record Keeping
       broadcast: Broadcast
       copyright: Copyright
       creation: Creation
@@ -1313,6 +1367,15 @@ en:
     agent_relationship_parentchild_relator:
       is_child_of: Child of Related
       is_parent_of: Parent of Related
+    accession_sibling_relator:
+      sibling_of: Is Sibling of
+    accession_parts_relator:
+      forms_part_of: Forms Part of
+      has_part: Has Part
+    accession_parts_relator_type:
+      part: "\"Part\" relationship"
+    accession_sibling_relator_type:
+      bound_with: "\"Bound With\" relationship"
     agent_relationship_subordinatesuperior_relator:
       is_subordinate_to: Is Subordinate to Related
       is_superior_of: Is Superior of Related
@@ -1334,8 +1397,32 @@ en:
       novalue: No value defined
     user_defined_enum_4:
       novalue: No value defined
+    job_type:
+      print_to_pdf_job: Print To PDF 
+      import_job: Import Data
+      find_and_replace_job: Batch Find and Replace (Beta)
+      report_job: Reports
+    dimension_units:
+      inches: Inches
+      feet: Feet
+      yards: Yards
+      millimeters: Millimeters
+      centimeters: Centimeters
+      meters: Meters
+    restriction_type:
+      RestrictedSpecColl: 1 - Donor/university imposed access restriction
+      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
+      RestrictedFragileSpecColl: 3 - Restricted fragile
+      InProcessSpecColl: 4 - Restricted in-process
+      ColdStorageBrbl: 5 - Other
+
+
   enumeration_names:
     accession_acquisition_type: Accession Acquisition Type
+    accession_parts_relator: Accession Parts Relator
+    accession_parts_relator_type: Accession Parts Relator Type
+    accession_sibling_relator: "Accession Sibling Relator"
+    accession_sibling_relator_type: Accession Sibling Relator Type
     accession_resource_type: Accession Resource Type
     agent_contact_salutation: Agent Contact Salutation
     agent_relationship_associative_relator: Agent Relationship Associative Relator
@@ -1382,6 +1469,7 @@ en:
     note_multipart_type: Note Multipart Type
     note_orderedlist_enumeration: Note Orderedlist Enumeration
     note_singlepart_type: Note Singlepart Type
+    telephone_number_type: Telephone Number Type 
     resource_finding_aid_description_rules: Resource Finding Aid Description Rules
     resource_finding_aid_status: Resource Finding Aid Status
     resource_resource_type: Resource Resource Type
@@ -1393,3 +1481,6 @@ en:
     user_defined_enum_2: User Defined Enum 2
     user_defined_enum_3: User Defined Enum 3
     user_defined_enum_4: User Defined Enum 4
+    job_type: Job Type
+    dimension_units: Dimension Units
+    restriction_type: Local Access Restriction Type

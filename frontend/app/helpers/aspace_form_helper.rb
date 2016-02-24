@@ -1,7 +1,10 @@
-module AspaceFormHelper
-  class FormContext
+require 'mixed_content_parser'
 
-    COMBOBOX_MIN_LIMIT = 50 # if a <select> has equal or more options than this value, output a combobox
+module AspaceFormHelper
+
+  COMBOBOX_MIN_LIMIT = 50 # if a <select> has equal or more options than this value, output a combobox
+
+  class FormContext
 
     def initialize(name, values_from, parent)
 
@@ -24,6 +27,14 @@ module AspaceFormHelper
 
     def h(str)
       ERB::Util.html_escape(str)
+    end
+
+
+    def clean_mixed_content(content, root_url)
+      content = content.to_s
+      return content if content.blank?
+
+      MixedContentParser::parse(content, root_url, { :wrap_blocks => false } ).to_s.html_safe
     end
 
 
@@ -197,11 +208,24 @@ module AspaceFormHelper
 
     def label_and_date(name, opts = {})
       field_opts = (opts[:field_opts] || {}).merge({
-        :class => "date-field",
-        :"data-format" => "yyyy-mm-dd",
-        :"data-date" => Date.today.strftime('%Y-%m-%d')
+          :class => "date-field form-control",
+          :"data-format" => "yyyy-mm-dd",
+          :"data-date" => Date.today.strftime('%Y-%m-%d'),
+          :"data-autoclose" => true,
+          :"data-force-parse" => false
       })
-      label_with_field(name, textfield(name, obj[name], field_opts), opts)
+
+      if obj[name].blank? && opts[:default]
+        value = opts[:default]
+      else
+        value = obj[name]
+      end
+
+      opts[:col_size] = 4
+
+      date_input = textfield(name, value, field_opts)
+
+      label_with_field(name, date_input, opts)
     end
 
     def label_and_textarea(name, opts = {})
@@ -211,6 +235,9 @@ module AspaceFormHelper
 
     def label_and_select(name, options, opts = {})
       options = ([""] + options) if opts[:nodefault]
+      opts[:field_opts] ||= {}
+
+      opts[:col_size] = 4
       widget = options.length < COMBOBOX_MIN_LIMIT ? select(name, options, opts[:field_opts] || {}) : combobox(name, options, opts[:field_opts] || {})
       label_with_field(name, widget, opts)
     end
@@ -222,6 +249,8 @@ module AspaceFormHelper
 
 
     def label_and_boolean(name, opts = {}, default = false, force_checked = false)
+      opts[:col_size] = 1
+      opts[:controls_class] = "checkbox"
       label_with_field(name, checkbox(name, opts, default, force_checked), opts)
     end
 
@@ -245,6 +274,12 @@ module AspaceFormHelper
 
 
     def select(name, options, opts = {})
+      if opts.has_key? :class
+        opts[:class] << " form-control"
+      else
+        opts[:class] = "form-control"
+      end
+
       @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
@@ -254,6 +289,7 @@ module AspaceFormHelper
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
       options[:placeholder] = placeholder if not placeholder.empty?
+      options[:class] = "form-control"
 
       @forms.text_area_tag(path(name), h(value),  options.merge(opts))
     end
@@ -266,6 +302,7 @@ module AspaceFormHelper
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
       options[:placeholder] = placeholder if not placeholder.empty?
+      options[:class] = "form-control"
 
       value = @forms.tag("input", options.merge(opts),
                  false, false)
@@ -322,18 +359,23 @@ module AspaceFormHelper
     end
 
     def label_and_fourpartid
-      field_html =  textfield("id_0", obj["id_0"], :class=> "id_0", :size => 10)
-      field_html << textfield("id_1", obj["id_1"], :class=> "id_1", :size => 10, :disabled => obj["id_0"].blank? && obj["id_1"].blank?)
-      field_html << textfield("id_2", obj["id_2"], :class=> "id_2", :size => 10, :disabled => obj["id_1"].blank? && obj["id_2"].blank?)
-      field_html << textfield("id_3", obj["id_3"], :class=> "id_3", :size => 10, :disabled => obj["id_2"].blank? && obj["id_3"].blank?)
+      field_html =  textfield("id_0", obj["id_0"], :class => "id_0 form-control", :size => 10)
+      field_html << textfield("id_1", obj["id_1"], :class => "id_1 form-control", :size => 10, :disabled => obj["id_0"].blank? && obj["id_1"].blank?)
+      field_html << textfield("id_2", obj["id_2"], :class => "id_2 form-control", :size => 10, :disabled => obj["id_1"].blank? && obj["id_2"].blank?)
+      field_html << textfield("id_3", obj["id_3"], :class => "id_3 form-control", :size => 10, :disabled => obj["id_2"].blank? && obj["id_3"].blank?)
       @forms.content_tag(:div, (I18n.t(i18n_for("id_0")) + field_html).html_safe, :class=> "identifier-fields")
       label_with_field("id_0", field_html, :control_class => "identifier-fields")
     end
 
 
-    def label(name, opts = {})
-      prefix = opts[:plugin] ? 'plugins.' : ''
-      options = {:class => "control-label", :for => id_for(name)}
+    def label(name, opts = {}, classes = [])
+      prefix = '' 
+      prefix << "#{opts[:contextual]}." if opts[:contextual] 
+      prefix << 'plugins.' if opts[:plugin]
+
+      classes << 'control-label'
+
+      options = {:class => classes.join(' '), :for => id_for(name)}
 
       tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
       if not tooltip.empty?
@@ -393,12 +435,19 @@ module AspaceFormHelper
     end
 
 
-
     def label_with_field(name, field_html, opts = {})
       opts[:label_opts] ||= {}
       opts[:label_opts][:plugin] = opts[:plugin]
-      control_group_classes = "control-group"
+      opts[:col_size] ||= 9
 
+      control_group_classes,
+      label_classes,
+      controls_classes = %w(form-group), [], []
+
+      unless opts[:layout] && opts[:layout] == 'stacked'
+        label_classes << 'col-sm-2'
+        controls_classes << "col-sm-#{opts[:col_size]}"
+      end
       # There must be a better way to say this...
       # The value of the 'required' option wins out if set to either true or false
       # if not specified, we take the value of required?
@@ -407,17 +456,15 @@ module AspaceFormHelper
         required = required?(name)
       end
 
-      control_group_classes << " required" if required == true
-      control_group_classes << " conditionally-required" if required == :conditionally
+      control_group_classes << "required" if required == true
+      control_group_classes << "conditionally-required" if required == :conditionally
 
-      control_group_classes << " #{opts[:control_class]}" if opts.has_key? :control_class
+      control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
+      controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
 
-      controls_classes = "controls"
-      controls_classes << " #{opts[:controls_class]}" if opts.has_key? :controls_class
-
-      control_group = "<div class=\"#{control_group_classes}\">"
-      control_group << label(name, opts[:label_opts])
-      control_group << "<div class=\"#{controls_classes}\">"
+      control_group = "<div class=\"#{control_group_classes.join(' ')}\">"
+      control_group << label(name, opts[:label_opts], label_classes)
+      control_group << "<div class=\"#{controls_classes.join(' ')}\">"
       control_group << field_html
       control_group << "</div>"
       control_group << "</div>"
@@ -447,12 +494,23 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      CGI::escapeHTML(value)
+      opts[:escape] = true unless opts[:escape] == false
+      opts[:base_url] ||= "/"
+      value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
+      value = @parent.preserve_newlines(value) if opts[:clean] == true
+      value = CGI::escapeHTML(value) if opts[:escape]
+      value.html_safe
     end
 
     def textarea(name = nil, value = "", opts =  {})
       return "" if value.blank?
-      @parent.preserve_newlines(CGI::escapeHTML(value)).html_safe
+      opts[:escape] = true unless opts[:escape] == false
+      opts[:base_url] ||= "/"
+      value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
+      Rails.logger.debug(value)
+      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = CGI::escapeHTML(value) if opts[:escape]
+      value.html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -590,15 +648,17 @@ module AspaceFormHelper
         elsif opts.has_key?(:i18n_prefix)
           i18n_path =  "#{opts[:i18n_prefix]}.#{v}"
         elsif defn.has_key?('dynamic_enum')
-          i18n_path = "enumerations.#{defn['dynamic_enum']}.#{v}"
+          i18n_path = {
+            :enumeration =>  defn['dynamic_enum'],
+            :value => v
+          }
         else
           i18n_path = context.i18n_for("#{Array(property).last}_#{v}")
         end
-
         options.push([I18n.t(i18n_path, :default => v), v])
       end
-
-      options.sort {|a,b| a[0] <=> b[0]}
+      options
+      #options.sort {|a,b| a[0] <=> b[0]}
     end
 
     private
@@ -606,9 +666,9 @@ module AspaceFormHelper
     def jsonmodel_enum_for(property)
       defn = jsonmodel_schema_definition(property)
 
-      if defn.has_key?('enum')
+      if defn["enum"]
         defn["enum"]
-      elsif defn.has_key?('dynamic_enum')
+      elsif defn["dynamic_enum"]
         JSONModel.enum_values(defn['dynamic_enum'])
       else
         raise "No enum found for #{property}"
@@ -711,7 +771,7 @@ module AspaceFormHelper
 
       if schema and schema["properties"].has_key?(property)
         if (schema["properties"][property].has_key?('dynamic_enum'))
-          value = I18n.t("#{prefix}enumerations.#{schema["properties"][property]["dynamic_enum"]}.#{value}", :default => value)
+          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
         elsif schema["properties"][property].has_key?("enum")
           value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
         elsif schema["properties"][property]["type"] === "boolean"
@@ -727,9 +787,9 @@ module AspaceFormHelper
         end
       end
 
-      html << "<div class='control-group'>"
-      html << "<div class='control-label'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
-      html << "<div class='controls label-only'>#{value}</div>"
+      html << "<div class='form-group'>"
+      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='label-only col-sm-8'>#{value}</div>"
       html << "</div>"
 
     end
@@ -744,7 +804,6 @@ module AspaceFormHelper
   end
 
 
-
   def update_monitor_params(record)
     {
       :"data-update-monitor" => true,
@@ -754,5 +813,13 @@ module AspaceFormHelper
       :"data-update-monitor-lock_version" => record.lock_version
     }
   end
+
+
+  def error_params(exceptions)
+    {
+      :"data-form-errors" => (exceptions && exceptions.keys[0])
+    }
+  end
+
 
 end

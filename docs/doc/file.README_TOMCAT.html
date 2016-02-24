@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README_TOMCAT
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README_TOMCAT.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README_TOMCAT</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h2 id="running-archivesspace-under-tomcat">Running ArchivesSpace under Tomcat</h2>
+
+<p>Before using these intructions, please have a look at the main documentation.
+It a good idea to try out ArchivesSpace and be able to have it running in the
+standard foreground mode ( using the archivesspace.bat or archivesspace.sh scripts).
+Also, be sure to have your database setup and config.rb configured correctly.</p>
+
+<p>ArchivesSpace is packaged as a set of <code>.war</code> files, so you can run it
+under any servlet container you like.  Unless you have particular
+needs, we recommend you use the standard method described in README.md
+(which uses an embedded Jetty container).</p>
+
+<p>However, if you have a burning desire to use Tomcat, the steps are:</p>
+
+<ul>
+  <li>Download the archivesspace zip distribution, and the Tomcat
+distribution.</li>
+  <li>
+    <p>Unpack the archivesspace distribution and modify the
+config/config.rb file to point to your MySQL database (if you&#8217;re
+using MySQL).  Something like:</p>
+
+    <p>AppConfig[:db_url] = &#8220;jdbc:mysql://localhost:3306/archivesspace?user=as&amp;password=as123&amp;useUnicode=true&amp;characterEncoding=UTF-8&#8221;</p>
+  </li>
+  <li>
+    <p>Also in config/config.rb disable embedded solr and set solr url if you want to use an <a href="README_SOLR.md">external Solr instance</a></p>
+
+    <p>AppConfig[:enable_solr] = false
+  AppConfig[:solr_url] = &#8220;http://some.solr.org:8983/solr/archivesspace&#8221;</p>
+  </li>
+  <li>Unpack the Tomcat distribution</li>
+  <li>From your &#8216;archivesspace&#8217; directory, use the &#8216;configure-tomcat.sh&#8217;
+script to copy everything over to your Tomcat directory</li>
+  <li>Install the MySQL connector into Tomcat&#8217;s &#8216;lib&#8217; directory.</li>
+</ul>
+
+<p>On my system, that looks like this:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_ls identifier id'>ls</span>
+ <span class='rubyid_apache identifier id'>apache</span><span class='minus op'>-</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='minus op'>-</span><span class='float val'>7.0</span><span class='float val'>.47</span><span class='dot token'>.</span><span class='rubyid_tar identifier id'>tar</span><span class='dot token'>.</span><span class='rubyid_gz identifier id'>gz</span>  <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.1.0</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+
+ <span class='comment val'># Unpack both</span>
+ $ <span class='rubyid_tar identifier id'>tar</span> <span class='rubyid_xf identifier id'>xf</span> <span class='rubyid_apache identifier id'>apache</span><span class='minus op'>-</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='minus op'>-</span><span class='float val'>7.0</span><span class='float val'>.47</span><span class='dot token'>.</span><span class='rubyid_tar identifier id'>tar</span><span class='dot token'>.</span><span class='rubyid_gz identifier id'>gz</span>
+ $ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_q identifier id'>q</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='dot token'>.</span><span class='rubyid_l identifier id'>l</span><span class='float val'>.0</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+
+ $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span>
+
+ <span class='lparen token'>(</span><span class='rubyid_edit identifier id'>edit</span> <span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_include identifier id'>include</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='rubyid_setting identifier id'>setting</span><span class='rparen token'>)</span>
+
+ <span class='comment val'># Now configure the Tomcat directory</span>
+ $ <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_configure identifier id'>configure</span><span class='minus op'>-</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='dot2 op'>..</span><span class='regexp val'>/apache-tomcat-7.0.47
+ Loading ArchivesSpace configuration file from path: /</span><span class='rubyid_home identifier id'>home</span><span class='div op'>/</span><span class='rubyid_mst identifier id'>mst</span><span class='div op'>/</span><span class='rubyid_tmp identifier id'>tmp</span><span class='div op'>/</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+ <span class='rubyid_Loading constant id'>Loading</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_configuration identifier id'>configuration</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_from identifier id'>from</span> <span class='label val'>path:</span> <span class='regexp val'>/home/</span><span class='rubyid_mst identifier id'>mst</span><span class='div op'>/</span><span class='rubyid_tmp identifier id'>tmp</span><span class='div op'>/</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/wars/backend.war'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/webapps-backend/ROOT.war'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/wars/frontend.war'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/webapps-frontend/ROOT.war'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/wars/public.war'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/webapps-public/ROOT.war'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/wars/indexer.war'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/webapps-solr'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/wars/solr.war'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/webapps-solr/ROOT.war'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/gems/gems/jruby-jars-1.7.6/lib/jruby-core-complete-1.7.6.jar'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/gems/gems/jruby-jars-1.7.6/lib/jruby-stdlib-complete-1.7.6.jar'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/lib/common.jar'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/lib/jsoup-1.7.2.jar'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/gems/gems/jruby-rack-1.1.12/lib/jruby-rack-1.1.12.jar'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/gems'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/lib'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/locales'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47'</span>
+ <span class='rubyid_Copying constant id'>Copying</span> <span class='string val'>'/home/mst/tmp/tomcat/archivesspace/launcher/tomcat/files/setenv.sh'</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'/home/mst/tmp/tomcat/apache-tomcat-7.0.47/bin'</span>
+ <span class='rubyid_Writing constant id'>Writing</span> <span class='rubyid_server identifier id'>server</span><span class='dot token'>.</span><span class='rubyid_xml identifier id'>xml</span>
+ <span class='rubyid_Writing constant id'>Writing</span> <span class='rubyid_skeleton identifier id'>skeleton</span> <span class='rubyid_config identifier id'>config</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_to identifier id'>to</span> <span class='div op'>/</span><span class='rubyid_home identifier id'>home</span><span class='div op'>/</span><span class='rubyid_mst identifier id'>mst</span><span class='div op'>/</span><span class='rubyid_tmp identifier id'>tmp</span><span class='div op'>/</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='div op'>/</span><span class='rubyid_apache identifier id'>apache</span><span class='minus op'>-</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='minus op'>-</span><span class='float val'>7.0</span><span class='integer val'>.47</span><span class='div op'>/</span><span class='rubyid_conf identifier id'>conf</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+
+ <span class='comment val'># Grab the MySQL connector and put it somewhere Tomcat can find it</span>
+ $ <span class='rubyid_cd identifier id'>cd</span> <span class='dot2 op'>..</span><span class='regexp val'>/apache-tomcat-7.0.47/</span><span class='rubyid_lib identifier id'>lib</span>
+ $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/repo1.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.24</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+
+ <span class='comment val'># Start Tomcat</span>
+ $ <span class='rubyid_cd identifier id'>cd</span> <span class='dot2 op'>..</span><span class='regexp val'>/
+ $ bin/s</span><span class='rubyid_tartup identifier id'>tartup</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>If you left the ports as default in your config/config.rb file, you
+should be able to connect to ArchivesSpace on http://localhost:8080/ at
+this point (and the logs/catalina.out file will confirm that everything
+started up)</p>
+
+<h2 id="running-archivesspace-under-tomcat-as-a-windows-service">Running ArchivesSpace under Tomcat as a Windows service</h2>
+
+<p>The primary README contains a refrence to the following error:</p>
+
+<p>&#8220;Note: If you&#8217;re running Windows and you get an error message like unable to resolve type &#8216;size_t&#8217; or no such file to load &#8211; bundler, make sure that there are no spaces in any part of the path name in which the ArchivesSpace directory is located.&#8221;</p>
+
+<p>This also applies to Tomcat on Windows.  The default installation for Tomcat on Windows contains many spaces (ie, Program Files, Tomcat 7.0, etc).  You should install Tomcat to a folder without spaces, C:\Tomcat for example.</p>
+
+<p>You can  use Tomcat to run ArchivesSpace as a Windows service.
+Start by following the steps above to install ArchivesSpace into your
+Tomcat directory (using <code>scripts\configure-tomcat.bat</code> instead of
+<code>scripts/configure-tomcat.sh</code>).  Make sure you get the release
+specifically for Windows (marked with something like &#8220;64-bit Windows
+zip&#8221;).</p>
+
+<p>Once Tomcat is ready, open a command prompt as the administrator
+user.  You can do that by right-clicking on cmd.exe and selecting &#8220;Run
+as administrator&#8221; or, in recent versions of Windows, by selecting
+&#8220;Open command prompt as administrator&#8221; from the &#8220;File&#8221; menu of any
+explorer window.</p>
+
+<p><img src="docs/images/console_run_as_admin.png" alt="Run as admin" /></p>
+
+<p><img src="docs/images/console_run_as_admin_win8.png" alt="Run as admin (from Explorer)" /></p>
+
+<p>From the command prompt, switch to your Tomcat directory.  I&#8217;m using
+Tomcat8 to ensure compatibility with Windows 8, but Tomcat7 should be
+fine.</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='gt op'>&gt;</span> <span class='rubyid_cd identifier id'>cd</span> <span class='label val'>c:</span>\<span class='rubyid_aspace identifier id'>aspace</span>\<span class='rubyid_apache identifier id'>apache</span><span class='minus op'>-</span><span class='rubyid_tomcat identifier id'>tomcat</span><span class='minus op'>-</span><span class='float val'>8.0</span><span class='integer val'>.0</span><span class='minus op'>-</span><span class='rubyid_RC5 constant id'>RC5</span>
+</code></pre>
+
+<p>Now use Tomcat&#8217;s <code>service.bat</code> script to install Tomcat as a Windows
+service with a nice name:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># If you don't have a service.bat file, check that you got the</span>
+ <span class='comment val'># Windows release of Tomcat.</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_bin identifier id'>bin</span>\<span class='rubyid_service identifier id'>service</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span>
+</code></pre>
+
+<p><img src="docs/images/console_installed_service.png" alt="Service created" /></p>
+
+<p>Before we can start the service, we will need to configure its memory
+allocations.  To do this, run the Tomcat monitor program:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Use tomcat7w.exe if you're using Tomcat 7</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_bin identifier id'>bin</span>\<span class='rubyid_tomcat8w identifier id'>tomcat8w</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_MS constant id'>MS</span><span class='div op'>/</span><span class='regexp val'>/ArchivesSpace
+</span></code></pre>
+
+<p>That command won&#8217;t print anything, but you&#8217;ll notice a small icon
+appear in your taskbar:</p>
+
+<p><img src="docs/images/tomcat_icon.png" alt="Tomcat configuration taskbar icon" /></p>
+
+<p>Right-click that icon and select <code>Configure...</code>.  A window will appear
+that looks something like this:</p>
+
+<p><img src="docs/images/tomcat_window.png" alt="The Tomcat configuration window" /></p>
+
+<p>Click the <code>Java</code> tab and you&#8217;ll see three settings for memory pools.
+Set them as follows:</p>
+
+<ul>
+  <li><strong>Initial memory pool</strong>: 1024</li>
+  <li><strong>Maximum memory pool</strong>: 1024</li>
+  <li><strong>Thread stack size</strong>: 2048</li>
+</ul>
+
+<p>I&#8217;ve occasionally had some trouble getting these pool settings to
+stick.  Lovers of small text boxes will have already noticed the <code>Java
+Options</code> box, so let&#8217;s add the equivalent Java options to the bottom
+of that (one option per line):</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='minus op'>-</span><span class='rubyid_Xms1024m constant id'>Xms1024m</span>
+ <span class='minus op'>-</span><span class='rubyid_Xmx1024m constant id'>Xmx1024m</span>
+ <span class='minus op'>-</span><span class='rubyid_Xss2m constant id'>Xss2m</span>
+ <span class='minus op'>-</span><span class='label val'>verbose:</span><span class='rubyid_gc identifier id'>gc</span>
+ <span class='minus op'>-</span><span class='rubyid_XX constant id'>XX</span><span class='symbol val'>:MaxPermSize=</span><span class='integer val'>256</span><span class='rubyid_m identifier id'>m</span>
+</code></pre>
+
+<p>The resulting settings should look like this:</p>
+
+<p><img src="docs/images/tomcat_settings.png" alt="Tomcat memory settings" /></p>
+
+<p>Click <code>OK</code> to confirm everything and close the window.  Time to start
+it up!</p>
+
+<p>From the <code>Control Panel</code>, find your way to <code>Administrative Tools</code>, and
+then to <code>Services</code>.  Near the top of the list you should see <code>Apache
+Tomcat ArchivesSpace</code>.  Here you can change the service properties to
+have it automatically start on boot, or just start the service
+manually:</p>
+
+<p><img src="docs/images/aspace_service.png" alt="Our new Windows service" /></p>
+
+<p>You&#8217;ll find some log files written to the <code>logs</code> directory of your
+Tomcat directory.  Generally the ones starting with <code>archivesspace</code>
+are the most useful.</p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.2-rc2 Documentation Generated on Fri Oct 23 11:18:46 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

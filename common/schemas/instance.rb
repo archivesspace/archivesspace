@@ -7,6 +7,7 @@
       "instance_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "instance_instance_type"},
 
       "container" => {"type" => "JSONModel(:container) object"},
+      "sub_container" => {"type" => "JSONModel(:sub_container) object"},
 
       "digital_object" => {
         "type" => "object",
@@ -22,6 +23,8 @@
           }
         }
       },
+
+      "is_representative" => {"type" => "boolean", "default" => false},
     },
   },
 }

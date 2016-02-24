@@ -1,0 +1,12 @@
+JSON Schema: Boolean_field_query
+
+Properties
+
+string	field
+
+boolean	value
+
+
+
+
+

@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="changelog">Changelog</h1>
+
+<h2 id="section">2.1.2</h2>
+<p>### Fix
+- Plugin won&#8217;t break if an empty jQuery object is passed, it&#8217;s now consistent with selector target #121
+### Docs
+- Converted the CHANGELOG to Markdown</p>
+
+<h2 id="section-1">2.1.1</h2>
+<p>### Fix
+- Slight change so define function is not minified (#91)</p>
+
+<h2 id="section-2">2.1.0</h2>
+<p>### Enhancement
+- Avoid animating a needless axis
+### Feature
+- Implemented interrupt setting, if true will stop animating on user (manual) scroll (#67)</p>
+
+<h2 id="section-3">2.0.1</h2>
+<p>### Fix
+- Fixed &#8220;queue&#8221; setting conflicts with $().animate(), forced to always get there as true</p>
+
+<h2 id="section-4">2.0.0</h2>
+<p>### Feature
+- All settings are passed to jQuery.animate() meaning it now supports even more settings
+### Enhancement
+- $(window)._scrollable() is no longer needed, the element is always the window
+- Delegating to jQuery the get/set of element/window scroll positions.
+### Compat
+- Dropped support for $.scrollTo.window() and $(window)._scrollable()
+### Fix
+- Now works consistenly on Chrome 40
+- Now works correctly on Windows Phone
+- Now works correctly on Android Browsers
+- Now works correctly on iOS Browsers</p>
+
+<h2 id="section-5">1.4.14</h2>
+<p>###Misc
+- Internal both() function will handle nulls correctly</p>
+
+<h2 id="section-6">1.4.13</h2>
+<p>###Misc
+- Support for CommonJS / NPM added by durango</p>
+
+<h2 id="section-7">1.4.12</h2>
+<p>### Fix
+- Fixed selector matching body fails on window scrolling</p>
+
+<h2 id="section-8">1.4.11</h2>
+<p>###Misc
+##- Reverted changes from 1.4.10</p>
+
+<h2 id="section-9">1.4.10</h2>
+<p>### Enhancement
+- Giving the plugin an AMD module id so it can be required (f.e by localScroll)</p>
+
+<h2 id="section-10">1.4.9</h2>
+<p>### Enhancement
+- &#8220;offset&#8221; setting can now be a function as well (#60)</p>
+
+<h2 id="section-11">1.4.8</h2>
+<p>### Enhancement
+- Added support for AMD</p>
+
+<h2 id="section-12">1.4.7</h2>
+<p>###Misc
+- Changed spacing
+- Changed licensing to MIT
+- Repo is compliant with official jquery plugins repository</p>
+
+<h2 id="section-13">1.4.6</h2>
+<p>### Fix
+- Fixed first argument of onAfter and onAfterFirst was original target and should be &#8220;parsed&#8221; target</p>
+
+<h2 id="section-14">1.4.5</h2>
+<p>### Fix
+- Fixed passing a negative scroll value crashes</p>
+
+<h2 id="section-15">1.4.4</h2>
+<p>###Change
+##- Re-released as 1.4.4 to avoid issues with bower</p>
+
+<h2 id="section-16">1.4.3.1</h2>
+<p>### Fix
+##- Fixed $.scrollTo(0) broken on 1.4.3</p>
+
+<h2 id="section-17">1.4.3</h2>
+<p>### Enhancement
+- Limit calculations can be disabled by setting the option &#8216;limit&#8217; to false.
+- Null target or unmatching selector don&#8217;t break and fail silently
+###Misc
+- Removed support for the deprecated setting &#8216;speed&#8217;
+### Fix
+##- Removed $.browser.webkit so the plugin works with jQuery +1.8</p>
+
+<h2 id="section-18">1.4.2</h2>
+<p>### Feature
+- The plugin support percentages as target (&#8216;50%&#8217; or left:&#8217;45%&#8217;)
+- Exposed the max() calculation as $.scrollTo.max
+### Enhancement
+- Renamed $.fn.scrollable to $.fn._scrollable to avoid conflicts with other plugins
+### Fix
+- Fixing max calculations for regular DOM elements</p>
+
+<h2 id="section-19">1.4.1</h2>
+<p>### Feature
+- The target can be &#8216;max&#8217; to scroll to the end while keeping it elegant.
+### Enhancement
+##- Default duration is 0 for jquery +1.3. Means sync animation
+- The plugin works on all major browsers, on compat &amp; quirks modes, including iframes.
+- In addition to window/document, if html or body are received, the plugin will choose the right one.
+### Fix
+- The plugin accepts floating numbers, Thanks Ramin
+- Using jQuery.nodeName where neccessary so that this works on xml+xhtml
+- The max() internal function wasn&#8217;t completely accurrate, now it is 98% (except for IE on quirks mode and it&#8217;s not too noticeable).</p>
+
+<h2 id="section-20">1.4</h2>
+<p>### Fix
+- Fixed the problem when scrolling the window to absolute positioned elements on Safari.
+- Fixed the problem on Opera 9.5 when scrolling the window. That it always scrolls to 0.
+### Feature
+- Added the settings object as 2nd argument to the onAfter callback.
+- The 3rd argument of scrollTo can be just a function and it&#8217;s used as the onAfter.
+- Added full support for iframes (even max scroll calculation).
+- Instead of $.scrollTo, $(window).scrollTo() and $(document).scrollTo() can be used.
+- Added $().scrollable() that returns the real element to scroll, f.e: $(window).scrollable() == ###body|html], works for iframes
+### Enhancement
+- Cleaned the code a bit, specially the comments</p>
+
+<h2 id="section-21">1.3.3</h2>
+<p>###Change
+- Changed the licensing from GPL to GPL+MIT.</p>
+
+<h2 id="section-22">1.3.2</h2>
+<p>### Enhancement
+- Small improvements to make the code shorter.
+###Change
+- Removed the last argument received by onAfter as it was the same as the &#8216;this&#8217; but jqueryfied.</p>
+
+<h2 id="section-23">1.3.1</h2>
+<p>### Feature
+- Exposed $.scrollTo.window() to get the element that needs to be animated, to scroll the window.
+- Added option &#8216;over&#8217;.
+### Enhancement
+- Made the code as short as possible.
+###Change
+- Changed the arguments received by onAfter</p>
+
+<h2 id="section-24">1.3</h2>
+<p>### Enhancement
+- Added semicolon to the start, for safe file concatenation
+- Added a limit check, values below 0 or over the maximum are fixed.
+- Now it should work faster, only one of html or body go through all the processing, instead of both for all browsers.
+### Fix
+- Fixed the behavior for Opera, which seemed to react to both changes on &lt;html&gt; and &lt;body&gt;.
+- The border is also reduced, when &#8216;margin&#8217; is set to true.
+###Change
+- The option speed has been renamed to duration.
+### Feature
+- The duration can be specified with a number as 2nd argument, and the rest of the settings as the third ( like $().animate )
+- Remade the demo</p>
+
+<h4 id="section-25">1.2.4</h4>
+<p>### Enhancement
+- The target can be in the form of { top:x, left:y } allowing different position for each axis.
+### Feature
+- The option &#8216;offset&#8217; has been added, to scroll behind or past the target. Can be a number(both axes) or { top:x, left:y }.</p>
+
+<h4 id="section-26">1.2.3</h4>
+<p>### Feature
+- Exposed the defaults.
+### Enhancement
+- Made the callback functions receive more parameters.</p>
+
+<h4 id="section-27">1.2.2</h4>
+<p>### Fix
+- Fixed a bug, I didn&#8217;t have to add the scrolled amount if it was body or html.</p>
+
+<h2 id="section-28">1.2</h2>
+<p>###Change
+- The option &#8216;onafter&#8217; is now called &#8216;onAfter&#8217;.
+### Feature
+- Two axes can be scrolled together, this is set with the option &#8216;axis&#8217;.
+- In case 2 axes are chosen, the scrolling can be queued: one scrolls, and then the other.
+- There&#8217;s an intermediary event, &#8216;onAfterFirst&#8217; called in case the axes are queued, after the first ends.
+- If the option &#8216;margin&#8217; is set to true, the plugin will take in account, the margin of the target(no use if target is a value).</p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

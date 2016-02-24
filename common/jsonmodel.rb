@@ -19,7 +19,7 @@ module JSONModel
     @@custom_validations
   end
 
-  def strict_mode(val)
+  def self.strict_mode(val)
     @@strict_mode = val
   end
 
@@ -34,15 +34,22 @@ module JSONModel
     attr_accessor :errors
     attr_accessor :warnings
     attr_accessor :attribute_types
+    attr_accessor :import_context
+    attr_accessor :object_context
 
     def initialize(opts)
       @invalid_object = opts[:invalid_object]
       @errors = opts[:errors]
+      @import_context = opts[:import_context]
+      @object_context = opts[:object_context]
       @attribute_types = opts[:attribute_types]
     end
 
     def to_s
-      "#<:ValidationException: #{{:errors => @errors}.inspect}>"
+       msg = { :errors => @errors } 
+       msg[:import_context] = @import_context unless @import_context.nil? 
+       msg[:object_context] = @object_context unless @object_context.nil? 
+       "#<:ValidationException: #{msg.inspect}>"
     end
   end
 
@@ -63,6 +70,11 @@ module JSONModel
 
   # Yield all known JSONModel classes
   def models
+    @@models
+  end
+
+
+  def self.models
     @@models
   end
 
@@ -251,6 +263,9 @@ module JSONModel
         value == 'other_unmapped' || enum_source.valid?(name, value)
       end
 
+      def enum_wrapper.editable?(name)
+        enum_source.editable?(name)
+      end
 
       def enum_wrapper.values_for(name)
         enum_source.values_for(name) + ['other_unmapped']

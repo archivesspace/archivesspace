@@ -1,22 +1,27 @@
 ArchivesSpace README
 --------------------
 
-[![Build Status](http://54.187.182.145:8080/buildStatus/icon?job=ArchivesSpace)](http://54.187.182.145:8080/job/ArchivesSpace/)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg)](https://travis-ci.org/archivesspace/archivesspace.svg)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+
 
 <http://archivesspace.org>
-
-
+[Wiki and Issue Tracker](https://archivesspace.atlassian.net)
+IRC: #archivesspace ( chat.freenode.net )
 
 # System requirements
 
-* Java 1.6 or higher; Java 1.7+ recommended
+* Java 1.6 or higher; Java 1.7 or 1.8 recommended.
 * At least 1024 MB RAM allocated to the application
-* A [supported browser](https://github.com/archivesspace/archivesspace/wiki/Supported-browsers)
+* A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
 ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, and Windows 8).
+Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
 
 MySQL is not required, but is **strongly** recommended for production use.
+
+**The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.**
 
 # Getting started
 
@@ -29,6 +34,11 @@ You will need to have Java 1.6 (or newer) installed on your machine.
 You can check your Java version by running the command:
 
      java -version
+
+Currently, if you want to use Java 1.8, you will need to remove the
+jdt-compiler jar library from the java classpath ( lib directory of
+your ArchivesSpace directory). This will disable the use of Jasper
+reports ( but not regular reports).  
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
@@ -51,11 +61,19 @@ written to the file `logs/archivesspace.out` (by default).
 make sure that there are no spaces in any part of the path name in which the
 ArchivesSpace directory is located.
 
-The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, you should be able to point your browser to
-http://localhost:8080/ and access the ArchivesSpace staff interface.
+## Start ArchivesSpace
 
-To start using the application, log in using the adminstrator account:
+The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+accessing the following URLs in your browser:
+
+  - http://localhost:8089/ -- the backend
+  - http://localhost:8080/ -- the staff interface
+  - http://localhost:8081/ -- the public interface
+  - http://localhost:8090/ -- the Solr admin console
+
+To start using the Staff interface application, log in using the adminstrator 
+account:
 
 * Username: `admin`
 * Password: `admin`
@@ -66,6 +84,14 @@ repositories" at the top right hand side of the screen.  From the
 as creating and modifying user accounts.  **Be sure to change the
 "admin" user's password at this time.**
 
+# Configuring ArchivesSpace
+
+The primary configuration for ArchivesSpace is done in the config/config.rb
+file. By default, this file contains the default settings, which are indicated
+by commented out lines ( indicated by the "#" in the file ). You can adjust these 
+settings by adding new lines that change the default and restarting 
+ArchivesSpace. Be sure that your new settings are not commented out 
+( i.e. do NOT start with a "#" ), otherwise the settings will not take effect. 
 
 # Running ArchivesSpace as a Unix daemon
 
@@ -96,10 +122,6 @@ that the system runs under, JVM options, and so on.
 
 Running ArchivesSpace as a Windows service requires some additional 
 configuration. 
-
-A popular method is to use Tomcat, which ships with a script that 
-configures Tomcat as a service. For more information, please see :
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
 
 You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
 provided a service.bat script that will attempt to configure 
@@ -180,7 +202,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
          $ cd lib
-         $ curl -Oq http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
+         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar 
 
 Note that the version of the MySQL connector may be different by the
 time you read this.
@@ -217,18 +239,8 @@ ArchivesSpace requires.  Run this with:
 
     scripts/setup-database.sh  # or setup-database.bat under Windows
 
-## Start ArchivesSpace
-
-Once your database is configured, start the application using
-`archivesspace.sh` (or `archivesspace.bat` under Windows).
-
-Confirm that ArchivesSpace is running correctly by accessing the
-following URLs in your browser:
-
-  - http://localhost:8089/ -- the backend
-  - http://localhost:8080/ -- the staff interface
-  - http://localhost:8081/ -- the public interface
-  - http://localhost:8090/ -- the Solr admin console
+You can now follow the instructions in the "Getting Started" section to start
+your ArchivesSpace application. 
 
 
 # Backup and recovery
@@ -244,7 +256,6 @@ and the script will generate a file containing:
 
   * A snapshot of the demo database (if you're using the demo
     database)
-
   * A snapshot of the Solr index and related indexer files
 
 If you are running against MySQL and have `mysqldump` installed, you
@@ -263,7 +274,9 @@ recover.
 If you are running MySQL, the `mysqldump` utility can dump the database
 schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
-while your backups run.
+while your backups run. It is also essential to use the `--routines`
+flag, which will include functions and stored procedures in the
+backup (which ArchivesSpace uses at least for Jasper reports).
 
 If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
@@ -294,7 +307,6 @@ When recovering an ArchivesSpace installation from backup, you will
 need to restore:
 
   * Your database (either the demo database or MySQL)
-
   * The search indexes and related indexer files
 
 Of the two, the database backup is the most crucial--search indexes
@@ -342,14 +354,12 @@ ArchivesSpace indexer:
 
   * solr.backup-[timestamp]/snapshot.[timestamp] -- a snapshot of the
     index files.
-
   * solr.backup-[timestamp]/indexer_state -- the files used by the
     indexer to remember what it last indexed.
 
 To restore these directories from backup:
 
   * Copy your index snapshot to `/path/to/archivesspace/data/solr_index/index`
-
   * Copy your indexer_state backup to `/path/to/archivesspace/data/indexer_state`
 
 For example:
@@ -362,6 +372,20 @@ For example:
      cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
            /path/to/archivesspace/data/
 
+
+### Checking your search indexes
+
+ArchivesSpace ships with a script that can run Lucene's CheckIndex
+tool for you, verifying that a given Solr index is free from
+corruption.  To test an index, run the following command from your
+`archivesspace` directory:
+
+     # Or scripts/checkindex.bat for Windows
+     scripts/checkindex.sh data/solr_index/index
+
+You can use the same script to check that your Solr backups are valid:
+
+     scripts/checkindex.sh /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464
 
 
 # Re-creating indexes
@@ -485,9 +509,9 @@ For more information about plug-ins and how to use them to override and
 customize ArchivesSpace, please see the README in the `plugins` directory.
 
 
-# Running ArchivesSpace under Tomcat
+# Running ArchivesSpace with an external Solr instance
 
-[Instructions for running under Tomcat](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md).
+[Instructions for using an external Solr server](https://github.com/archivesspace/archivesspace/blob/master/README_SOLR.md)
 
 # Running ArchivesSpace under a prefix
 
@@ -497,6 +521,7 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
+
 # Monitoring with New Relic
 
 [Configuring ArchivesSpace to integrate with New Relic](https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md)
@@ -504,7 +529,7 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 # Further documentation
 
 Additional documentation can be found on the ArchivesSpace
-wiki at [https://github.com/archivesspace/archivesspace/wiki](https://github.com/archivesspace/archivesspace/wiki).
+wiki at [https://archivesspace.atlassian.net/wiki/display/ADC](https://archivesspace.atlassian.net/wiki/display/ADC).
 
 A document describing the architecture of ArchivesSpace is published
 at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).
@@ -513,11 +538,16 @@ The latest technical documentation, including API documentation and
 architecture notes, is published at
 [http://archivesspace.github.io/archivesspace/doc](http://archivesspace.github.com/archivesspace/doc/).
 
+# Contributing
+
+Contributors are welcome! Please read about our [Contributor License Agreement](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information. 
+
 # License
 
 ArchivesSpace is released under the [Educational Community License,
 version 2.0](http://opensource.org/licenses/ecl2.php). See the
 [COPYING](COPYING) file for more information.
+
 
 # Credits
 

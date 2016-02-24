@@ -1,6 +1,6 @@
 require 'uri'
 require 'net/http'
-
+require 'advanced_search'
 
 class Solr
 
@@ -14,8 +14,6 @@ class Solr
   def self.search_hooks
     @@search_hooks
   end
-
-
 
 
   class Query
@@ -50,12 +48,32 @@ class Solr
         "(#{subqueries})"
       else
         prefix = advanced_query['negated'] ? "-" : ""
+        field = AdvancedSearch.solr_field_for(advanced_query['field'])
 
-        field = advanced_query['field']
-        value = advanced_query['value']
+        if advanced_query["jsonmodel_type"] == "date_field_query"
+          if advanced_query["comparator"] == "lesser_than"
+            value = "[* TO #{advanced_query["value"]}T00:00:00Z-1MILLISECOND]"
+          elsif advanced_query["comparator"] == "greater_than"
+            value = "[#{advanced_query["value"]}T00:00:00Z+1DAY TO *]"
+          else # advanced_query["comparator"] == "equal"
+            value = "[#{advanced_query["value"]}T00:00:00Z TO #{advanced_query["value"]}T00:00:00Z+1DAY-1MILLISECOND]"
+          end
+        elsif advanced_query["jsonmodel_type"] == "field_query" && advanced_query["literal"]
+          value = "(\"#{solr_escape(advanced_query['value'])}\")"
+        else
+          value = "(#{advanced_query['value']})"
+        end
 
-        "#{prefix}#{field}:(#{value})"
+        "#{prefix}#{field}:#{value}"
       end
+    end
+
+
+    SOLR_CHARS = '+-&|!(){}[]^"~*?:\\/'
+
+    def self.solr_escape(s)
+      pattern = Regexp.quote(SOLR_CHARS)
+      s.gsub(/([#{pattern}])/, '\\\\\1')
     end
 
 
@@ -68,6 +86,7 @@ class Solr
       @pagination = nil
       @solr_params = []
       @facet_fields = []
+      @highlighting = false
 
       @show_suppressed = false
       @show_published_only = false
@@ -82,6 +101,12 @@ class Solr
 
     def use_standard_query_type
       @query_type = :standard
+      self
+    end
+
+
+    def highlighting(yes_please = true)
+      @highlighting = yes_please
       self
     end
 
@@ -146,6 +171,16 @@ class Solr
 
       self
     end
+    
+    def set_simple_filters(filter_terms)
+      unless Array(filter_terms).empty?
+        filter_terms.map{|str| 
+          add_solr_param(:fq, str.strip )
+        }
+      end
+
+      self
+    end
 
 
     def show_suppressed(value)
@@ -202,6 +237,14 @@ class Solr
         add_solr_param(:fq, "publish:true")
       end
 
+
+      if @highlighting
+        add_solr_param(:hl, "true")
+        if @query_type == :standard
+          add_solr_param(:"hl.fl", "*")
+        end
+      end
+
       unless @show_suppressed
         add_solr_param(:fq, "suppressed:false")
       end
@@ -209,12 +252,13 @@ class Solr
       add_solr_param(:facet, "true")
       unless @facet_fields.empty?
         add_solr_param(:"facet.field", @facet_fields)
+        add_solr_param(:"facet.limit", AppConfig[:solr_facet_limit])
       end
 
       if @query_type == :edismax
         add_solr_param(:defType, "edismax")
         add_solr_param(:pf, "four_part_id^4")
-        add_solr_param(:qf, "four_part_id^3 title^2 fullrecord")
+        add_solr_param(:qf, "four_part_id^3 title^2 finding_aid_filing_title^2 fullrecord")
       end
 
       Solr.search_hooks.each do |hook|
@@ -222,13 +266,13 @@ class Solr
       end
 
       url = @solr_url
-      url.path = "/select"
+      # retain path if present i.e. "solr/aspace/select" when using an external Solr with path required
+      url.path += "/select"
       url.query = URI.encode_www_form([[:q, @query_string],
                                        [:wt, @writer_type],
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
                                        [:rows, @pagination[:page_size]]] +
                                       @solr_params)
-
 
       url
     end
@@ -261,6 +305,7 @@ class Solr
 
         page_size = query.page_size
 
+        result['page_size'] = page_size
         result['first_page'] = 1
         result['last_page'] = (json['response']['numFound'] / page_size.to_f).ceil
         result['this_page'] = (json['response']['start'] / page_size) + 1
@@ -276,6 +321,10 @@ class Solr
         }
 
         result['facets'] = json['facet_counts']
+
+        if json['highlighting']
+          result['highlighting'] = json['highlighting']
+        end
 
         return result
       else

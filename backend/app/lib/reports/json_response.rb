@@ -1,6 +1,6 @@
 class JSONResponse
 
-  def initialize(report)
+  def initialize(report, params = {} )
     @report = report
   end
 
@@ -18,4 +18,8 @@ class JSONResponse
     yield "]"
   end
 
+  def generate
+    output = "" 
+    self.each { |r| output << r } 
+  end
 end

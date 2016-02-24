@@ -115,6 +115,32 @@ class ArchivesSpaceService < Sinatra::Base
              "Include digital objects in dao tags", :optional => true],
             ["numbered_cs", BooleanParam,
              "Use numbered <c> tags in ead", :optional => true],
+            ["print_pdf", BooleanParam,
+             "Print EAD to pdf", :optional => true],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:resource)"]) \
+  do
+    redirect to("/repositories/#{params[:repo_id]}/resource_descriptions/#{params[:id]}.pdf?#{ params.map { |k,v| "#{k}=#{v}" }.join("&") }") if params[:print_pdf] 
+    ead_stream = generate_ead(params[:id],
+                              (params[:include_unpublished] || false),
+                              (params[:include_daos] || false),
+                              (params[:numbered_cs] || false))
+
+    stream_response(ead_stream)
+  end
+  
+  Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.pdf')
+    .description("Get an EAD representation of a Resource")
+    .params(["id", :id],
+            ["include_unpublished", BooleanParam,
+             "Include unpublished records", :optional => true],
+            ["include_daos", BooleanParam,
+             "Include digital objects in dao tags", :optional => true],
+            ["numbered_cs", BooleanParam,
+             "Use numbered <c> tags in ead", :optional => true],
+            ["print_pdf", BooleanParam,
+             "Print EAD to pdf", :optional => true],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
@@ -123,20 +149,26 @@ class ArchivesSpaceService < Sinatra::Base
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
                               (params[:numbered_cs] || false))
-
-    stream_response(ead_stream)
+    
+    pdf = generate_pdf_from_ead(ead_stream)
+    pdf_response(pdf)
   end
 
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.:fmt/metadata')
     .description("Get export metadata for a Resource Description")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["fmt", String, "Format of the request",
+                      :optional => true])
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.xml".gsub(/\s+/, '_'),
-                   "mimetype" => "application/xml"})
+       
+     
+
+      json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.#{params[:fmt]}".gsub(/\s+/, '_'),
+                   "mimetype" => "application/#{params[:fmt]}"})
   end
 
 

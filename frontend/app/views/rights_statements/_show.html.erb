@@ -6,22 +6,21 @@
   <h3><%= I18n.t("rights_statement._plural") %></h3>
   <div class="accordion details" id="rights_statements_accordion">
     <% rights_statements.each_with_index do | rights_statement, index | %>
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <div class="row-fluid collapsed accordion-toggle" data-toggle="collapse" data-parent="#rights_statements_accordion" href="#rights_statement_<%= index %>">
-            <div class="span1">
-              <span class="icon-chevron-right"></span>
-              <span class="icon-chevron-down"></span>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#rights_statements_accordion" href="#rights_statement_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
             </div>
-            <div class="span3">
+            <div class="col-md-3">
               <%= I18n.t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
             </div>
-            <div class="span4">
+            <div class="col-md-4">
               <% if rights_statement['ip_status'] %>
                 <%= I18n.t("enumerations.rights_statement_ip_status.#{rights_statement['ip_status']}", :default => rights_statement['ip_status']) %>
               <% end %>
             </div>
-            <div class="span1">
+            <div class="col-md-1">
               <%= I18n.t("rights_statement.active_#{rights_statement['active'].to_s}") %>
             </div>
           </div>

@@ -1,0 +1,14 @@
+JSON Schema: Note_chronology
+
+Properties
+
+string (max length: 16384)	title
+
+boolean	publish
+
+array (Object (event_date, events))	items
+
+
+
+
+

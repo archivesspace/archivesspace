@@ -22,7 +22,7 @@
   <div class="enumeration-<%= note['enumeration'] %>">
     <ol>
       <% Array(note['items']).each do |item| %>
-        <li><%= item %></li>
+        <li><%= clean_note(item).html_safe %></li>
       <% end %>
     </ol>
   </div>
@@ -32,7 +32,7 @@
   <ul class="note_outline_level">
   <% Array(note['items']).each do |item| %>
     <% if item.kind_of? String %>
-      <li><%= item %></li>
+      <li><%= clean_note(item).html_safe %></li>
     <% else %>
       <% note_renderers['note_outline_level'].call(item) %>
     <% end %>
@@ -68,7 +68,7 @@
 <% note_renderers['note_bibliography'] = lambda do | note | %>
   <ul>
     <% Array(note['items']).each do |item| %>
-      <li><%= item %></li>
+      <li><%= clean_note( item ).html_safe %></li>
     <% end %>
   </ul>
 <% end %>
@@ -81,7 +81,7 @@
           parsed_ref = JSONModel.parse_reference(index_item['reference_ref']['ref'])
         %>
         <% if index_item['reference_text'] %>
-          <dt><%= index_item['value'] %></dt>
+          <dt><%= clean_note( index_item['value']).html_safe %></dt>
           <dd>
             <%= link_to index_item['reference_text'], :controller => :records, :action => parsed_ref[:type], :id => parsed_ref[:id], :anchor => index_item['reference'] %>
           </dd>
@@ -91,7 +91,7 @@
           </dt>
         <% end %>
       <% else %>
-        <dt><%= index_item['value'] %></dt>
+        <dt><%= clean_note( index_item['value'] ).html_safe %></dt>
           <dd><%= index_item['reference'] %></dd>
           <dd><%= index_item['reference_text'] %></dd>
       <% end %>
@@ -104,7 +104,7 @@
     <% Array(note['items']).each do |item| %>
       <dt><%= item['event_date'] %></dt>
       <% item['events'].each do | event | %>
-        <dd><%= event %></dd>
+        <dd><%=  clean_note(event).html_safe %></dd>
       <% end %>
     <% end %>
   </dl>
@@ -114,7 +114,7 @@
   <dl>
     <% Array(note['items']).each do |item| %>
       <dt><%= item['label'] %></dt>
-      <dd><%= item['value'] %></dd>
+      <dd><%= clean_note(item['value']).html_safe %></dd>
     <% end %>
   </dl>
 <% end %>

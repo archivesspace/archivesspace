@@ -45,6 +45,7 @@ class ArchivesSpaceBackup
         "--port=#{port}",
         "--user=#{username}",
         "--password=#{password}",
+        "--routines",
         "--single-transaction",
         "--quick",
       ]
@@ -97,7 +98,7 @@ class ArchivesSpaceBackup
 
     solr_snapshot_id = "backup-#{$$}-#{Time.now.to_i}"
     begin
-      SolrSnapshotter.snapshot(solr_snapshot_id)
+      SolrSnapshotter.snapshot(solr_snapshot_id) if AppConfig[:enable_solr]
     rescue
       puts "Solr snapshot failed (#{$!}).  Aborting!"
       return 1
@@ -112,7 +113,7 @@ class ArchivesSpaceBackup
       create_demodb_snapshot
 
       Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
-        add_whole_directory(solr_snapshot, zipfile)
+        add_whole_directory(solr_snapshot, zipfile) if AppConfig[:enable_solr]
         add_whole_directory(demo_db_backups, zipfile) if Dir.exists?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
         zipfile.add("mysqldump.sql", mysql_dump) if mysql_dump
@@ -121,7 +122,7 @@ class ArchivesSpaceBackup
       mysql_tempfile.close
       mysql_tempfile.delete
       FileUtils.rm_rf(File.join(AppConfig[:solr_backup_directory],
-                                "solr.#{solr_snapshot_id}"))
+                                "solr.#{solr_snapshot_id}")) if AppConfig[:enable_solr]
     end
 
     0

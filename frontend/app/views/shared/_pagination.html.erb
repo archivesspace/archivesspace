@@ -9,8 +9,8 @@
 
 <% if @search_data %>
 
-  <div class="pagination pagination-small pagination-centered">
-    <ul>
+  <div class="pagination-centered">
+    <ul class="pagination pagination-sm">
       <% if not page_range.cover?(1) %>
         <li>
           <%= link_to I18n.t("pagination.first"), params.merge(:page => 1) %>

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README_HTTPS
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README_HTTPS.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README_HTTPS</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="serving-archivesspace-user-facing-applications-over-https">Serving ArchivesSpace user-facing applications over HTTPS</h1>
+
+<p>This document describes a simple approach for those wishing to install
+ArchivesSpace in such a manner that all end-user requests (i.e., URLs)
+are served over HTTPS rather than HTTP.</p>
+
+<p>The configuration described in this document is one possible approach,
+and to keep things simple the following are assumed:</p>
+
+<ul>
+  <li>
+    <p>ArchivesSpace is running on a single Linux server</p>
+  </li>
+  <li>
+    <p>The server is running the Apache 2.2+ webserver</p>
+  </li>
+  <li>
+    <p>You have obtained an SSL certificate and key from an authority</p>
+  </li>
+</ul>
+
+<p>Unless otherwise stated, it is assumed that you have root access on
+your machines, and all commands are to be run as root (or with sudo).</p>
+
+<h2 id="step-1-restrict-access-to-application-urls">Step 1: restrict access to application urls</h2>
+
+<p>The standard ArchivesSpace distribution consists of four separate web
+applications. By default, the applications are assigned to the following
+urls:</p>
+
+<ul>
+  <li>
+    <p>Backend - <code>http://localhost:8089</code></p>
+  </li>
+  <li>
+    <p>Frontend (staff UI) - <code>http://localhost:8080</code></p>
+  </li>
+  <li>
+    <p>Public (read-only UI) - <code>http://localhost:8081</code></p>
+  </li>
+  <li>
+    <p>Solr (search middleware) - <code>http://localhost:8090</code></p>
+  </li>
+</ul>
+
+<p>These assignments can be altered through edits to the configuration file
+located at <code>archivesspace/config/config.rb</code> in the standard distribution.</p>
+
+<p>Since the four component applications must be able to communicate with each
+other over HTTP, the first step will be to restrict access to ports <code>8089</code>,
+ <code>8080</code>, <code>8081</code>, and <code>8090</code> to the localhost. On a Linux server, this can be
+ done using iptables:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8089</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8089</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8080</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8080</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8081</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8081</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8090</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8090</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+</code></pre>
+
+<p>Once this is done, it should be possible to start up the application without
+exposing it to the outside world.</p>
+
+<h2 id="step-2-use-modssl-and-modproxy-to-serve-archivesspace-over-https">Step 2: use mod_ssl and mod_proxy to serve ArchivesSpace over HTTPS</h2>
+
+<p>In order for archivists and researchers to access the application, there will
+need to be two URLs that are exposed to the outside world, and per the main
+requirement of this exercise, those URLs will need to begin with <code>https://</code>.
+Let&#8217;s assume that they will be:</p>
+
+<ul>
+  <li>
+    <p><code>https://staff.myarchive.org</code> - for archival staff</p>
+  </li>
+  <li>
+    <p><code>https://research.myarchive.org</code> - for the public</p>
+  </li>
+</ul>
+
+<p>Start by ensuring that Apache is configured to handle HTTPS requests. Locate
+the <code>httpd.conf</code> file and ensure that it contains this line (or similar):</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_LoadModule constant id'>LoadModule</span> <span class='rubyid_ssl_module identifier id'>ssl_module</span> <span class='rubyid_modules identifier id'>modules</span><span class='div op'>/</span><span class='rubyid_mod_ssl identifier id'>mod_ssl</span><span class='dot token'>.</span><span class='rubyid_so identifier id'>so</span>
+</code></pre>
+
+<p>If it is commented out, uncomment it.</p>
+
+<p>Likewise, ensure that the Apache mod_proxy module is enabled:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_LoadModule constant id'>LoadModule</span> <span class='rubyid_proxy_module identifier id'>proxy_module</span> <span class='rubyid_modules identifier id'>modules</span><span class='div op'>/</span><span class='rubyid_mod_proxy identifier id'>mod_proxy</span><span class='dot token'>.</span><span class='rubyid_so identifier id'>so</span>
+</code></pre>
+
+<p>The following edits can be made in the httpd.conf file itself; however, it is
+conventional to use the <code>Include</code> directive to load them from a file
+named <code>ssl.conf</code>, <code>httpd-ssl.conf</code>, or the like. Example:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_Include constant id'>Include</span> <span class='string val'>&quot;/path/to/apache/extra/ssl.conf&quot;</span>
+</code></pre>
+
+<p>Make sure Apache is listening on port 443 (or whatever port you choose):</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_Listen constant id'>Listen</span> <span class='integer val'>443</span>
+</code></pre>
+
+<p>Finally, use the <code>NameVirtualHost</code> and <code>VirtualHost</code> directives to proxy
+requests to the actual application urls. Example:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_NameVirtualHost constant id'>NameVirtualHost</span> <span class='mult op'>*</span><span class='symbol val'>:443</span>
+
+ <span class='lt op'>&lt;</span><span class='rubyid_VirtualHost constant id'>VirtualHost</span> <span class='mult op'>*</span><span class='symbol val'>:443</span><span class='gt op'>&gt;</span>
+   <span class='rubyid_ServerName constant id'>ServerName</span> <span class='rubyid_staff identifier id'>staff</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='rubyid_org identifier id'>org</span>
+   <span class='rubyid_SSLEngine constant id'>SSLEngine</span> <span class='rubyid_On constant id'>On</span>
+   <span class='rubyid_SSLCertificateFile constant id'>SSLCertificateFile</span> <span class='string val'>&quot;/path/to/your/cert.crt&quot;</span>
+   <span class='rubyid_SSLCertificateKeyFile constant id'>SSLCertificateKeyFile</span> <span class='string val'>&quot;/path/to/your/key.key&quot;</span>
+   <span class='rubyid_ProxyPreserveHost constant id'>ProxyPreserveHost</span> <span class='rubyid_On constant id'>On</span>
+   <span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
+   <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
+ <span class='lt op'>&lt;</span><span class='regexp val'>/VirtualHost&gt;
+ &lt;VirtualHost *:443&gt;
+   ServerName research.myarchive.org
+   SSLEngine On
+   SSLCertificateFile &quot;/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_cert identifier id'>cert</span><span class='dot token'>.</span><span class='rubyid_crt identifier id'>crt</span><span class='string val'>&quot;
+   SSLCertificateKeyFile &quot;</span><span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='string val'>&quot;
+   ProxyPreserveHost On
+   ProxyPass / http://localhost:8081/
+   ProxyPassReverse / http://localhost:8081/
+ &lt;/VirtualHost&gt;
+</span></code></pre>
+
+<p>More information about configuring Apache for SSL can be found at
+http://httpd.apache.org/docs/current/ssl/ssl_howto.html.  You should read
+that documentation before attempting to configure SSL.</p>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

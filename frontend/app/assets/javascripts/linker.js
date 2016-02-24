@@ -11,10 +11,15 @@ $(function() {
       }
 
       $this.addClass("initialised");
+      
+      // this is a bit hacky, but we need to have some input fields present in
+      // the form so we don't have to rely on the linker to make sure data
+      // presists. we can remove those after the linker does its thing.
+      $(".prelinker", $linkerWrapper).remove();
 
       var config = {
-        url: $this.data("url"),
-        browse_url: $this.data("browse-url"),
+        url: decodeURIComponent($this.data("url")),
+        browse_url: decodeURIComponent($this.data("browse-url")),
         format_template: $this.data("format_template"),
         format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
@@ -69,7 +74,9 @@ $(function() {
               $("#createAndLinkButton", $modal).removeAttr("disabled");
             }
           });
-          $(".alert", $modal).ScrollTo();
+          
+          $modal.scrollTo(".alert");
+
           $modal.trigger("resize");
           $(document).triggerHandler("loadedrecordform.aspace", [$modal]);
         };
@@ -85,7 +92,7 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
-        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'container', {}, this);
+        AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'large', {}, this);
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
         } else {
@@ -96,7 +103,6 @@ $(function() {
 
 
       var initAndShowLinkerBrowseModal = function() {
-
         var currentlySelected = {};
 
         var renderItemsInModal = function(page) {
@@ -173,8 +179,19 @@ $(function() {
                 event.preventDefault();
 
                 var $form = $(event.target);
+                var method = ($form.attr("method") || "get").toUpperCase();
 
-                $linkerBrowseContainer.load($form.attr("action")+".js?" + $(event.target).serialize(), initBrowseFormInputs);
+
+                if (method == "POST") {
+                  jQuery.post($form.attr("action") + ".js",
+                              $form.serializeArray(),
+                              function(html) {
+                                $linkerBrowseContainer.html(html);
+                                initBrowseFormInputs();
+                              });
+                } else {
+                  $linkerBrowseContainer.load($form.attr("action") + ".js?" + $form.serialize(), initBrowseFormInputs);
+                }
               });
 
               initBrowseFormInputs();
@@ -199,7 +216,7 @@ $(function() {
           $this.triggerHandler("change");
         };
 
-        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'container', {}, this);
+        AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'large', {}, this);
         renderItemsInModal();
         $("#"+config.modal_id).on("click","#addSelectedButton", addSelected);
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
@@ -207,7 +224,6 @@ $(function() {
         });
         return false; // IE patch
       };
-
 
       var formatResults = function(searchData) {
         var formattedResults = [];
@@ -323,7 +339,8 @@ $(function() {
             if (config.sortable && config.allow_multiple) {
               enableSorting();
             }
-            $this.triggerHandler("change");
+
+//            $this.triggerHandler("change");
             $(document).triggerHandler("init.popovers", [$this.parent()]);
           },
           formatQueryParam: function(q, ajax_params) {
@@ -346,6 +363,7 @@ $(function() {
           $this.tokenInput(config.url, tokenInputConfig);
 
           $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
+          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).addClass('form-control');
 
           $this.parent().addClass("multiplicity-"+config.multiplicity);
 
@@ -364,11 +382,12 @@ $(function() {
 });
 
 $(document).ready(function() {
-  $(document).bind("loadedrecordform.aspace", function(event, $container) {
-    $(".linker:not(.initialised)", $container).linker();
+  $(document).bind("loadedrecordsubforms.aspace", function(event, $container) {
+    $(".linker-wrapper:visible > .linker:not(.initialised)", $container).linker();
+    // we can go ahead and init dropdowns ( such as those in the toolbars ) 
+    $("#archives_tree_toolbar .linker:not(.initialised)").linker();
   });
 
-  $(".linker:not(.initialised)").linker();
 
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     $(".linker:not(.initialised)", subform).linker();

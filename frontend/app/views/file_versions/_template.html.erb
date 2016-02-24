@@ -1,5 +1,9 @@
 <% define_template "file_version", jsonmodel_definition(:file_version) do |form| %>
   <div class="subrecord-form-fields">
+    <h4 class="subrecord-form-heading">
+      <span class="badge badge-info is-representative-label"><%= I18n.t("file_version.is_representative") %></span>
+      <button class="btn btn-small is-representative-toggle"><%= I18n.t("file_version._frontend.action.make_representative") %></button>
+    </h4>
     <%= form.label_and_textarea("file_uri") %>
     <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
     <%= form.label_and_select("use_statement", form.possible_options_for("use_statement", true)) %>
@@ -11,5 +15,8 @@
 
     <%= form.label_and_textfield("checksum") %>
     <%= form.label_and_select("checksum_method", form.possible_options_for("checksum_method", true)) %>
+
+      <%= form.label_and_textfield("caption") %>
+      <%= form.hidden_input "is_representative", form["is_representative"] ? 1 : 0 %>
   </div>
 <% end %>

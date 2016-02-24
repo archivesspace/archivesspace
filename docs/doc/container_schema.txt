@@ -1,0 +1,30 @@
+JSON Schema: Container
+
+Properties
+
+string	container_profile_key
+
+string	type_1
+
+string (max length: 255)	indicator_1
+
+string (max length: 255)	barcode_1
+
+string	type_2
+
+string (max length: 255)	indicator_2
+
+string	type_3
+
+string (max length: 255)	indicator_3
+
+string (max length: 255)	container_extent
+
+string	container_extent_type
+
+array (JSONModel(:container_location) object)	container_locations
+
+
+
+
+

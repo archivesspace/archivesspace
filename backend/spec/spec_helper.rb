@@ -3,6 +3,7 @@ Bundler.require
 
 require 'sinatra'
 require 'java'
+require 'rspec'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
@@ -12,6 +13,12 @@ end
 require_relative "../app/model/db"
 require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
+
+
+Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar")).each do |file|
+  require file
+end
+
 
 
 # Use an in-memory Derby DB for the test suite
@@ -38,7 +45,10 @@ class DB
                              #:loggers => [Logger.new($stderr)]
                              )
 
-      DBMigrator.nuke_database(@pool)
+      unless ENV['ASPACE_TEST_DB_PERSIST']
+        DBMigrator.nuke_database(@pool)
+      end
+
       DBMigrator.setup_database(@pool)
     end
   end
@@ -54,6 +64,7 @@ end
 
 require 'rack/test'
 require_relative "../app/lib/bootstrap"
+require_relative "../../common/jsonmodel_translatable.rb"
 ASpaceEnvironment.init(:unit_test)
 
 AppConfig[:search_user_secret] = "abc123"
@@ -63,13 +74,14 @@ require_relative "../app/model/backend_enum_source"
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com', :allow_other_unmapped => true,
                 :enum_source => BackendEnumSource,
+                :mixins => [JSONModelTranslatable],
+                :i18n_source => I18n,
                 :priority => :high)
 
 module JSONModel
   module HTTP
 
     extend Rack::Test::Methods
-
 
     def self.multipart_request(uri, params)
       Struct.new(:method, :path, :body).new("POST", uri, params)
@@ -89,11 +101,6 @@ module JSONModel
 end
 
 
-# Note: This import is loading JSONModel into the Object class.  Pretty gross!
-# It would be nice if we could narrow the scope of this to just the tests.
-include JSONModel
-
-
 # Switch off notifications for the tests
 require_relative '../app/lib/notifications'
 class Notifications
@@ -110,8 +117,6 @@ end
 
 
 require_relative "../app/main"
-
-
 
 Log.quiet_please
 
@@ -133,72 +138,8 @@ class ArchivesSpaceService
   end
 
   use ExceptionPrintingMiddleware
-end
 
 
-def app
-  ArchivesSpaceService
-end
-
-require 'factory_girl'
-
-
-# FactoryGirl.definition_file_paths = [File.dirname(__FILE__)]
-# FactoryGirl.find_definitions
-require_relative 'factories'
-include FactoryGirl::Syntax::Methods
-
-
-def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
-  repo = create(:repo, {:repo_code => code, :org_code => org_code})
-
-  @repo_id = repo.id
-  @repo = JSONModel(:repository).uri_for(repo.id)
-
-  JSONModel::set_repository(@repo_id)
-  RequestContext.put(:repo_id, @repo_id)
-
-  @repo_id
-end
-
-
-def make_test_user(username, name = "A test user", source = "local")
-  create(:user, {:username => username, :name => name, :source => source})
-end
-
-
-def create_accession(opts = {})
-  Accession.create_from_json(build(:json_accession,
-                                   {:title => "Papers of Mark Triggs"}.merge(opts)),
-                             :repo_id => $repo_id)
-end
-
-
-def create_agent_person(opts = {})
-  AgentPerson.create_from_json(build(:json_agent_person, opts),
-                               :repo_id => $repo_id)
-end
-
-
-def create_event(opts = {})
-  Event.create_from_json(build(:json_event, opts),
-                         :repo_id => $repo_id)
-end
-
-
-def create_resource(opts = {})
-  Resource.create_from_json(build(:json_resource, opts), :repo_id => $repo_id)
-end
-
-
-
-def create_digital_object(opts = {})
-  DigitalObject.create_from_json(build(:json_digital_object, opts), :repo_id => $repo_id)
-end
-
-
-
-class ArchivesSpaceService
   def current_user
     Thread.current[:active_test_user] or raise "Unknown user"
   end
@@ -212,85 +153,77 @@ class ArchivesSpaceService
 end
 
 
-def create_nobody_user
-  user = create(:user, :username => 'nobody')
-
-  viewers = JSONModel(:group).all(:group_code => "repository-viewers").first
-  viewers.member_usernames = ['nobody']
-  viewers.save
-
-  user
+def app
+  ArchivesSpaceService
 end
 
 
-def as_test_user(username)
-  old_user = Thread.current[:active_test_user]
-  Thread.current[:active_test_user] = User.find(:username => username)
-  orig = RequestContext.get(:enforce_suppression)
-  old_username = RequestContext.get(:current_username)
-
-  begin
-    if RequestContext.active?
-      RequestContext.put(:enforce_suppression,
-                         !Thread.current[:active_test_user].can?(:manage_repository))
-      RequestContext.put(:current_username, username)
-    end
-
-    yield
-  ensure
-    RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
-    RequestContext.put(:current_username, old_username) if RequestContext.active?
-    Thread.current[:active_test_user] = old_user
-  end
-end
-
-def as_anonymous_user
-  old_user = Thread.current[:active_test_user]
-  orig = RequestContext.get(:enforce_suppression)
-
-  Thread.current[:active_test_user] = AnonymousUser.new
-
-  begin
-    if RequestContext.active?
-      RequestContext.put(:enforce_suppression, true)
-    end
-
-    yield
-  ensure
-    RequestContext.put(:enforce_suppression, orig) if RequestContext.active?
-    Thread.current[:active_test_user] = old_user
-  end
-end
-
-
-DB.open(true) do
-  RequestContext.open do
-    create(:agent_corporate_entity)
-    create(:repo)
-    $default_repo = $repo_id
-  end
-end
+require_relative 'factories'
+require_relative "spec_helper_methods"
 
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
+  config.include SpecHelperMethods
+  config.include JSONModel
 
-  # Roll back the database after each test
-  config.around(:each) do |example|
-    DB.open(true) do |db|
-      $testdb = db
-      as_test_user("admin") do
+  config.expect_with(:rspec) do |c|
+    c.syntax = [:should, :expect]
+  end
+
+  # inclusions not in effect here
+  config.before(:suite) do
+    DB.open(true) do
+      SpecHelperMethods.as_test_user("admin") do
         RequestContext.open do
-          $repo_id = $default_repo
-          $repo = JSONModel(:repository).uri_for($repo_id)
-          JSONModel::set_repository($repo_id)
-          RequestContext.put(:repo_id, $repo_id)
-          RequestContext.put(:current_username, "admin")
-          example.run
+          FactoryGirl.create(:agent_corporate_entity)
+          FactoryGirl.create(:repo)
+          $default_repo = $repo_id
+          $repo_record = JSONModel.JSONModel(:repository).find($repo_id)
         end
       end
-      raise Sequel::Rollback
     end
   end
+
+
+#  Roll back the database after each test
+  config.around(:each) do |example|
+
+    if example.metadata[:skip_db_open]
+      # Running test without opening the DB first or rolling back after!
+      example.run
+
+    else
+
+      DB.open(true) do |db|
+        $testdb = db
+        as_test_user("admin") do
+          RequestContext.open do
+            $repo_id = $default_repo
+            $repo = JSONModel(:repository).uri_for($repo_id)
+            JSONModel::set_repository($repo_id)
+            RequestContext.put(:repo_id, $repo_id)
+            RequestContext.put(:current_username, "admin")
+            example.run
+          end
+        end
+        raise Sequel::Rollback
+      end
+
+    end
+
+    if ENV['ASPACE_TEST_DEBUG']
+      puts example.metadata[:description]
+
+      DB.open(true) do |db|
+        puts "----DB Artifacts: ---"
+        [:archival_object, :resource].each do |table|
+          puts db[table].all
+        end
+        puts "----------------------"
+      end
+    end
+  end
+
 end

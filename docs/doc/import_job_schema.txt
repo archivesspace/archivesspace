@@ -1,0 +1,12 @@
+JSON Schema: Import_job
+
+Properties
+
+array (string)	filenames
+
+string	import_type
+
+
+
+
+

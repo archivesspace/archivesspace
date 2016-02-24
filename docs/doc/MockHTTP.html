@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: MockHTTP
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!MockHTTP.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">MockHTTP</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: MockHTTP
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">MockHTTP</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/spec/model_solr_spec.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request-instance_method" title="#request (instance method)">- (Object) <strong>request</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute request.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start-instance_method" title="#start (instance method)">- (Object) <strong>start</strong>(host, port, block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="request=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="request-instance_method">
+  
+    - (<tt>Object</tt>) <strong>request</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute request</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 24</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_request identifier id'>request</span>
+  <span class='rubyid_@request ivar id'>@request</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="start-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start</strong>(host, port, block) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/spec/model_solr_spec.rb', line 26</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_start identifier id'>start</span><span class='lparen token'>(</span><span class='rubyid_host identifier id'>host</span><span class='comma token'>,</span> <span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='rubyid_http identifier id'>http</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='assign token'>=</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+      <span class='rubyid_@parent ivar id'>@parent</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
+    <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span> <span class='assign token'>=</span> <span class='rubyid_req identifier id'>req</span>
+    <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='semicolon token'>;</span> <span class='rubyid_$dummy_data gvar id'>$dummy_data</span><span class='semicolon token'>;</span> <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span><span class='semicolon token'>;</span> <span class='string val'>'200'</span><span class='semicolon token'>;</span> <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_response identifier id'>response</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
+
+  <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_http identifier id'>http</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:58 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

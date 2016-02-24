@@ -41,6 +41,14 @@ module SidebarHelper
     end
 
 
+    def show_external_ids_sidebar_entry?
+      record = @opts[:record]
+
+      @form.controller.action_name == 'show' ||
+        @form.controller.action_name != 'show' && !ASUtils.wrap(record['external_ids']).empty?
+    end
+
+
     private
 
     def render_entry(opts)

@@ -1,3 +1,5 @@
+require 'advanced_query_builder'
+
 class SearchController < ApplicationController
 
   DETAIL_TYPES = ['accession', 'resource', 'archival_object', 'digital_object',
@@ -59,6 +61,7 @@ class SearchController < ApplicationController
     }
 
     @criteria["page"] ||= 1
+    @criteria["sort"] = "title_sort asc" unless @criteria["sort"] or @criteria["q"] or params["advanced"].present?
 
     if @criteria["filter_term"]
       @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
@@ -83,51 +86,23 @@ class SearchController < ApplicationController
     terms = (0..2).collect{|i|
       term = search_term(i)
 
-      if term and term[:op] === "NOT"
-        term[:op] = "AND"
-        term[:negated] = true
+      if term and term["op"] === "NOT"
+        term["op"] = "AND"
+        term["negated"] = true
       end
 
       term
     }.compact
 
     if not terms.empty?
-      @criteria["aq"] = JSONModel(:advanced_query).from_hash({"query" => group_queries(terms)}).to_json
+      @criteria["aq"] = AdvancedQueryBuilder.new(terms, :public).build_query.to_json
       @criteria['facet[]'] = FACETS
     end
   end
 
   def search_term(i)
     if not params["v#{i}"].blank?
-      { :field => params["f#{i}"], :value => params["v#{i}"], :op => params["op#{i}"] }
-    end
-  end
-
-  def group_queries(terms)
-    if terms.length > 1
-      stack = terms.reverse.clone
-
-      while stack.length > 1
-        a = stack.pop
-        b = stack.pop
-
-        stack.push(JSONModel(:boolean_query).from_hash({
-                                                         :op => b[:op],
-                                                         :subqueries => [as_subquery(a), as_subquery(b)]
-                                                       }))
-      end
-
-      stack.pop
-    else
-      JSONModel(:field_query).from_hash(terms[0])
-    end
-  end
-
-  def as_subquery(query_data)
-    if query_data.kind_of? JSONModelType
-      query_data
-    else
-      JSONModel(:field_query).from_hash(query_data)
+      { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
     end
   end
 

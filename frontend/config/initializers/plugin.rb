@@ -9,8 +9,10 @@ module Plugins
       # config.yml is optional, so defaults go here
       @config[:plugin][plugin] = {'parents' => []}
       plugin_dir = ASUtils.find_local_directories(nil, plugin).shift
-      Dir.glob(File.join(plugin_dir, 'config.yml')).each do |config|
-        @config[:plugin][plugin] = cfg = YAML.load_file File.absolute_path(config)
+
+      config_path = File.join(plugin_dir, 'config.yml')
+      if File.exist?(config_path)
+        @config[:plugin][plugin] = cfg = YAML.load_file config_path
         @config[:system_menu_items] << cfg['system_menu_controller'] if cfg['system_menu_controller']
         @config[:repository_menu_items] << cfg['repository_menu_controller'] if cfg['repository_menu_controller']
         (cfg['parents'] || {}).keys.each do |parent|
@@ -21,32 +23,32 @@ module Plugins
     end
 
     if @config[:system_menu_items].length > 0
-      puts "Found system menu items for plug-ins: #{@config[:system_menu_items].inspect}"
+      puts "Found system menu items for plug-ins: #{system_menu_items.inspect}"
     end
 
     if @config[:repository_menu_items].length > 0
-      puts "Found repository menu items for plug-ins: #{@config[:repository_menu_items].inspect}"
+      puts "Found repository menu items for plug-ins: #{repository_menu_items.inspect}"
     end
   end
 
 
   def self.system_menu_items
-    Array(@config[:system_menu_items])
+    Array(@config[:system_menu_items]).flatten
   end
 
 
   def self.system_menu_items?
-    @config[:system_menu_items].length > 0
+    system_menu_items.length > 0
   end
 
 
   def self.repository_menu_items
-    Array(@config[:repository_menu_items])
+    Array(@config[:repository_menu_items]).flatten
   end
 
 
   def self.repository_menu_items?
-    @config[:repository_menu_items].length > 0
+    repository_menu_items.length > 0
   end
 
 

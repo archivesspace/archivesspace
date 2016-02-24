@@ -1,0 +1,26 @@
+<div class="form-group token-list">
+  <label class="control-label col-sm-2"><%= I18n.t("top_container._singular") %></label>
+  <div class="controls col-sm-8">
+    <%= render_token :object => sub_container["top_container"]["_resolved"],
+                     :label => sub_container["top_container"]["_resolved"]["display_string"],
+                     :type => "top_container",
+                     :uri => sub_container["top_container"]["ref"] %>
+  </div>
+</div>
+
+<% unless sub_container["type_2"] || sub_container["indicator_2"] ||
+          sub_container["type_3"] || sub_container["indicator_3"] %>
+  <br/><br/>
+<% end %>
+
+<% define_template "sub_container", jsonmodel_definition(:sub_container) do |form| %>
+  <%= form.label_and_select "type_2", form.possible_options_for('type_2', true) %>
+  <%= form.label_and_textfield  "indicator_2" %>
+  <%= form.label_and_select "type_3", form.possible_options_for('type_3', true) %>
+  <%= form.label_and_textfield  "indicator_3" %>
+<% end %>
+
+<%= readonly_context :sub_container, sub_container do |readonly| %>
+  <%= readonly.emit_template ("sub_container") %>
+<% end %>
+

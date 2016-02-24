@@ -24,6 +24,12 @@ describe 'Archival Object controller' do
     JSONModel(:archival_object).all(:page => 1)['results'].count.should eq(5)
   end
 
+  it "gives you a better error if a uri is jacked" do
+    expect { 
+      create(:json_archival_object, :resource => {:ref => "/bad/uri"}, :title => "AO1")
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
 
   it "lets you reorder sibling archival objects" do
     resource = create(:json_resource)
@@ -93,7 +99,7 @@ describe 'Archival Object controller' do
 
     expect { 
       create(:json_archival_object, opts.merge(:resource => {:ref => alpha.uri}))
-    }.to raise_error
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -251,7 +257,7 @@ describe 'Archival Object controller' do
     ArchivalObject[archival_object.id].publish!
     ArchivalObject[archival_object.id].note.all? {|note|
       note.publish == 1
-    }.should be_true
+    }.should be_truthy
   end
 
 

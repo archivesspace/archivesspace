@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe 'Accession model' do
 
@@ -33,7 +33,7 @@ describe 'Accession model' do
                                          :id_3 => "5432"
                                        }), 
                                  :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -196,17 +196,6 @@ describe 'Accession model' do
   end
 
 
-  it "allows accessions to be created with a collection management record" do
-    accession = Accession.create_from_json(build(:json_accession,
-                                                 :collection_management =>
-                                                    {
-                                                      "cataloged_note" => "just a note",
-                                                    }
-                                                 ),
-                                          :repo_id => $repo_id)
-
-    Accession[accession[:id]].collection_management.cataloged_note.should eq("just a note")
-  end
 
 
   it "reports an error if the accession's collection management record has a total extent that lacks a type" do
@@ -219,23 +208,10 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
-  it "can store a collection management record with a processing started date" do
-    accession = Accession.create_from_json(build(:json_accession,
-                                                 :collection_management =>
-                                                 {
-                                                   "cataloging_note" => "just a note",
-                                                   "processing_started_date" => "2000-01-01"
-                                                 }
-                                                 ),
-                                           :repo_id => $repo_id)
-
-
-    Accession[accession[:id]].collection_management.processing_started_date.should_not be_nil
-  end
 
 
   it "allows accessions to be created with user defined fields" do
@@ -262,7 +238,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -272,7 +248,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -282,7 +258,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
     expect {
       accession = Accession.create_from_json(build(:json_accession,
@@ -292,7 +268,7 @@ describe 'Accession model' do
                                                    }
                                                    ),
                                              :repo_id => $repo_id)
-    }.to raise_error(ValidationException)
+    }.to raise_error(JSONModel::ValidationException)
 
   end
 
@@ -304,9 +280,9 @@ describe 'Accession model' do
                            :description => "A classification")
 
     classification = Classification.create_from_json(classification)
-    accession = create_accession(:classification => {'ref' => classification.uri})
+    accession = create_accession(:classifications => [ {'ref' => classification.uri} ])
 
-    accession.related_records(:classification).title.should eq("top-level classification")
+    accession.related_records(:classification).first.title.should eq("top-level classification")
   end
 
 
@@ -314,6 +290,48 @@ describe 'Accession model' do
     accession = create_accession
 
     Accession[accession[:id]].publish.should eq(Preference.defaults['publish'] ? 1 : 0)
+  end
+
+
+  it "can create an accession consisting of a number of parts" do
+    parent = create_accession
+
+    children = 3.times.map {
+      rlshp = JSONModel(:accession_parts_relationship).from_hash('relator' => 'forms_part_of',
+                                                                 'relator_type' => 'part',
+                                                                 'ref' => parent.uri)
+      create_accession('related_accessions' => [rlshp.to_hash])
+    }
+
+    # Relationship can be seen from the parent
+    parts_parent = Accession.to_jsonmodel(parent.id)['related_accessions']
+
+    parts_parent.length.should eq(3)
+    parts_parent.map {|p| p['relator']}.uniq.should eq(['has_part'])
+    (children.map(&:uri) - parts_parent.map {|p| p['ref']}).should eq([])
+
+    # And from the children
+    children.each do |child|
+      parts_child = Accession.to_jsonmodel(child.id)['related_accessions']
+
+      parts_child.length.should eq(1)
+      parts_child.map {|p| p['relator']}.uniq.should eq(['forms_part_of'])
+      parts_child.first['ref'].should eq(parent.uri)
+    end
+  end
+
+
+  it "can bind two accessions together in a sibling relationship" do
+    ernie = create_accession
+
+    rlshp = JSONModel(:accession_sibling_relationship).from_hash('relator' => 'sibling_of',
+                                                                 'relator_type' => 'bound_with',
+                                                                 'ref' => ernie.uri)
+
+    bert = create_accession('related_accessions' => [rlshp.to_hash])
+
+    Accession.to_jsonmodel(ernie.id)['related_accessions'].first['ref'].should eq(bert.uri)
+    Accession.to_jsonmodel(bert.id)['related_accessions'].first['ref'].should eq(ernie.uri)
   end
 
 end

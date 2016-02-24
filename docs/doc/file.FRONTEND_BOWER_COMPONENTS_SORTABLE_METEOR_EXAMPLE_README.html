@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1 id="rubaxasortable-meteor-demo">RubaXa:Sortable Meteor demo</h1>
+
+<p>This demo showcases the two-way integration between the reorderable list
+widget <a href="https://github.com/RubaXa/Sortable/">Sortable</a> and Meteor.js. Meteor
+Mongo collections are updated when items are added, removed or reordered, and
+the order is persisted.</p>
+
+<p>It also shows list grouping and control over what lists can give or receive
+elements. You can only drag elements from the list to the left onto the list
+to the right.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>The example uses the local package from the checkout, so it needs to wire
+up some files (<code>package.js</code> and <code>package.json</code>). This is done by the handy
+run script:</p>
+
+<h3 id="windows">Windows</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_RubaXa constant id'>RubaXa</span><span class='div op'>/</span><span class='rubyid_Sortable constant id'>Sortable</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
+<span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_Sortable constant id'>Sortable</span>
+<span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='rubyid_dev identifier id'>dev</span>
+<span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_meteor identifier id'>meteor</span>\<span class='rubyid_example identifier id'>example</span>
+<span class='rubyid_run identifier id'>run</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
+</code></pre>
+
+<h3 id="elsewhere">Elsewhere</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_RubaXa constant id'>RubaXa</span><span class='div op'>/</span><span class='rubyid_Sortable constant id'>Sortable</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
+<span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_Sortable constant id'>Sortable</span>
+<span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='rubyid_dev identifier id'>dev</span>
+<span class='rubyid_meteor identifier id'>meteor</span><span class='div op'>/</span><span class='rubyid_example identifier id'>example</span><span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<h2 id="prior-art">Prior art</h2>
+
+<h3 id="differential">Differential</h3>
+
+<p>Differential wrote <a href="differential.com/blog/sortable-lists-in-meteor-using-jquery-ui">a blog post on reorderable lists with
+Meteor</a> and
+<a href="http://jqueryui.com/sortable/">jQuery UI Sortable</a>. It served as inspiration
+for integrating <a href="rubaxa.github.io/Sortable/">rubaxa:sortable</a>,
+which uses the HTML5 native drag&amp;drop API (not without <a href="https://github.com/RubaXa/Sortable/issues/106">its
+limitations</a>).
+The reordering method used by the Differential example can lead to data loss
+though, because it calculates the new order of a dropped element as the
+arithmetic mean of the elements before and after it. This <a href="http://programmers.stackexchange.com/questions/266451/maintain-ordered-collection-by-updating-as-few-order-fields-as-possible">runs into limitations
+of floating point precision</a>
+in JavaScript after &lt;50 reorderings.</p>
+
+<h3 id="todos-animated">Todos animated</h3>
+
+<p>http://todos-dnd-animated.meteor.com/ (<a href="https://github.com/nleush/meteor-todos-sortable-animation">source</a>)
+is based on old Meteor Blaze (back then Spark) API, and won&#8217;t work with current versions.
+It does showcase some neat features, such as animation when collection elements
+are reordered by another client. It uses jQuery UI Sortable as well, which lacks
+some features vs. rubaxa:Sortable, e.g. text selection within the item.</p>
+
+<h2 id="todo">TODO</h2>
+
+<ul>
+  <li>Animation</li>
+  <li>Indication that an item is being edited</li>
+</ul>
+</div></div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:50 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

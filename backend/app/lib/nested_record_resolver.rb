@@ -76,14 +76,17 @@ class NestedRecordResolver
     # Load all nested records into memory, doing all of our DB querying up
     # front (and efficiently)
     nested_records.each do |nested_record|
+      objs_ids = @objs.map(&:id)
+
       @all_nested[nested_record[:json_property]] ||= {}
 
       association = nested_record[:association]
 
       next unless [:one_to_one, :one_to_many].include?(association[:type])
+      next if objs_ids.empty?
 
       model = Kernel.const_get(association[:class_name])
-      matches = model.filter(association[:key] => @objs.map(&:id))
+      matches = model.filter(association[:key] => objs_ids)
 
       matches.each do |nested_obj|
         @all_nested[nested_record[:json_property]][nested_obj[association[:key]]] ||= []

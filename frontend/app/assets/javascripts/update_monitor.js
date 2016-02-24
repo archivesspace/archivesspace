@@ -19,6 +19,7 @@ $(function() {
     }
 
     $form.data("update-monitor", "enabled");
+    $form.data('update-monitor-paused', false);
 
     var poll_url = $form.data("update-monitor-url");
     var lock_version = $form.data("update-monitor-lock_version");
@@ -79,6 +80,10 @@ $(function() {
         return;
       }
 
+      if ( $form.data('update-monitor-paused') == true ) {
+        return; 
+      } 
+      
       $.post(
         poll_url,
         {
@@ -93,7 +98,11 @@ $(function() {
             clearAnyMonitorErrors()
           }
         },
-        "json")
+        "json").fail(function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 500 || jqXHR.status === 403 ) {
+            window.location.replace(FRONTEND_URL);
+          }
+        });
     };
 
     poll();

@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Resequencer
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!Resequencer.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">Resequencer</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Resequencer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Resequencer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/lib/resequencer.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="klasses-classvariable" class="">@@klasses =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span> <span class='symbol val'>:ArchivalObject</span><span class='comma token'>,</span> <span class='symbol val'>:DigitalObjectComponent</span><span class='comma token'>,</span> <span class='symbol val'>:ClassificationTerm</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resequence-class_method" title="resequence (class method)">+ (Object) <strong>resequence</strong>(klass) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resequence_all-class_method" title="resequence_all (class method)">+ (Object) <strong>resequence_all</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-class_method" title="run (class method)">+ (Object) <strong>run</strong>(klasses = @@klasses) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#running%3F-class_method" title="running? (class method)">+ (Boolean) <strong>running?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="resequence-class_method">
+  
+    + (<tt>Object</tt>) <strong>resequence</strong>(klass) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/resequencer.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resequence identifier id'>resequence</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_repos identifier id'>repos</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_rec identifier id'>rec</span><span class='bitor op'>|</span> <span class='rubyid_rec identifier id'>rec</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> 
+  <span class='rubyid_repos identifier id'>repos</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_resequence identifier id'>resequence</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_return return kw'>return</span> 
+      <span class='comment val'># if there's a failure, just keep going.  </span>
+    <span class='rbrace token'>}</span> 
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resequence_all-class_method">
+  
+    + (<tt>Object</tt>) <strong>resequence_all</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/resequencer.rb', line 31</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resequence_all identifier id'>resequence_all</span>
+  <span class='rubyid_@@klasses ivar id'>@@klasses</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resequence identifier id'>resequence</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-class_method">
+  
+    + (<tt>Object</tt>) <strong>run</strong>(klasses = @@klasses) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/resequencer.rb', line 38</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_klasses identifier id'>klasses</span> <span class='assign token'>=</span> <span class='rubyid_@@klasses ivar id'>@@klasses</span> <span class='rparen token'>)</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*&quot;</span> <span class='mult op'>*</span> <span class='integer val'>100</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t STARTING RESEQUENCER  \t\t*&quot;</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t This is a utility that will organize and compact objects trees to ensure their validity. \t\t *&quot;</span> 
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t Duration of this process depends on the size of your data. \t\t *&quot;</span> 
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t It should NOT be used on every startup and instead should only be run in rare occassions that require data maintance. \t\t *&quot;</span> 
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*&quot;</span> <span class='mult op'>*</span> <span class='integer val'>100</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_@running ivar id'>@running</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rbrace token'>}</span>  
+    <span class='rubyid_klasses identifier id'>klasses</span> <span class='assign token'>=</span> <span class='rubyid_klasses identifier id'>klasses</span> <span class='bitand op'>&amp;</span> <span class='rubyid_@@klasses ivar id'>@@klasses</span> 
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_klasses identifier id'>klasses</span> 
+    <span class='rubyid_klasses identifier id'>klasses</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
+      <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_klass identifier id'>klass</span>
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_resequence identifier id'>resequence</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span> 
+    <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_ensure ensure kw'>ensure</span>
+    <span class='rubyid_@running ivar id'>@running</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span> <span class='assign token'>=</span>  <span class='rubyid_false false kw'>false</span> <span class='rbrace token'>}</span> 
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*&quot;</span> <span class='mult op'>*</span> <span class='integer val'>100</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t RESEQUENCER COMPLETE  \t\t*&quot;</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*\t\t Be sure to set the AppConfig[:resequence_on_startup] to false to ensure quicker startups in the future. \t\t*&quot;</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;*&quot;</span> <span class='mult op'>*</span> <span class='integer val'>100</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="running?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>running?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/resequencer.rb', line 15</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_running? fid id'>running?</span>
+  <span class='rubyid_@running ivar id'>@running</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:01 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

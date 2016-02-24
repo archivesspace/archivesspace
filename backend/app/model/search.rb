@@ -5,6 +5,8 @@ class Search
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
+    Log.debug(params.inspect)
+
     query = if params[:q]
               Solr::Query.create_keyword_search(params[:q])
             elsif params[:aq] && params[:aq]['query']
@@ -21,9 +23,11 @@ class Search
           show_published_only(show_published_only).
           set_excluded_ids(params[:exclude]).
           set_filter_terms(params[:filter_term]).
+          set_simple_filters(params[:simple_filter]).
           set_facets(params[:facet]).
           set_sort(params[:sort]).
-          set_root_record(params[:root_record])
+          set_root_record(params[:root_record]).
+          highlighting(params[:hl])
 
 
     Solr.search(query)

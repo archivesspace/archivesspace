@@ -1,0 +1,34 @@
+JSON Schema: Abstract_archival_object
+
+Properties
+
+string	uri
+
+array (JSONModel(:external_id) object)	external_ids
+
+string (max length: 16384)	title
+
+string	language
+
+boolean	publish
+
+array (Object (ref, _resolved))	subjects
+
+array (Object (ref, _resolved))	linked_events
+
+array (JSONModel(:extent) object)	extents
+
+array (JSONModel(:date) object)	dates
+
+array (JSONModel(:external_document) object)	external_documents
+
+array (JSONModel(:rights_statement) object)	rights_statements
+
+array (Object (role, terms, relator, title, ref, _resolved))	linked_agents
+
+boolean	suppressed
+
+
+
+
+

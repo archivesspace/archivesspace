@@ -9,15 +9,12 @@
 
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
-      "cataloged_note" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processing_hours_per_foot_estimate" => {"type" => "string", "maxLength" => 255, "required" => false},
       "processing_total_extent" => {"type" => "string", "maxLength" => 255, "required" => false},
       "processing_total_extent_type" => {"type" => "string", "required" => false, "dynamic_enum" => "extent_extent_type"},
       "processing_hours_total" => {"type" => "string", "maxLength" => 255, "required" => false},
       "processing_plan" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processing_priority" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_priority"},
-      "processing_started_date" => {"type" => "date", "minLength" => 1, "required" => false},
-      "processing_status" => {"type" => "string", "required" => false, "dynamic_enum" => "collection_management_processing_status"},
       "processing_funding_source" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "processors" => {"type" => "string", "maxLength" => 65000, "required" => false},
       "rights_determined" => {"type" => "boolean", "default" => false},

@@ -1,0 +1,22 @@
+<% define_template("location_batch", jsonmodel_definition(:location)) do |form| %>
+  <fieldset>
+    <section id="basic_information">
+    <%= form.label_and_boolean "temporary_question", {}, false %> 
+    <%= form.label_and_select "temporary", form.possible_options_for("temporary", true), :field_opts =>  { :disabled => true, :class => "location_temporary" } %>
+      <hr/>
+      <%= form.label_and_textfield "building", :required => !@is_batch_update %>
+      <%= form.label_and_textfield "floor" %>
+      <%= form.label_and_textfield "room" %>
+      <%= form.label_and_textfield "area" %>
+      <% if @is_batch_update %> 
+        <% @location_batch.record_uris.each do |uri| %> 
+          <%= form.hidden_input "record_uris[]", uri %> 
+        <% end %>    
+      <% end %>
+    </section>
+  </fieldset>
+<% end %>
+
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
+<% form.emit_template("location_batch") %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>

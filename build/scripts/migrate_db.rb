@@ -26,7 +26,7 @@ end
 
 begin
   Sequel.connect(AppConfig[:db_url],
-                 :max_connections => AppConfig[:db_max_connections],
+                 :max_connections => 1,
                  #:loggers => [Logger.new($stderr)]
                  ) do |db|
     if ARGV.length > 0 and ARGV[0] == "nuke"
@@ -39,11 +39,12 @@ begin
 
     end
 
-    puts "Running migrations against #{AppConfig[:db_url]}"
+    puts "Running migrations against #{AppConfig[:db_url_redacted]}"
     DBMigrator.setup_database(db)
     puts "All done."
   end
-rescue NameError => e
+rescue Sequel::AdapterNotFound => e
+
   if AppConfig[:db_url] =~ /mysql/
     libdir = File.expand_path(File.join(File.dirname($0), "..", "..", "lib"))
 

@@ -1,121 +1,34 @@
 require 'factory_girl'
-
-def sample(enum, exclude = [])
-  values = if enum.has_key?('enum')
-             enum['enum']
-           elsif enum.has_key?('dynamic_enum')
-             enum_source.values_for(enum['dynamic_enum'])
-           else
-             raise "Not sure how to sample this: #{enum.inspect}"
-           end
-
-  exclude += ['other_unmapped']
-
-  values.reject{|i| exclude.include?(i) }.sample
-end
-
-
-def enum_source
-  if defined? BackendEnumSource
-    BackendEnumSource
-  else
-    JSONModel.init_args[:enum_source]
-  end
-end
-
-
-def JSONModel(key)
-  JSONModel::JSONModel(key)
-end
-
-
-def nil_or_whatever
-  [nil, generate(:alphanumstr)].sample
-end
-
-
-def few_or_none(key)
-  arr = []
-  rand(4).times { arr << build(key) }
-  arr
-end
-
+require 'spec/lib/factory_girl_helpers'
 
 FactoryGirl.define do
+
+  def JSONModel(key)
+    JSONModel::JSONModel(key)
+  end
 
   to_create{|instance| instance.save}
 
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
-  sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(10):(65 + rand(25)).chr }.join }
-  sequence(:whack_markup) { "<blockquote><p><br>WACK " + generate(:alphanumstr) }
-  sequence(:string) { generate(:alphanumstr) }
+  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryGirl.generate(:alphanumstr)}</p>" }
+  sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryGirl.generate(:alphanumstr) }
+  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryGirl.generate(:alphanumstr) + "</p>" }
+  sequence(:string) { FactoryGirl.generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
-  sequence(:generic_name) {|n| "Name Number #{n}"}
   sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
-  sequence(:sort_name) { |n| "SORT #{('a'..'z').to_a[rand(26)]} - #{n}" }
   sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
 
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:hh_mm) { t = Time.now; "#{t.hour}:#{t.min}" }
-  sequence(:number) { rand(100).to_s }
-  sequence(:url) {|n| "http://www.example-#{n}.com"}
   sequence(:barcode) { 20.times.map { rand(2)}.join }
   sequence(:indicator) { (2+rand(3)).times.map { (2+rand(3)).times.map {rand(9)}.join }.join('-') }
 
-  sequence(:name_rule) { sample(JSONModel(:abstract_name).schema['properties']['rules']) }
-  sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:level) { %w(series subseries item)[rand(3)] }
-  sequence(:term) { |n| "Term #{n}" }
-  sequence(:term_type) { sample(JSONModel(:term).schema['properties']['term_type']) }
-
-  sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
-  sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
-
-  sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
-  sequence(:date_lable) { sample(JSONModel(:date).schema['properties']['label']) }
-
-  sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
-  sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
-  sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
-  sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
-  sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
-  sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
-  sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
-  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { generate(:alphanumstr) } } }
-
-  sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
-  sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
-  sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
-  sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
-
-  sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
-  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
-  sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
-
-  sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
-  sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }
-
-  sequence(:use_statement) { sample(JSONModel(:file_version).schema['properties']['use_statement']) }
-  sequence(:checksum_method) { sample(JSONModel(:file_version).schema['properties']['checksum_method']) }
-  sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
-  sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
-  sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
-  sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
-  sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
-  sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
-
-  sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
-  sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }
-
-  sequence(:vocab_name) {|n| "Vocabulary #{generate(:generic_title)} #{n} - #{Time.now}" }
-  sequence(:vocab_refid) {|n| "vocab_ref_#{n} - #{Time.now}"}
-
-  sequence(:downtown_address) { "#{rand(200)} #{%w(E W).sample} #{(4..9).to_a.sample}th Street" }
 
 
   # AS Models
@@ -136,8 +49,8 @@ FactoryGirl.define do
       image_url { generate(:url) }
       after(:create) do |r|
         $repo_id = r.id
-        $repo = JSONModel(:repository).uri_for(r.id)
-        JSONModel::set_repository($repo_id)
+        $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
+        JSONModel.set_repository($repo_id)
         RequestContext.put(:repo_id, $repo_id)
       end
     end
@@ -153,7 +66,6 @@ FactoryGirl.define do
                                     :authorized => 1,
                                     :json_schema_version => 1)
         a.add_agent_contact(:name => generate(:generic_name),
-                            :telephone => generate(:phone_number),
                             :address_1 => [nil, generate(:alphanumstr)].sample,
                             :address_2 => [nil, generate(:alphanumstr)].sample,
                             :address_3 => [nil, generate(:alphanumstr)].sample,
@@ -161,8 +73,7 @@ FactoryGirl.define do
                             :region => [nil, generate(:alphanumstr)].sample,
                             :country => [nil, generate(:alphanumstr)].sample,
                             :post_code => [nil, generate(:alphanumstr)].sample,
-                            :telephone => [nil, generate(:alphanumstr)].sample,
-                            :fax => [nil, generate(:alphanumstr)].sample,
+                            #:telephones => [nil, build(:json_telephone)].sample,
                             :email => [nil, generate(:alphanumstr)].sample,
                             :email_signature => [nil, generate(:alphanumstr)].sample,
                             :note => [nil, generate(:alphanumstr)].sample,
@@ -200,6 +111,7 @@ FactoryGirl.define do
       id_1 { generate(:alphanumstr) }
       level { generate(:archival_record_level) }
       language { generate(:language) }
+
     end
 
     factory :extent do
@@ -234,9 +146,16 @@ FactoryGirl.define do
     accession_date { generate(:yyyy_mm_dd) }
   end
 
+  factory :json_telephone, class: JSONModel(:telephone) do
+    number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
+    number {  generate(:phone_number) }
+    ext { [nil, generate(:alphanumstr)].sample }
+
+  end
+
   factory :json_agent_contact, class: JSONModel(:agent_contact) do
     name { generate(:generic_name) }
-    telephone { generate(:phone_number) }
+    telephones { [build(:json_telephone)] }
     address_1 { [nil, generate(:alphanumstr)].sample }
     address_2 { [nil, generate(:alphanumstr)].sample }
     address_3 { [nil, generate(:alphanumstr)].sample }
@@ -244,7 +163,6 @@ FactoryGirl.define do
     region { [nil, generate(:alphanumstr)].sample }
     country { [nil, generate(:alphanumstr)].sample }
     post_code { [nil, generate(:alphanumstr)].sample }
-    telephone_ext { [nil, generate(:alphanumstr)].sample }
     fax { [nil, generate(:alphanumstr)].sample }
     email { [nil, generate(:alphanumstr)].sample }
     email_signature { [nil, generate(:alphanumstr)].sample }
@@ -310,16 +228,16 @@ FactoryGirl.define do
 
   factory :json_note_index_item, class: JSONModel(:note_index_item) do
     value { generate(:alphanumstr) }
-    reference { generate(:alphanumstr) }
-    reference_text { generate(:alphanumstr) }
+    #reference { generate(:alphanumstr) }
+    #reference_text { generate(:alphanumstr) }
     type { generate(:note_index_item_type) }
   end
 
   factory :json_note_bibliography, class: JSONModel(:note_bibliography) do
-    label { generate(:alphanumstr) }
-    content { [generate(:alphanumstr)] }
+    label { [ generate(:alphanumstr), nil].sample }
+    content { [generate(:wild_markup)] }
     items { [generate(:alphanumstr)] }
-    type { generate(:note_bibliography_type) }
+    type { [ generate(:note_bibliography_type), nil].sample }
   end
 
   factory :json_note_bioghist, class: JSONModel(:note_bioghist) do
@@ -332,7 +250,11 @@ FactoryGirl.define do
   end
 
   factory :json_note_text, class: JSONModel(:note_text) do
-    content { generate(:whack_markup) }
+    content { generate(:alphanumstr) }
+  end
+
+  factory :json_note_text_gone_wilde, class: JSONModel(:note_text) do
+    content { generate(:wild_markup) }
   end
 
   factory :json_note_orderedlist, class: JSONModel(:note_orderedlist) do
@@ -347,11 +269,11 @@ FactoryGirl.define do
   end
 
   factory :json_note_abstract, class: JSONModel(:note_abstract) do
-    content { (0..rand(3)).map { generate(:whack_markup) } }
+    content { (0..rand(3)).map { generate(:good_markup) } }
   end
 
   factory :json_note_citation, class: JSONModel(:note_citation) do
-    content { (0..rand(3)).map { generate(:whack_markup) } }
+    content { (0..rand(3)).map { generate(:good_markup) } }
     xlink Hash[%w(actuate arcrole href role show title type).map{|i| [i, i]}]
   end
 
@@ -371,6 +293,33 @@ FactoryGirl.define do
     container_extent { generate (:number) }
     container_extent_type { sample(JSONModel(:container).schema['properties']['container_extent_type']) }
   end
+  
+  factory :json_top_container, class: JSONModel(:top_container) do
+    indicator { generate(:alphanumstr) }
+    type { generate(:container_type) }
+    barcode { generate(:alphanumstr)[0..4] }
+    ils_holding_id { generate(:alphanumstr) }
+    ils_item_id { generate(:alphanumstr) }
+    exported_to_ils { Time.now.iso8601 }
+  end
+
+  factory :json_container_profile, class: JSONModel(:container_profile) do
+    name { generate(:alphanumstr) }
+    url { generate(:alphanumstr) }
+    dimension_units { sample(JSONModel(:container_profile).schema['properties']['dimension_units']) }
+    extent_dimension { sample(JSONModel(:container_profile).schema['properties']['extent_dimension']) }
+    depth { rand(100).to_s }
+    height { rand(100).to_s }
+    width { rand(100).to_s }
+  end
+
+  factory :json_sub_container, class: JSONModel(:sub_container) do
+    type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
+    indicator_2 { generate(:alphanumstr) }
+    type_3 { sample(JSONModel(:sub_container).schema['properties']['type_3']) }
+    indicator_3 { generate(:alphanumstr) }
+  end
+
 
   factory :json_date, class: JSONModel(:date) do
     date_type { generate(:date_type) }
@@ -514,6 +463,11 @@ FactoryGirl.define do
     subnotes { [ build(:json_note_text, :publish => true) ] }
   end
 
+  factory :json_note_multipart_gone_wilde, class: JSONModel(:note_multipart) do
+    type { generate(:multipart_note_type)}
+    subnotes { [ build(:json_note_text_gone_wilde, :publish => true) ] }
+  end
+
   factory :json_note_digital_object, class: JSONModel(:note_digital_object) do
     type { generate(:digital_object_note_type)}
     content { [ generate(:string), generate(:string) ] }
@@ -528,11 +482,16 @@ FactoryGirl.define do
     dates { [build(:json_date)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
+    finding_aid_date { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
-    finding_aid_revision_date { nil_or_whatever }
-    finding_aid_revision_description { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
     instances { [build(:json_instance), build(:json_instance)] }
+    revision_statements {  [build(:json_revision_statement)]  }
+  end
+
+  factory :json_revision_statement, class: JSONModel(:revision_statement) do
+    date { generate(:alphanumstr) }
+    description { generate(:alphanumstr) }
   end
 
   factory :json_repo, class: JSONModel(:repository) do
@@ -581,9 +540,25 @@ FactoryGirl.define do
     ref_id { generate(:vocab_refid) }
   end
 
-  factory :json_import_job, class: JSONModel(:job) do
+  factory :json_job, class: JSONModel(:job) do
+    job_type { ['import_job', 'find_and_replace_job', 'print_to_pdf_job'].sample }
+  end
+
+  factory :json_import_job, class: JSONModel(:import_job) do
     import_type { ['marcxml', 'ead_xml', 'eac_xml'].sample }
     filenames { (0..3).map { generate(:alphanumstr) } }
+  end
+
+  factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
+    source  { create(:json_resource).uri }
+  end
+
+  factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
+    find "/foo/"
+    replace "bar"
+    record_type "extent"
+    property "container_summary"
+    base_record_uri "repositories/2/resources/1"
   end
 
   factory :json_preference, class: JSONModel(:preference) do

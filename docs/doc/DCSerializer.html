@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: DCSerializer
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!DCSerializer.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (D)</a> &raquo;
+    
+    
+    <span class="title">DCSerializer</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+    <a class="full_list_link" id="schema_list_link"
+        href="schema_list.html">
+      Schema List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: DCSerializer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></li>
+          
+            <li class="next">DCSerializer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">backend/app/exporters/serializers/dc.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build-instance_method" title="#build (instance method)">- (Object) <strong>build</strong>(dc, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize-instance_method" title="#serialize (instance method)">- (Object) <strong>serialize</strong>(dc, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ASpaceExport/Serializer.html" title="ASpaceExport::Serializer (class)">ASpaceExport::Serializer</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ASpaceExport/Serializer.html#inherited-class_method" title="ASpaceExport::Serializer.inherited (method)">inherited</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#serializer_for-class_method" title="ASpaceExport::Serializer.serializer_for (method)">serializer_for</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#serializer_for%3F-class_method" title="ASpaceExport::Serializer.serializer_for? (method)">serializer_for?</a></span>, <span class='object_link'><a href="ASpaceExport/Serializer.html#with_namespace-class_method" title="ASpaceExport::Serializer.with_namespace (method)">with_namespace</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="build-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build</strong>(dc, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/dc.rb', line 4</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_dc identifier id'>dc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
+    <span class='rubyid__root identifier id'>_root</span><span class='lparen token'>(</span><span class='rubyid_dc identifier id'>dc</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>     
+  <span class='rubyid_end end kw'>end</span>   
+  
+  <span class='rubyid_builder identifier id'>builder</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize-instance_method">
+  
+    - (<tt>Object</tt>) <strong>serialize</strong>(dc, opts = {}) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/dc.rb', line 13</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_dc identifier id'>dc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_dc identifier id'>dc</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span>   
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:06 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-1.9.3).
+</div>
+  </body>
+</html>

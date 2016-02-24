@@ -7,6 +7,8 @@ class Event < Sequel::Model(:event)
 
   include Relationships
   include Agents
+  include ExternalDocuments
+  include ExternalIDs
 
   agent_role_enum("linked_agent_event_roles")
 
@@ -30,7 +32,7 @@ class Event < Sequel::Model(:event)
 
                           uses_enums({
                                        :property => 'role',
-                                       :uses_enum => 'linked_event_archival_record_roles'
+                                       :uses_enum => ['linked_event_archival_record_roles']
                                      })
                         end
                       })

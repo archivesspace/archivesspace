@@ -1,8 +1,8 @@
-<div class="row-fluid">
-  <div class="span3">
+<div class="row">
+  <div class="col-md-3">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
-  <div class="span9">
+  <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |readonly, digital_object_component| %>
@@ -55,6 +55,10 @@
         <% end %>
 
         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => digital_object_component.linked_events, :context => readonly, :section_id => "digital_object_component_linked_events_" } %>
+
+        <% if digital_object_component.external_ids.length > 0 && show_external_ids? %>
+          <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object_component.external_ids, :context => readonly, :section_id => "digital_object_component_external_ids_" } %>
+        <% end %>
 
         <%= show_plugins_for(@digital_object_component, readonly) %>
 
