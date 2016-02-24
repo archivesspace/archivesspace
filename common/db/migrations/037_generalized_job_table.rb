@@ -39,6 +39,7 @@ Sequel.migration do
       job_type_id = self[:enumeration_value].filter(:value => 'import_job').first[:id]
 
       self[:job].insert(:repo_id => row[:repo_id],
+						:id => row[id],
                         :lock_version => row[:lock_version],
                         :json_schema_version => row[:json_schema_version],
                         :job_type_id => job_type_id,
