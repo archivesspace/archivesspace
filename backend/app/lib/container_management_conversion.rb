@@ -65,7 +65,7 @@ class ContainerManagementConversion
           top_container = e.object_context[:top_container] 
           aspace_container = e.object_context[:aspace_container] 
           
-          headers = [:error, :message] + @fields.keys + [ :preconversion_locations, :top_container_locations ]  
+          headers = [:error, :message] + @fields.keys + [ :preconversion_locations, :top_container_locations, :conversion_context ]  
 
           unless @errors
             h = CSV::Row.new(headers,[],true)
@@ -94,7 +94,8 @@ class ContainerManagementConversion
           end
           
           row << { :top_container_locations => e.object_context[:top_container_locations].join('; '), 
-                    :preconversion_locations => e.object_context[:aspace_locations].join("; ") } 
+                   :preconversion_locations => e.object_context[:aspace_locations].join("; "),
+                   :conversion_context => e.object_context.inspect } 
 
           @errors << row.fields(*headers)
           
