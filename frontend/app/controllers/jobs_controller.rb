@@ -124,7 +124,7 @@ class JobsController < ApplicationController
   end
 
   def job_types
-    Job.available_types.map {|e| [I18n.t("enumerations.job_type.#{e}"), e]}
+    Job.available_types.map {|e| [I18n.t("enumerations.job_type.#{e}"), e] unless e.blank?  }.compact
   end
 
   def import_types

@@ -27,6 +27,8 @@
               <li><%= link_to I18n.t("event._plural"), :controller => :events, :action => :index %></li>
               <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
               <li><%= link_to I18n.t("classification._plural"), :controller => :classifications, :action => :index %></li>
+              <li class="divider"></li>
+              <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
             </ul>
           </li>
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
