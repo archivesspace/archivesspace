@@ -5,7 +5,7 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a [m
 
 ## Application Settings
 
-The application itself can tuned in numerous ways. It’s a good idea to read the [configuring documentation](/archivesspace/user/configuringarchivesspace/), as there are numerious settings that can be adjusted to fit your needs.
+The application itself can tuned in numerous ways. It’s a good idea to read the [configuring documentation](http://archivesspace.github.io/archivesspace/user/configuring-archivesspace/), as there are numerious settings that can be adjusted to fit your needs.
 
 A important thing to note that since ArchivesSpace is a java application, it’s possible to set the memory allocations used by the JVM. There are numerous articles on the internet full of information about what the optimal settings are, which will depend greatly on the load your server is experiecing and the hardware. It’s a good idea to monitor the application and ensure that it’s not hitting the top limits what you’ve set as the heap.
 
@@ -29,4 +29,4 @@ Keep a close eye on the memory available to the server, as well as your InnoDB b
 
 ## Solr
 
-The internet is full of many suggestions on how to optimize a Solr index. [Running an external Solr index](/user/runningarchivesspacewithexternalsolr/) can be benificial to the performance of ArchivesSpace, since that moves the index to its own server.
+The internet is full of many suggestions on how to optimize a Solr index. [Running an external Solr index](http://archivesspace.github.io/archivesspace/user/running-archivesspace-with-external-solr/) can be benificial to the performance of ArchivesSpace, since that moves the index to its own server.
