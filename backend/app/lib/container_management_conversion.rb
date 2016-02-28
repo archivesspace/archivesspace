@@ -94,7 +94,7 @@ class ContainerManagementConversion
           end
 
           top_container_locations = e.object_context[:top_container_locations] || []
-          apsace_locations = e.object_context[:aspace_locations] || [] 
+          aspace_locations = e.object_context[:aspace_locations] || [] 
 
           row << { :top_container_locations => top_container_locations.join('; '), 
                    :preconversion_locations => aspace_locations.join("; "),
