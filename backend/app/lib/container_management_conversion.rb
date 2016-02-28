@@ -92,9 +92,12 @@ class ContainerManagementConversion
               row << {k => v}
             end
           end
-          
-          row << { :top_container_locations => e.object_context[:top_container_locations].join('; '), 
-                   :preconversion_locations => e.object_context[:aspace_locations].join("; "),
+
+          top_container_locations = e.object_context[:top_container_locations] || []
+          apsace_locations = e.object_context[:aspace_locations] || [] 
+
+          row << { :top_container_locations => top_container_locations.join('; '), 
+                   :preconversion_locations => aspace_locations.join("; "),
                    :conversion_context => e.object_context.inspect } 
 
           @errors << row.fields(*headers)
