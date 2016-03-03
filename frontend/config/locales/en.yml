@@ -75,6 +75,7 @@ en:
     export_mets: Download METS
     export_marc: Download MARCXML
     export_dc: Download DC
+    export_csv: Download CSV
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record

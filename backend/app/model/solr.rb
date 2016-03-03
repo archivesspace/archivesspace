@@ -77,7 +77,7 @@ class Solr
     end
 
 
-    def initialize(query_string)
+    def initialize(query_string, opts = {})
       @solr_url = URI.parse(AppConfig[:solr_url])
 
       @query_string = query_string
@@ -90,8 +90,13 @@ class Solr
 
       @show_suppressed = false
       @show_published_only = false
+      
+      @csv_header = true
     end
 
+    def remove_csv_header
+      @csv_header = false
+    end
 
     def set_solr_url(solr_url)
       @solr_url = solr_url
@@ -225,6 +230,9 @@ class Solr
       @writer_type = type
     end
 
+    def get_writer_type
+      @writer_type
+    end
 
     def to_solr_url
       raise "Missing pagination settings" unless @pagination
@@ -270,6 +278,7 @@ class Solr
       url.path += "/select"
       url.query = URI.encode_www_form([[:q, @query_string],
                                        [:wt, @writer_type],
+                                       ["csv.header", @csv_header ],
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
                                        [:rows, @pagination[:page_size]]] +
                                       @solr_params)
@@ -299,6 +308,7 @@ class Solr
       solr_response = http.request(req)
 
       if solr_response.code == '200'
+        return solr_response.body unless query.get_writer_type == "json" 
         json = ASUtils.json_parse(solr_response.body)
 
         result = {}

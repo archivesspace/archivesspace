@@ -21,8 +21,8 @@ module ExportHelpers
   end
 
 
-  def stream_response(streamer)
-    [status, {"Content-Type" => "application/xml"}, streamer]
+  def stream_response(streamer, content_type = "application/xml")
+    [status, {"Content-Type" => content_type}, streamer]
   end
 
 

@@ -6,9 +6,20 @@ class LocationsController < ApplicationController
 
 
   LOCATION_STICKY_PARAMS = ["building", "floor", "room", "area" ]
+  include ExportHelper
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
+    respond_to do |format| 
+      format.html {   
+        @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
+      }
+      format.csv { 
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS})
+        search_params["type[]"] = "location"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, search_params )
+      }  
+    end 
   end
 
 

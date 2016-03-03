@@ -1,7 +1,8 @@
 class Search
 
 
-  def self.search(params, repo_id)
+  def self.search(params, repo_id )
+   
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
@@ -27,10 +28,32 @@ class Search
           set_facets(params[:facet]).
           set_sort(params[:sort]).
           set_root_record(params[:root_record]).
-          highlighting(params[:hl])
+          highlighting(params[:hl]).
+          set_writer_type( params[:dt] || "json" )
 
+      query.remove_csv_header if ( params[:dt] == "csv" and params[:no_csv_header] ) 
+    
+      Solr.search(query)
+  end
 
-    Solr.search(query)
+  def self.search_csv( params, repo_id )  
+    # first let's get a json response with the number of pages 
+    p = params.dup
+    p[:dt] = "json"
+    result = search(p, repo_id)
+    
+    total_pages = params[:last_page]
+    page = 2 # we start on the second page bc the first will have headers
+
+    Enumerator.new do |y|
+      y << search(params, repo_id)
+      while page != total_pages 
+        params[:page] = page
+        params[:no_csv_header] = true 
+        y << search(params, repo_id)
+        page +=1 
+      end
+    end
   end
 
 end

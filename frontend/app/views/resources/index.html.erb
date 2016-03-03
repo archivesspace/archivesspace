@@ -30,7 +30,7 @@
               </ul>
             </div>
           <% end %>
-
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv}), id: "searchExport",  class:  "btn btn-sm btn-info" %> 
            <%= link_to I18n.t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-sm btn-default" %>
            <% if user_can?("delete_archival_record") %>
              <%= button_delete_multiple_action(:archival_records) %>

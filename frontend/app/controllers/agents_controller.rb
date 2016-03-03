@@ -7,9 +7,21 @@ class AgentsController < ApplicationController
 
 
   before_filter :assign_types
+  
+  include ExportHelper
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
+    respond_to do |format| 
+      format.html {   
+        @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
+      }
+      format.csv { 
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})
+        search_params["type[]"] = "agent"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, search_params )
+      }  
+    end 
   end
 
   def show
