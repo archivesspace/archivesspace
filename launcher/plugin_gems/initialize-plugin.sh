@@ -2,6 +2,10 @@
 
 plugin="$1"
 
+# We'll provide our own values for these
+unset GEM_HOME
+unset GEM_PATH
+
 export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/find-base.sh)"
 
 cd "$ASPACE_LAUNCHER_BASE/gems/gems"
