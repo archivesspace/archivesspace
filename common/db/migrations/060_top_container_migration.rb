@@ -5,9 +5,9 @@ Sequel.migration do
   up do
 
     if AppConfig[:plugins].include?("container_management") 
-      Log.info("*" * 100 )
-      Log.info("*\t\t You have the container_managment set in your AppConfig[:plugins] setting. We will not run the db migrations related to incorporating it into the ArchivesSpace core.") 
-      Log.info("*" * 100 )
+      $stderr.puts "*" * 100 
+      $stderr.puts "*\t\t You have the container_managment set in your AppConfig[:plugins] setting. We will not run the db migrations related to incorporating it into the ArchivesSpace core." 
+      $stderr.puts "*" * 100 
       break 
     end
 
