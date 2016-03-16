@@ -25,7 +25,6 @@ var app = app || {};
     this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
     this.recordTypeIconClass = "fi-home";
 
-
     this.abstract = "Contents of the abstract field. Maecenas faucibus mollis. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.";
 
     if(_.get(model, 'attributes.notes')) {
@@ -43,30 +42,42 @@ var app = app || {};
         if(abstractnote)
           this.abstract = app.utils.extractNoteText(abstractnote);
       }
-
     }
 
 
     switch(this.recordType) {
     case 'resource':
       this.hasContentSidebar = true;
-      this.hasAccordion = true;
+      // this.hasAccordion = true;
       this.hasOuterBorder = true;
       this.hasToolbar = true;
       this.hasFullWidthContext = true;
       break;
     case 'classification':
       this.recordTypeIconClass = "fi-page-multiple";
-      this.hasAccordion = false;
+      // this.hasAccordion = false;
       this.hasOuterBorder = false;
       this.hasContentSidebar = true;
       this.hasToolbar = false;
       this.hasFullWidthContext = false;
       this.abstract = _.get(model, 'attributes.description');
+      var creator = _.get(model, 'attributes.creator._resolved');
+      if(creator)
+        this.creator = "<a href='"+creator.uri+"'>"+creator.title+"</a>";
+
+      break;
+
+    case 'classification_term':
+      this.recordTypeIconClass = "fi-page-multiple";
+      // this.hasAccordion = false;
+      this.hasOuterBorder = false;
+      this.hasContentSidebar = true;
+      this.hasToolbar = false;
+      this.hasFullWidthContext = false;
       break;
 
     default:
-      this.hasAccordion = true;
+      // this.hasAccordion = true;
       this.hasOuterBorder = true;
       this.hasToolbar = true;
       this.hasFullWidthContext = true;
@@ -167,10 +178,134 @@ var app = app || {};
   };
 
 
+  var SidebarTreeView = Bb.View.extend({
+    el: "#sidebar-container",
+    initialize: function(nodeUri) {
+      this.nodeUri = nodeUri;
+      this.render();
+    },
+
+    render: function() {
+      var presenter = {};
+      var that = this;
+      presenter.title = "Subgroups of the Record Group";
+
+      this.$el.html(app.utils.tmpl('sidebar-tree', presenter));
+      var url = "/api"+that.nodeUri+"/tree";
+      console.log(url);
+
+      $.ajax(url, {
+        success: function(data) {
+          app.debug.tree = data;
+
+          //TODO - make once
+          var displayString = function(container_child) {
+            var result = container_child.container_1;
+            result += _.has(container_child, 'container_2') ? container_child.container_2 : '';
+            return result;
+          };
+
+          var containerUri = function (container_child) {
+            var result = container_child.resource_data.repository + "/" + _.pluralize(app.utils.getPublicType(container_child.resource_data.type)) + "/" + container_child.resource_data.id;
+
+            return result;
+          };
+
+
+          $("#tree-container").html(app.utils.tmpl('classification-tree', {classifications: data, displayString: displayString, containerUri: containerUri}));
+
+          $("#tree-container").foundation();
+
+        }
+      });
+
+      // $("#tree-container").jstree({
+      //   core: {
+      //     data: function(node, cb) {
+      //       if(node.id === '#') {
+      //         var url = "/api/trees?node_uri=" + that.nodeUri;
+
+      //         $.ajax(url, {
+      //           success: function(data) {
+      //             console.log(data);
+      //             var childrenData = _.map(data.direct_children, function(dc){
+      //               return {
+      //                 id: 1,
+      //                 text: dc['title'],
+      //                 children: [{id:2, text:"foo"}]
+      //               };
+      //             });
+      //             console.log(childrenData);
+      //             cb(childrenData);
+      //           }
+      //         });
+      //       } else {
+      //         console.log("else")
+      //       }
+      //     }
+
+          // data: {
+          //   url: function(obj) {
+          //     var url = "/api/trees?node_uri=" + that.nodeUri;
+          //     console.log(url);
+          //     return url
+          //   },
+          //   data: function(treeNode) {
+          //     console.log("treeNode");
+          //     console.log(treeNode);
+          //     return {
+          //       id: 100,
+          //       text: "foo"
+          //     }
+          //   }
+          // }
+
+    },
+
+    events: {
+      "click .classification-term a": function(e) {
+        e.stopPropagation();
+        // e.preventDefault();
+        // TODO - catch this and avoid page load
+      }
+    }
+  });
+
 
   var RecordContainerView = Bb.View.extend({
     el: "#container",
     initialize: function(opts) {
+      var $el = this.$el;
+
+      this.on("recordloaded.aspace", function(model) {
+        var presenter = new RecordPresenter(model);
+        var recordType = model.attributes.jsonmodel_type;
+        app.debug = {};
+        app.debug.model = model;
+        app.debug.presenter = presenter;
+
+        //load the generic record template
+        $el.html(app.utils.tmpl('record', presenter));
+        $('.abstract', $el).readmore(300);
+
+        //add a metadata accordion for object records
+        if(_.includes(['resource', 'archival_object'], recordType)) {
+          $("#record-accordion-container", $el).html(app.utils.tmpl('record-accordion', presenter));
+        }
+
+        //add an embedded search / browse for concept records
+        if(_.includes(['classification', 'classification_term'], recordType)) {
+          var embeddedSearchView = new app.EmbeddedSearchView();
+          // $("#embedded-search-container", $el).append(embeddedSearchView.$el);
+        }
+
+        //build tree sidebar
+        // TODO - resource and AO trees
+        if(_.includes(['classification', 'classification_term', '__resource', '__archival_object'], recordType)) {
+          this.sidebarView = new SidebarTreeView(model.attributes.uri);
+        }
+
+      });
 
       this.model = new app.RecordModel(opts);
       this.render();
@@ -180,19 +315,14 @@ var app = app || {};
       var model = this.model;
       var presenter;
       var $el = this.$el;
+      var that = this;
 
       $('#search-box').remove();
       $('#welcome').remove();
       $('#wait-modal').foundation('open');
 
       model.fetch().then(function() {
-        presenter = new RecordPresenter(model);
-        app.debug = {};
-        app.debug.model = model;
-        app.debug.presenter = presenter;
-
-        $el.html(app.utils.tmpl('record', presenter));
-        $('.abstract', $el).readmore(300);
+        that.trigger("recordloaded.aspace", model);
       }).fail(function(response) {
         var errorView = new app.ServerErrorView({
           response: response

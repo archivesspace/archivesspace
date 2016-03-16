@@ -34,5 +34,13 @@ describe('$.fn.readmore', function() {
   });
 
 
-531
+  it("is smart enough to work with unparagraphed content too", function() {
+    var text = $("p", $('#emma')).html();
+
+    $('#emma').empty().html(text);
+    $('#emma').readmore(20);
+    console.log($('#emma').html());
+    expect($('#emma span.less').html()).toEqual('Emma Woodhouse, handsome,');
+  });
+
 });

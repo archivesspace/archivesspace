@@ -14,6 +14,7 @@
 //= require foundation-sites/foundation.reveal
 //= require foundation-sites/foundation.dropdown
 //= require foundation-sites/foundation.accordion
+//= require jstree/jstree
 //= require readmore
 //= require accordion-table
 //= require utils
@@ -21,3 +22,4 @@
 //= require main
 //= require searching
 //= require records
+//= require agents

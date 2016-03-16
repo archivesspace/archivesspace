@@ -44,11 +44,27 @@ class RecordsController < ApplicationController
 
 
   def classification
-    classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "repository"])
+    classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "repository", "creator"])
     raise RecordNotFound.new if (!classification || !classification.publish)
 
     render :json => classification.to_json
   end
+
+
+  def classification_term
+    classification_term = JSONModel(:classification_term).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["repository", "creator"])
+    raise RecordNotFound.new if (!classification_term || !classification_term.publish)
+
+    render :json => classification_term.to_json
+  end
+
+
+  def agent_person
+    agent_person = JSONModel(:agent_person).find(params[:id], "resolve[]" => [])
+
+    render :json => agent_person
+  end
+
 
 
   def get_repository

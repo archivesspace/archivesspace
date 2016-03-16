@@ -14,7 +14,6 @@
    * @param {jQuery} element - jQuery object to make into an accordion.
    */
   function AccordionTable(element, options){
-    console.log("AccordionTable");
     this.$element = element;
     this.options = $.extend({}, AccordionTable.defaults, this.$element.data(), options);
 
@@ -59,7 +58,6 @@
     // this.$tabs = this.$element.children('li');
     this.$navs = this.$element.children('.navigation-row');
 
-    console.log(this.$navs);
     // if (this.$tabs.length == 0) {
     //   this.$tabs = this.$element.children('[data-accordion-item]');
     // }
@@ -102,6 +100,9 @@
       if ($content.length) {
         $elem.off('click.zf.accordionTable keydown.zf.accordionTable')
           .on('click.zf.accordionTable', function(e){
+            // ignore hyperlinks in nav rows
+            if(event.target.tagName.toLowerCase() === 'a')
+              return;
         // $(this).children('a').on('click.zf.accordion', function(e) {
             e.preventDefault();
             if ($elem.hasClass('is-active')) {

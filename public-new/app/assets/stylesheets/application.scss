@@ -18,6 +18,7 @@
 @include foundation-everything;
 @import "foundation-icon-fonts/_foundation-icons";
 @import "load-awesome/line-spin-clockwise-fade.css";
+@import "jstree/style.css";
 @import "archivesspace/colors";
 @import "archivesspace/accordion-table";
 @import "archivesspace/buttons";
@@ -25,3 +26,5 @@
 @import "archivesspace/search-panel";
 @import "archivesspace/readmore";
 @import "archivesspace/aspace";
+@import "archivesspace/sidebar-tree";
+@import "archivesspace/concepts-layout";

@@ -95,6 +95,11 @@ var app = app || {};
       return result;
     },
 
+    // getPublicUrl: function(asUri) {
+
+    //   return asUri;
+    // },
+
     convertAdvancedQuery: function(aq) {
       var params = parseAdvancedQuery(aq.query);
 
@@ -139,6 +144,7 @@ var app = app || {};
       }
     },
 
+    //TODO: cache compiled templates
     tmpl: function(templateId, data) {
       templateId = templateId.replace(/-tmpl$/, '') + '-tmpl';
       return _.template($('#'+templateId).html())(data);

@@ -10,9 +10,14 @@ ArchivesSpacePublic::Application.routes.draw do
       match 'api/repositories/:repo_id/archival_objects/:id' => 'records#archival_object', :via => [:get]
       match 'api/repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
       match 'api/repositories/:repo_id/digital_objects/:id' => 'records#digital_object', :via => [:get]
+      match 'api/repositories/:repo_id/classifications/:id/tree' => 'trees#classification', :via => [:get]
+
       match 'api/repositories/:repo_id/classifications/:id' => 'records#classification', :via => [:get]
+      match 'api/repositories/:repo_id/classification_terms/:id' => 'records#classification_term', :via => [:get]
 
+      match 'api/people/:id' => 'records#agent_person', :via => [:get]
 
+      match 'api/trees' => 'trees#fetch', :via => [:get]
 
       match 'api/search' => 'search#search', :via => [:get]
       match 'api/advanced_search' => 'search#advanced_search', :via => [:get]

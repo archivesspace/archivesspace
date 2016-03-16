@@ -68,6 +68,7 @@ var RAILS_API = "/api";
   //and convert them for instantiating a SearchResults state
   function SearchQuery(queryString) {
     var that = this;
+    var queryString = queryString || "";
     var publicParams = this.parseQueryString(queryString);
     publicParams.page = publicParams.page || 1;
     publicParams.pageSize = publicParams.pageSize || 20;
@@ -168,6 +169,16 @@ var RAILS_API = "/api";
   };
 
 
+  SearchQuery.prototype.toArray = function() {
+    var result = [];
+    this.forEachRow(function(data) {
+      result.push(data);
+    });
+
+    return result;
+  };
+
+
   // take the raw criteria object returned by the server
   // and figure out the 'recordtype' parameter
   // As far as our app is concerned, the 'type[]' param
@@ -257,10 +268,12 @@ var RAILS_API = "/api";
 
 
     updateQuery: function(query) {
+      console.log(query);
       var state = this.state;
       state = this.state = this._checkState(_.extend({}, state, {
         query: query
       }));
+      console.log(state);
 
       return this.getPage(1, _.omit({}, ["first"]));
     },
@@ -331,11 +344,13 @@ var RAILS_API = "/api";
       });
 
       map['type'] = function() {
-        if(this.state.recordType) {
-          return this.state.recordType;
-        } else if (this.state.query[0]) {
+        if (this.state.query[0]) {
           return this.state.query[0]['recordtype'] === 'any' ? undefined : this.state.query[0]['recordtype'];
-        }
+        } else if(this.state.recordType) {
+          return this.state.recordType;
+        } //  else if (this.state.query[0]) {
+        //   return this.state.query[0]['recordtype'] === 'any' ? undefined : this.state.query[0]['recordtype'];
+        // }
       };
 
       return map
@@ -509,7 +524,7 @@ var RAILS_API = "/api";
 
 
   var SearchResultsView = Bb.View.extend({
-    el: "#main-content",
+    el: ".search-results-container",
 
     initialize: function(opts) {
       this.query = opts.query;
@@ -581,6 +596,10 @@ var RAILS_API = "/api";
       _.forEach(rowViews, function(rowView, i) {
         rowView.rowData.index = i;
       });
+
+      // make sure the first row doesn't have
+      // a boolean dropdown
+      $("div.boolean-dropdown", rowViews[0].$el).html("&#160;");
     };
 
     var removeRow = function(rowIndex) {
@@ -691,12 +710,13 @@ var RAILS_API = "/api";
     tagName: 'div',
     className: 'row search-query-row',
     events: {
-      "click .f-dropdown li a": function(e) {
+      "click ul.dropdown-pane li a": function(e) {
         e.preventDefault();
         var $a = $(e.target);
         $($a.closest("ul")).children("li").removeClass("selected");
         $($a.closest("li")).addClass("selected");
         $($a.closest("ul")).siblings("button").text($a.text());
+        $($a.closest("ul")).foundation('close');
       },
       "click .add-query-row a": function(e) {
         e.preventDefault();
@@ -719,6 +739,7 @@ var RAILS_API = "/api";
         var placeholderText = $("ul#"+$(button).data("toggle")+" li.selected").text();
         $(button).text(placeholderText);
       });
+
       this.$el.foundation();
     },
 
@@ -892,10 +913,10 @@ var RAILS_API = "/api";
 
       this.searchResults.advanced = true;
 
-      app.debug = {
-        results: this.searchResults,
-        query: this.searchQuery
-      };
+      // app.debug = {
+      //   results: this.searchResults,
+      //   query: this.searchQuery
+      // };
 
       this.$el.html(app.utils.tmpl('container-tmpl', {headerText: "Search Results"}));
 
@@ -919,6 +940,8 @@ var RAILS_API = "/api";
       // not great -
       if(!$('#container').prev('#search-box').length)
         $("<section id='search-box'></section>").insertBefore('#container');
+
+      $("#main-content").addClass("search-results-container");
 
       var stv = this.searchToolbarView = new app.SearchToolbarView({
         query: searchQuery
@@ -1049,6 +1072,55 @@ var RAILS_API = "/api";
     }
   });
 
+
+  var EmbeddedSearchView = Bb.View.extend({
+    el: "#embedded-search-container",
+    initialize: function(opts) {
+      this.$el.html(app.utils.tmpl('embedded-search'));
+      var $editorContainer = $("#search-editor-container", this.$el);
+      this.query = new SearchQuery();
+      this.query.advanced = true;
+      this.searchEditor = new SearchEditor($editorContainer);
+      this.searchEditor.addRow();
+      this.searchResults = new app.SearchResults([], {
+        state: {
+          pageSize: 10,
+          filters: [{"classification_uris": "/repositories/2/classifications/2"}]
+        }
+      });
+      this.searchResults.advanced = true; //TODO - make advanced default
+      this.searchResultsView = new app.SearchResultsView({
+        collection: this.searchResults,
+        query: this.query
+      });
+
+      $editorContainer.addClass("search-panel-blue");
+
+      this.update();
+
+    },
+
+    events: {
+      "click #search-button" : function(e) {
+        e.preventDefault();
+        this.query.updateCriteria(this.searchEditor.extract());
+
+        this.update();
+      }
+
+    },
+
+    update: function() {
+      var searchResultsView = this.searchResultsView;
+      this.searchResults.updateQuery(this.query.toArray()).then(function() {
+        searchResultsView.render();
+      });
+    }
+
+
+  })
+
+
   app.SearchQuery = SearchQuery;
   app.SearchResults = SearchResults;
   app.SearchEditor = SearchEditor;
@@ -1059,5 +1131,6 @@ var RAILS_API = "/api";
   app.SearchFacetsView = SearchFacetsView;
   app.SearchQueryRowView = SearchQueryRowView;
   app.SearchPagerView = SearchPagerView;
+  app.EmbeddedSearchView = EmbeddedSearchView;
 
 })(Backbone, _);

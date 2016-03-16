@@ -25,21 +25,8 @@
 
 .accordion-table > .content-row {
   @include accordion-content;
-  background-color: $lightgrey;
-
-  > div:first-child {
-    border-top: 1px solid $grey;
-    border-left: 1px solid $grey;
-  }
 
   > div:last-child {
-    background-color: $lightgrey;
-    border-top: 1px solid $grey;
-    border-left: 1px solid $grey;
-    border-right: 1px solid $grey;
-    padding-left: rem-calc(40);
-    padding-top: rem-calc(10);
-    padding-bottom: rem-calc(10);
 
     ul {
       list-style: none;
@@ -61,8 +48,27 @@
 
 }
 
-.accordion-table {
+.accordion-table.record-metadata {
   border-bottom: 1px solid $grey;
+
+  .content-row {
+    background-color: $lightgrey;
+
+    > div:first-child {
+      border-top: 1px solid $grey;
+      border-left: 1px solid $grey;
+    }
+
+    > div:last-child {
+      background-color: $lightgrey;
+      border-top: 1px solid $grey;
+      border-left: 1px solid $grey;
+      border-right: 1px solid $grey;
+      padding-left: rem-calc(40);
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+    }
+  }
 
   .navigation-row {
 
@@ -93,4 +99,71 @@
       padding-left: rem-calc(20);
     }
   }
+}
+
+.accordion-table.sidebar-tree {
+  border-bottom: 1px solid $grey;
+
+  > div {
+    background-color: $white;
+  }
+
+  .navigation-row {
+    border-top: 1px solid $grey;
+
+    &:last-child {
+      border-top: 0px;
+    }
+
+    > div:first-child {
+      border-top: 1px solid $grey;
+      padding: rem-calc(10);
+      .arrow-down {
+        @include css-triangle(rem-calc(6), $black, 'down');
+      }
+
+      .arrow-right {
+        @include css-triangle(rem-calc(6), $black, 'right');
+      }
+    }
+
+    > div:last-child {
+      border-top: 1px solid $grey;
+      padding-top: 0;
+      font-size: 0.8rem;
+      valign: middle;
+
+      i.left {
+        display: block;
+        float: left;
+        height: 100%;
+        margin-top: rem-calc(2);
+        color: $darkblue;
+      }
+
+      .identifier {
+        padding: 0;
+        color: $darkblue;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .content-row {
+
+
+    > div:last-child {
+      color: $container-color;
+      /* border-top: 1px solid $grey; */
+      padding-top: 0;
+      font-size: 0.8rem;
+      valign: middle;
+
+      i.left {
+        float: left;
+        margin-top: rem-calc(2);
+      }
+    }
+  }
+
 }
