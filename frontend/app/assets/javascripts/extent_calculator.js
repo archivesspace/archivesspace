@@ -4,7 +4,7 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function() {
     $('.create-extent-btn').on('click', function (event) {
-      $('[id$=_extents_]').find(".btn")[1].click();
+      $('[id$=_extents_] .subrecord-form-heading .btn').click();
 
       var extent_form = $('[id$=_extents_]').find(".subrecord-form-fields").last();
 
