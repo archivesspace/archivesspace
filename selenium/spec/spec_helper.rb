@@ -68,6 +68,14 @@ RSpec.configure do |config|
     report_sleep
     cleanup
   end
+  
+  config.before(:all) do
+    %w{ csv pdf xml }.each do |f|
+      file = "*.#{f}"
+      cmd = "rm #{ File.join(Dir.tmpdir, file) }"
+      %x{ #{cmd} }
+    end
+  end
 
   if ENV['ASPACE_TEST_WITH_PRY']
     require 'pry'

@@ -33,6 +33,7 @@
           <% end %>
 
           <div class="btn-group">
+            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv}), id: "searchExport",  class:  "btn btn-sm btn-info" %> 
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
               <%= I18n.t("agent._frontend.action.create") %>
               <span class="caret"></span>

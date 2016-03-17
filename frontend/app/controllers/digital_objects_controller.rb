@@ -8,9 +8,20 @@ class DigitalObjectsController < ApplicationController
                       "transfer_archival_record" => [:transfer],
                       "manage_repository" => [:defaults, :update_defaults]
 
+  include ExportHelper
 
   def index
-    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
+    respond_to do |format| 
+      format.html {   
+        @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
+      }
+      format.csv { 
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS})
+        search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ] 
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, search_params )
+      }  
+    end 
   end
 
 

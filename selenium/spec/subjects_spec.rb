@@ -91,6 +91,7 @@ describe "Subjects" do
       @driver.find_element_with_text('//tr', /just a term really/)
     }.to_not raise_error
   end
+  
 
   it "can use plus+1 submit to quickly add another" do
     now = "#{$$}.#{Time.now.to_i}"
@@ -104,6 +105,20 @@ describe "Subjects" do
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Subject Created/)
     @driver.find_element(:id, "subject_terms__0__term_").attribute("value").should eq("")
+  end
+  
+  it "can export a csv of browse list Subjects" do
+    run_index_round
+
+    @driver.find_element(:link => 'Browse').click
+    @driver.find_element(:link => 'Subjects').click
+
+    @driver.find_element(:link => "Download CSV").click
+    sleep(1)
+    assert(5) { Dir.glob(File.join( Dir.tmpdir,"*.csv" )).length.should eq(1) } 
+    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)  }  
+    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?("just a term really")  }  
+  
   end
 
 end

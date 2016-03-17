@@ -70,28 +70,6 @@ def selenium_init(backend_fn, frontend_fn)
     $server_pids << backend_fn.call
     $server_pids << frontend_fn.call
   end
-
-  if ENV['TRAVIS'] && ENV['WITH_FIREFOX']
-    puts "Loading stable version of Firefox and nodejs"
-    Dir.chdir('/var/tmp') do
-      firefox_archive = "firefox-16.0.tar.bz2"
-      if `uname --machine`.strip == "x86_64"
-        firefox_archive = "firefox_x86_64-16.0.tar.bz2"
-      end
-
-      system('wget', "http://aspace.hudmol.com/#{firefox_archive}")
-      system('tar', 'xvjf', firefox_archive)
-      ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
-
-
-      puts "Path now: #{ENV['PATH']}"
-      puts "Firefox version:"
-      system('firefox', '--version')
-    end
-  end
-
-  system("rm #{File.join(Dir.tmpdir, '*.pdf')}")
-  system("rm #{File.join(Dir.tmpdir, '*.xml')}")
 end
 
 

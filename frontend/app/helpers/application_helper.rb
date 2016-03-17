@@ -276,4 +276,34 @@ module ApplicationHelper
   def show_external_ids?
     AppConfig[:show_external_ids] == true
   end
+
+  def export_csv(search_data)
+    results = search_data["results"] 
+    
+    headers = results.inject([]) { |h, r| h | r.keys }
+    headers.delete("json")
+   
+    CSV.generate do |csv|
+      csv << headers
+      results.each do |result|
+        data = [] 
+        headers.each do |h|
+          unless result.include?(h)
+            data << nil 
+            next
+          end
+          v = result[h]
+          v = v.join(";") if v.is_a?(Array) 
+          v = v.to_s 
+          v.gsub!('\"', '""')
+          v.delete!("\n")
+          v.delete!(",")
+          data << v
+        end
+        csv << data 
+      end
+    end
+  
+  end
+
 end
