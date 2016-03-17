@@ -8,6 +8,7 @@ var app = app || {};
       "": "welcome",
       "search?*queryString": "search",
       "repositories/:repo_id/:type_plural/:id": "showRecord",
+      "agents/:type_plural/:id": "showAgentRecord",
 
       "*path": "defaultPage"
     },
@@ -42,6 +43,19 @@ var app = app || {};
 
       $(function() {
         var recordContainerView = new app.RecordContainerView(opts);
+      })
+    },
+
+
+    showAgentRecord: function(recordTypePlural, id) {
+      var opts = {
+        recordType: _.singularize(recordTypePlural),
+        id: id
+      };
+
+
+      $(function() {
+        var agentContainerView = new app.AgentContainerView(opts);
       })
     },
 

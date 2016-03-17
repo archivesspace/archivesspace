@@ -104,7 +104,7 @@
       { var field = field || 'keyword' }
       { var op = op || 'AND' }
 
-      <div class="small-1 columns">
+      <div class="small-1 columns boolean-dropdown" data-search-query-field="and">
         { if(index > 0) { }
         <button href="#" data-toggle="op${rowId}" aria-controls="op${rowId}" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="op" id="op${rowId}" data-dropdown class="dropdown-pane" aria-hidden="true">
@@ -224,8 +224,8 @@
 
   <!-- record -->
   <script type="text/template" id="record-tmpl">
-    <div class="record-container ${hasOuterBorder ? 'with-border' : ''}">
-      <div class="row collapse">
+    <div class="record-container ${hasOuterBorder ? 'with-border' : ''} ${hasFullWidthContext ? 'materials-layout' : 'concepts-layout'}">
+      <div class="row collapse ">
         <div class="columns small-${hasToolbar ? 8 : 12} record-header">
           <h2>${title}</h2>
           <div class="type-label ${recordType}">
@@ -256,7 +256,7 @@
       <!-- TODO Row with button group here for Collections -->
 
       <div class="row collapse">
-        <div class="columns small-${hasContentSidebar ? 8 : 12}">
+        <div id="main-content" class="columns small-${hasContentSidebar ? 8 : 12}">
 
           { if(!hasFullWidthContext) {}
           <div class="row collapse context-row">
@@ -293,155 +293,19 @@
           </ul>
           {}}
 
-          { if(hasAccordion) {}
-          <div class="accordion-table" data-accordion-table>
-
-            <div class="navigation-row" data-header-for="additional-description">
-              <div><div class="arrow-right"></div></div>
-              <div>Additional Description</div>
-            </div>
-            <div id="additional-description" class="content-row">
-              <div></div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </div>
-            </div>
-
-            {if(has('related_agents')) {}
-            <div class="navigation-row" data-header-for="related-agents">
-              <div><div class="arrow-right"></div></div>
-              <div>Related People and Organizations</div>
-            </div>
-            <div id="related-agents" class="content-row">
-              <div></div>
-              <div>
-                <ul>
-                  {_.forEach(related_agents, function(agents, role) {}
-                  <li>${role}
-                    <ul>
-                      {_.forEach(agents, function(agent) {}
-                      <li>${agent}</li>
-                      {});}
-                    </ul>
-                  </li>
-                  {});}
-              </div>
-            </div>
-            {}}
-
-            {if(has('subjects')) {}
-            <div class="navigation-row" data-header-for="subjects">
-              <div><div class="arrow-right"></div></div>
-              <div>Subjects</div>
-            </div>
-            <div id="subjects" class="content-row">
-              <div></div>
-              <div>
-                <ul>
-                {_.forEach(subjects, function(subj) {}
-                <li>${subj}</li>
-                {});}
-                </ul>
-              </div>
-            </div>
-            {}}
-
-            {if(has('classifications')) {}
-            <div class="navigation-row" data-header-for="classifications">
-              <div><div class="arrow-right"></div></div>
-              <div>Classifications</div>
-            </div>
-            <div id="classifications" class="content-row">
-              <div></div>
-              <div>
-                <ul>
-                {_.forEach(classifications, function(classif) {}
-                <li>${classif}</li>
-                {});}
-                </ul>
-              </div>
-            </div>
-            {}}
-
-            <div class="navigation-row" data-header-for="repo-details">
-              <div><div class="arrow-right"></div></div>
-              <div>Repository Details</div>
-            </div>
-            <div id="repo-details" class="content-row">
-              <div></div>
-              <div>
-                <ul>
-                  <li>Name
-                    <ul>
-                      <li>${repository.name}</li>
-                    </ul>
-                  </li>
-                  {if(repository.address){}
-                  <li>Address
-                    <ul>
-                      <li>${repository.address}</li>
-                    </ul>
-                  </li>
-                  {}}
-                  {if(repository.phone){}
-                  <li>Phone
-                    <ul>
-                      <li>${repository.phone}</li>
-                    </ul>
-                  </li>
-                  {}}
-                  {if(repository.email){}
-                  <li>Email
-                    <ul>
-                      <li>${repository.email}</li>
-                    </ul>
-                  </li>
-                  {}}
-                </ul>
-              </div>
-            </div>
-
-
-            <div class="navigation-row" data-header-for="admin-info">
-              <div><div class="arrow-right"></div></div>
-              <div>Administrative Information</div>
-            </div>
-            <div id="admin-info" class="content-row">
-              <div></div>
-              <div>
-                <ul>
-                  <% %w(finding_aid_author
-                     finding_aid_title
-                     finding_aid_subtitle
-                     finding_aid_filing_title
-                     finding_aid_date
-                     finding_aid_author
-                     finding_aid_description_rules
-                     finding_aid_language
-                     finding_aid_sponsor
-                     finding_aid_edition_statement
-                     finding_aid_series_statement
-                     finding_aid_status
-                     finding_aid_note).each do |field| %>
-
-                  {if(<%= field %>) {}
-                  <li><%= I18n.t("resource.#{field}") %>
-                    <ul>
-                      <li>${<%= field %>}</li>
-                    </ul>
-                  </li>
-                  {}}
-                  <% end %>
-                </ul>
-              </div>
-            </div>
-          </div>
+          { if(has('creator')) {}
+          <span class="inline-label">Creator</span> ${creator}
           {}}
+
+
+          <div id="record-accordion-container"></div>
+
+          <div id="embedded-search-container"></div>
+
         </div>
 
-
         { if(hasContentSidebar) {}
-        <div class="columns small-4">
+        <div id="sidebar-container" class="columns small-4">
           <!-- Sidebar -->
         </div>
         {}}
@@ -511,21 +375,6 @@
           {}}
         </ul>
         </div>
-
-        <!-- <dl class="accordion" data-accordion> -->
-        <!--   <dd class="accordion-navigation"> -->
-        <!--     <a href="#panelcontents_${ index }"><i class="fi-plus"> </i>Keywords in context</a> -->
-        <!--     <div id="panelcontents_${ index }" class="content"> -->
-        <!--       <ul class="recordchildren"> -->
-        <!--         {_.forEach(highlights, function(snip) {} -->
-        <!--         <li>...${ snip }...</li> -->
-        <!--         {}); } -->
-        <!--         <li class="smallnote">29 more references to search keywords</li> -->
-        <!--       </ul> -->
-        <!--       <a href="03record-collection.html" class="button">View collection</a> -->
-        <!--     </div> -->
-        <!--   </dd> -->
-        <!-- </dl> -->
       </div>
       {}}
     </div>
@@ -548,6 +397,212 @@
     </ul>
   </script>
 
+
+  <!-- sidebar trees -->
+  <script type="text/template" id="sidebar-tree-tmpl">
+    <h3>${ title }</h3>
+    <div id="tree-container"></div>
+  </script>
+
+  <!-- classification term template -->
+  <script type="text/template" id="classification-tree-tmpl">
+    <div class="accordion-table sidebar-tree classification-tree" data-accordion-table>
+      { _.forEach(classifications, function(term, i) { }
+      <div class="navigation-row" data-header-for="term-${i}">
+        <div><div class="arrow-right" ></div></div>
+        <div>
+          <div style="display: table;">
+            <div style="display: table-row">
+              <div style="display: table-cell">
+                <i class="fi-page-multiple left"></i>
+              </div>
+              <div style="display: table-cell" class="classification-term">
+                <a href="${term.uri}">
+                  <span class="identifier">${term.identifier}</span>&#160;${term.title}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      { if(term.container_children.length) {}
+      <div id="term-${i}" class="content-row">
+        <div></div>
+        <div>
+          <ul class="container-list">
+            { _.forEach(term.container_children, function(child) { }
+            <li>
+              <div style="display: table">
+                <div style="display: table-row">
+                  <div style="display: table-cell">
+                    <i class="fi-archive left"></i>
+                  </div>
+                  <div style="display: table-cell" class="container-string">
+                    <a href="${containerUri(child)}">${displayString(child)}</a><br /><span class="date">${child.date}</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            {}); }
+          </ul>
+        </div>
+      </div>
+      {} }
+      {}); }
+    </div>
+  </script>
+
+
+  <script type="text/template" id="record-accordion-tmpl">
+    <div class="accordion-table record-metadata" data-accordion-table>
+
+      <div class="navigation-row" data-header-for="additional-description">
+        <div><div class="arrow-right"></div></div>
+        <div>Additional Description</div>
+      </div>
+      <div id="additional-description" class="content-row">
+        <div></div>
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </div>
+      </div>
+
+      {if(has('related_agents')) {}
+      <div class="navigation-row" data-header-for="related-agents">
+        <div><div class="arrow-right"></div></div>
+        <div>Related People and Organizations</div>
+      </div>
+      <div id="related-agents" class="content-row">
+        <div></div>
+        <div>
+          <ul>
+            {_.forEach(related_agents, function(agents, role) {}
+            <li>${role}
+              <ul>
+                {_.forEach(agents, function(agent) {}
+                <li>${agent}</li>
+                {});}
+              </ul>
+            </li>
+            {});}
+        </div>
+      </div>
+      {}}
+
+      {if(has('subjects')) {}
+      <div class="navigation-row" data-header-for="subjects">
+        <div><div class="arrow-right"></div></div>
+        <div>Subjects</div>
+      </div>
+      <div id="subjects" class="content-row">
+        <div></div>
+        <div>
+          <ul>
+            {_.forEach(subjects, function(subj) {}
+            <li>${subj}</li>
+            {});}
+          </ul>
+        </div>
+      </div>
+      {}}
+
+      {if(has('classifications')) {}
+      <div class="navigation-row" data-header-for="classifications">
+        <div><div class="arrow-right"></div></div>
+        <div>Classifications</div>
+      </div>
+      <div id="classifications" class="content-row">
+        <div></div>
+        <div>
+          <ul>
+            {_.forEach(classifications, function(classif) {}
+            <li>${classif}</li>
+            {});}
+          </ul>
+        </div>
+      </div>
+      {}}
+
+      <div class="navigation-row" data-header-for="repo-details">
+        <div><div class="arrow-right"></div></div>
+        <div>Repository Details</div>
+      </div>
+      <div id="repo-details" class="content-row">
+        <div></div>
+        <div>
+          <ul>
+            <li>Name
+              <ul>
+                <li>${repository.name}</li>
+              </ul>
+            </li>
+            {if(repository.address){}
+            <li>Address
+              <ul>
+                <li>${repository.address}</li>
+              </ul>
+            </li>
+            {}}
+            {if(repository.phone){}
+            <li>Phone
+              <ul>
+                <li>${repository.phone}</li>
+              </ul>
+            </li>
+            {}}
+            {if(repository.email){}
+            <li>Email
+              <ul>
+                <li>${repository.email}</li>
+              </ul>
+            </li>
+            {}}
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="navigation-row" data-header-for="admin-info">
+        <div><div class="arrow-right"></div></div>
+        <div>Administrative Information</div>
+      </div>
+      <div id="admin-info" class="content-row">
+        <div></div>
+        <div>
+          <ul>
+            <% %w(finding_aid_author
+                  finding_aid_title
+                  finding_aid_subtitle
+                  finding_aid_filing_title
+                  finding_aid_date
+                  finding_aid_author
+                  finding_aid_description_rules
+                  finding_aid_language
+                  finding_aid_sponsor
+                  finding_aid_edition_statement
+                  finding_aid_series_statement
+                  finding_aid_status
+                  finding_aid_note).each do |field| %>
+
+            {if(<%= field %>) {}
+            <li><%= I18n.t("resource.#{field}") %>
+              <ul>
+                <li>${<%= field %>}</li>
+              </ul>
+            </li>
+            {}}
+                  <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="embedded-search-tmpl">
+    <h2>Related Collections</h2>
+    <div id="search-editor-container"></div>
+    <div class="search-results-container"></div>
+  </script>
 
 </body>
 </html>

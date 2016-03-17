@@ -7,6 +7,9 @@ $.fn.readmore = function(idealCharCount) {
 
   var $that = $(this);
 
+  if(graphs.length < 1)
+    graphs = $(this);
+
   $(this).on("click", "a.expander", function(e) {
     e.preventDefault();
     var $a = $(e.target);
@@ -73,7 +76,7 @@ $.fn.readmore = function(idealCharCount) {
       if(breakPoint) {
         var origHtml = $(p).html();
         $(p).html("<span class='less'>"+origHtml.substr(0, breakPoint)+"</span><span class='more'>"+origHtml.substr(breakPoint)+"</span>");
-        $that.append("<a href='#' class='expander'>See more <i class='fa fa-chevron-right'></i></a>");
+        $that.append("&#160;<a href='#' class='expander'>See more <i class='fa fa-chevron-right'></i></a>");
         // $("span.less", $(p)).after("<a href='#' class='expander'>see more</a>");
 
       } else {
