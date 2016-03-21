@@ -11,12 +11,12 @@
       "name" => {"type" => "string", "ifmissing" => "error"},
       "url" => {"type" => "string", "required" => false},
 
-      "dimension_units" => {"type" => "string", "required" => false,  "dynamic_enum" => "dimension_units"},
-      "extent_dimension" => {"type" => "string", "required" => false, "enum" => ["height", "width", "depth"]},
+      "dimension_units" => {"type" => "string", "required" => true,  "dynamic_enum" => "dimension_units"},
+      "extent_dimension" => {"type" => "string", "required" => true, "enum" => ["height", "width", "depth"]},
 
-      "height" => {"type" => "string", "required" => false},
-      "width" => {"type" => "string", "required" => false},
-      "depth" => {"type" => "string", "required" => false},
+      "height" => {"type" => "string", "required" => true},
+      "width" => {"type" => "string", "required" => true},
+      "depth" => {"type" => "string", "required" => true},
 
       "display_string" => {"type" => "string", "readonly" => true},
     },
