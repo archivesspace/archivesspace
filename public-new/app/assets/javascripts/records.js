@@ -317,8 +317,8 @@ var app = app || {};
       var $el = this.$el;
       var that = this;
 
-      $('#search-box').remove();
-      $('#welcome').remove();
+      // $('#search-box').remove();
+      // $('#welcome').remove();
       $('#wait-modal').foundation('open');
 
       model.fetch().then(function() {
@@ -331,8 +331,11 @@ var app = app || {};
         $el.html(errorView.$el.html());
       }).always(function() {
         setTimeout(function() {
-          $('#wait-modal').foundation('close');
-          $('#container').foundation();
+          try {
+            $('#wait-modal').foundation('close');
+            $('#container').foundation();
+          } catch(e) {
+          }
         }, 500);
       });
 

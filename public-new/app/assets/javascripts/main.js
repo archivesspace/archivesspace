@@ -39,50 +39,15 @@ var app = app || {};
 
         if(url.match(/^\/search?/)) {
           var queryString = url.replace("/search?", "");
-          $("#welcome").empty();
-          $("#search-box").empty();
+          $("#container").empty();
+          // $("#welcome").empty();
+          // $("#search-box").empty();
           var searchContainerView = new app.SearchContainerView(queryString);
           trigger = false;
         }
 
         app.router.navigate(url, {trigger: trigger});
       }
-    }
-  });
-
-
-  // to do -
-  // attach listener to searchBoxView
-  // - catch query and init SearchContainerView
-
-  var WelcomeView = Backbone.View.extend({
-    el: "#welcome",
-    initialize: function() {
-      var that = this;
-      var tmpl = _.template($('#welcome-tmpl').html());
-      this.$el.html(tmpl());
-
-      var searchBoxView = new app.SearchBoxView();
-      searchBoxView.on("submitquery.aspace", function(newQuery){
-        console.log(newQuery);
-        var query = [];
-        newQuery.forEachRow(function(data) {
-          query.push(data);
-        });
-
-        var queryString = newQuery.buildQueryString();
-        var searchContainerView = new app.SearchContainerView(queryString);
-
-        searchBoxView.unbind();
-        searchBoxView.remove();
-
-        this.unbind();
-        this.remove();
-
-      });
-
-
-      return this;
     }
   });
 
@@ -98,24 +63,24 @@ var app = app || {};
   });
 
 
-  var RecordView = Backbone.View.extend({
-    tagName: "div",
-    initialize: function(opts) {
-      var tmpl = _.template($('#record-tmpl').html());
-      this.$el.html(tmpl(opts.record));
-      return this;
-    }
-  });
+  // var RecordView = Backbone.View.extend({
+  //   tagName: "div",
+  //   initialize: function(opts) {
+  //     var tmpl = _.template($('#record-tmpl').html());
+  //     this.$el.html(tmpl(opts.record));
+  //     return this;
+  //   }
+  // });
 
 
-  var RecordSidebarView = Backbone.View.extend({
-    tagName: "div",
-    initialize: function() {
-      var tmpl = _.template($('#record-sidebar-tmpl').html());
-      this.$el.html(tmpl());
-      return this;
-    }
-  });
+  // var RecordSidebarView = Backbone.View.extend({
+  //   tagName: "div",
+  //   initialize: function() {
+  //     var tmpl = _.template($('#record-sidebar-tmpl').html());
+  //     this.$el.html(tmpl());
+  //     return this;
+  //   }
+  // });
 
 
   var ContainerView = Backbone.View.extend({
@@ -128,11 +93,8 @@ var app = app || {};
     }
   });
 
-
-
-  app.WelcomeView = WelcomeView;
-  app.RecordView = RecordView;
-  app.RecordSidebarView = RecordSidebarView;
+  // app.RecordView = RecordView;
+  // app.RecordSidebarView = RecordSidebarView;
   app.ContainerView = ContainerView;
   app.ServerErrorView = ServerErrorView;
 

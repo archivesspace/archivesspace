@@ -853,7 +853,7 @@ var RAILS_API = "/api";
     initialize: function() {
       // this.welcomeView = welcomeView;
       this.$el.html(app.utils.tmpl('search-box-tmpl'));
-      this.searchEditor = new SearchEditor($(".search-row-container", this.$el))
+      this.searchEditor = new SearchEditor($(".search-editor-container", this.$el))
       this.searchEditor.addRow();
       return this;
     },
@@ -873,7 +873,7 @@ var RAILS_API = "/api";
       var queryObj = new app.SearchQuery();
       queryObj.updateCriteria(this.searchEditor.extract());
 
-      this.tigger("newquery.aspace", queryObj);
+      this.trigger("newquery.aspace", queryObj);
     }
   });
 
@@ -938,8 +938,8 @@ var RAILS_API = "/api";
       var destroy = $.proxy(this.destroy, this);
 
       // not great -
-      if(!$('#container').prev('#search-box').length)
-        $("<section id='search-box'></section>").insertBefore('#container');
+      // if(!$('#container').prev('#search-box').length)
+      //   $("<section id='search-box'></section>").insertBefore('#container');
 
       $("#main-content").addClass("search-results-container");
 

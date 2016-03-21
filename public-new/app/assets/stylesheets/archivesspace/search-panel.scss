@@ -1,7 +1,7 @@
 #search-box {
-  padding-left: rem-calc(60);
-  padding-right: rem-calc(130);
-  padding-top: rem-calc(30);
+  /* padding-left: rem-calc(60); */
+  /* padding-right: rem-calc(130); */
+  /* padding-top: rem-calc(30); */
 
   .row {
     width: $row-width;
@@ -103,7 +103,7 @@
 
 .search-panel-blue {
   background: $darkblue;
-  padding-top: rem-calc(10);
+  padding-top: rem-calc(20);
 
   p a {
     color: $white !important;
@@ -146,6 +146,13 @@
 }
 
 
+.search-query-recordtype-col {
+  .button {
+    width: 100%;
+  }
+}
+
+
 #embedded-search-container {
 
   .search-query-row {
@@ -158,5 +165,14 @@
 
   button {
     /* font-size: 0.8rem; */
+  }
+}
+
+.search-query-row {
+
+  .button {
+    font-size: rem-calc(12);
+    font-weight: 500;
+  /* padding: 0.5rem 1rem 0.625rem 0.825rem; */
   }
 }
