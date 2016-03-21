@@ -26,11 +26,11 @@
 
     <% if record_type == "resource" %>
       <% AppConfig[:public_formats_resource_links].each do |type| %>
-        <li><%= link_to I18n.t("plugins.public_formats.#{type}"), "#{request.original_url}/format/#{type}" %></li>  
+        <li><%= link_to I18n.t("plugins.public_formats.#{type}"), "#{request.path}/format/#{type}" %></li>  
       <% end  %>
     <% elsif record_type == "digital_object" %>
       <% AppConfig[:public_formats_digital_object_links].each do |type| %>
-        <li><%= link_to I18n.t("plugins.public_formats.#{type}"), "#{request.original_url}/format/#{type}" %></li>  
+        <li><%= link_to I18n.t("plugins.public_formats.#{type}"), "#{request.path}/format/#{type}" %></li>  
       <% end  %>
     <% end  %>
   </ul>
