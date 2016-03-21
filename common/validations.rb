@@ -314,7 +314,7 @@ module JSONModel::Validations
 
       # Ensure depth, width and height have no more than 2 decimal places
       ["depth", "width", "height"].each do |k|
-        if !hash[k].nil? &&  hash[k] !~ /\A\d+(\.\d\d?)?\Z/
+        if hash[k] !~  /^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$/   
           errors << [k, "must be a number with no more than 2 decimal places"]
         end
       end

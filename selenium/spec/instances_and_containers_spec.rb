@@ -106,6 +106,22 @@ describe "Resource instances and containers" do
     modal.find_element(:css => '#top_container_indicator_').send_keys("foo")
     modal.find_element(:css => '#top_container_barcode_').send_keys("1234567")
 
+    modal.find_element(:css => '.dropdown-toggle.last').click
+    sleep(2) 
+    @driver.wait_for_ajax
+    modal.find_element(:css, "a.linker-create-btn").click
+    
+    profile_modal = @driver.test_find_element(:css => '#top_container_container_profile__ref__modal')
+
+    profile_modal.find_element(:css => "#container_profile_name_").send_keys("my profile")
+    profile_modal.find_element(:css => "#container_profile_depth_").send_keys(".1")
+    profile_modal.find_element(:css => "#container_profile_height_").send_keys("0")
+    profile_modal.find_element(:css => "#container_profile_width_").send_keys("6.6")
+    profile_modal.click_and_wait_until_gone(:css => "#createAndLinkButton")
+
+    # re-find our original modal
+    modal = @driver.test_find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
+
     elt = modal.find_element(:css => '#top_container_container_locations_')
     elt.find_element(:css => 'h3 > button').click
 
