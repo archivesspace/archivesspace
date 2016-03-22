@@ -9,22 +9,15 @@ var app = app || {};
       this.$el.html(tmpl());
 
       var searchBoxView = new app.SearchBoxView();
-      searchBoxView.on("submitquery.aspace", function(newQuery){
-        console.log(newQuery);
-        var query = [];
-        newQuery.forEachRow(function(data) {
-          query.push(data);
-        });
+      searchBoxView.on("newquery.aspace", function(newQuery){
 
-        var queryString = newQuery.buildQueryString();
-        var searchContainerView = new app.SearchContainerView(queryString);
+        var searchContainerView = new app.SearchContainerView(newQuery);
 
         searchBoxView.unbind();
         searchBoxView.remove();
 
         this.unbind();
         this.remove();
-
       });
 
 
