@@ -142,6 +142,7 @@
         <button href="#" data-toggle="f${rowId}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="f" id="f${rowId}" data-dropdown class="dropdown-pane" aria-hidden="true">
           <li data-value="keyword" { if(!field || field === 'keyword'){ } class="selected" {} }><a href="#">Keyword</a></li>
+          <li data-value="identifier" { if(field === 'identifier'){ } class="selected" {} }><a href="#">Identifier</a></li>
           <li data-value="creator" { if(field === 'creator'){ } class="selected" {} }><a href="#">Creator</a></li>
           <li data-value="notes" { if(field === 'notes'){ } class="selected" {} }><a href="#">Notes</a></li>
           <li data-value="subject" { if(field === 'subject'){ } class="selected" {} }><a href="#">Subject</a></li>

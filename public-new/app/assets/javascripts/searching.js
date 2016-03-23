@@ -878,7 +878,7 @@ var RAILS_API = "/api";
       var updateLocation = false;
 
       if(_.isString(query)) {
-        this.searchQuery = new app.SearchQuery(queryString);
+        this.searchQuery = new app.SearchQuery(query);
       } else {
         this.searchQuery = query;
         updateLocation = true;
@@ -945,10 +945,6 @@ var RAILS_API = "/api";
       var searchResults = this.searchResults;
       var redrawResults = $.proxy(this.redrawResults, this);
       var destroy = $.proxy(this.destroy, this);
-
-      // not great -
-      // if(!$('#container').prev('#search-box').length)
-      //   $("<section id='search-box'></section>").insertBefore('#container');
 
       $("#main-content").addClass("search-results-container");
 
