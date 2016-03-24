@@ -268,7 +268,6 @@ var RAILS_API = "/api";
 
 
     updateQuery: function(query) {
-      console.log(query);
       var state = this.state;
       state = this.state = this._checkState(_.extend({}, state, {
         query: query
@@ -851,14 +850,13 @@ var RAILS_API = "/api";
   var SearchBoxView = Bb.View.extend({
     el: "#search-box",
     initialize: function() {
-      // this.welcomeView = welcomeView;
       this.$el.html(app.utils.tmpl('search-box-tmpl'));
-      this.searchEditor = new SearchEditor($(".search-row-container", this.$el))
+      this.searchEditor = new SearchEditor($(".search-editor-container", this.$el))
       this.searchEditor.addRow();
       return this;
     },
     events: {
-      // "click #search-button" : "search",
+      "click #search-button" : "search",
       "click .remove-query-row a": function(e) {
         e.preventDefault();
       }
@@ -866,22 +864,26 @@ var RAILS_API = "/api";
     search: function (e) {
       e.preventDefault();
 
-      var url = buildLocationURL.call({
-        criteria: this.searchEditor.extract()
-      });
+      var query = new app.SearchQuery();
+      query.updateCriteria(this.searchEditor.extract());
 
-      var queryObj = new app.SearchQuery();
-      queryObj.updateCriteria(this.searchEditor.extract());
-
-      this.tigger("newquery.aspace", queryObj);
+      this.trigger("newquery.aspace", query);
     }
   });
 
 
   var SearchContainerView = Bb.View.extend({
     el: "#container",
-    initialize: function(queryString) {
-      sq = this.searchQuery = new app.SearchQuery(queryString);
+    initialize: function(query) {
+      var updateLocation = false;
+
+      if(_.isString(query)) {
+        this.searchQuery = new app.SearchQuery(query);
+      } else {
+        this.searchQuery = query;
+        updateLocation = true;
+      }
+
       //only doing advanced search for now
       this.searchQuery.advanced = true;
 
@@ -890,6 +892,8 @@ var RAILS_API = "/api";
         pageSize: this.searchQuery.pageSize,
         query: []
       }
+
+      var sq = this.searchQuery;
 
       if (sq.recordtype)
         state.recordType = app.utils.getASType(sq.recordtype);
@@ -922,6 +926,11 @@ var RAILS_API = "/api";
 
       this.loadToolbarAndResults();
 
+      if(updateLocation) {
+        var url = buildLocationURL.call(this.searchResults.state);
+        app.router.navigate(url);
+      }
+
       return this;
     },
 
@@ -936,10 +945,6 @@ var RAILS_API = "/api";
       var searchResults = this.searchResults;
       var redrawResults = $.proxy(this.redrawResults, this);
       var destroy = $.proxy(this.destroy, this);
-
-      // not great -
-      if(!$('#container').prev('#search-box').length)
-        $("<section id='search-box'></section>").insertBefore('#container');
 
       $("#main-content").addClass("search-results-container");
 

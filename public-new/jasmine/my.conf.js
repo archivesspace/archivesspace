@@ -7,9 +7,11 @@ module.exports = function(config) {
     basePath: '../',
 
 
+    // plugins: [ require('karma-quixote') ],
+
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'quixote'],
 
 
     // list of files / patterns to load in the browser
@@ -45,6 +47,12 @@ module.exports = function(config) {
         included: false,
         served: true
       },
+      {
+        pattern: 'app/assets/stylesheets/application.scss',
+        watched: false,
+        included: false,
+        served: true
+      }
     ],
 
 
@@ -56,6 +64,14 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/stylesheets/application.scss': ['scss']
+    },
+
+    scssPreprocessor: {
+      options: {
+        sourceMap: true,
+        includePaths: ['app/assets/stylesheets', 'vendor/assets/stylesheets']
+      }
     },
 
 
@@ -85,6 +101,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Firefox'],
+    // browsers: ['Chrome'],
     // browsers: ['PhantomJS2'],
 
     // Continuous Integration mode

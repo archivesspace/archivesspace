@@ -1,15 +1,15 @@
 <html>
 <head>
-  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+           <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
   <%= stylesheet_link_tag "application" %>
 </head>
 <body>
   <section id="header"></section>
   <section id="navigation"></section>
-  <section id="welcome"></section>
-  <section id="search-box"></section>
+  <!-- <section id="welcome"></section>
+           <section id="search-box"></section> -->
   <section id="container"></section>
 
 
@@ -65,6 +65,7 @@
   <script type="text/template" id="container-tmpl">
     { var mainWidth = _.isUndefined(mainWidth) ?  8 : mainWidth; }
     { var sidebarWidth = _.isUndefined(sidebarWidth) ? 4 : sidebarWidth; }
+    <section id="search-box"></section>
     <div class="row collapse">
       { if(typeof(headerText) != 'undefined') {}
       <h2>${headerText}</h2>
@@ -86,14 +87,15 @@
         <p>Customizable intro area. The institution should be able to put formatting in here, as well, including images, a header, links, etc. Nullam id dolor id nibh ultricies vehicula ut id elit. Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Curabitur blandit tempus porttitor.</p>
       </div>
     </div>
+    <section id="search-box"></section>
   </script>
 
 
   <!-- search box (welcome page)-->
   <script type="text/template" id="search-box-tmpl">
     <h2>Search the archives</h2>
-    <div class="panel search-panel-blue">
-      <div class="search-row-container"></div>
+    <div class="search-panel-blue">
+      <div class="search-editor-container"></div>
       <div class="text-left"><p><a href="#" data-tooltip aria-haspopup="true" class="has-tip" title="Clicking this will take the user to a seprate page with helpful information on how to search.">Search help</a></p></div>
     </div>
   </script>
@@ -140,6 +142,7 @@
         <button href="#" data-toggle="f${rowId}" aria-controls="fieldsearched" aria-expanded="false" class="button dropdown tiny secondary"></button><br>
         <ul data-name="f" id="f${rowId}" data-dropdown class="dropdown-pane" aria-hidden="true">
           <li data-value="keyword" { if(!field || field === 'keyword'){ } class="selected" {} }><a href="#">Keyword</a></li>
+          <li data-value="identifier" { if(field === 'identifier'){ } class="selected" {} }><a href="#">Identifier</a></li>
           <li data-value="creator" { if(field === 'creator'){ } class="selected" {} }><a href="#">Creator</a></li>
           <li data-value="notes" { if(field === 'notes'){ } class="selected" {} }><a href="#">Notes</a></li>
           <li data-value="subject" { if(field === 'subject'){ } class="selected" {} }><a href="#">Subject</a></li>

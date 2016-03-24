@@ -23,3 +23,4 @@
 //= require searching
 //= require records
 //= require agents
+//= require welcome
