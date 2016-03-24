@@ -9,7 +9,7 @@ var app = app || {};
       "search?*queryString": "search",
       "repositories/:repo_id/:type_plural/:id": "showRecord",
       "agents/:type_plural/:id": "showAgentRecord",
-
+      "repositories/:id": "showRepoRecord",
       "*path": "defaultPage"
     },
 
@@ -43,6 +43,17 @@ var app = app || {};
 
       $(function() {
         var recordContainerView = new app.RecordContainerView(opts);
+      })
+    },
+
+
+    showRepoRecord: function(id) {
+      var opts = {
+        id: id
+      };
+
+      $(function() {
+        var repoContainerView = new app.RepoContainerView(opts);
       })
     },
 

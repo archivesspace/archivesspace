@@ -101,18 +101,32 @@ var app = app || {};
 
     if(true) { // really: if scope === repo
       this.repository = {};
-      this.repository.name = _.get(model, 'attributes.repository._resolved.name');
+      var ref = _.get(model, 'attributes.repository.ref');
+      var name = _.get(model, 'attributes.repository._resolved.name');
+      if(name && ref)
+        this.repository.name = "<a href='"+ref+"'>"+name+"</a>";
 
       var contact = _.get(model, 'attributes.repository._resolved.agent_representation._resolved.agent_contacts[0]');
 
       if(contact) {
-        this.repository.phone = _.get(contact, 'telephones[0].number');
+
+        if(contact.telephones) {
+          this.repository.phone = _.map(contact.telephones, function(tele) {
+            return tele.number
+          }).join("<br />")
+        }
+
+_.get(contact, 'telephones[0].number');
         this.repository.email = _.get(contact, 'email');
 
         this.repository.address = _.compact([
           _.get(contact, 'address_1'),
           _.get(contact, 'address_2'),
-          _.get(contact, 'city')
+          _.get(contact, 'address_3'),
+          _.get(contact, 'city'),
+          _.get(contact, 'state'),
+          _.get(contact, 'country'),
+          _.get(contact, 'post_code')
         ]).join("<br />");
       }
     }
