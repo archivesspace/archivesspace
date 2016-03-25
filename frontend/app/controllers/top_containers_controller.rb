@@ -89,6 +89,8 @@ class TopContainersController < ApplicationController
   def typeahead
     search_params = params_for_backend_search
 
+    search_params["q"] = "display_string:#{search_params["q"]}"
+    
     search_params = search_params.merge(search_filter_for(params[:uri]))
     search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
 
