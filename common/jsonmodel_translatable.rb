@@ -32,6 +32,7 @@ module JSONModelTranslatable
         enum_name = definition["dynamic_enum"]
 
         next unless enums_to_translate.include? enum_name
+        next unless hash[property]
 
         translated = JSONModel::init_args[:i18n_source].
           t("enumerations.#{enum_name}.#{hash[property]}")

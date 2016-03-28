@@ -8,7 +8,8 @@ class RecordsController < ApplicationController
 
     hash = resource.to_hash_with_translated_enums([
                                                    'language_iso639_2',
-                                                   'linked_agent_role'],
+                                                   'linked_agent_role',
+                                                   'linked_agent_archival_record_relators'],
                                                   :publishing)
 
     json = ASUtils.to_json(hash, {:max_nesting => false})

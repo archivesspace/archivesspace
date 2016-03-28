@@ -17,6 +17,7 @@
 //= require jstree/jstree
 //= require readmore
 //= require accordion-table
+//= require record-presenter
 //= require utils
 //= require router
 //= require main

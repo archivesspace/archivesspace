@@ -41,6 +41,10 @@ var app = app || {};
       classification: {
         label_singular: "Record Group",
         label_plural: "Record Groups"
+      },
+      agent_person: {
+        key_for_public_urls: "person",
+        label_singular: "Person"
       }
     }
   }
@@ -76,7 +80,7 @@ var app = app || {};
     },
 
     getPublicTypeLabel: function(asType) {
-      if(_.has(recordLabelMap, asType)) {
+      if(_.has(recordLabelMap, asType) && _.has(recordLabelMap[asType], 'label_singular')) {
         return recordLabelMap[asType].label_singular;
       } else {
         return asType;

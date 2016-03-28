@@ -58,9 +58,9 @@ var app = app || {};
     },
 
 
-    showAgentRecord: function(recordTypePlural, id) {
+    showAgentRecord: function(publicTypePlural, id) {
       var opts = {
-        recordType: _.singularize(recordTypePlural),
+        type: _.singularize(publicTypePlural),
         id: id
       };
 
