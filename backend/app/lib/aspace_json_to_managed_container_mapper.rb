@@ -35,6 +35,21 @@ class AspaceJsonToManagedContainerMapper
         next
       end
 
+      extent = create_extents_from_container_extents(instance)
+      if extent
+        opts = case @json
+                when JSONModel(:accession)
+                  { :accession_id => @json.class.id_for(@json['uri']) }
+                when JSONModel(:resource)
+                  { :resource_id =>  @json.class.id_for(@json['uri']) }
+                when JSONModel(:archival_object)
+                  { :archival_object_id  => @json.class.id_for(@json['uri']) }
+                end
+
+        Log.info("Creating a new extent record with values #{extent.inspect} #{opts.inspect}")
+        Extent.create_from_json(extent, opts)
+      end
+
       top_container = get_or_create_top_container(instance)
 
       begin
@@ -244,6 +259,17 @@ class AspaceJsonToManagedContainerMapper
     @new_record
   end
 
+  def create_extents_from_container_extents(instance)
+    container = instance['container']
+    extent= nil 
+    if ( container["container_extent"] && container["container_extent_type"] )
+      extent = JSONModel(:extent).from_hash({:number => container["container_extent"], 
+                :extent_type => container["container_extent_type"],
+                :portion => "whole"
+                })
+    end
+    extent 
+  end
 
   def get_or_create_top_container(instance)
     container = instance['container']
@@ -265,7 +291,8 @@ class AspaceJsonToManagedContainerMapper
         return match
       end
     end
-
+   
+    
     Log.info("Creating a new Top Container for a container with no barcode")
     create_top_container( {'indicator' => (container['indicator_1'] || get_default_indicator),
                          'type' => container["type_1"],  
