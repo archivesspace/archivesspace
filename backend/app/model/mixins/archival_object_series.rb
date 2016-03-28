@@ -21,7 +21,7 @@ module ArchivalObjectSeries
 
 
   def has_series_specific_fields?
-    component_id && (level == "series" || (level == "otherlevel" && other_level.downcase == "accession"))
+    component_id && (level == "series" || (level == "otherlevel" && !other_level.nil? && other_level.downcase == "accession"))
   end
 
 end
