@@ -4,7 +4,7 @@ require_relative 'aspace_json_to_managed_container_mapper'
 
 class ContainerManagementConversion
     
-   
+
   def self.already_run?
       DB.open do |db|
         return  !db[:system_event].where( :title => "CONTAINER_MANAGEMENT_UPGRADE_COMPLETED" ).empty? 
@@ -20,6 +20,8 @@ class ContainerManagementConversion
   #
   # So, this implements just enough of our JSONModels to keep the mapper happy.
   MIGRATION_MODELS = {}
+  
+  CONVERSION_REPORT_HEADERS  = %w{ error message url uri parent resource instances instance_ids preconversion_locations postconversion_locations conversion_context }
 
   def ContainerMigrationModel(model_type)
 
@@ -27,11 +29,12 @@ class ContainerManagementConversion
 
       include JSONModel
 
-      def initialize(record, job = nil)
+      def initialize(record, job = nil, error_log = nil)
         @acting_as = record.class
         @fields = {}
         @job = job
-        @errors = nil 
+        @error_log = error_log 
+
         load_relevant_fields(record)
       end
 
@@ -62,23 +65,19 @@ class ContainerManagementConversion
           end
           
           
-          top_container = e.object_context[:top_container] 
-          aspace_container = e.object_context[:aspace_container] 
           
-          headers = [:error, :message] + @fields.keys + [ :preconversion_locations, :top_container_locations, :conversion_context ]  
-
-          unless @errors
-            h = CSV::Row.new(headers,[],true)
-            @errors = CSV::Table.new([h])
-          end
-
          
           row = CSV::Row.new([],[],false)
        
-          row << { :error => e.class }
+          row << { "error" => e.class }
           e.errors.each do |ek, ev|
-            row << { :message => "#{ek} -- #{ev.join(',') }" } 
+            row << { "message" => "#{ek} -- #{ev.join(',') }" } 
           end
+
+          if @fields.has_key?("uri")
+            row << { "url" => "#{AppConfig[:frontend_proxy_url]}/resolve/readonly?uri=#{@fields["uri"]}" }
+          end
+        
 
           @fields.each do |k, v|
             case v
@@ -95,26 +94,22 @@ class ContainerManagementConversion
 
           top_container_locations = e.object_context[:top_container_locations] || []
           aspace_locations = e.object_context[:aspace_locations] || [] 
+          
 
-          row << { :top_container_locations => top_container_locations.join('; '), 
-                   :preconversion_locations => aspace_locations.join("; "),
-                   :conversion_context => e.object_context.inspect } 
+          row << { "postconversion_locations" => top_container_locations.join('; '), 
+                   "preconversion_locations" => aspace_locations.join("; "),
+                   "conversion_context" => e.object_context.inspect } 
 
-          @errors << row.fields(*headers)
+          @error_log << row.fields(*ContainerManagementConversion::CONVERSION_REPORT_HEADERS)
           
           Log.error("A ValidationException was raised while the container migration took place.  Please investigate this, as it likely indicates data issues that will need to be resolved by hand")
           Log.exception(e)
           
           @job.write_output(Log.backlog) if @job
           
-          file = ASUtils.tempfile("container_conversion_")
-          file.write(@errors.to_csv)
-          file.rewind
-         
-          @job.add_file( file )
-
         
         end
+        
 
         self['instance_ids'].zip(self['instances']).map {|instance_id, instance|
           # Create a new subcontainer that links everything up
@@ -135,6 +130,8 @@ class ContainerManagementConversion
             end
           end
         }.compact
+          
+
       end
 
 
@@ -221,17 +218,16 @@ class ContainerManagementConversion
           @job = Job.create_from_json(job_json,
                              :repo_id => repo.id, :user => user
                                      ) 
-
-
-
-
+         
+          h = CSV::Row.new(ContainerManagementConversion::CONVERSION_REPORT_HEADERS,[],true)
+          @error_log = CSV::Table.new([h])
 
           # Migrate accession records
           Accession.filter(:repo_id => repo.id).each do |accession|
             Log.info("Working on Accession #{accession.id} (records migrated: #{records_migrated})")
             @job.write_output(Log.backlog) if @job
             records_migrated += 1
-            ContainerMigrationModel(:accession).new(accession, @job).create_containers({})
+            ContainerMigrationModel(:accession).new(accession, @job, @error_log).create_containers({})
           end
 
           # Then resources and containers
@@ -239,7 +235,7 @@ class ContainerManagementConversion
             top_containers_in_this_tree = {}
 
             records_migrated += 1
-            ContainerMigrationModel(:resource).new(resource, @job).create_containers(top_containers_in_this_tree).each do |top_container|
+            ContainerMigrationModel(:resource).new(resource, @job, @error_log).create_containers(top_containers_in_this_tree).each do |top_container|
               top_containers_in_this_tree[top_container.id] = top_container
             end
 
@@ -268,7 +264,7 @@ class ContainerManagementConversion
                     Log.info("Working on ArchivalObject #{record.id} (records migrated: #{records_migrated})")
                     @job.write_output(Log.backlog) if @job
 
-                    migration_record = ContainerMigrationModel(:archival_object).new(record, @job)
+                    migration_record = ContainerMigrationModel(:archival_object).new(record, @job, @error_log)
 
                     migration_record.create_containers(top_containers_in_this_tree).each do |top_container|
                       top_containers_in_this_tree[top_container.id] = top_container
@@ -285,6 +281,11 @@ class ContainerManagementConversion
         ensure
         
           if @job
+            file = ASUtils.tempfile("container_conversion_")
+            file.write(@error_log.to_csv)
+            file.rewind 
+            @job.add_file(file) 
+            
             @job.write_output("Finished container conversion for repository #{repo.id}")
             @job.finish(:completed)
           end 
