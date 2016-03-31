@@ -355,6 +355,71 @@ BulkActionLocationUpdate.prototype.show = function() {
 
 
 /***************************************************************************
+ * BulkActionMultipleLocationUpdate - Multiple Location bulk action
+ *
+ */
+function BulkActionMultipleLocationUpdate(bulkContainerSearch) {
+  this.bulkContainerSearch = bulkContainerSearch;
+  this.MENU_ID = "bulkActionUpdateMultipleLocation";
+
+  this.setup_menu_item();
+};
+
+
+BulkActionMultipleLocationUpdate.prototype.setup_update_form = function($modal) {
+  var self = this;
+
+  var $form = $modal.find("form");
+
+  $(document).trigger("loadedrecordsubforms.aspace", [$form]);
+
+  $form.ajaxForm({
+    dataType: "html",
+    type: "POST",
+    beforeSubmit: function() {
+      $form.find(":submit").addClass("disabled").attr("disabled","disabled");
+      $form.find(".error").removeClass("error");
+    },
+    success: function(html) {
+      $form.replaceWith(html);
+      $modal.trigger("resize");
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      var error = $("<div>").attr("id", "alertBucket").html(jqXHR.responseText);
+      $('#alertBucket').replaceWith(error);
+      var uri = $('.alert-danger:first', '#alertBucket').data("uri");
+      if (uri) {
+        $(":input[value='"+uri+"']", $form).closest("td").addClass("form-group").addClass("error");
+      }
+      $form.find(":submit").removeClass("disabled").removeAttr("disabled");
+    }
+  });
+};
+
+
+BulkActionMultipleLocationUpdate.prototype.setup_menu_item = function() {
+  var self = this;
+
+  self.$menuItem = $("#" + self.MENU_ID, self.bulkContainerSearch.$toolbar);
+
+  self.$menuItem.on("click", function(event) {
+    self.show();
+  });
+};
+
+
+BulkActionMultipleLocationUpdate.prototype.show = function() {
+  var dialog_content = AS.renderTemplate("bulk_action_update_location_multiple", {
+    selection: this.bulkContainerSearch.get_selection()
+  });
+
+  var $modal = AS.openCustomModal("bulkUpdateModal", this.$menuItem[0].text, dialog_content, 'full');
+
+  this.setup_update_form($modal);
+};
+
+
+/***************************************************************************
  * BulkActionBarcodeRapidEntry - bulk action for barcode rapid entry
  *
  */
@@ -479,5 +544,6 @@ $(function() {
   new BulkActionIlsHoldingUpdate(bulkContainerSearch);
   new BulkActionContainerProfileUpdate(bulkContainerSearch);
   new BulkActionLocationUpdate(bulkContainerSearch);
+  new BulkActionMultipleLocationUpdate(bulkContainerSearch);
   new BulkActionDelete(bulkContainerSearch);
 });

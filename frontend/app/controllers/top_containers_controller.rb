@@ -5,7 +5,7 @@ class TopContainersController < ApplicationController
 
   set_access_control  "view_repository" => [:show, :typeahead, :bulk_operations_browse],
                       "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes]
+                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes, :update_locations]
 
 
   def index
@@ -159,6 +159,24 @@ class TopContainersController < ApplicationController
     post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/barcodes"
 
     response = JSONModel::HTTP::post_json(URI(post_uri), barcode_data.to_json)
+    result = ASUtils.json_parse(response.body)
+
+    if response.code =~ /^4/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages', :locals => {:exceptions => result, :jsonmodel => "top_container"}, :status => 500
+    end
+
+    render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+  end
+
+
+  def update_locations
+    update_uris = params[:update_uris]
+    location_data = {}
+    update_uris.map{|uri| location_data[uri] = params[uri].blank? ? nil : params[uri]['ref']}
+
+    post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/locations"
+
+    response = JSONModel::HTTP::post_json(URI(post_uri), location_data.to_json)
     result = ASUtils.json_parse(response.body)
 
     if response.code =~ /^4/
