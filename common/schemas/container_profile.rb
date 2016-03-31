@@ -14,9 +14,9 @@
       "dimension_units" => {"type" => "string", "required" => true,  "dynamic_enum" => "dimension_units"},
       "extent_dimension" => {"type" => "string", "required" => true, "enum" => ["height", "width", "depth"]},
 
-      "height" => {"type" => "string", "required" => true},
-      "width" => {"type" => "string", "required" => true},
-      "depth" => {"type" => "string", "required" => true},
+      "height" => {"type" => "string", "required" => true, "ifmissing" => "error"},
+      "width" => {"type" => "string", "required" => true, "ifmissing" => "error"},
+      "depth" => {"type" => "string", "required" => true, "ifmissing" => "error"},
 
       "display_string" => {"type" => "string", "readonly" => true},
     },
