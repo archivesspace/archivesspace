@@ -1091,8 +1091,10 @@ en:
         update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
         update_container_profiles: Update Container Profiles
         update_container_profiles_help: Choose a Container Profile for all selected containers.
-        update_locations: Update Locations
-        update_locations_help: Choose a Location for all selected containers.
+        update_locations_singular: "Update Locations: Single Location"
+        update_locations_singular_help: Choose a Location for all selected containers.
+        update_locations_multiple: "Update Locations: Multiple Locations"
+        update_locations_multiple_help: Choose a Location for each selected container.
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
@@ -1100,6 +1102,8 @@ en:
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
         delete_n_records: "Delete %{n} records"
+        update_locations_current_location: Current Location
+        update_locations_new_location: New Location
 
   container_profile:
     _singular: Container Profile

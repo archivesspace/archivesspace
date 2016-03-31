@@ -7,6 +7,8 @@
 
    linkable_types = ["location"]
 
+  path = "location" if path.blank?
+  show_create_link = false if show_create_link.blank?
 %>
 
 <div class="input-group linker-wrapper">
@@ -15,7 +17,7 @@
          data-label="<%= I18n.t("location._singular") %>"
          data-label_plural="<%= I18n.t("location._plural") %>"
          data-name="ref"
-         data-path="location"
+         data-path="<%= path %>"
          data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
          data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
          data-selected="<%= selected_json %>"
@@ -26,6 +28,9 @@
     <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+      <% if show_create_link && user_can?('update_location_record') %>
+        <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :locations, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+      <% end %>
     </ul>
   </div>
 </div>
