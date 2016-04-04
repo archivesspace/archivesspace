@@ -754,6 +754,7 @@ en:
     levels: Levels
 
   instance: &instance_attributes
+    is_representative: Is representative? 
     instance_type: Type
     instance_type_tooltip: |
         <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
