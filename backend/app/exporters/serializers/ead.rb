@@ -287,13 +287,14 @@ class EADSerializer < ASpaceExport::Serializer
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']
         source = agent['display_name']['source']
+        authfilenumber = agent['display_name']['authority_id']
         node_name = case agent['agent_type']
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
                     end
         xml.origination(:label => role) {
-         atts = {:role => relator, :source => source, :rules => rules}
+         atts = {:role => relator, :source => source, :rules => rules, :authfilenumber => authfilenumber}
          atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {

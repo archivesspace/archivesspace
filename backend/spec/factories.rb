@@ -293,7 +293,7 @@ FactoryGirl.define do
     container_extent { generate (:number) }
     container_extent_type { sample(JSONModel(:container).schema['properties']['container_extent_type']) }
   end
-  
+
   factory :json_top_container, class: JSONModel(:top_container) do
     indicator { generate(:alphanumstr) }
     type { generate(:container_type) }
@@ -414,6 +414,8 @@ FactoryGirl.define do
     sort_name_auto_generate true
     dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+    source { generate(:name_source) }
   end
 
   factory :json_name_family, class: JSONModel(:name_family) do
@@ -424,6 +426,8 @@ FactoryGirl.define do
     dates { generate(:alphanumstr) }
     qualifier { generate(:alphanumstr) }
     prefix { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+    source { generate(:name_source) }
   end
 
   factory :json_name_person, class: JSONModel(:name_person) do
@@ -441,6 +445,7 @@ FactoryGirl.define do
     title { [nil, generate(:alphanumstr)].sample }
     suffix { [nil, generate(:alphanumstr)].sample }
     rest_of_name { [nil, generate(:alphanumstr)].sample }
+    authority_id { generate(:url) }
   end
 
   factory :json_name_software, class: JSONModel(:name_software) do

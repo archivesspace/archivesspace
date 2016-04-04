@@ -50,6 +50,7 @@ module ASpaceExport
           sort_name = agent['display_name']['sort_name']
           rules = agent['display_name']['rules']
           source = agent['display_name']['source']
+          authfilenumber = agent['display_name']['authority_id']
           content = sort_name.dup
 
           if link['terms'].length > 0
@@ -67,6 +68,7 @@ module ASpaceExport
           atts[:role] = role if role
           atts[:source] = source if source
           atts[:rules] = rules if rules
+          atts[:authfilenumber] = authfilenumber if authfilenumber
 
           results << {:node_name => node_name, :atts => atts, :content => content}
         end
@@ -101,6 +103,7 @@ module ASpaceExport
 
           atts = {}
           atts['source'] = subject['source'] if subject['source']
+          atts['authfilenumber'] = subject['authority_id'] if subject['authority_id']
 
           results << {:node_name => node_name, :atts => atts, :content => content}
         end
@@ -123,7 +126,7 @@ module ASpaceExport
             normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
             normal += normal_suffix ? normal_suffix : ""
           end
-          type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk' 
+          type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
           content = if date['expression']
                     date['expression']
                   elsif date['date_type'] == 'bulk'
