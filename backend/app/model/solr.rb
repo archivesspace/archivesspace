@@ -278,6 +278,8 @@ class Solr
       url.path += "/select"
       url.query = URI.encode_www_form([[:q, @query_string],
                                        [:wt, @writer_type],
+                                       ["csv.escape", '\\'], 
+                                       ["csv.encapsulator", '"'], 
                                        ["csv.header", @csv_header ],
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
                                        [:rows, @pagination[:page_size]]] +
