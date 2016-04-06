@@ -8,10 +8,14 @@ var app = app || {};
     this.hasContentSidebar = true;
     this.repositoryName = "";
 
+    this.uri = _.get(model, 'attributes.uri');
     this.title = _.get(model, 'attributes.title');
     this.language = _.get(model, 'attributes.language');
     this.recordType = model.recordType;
     this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
+
+    if(this.recordType)
+      this.recordTypeIconClass = app.icons.getIconClass(this.recordType);
 
     if(model.attributes.identifier) {
       this.identifier = model.attributes.identifier;

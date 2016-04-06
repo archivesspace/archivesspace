@@ -471,13 +471,16 @@ var RAILS_API = "/api";
     var recordJson = JSON.parse(att.json);
     this.index = model.index;
     this.title = _.get(att, 'title');
+    this.recordType = att.primary_type;
     this.recordTypeClass = att.primary_type;
     this.recordTypeLabel = _.capitalize(att.primary_type);
+    this.recordTypeIconClass = app.icons.getIconClass(this.recordType);
     this.identifier = att.identifier || att.uri;
     this.url = att.uri;
     this.summary = att.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.';
     this.dates = [];
     this.context = undefined;
+    this.relatorLabel = undefined;
 
     if(att.highlighting) {
       this.highlights = _.reduce(att.highlighting, function(result, list, field) {
@@ -509,16 +512,21 @@ var RAILS_API = "/api";
   var SearchItemView = Bb.View.extend({
     tagName: "div",
 
-    initialize: function() {
+    initialize: function(opts) {
       var presenter = new SearchResultItemPresenter(this.model);
+      presenter.featured = false;
+      if(opts.relatorSortField) {
+        var roleAndRelator = this.model.attributes[opts.relatorSortField].split(" ");
+        presenter.relatorLabel = roleAndRelator[1];
+        if(roleAndRelator[0] === 'creator') {
+          presenter.featured = true;
+        }
+      }
+
       this.$el.html(app.utils.tmpl('search-result-row', presenter));
       this.keywordsToggle = false;
       return this;
-    },
-
-    // events: {
-
-    // }
+    }
   });
 
 
@@ -560,10 +568,17 @@ var RAILS_API = "/api";
     render: function() {
       var $el = this.$el;
       $el.empty();
+      var relatorSortField;
+      if(this.collection.state.sortKey && this.collection.state.sortKey.match(/_relator_sort\sasc$/)) {
+        relatorSortField = this.collection.state.sortKey.replace(/\sasc/, '')
+      }
+      console.log(relatorSortField);
+
       this.collection.forEach(function(item, index) {
         item.index = index;
         var searchItemView = new SearchItemView({
-          model: item
+          model: item,
+          relatorSortField: relatorSortField
         });
 
         $el.append(searchItemView.$el.html());
@@ -1088,10 +1103,9 @@ var RAILS_API = "/api";
       this.searchEditor = new SearchEditor($editorContainer);
       this.searchEditor.addRow();
       this.searchResults = new app.SearchResults([], {
-        state: {
-          pageSize: 10,
-          filters: [{"classification_uris": "/repositories/2/classifications/2"}]
-        }
+        state: _.merge({
+          pageSize: 10
+        }, opts)
       });
       this.searchResults.advanced = true; //TODO - make advanced default
       this.searchResultsView = new app.SearchResultsView({

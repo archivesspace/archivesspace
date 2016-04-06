@@ -2,6 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'fileutils'
+require 'aspace_i18n'
 
 require 'asutils'
 require 'jsonmodel'
@@ -121,6 +122,22 @@ class CommonIndexer
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
+
+      # make a special sort field for each agent
+      # creator > subject > source
+      seen = {}
+      record['record']['linked_agents'].each do |link|
+        if seen[link['ref']] == 'creator'
+          # do nothing
+        elsif seen[link['ref']] == 'subject' && link['role'] != 'creator'
+          # do nothing
+        else
+          relator_label = link['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
+
+          doc["#{link['ref'].gsub(/\//, '_')}_relator_sort"] = "#{link['role']} #{relator_label}"
+          seen[link['ref']] = link['role']
+        end
+      end
     end
   end
 

@@ -1,7 +1,7 @@
 var app = app || {};
 
 
-(function() {
+(function(Bb, _) {
   'use strict';
 
   function parseAdvancedQuery(query, params, depth) {
@@ -149,9 +149,17 @@ var app = app || {};
     },
 
     //TODO: cache compiled templates
-    tmpl: function(templateId, data) {
+    // (especially important for search result items)
+
+    tmpl: function(templateId, data, useInnerWrapper) {
       templateId = templateId.replace(/-tmpl$/, '') + '-tmpl';
-      return _.template($('#'+templateId).html())(data);
+      var templateResult = _.template($('#'+templateId).html())(data);
+
+      if(useInnerWrapper) {
+        return "<div class='inner'>"+templateResult+"</div>";
+      } else {
+        return templateResult;
+      }
     },
 
 
@@ -172,6 +180,41 @@ var app = app || {};
         subnotes, function(subnote) {
           return _.get(subnote, 'content');
         }))).join('<br />');
+    },
+
+    formatRightsStatement: function(rightsStatement) {
+      var result = [];
+
+      _.forOwn(rightsStatement, function(val, key) {
+        if(!_.includes(['lock_version', 'jsonmodel_type', 'system_mtime', 'create_time', 'last_modified_by', 'user_mtime'], key)) {
+          var label = app.utils.getSchemaLabel('rights_statement', key);
+          result.push("<strong>"+label+"</strong><br />"+val);
+        }
+      });
+
+      return result.join("<br />");
+
+    },
+
+    // Not sure how to do this for real. Probably add
+    // an endpoint in Rails and some caching here?
+    // Depends a bit on end user workflow for customizing labels...
+    getSchemaLabel: function(schema, field) {
+      var field = schema + "_" + field;
+      var result = field;
+
+      switch(field) {
+      case 'rights_statement_ip_status':
+        result = "IP Status";
+        break;
+      default:
+        result = _.map(result.split("_"), function(word) {
+          return _.capitalize(word);
+        }).join(" ");
+
+      }
+
+      return result;
     }
   }
-})();
+})(Backbone, _);

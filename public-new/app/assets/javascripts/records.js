@@ -16,8 +16,6 @@ var app = app || {};
       this.title = "NO TITLE";
     }
 
-    this.recordTypeIconClass = "fi-home";;
-
     if(_.get(model, 'attributes.notes')) {
       var scopenote = _.find(model.attributes.notes, function(note) {
         return _.get(note, 'type') === 'scopecontent';
@@ -45,7 +43,6 @@ var app = app || {};
       this.hasFullWidthContext = true;
       break;
     case 'classification':
-      this.recordTypeIconClass = "fi-page-multiple";
       // this.hasAccordion = false;
       this.hasOuterBorder = false;
       this.hasContentSidebar = true;
@@ -59,7 +56,6 @@ var app = app || {};
       break;
 
     case 'classification_term':
-      this.recordTypeIconClass = "fi-page-multiple";
       // this.hasAccordion = false;
       this.hasOuterBorder = false;
       this.hasContentSidebar = true;
@@ -237,8 +233,10 @@ var app = app || {};
 
         //add an embedded search / browse for concept records
         if(_.includes(['classification', 'classification_term'], recordType)) {
-          var embeddedSearchView = new app.EmbeddedSearchView();
-          // $("#embedded-search-container", $el).append(embeddedSearchView.$el);
+          var embeddedSearchView = new app.EmbeddedSearchView({
+            filters: [{"classification_uris": presenter.uri}]
+          });
+
         }
 
         //build tree sidebar
@@ -329,9 +327,6 @@ var app = app || {};
     }
 
   });
-
-
-
 
   app.RecordModel = RecordModel;
   app.RecordContainerView = RecordContainerView;

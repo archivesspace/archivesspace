@@ -19,6 +19,7 @@
 //= require accordion-table
 //= require record-presenter
 //= require utils
+//= require icons
 //= require router
 //= require main
 //= require searching

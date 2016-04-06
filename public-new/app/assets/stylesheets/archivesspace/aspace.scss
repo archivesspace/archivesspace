@@ -138,6 +138,7 @@ html {
   .id-label {
     float: left;
     font-family: $serif-font;
+    font-weight: bold;
   }
 }
 
@@ -175,8 +176,24 @@ html {
   padding: rem-calc(20);
   border: 1px solid $grey;
   margin-bottom: rem-calc(10);
+
+  &.featured {
+    background-color: $lightgrey;
+  }
+
+
   h3 {
     color: $midblue;
+  }
+
+  .recordsummary {
+    clear: both;
+  }
+}
+
+#embedded-search-container {
+  .recordrow:first-child {
+    margin-top: rem-calc(10);
   }
 }
 
@@ -320,7 +337,7 @@ li.remove {
 .object {
   color:#de1965;
 }
-.collection {
+.collection, .resource {
   color:#00cf35;
 }
 .subject {

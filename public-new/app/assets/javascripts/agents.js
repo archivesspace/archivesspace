@@ -1,10 +1,53 @@
 var app = app || {};
 (function(Bb, _, $) {
 
+  function formatName(name) {
+    var result = ""
+    if(name.rest_of_name) {
+      result = result+name.rest_of_name + " ";
+    }
+    result = result + name.primary_name;
+    if(name.dates) {
+      result = result+"&#160;(Dates: "+name.dates+")";
+    }
+
+    return result;
+  }
+
 
   function AgentPresenter(model) {
     app.AbstractRecordPresenter.call(this, model);
-    this.recordTypeIconClass = "fi-torso";
+
+    var nameList = "<ul>";
+    _.forEach(model.attributes.names, function(name) {
+      nameList = nameList+"<li>"+formatName(name)+"</li>";
+    });
+    nameList = nameList + "</ul>"
+
+    this.nameList = nameList;
+
+    var relations = {}
+
+    _.forEach(model.attributes.related_agents, function(agent_link) {
+      if(!relations[agent_link['relator']])
+        relations[agent_link['relator']] = [];
+
+      relations[agent_link['relator']].push(agent_link._resolved.display_name.sort_name);
+    })
+
+    this.relatedAgents = relations;
+
+    if(model.attributes.external_documents) {
+      this.externalDocuments = "<ul>"+_.map(model.attributes.external_documents, function(doc) {
+        return "<li>"+doc.title+"</li>";
+      }).join('') + "<ul />";
+    }
+
+    if(model.attributes.rights_statements) {
+      this.rightsStatements = _.map(model.attributes.rights_statements, function(statement) {
+        return app.utils.formatRightsStatement(statement);
+      });
+    }
   }
 
   AgentPresenter.prototype = Object.create(app.AbstractRecordPresenter.prototype);
@@ -51,6 +94,15 @@ var app = app || {};
         $el.html(app.utils.tmpl('record', presenter));
         $('.abstract', $el).readmore(300);
 
+        var embeddedSearchView = new app.EmbeddedSearchView({
+          filters: [{"agent_uris": presenter.uri}],
+          sortKey: presenter.uri.replace(/\//g, '_')+"_relator_sort asc"
+});
+
+        var nameSidebarView = new NameSidebarView({
+          presenter: presenter
+        });
+
       });
 
     },
@@ -79,6 +131,24 @@ var app = app || {};
         }, 500);
       });
     }
+  });
+
+
+  var NameSidebarView = Bb.View.extend({
+    el: "#sidebar-container",
+
+    initialize: function(opts) {
+      this.presenter = opts.presenter;
+      this.render();
+    },
+
+    render: function() {
+      this.$el.addClass('name-sidebar');
+      this.$el.html(app.utils.tmpl('more-about-name', this.presenter, true));
+
+      this.$el.foundation();
+    }
+
   });
 
   app.AgentContainerView = AgentContainerView;
