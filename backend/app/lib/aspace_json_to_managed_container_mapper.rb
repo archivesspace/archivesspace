@@ -53,6 +53,7 @@ class AspaceJsonToManagedContainerMapper
       top_container = get_or_create_top_container(instance)
 
       begin
+        exception = nil 
         ensure_harmonious_values(top_container, instance['container'])
       rescue LocationMismatchException => e
         if @json.is_a?(JSONModel(:accession))
@@ -69,7 +70,10 @@ class AspaceJsonToManagedContainerMapper
                                                'type' => container['type_1'], 
                                                'container_locations' => container['container_locations']})
         else
-          raise e
+          # let's store that something bad happened, but we need to make the
+          # rest of the subcontainers so that the instance is linked to
+          # something... 
+          exception = e
         end
       end
 
@@ -97,7 +101,7 @@ class AspaceJsonToManagedContainerMapper
 
 
       instance['sub_container'] = subcontainer
-
+      raise exception if exception
       # No need for the original value now.
       instance.delete('container')
     end
@@ -293,7 +297,7 @@ class AspaceJsonToManagedContainerMapper
     end
    
     
-    Log.info("Creating a new Top Container for a container with no barcode")
+    Log.info("Creating a new Top Container for a container with no barcode, type: #{ container["type_1"] }, indicator #{container['indicator_1'] || get_default_indicator}")
     create_top_container( {'indicator' => (container['indicator_1'] || get_default_indicator),
                          'type' => container["type_1"],  
                          'container_locations' => container['container_locations']})
@@ -303,7 +307,7 @@ class AspaceJsonToManagedContainerMapper
   def create_top_container(values)
     created = TopContainer.create_from_json(JSONModel(:top_container).from_hash(values))
     @new_top_containers << created
-
+    Log.info("Top Container created : #{created.inspect}")
     created
   end
 

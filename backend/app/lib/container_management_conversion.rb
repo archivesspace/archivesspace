@@ -178,9 +178,14 @@ class ContainerManagementConversion
     end
 
 
+    # this is used for searching AOs. Important to note this duck patch is
+    # used only in the container mgmn conversion...
     def try_matching_indicator_within_collection(container)
+      
       indicator = container['indicator_1']
-      @resource_top_containers.values.find {|top_container| top_container.indicator == indicator}
+      type = container["type_1"]
+      
+      @resource_top_containers.values.find {|top_container| top_container.indicator == indicator && top_container.type == type}
     end
 
 
