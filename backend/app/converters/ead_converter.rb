@@ -563,15 +563,15 @@ class EADConverter < Converter
           # top level container that will be referenced later, so we need to
           # make a new instance
           if ( inst.nil? or  att('id')  )
-            instance_label = att("label") ? att("label").downcase : 'mixed_materials'
+            instance_label = att("label") ? att("label") : 'mixed_materials'
 
-            if instance_label =~ /(.*)\s\[([0-9]+)\]$/
+            if instance_label =~ /(.*)\s\((.*)\)$/
               instance_label = $1
               barcode = $2
             end
 
             make :instance, {
-              :instance_type => instance_label
+              :instance_type => instance_label.downcase.strip
             } do |instance|
               set ancestor(:resource, :archival_object), :instances, instance
             end
@@ -588,7 +588,7 @@ class EADConverter < Converter
 
           # and now finally we get the container. 
           cont =  inst.container || context_obj
-          cont['barcode_1'] = barcode if barcode
+          cont['barcode_1'] = barcode.strip if barcode
           cont['container_profile_key'] = att("altrender")
         end
 

@@ -15,8 +15,8 @@ describe 'EAD converter' do
     src = <<ANEAD
 <c id="1" level="file">
   <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
-  <container id="cid1" type="Box" label="Text">1</container>
-  <container parent="cid2" type="Folder"></container>
+  <container id="cid1" type="Box" label="Text (B@RC0D3  )">1</container>
+  <container parent="cid1" type="Folder" ></container>
   <c id="2" level="file">
     <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
@@ -37,6 +37,17 @@ ANEAD
 
     parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
+  end
+  
+  it "should be able to manage all the funny stuff people do with labels" do
+    converter = EADConverter.new(test_doc_1)
+    converter.run
+    parsed = JSON(IO.read(converter.get_output_path))
+   
+    $stderr.puts parsed
+    #parsed.find{|r| r['ref_id'] == '1'}['instances'].length.should eq(2)
+    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type'].should eq('text')
+    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['barcode_1'].should eq('B@RC0D3')
   end
   
   it "should remove unitdate from unittitle" do
