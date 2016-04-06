@@ -3,6 +3,8 @@ require 'asutils'
 require 'aspace_i18n_enumeration_support'
 
 I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
+
+I18n.load_path += ASUtils.find_locales_directories("#{AppConfig[:locale]}.yml")
 I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
 
 # Allow overriding of the i18n locales via the 'local' folder(s)
