@@ -198,4 +198,27 @@ EOF
     end
   end
 
+  # recursively walk `obj` and remove any hash entry whose key returns `true`
+  # for `block.call(key)`.
+  #
+  # `obj` can be an arbitrarily nested combination of array-like and hash-like
+  # things.
+  def self.recursive_reject_key(obj, &block)
+    if obj.nil? || block.nil?
+      obj
+    elsif obj.respond_to?(:each_pair)
+      result = {}
+      obj.each_pair do |k, v|
+	if !block.call(k)
+	  result[k] = recursive_reject_key(v, &block)
+	end
+      end
+      result
+    elsif obj.respond_to?(:map)
+      obj.map { |elt| recursive_reject_key(elt, &block) }
+    else
+      obj
+    end
+  end
+
 end
