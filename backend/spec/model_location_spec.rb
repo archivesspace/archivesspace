@@ -135,4 +135,16 @@ describe 'Location model' do
   end
 
 
+  it "can have an owner repository" do
+    owner_repo = create(:unselected_repo, {:repo_code => "OWNER_REPO"})
+
+    owner_repo_uri = JSONModel(:repository).uri_for(owner_repo.id)
+    opts = {:owner_repo => {'ref' => owner_repo_uri}}
+    
+    location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+    json = Location.to_jsonmodel(location.id)
+    json['owner_repo']['ref'].should eq(owner_repo_uri)
+  end
+
 end

@@ -25,6 +25,7 @@ ArchivesSpace::Application.routes.draw do
       match 'repositories/:id' => 'repositories#update', :via => [:post]
       match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]
       match 'repositories/delete_records' => 'repositories#delete_records', :via => [:post]
+      match('repositories/search/typeahead' => 'repositories#typeahead', :via => [:get])
 
       match 'users/manage_access' => 'users#manage_access', :via => [:get]
       match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
