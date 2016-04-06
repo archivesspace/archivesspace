@@ -330,7 +330,7 @@ class AspaceJsonToManagedContainerMapper
   end
 
 
-  def get_default_indicator(prefix = 'system_indicator')
+  def get_default_indicator(prefix = 'data_value_missing')
     "#{prefix}_#{SecureRandom.hex}"
   end
 
