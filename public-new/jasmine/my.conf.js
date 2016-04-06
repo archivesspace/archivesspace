@@ -33,8 +33,7 @@ module.exports = function(config) {
       'vendor/assets/javascripts/foundation-sites/foundation.reveal.js',
       'vendor/assets/javascripts/foundation-sites/foundation.dropdown.js',
       'vendor/assets/javascripts/foundation-sites/foundation.accordion.js',
-
-      // 'vendor/assets/javascripts/**/*.js',
+      'app/assets/javascripts/record-presenter.js',
       'app/assets/javascripts/*.js',
       'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       'node_modules/jasmine-ajax/lib/mock-ajax.js',

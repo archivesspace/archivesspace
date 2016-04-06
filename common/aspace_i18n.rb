@@ -1,4 +1,5 @@
 require 'i18n'
+require 'asutils'
 require 'aspace_i18n_enumeration_support'
 
 I18n.enforce_available_locales = false # do not require locale to be in available_locales for export

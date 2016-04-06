@@ -25,7 +25,8 @@
     "foundation-icon-fonts": "*",
     "foundation-sites": "~6.1.1",
     "lodash-inflection": "~1.3.2",
-    "jstree": "git@github.com:vakata/jstree#~3.2.1"
+    "jstree": "git@github.com:vakata/jstree#~3.2.1",
+    "bootstrap-sass": "~3.3.6"
   },
   "install": {
     "path": {
@@ -75,6 +76,10 @@
       "foundation-icon-fonts": [
         "bower_components/foundation-icon-fonts/_foundation-icons.scss",
         "bower_components/foundation-icon-fonts/foundation-icons.*"
+      ],
+      "bootstrap-sass": [
+        "bower_components/bootstrap-sass/assets/fonts/bootstrap/*",
+        "bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_glyphicons.scss"
       ]
     }
   },

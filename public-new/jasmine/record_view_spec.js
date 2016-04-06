@@ -5,6 +5,7 @@ describe('RecordContainerView', function() {
   FonyRecordModel.prototype.fetch = function() {
     this.attributes = {
       repository: {
+        ref: "/what/the/foo",
         _resolved: {
           name: "What the FOO Repository",
           agent_representation: {
@@ -67,8 +68,7 @@ describe('RecordContainerView', function() {
     expect(app.utils.tmpl.calls.argsFor(0)[0]).toEqual('record')
     var presenter = app.utils.tmpl.calls.argsFor(0)[1];
 
-    expect(presenter.repository.name).toEqual('What the FOO Repository');
-    expect(presenter.repository.name).toEqual('What the FOO Repository');
+    expect(presenter.repository.name).toContain('What the FOO Repository');
     expect(presenter.repository.phone).toEqual("555-1234");
     expect(presenter.repository.address).toEqual("1 yale lane<br />apt 2<br />yale city");
     expect(presenter.repository.email).toEqual("foo@bar.com");

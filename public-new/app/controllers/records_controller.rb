@@ -8,7 +8,8 @@ class RecordsController < ApplicationController
 
     hash = resource.to_hash_with_translated_enums([
                                                    'language_iso639_2',
-                                                   'linked_agent_role'],
+                                                   'linked_agent_role',
+                                                   'linked_agent_archival_record_relators'],
                                                   :publishing)
 
     json = ASUtils.to_json(hash, {:max_nesting => false})
@@ -60,9 +61,13 @@ class RecordsController < ApplicationController
 
 
   def agent_person
-    agent_person = JSONModel(:agent_person).find(params[:id], "resolve[]" => [])
+    agent_person = JSONModel(:agent_person).find(params[:id], "resolve[]" => ["related_agents"])
 
-    render :json => agent_person
+    hash = agent_person.to_hash_with_translated_enums(["agent_relationship_parentchild_relator", "agent_relationship_associative_relator",  "agent_relationship_subordinatesuperior_relator", "agent_relationship_earlierlater_relator", "rights_statement_rights_type"])
+
+    json = ASUtils.to_json(hash, {:max_nesting => false})
+
+    render :json => json
   end
 
 
