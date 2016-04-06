@@ -14,13 +14,29 @@
       <%= read_only_view(@location.to_hash) %>
 
       <% if @location['location_profile'] %>
-        <div class="form-group token-list">
-          <label class="control-label col-sm-2"><%= I18n.t("location_profile._singular") %></label>
-          <div class="controls col-sm-8">
-            <%= render_token :object => @location["location_profile"]["_resolved"],
-                             :label => @location["location_profile"]["_resolved"]["display_string"],
-                             :type => "location_profile",
-                             :uri => @location["location_profile"]["ref"] %>
+        <div class="form-horizontal">
+          <div class="form-group token-list">
+            <div class="control-label col-sm-2"><%= I18n.t("location_profile._singular") %></div>
+            <div class="label-only col-sm-8">
+              <%= render_token :object => @location["location_profile"]["_resolved"],
+                               :label => @location["location_profile"]["_resolved"]["display_string"],
+                               :type => "location_profile",
+                               :uri => @location["location_profile"]["ref"] %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @location['owner_repo'] %>
+        <div class="form-horizontal">
+          <div class="form-group token-list">
+            <div class="control-label col-sm-2"><%= I18n.t("location.owner_repo") %></div>
+            <div class="label-only col-sm-8">
+              <%= render_token :object => @location["owner_repo"]["_resolved"],
+                               :label => @location["owner_repo"]["_resolved"]["display_string"],
+                               :type => "repository",
+                               :uri => @location["owner_repo"]["ref"] %>
+            </div>
           </div>
         </div>
       <% end %>

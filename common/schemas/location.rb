@@ -42,6 +42,19 @@
           }
         }
       },
+
+      "owner_repo" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:repository) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      },
+
     },
   },
 }

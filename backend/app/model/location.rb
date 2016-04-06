@@ -13,6 +13,11 @@ class Location < Sequel::Model(:location)
                       :contains_references_to_types => proc {[LocationProfile]},
                       :is_array => false)
 
+  define_relationship(:name => :owner_repo,
+                      :json_property => 'owner_repo',
+                      :contains_references_to_types => proc {[Repository]},
+                      :is_array => false)
+
 
   def self.generate_title(json)
     title = ""

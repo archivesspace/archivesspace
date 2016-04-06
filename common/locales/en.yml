@@ -182,6 +182,8 @@ en:
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
     holdings: Holdings
+    owner_repo: Reserved For
+    owner_repo_tooltip: A repository that has reserved this location
     _singular: Location
     _plural: Locations
 
