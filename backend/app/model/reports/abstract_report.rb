@@ -40,7 +40,7 @@ class AbstractReport
   end
 
   def query(db)
-    raise "Please specific a query to return your reportable results"
+    raise "Please specify a query to return your reportable results"
   end
 
   def scope_by_repo_id(dataset)
