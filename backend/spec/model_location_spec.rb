@@ -147,4 +147,13 @@ describe 'Location model' do
     json['owner_repo']['ref'].should eq(owner_repo_uri)
   end
 
+
+  it "can have a bunch of functions" do
+    opts = {:functions => [build(:json_location_function), build(:json_location_function)]}
+    location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+    
+    json = Location.to_jsonmodel(location.id)
+    json['functions'].length.should eq(2)
+  end
+
 end

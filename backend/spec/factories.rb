@@ -321,6 +321,10 @@ FactoryGirl.define do
     width { rand(100).to_s }
   end
 
+  factory :json_location_function, class: JSONModel(:location_function) do
+    location_function_type { sample(JSONModel(:location_function).schema['properties']['location_function_type']) }
+  end
+
   factory :json_sub_container, class: JSONModel(:sub_container) do
     type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
     indicator_2 { generate(:alphanumstr) }

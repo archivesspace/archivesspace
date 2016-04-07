@@ -55,6 +55,8 @@
         }
       },
 
+      "functions" => {"type" => "array", "items" => {"type" => "JSONModel(:location_function) object"}},
+
     },
   },
 }

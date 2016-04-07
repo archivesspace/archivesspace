@@ -1,4 +1,6 @@
+//= require subrecord.crud
 //= require form
+
 $(function() {
      
   var init_location_form = function(form) { 
