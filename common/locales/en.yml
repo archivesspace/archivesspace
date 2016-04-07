@@ -200,6 +200,18 @@ en:
     _singular: Batch Locations
     _plural: Batch Locations
 
+  location_function:
+    location_function_type: Function Type
+    _singular: Function
+    _plural: Functions
+
+  function:
+    _singular: Function
+    _plural: Functions
+    _frontend:
+      action:
+        add: Add Function
+
   container_location:
     status: Status
     status_tooltip: |

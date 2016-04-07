@@ -43,6 +43,11 @@
 
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
 
+
+      <% if @location.functions.length > 0 %>
+        <%= render_aspace_partial :partial => "location_functions/show", :locals => { :functions => @location.functions, :section_id => "location_functions_" } %>
+      <% end %>
+
       <% if @location.external_ids.length > 0 && show_external_ids? %>
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @location.external_ids, :section_id => "location_external_ids_" } %>
       <% end %>

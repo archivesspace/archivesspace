@@ -1416,6 +1416,10 @@ en:
       RestrictedFragileSpecColl: 3 - Restricted fragile
       InProcessSpecColl: 4 - Restricted in-process
       ColdStorageBrbl: 5 - Other
+    location_function_type:
+      av_materials: Audiovisual Materials
+      arrivals: Arrivals
+      shared: Shared
 
 
   enumeration_names:
@@ -1485,3 +1489,4 @@ en:
     job_type: Job Type
     dimension_units: Dimension Units
     restriction_type: Local Access Restriction Type
+    location_function_type: Location Function Type
