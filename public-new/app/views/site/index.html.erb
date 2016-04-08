@@ -231,11 +231,13 @@
       <div class="row collapse ">
         <div class="columns small-${hasToolbar ? 8 : 12} record-header">
           <h2>${title}</h2>
-          <div class="record-type-badge ${recordType}">
-            <i class="${recordTypeIconClass}"></i>&#160;${recordTypeLabel}
-          </div>
-          <div class="identifier">
-            <span class="id-label">Identifier:</span>&#160;${identifier}
+          <div class="badge-and-identifier">
+            <div class="record-type-badge ${recordType}">
+              <i class="${recordTypeIconClass}"></i>&#160;${recordTypeLabel}
+            </div>
+            <div class="identifier">
+              <span class="id-label">Identifier:</span>&#160;${identifier}
+            </div>
           </div>
         </div>
         { if(hasToolbar) {}
@@ -356,7 +358,7 @@
   <script type="text/template" id="search-result-row-tmpl">
     <div class="recordrow ${featured ? 'featured' : ''}">
       <h3><a class="record-title" href="${ url }">${ title }</a></h3>
-      <div>
+      <div class="badge-and-identifier">
         <div class="record-type-badge ${recordType}">
           <i class="${recordTypeIconClass} small"></i>&#160;${ recordTypeLabel }
         </div>

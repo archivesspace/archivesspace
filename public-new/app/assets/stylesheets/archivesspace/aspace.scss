@@ -82,13 +82,15 @@ html {
   }
 }
 
-.record-container {
-  margin-top: rem-calc(20);
-
+.badge-and-identifier {
   .identifier {
     margin-left: rem-calc(10);
     padding: rem-calc(4);
   }
+}
+
+.record-container {
+  margin-top: rem-calc(20);
 
   &.concepts-layout {
 
