@@ -127,7 +127,7 @@ describe 'Managed Container compatibility' do
       accession = create_accession({"instances" => [instance]})
 
       created = TopContainer[:barcode => '12345678']
-      created.indicator.should match(/system_indicator/)
+      created.indicator.should match(/data_value_missing/)
     end
 
 
