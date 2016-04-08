@@ -206,3 +206,10 @@ AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedem
 
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
+
+#
+# This sets the allowed size of the request header that Jetty will accept (
+# anything bigger gets a 403 error ). Note if you want to jack this size up,
+# you will also have to configure your Nginx/Apache  as well if
+# you're using that 
+AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024 
