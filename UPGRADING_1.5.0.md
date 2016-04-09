@@ -19,7 +19,7 @@ When your installation is upgraded to 1.5.0, the conversion will happen as part 
 
 *Can I continue to use the current model for containers and not convert to the new model?*
 
-Because it is such a substantial improvement [(see separate announcement for the new features)](https://github.com/cdibella/aspacenewdocs/blob/master/cmfeatures.md), the new model is required for all using ArchivesSpace 1.5.0 and higher. The only way to continue using the current model is to never upgrade beyond 1.4.2.
+Because it is such a substantial improvement [(see separate announcement for the new features)](https://github.com/archivesspace/archivesspace/blob/master/README_FEATURES_1.5.0.md), the new model is required for all using ArchivesSpace 1.5.0 and higher. The only way to continue using the current model is to never upgrade beyond 1.4.2.
 
 *What if I’m already using the container management plugin made available to the community by Yale University?*
 

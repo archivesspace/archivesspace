@@ -272,7 +272,6 @@ var RAILS_API = "/api";
       state = this.state = this._checkState(_.extend({}, state, {
         query: query
       }));
-      console.log(state);
 
       return this.getPage(1, _.omit({}, ["first"]));
     },
@@ -329,8 +328,17 @@ var RAILS_API = "/api";
 
       _.times(5, function(n) {
         map['v'+n] = function() {
-          if(this.state.query[n])
-            return this.state.query[n]['value'];
+          if(this.state.query[n]) {
+            // See - https://archivesspace.atlassian.net/browse/AR-175
+            // TODO - consider putting this logic into a custom solr handler or whatever
+            if(this.state.query[n]['field'] === 'identifier' && this.state.query[n]['value'].match(/\s/)) {
+              return "\""+this.state.query[n]['value']+"\"";
+            } else if(this.state.query[n]['field'] === 'identifier' && this.state.query[n]['value'].match(/^[a-zA-Z]+$/)) {
+              return "*"+this.state.query[n]['value']+"*";
+            } else {
+              return this.state.query[n]['value'];
+            }
+          }
         };
         map['f'+n] = function() {
           if(this.state.query[n])

@@ -27,7 +27,6 @@
   @include record-type-badge-colored($darkblue);
 }
 
-
 .record-type-badge.digital_object {
   @include record-type-badge-colored($digital-object-color);
 }

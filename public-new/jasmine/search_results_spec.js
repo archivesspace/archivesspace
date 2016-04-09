@@ -127,6 +127,37 @@ describe('Search Results', function() {
   });
 
 
+  describe('Identifier searchers', function() {
+
+    it('wraps quotes around an identifier query if it has whitespace', function() {
+      var idQuery = [{
+        field: "identifier",
+        recordtype: "any",
+        value: "SS Minow"
+      }];
+
+      this.searchResults.updateQuery(idQuery)
+      var request = jasmine.Ajax.requests.mostRecent();
+      request.respondWith(TestResponses.search.success);
+      expect(request.url).toContain('v0=%22SS+Minow%22');
+
+    });
+
+    it('bookends an id query with wildcard if it seems like the user intended to search an identifier segment', function() {
+      var idQuery = [{
+        field: "identifier",
+        recordtype: "any",
+        value: "SS"
+      }];
+
+      this.searchResults.updateQuery(idQuery)
+      var request = jasmine.Ajax.requests.mostRecent();
+      request.respondWith(TestResponses.search.success);
+      expect(request.url).toContain('v0=*SS*');
+    });
+  });
+
+
   describe('SearchResultItem', function() {
 
     beforeEach(function() {
