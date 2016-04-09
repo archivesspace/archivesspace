@@ -1,7 +1,8 @@
 # Upgrading to a new release of ArchivesSpace
 
-** Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md) for special considerations when upgrading to v1.1.1**
-** Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md) for special considerations when upgrading to v1.1.0**
+1. ** Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md) for special considerations when upgrading to v1.1.1**
+2. ** Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md) for special considerations when upgrading to v1.1.0**
+3. ** Please also see [UPGRADING_1.5.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md) for special considerations when upgrading to v1.5.0**
 
 
 ## Create a backup of your ArchivesSpace instance
