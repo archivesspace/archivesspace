@@ -7,9 +7,10 @@
      add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
    end
    add_column(I18n.t("location._singular"), proc {|record| record['title']}, :sortable => true, :sort_by => 'title_sort')
-   add_column(I18n.t("location.holdings"), proc {|record| 
+   add_column(I18n.t("location_profile._singular"), proc {|record| record["location_profile_display_string_u_ssort"]}, :sortable => true, :sort_by => "location_profile_display_string_u_ssort" )
+   add_column(I18n.t("location.holdings"), proc {|record|
     filter_term = {"location_uris" => record['uri']}.to_json
-    ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :json, :listing_only => true}.merge(build_search_params({"add_filter_term" => filter_term}))) 
+    ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :json, :listing_only => true}.merge({"filter_term" => filter_term, "type" => "top_container"}))
     "<div class='location-holdings' data-url='#{ajax_search_url}'><i class='spinner'></i></div>".html_safe }, :sortable => false)
 %>
 <div class="row">

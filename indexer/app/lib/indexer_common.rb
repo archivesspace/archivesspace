@@ -501,7 +501,7 @@ class CommonIndexer
 
       if record['record']['location_profile']
         doc['location_profile_uri_u_sstr'] = record['record']['location_profile']['ref']
-        doc['location_profile_display_string_u_sstr'] = record['record']['location_profile']['_resolved']['display_string']
+        doc['location_profile_display_string_u_ssort'] = record['record']['location_profile']['_resolved']['display_string']
       end
     }
 

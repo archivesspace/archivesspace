@@ -215,6 +215,7 @@ en:
     digital_object_id: Digital Object ID
     digital_object_type: Digital Object Type
     publish: Publish
+    location_profile_display_string_u_ssort: Location Profile
 
   advanced_search:
     operator:
