@@ -66,8 +66,9 @@ describe "Subjects" do
 
     #drag to become sibling of parent
     source = @driver.find_element( :css => "#subject_terms__1_ .drag-handle" )
+    target = @driver.find_element( :css => "#subject_terms__0_ .drag-handle" )
 
-    @driver.action.drag_and_drop_by(source, 0, -100).perform
+    @driver.action.drag_and_drop(source, target).perform
     sleep(5)
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element(:css => "form .record-pane button[type='submit']").click

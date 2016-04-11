@@ -168,6 +168,12 @@ RSpec.configure do |config|
   config.include SpecHelperMethods
   config.include JSONModel
 
+  config.before(:each) do |x|
+    $stderr.puts x.description
+    free = `free -h` 
+    $stderr.puts free 
+  end
+  
   config.expect_with(:rspec) do |c|
     c.syntax = [:should, :expect]
   end
