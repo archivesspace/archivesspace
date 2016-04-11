@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show],
+  set_access_control  "view_repository" => [:index, :show, :search],
                       "update_location_record" => [:new, :edit, :create, :update, :batch, :batch_create, :delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
@@ -205,5 +205,23 @@ class LocationsController < ApplicationController
 
     flash[:success] = I18n.t("location._frontend.messages.deleted", JSONModelI18nWrapper.new(:location => location))
     redirect_to(:controller => :locations, :action => :index, :deleted_uri => location.uri)
+  end
+
+
+  def search
+    respond_to do |format|
+      format.js {
+        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
+        @display_identifier = false
+        @extra_columns = []
+        @search_data.sort_fields << "location_profile_display_string_u_ssort"
+        @extra_columns << SearchHelper::ExtraColumn.new(I18n.t("location_profile._singular"),
+                                         proc {|record| record["location_profile_display_string_u_ssort"]},
+                                         { :sortable => true, :sort_by => "location_profile_display_string_u_ssort" },
+                                         @search_data)
+
+        render_aspace_partial :partial => "search/results"
+      }
+    end
   end
 end

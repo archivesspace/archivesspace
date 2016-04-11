@@ -144,6 +144,7 @@ ArchivesSpace::Application.routes.draw do
 
       match 'locations/defaults' => 'locations#defaults', :via => [:get]
       match 'locations/defaults' => 'locations#update_defaults', :via => [:post]
+      match 'locations/search' => 'locations#search', :via => [:get]
       resources :locations
       match 'locations/:id' => 'locations#update', :via => [:post]
       match 'locations/:id/delete' => 'locations#delete', :via => [:post]
