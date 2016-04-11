@@ -236,6 +236,7 @@ class TopContainer < Sequel::Model(:top_container)
       set_repo_id(repo_id).
       set_record_types(params[:type]).
       set_filter_terms(params[:filter_term]).
+      set_simple_filters(params[:simple_filter]).
       set_facets(params[:facet])
 
 
