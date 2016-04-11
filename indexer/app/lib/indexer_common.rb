@@ -433,6 +433,7 @@ class CommonIndexer
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['barcode_u_sstr'] = record['record']['barcode']
       end
     }
 

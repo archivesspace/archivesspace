@@ -1081,6 +1081,7 @@ en:
         series: Series
         current_location: Current Location
         keyword_criteria: Keyword
+        barcodes_criteria: Barcode(s)
         exported_to_ils_true: "Yes"
         exported_to_ils_false: "No"
         empty: Unassociated containers
