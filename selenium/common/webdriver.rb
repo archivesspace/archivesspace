@@ -23,7 +23,7 @@ module DriverMixin
 
 
   def wait_until_gone(*selector)
-      timeout = 5
+      timeout = 10
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !self.find_element_orig(*selector).displayed? }
   end

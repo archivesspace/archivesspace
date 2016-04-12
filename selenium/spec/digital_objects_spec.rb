@@ -135,6 +135,7 @@ describe "Digital Objects" do
     @driver.get("#{$frontend}#{@do.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::digital_object_component_#{@do_child1.id}")
 
     # create grand child
+    @driver.wait_until_gone(:css, ".spinner")
     @driver.find_element(:link, "Add Child").click
 
     @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
