@@ -422,6 +422,7 @@ describe "Tree UI" do
 
     # we cycle these nodes around in a circle.
     3.times do
+      @driver.wait_until_gone(:css, ".spinner")
       a =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[7]/a")
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[9]/a")
       target =  @driver.find_elements(
@@ -446,6 +447,7 @@ describe "Tree UI" do
 
     # now lets cycles in reverse
     3.times do
+      @driver.wait_until_gone(:css, ".spinner")
       a =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[1]/a")
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[3]/a")
       target =  @driver.find_elements(
@@ -517,6 +519,7 @@ describe "Tree UI" do
 
     # let's cycle bottom to top
     4.times do
+      @driver.wait_until_gone(:css, ".spinner")
       new_order = new_order.pop(3) + new_order
       a =  @driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a")[-3]
       b =  @driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").last
@@ -535,6 +538,7 @@ describe "Tree UI" do
 
     # let's cycle top to bottom
     4.times do
+      @driver.wait_until_gone(:css, ".spinner")
       n = new_order.shift(3)
       new_order =  new_order + n
       a =  @driver.find_elements(:xpath => "//li[a/@title='#{@r.title}']/ul/li/a").first
@@ -554,6 +558,7 @@ describe "Tree UI" do
 
     # let's move top 3 into the middle and see if that works
     2.times do
+      @driver.wait_until_gone(:css, ".spinner")
       n = new_order.shift(3)
       new_order.insert(3, n).flatten!
 
