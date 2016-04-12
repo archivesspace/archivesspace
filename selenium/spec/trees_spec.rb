@@ -325,8 +325,10 @@ describe "Tree UI" do
 
     # now lets add some more and move them around
     [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|
-      
+      @driver.wait_for_ajax
+      @driver.wait_until_gone(:css, ".spinner")
       @driver.find_element(:id, js_node(@r).li_id).click
+      
       @driver.wait_for_ajax
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
       @driver.wait_for_ajax
@@ -354,7 +356,9 @@ describe "Tree UI" do
       @driver.wait_for_ajax
       @driver.wait_until_gone(:css, ".spinner")
     end
-    
+   
+    wait = Selenium::WebDriver::Wait.new(:timeout => 40)
+    @driver.wait_until_gone(:css, ".spinner")
     @driver.find_element(:id, js_node(@r).li_id).click
     @driver.click_and_wait_until_gone(:link, 'Close Record')
     @driver.wait_for_ajax
@@ -467,6 +471,7 @@ describe "Tree UI" do
 
     # now lets stick some in the middle
     2.times do
+      @driver.wait_until_gone(:css, ".spinner")
       a =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[1]/a")
       b =  @driver.element_finder(:xpath => "//div[@id='archives_tree']//li[a/@title='#{@a1.title}']/ul/li[3]/a")
       target =  @driver.find_elements(

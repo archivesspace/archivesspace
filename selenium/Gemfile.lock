@@ -17,7 +17,7 @@ GEM
     multi_json (1.10.0)
     multipart-post (1.2.0)
     net-http-persistent (2.8)
-    parallel (1.6.2)
+    parallel (1.8.0)
     parallel_tests (1.3.9)
       parallel
     rack (1.4.7)
@@ -48,7 +48,7 @@ GEM
       rack-protection (~> 1.3)
       tilt (~> 1.3, >= 1.3.3)
     tilt (1.4.1)
-    websocket (1.2.2)
+    websocket (1.2.3)
 
 PLATFORMS
   java
@@ -67,7 +67,7 @@ DEPENDENCIES
   rspec (~> 3.3.0)
   rspec-retry
   rubyzip (= 1.0.0)
-  selenium-webdriver
+  selenium-webdriver (>= 2.53.0)
   sinatra (= 1.3.6)
 
 BUNDLED WITH
