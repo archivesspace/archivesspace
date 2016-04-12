@@ -183,7 +183,7 @@ describe 'Archival Object controller' do
   end
 
 
-  xit "will have the auto-generated ref_id refetched upon save" do
+  it "will have the auto-generated ref_id refetched upon save" do
     archival_object = build(:json_archival_object, "ref_id" => nil)
 
     archival_object.ref_id.should be_nil
@@ -261,7 +261,7 @@ describe 'Archival Object controller' do
   end
 
 
-  xit "can publish records with really long notes" do
+  it "can publish records with really long notes" do
     archival_object = create(:json_archival_object)
 
     notes = build(:json_note_bibliography, 'content' => ["x" * 40000])
