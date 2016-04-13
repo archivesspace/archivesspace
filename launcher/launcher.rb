@@ -38,8 +38,11 @@ def start_server(port, *webapps)
   connector = org.eclipse.jetty.server.nio.SelectChannelConnector.new
   connector.port = port
   
-  buffer_size_bytes =  AppConfig[:jetty_request_buffer_size_bytes] || 64 * 1024 
-  connector.setRequestHeaderSize(buffer_size_bytes)
+  req_buffer_size_bytes =  AppConfig[:jetty_request_buffer_size_bytes] || 64 * 1024 
+  res_buffer_size_bytes =  AppConfig[:jetty_response_buffer_size_bytes] || 64 * 1024 
+  
+  connector.setRequestHeaderSize(req_buffer_size_bytes)
+  connector.setResponseHeaderSize(res_buffer_size_bytes)
 
   contexts = webapps.map do |webapp|
     if webapp[:war]
