@@ -26,6 +26,7 @@ module DriverMixin
       timeout = 10
       wait = Selenium::WebDriver::Wait.new(timeout: timeout)
       wait.until { !self.find_element_orig(*selector).displayed? }
+      sleep 0.5 
   end
 
 
