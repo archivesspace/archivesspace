@@ -67,7 +67,7 @@ DEPENDENCIES
   rspec (~> 3.3.0)
   rspec-retry
   rubyzip (= 1.0.0)
-  selenium-webdriver (>= 2.45.0)
+  selenium-webdriver (>= 2.53.0)
   sinatra (= 1.3.6)
 
 BUNDLED WITH

@@ -132,14 +132,35 @@ describe "Digital Objects" do
   end
 
   it "can drag and drop reorder a Digital Object", :retry => 2, :retry_wait => 10 do
+    
     @driver.get("#{$frontend}#{@do.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::digital_object_component_#{@do_child1.id}")
+    @driver.wait_for_ajax
+    @driver.wait_until_gone(:css, ".spinner")
 
     # create grand child
-    @driver.find_element(:link, "Add Child").click
+    10.times do 
+      begin 
+        @driver.find_element(:link, "Add Child").click
+        break
+      rescue
+        sleep 0.5
+        next
+      end
+    end
 
     @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
     @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-    @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
+    
+    10.times do
+      begin
+        @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
+        break
+      rescue
+        $stderr.puts "cant save damnit" 
+        sleep 0.5
+        next
+      end
+    end
 
     # first resize the tree pane (do it incrementally so it doesn't flip out...)
     pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
