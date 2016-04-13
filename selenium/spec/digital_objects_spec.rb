@@ -150,7 +150,17 @@ describe "Digital Objects" do
 
     @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
     @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-    @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
+    
+    10.times do
+      begin
+        @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
+        break
+      rescue
+        $stderr.puts "cant save damnit" 
+        sleep 0.5
+        next
+      end
+    end
 
     # first resize the tree pane (do it incrementally so it doesn't flip out...)
     pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
