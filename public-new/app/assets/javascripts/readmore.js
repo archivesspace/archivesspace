@@ -13,12 +13,16 @@ $.fn.readmore = function(idealCharCount) {
   $(this).on("click", "a.expander", function(e) {
     e.preventDefault();
     var $a = $(e.target);
+    var $elipses = $('.elipses', $that);
+
     $that.toggleClass("expanded");
     if($that.hasClass("expanded")) {
       $a.html("See less");
       $a.detach().appendTo($that);
+      $elipses.empty();
     } else {
       $a.html("See more <i class='fa fa-chevron-right'></i>");
+      $elipses.html("...");
     }
   });
 
@@ -75,10 +79,8 @@ $.fn.readmore = function(idealCharCount) {
       breakPoint = findBreakPoint($(p).html());
       if(breakPoint) {
         var origHtml = $(p).html();
-        $(p).html("<span class='less'>"+origHtml.substr(0, breakPoint)+"</span><span class='more'>"+origHtml.substr(breakPoint)+"</span>");
-        $that.append("&#160;<a href='#' class='expander'>See more <i class='fa fa-chevron-right'></i></a>");
-        // $("span.less", $(p)).after("<a href='#' class='expander'>see more</a>");
-
+        $(p).html("<span class='less'>"+origHtml.substr(0, breakPoint)+"<span class='elipses'>...</span></span><span class='more'>"+origHtml.substr(breakPoint)+"</span>");
+        $that.append("<a href='#' class='expander'>See more <i class='fa fa-chevron-right'></i></a>");
       } else {
         $(p).addClass("less");
       }

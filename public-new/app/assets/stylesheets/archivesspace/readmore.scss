@@ -10,6 +10,11 @@
       visibility: visible;
       display: inline;
     }
+
+    .elipses {
+      visibility: hidden;
+      width: 0;
+    }
   }
 
   .expander .fa{
