@@ -5,6 +5,7 @@ var app = app || {};
 
   var typeToIconMap = {
     resource: "glyphicon glyphicon-list-alt",
+    archival_object: "fi-archive",
     accession: "glyphicon glyphicon-list-alt",
     classification: "fi-page-multiple",
     classification_term: "fi-page-multiple",

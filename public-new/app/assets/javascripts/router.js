@@ -33,10 +33,10 @@ var app = app || {};
     },
 
 
-    showRecord: function(repoId, recordTypePlural, id) {
+    showRecord: function(repoId, recordTypePathPlural, id) {
       var opts = {
         repoId: repoId,
-        recordType: _.singularize(recordTypePlural),
+        recordTypePath: _.singularize(recordTypePathPlural),
         id: id
       };
 

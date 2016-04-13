@@ -26,4 +26,5 @@
 //= require records
 //= require agents
 //= require repositories
+//= require classifications
 //= require welcome

@@ -32,7 +32,9 @@ var app = app || {};
         label_plural: "Collections"
       },
       archival_object: {
-        key_for_public_urls: "object"
+        key_for_public_urls: "object",
+        label_singular: "Object",
+        label_plural: "Objects"
       },
       accession: {
         key_for_public_urls: "accession",
@@ -168,7 +170,9 @@ var app = app || {};
       if (date.begin && date.end) {
         string += date.begin+"-"+date.end;
       } else if(date.begin) {
-        string += date.begin
+        string += date.begin;
+      } else if(date.expression) {
+        string += date.expression;
       }
 
       return string;
