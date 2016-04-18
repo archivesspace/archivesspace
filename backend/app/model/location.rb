@@ -118,4 +118,53 @@ class Location < Sequel::Model(:location)
     super
   end
 
+
+  def self.building_data
+    buildings = {}
+    all = self.where('building IS NOT NULL').order_by(:building, :floor, :room, :area)
+    all.each do |location|
+
+      if !buildings.has_key?(location.building)
+        buildings[location.building] = {}
+      end
+
+      floors = buildings[location.building]
+
+      if location.floor.nil?
+        next
+      elsif !buildings[location.building].has_key?(location.floor)
+        floors[location.floor] = {}
+      end
+
+      rooms = floors[location.floor]
+
+      if location.room.nil?
+        next
+      elsif !rooms.has_key?(location.room)
+        rooms[location.room] = []
+      end
+
+      areas = rooms[location.room]
+
+      if location.area.nil?
+        next
+      elsif !areas.include?(location.area)
+        areas.push(location.area)
+      end
+    end
+
+    buildings
+  end
+
+
+  def self.for_building(building, floor = nil, room = nil, area = nil)
+    query = {
+      :building => building
+    }
+    query[:floor] = floor if floor && floor != ''
+    query[:room] = room if room && room != ''
+    query[:area] = area if area && area != ''
+
+    self.filter(query).all
+  end
 end

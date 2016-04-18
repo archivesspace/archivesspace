@@ -313,6 +313,14 @@ FactoryGirl.define do
     width { rand(100).to_s }
   end
 
+  factory :json_location_profile, class: JSONModel(:location_profile) do
+    name { generate(:alphanumstr) }
+    dimension_units { sample(JSONModel(:location_profile).schema['properties']['dimension_units']) }
+    depth { rand(100).to_s }
+    height { rand(100).to_s }
+    width { rand(100).to_s }
+  end
+
   factory :json_sub_container, class: JSONModel(:sub_container) do
     type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
     indicator_2 { generate(:alphanumstr) }

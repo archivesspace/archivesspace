@@ -659,6 +659,7 @@ en:
         save: Save Location
         single: Single Location
         delete_confirm_message: "<p>Please be aware you <strong>cannot undo this action.</strong>.</p><p> If this Location is currently linked to one or more instances it cannot be deleted.</p>"
+        show_space_calculator: Find with Space Calculator
 
   location_batch:
     _frontend:
@@ -1108,6 +1109,7 @@ en:
         save: Save Container Profile
         edit: Edit Container Profile
         create: Create Container Profile
+        space_calculator: Space Calculator
       messages:
         created: Container Profile Created
         updated: Container Profile Updated
@@ -1150,6 +1152,10 @@ en:
     width: Width
     width_tooltip: |
         <p>Numeric value for the width (side to side dimension) of the container.</p>
+    stacking_limit: Stacking Limit
+    stacking_limit_tooltip: |
+        <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
+
   rights_restriction:
     begin: Restriction Begin
     begin_tooltip: |
@@ -1202,3 +1208,27 @@ en:
     depth: Depth
     height: Height
     width: Width
+
+  space_calculator:
+    modal_title: Space Calculator
+    modal_loading: Loading...
+    message_container_profile_required: The Space Calculator requires a Container Profile to be set.
+    message_locations_required: The Space Calculator requires one or more locations to be set.
+    message_select_locations: "Check for space in the following Location(s):"
+    message_no_locations_with_space: No locations with space found
+    message_loading: Loading...
+    count: Space Available (of container type)
+    reason: Calculator Result
+    calculate_space: Check for Space
+    locations_without_space_details: Review locations without space
+    by_locations: By Location(s)
+    by_building: By Building
+    result_filter: Filter Results
+    result_summary: "Locations: %{all}; <span class='text-success'>space available: %{have_space}</span>; <span class='text-warning'>no space: %{no_space}</span>; <span class='text-danger'>unable to calculate: %{error}</span>"
+    reason:
+      location_lacks_a_profile: Location lacks a profile
+      location_lacks_dimension_data: Location profile lacks dimension data
+      container_is_bigger: Container is bigger than the location in at least one dimension
+      container_at_location_lacks_profile: At least one of the containers currently at the location lacks a profile
+      containers_at_location_dont_fit: The containers currently at the location don't fit
+      location_cannot_fit_container: The location cannot currently fit any containers of this type
