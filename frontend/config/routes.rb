@@ -237,6 +237,9 @@ ArchivesSpace::Application.routes.draw do
       match('location_profiles/:id' => 'location_profiles#update', :via => [:post])
       match('location_profiles/:id/delete' => 'location_profiles#delete', :via => [:post])
 
+      match('space_calculator' => 'space_calculator#show', :via => [:get])
+      match('space_calculator' => 'space_calculator#calculate', :via => [:post])
+
       if Plugins.system_menu_items?
         scope '/plugins' do
           Plugins.system_menu_items.each do |plugin|

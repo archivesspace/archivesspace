@@ -319,6 +319,11 @@ module JSONModel::Validations
         end
       end
 
+      # Ensure stacking limit is a positive integer if it has value
+      if !hash['stacking_limit'].nil? and hash['stacking_limit'] !~ /^\d+$/
+        errors << ['stacking_limit', 'must be a positive integer']
+      end
+
       errors
   end
 

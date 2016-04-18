@@ -1895,6 +1895,7 @@ en:
     length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
     location_profile_name_not_unique: Location Profile name must be unique
+    must_be_a_positive_integer: Must be a positive integer
 
   job:
     _singular: Background Job
