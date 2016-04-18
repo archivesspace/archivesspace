@@ -43,7 +43,11 @@ class ReportRunner < JobRunner
       output = ReportResponse.new( report_model.new(params)  ).generate 
       if output.respond_to? :string
         file.write(output.string)
-      else 
+      elsif output.respond_to? :each
+	output.each do |chunk|
+	  file.write(chunk)
+	end
+      else
         file.write(output)
       end
       file.rewind
