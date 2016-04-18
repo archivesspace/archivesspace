@@ -31,6 +31,17 @@
 
       "temporary" => {"type" => "string", "dynamic_enum" => "location_temporary"},
 
+      "location_profile" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "properties" => {
+          "ref" => {"type" => "JSONModel(:location_profile) uri"},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        }
+      },
     },
   },
 }

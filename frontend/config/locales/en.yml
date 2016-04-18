@@ -164,6 +164,15 @@ en:
       container_profile_height_u_sstr: Height
       container_profile_depth_u_sstr: Depth
       container_profile_dimension_units_u_sstr: Dimension Units
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      location_profile_display_string_u_ssort: Location Profile
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -254,6 +263,7 @@ en:
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_container_profiles: Manage Container Profiles
+    manage_location_profiles: Manage Location Profiles
     manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     user_global_preferences: My Global Preferences
@@ -1172,3 +1182,23 @@ en:
     container_summary_type:
       _singular: container
       _plural: containers
+
+  location_profile:
+    _singular: Location Profile
+    _plural: Locations Profiles
+    _frontend:
+      action:
+        save: Save Location Profile
+        edit: Edit Location Profile
+        create: Create Location Profile
+      messages:
+        created: Location Profile Created
+        updated: Location Profile Updated
+        fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
+      section:
+        basic_information: Basic Information
+    name: Name
+    dimension_units: Dimension Units
+    depth: Depth
+    height: Height
+    width: Width

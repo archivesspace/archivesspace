@@ -4,8 +4,14 @@ class Location < Sequel::Model(:location)
 
   include ExternalIDs
   include AutoGenerator
+  include Relationships
 
   set_model_scope :global
+
+  define_relationship(:name => :location_profile,
+                      :json_property => 'location_profile',
+                      :contains_references_to_types => proc {[LocationProfile]},
+                      :is_array => false)
 
 
   def self.generate_title(json)

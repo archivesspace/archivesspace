@@ -1407,6 +1407,7 @@ en:
       update_container_record: create/update top container records
       manage_container_record: delete/bulk update top container records
       manage_container_profile_record: create/update/delete container profile records
+      manage_location_profile_record: create/update/delete location profile records
     _singular: Group
     _plural: Groups
 
@@ -1893,6 +1894,7 @@ en:
     must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
     length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
+    location_profile_name_not_unique: Location Profile name must be unique
 
   job:
     _singular: Background Job

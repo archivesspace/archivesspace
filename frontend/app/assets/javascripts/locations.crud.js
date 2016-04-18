@@ -62,4 +62,9 @@ $(function() {
 
   });
 
+  // initialize any linkers not delivered via subrecord
+  $(document).ready(function() {
+    $(".linker:not(.initialised)").linker();
+  })
+
 });
