@@ -232,6 +232,11 @@ ArchivesSpace::Application.routes.draw do
 
       match('extent_calculator' => 'extent_calculator#report', :via => [:get])
 
+      resources :location_profiles
+      match('location_profiles/search/typeahead' => 'location_profiles#typeahead', :via => [:get])
+      match('location_profiles/:id' => 'location_profiles#update', :via => [:post])
+      match('location_profiles/:id/delete' => 'location_profiles#delete', :via => [:post])
+
       if Plugins.system_menu_items?
         scope '/plugins' do
           Plugins.system_menu_items.each do |plugin|

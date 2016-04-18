@@ -24,7 +24,7 @@ class LocationsController < ApplicationController
 
 
   def get_location
-    @location = JSONModel(:location).find(params[:id])
+    @location = JSONModel(:location).find(params[:id], find_opts)
   end
 
   def show

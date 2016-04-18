@@ -13,6 +13,18 @@
 
       <%= read_only_view(@location.to_hash) %>
 
+      <% if @location['location_profile'] %>
+        <div class="form-group token-list">
+          <label class="control-label col-sm-2"><%= I18n.t("location_profile._singular") %></label>
+          <div class="controls col-sm-8">
+            <%= render_token :object => @location["location_profile"]["_resolved"],
+                             :label => @location["location_profile"]["_resolved"]["display_string"],
+                             :type => "location_profile",
+                             :uri => @location["location_profile"]["ref"] %>
+          </div>
+        </div>
+      <% end %>
+
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
 
       <% if @location.external_ids.length > 0 && show_external_ids? %>

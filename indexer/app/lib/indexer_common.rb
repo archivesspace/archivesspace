@@ -16,7 +16,7 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile,
+  @@record_types = [ :top_container,:container_profile, :location_profile,
                      :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location, :classification, :classification_term,
@@ -29,7 +29,7 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
+  @@resolved_attributes = ['location_profile', 'container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
 
   @@paused_until = Time.now
 
@@ -480,6 +480,27 @@ class CommonIndexer
         doc['fullrecord'] << record['record']['names'].map {|name|
           CommonIndexer.extract_string_values(name)
         }.join(" ")
+      end
+    }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location_profile'
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        ['width', 'height', 'depth'].each do |property|
+          doc["location_profile_#{property}_u_sstr"] = record['record'][property]
+        end
+
+        doc["location_profile_dimension_units_u_sstr"] = record['record']['dimension_units']
+
+        doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
+      end
+
+      if record['record']['location_profile']
+        doc['location_profile_uri_u_sstr'] = record['record']['location_profile']['ref']
+        doc['location_profile_display_string_u_sstr'] = record['record']['location_profile']['_resolved']['display_string']
       end
     }
 

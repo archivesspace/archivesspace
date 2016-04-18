@@ -8,6 +8,9 @@
       <%= form.label_and_textfield "floor" %>
       <%= form.label_and_textfield "room" %>
       <%= form.label_and_textfield "area" %>
+      <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
+        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
+      <% end %>
       <% if @is_batch_update %> 
         <% @location_batch.record_uris.each do |uri| %> 
           <%= form.hidden_input "record_uris[]", uri %> 

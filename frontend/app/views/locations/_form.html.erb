@@ -18,6 +18,10 @@
       <%= form.label_and_textfield "coordinate_2_indicator" %>
       <%= form.label_and_textfield "coordinate_3_label" %>
       <%= form.label_and_textfield "coordinate_3_indicator" %>
+      <hr/>
+      <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
+        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
+      <% end %>
     </section>
   </fieldset>
 <% end %>
