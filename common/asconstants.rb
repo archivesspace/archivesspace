@@ -42,7 +42,7 @@ module ASConstants
   def self.SCHEMA_INFO
     return @SCHEMA_INFO if @SCHEMA_INFO
     # this gets changed by dist ant task 
-    @SCHEMA_INFO = 69
+    @SCHEMA_INFO = 74
   end
 
 end
