@@ -161,7 +161,6 @@ describe "EAD export mappings" do
     # let's makes sure there's one agent a creator without and terms.
     agents.find { |a| a[:role] == "creator" }[:terms] = []
     agents.shuffle
-
   end
 
 
@@ -494,7 +493,7 @@ describe "EAD export mappings" do
       end
 
       it "maps {archival_object}.instances[].container.barcode_1 to {desc_path}/did/container@label" do
-        
+
       end
     end
 
@@ -658,11 +657,23 @@ describe "EAD export mappings" do
       it "maps linked agents with role 'subject' or 'source' to {desc_path}/controlaccess/NODE" do
         object.linked_agents.each do |link|
           link_role = link[:role] || link['role']
+          ref = link[:ref] || link['ref']
+          agent = @agents[ref]
+          node_name = case agent.agent_type
+                      when 'agent_person'; 'persname'
+                      when 'agent_family'; 'famname'
+                      when 'agent_corporate_entity'; 'corpname'
+                      end
+
+          # https://archivesspace.atlassian.net/browse/AR-985?focusedCommentId=17531&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-17531
+          if link_role == 'creator'
+            path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{agent.names[0]['sort_name']}')]"
+            doc.should_not have_node(path)
+          end
+
           next unless %w(source subject).include?(link_role)
           relator = link[:relator] || link['relator']
-          ref = link[:ref] || link['ref']
           role = relator ? relator : (link_role == 'source' ? 'fmo' : nil)
-          agent = @agents[ref]
           sort_name = agent.names[0]['sort_name']
           rules = agent.names[0]['rules']
           source = agent.names[0]['source']
@@ -674,12 +685,6 @@ describe "EAD export mappings" do
             content << " -- "
             content << terms.map{|t| t['term']}.join(' -- ')
           end
-
-          node_name = case agent.agent_type
-                      when 'agent_person'; 'persname'
-                      when 'agent_family'; 'famname'
-                      when 'agent_corporate_entity'; 'corpname'
-                      end
 
           path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{sort_name}')]"
 
