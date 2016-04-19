@@ -26,6 +26,7 @@ class LabelModel < ASpaceExport::ExportModel
 
   def initialize(obj)
     @json = obj
+    @seen_top_containers = []
     
     @rows = generate_label_rows(self.children) 
   end
@@ -98,6 +99,11 @@ class LabelModel < ASpaceExport::ExportModel
 
       instances = obj.instances
       instances.each do |i|
+        if i['sub_container']
+          next if @seen_top_containers.include?(i['sub_container']['top_container']['ref'])
+          @seen_top_containers << i['sub_container']['top_container']['ref']
+        end
+
         c = i['container']
         next unless c
         crow = [] 
