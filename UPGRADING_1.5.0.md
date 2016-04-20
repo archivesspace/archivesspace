@@ -1,7 +1,22 @@
 UPGRADING TO 1.5.0 
 ==================
 
-Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md) for the standard instructions that apply in all cases.
+Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/) for the standard instructions that apply in all cases.
+
+#General overview
+
+The upgrade process to the new data model in 1.5.0 requires considerable data transformation and it is important for users to review this document to understand the implimcations and possible side-effects. 
+
+A quick overview of the steps are:
+
+1. Review this document and understand how the upgrade will impact your data, paying particular attention to the [Preparation section](#preparation) .
+2. [Backup your database](http://archivesspace.github.io/archivesspace/user/backup-and-recovery/).
+3. No, really, [backup your database](http://archivesspace.github.io/archivesspace/user/backup-and-recovery/).
+4. It is suggested that [users start with a new solr index](http://archivesspace.github.io/archivesspace/user/re-creating-indexes/). To do this, delete the data/solr_index/index directory and all files in the data/indexer_state directory. The embedded version of Solr has been upgraded, which should result in a much more compact index size. 
+5. Follow the standard [upgrading instructions](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/). Important to note:  The setup-database.sh|bat script will modify your database schema, but it will not move the data. 
+6. Start ArchivesSpace. When 1.5.0 starts for the first time, a conversion process will kick off and move the data into the new table structure. **During this time, the application will be unavailable until it completes**. Duration depends on the size of your data and server resources, with a few minutes for very small databases to several hours for very large ones. 
+7. When the conversion is done, the web application will start and the indexer will rebuild your index. Performance might be slower while the indexer runs, depending on your server environment and available resources. 
+8. Review the [output of the conversion process](#conversion) following the instructions below
 
 #Preparing for and Converting to the New Container Management Functionality
 
@@ -40,7 +55,7 @@ During the conversion, ArchivesSpace will find all the Container 1s in your curr
 * If containers do not have barcodes, one top container is created for each unique combination of container 1 indicator and container type 1.
 * Once a top container is created, additional instance records for the same container within an accession or resource will be linked to that top container record.
 
-##Preparation
+##Preparation <a name="preparation"></a>
 
 *What can I do to prepare my ArchivesSpace data for a smoother conversion to top containers?*
 
@@ -56,7 +71,7 @@ If you use the current Container Extent fields, these will no longer be availabl
 
 If you have a box and folder associated with a component (or any other hierarchical relationship of containers), you will need to add identifiers to the container element so that the EAD importer knows which is the top container. If you previously used Archivists' Toolkit to create EAD, your containers probably already have container identifiers. If your container elements do not have identifiers already, Yale University has made available an [XSLT transformation file](https://github.com/YaleArchivesSpace/xslt-files/blob/master/EAD_add_IDs_to_containers.xsl) to add them. You will need to run it before importing the EAD file into ArchivesSpace. 
 
-##Conversion
+##Conversion <a name="conversion"></a> 
 
 When upgrading from 1.4.2 (and earlier versions) to 1.5.0, the container conversion will happen as part of the upgrade process. You will be able to follow its progress in the log. Instructions for upgrading from a previous version of ArchivesSpace are available at [https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md]. 
 
