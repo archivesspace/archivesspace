@@ -19,18 +19,50 @@
   <% if @results && !(@results['locations_with_space'] +
                      @results['locations_without_space']  +
                      @results['uncalculatable_locations']).empty? %>
-    <div class="row">
-      <div class="col-xs-8">
-        <small>
-          <%= I18n.t("space_calculator.result_summary", {
-            :all => (@results['locations_with_space'] + @results['locations_without_space']  + @results['uncalculatable_locations']).length,
-            :have_space => @results['locations_with_space'].length,
-            :no_space => @results['locations_without_space'].length,
-            :error => @results['uncalculatable_locations'].length
-          }) %>
-        </small>
+    <div id="spaceCalculatorToolbar" class="row">
+      <div class="col-xs-9">
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".has-space"
+                 type="checkbox"
+            <% if @results['locations_with_space'].length > 0 %>
+              checked="checked"
+            <% else %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-success">
+            <%= I18n.t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length)%>
+          </small>
+        </label>
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".no-space"
+                 type="checkbox"
+            <% if @results['locations_without_space'].length == 0 %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-warning">
+            <%= I18n.t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length)%>
+          </small>
+        </label>
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".errored"
+                 type="checkbox"
+            <% if @results['uncalculatable_locations'].length > 0 %>
+              checked="checked"
+            <% else %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-danger">
+            <%= I18n.t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length)%>
+          </small>
+        </label>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-3">
         <input id="searchResultsFilter" class="form-control input-sm" type="text" placeholder="<%= I18n.t("space_calculator.result_filter") %>"/>
       </div>
     </div>
@@ -48,7 +80,7 @@
       </thead>
       <tbody>
         <% @results['locations_with_space'].each do |location| %>
-          <tr>
+          <tr class="has-space">
             <% if @selectable %>
               <td><%= radio_button_tag "linker-item", location["ref"], false, :"data-object" => location.to_json %></td>
             <% end %>
@@ -59,7 +91,7 @@
           </tr>
         <% end %>
         <% @results['locations_without_space'].each do |location| %>
-        <tr>
+        <tr class="no-space filtered-by-toggle">
           <% if @selectable %>
             <td></td>
           <% end %>
@@ -74,7 +106,7 @@
         </tr>
       <% end %>
         <% @results['uncalculatable_locations'].each do |location| %>
-          <tr>
+          <tr class="errored">
             <% if @selectable %>
               <td></td>
             <% end %>
