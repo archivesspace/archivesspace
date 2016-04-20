@@ -219,6 +219,27 @@ var app = app || {};
       }
 
       return result;
+    },
+
+    parsePublicUrl: function(url) {
+      if(url.match(/repositories\/(\d+)\/([a-z_]+)\/(\d+)$/)) {
+        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[2]);
+        return {
+          repoId: parsed[1],
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[3]
+        };
+      } else {
+        var parsed = /([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[1])
+        return {
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[2]
+        };
+      }
     }
   }
 })(Backbone, _);

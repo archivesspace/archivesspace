@@ -984,15 +984,18 @@ var RAILS_API = "/api";
 
       $(document).foundation();
       srv.on("showrecord.aspace", function(url) {
-        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url)
-        var opts = {
-          repoId: parsed[1],
-          recordType: _.singularize(parsed[2]),
-          id: parsed[3]
-        }
+        var parsed = app.utils.parsePublicUrl(url);
+
         app.router.navigate(url);
         destroy();
-        new app.RecordContainerView(opts);
+
+        if(parsed.asType === 'repository') {
+          new app.RepoContainerView(parsed);
+        } else if(parsed.asType.match(/agent/)) {
+          new app.AgentContainerView(parsed);
+        } else {
+          new app.RecordContainerView(parsed);
+        }
       });
 
 

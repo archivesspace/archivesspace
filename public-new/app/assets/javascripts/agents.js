@@ -56,8 +56,7 @@ var app = app || {};
 
   var AgentModel = Bb.Model.extend({
     initialize: function(opts) {
-      console.log(opts);
-      this.recordType = app.utils.getASType(opts.type);
+      this.recordType = opts.asType || app.utils.getASType(opts.type);
       this.id = opts.id
       return this;
     },
