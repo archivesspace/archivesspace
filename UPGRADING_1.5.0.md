@@ -52,7 +52,7 @@ The biggest change is the new concept of top containers. A top container is the 
 
 During the conversion, ArchivesSpace will find all the Container 1s in your current ArchivesSpace database. It will then evaluate them as follows:
 * If containers have barcodes, one top container is created for each unique Container 1 barcode.
-* If containers do not have barcodes, one top container is created for each unique combination of container 1 indicator and container type 1.
+* If containers do not have barcodes, one top container is created for each unique combination of container 1 indicator and container type 1 within a resource or accession.
 * Once a top container is created, additional instance records for the same container within an accession or resource will be linked to that top container record.
 
 ##Preparation <a name="preparation"></a>
