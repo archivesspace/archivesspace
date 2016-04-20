@@ -5,7 +5,7 @@ Additional upgrade considerations specific to this release. Refer to the [upgrad
 
 #General overview
 
-The upgrade process to the new data model in 1.5.0 requires considerable data transformation and it is important for users to review this document to understand the implimcations and possible side-effects. 
+The upgrade process to the new data model in 1.5.0 requires considerable data transformation and it is important for users to review this document to understand the implications and possible side-effects. 
 
 A quick overview of the steps are:
 
