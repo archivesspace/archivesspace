@@ -106,6 +106,7 @@ SpaceCalculatorModal.prototype.setupForm = function($form) {
       self.$modal.find("#spaceCalculatorResults").html(html);
       self.setupResults();
       self.setupResultsFilter();
+      self.setupResultsToggles();
     }
   });
 
@@ -269,9 +270,9 @@ SpaceCalculatorModal.prototype.setupResultsFilter = function() {
       }
 
       if (match) {
-        $tr.show();
+        $tr.removeClass("filtered-by-search");
       } else {
-        $tr.hide();
+        $tr.addClass("filtered-by-search");
       }
     });
   };
@@ -279,6 +280,31 @@ SpaceCalculatorModal.prototype.setupResultsFilter = function() {
   $input.on("keyup", function() {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(performSearch, 200);
+  });
+};
+
+SpaceCalculatorModal.prototype.setupResultsToggles = function() {
+  var self = this;
+  var $toggles = self.$results.find(".space-calculator-results-toggle");
+
+  $toggles.each(function() {
+    var $toggle = $(this);
+
+    if ($toggle.is(":disabled")) {
+      $toggle.closest(".btn").addClass("disabled");
+    }
+  });
+
+
+  $toggles.on("click", function() {
+    var $toggle = $(this);
+    var $targetResults = self.$results.find($toggle.data("target-selector"));
+
+    if ($toggle.is(":checked")) {
+      $targetResults.removeClass("filtered-by-toggle");
+    } else {
+      $targetResults.addClass("filtered-by-toggle");
+    }
   });
 };
 
