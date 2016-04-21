@@ -22,6 +22,7 @@
 //= require icons
 //= require router
 //= require main
+//= require search-results
 //= require searching
 //= require records
 //= require agents

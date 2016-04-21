@@ -101,10 +101,9 @@ var app = app || {};
       return result;
     },
 
-    // getPublicUrl: function(asUri) {
-
-    //   return asUri;
-    // },
+    getPublicUrl: function(asUri, asType) {
+      return asUri.replace(new RegExp(_.pluralize(asType)), _.pluralize(app.utils.getPublicType(asType)));
+    },
 
     convertAdvancedQuery: function(aq) {
       var params = parseAdvancedQuery(aq.query);
