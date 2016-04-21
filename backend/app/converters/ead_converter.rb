@@ -101,11 +101,14 @@ class EADConverter < Converter
 
     ignore "titlepage"
 
+    with 'eadheader' do
+      set :finding_aid_status, att('findaidstatus')
+    end
 
     with 'archdesc' do
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
-      set :publish, att('audience') != 'internal'
+      set :publish, att('audience') == 'external'
     end
 
 
@@ -153,9 +156,10 @@ class EADConverter < Converter
     with 'unitdate' do |node|
 
       norm_dates = (att('normal') || "").sub(/^\s/, '').sub(/\s$/, '').split('/')
-      if norm_dates.length == 1
-        norm_dates[1] = norm_dates[0]
-      end
+      #why were the next 3 lines added?  removed for now, since single dates can stand on their own.
+      #if norm_dates.length == 1
+      #  norm_dates[1] = norm_dates[0]
+      #end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
       
       make :date, {
@@ -194,6 +198,7 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => "langmaterial",
         :persistent_id => att('id'),
+        :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.*?<\/head>/, '') )
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -209,6 +214,7 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => note_name,
         :persistent_id => att('id'),
+		    :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.?<\/head>/, '').strip)
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -221,6 +227,7 @@ class EADConverter < Converter
       make :note_multipart, {
         :type => note_name,
         :persistent_id => att('id'),
+		    :publish => att('audience') != 'internal',
         :subnotes => {
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )
@@ -392,7 +399,9 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal',
           :subnotes => {
+            :publish => att('audience') != 'internal',
             'jsonmodel_type' => 'note_text',
             'content' => format_content( content )
           }
@@ -410,6 +419,7 @@ class EADConverter < Converter
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal',
           :content => format_content( content.sub(/<head>.*?<\/head>/, '') )
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
@@ -431,6 +441,7 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal'
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
@@ -469,6 +480,7 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => 'odd',
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal'
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
