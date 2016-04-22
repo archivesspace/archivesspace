@@ -38,7 +38,9 @@ Because it is such a substantial improvement [(see separate announcement for the
 
 *What if I’m already using the container management plugin made available to the community by Yale University?*
 
-Conversion of data created using the Yale container management plugin, or a local adaptation of the plugin, will also happen as part of the process of upgrading to 1.5.0. Some steps will be skipped when they are not needed.  At the end of the process, the new container data model will be integrated into your ArchivesSpace and will not need to be loaded or maintained as a plugin.  
+Conversion of data created using the Yale container management plugin, or a local adaptation of the plugin, will also happen as part of the process of upgrading to 1.5.0. Some steps will be skipped when they are not needed.  At the end of the process, the new container data model will be integrated into your ArchivesSpace and will not need to be loaded or maintained as a plugin.
+
+Those currently running the container management plugin will need to remove the container_management plugin from the list in your config file prior to starting the conversion or a validation name error will occur.
 
 *I haven’t moved from Archivists’ Toolkit or Archon yet and am planning to use the associated migration tool. Can I migrate directly to 1.5.0?*
 
