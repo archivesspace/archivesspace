@@ -16,7 +16,7 @@ A quick overview of the steps are:
 5. Follow the standard [upgrading instructions](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/). Important to note:  The setup-database.sh|bat script will modify your database schema, but it will not move the data. If you are currently using the container management plugin you will need to remove it from the list of plugins in your config file prior to starting ArchivesSpace.
 6. Start ArchivesSpace. When 1.5.0 starts for the first time, a conversion process will kick off and move the data into the new table structure. **During this time, the application will be unavailable until it completes**. Duration depends on the size of your data and server resources, with a few minutes for very small databases to several hours for very large ones. 
 7. When the conversion is done, the web application will start and the indexer will rebuild your index. Performance might be slower while the indexer runs, depending on your server environment and available resources. 
-8. Review the [output of the conversion process](#conversion) following the instructions below
+8. Review the [output of the conversion process](#conversion) following the instructions below. How long it takes for the report to load will depend on the number of entries included in it.
 
 #Preparing for and Converting to the New Container Management Functionality
 
