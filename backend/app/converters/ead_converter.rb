@@ -101,6 +101,7 @@ class EADConverter < Converter
 
     ignore "titlepage"
 
+    # addresses https://archivesspace.atlassian.net/browse/AR-1282
     with 'eadheader' do
       set :finding_aid_status, att('findaidstatus')
     end
@@ -108,7 +109,8 @@ class EADConverter < Converter
     with 'archdesc' do
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
-      set :publish, att('audience') == 'external'
+      set :publish, att('audience') != 'internal'
+      # set :publish, att('audience') == 'external'
     end
 
 
@@ -156,7 +158,7 @@ class EADConverter < Converter
     with 'unitdate' do |node|
 
       norm_dates = (att('normal') || "").sub(/^\s/, '').sub(/\s$/, '').split('/')
-      #why were the next 3 lines added?  removed for now, since single dates can stand on their own.
+      # why were the next 3 lines added?  removed for now, since single dates can stand on their own.
       #if norm_dates.length == 1
       #  norm_dates[1] = norm_dates[0]
       #end
