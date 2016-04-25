@@ -81,16 +81,14 @@ class Location < Sequel::Model(:location)
   end
   
   def self.batch_update(location)
-    updated_values = location.to_hash.select { |k| [ "building", "floor", "room", "area" ].include?(k) }
-
     location[:record_uris].map do |uri|
       id = JSONModel.parse_reference(uri)[:id]
       json = Location.to_jsonmodel(id)
-      updated_values.each do |key, val|
-        json[key.intern] = val if ( !val.nil? && val.length > 0 )
-      end
-      # a little bit funky, but we want to make sure all hooks run.  
-      Location.get_or_die(id).update_from_json(json)
+      json.update(location.to_hash)
+
+      cleaned = JSONModel(:location).from_hash(json.to_hash)
+
+      Location.get_or_die(id).update_from_json(cleaned)
     end
   end
 
