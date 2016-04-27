@@ -1222,6 +1222,7 @@ en:
     message_locations_required: The Space Calculator requires one or more locations to be set.
     message_select_locations: "Check for space in the following Location(s):"
     message_no_locations_with_space: No locations with space found
+    message_total_spaces: "Total number of spaces available for this container type: %{total_spaces}"
     message_loading: Loading...
     count: Space Available (of container type)
     reason: Calculator Result

@@ -75,6 +75,7 @@ describe 'Space Calculator model' do
 
   let (:bigshelf_profile) { create_location_profile("big shelf", "24", "36", "108", "inches") }
   let (:a_bigshelf) { Location.create_from_json(create(:json_location, 'location_profile' => {'ref' => bigshelf_profile.uri})) }
+  let (:another_bigshelf) { Location.create_from_json(create(:json_location, 'location_profile' => {'ref' => bigshelf_profile.uri})) }
 
   let (:smallshelf_profile) { create_location_profile("small shelf", "30", "30", "120", "centimeters") }
   let (:a_smallshelf) { Location.create_from_json(create(:json_location, 'location_profile' => {'ref' => smallshelf_profile.uri})) }
@@ -93,6 +94,14 @@ describe 'Space Calculator model' do
     result = space_calculator.to_hash
 
     result['locations_with_space'][0]['count'].should eq(21)
+  end
+
+
+  it "tells you the total number of boxes will fit on the locations checked" do
+    space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf, another_bigshelf])
+    result = space_calculator.to_hash
+
+    result['total_spaces_available'].should eq(42)
   end
 
 
