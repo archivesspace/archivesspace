@@ -8,55 +8,56 @@ hanging. Check JIRA for any "rejected" or started-but-not-accepted tickets,
 since you don't want to ship with code that hasn't passed QA. 
 
 Also, take a look at all the Gemfile.lock files ( in backend, frontend, public,
-etc ) and review the gem versions. Play close attention to the Rails & Friends
+etc ) and review the gem versions. Pay close attention to the Rails & Friends
 ( ActiveSupport, ActionPack, etc ), Rack, and Sinatra versions and make sure
 there have not been any security patch versions. There usually are, especially
-since Rails send fix updates rather frequently. 
+since Rails sends fix updates rather frequently. 
 
 To update the gems, update the version in Gemfile, delete the Gemfile.lock, and
 run ./build/run bootstrap to download everything. Then make sure your test
 suite passes. 
 
 Once everything passes, commit your Gemfiles and Gemfile.lock files.
-j
+
 ## Build the ArchivesSpace technical documentation
 
 ArchivesSpace ships with the current documentation, located in "docs"
 directory. By default, this is served out at
 http://localhost:8888/archivesspace when the application is running.
 
-This documentation is also hosted on (http://archivesspace.github.io/archivesspace/)[http://archivesspace.github.io/archivesspace/],
+This documentation is also hosted on [http://archivesspace.github.io/archivesspace/](http://archivesspace.github.io/archivesspace/),
 with the last released version. This documentation consists of a Jekyll site
 build on the content of various READMEs, a Slate site ( for REST API
 documentation ), and the Ruby YARD documentation. 
 
-Instructions to build this can be seen on (the ArchivesSpace gh-pages branch)[https://github.com/archivesspace/archivesspace/tree/gh-pages].
+Instructions to build this can be seen on [the ArchivesSpace gh-pages branch](https://github.com/archivesspace/archivesspace/tree/gh-pages).
 Important to note that these steps assume you're using a standard Ruby, not
 jRuby. Note that is any additional READMEs have been added to the repository, you will
-need to add those to the (scripts/build_docs.rb)[https://github.com/archivesspace/archivesspace/tree/master/scripts]
+need to add those to the [scripts/build_docs.rb](https://github.com/archivesspace/archivesspace/tree/master/scripts)
 script that rips apart the READMEs. Links in the site's side bar need to be
-added to (Jekyll's
-sidebar)[https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html].
+added to [Jekyll's
+sidebar](https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html).
 
 To build the documentation:
+
 1. Check out a new branch from master:
 
 ```
-  git checkout -b new-document
+  $ git checkout -b new-document
 ```
 
-2. Make sure that (script/build_docs.rb)[https://github.com/archivesspace/archivesspace/blob/master/scripts/build_docs.rb#L7-L8] and update(Jekyll's sidebar)[https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html].
-3. Rip apart the READMEs for content
+2. Make sure that [script/build_docs.rb](https://github.com/archivesspace/archivesspace/blob/master/scripts/build_docs.rb#L7-L8) and update [Jekyll's sidebar](https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html).
+3. Rip apart the READMEs for content by running the doc:build ANT task
 
 ```
-  build/run doc:build
+  $ build/run doc:build
 ```
 
 4. Build Slate ( using a standard Ruby )
 
 ```
   $ cd docs/slate 
-  $ gem install bundler
+  $ gem install bundler 
   $ bundle instal --binstubs
   $ ./bin/middleman build
   $ rm -r ../API
@@ -97,11 +98,11 @@ a zip file.
 
 ## Commit and Tag the release
 
-The scripts/build_release script updates the (SCHEMA_INFO
-number)[https://github.com/archivesspace/archivesspace/blob/master/common/asconstants.rb#L45] that locks the
+The scripts/build_release script updates the [SCHEMA_INFO
+number](https://github.com/archivesspace/archivesspace/blob/master/common/asconstants.rb#L45) that blocks the
 application from starting if the migrations have not completed. So, after
 you've run the build_release.sh script, you'll need to commit the
-asconstans.rb file, then tag the release in git.
+asconstants.rb file, then tag the release in git.
 
 ```
 $ git add common/asconstants.rb
