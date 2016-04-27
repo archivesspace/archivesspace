@@ -13,6 +13,7 @@ class SpaceCalculator
   def initialize(container_profile, locations)
     @container_profile = container_profile
     @locations = locations
+    @total_spaces_available = 0
     @locations_with_space = []
     @locations_without_space = []
     @uncalculatable_locations = []
@@ -24,6 +25,7 @@ class SpaceCalculator
   def to_hash
     {
       'container_profile' => {'ref' => @container_profile.uri},
+      'total_spaces_available' => @total_spaces_available,
       'locations_with_space' => @locations_with_space,
       'locations_without_space' => @locations_without_space,
       'uncalculatable_locations' => @uncalculatable_locations
@@ -119,6 +121,7 @@ class SpaceCalculator
       if count == 0
         @locations_without_space << {'ref' => loc.uri, 'reason' => :location_cannot_fit_container}
       else
+        @total_spaces_available += count
         @locations_with_space << {'ref' => loc.uri, 'count' => count}
       end
     end

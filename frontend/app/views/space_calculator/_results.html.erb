@@ -11,6 +11,10 @@
     <div class="alert alert-warning">
       <%= I18n.t("space_calculator.message_no_locations_with_space") %>
     </div>
+  <% else %>
+    <div class="alert alert-info">
+      <%= I18n.t("space_calculator.message_total_spaces", {:total_spaces => @results['total_spaces_available']}) %>
+    </div>
   <% end %>
   <% if @results && !(@results['locations_with_space'] +
                      @results['locations_without_space']  +
