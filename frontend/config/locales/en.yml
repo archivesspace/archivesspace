@@ -1230,7 +1230,7 @@ en:
     by_locations: By Location(s)
     by_building: By Building
     result_filter: Filter Results
-    result_summary: "Locations: %{all}; <span class='text-success'>space available: %{have_space}</span>; <span class='text-warning'>no space: %{no_space}</span>; <span class='text-danger'>unable to calculate: %{error}</span>"
+    result_summary: "Locations checked: %{all}; <span class='text-success'>Locations with space available: %{have_space}</span>; <br/> <span class='text-warning'>Locations with no space available: %{no_space}</span>; <span class='text-danger'>Unable to calculate: %{error}</span>"
     reason:
       location_lacks_a_profile: Location lacks a profile
       location_lacks_dimension_data: Location profile lacks dimension data
