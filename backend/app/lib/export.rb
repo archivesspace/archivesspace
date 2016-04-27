@@ -5,11 +5,11 @@ require_relative 'AS_fop'
 module ExportHelpers
 
   ASpaceExport::init
-  
+
   def pdf_response(pdf)
     [status, {"Content-Type" => "application/pdf"}, pdf ]
   end
-  
+
   def generate_pdf_from_ead( ead )
     xml = ""
     ead.each { |e| xml << e  }
@@ -26,15 +26,18 @@ module ExportHelpers
   end
 
 
-  def tsv_response(tsv)
-    [status, {"Content-Type" => "text/tab-separated-values"}, [tsv + "\n"]]
+  def tsv_response(tsv_streamer)
+    [status, {"Content-Type" => "text/tab-separated-values"}, tsv_streamer]
   end
 
 
   def generate_labels(id)
     obj = resolve_references(Resource.to_jsonmodel(id), ['tree', 'repository'])
     labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj))
-    ASpaceExport::serialize(labels, :serializer => :tsv)
+    Enumerator.new do |y|
+      y << labels.headers.join("\t") + "\r"
+      labels.stream_rows(y)
+    end
   end
 
 
@@ -78,7 +81,7 @@ module ExportHelpers
     ASpaceExport::stream(ead)
   end
 
-  
+
   def generate_eac(id, type)
     klass = Kernel.const_get(type.camelize)
     events = []
