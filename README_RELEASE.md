@@ -26,9 +26,9 @@ directory. By default, this is served out at
 http://localhost:8888/archivesspace when the application is running.
 
 This documentation is also hosted on [http://archivesspace.github.io/archivesspace/](http://archivesspace.github.io/archivesspace/),
-with the last released version. This documentation consists of a Jekyll site
-build on the content of various READMEs, a Slate site ( for REST API
-documentation ), and the Ruby YARD documentation. 
+with the last released version. This documentation consists of a [Jekyll](http://jekyllrb.com/) site
+build on the content of various READMEs, a [Slate](https://github.com/tripit/slate) site ( for REST API
+documentation ), and the Ruby [YARD](http://yardoc.org/) documentation. 
 
 Instructions to build this can be seen on [the ArchivesSpace gh-pages branch](https://github.com/archivesspace/archivesspace/tree/gh-pages).
 Important to note that these steps assume you're using a standard Ruby, not
