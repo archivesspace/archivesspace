@@ -49,6 +49,32 @@ class Location < Sequel::Model(:location)
                 }
 
 
+
+  def self.uniqify_functions(json)
+    found_fns = []
+    json['functions'] = json['functions'].select do |fn|
+      if found_fns.include? fn['location_function_type']
+        false
+      else
+        found_fns << fn['location_function_type']
+        true
+      end
+    end
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    self.uniqify_functions(json)
+    super
+  end
+
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    self.class.uniqify_functions(json)
+    super
+  end
+
+
   def self.create_for_batch(batch)
     locations = generate_locations_for_batch(batch)
     locations.map{|location| self.create_from_json(location)}
