@@ -1,4 +1,6 @@
 require 'spec_helper'
+require_relative 'container_spec_helper'
+require_relative 'factories'
 
 describe 'Record transfers' do
 
@@ -125,6 +127,74 @@ describe 'Record transfers' do
     Event.any_repo.all.any? {|e|
       (e.repo_id == @target_repo.id) && (e.outcome_note == "a test outcome note")
     }.should be(true)
+  end
+
+  # 
+  it "transfers container instances but not DO instances (when the container only links to the record being transferred)" do
+    box1 = create(:json_top_container)
+    box2 = create(:json_top_container)
+    
+    digital_object = create(:json_digital_object)
+    do_instance =   build(  :json_instance,
+                            :instance_type => 'digital_object',
+                            :digital_object => {'ref' => digital_object.uri})
+                                 
+    acc = create(:json_accession, {
+                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
+                            })
+    
+    acc.save 
+
+    Accession.to_jsonmodel(acc.id)["instances"].length.should eq(3)
+   
+    
+    Accession[acc.id].transfer_to_repository(@target_repo)
+
+    RequestContext.open(:repo_id => @target_repo.id) do
+      # we should only have our container instances and we should be able to be 
+      # resolved ( if the link pointed back to the old repo record would error
+      # when requested)
+      Accession.to_jsonmodel(acc.id)["instances"].length.should eq(2)
+    end
+  end
+
+
+  it "clones container instances that reference other records besides the one being transferred" do
+    box1 = create(:json_top_container)
+    box2 = create(:json_top_container)
+    
+    digital_object = create(:json_digital_object)
+    do_instance =   build(  :json_instance,
+                            :instance_type => 'digital_object',
+                            :digital_object => {'ref' => digital_object.uri})
+                                 
+    acc = create(:json_accession, {
+                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
+                            })
+    
+    unrelated_accession = create( :json_accession, {
+                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
+                            })
+    
+    
+    acc.save 
+    unrelated_accession.save
+
+    Accession.to_jsonmodel(acc.id)["instances"].length.should eq(3)
+    Accession.to_jsonmodel(unrelated_accession.id)["instances"].length.should eq(3)
+   
+    
+    Accession[acc.id].transfer_to_repository(@target_repo)
+   
+    # Unlreted should not have changed...
+    Accession.to_jsonmodel(unrelated_accession.id)["instances"].length.should eq(3)
+    RequestContext.open(:repo_id => @target_repo.id) do
+      # we should only have our container instances and we should be able to be 
+      # resolved ( if the link pointed back to the old repo record would error
+      # when requested)
+      Accession.to_jsonmodel(acc.id)["instances"].length.should eq(2)
+    end
+
   end
 
 
