@@ -16,6 +16,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Notes
   include ExternalIDs
   include ComponentsAddChildren
+  include Transferable
   include Events
   include Publishable
   include ReindexTopContainers
