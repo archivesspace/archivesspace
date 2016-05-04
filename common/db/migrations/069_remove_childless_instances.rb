@@ -12,7 +12,8 @@ Sequel.migration do
     
     # cant remember how to delete with sequel on a join... 
     instances = self[:instance].left_join(:container, { :instance__id => :container__instance_id })
-                  .where(:container__instance_id => nil )
+                  .left_join(:sub_container, { :instance__id => :sub_container__instance_id })
+                  .where(:container__instance_id => nil, :sub_container__instance_id => nil)
                   .exclude(:instance__instance_type_id => enum_val ).select(:instance__id)
                   .map { |v| v[:id] } 
                   
