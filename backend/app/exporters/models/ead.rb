@@ -39,7 +39,7 @@ class EADModel < ASpaceExport::ExportModel
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'], {'ASPACE_REENTRANT' => false})
+        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'])
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end
