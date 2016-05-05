@@ -2,65 +2,61 @@ require 'spec_helper'
 require_relative 'factories'
 
 
-def create_location_profile(name, depth, height, width, dim_units)
-  create(:json_location_profile, :name => name,
-         :depth => depth,
-         :height => height,
-         :width => width,
-         :dimension_units => dim_units)
-end
-
-
-def create_locations(location_profile, num = 1)
-  locations = []
-  num.times do |n|
-    locations << create(:json_location, 'location_profile' => {'ref' => location_profile.uri})
-  end
-  locations
-end
-
-
-def create_container_profile(name, depth, height, width, dim_units, ext_dim, stacking_limit = nil)
-  create(:json_container_profile, :name => name,
-         :depth => depth,
-         :height => height,
-         :width => width,
-         :dimension_units => dim_units,
-         :extent_dimension => ext_dim,
-         :stacking_limit => stacking_limit)
-end
-
-
-def create_containers(container_profile, location, num = 1)
-  containers = []
-  num.times do |n|
-    containers << create(:json_top_container,
-                         'container_profile' => {'ref' => container_profile.uri},
-                         'container_locations' => [{'ref' => location.uri,
-                                                     'status' => 'current',
-                                                     'start_date' => generate(:yyyy_mm_dd),
-                                                     'end_date' => generate(:yyyy_mm_dd)}])
-  end
-  containers
-end
-
-def add_container_to_location(container, location)
-  container_location = JSONModel(:container_location).from_hash(
-                                                                'status' => 'current',
-                                                                'start_date' => '2000-01-01',
-                                                                'note' => 'test container location',
-                                                                'ref' => location.uri
-                                                                )
-  container.container_locations = container.container_locations + [container_location]
-  container.save
-end
-
-
 describe 'Space Calculator model' do
 
-  before(:each) do
-
+  def create_location_profile(name, depth, height, width, dim_units)
+    create(:json_location_profile, :name => name,
+           :depth => depth,
+           :height => height,
+           :width => width,
+           :dimension_units => dim_units)
   end
+
+
+  def create_locations(location_profile, num = 1)
+    locations = []
+    num.times do |n|
+      locations << create(:json_location, 'location_profile' => {'ref' => location_profile.uri})
+    end
+    locations
+  end
+
+
+  def create_container_profile(name, depth, height, width, dim_units, ext_dim, stacking_limit = nil)
+    create(:json_container_profile, :name => name,
+           :depth => depth,
+           :height => height,
+           :width => width,
+           :dimension_units => dim_units,
+           :extent_dimension => ext_dim,
+           :stacking_limit => stacking_limit)
+  end
+
+
+  def create_containers(container_profile, location, num = 1)
+    containers = []
+    num.times do |n|
+      containers << create(:json_top_container,
+                           'container_profile' => {'ref' => container_profile.uri},
+                           'container_locations' => [{'ref' => location.uri,
+                                                      'status' => 'current',
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}])
+    end
+    containers
+  end
+
+  def add_container_to_location(container, location)
+    container_location = JSONModel(:container_location).from_hash(
+      'status' => 'current',
+      'start_date' => '2000-01-01',
+      'note' => 'test container location',
+      'ref' => location.uri
+    )
+    container.container_locations = container.container_locations + [container_location]
+    container.save
+  end
+
 
   let (:bigbox_profile) { create_container_profile("big box", "18", "12", "15", "inches", "width") }
   let (:a_bigbox) { create(:json_top_container, 'container_profile' => {'ref' => bigbox_profile.uri}) }

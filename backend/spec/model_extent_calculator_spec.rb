@@ -1,35 +1,35 @@
 require 'spec_helper'
+require_relative 'container_spec_helper'
 require_relative 'factories'
 
-
-def create_container_profile(name, depth, height, width, dim_units, ext_dim)
-  create(:json_container_profile, :name => name,
-         :depth => depth,
-         :height => height,
-         :width => width,
-         :dimension_units => dim_units,
-         :extent_dimension => ext_dim)
-end
-
-
-def create_containers(container_profile, num = 1)
-  containers = []
-  num.times do |n|
-    containers << create(:json_top_container, 'container_profile' => {'ref' => container_profile.uri})
-  end
-  containers
-end
-
-
-def create_ao_with_instances(resource, parent, containers = [])
-  create(:json_archival_object,
-         "resource" => {"ref" => resource.uri},
-         "parent" => {"ref" => parent.uri},
-         "instances" => containers.map{|con| build_instance(con)})
-end
-
-
 describe 'Extent Calculator model' do
+
+  def create_container_profile(name, depth, height, width, dim_units, ext_dim)
+    create(:json_container_profile, :name => name,
+           :depth => depth,
+           :height => height,
+           :width => width,
+           :dimension_units => dim_units,
+           :extent_dimension => ext_dim)
+  end
+
+
+  def create_containers(container_profile, num = 1)
+    containers = []
+    num.times do |n|
+      containers << create(:json_top_container, 'container_profile' => {'ref' => container_profile.uri})
+    end
+    containers
+  end
+
+
+  def create_ao_with_instances(resource, parent, containers = [])
+    create(:json_archival_object,
+           "resource" => {"ref" => resource.uri},
+           "parent" => {"ref" => parent.uri},
+           "instances" => containers.map{|con| build_instance(con)})
+  end
+
 
   before(:each) do
     stub_barcode_length(0, 255)
