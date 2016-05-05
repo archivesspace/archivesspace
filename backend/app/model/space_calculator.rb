@@ -14,6 +14,7 @@ class SpaceCalculator
     @container_profile = container_profile
     @locations = locations
     @total_spaces_available = 0
+    @total_containers_of_type = 0
     @locations_with_space = []
     @locations_without_space = []
     @uncalculatable_locations = []
@@ -26,6 +27,7 @@ class SpaceCalculator
     {
       'container_profile' => {'ref' => @container_profile.uri},
       'total_spaces_available' => @total_spaces_available,
+      'total_containers_of_type' => @total_containers_of_type,
       'locations_with_space' => @locations_with_space,
       'locations_without_space' => @locations_without_space,
       'uncalculatable_locations' => @uncalculatable_locations
@@ -86,6 +88,9 @@ class SpaceCalculator
           hit_error = true
           break
         end
+
+        @total_containers_of_type += 1 if tcp.id == @container_profile.id
+
         unless packer.add_container(tcp.name,
                                     Dimensions.new(tcp.width,
                                                    tcp.height,

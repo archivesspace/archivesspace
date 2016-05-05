@@ -14,6 +14,8 @@
   <% else %>
     <div class="alert alert-info">
       <%= I18n.t("space_calculator.message_total_spaces", {:total_spaces => @results['total_spaces_available']}) %>
+      <br/>
+      <%= I18n.t("space_calculator.message_total_containers", {:total_containers => @results['total_containers_of_type']}) %>
     </div>
   <% end %>
   <% if @results && !(@results['locations_with_space'] +

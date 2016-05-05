@@ -1223,6 +1223,7 @@ en:
     message_select_locations: "Check for space in the following Location(s):"
     message_no_locations_with_space: No locations with space found
     message_total_spaces: "Total number of spaces available for this container type: %{total_spaces}"
+    message_total_containers: "Total number of containers of this type found at these locations: %{total_containers}"
     message_loading: Loading...
     count: Space Available (of container type)
     reason: Calculator Result
