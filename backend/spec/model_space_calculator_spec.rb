@@ -97,11 +97,25 @@ describe 'Space Calculator model' do
   end
 
 
-  it "tells you the total number of boxes will fit on the locations checked" do
+  it "tells you the total number of boxes that will fit on the locations checked" do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf, another_bigshelf])
     result = space_calculator.to_hash
 
     result['total_spaces_available'].should eq(42)
+  end
+
+
+  it "tells you the total number of containers with our profile at the locations checked" do
+    add_container_to_location(a_bigbox, a_bigshelf)
+    add_container_to_location(a_bigbox, a_bigshelf)
+    add_container_to_location(a_bigbox, a_bigshelf)
+    add_container_to_location(a_bigbox, another_bigshelf)
+    add_container_to_location(a_tinybox, another_bigshelf)
+
+    space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf, another_bigshelf])
+    result = space_calculator.to_hash
+
+    result['total_containers_of_type'].should eq(4)
   end
 
 
