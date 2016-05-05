@@ -43,8 +43,10 @@ class SpaceCalculator
                              @container_profile.depth,
                              @container_profile.dimension_units)
 
+    location_containers = LocationContainerLookup.new(@locations)
+
     @locations.each do |loc|
-      location_profile = loc.related_records(:location_profile)
+      location_profile = location_containers.location_profile_for(loc)
 
       if location_profile.nil?
         # the location doesn't have a profile so not much we can do
@@ -75,12 +77,11 @@ class SpaceCalculator
       packer = LocationPacker.new(lp_dims)
 
       # find the current containers at this location
-      containers = TopContainer.find_relationship(:top_container_housed_at).who_participates_with(loc)
+      container_profiles = location_containers.container_profiles_at_location(loc)
 
       # pack the current containers into the location
       hit_error = false
-      containers.each do |container|
-        tcp = container.related_records(:top_container_profile)
+      container_profiles.each do |tcp|
         if tcp.nil?
           # need to say uncalculatable and get out
           @uncalculatable_locations << {'ref' => loc.uri, 'reason' => :container_at_location_lacks_profile}
@@ -128,6 +129,91 @@ class SpaceCalculator
       else
         @total_spaces_available += count
         @locations_with_space << {'ref' => loc.uri, 'count' => count}
+      end
+    end
+  end
+
+
+  # Encapsulate our DB queries for efficiently getting the
+  # location/container/profile information we need.
+  class LocationContainerLookup
+
+    def initialize(locations)
+      calculate(locations)
+    end
+
+    def location_profile_for(location)
+      #location.related_records(:location_profile)
+      @locations_to_location_profiles[location.id]
+    end
+
+    def container_profiles_at_location(location)
+      #TopContainer.find_relationship(:top_container_housed_at).who_participates_with(location)
+      Array(@locations_to_container_profiles[location.id])
+    end
+
+    private
+
+    def calculate(locations)
+      build_location_to_profile_mapping
+      build_container_profile_mapping
+    end
+
+    def build_location_to_profile_mapping
+      DB.open do |db|
+        location_profile_rlshp = Location.find_relationship(:location_profile)
+
+        location_ids_to_profile_ids = {}
+
+        db[:location]
+          .join(location_profile_rlshp.table_name, :location_id => Sequel.qualify(:location, :id))
+          .select(Sequel.as(:location__id, :location_id),
+                  Sequel.as(Sequel.qualify(location_profile_rlshp.table_name, :location_profile_id),
+                            :location_profile_id)).each do |row|
+          location_ids_to_profile_ids[row[:location_id]] = row[:location_profile_id]
+        end
+
+        location_profiles_lookup = Hash[LocationProfile
+                                         .filter(:id => location_ids_to_profile_ids.values.uniq)
+                                         .map {|profile| [profile.id, profile]}]
+
+        @locations_to_location_profiles = Hash[location_ids_to_profile_ids.map {|location_id, profile_id|
+                                                 [location_id, location_profiles_lookup[profile_id]]
+                                               }]
+      end
+    end
+
+    def build_container_profile_mapping
+      DB.open do |db|
+        housed_at_rlshp = TopContainer.find_relationship(:top_container_housed_at)
+        profile_rlshp = TopContainer.find_relationship(:top_container_profile)
+
+        location_ids_to_container_profile_ids = {}
+
+        db[:location]
+          .join(housed_at_rlshp.table_name, :location_id => Sequel.qualify(:location, :id))
+          .left_join(profile_rlshp.table_name, :top_container_id => Sequel.qualify(housed_at_rlshp.table_name, :top_container_id))
+          .select(Sequel.as(:location__id, :location_id),
+                  Sequel.as(Sequel.qualify(profile_rlshp.table_name, :container_profile_id),
+                            :container_profile_id)).each do |row|
+          location_ids_to_container_profile_ids[row[:location_id]] ||= []
+          location_ids_to_container_profile_ids[row[:location_id]] << row[:container_profile_id]
+        end
+
+        container_profiles_lookup = Hash[ContainerProfile
+                                          .filter(:id => location_ids_to_container_profile_ids.values.flatten.compact.uniq)
+                                          .map {|profile| [profile.id, profile]}]
+
+        @locations_to_container_profiles = Hash[location_ids_to_container_profile_ids.map {|location_id, profile_ids|
+                                                  [location_id, profile_ids.map {|profile_id|
+                                                     if profile_id
+                                                       container_profiles_lookup.fetch(profile_id)
+                                                     else
+                                                       # A container without a container profile.  Return a nil.
+                                                       nil
+                                                     end
+                                                   }]
+                                               }]
       end
     end
   end
