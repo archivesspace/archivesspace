@@ -140,6 +140,20 @@ module ASModel
             orig_row_proc.call(row)
           end
 
+        else
+          # Globally scoped models
+
+          # These accessors are redundant, but useful in cases where we're
+          # working with model classes and don't know/care whether they're
+          # repository-scoped or not.  For example, when we're resolving URIs...
+          def_dataset_method(:any_repo) do
+            self
+          end
+
+          def_dataset_method(:this_repo) do
+            self
+          end
+
         end
 
         @model_scope = value
