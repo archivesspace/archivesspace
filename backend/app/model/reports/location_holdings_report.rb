@@ -8,15 +8,19 @@ class LocationHoldingsReport < AbstractReport
 
   include JSONModel
 
+  attr_reader :building, :repository_uri, :start_location, :end_location
+
   def initialize(params)
     super
 
-    if params['building'] && !params['building'].empty?
+    if ASUtils.present?(params['building'])
       @building = params['building']
+    elsif ASUtils.present?(params['repository_uri'])
+      @repository_uri = params['repository_uri']
     else
       @start_location = Location.get_or_die(JSONModel(:location).id_for(params['location_start']['ref']))
 
-      if params['location_end'] && !params['location_end'].empty?
+      if ASUtils.present?(params['location_end'])
 	@end_location = Location.get_or_die(JSONModel(:location).id_for(params['location_end']['ref']))
       end
     end
@@ -45,9 +49,11 @@ class LocationHoldingsReport < AbstractReport
   end
 
   def query(db)
-    dataset = if @building
+    dataset = if building
 		building_query(db)
-	      elsif @start_location && @end_location
+              elsif repository_uri
+                repository_query(db)
+	      elsif start_location && end_location
 		range_query(db)
 	      else
 		single_query(db)
@@ -120,11 +126,19 @@ class LocationHoldingsReport < AbstractReport
 end
 
   def building_query(db)
-    db[:location].filter(:location__building => @building)
+    db[:location].filter(:location__building => building)
+  end
+
+  def repository_query(db)
+    repo_id = JSONModel.parse_reference(repository_uri)[:id]
+
+    db[:location]
+      .join(Location.find_relationship(:owner_repo).table_name, :location_id => :id)
+      .filter(:repository_id => repo_id)
   end
 
   def single_query(db)
-    db[:location].filter(:location__id => @start_location.id)
+    db[:location].filter(:location__id => start_location.id)
   end
 
   def range_query(db)
@@ -133,7 +147,7 @@ end
 
     [1, 2, 3].each do |coordinate|
       label = "coordinate_#{coordinate}_label"
-      if !@start_location[label].nil? && @start_location[label] == @end_location[label]
+      if !start_location[label].nil? && start_location[label] == end_location[label]
 	properties_to_compare << "coordinate_#{coordinate}_indicator".intern
       else
 	break
@@ -145,9 +159,9 @@ end
 
     properties_to_compare.each do |property|
 
-      if @start_location[property] && @end_location[property]
+      if start_location[property] && end_location[property]
 
-	if @start_location[property] == @end_location[property]
+	if start_location[property] == end_location[property]
 	  # If both locations have the same value for this property, we'll skip it for the purposes of our range calculation
 	  matching_properties << property
 	else
@@ -156,7 +170,7 @@ end
 	  break
 	end
 
-      elsif !@start_location[property] && !@end_location[property]
+      elsif !start_location[property] && !end_location[property]
 	# If neither location has a value for this property, skip it
 	next
 
@@ -175,11 +189,11 @@ end
     dataset = db[:location]
 
     matching_properties.each do |property|
-      dataset = dataset.filter(property => @start_location[property])
+      dataset = dataset.filter(property => start_location[property])
     end
 
     if determinant_property
-      range_start, range_end = [@start_location[determinant_property], @end_location[determinant_property]].sort
+      range_start, range_end = [start_location[determinant_property], end_location[determinant_property]].sort
       dataset = dataset
 		.filter("#{determinant_property} >= ?", range_start)
 		.filter("#{determinant_property} <= ?", range_end)
@@ -234,10 +248,10 @@ end
   private
 
   def format_identifier(s)
-    if s && !s.empty?
-      ASUtils.json_parse(s).compact.join(" -- ")
-    else
+    if ASUtils.blank?(s)
       s
+    else
+      ASUtils.json_parse(s).compact.join(" -- ")
     end
   end
 

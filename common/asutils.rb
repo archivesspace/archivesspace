@@ -221,4 +221,18 @@ EOF
     end
   end
 
+  def self.blank?(obj)
+    if obj.nil?
+      true
+    elsif obj.respond_to?(:empty?)
+      !!obj.empty?
+    else
+      !obj
+    end
+  end
+
+  def self.present?(obj)
+    !blank?(obj)
+  end
+
 end
