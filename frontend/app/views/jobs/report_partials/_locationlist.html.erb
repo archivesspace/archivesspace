@@ -1,12 +1,26 @@
 <%
+repository_list = MemoryLeak::Resources.get(:repository).map {|repository| [repository.repo_code, repository.uri]}
+
 building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 %>
 
 <select id="location_report_type" name="job[job_params][location_report_type]" class="form-control">
+    <option value="repository"><%= I18n.t('reports.location_holdings.repository_report_type') %></option>
     <option value="building"><%= I18n.t('reports.location_holdings.building_report_type') %></option>
     <option value="single_location"><%= I18n.t('reports.location_holdings.single_location_report_type') %></option>
     <option value="location_range"><%= I18n.t('reports.location_holdings.location_range_report_type') %></option>
 </select>
+
+<div class="report_type repository">
+    <hr>
+    <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t('reports.location_holdings.repository_report_type') %></label>
+        <div class="controls col-sm-8">
+            <%= select_tag "job[job_params][repository_uri]", options_for_select([""].concat(repository_list)), :class => "form-control" %>
+        </div>
+    </div>
+</div>
+
 
 <div class="report_type building">
     <hr>

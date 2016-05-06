@@ -1856,6 +1856,7 @@ en:
     LocationHoldingsReport: Location Holdings
     location_holdings:
       report_title: Report on containers shelved at one or more locations
+      repository_report_type: Repository
       building_report_type: Building
       single_location_report_type: Single Location
       location_range_report_type: Range of Locations
