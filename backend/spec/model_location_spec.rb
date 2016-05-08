@@ -148,24 +148,32 @@ describe 'Location model' do
   end
 
 
-  it "can have a bunch of functions" do
-    opts = {:functions => [build(:json_location_function), build(:json_location_function)]}
-    location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
-    
-    json = Location.to_jsonmodel(location.id)
-    json['functions'].length.should eq(2)
-  end
+  describe "functions" do
+
+    let (:arrival_function) { build(:json_location_function,
+                                    :location_function_type => 'arrivals') }
+
+    let (:shared_function) { build(:json_location_function,
+                                   :location_function_type => 'shared') }
+
+    it "can have a bunch of functions" do
+      opts = {:functions => [arrival_function, shared_function]}
+      location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+      json = Location.to_jsonmodel(location.id)
+      json['functions'].length.should eq(2)
+    end
 
 
-  it "only remembers unique functions" do
-    the_same_function = build(:json_location_function)
-    a_different_function = build(:json_location_function)
-    
-    opts = {:functions => [the_same_function, the_same_function, a_different_function]}
-    location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
-    
-    json = Location.to_jsonmodel(location.id)
-    json['functions'].length.should eq(2)
+    it "only remembers unique functions" do
+      opts = {:functions => [arrival_function, arrival_function, shared_function]}
+      location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+      json = Location.to_jsonmodel(location.id)
+
+      json['functions'].length.should eq(2)
+    end
+
   end
 
 end
