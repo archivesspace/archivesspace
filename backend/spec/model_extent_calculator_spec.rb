@@ -34,7 +34,7 @@ describe 'Extent Calculator model' do
   before(:each) do
     stub_barcode_length(0, 255)
 
-    AppConfig.stub(:has_key?).with(:container_management_extent_calculator).and_return(false)
+    allow(AppConfig).to receive(:has_key?).with(:container_management_extent_calculator).and_return(false)
   end
 
   let (:inch_to_cm) { 2.54 }
@@ -168,8 +168,8 @@ describe 'Extent Calculator model' do
 
 
   it "supports a config option to set the unit" do
-    AppConfig.stub(:has_key?).with(:container_management_extent_calculator).and_return(true)
-    AppConfig.stub(:[]).with(:container_management_extent_calculator).and_return({:unit => :centimeters})
+    allow(AppConfig).to receive(:has_key?).with(:container_management_extent_calculator).and_return(true)
+    allow(AppConfig).to receive(:[]).with(:container_management_extent_calculator).and_return({:unit => :centimeters})
 
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
@@ -179,8 +179,8 @@ describe 'Extent Calculator model' do
 
 
   it "supports a config option to set the number of decimal places to show in the report" do
-    AppConfig.stub(:has_key?).with(:container_management_extent_calculator).and_return(true)
-    AppConfig.stub(:[]).with(:container_management_extent_calculator).and_return({:decimal_places => 4})
+    allow(AppConfig).to receive(:has_key?).with(:container_management_extent_calculator).and_return(true)
+    allow(AppConfig).to receive(:[]).with(:container_management_extent_calculator).and_return({:decimal_places => 4})
 
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
@@ -190,10 +190,10 @@ describe 'Extent Calculator model' do
 
 
   it "can calculate extent as a volume if so configured" do
-    AppConfig.stub(:has_key?).with(:container_management_extent_calculator).and_return(true)
-    AppConfig.stub(:[]).with(:container_management_extent_calculator).and_return({:report_volume => true,
-                                                                                   :unit => :meters,
-                                                                                   :decimal_places => 3})
+    allow(AppConfig).to receive(:has_key?).with(:container_management_extent_calculator).and_return(true)
+    allow(AppConfig).to receive(:[]).with(:container_management_extent_calculator).and_return({:report_volume => true,
+                                                                                               :unit => :meters,
+                                                                                               :decimal_places => 3})
 
     metric_box_profile = create_container_profile("metric box", "120", "120", "90", "centimeters", "depth")
     metric_box = create(:json_top_container, 'container_profile' => {'ref' => metric_box_profile.uri})
