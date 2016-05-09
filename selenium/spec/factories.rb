@@ -244,6 +244,23 @@ module SeleniumFactories
         title { generate(:classification_term_title) }
         description { generate(:alphanumstr) }
       end
+
+      factory :container_profile, class: JSONModel(:container_profile) do
+        name { generate(:alphanumstr) }
+        extent_dimension "width"
+        dimension_units "inches"
+        width "10"
+        height "10"
+        depth "10"
+      end
+
+      factory :location_profile, class: JSONModel(:location_profile) do
+        name { generate(:alphanumstr) }
+        dimension_units "inches"
+        width "100"
+        height "20"
+        depth "20"
+      end
     end
 
     @@inited = true
