@@ -23,7 +23,7 @@ SpaceCalculatorForContainerLocation.prototype.setupEvents = function() {
           $(this).triggerHandler("click");
         });
 
-        var $selected = $results.find(":input:checked:first");
+        var $selected = $results.find("#tabledSearchResults :input:checked:first");
         var locationJSON = $selected.data("object")._resolved;
 
         self.$linker.tokenInput("add", {
