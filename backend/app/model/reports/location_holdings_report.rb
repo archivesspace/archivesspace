@@ -224,8 +224,8 @@ end
 	  if current_entry
 	    # Yield the old value
 	    current_entry.delete(:_top_container_id)
-	    current_entry['resource_or_accession_id'] = current_entry['resource_or_accession_id'].compact.map {|s| format_identifier(s)}.join('; ')
-	    current_entry['resource_or_accession_title'] = current_entry['resource_or_accession_title'].compact.join('; ')
+	    current_entry['resource_or_accession_id'] = current_entry['resource_or_accession_id'].compact.uniq.map {|s| format_identifier(s)}.join('; ')
+	    current_entry['resource_or_accession_title'] = current_entry['resource_or_accession_title'].compact.uniq.join('; ')
 	    yield current_entry
 	  end
 
