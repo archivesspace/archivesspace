@@ -47,6 +47,9 @@ var app = app || {};
       agent_person: {
         key_for_public_urls: "person",
         label_singular: "Person"
+      },
+      repository: {
+        label_singular: "Repository"
       }
     }
   }
@@ -63,7 +66,6 @@ var app = app || {};
       } else {
         _.forEach(recordLabelMap, function(mapping, asType) {
           if((mapping.key_for_public_urls === type) && mapping.label_singular) {
-
             result = mapping.label_singular;
           }
         });
@@ -74,7 +76,7 @@ var app = app || {};
 
 
     getPublicType: function(asType) {
-      if(_.has(recordLabelMap, asType)) {
+      if(_.has(recordLabelMap, asType) && _.has(recordLabelMap[asType], 'key_for_public_urls')) {
         return recordLabelMap[asType].key_for_public_urls;
       } else {
         return asType;
@@ -239,6 +241,19 @@ var app = app || {};
           id: parsed[2]
         };
       }
+    },
+
+    //drop a modal and raise it when the job
+    // is done
+    working: function(callback) {
+      $('#wait-modal').foundation('open');
+      callback(function() {
+        setTimeout(function() {
+          $('#wait-modal').foundation('close');
+          // reinitalize foundation
+          $("#main-content").foundation();
+        }, 500);
+      });
     }
   }
 })(Backbone, _);

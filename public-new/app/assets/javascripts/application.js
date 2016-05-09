@@ -23,7 +23,9 @@
 //= require router
 //= require main
 //= require search-results
+//= require search-editor
 //= require searching
+//= require embedded-search
 //= require records
 //= require agents
 //= require repositories

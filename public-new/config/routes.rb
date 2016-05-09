@@ -17,6 +17,9 @@ ArchivesSpacePublic::Application.routes.draw do
 
       match 'api/people/:id' => 'records#agent_person', :via => [:get]
 
+      match 'api/repositories/:repo_id' => 'records#repository', :via => [:get]
+
+
       match 'api/trees' => 'trees#fetch', :via => [:get]
 
       match 'api/search' => 'search#search', :via => [:get]

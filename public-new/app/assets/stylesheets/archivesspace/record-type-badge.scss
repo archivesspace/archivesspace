@@ -34,3 +34,7 @@
 .record-type-badge.digital_object {
   @include record-type-badge-colored($digital-object-color);
 }
+
+.record-type-badge.repository {
+  @include record-type-badge-colored($repository-color);
+}

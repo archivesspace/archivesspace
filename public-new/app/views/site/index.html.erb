@@ -302,6 +302,7 @@
           <span class="inline-label">Creator</span> ${creator}
           {}}
 
+          <div id="whats-in-repo-container"></div>
 
           <div id="record-accordion-container"></div>
 
@@ -616,7 +617,7 @@
   </script>
 
   <script type="text/template" id="embedded-search-tmpl">
-    <h2>Related Collections</h2>
+    <h2>${title}</h2>
     <div id="search-editor-container"></div>
     <div class="search-results-container"></div>
   </script>
@@ -673,6 +674,21 @@
       {} }
     </div>
 
+  </script>
+
+  <script type="text/template" id="whats-in-repo-tmpl">
+    <div class="columns small-12">
+      <h3>What's In This Repository?</h3>
+      <div class="large-badge align-center resource"><i class="${resourceIconClass}"></i><br />${resourceCount} ${resourceLabelPlural}
+      </div>
+      <div class="large-badge align-center archival-object"><i class="${archivalObjectIconClass}"></i><br />${archivalObjectCount} ${archivalObjectLabelPlural}
+      </div>
+      <div class="large-badge align-center agent-person"><i class="${agentPersonIconClass}"></i><br />${agentPersonCount} ${agentPersonLabelPlural}
+      </div>
+      <div class="large-badge align-center subject"><i class="${subjectIconClass}"></i><br />${subjectCount} ${subjectLabelPlural}
+      </div>
+      <div class="large-badge align-center classification"><i class="${classificationIconClass}"></i><br />${classificationCount} ${classificationLabelPlural}
+      </div>
   </script>
 
 </body>

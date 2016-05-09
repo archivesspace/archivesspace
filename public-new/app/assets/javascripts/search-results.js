@@ -17,6 +17,109 @@ var RAILS_API = "/api";
   };
 
 
+  var SearchPagerView = Bb.View.extend({
+    tagName: "div",
+
+    initialize: function(opts) {
+      this.query = opts.query;
+      this.resultsState = opts.resultsState;
+
+      var pagerHelper = new this.PagerHelper(opts)
+
+      this.$el.html(app.utils.tmpl('search-pager', pagerHelper));
+    },
+  });
+
+  SearchPagerView.prototype.PagerHelper = function(opts) {
+
+    function buildUrl(arg) {
+      var result = opts.query.buildQueryString(arg);
+
+      return result.replace(/.*\?/, opts.baseUrl+"?")
+    }
+
+    this.hasPreviousPage = opts.query.page > 1;
+    this.hasNextPage = (opts.query.page < opts.resultsState.totalPages);
+    this.currentPage = opts.resultsState.currentPage;
+
+
+    this.getPreviousPageURL = function() {
+      return buildUrl({page: opts.resultsState.currentPage - 1});
+    };
+
+    this.getPagerEnd = function() {
+      return _.min([_.max([(opts.resultsState.currentPage + 5), 10]), opts.resultsState.totalPages]);
+    };
+
+    this.getPagerStart = function() {
+      return _.max([opts.resultsState.currentPage - (_.max([10 - (opts.resultsState.totalPages - opts.resultsState.currentPage), 5])), 1]);
+    };
+
+    this.getNextPageURL = function() {
+      return buildUrl({page: opts.resultsState.currentPage + 1});
+    };
+
+    this.getPageURL = function(page) {
+      return buildUrl({page: page});
+    };
+  };
+
+
+  function SearchResultItemPresenter(model) {
+    var att = model.attributes;
+    var recordJson = JSON.parse(att.json);
+    this.index = model.index;
+    this.title = _.get(att, 'title');
+    this.recordType = att.primary_type;
+    this.recordTypeClass = att.primary_type;
+    this.recordTypeLabel = _.capitalize(att.primary_type);
+    this.recordTypeIconClass = app.icons.getIconClass(this.recordType);
+    this.identifier = att.identifier || att.uri;
+    this.url = att.uri;
+    this.summary = att.summary || 'Maecenas faucibus mollis <span class="searchterm2">astronomy</span>. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta semper.';
+    this.dates = [];
+    this.context = undefined;
+    this.relatorLabel = undefined;
+
+    if(att.highlighting) {
+      this.highlights = _.reduce(att.highlighting, function(result, list, field) {
+        return _.uniq(result.concat(list));
+      }, []);
+    }
+
+    this.recordTypeLabel = app.utils.getPublicTypeLabel(att.primary_type);
+
+    this.url = app.utils.getPublicUrl(att.uri, att.primary_type);
+
+  }
+
+
+  SearchResultItemPresenter.prototype.has = function(key) {
+    return !_.isUndefined(this[key])
+  };
+
+
+  var SearchItemView = Bb.View.extend({
+    tagName: "div",
+
+    initialize: function(opts) {
+      var presenter = new SearchResultItemPresenter(this.model);
+      presenter.featured = false;
+      if(opts.relatorSortField) {
+        var roleAndRelator = this.model.attributes[opts.relatorSortField].split(" ");
+        presenter.relatorLabel = roleAndRelator[1];
+        if(roleAndRelator[0] === 'creator') {
+          presenter.featured = true;
+        }
+      }
+
+      this.$el.html(app.utils.tmpl('search-result-row', presenter));
+      this.keywordsToggle = false;
+      return this;
+    }
+  });
+
+
   var SearchResultItem = Bb.Model.extend({
     initialize: function(opts) {
       var recordJson = JSON.parse(this.attributes.json);
@@ -70,13 +173,16 @@ var RAILS_API = "/api";
     },
 
 
-    updateQuery: function(query) {
+    updateQuery: function(query, rewind) {
+      if (_.isUndefined(rewind) || _.isUndefined(this.state.currentPage))
+        rewind = true;
+
+     var startPage = rewind ? 1 : this.state.currentPage;
       var state = this.state;
       state = this.state = this._checkState(_.extend({}, state, {
         query: query
       }));
-
-      return this.getPage(1, _.omit({}, ["first"]));
+      return this.getPage(startPage, _.omit({}, ["first"]));
     },
 
 
@@ -113,6 +219,18 @@ var RAILS_API = "/api";
         filters: filters
       }));
 
+      return this.getPage(1, _.omit({}, ["first"]));
+    },
+
+
+    changePage: function(newPage) {
+      var index = _.toInteger(newPage);
+      return this.getPage(index, _.omit({}, ["first"]));
+    },
+
+
+    changeSort: function(newSort) {
+      this.setSorting(newSort);
       return this.getPage(1, _.omit({}, ["first"]));
     },
 
@@ -200,6 +318,73 @@ var RAILS_API = "/api";
     return result;
   };
 
+
+  var SearchResultsView = Bb.View.extend({
+    el: ".search-results-container",
+
+    initialize: function(opts) {
+      this.query = opts.query;
+      this.baseUrl = opts.baseUrl || "/search";
+      return this;
+    },
+
+    events: {
+      "click .pagination a": function(e) {
+        e.preventDefault();
+        var page = e.target.getAttribute('href').replace(/.*page=/, '')[0];
+        this.trigger("changepage.aspace", page);
+      },
+
+      "click .recordrow a.record-title": function(e) {
+        e.preventDefault();
+        this.trigger("showrecord.aspace", e.target.getAttribute('href'));
+      },
+
+      "click .keywordscontext button": function(e) {
+        e.preventDefault();
+        var $container = $(e.target).closest("div");
+        var $content = $(".content", $container);
+
+        $content.toggle({duration: 400});
+        // if(this.keywordsToggle) {
+        //   $(".keywordscontext .content", this.$el).show();
+        // } else {
+        //   $(".keywordscontext .content", this.$el).hide();
+        // }
+      }
+
+    },
+
+    render: function() {
+      var $el = this.$el;
+      $el.empty();
+      var relatorSortField;
+      if(this.collection.state.sortKey && this.collection.state.sortKey.match(/_relator_sort\sasc$/)) {
+        relatorSortField = this.collection.state.sortKey.replace(/\sasc/, '')
+      }
+
+      this.collection.forEach(function(item, index) {
+        item.index = index;
+        var searchItemView = new SearchItemView({
+          model: item,
+          relatorSortField: relatorSortField
+        });
+
+        $el.append(searchItemView.$el.html());
+      });
+
+      var searchPagerView = new SearchPagerView({
+        query: this.query,
+        resultsState: this.collection.state,
+        baseUrl: this.baseUrl
+      });
+
+      $el.append(searchPagerView.$el.html());
+    }
+  });
+
+
   app.SearchResults = SearchResults;
+  app.SearchResultsView = SearchResultsView;
 
 })(Backbone, _);
