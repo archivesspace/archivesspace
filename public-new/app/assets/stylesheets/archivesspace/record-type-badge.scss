@@ -18,6 +18,10 @@
   @include record-type-badge-colored($collection-color);
 }
 
+.record-type-badge.archival_object {
+  @include record-type-badge-colored($container-color);
+}
+
 
 .record-type-badge.accession {
   @include record-type-badge-colored($accession-color);
@@ -29,4 +33,8 @@
 
 .record-type-badge.digital_object {
   @include record-type-badge-colored($digital-object-color);
+}
+
+.record-type-badge.repository {
+  @include record-type-badge-colored($repository-color);
 }

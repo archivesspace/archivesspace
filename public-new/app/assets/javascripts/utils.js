@@ -32,7 +32,9 @@ var app = app || {};
         label_plural: "Collections"
       },
       archival_object: {
-        key_for_public_urls: "object"
+        key_for_public_urls: "object",
+        label_singular: "Object",
+        label_plural: "Objects"
       },
       accession: {
         key_for_public_urls: "accession",
@@ -45,6 +47,9 @@ var app = app || {};
       agent_person: {
         key_for_public_urls: "person",
         label_singular: "Person"
+      },
+      repository: {
+        label_singular: "Repository"
       }
     }
   }
@@ -61,7 +66,6 @@ var app = app || {};
       } else {
         _.forEach(recordLabelMap, function(mapping, asType) {
           if((mapping.key_for_public_urls === type) && mapping.label_singular) {
-
             result = mapping.label_singular;
           }
         });
@@ -72,7 +76,7 @@ var app = app || {};
 
 
     getPublicType: function(asType) {
-      if(_.has(recordLabelMap, asType)) {
+      if(_.has(recordLabelMap, asType) && _.has(recordLabelMap[asType], 'key_for_public_urls')) {
         return recordLabelMap[asType].key_for_public_urls;
       } else {
         return asType;
@@ -99,10 +103,9 @@ var app = app || {};
       return result;
     },
 
-    // getPublicUrl: function(asUri) {
-
-    //   return asUri;
-    // },
+    getPublicUrl: function(asUri, asType) {
+      return asUri.replace(new RegExp(_.pluralize(asType)), _.pluralize(app.utils.getPublicType(asType)));
+    },
 
     convertAdvancedQuery: function(aq) {
       var params = parseAdvancedQuery(aq.query);
@@ -168,7 +171,9 @@ var app = app || {};
       if (date.begin && date.end) {
         string += date.begin+"-"+date.end;
       } else if(date.begin) {
-        string += date.begin
+        string += date.begin;
+      } else if(date.expression) {
+        string += date.expression;
       }
 
       return string;
@@ -215,6 +220,40 @@ var app = app || {};
       }
 
       return result;
+    },
+
+    parsePublicUrl: function(url) {
+      if(url.match(/repositories\/(\d+)\/([a-z_]+)\/(\d+)$/)) {
+        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[2]);
+        return {
+          repoId: parsed[1],
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[3]
+        };
+      } else {
+        var parsed = /([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[1])
+        return {
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[2]
+        };
+      }
+    },
+
+    //drop a modal and raise it when the job
+    // is done
+    working: function(callback) {
+      $('#wait-modal').foundation('open');
+      callback(function() {
+        setTimeout(function() {
+          $('#wait-modal').foundation('close');
+          // reinitalize foundation
+          $("#main-content").foundation();
+        }, 500);
+      });
     }
   }
 })(Backbone, _);

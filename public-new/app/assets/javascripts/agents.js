@@ -56,8 +56,7 @@ var app = app || {};
 
   var AgentModel = Bb.Model.extend({
     initialize: function(opts) {
-      console.log(opts);
-      this.recordType = app.utils.getASType(opts.type);
+      this.recordType = opts.asType || app.utils.getASType(opts.type);
       this.id = opts.id
       return this;
     },
@@ -82,7 +81,6 @@ var app = app || {};
 
     initialize: function(opts) {
       this.model = new AgentModel(opts);
-      this.render();
       var $el = this.$el;
 
       this.on("recordloaded.aspace", function(model) {
@@ -97,7 +95,7 @@ var app = app || {};
         var embeddedSearchView = new app.EmbeddedSearchView({
           filters: [{"agent_uris": presenter.uri}],
           sortKey: presenter.uri.replace(/\//g, '_')+"_relator_sort asc"
-});
+        });
 
         var nameSidebarView = new NameSidebarView({
           presenter: presenter
@@ -105,6 +103,7 @@ var app = app || {};
 
       });
 
+      this.render();
     },
 
     render: function() {

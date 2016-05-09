@@ -9,7 +9,7 @@ var app = app || {};
       "search?*queryString": "search",
       "repositories/:repo_id/:type_plural/:id": "showRecord",
       "agents/:type_plural/:id": "showAgentRecord",
-      "repositories/:id": "showRepoRecord",
+      "repositories/:id(?*params)": "showRepoRecord",
       "*path": "defaultPage"
     },
 
@@ -33,10 +33,10 @@ var app = app || {};
     },
 
 
-    showRecord: function(repoId, recordTypePlural, id) {
+    showRecord: function(repoId, recordTypePathPlural, id) {
       var opts = {
         repoId: repoId,
-        recordType: _.singularize(recordTypePlural),
+        recordTypePath: _.singularize(recordTypePathPlural),
         id: id
       };
 
@@ -47,10 +47,14 @@ var app = app || {};
     },
 
 
-    showRepoRecord: function(id) {
+    showRepoRecord: function(id, params) {
       var opts = {
         id: id
       };
+
+      if(params)
+        _.merge(opts, app.SearchQuery.prototype.parseQueryString(params));
+
 
       $(function() {
         var repoContainerView = new app.RepoContainerView(opts);

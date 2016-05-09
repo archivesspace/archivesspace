@@ -19,7 +19,7 @@ class RecordsController < ApplicationController
 
 
   def archival_object
-    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "repository", "repository::agent_representation"])
     raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
 
     render :json => archival_object.to_json
@@ -70,7 +70,17 @@ class RecordsController < ApplicationController
     render :json => json
   end
 
+  def repository
+    agent_representation = JSONModel(:agent_corporate_entity).find_by_uri(@repository.agent_representation['ref'])
 
+    hash = @repository.to_hash
+
+    hash['agent_representation']['_resolved'] = agent_representation.to_hash
+
+    json = ASUtils.to_json(hash, {:max_nesting => false})
+
+    render :json => json
+  end
 
   def get_repository
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first

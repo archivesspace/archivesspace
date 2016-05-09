@@ -70,7 +70,9 @@ html {
 
 
 #main-content {
-  padding-right: rem-calc(20);
+  &.small-8 {
+    padding-right: rem-calc(20);
+  }
 }
 
 #sidebar {

@@ -158,66 +158,15 @@ var app = app || {};
   RecordPresenter.prototype = Object.create(app.AbstractRecordPresenter.prototype);
   RecordPresenter.prototype.constructor = RecordPresenter;
 
-  var SidebarTreeView = Bb.View.extend({
-    el: "#sidebar-container",
-    initialize: function(nodeUri) {
-      this.nodeUri = nodeUri;
-      this.render();
-    },
-
-    render: function() {
-      var presenter = {};
-      var that = this;
-      presenter.title = "Subgroups of the Record Group";
-
-      this.$el.html(app.utils.tmpl('sidebar-tree', presenter));
-      var url = "/api"+that.nodeUri+"/tree";
-      console.log(url);
-
-      $.ajax(url, {
-        success: function(data) {
-          app.debug.tree = data;
-
-          //TODO - make once
-          var displayString = function(container_child) {
-            var result = container_child.container_1;
-            result += _.has(container_child, 'container_2') ? container_child.container_2 : '';
-            return result;
-          };
-
-          var containerUri = function (container_child) {
-            var result = container_child.resource_data.repository + "/" + _.pluralize(app.utils.getPublicType(container_child.resource_data.type)) + "/" + container_child.resource_data.id;
-
-            return result;
-          };
-
-
-          $("#tree-container").html(app.utils.tmpl('classification-tree', {classifications: data, displayString: displayString, containerUri: containerUri}));
-
-          $("#tree-container").foundation();
-
-        }
-      });
-    },
-
-    events: {
-      "click .classification-term a": function(e) {
-        e.stopPropagation();
-        // e.preventDefault();
-        // TODO - catch this and avoid page load
-      }
-    }
-  });
-
-
   var RecordContainerView = Bb.View.extend({
     el: "#container",
     initialize: function(opts) {
       var $el = this.$el;
 
       this.on("recordloaded.aspace", function(model) {
-        var presenter = new RecordPresenter(model);
         var recordType = model.attributes.jsonmodel_type;
+        model.recordType = recordType;
+        var presenter = new RecordPresenter(model);
         app.debug = {};
         app.debug.model = model;
         app.debug.presenter = presenter;
@@ -241,8 +190,8 @@ var app = app || {};
 
         //build tree sidebar
         // TODO - resource and AO trees
-        if(_.includes(['classification', 'classification_term', '__resource', '__archival_object'], recordType)) {
-          this.sidebarView = new SidebarTreeView(model.attributes.uri);
+        if(_.includes(['classification', 'classification_term'], recordType)) {
+          this.sidebarView = new app.ClassificationSidebarView(model.attributes.uri);
         }
 
       });
@@ -285,7 +234,7 @@ var app = app || {};
 
   var RecordModel = Bb.Model.extend({
     initialize: function(opts) {
-      this.recordType = opts.recordType;
+      this.recordTypePath = opts.recordTypePath;
       this.id = opts.id;
       this.scope = opts.repoId ? 'repository' : 'global'
       if(this.scope === 'repository')
@@ -296,7 +245,7 @@ var app = app || {};
 
     url: function() {
       var url = RAILS_API;
-      var asType = app.utils.getASType(this.recordType);
+      var asType = app.utils.getASType(this.recordTypePath);
       if(this.scope === 'repository') {
         url += "/repositories/" + this.repoId;
       }
