@@ -6,7 +6,8 @@ var app = app || {};
     this.hasFullWidthContext = false;
     this.hasToolbar = false;
     this.hasContentSidebar = true;
-    this.repositoryName = "";
+    this.repositoryName = "Foo Repo";
+    this.repositoryPublicUrl = "#";
 
     this.uri = _.get(model, 'attributes.uri');
     this.title = _.get(model, 'attributes.title');
@@ -31,6 +32,7 @@ var app = app || {};
 
     if(model.attributes.repository && model.attributes.repository._resolved) {
       this.repositoryName = model.attributes.repository._resolved.name;
+      this.repositoryPublicUrl = app.utils.getPublicUrl(model.attributes.repository.ref, 'repository');
     }
 
     this.recordType = model.attributes.jsonmodel_type;

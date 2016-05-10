@@ -37,7 +37,7 @@ class RecordsController < ApplicationController
 
 
   def digital_object
-    digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
+    digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents", "repository"])
     raise RecordNotFound.new if (!digital_object || !digital_object.publish)
 
     render :json => digital_object.to_json

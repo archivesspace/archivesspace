@@ -36,6 +36,9 @@ var app = app || {};
         label_singular: "Object",
         label_plural: "Objects"
       },
+      digital_object: {
+        label_singular: "Digital Object"
+      },
       accession: {
         key_for_public_urls: "accession",
         label_singular: "Unprocessed Material"
