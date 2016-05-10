@@ -71,6 +71,9 @@ var RAILS_API = "/api";
     this.index = model.index;
     this.title = _.get(att, 'title');
     this.recordType = att.primary_type;
+    if(this.recordType === 'archival_object' && _.has(recordJson, 'title')){
+      this.title = recordJson.title;
+    }
     this.recordTypeClass = att.primary_type;
     this.recordTypeLabel = _.capitalize(att.primary_type);
     this.recordTypeIconClass = app.icons.getIconClass(this.recordType);
