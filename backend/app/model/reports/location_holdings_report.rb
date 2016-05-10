@@ -132,9 +132,13 @@ end
   def repository_query(db)
     repo_id = JSONModel.parse_reference(repository_uri)[:id]
 
-    db[:location]
-      .join(Location.find_relationship(:owner_repo).table_name, :location_id => :id)
-      .filter(:repository_id => repo_id)
+    location_ids = db[:location]
+		   .join(:top_container_housed_at_rlshp, :location_id => :location__id)
+		   .join(:top_container, :top_container__id => :top_container_housed_at_rlshp__top_container_id)
+		   .filter(:top_container__repo_id => repo_id)
+		   .select(:location__id)
+
+    db[:location].filter(:location__id => location_ids)
   end
 
   def single_query(db)
