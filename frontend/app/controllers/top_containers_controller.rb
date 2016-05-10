@@ -177,10 +177,17 @@ class TopContainersController < ApplicationController
     post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/locations"
 
     response = JSONModel::HTTP::post_json(URI(post_uri), location_data.to_json)
-    result = ASUtils.json_parse(response.body)
+    result = ASUtils.json_parse(response.body) rescue nil
 
     if response.code =~ /^4/
-      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages', :locals => {:exceptions => result, :jsonmodel => "top_container"}, :status => 500
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => (result || response.message),
+					       :jsonmodel => "top_container"},
+				   :status => 500
+    elsif response.code =~ /^5/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => response.message},
+				   :status => 500
     end
 
     render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}

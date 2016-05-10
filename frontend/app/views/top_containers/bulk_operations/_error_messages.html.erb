@@ -1,4 +1,4 @@
-<% if exceptions.has_key?("error") %>
+<% if exceptions.is_a?(Hash) && exceptions.has_key?("error") %>
   <div class="alert alert-danger" data-uri="<%= exceptions["uri"] %>">
     <% exceptions["error"].each do |attr, messages| %>
       <div class="errors-for-attribute">
@@ -9,5 +9,9 @@
         <% end %>
       </div>
     <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-danger"">
+    <%= exceptions.to_s %>
   </div>
 <% end %>
