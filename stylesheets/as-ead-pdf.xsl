@@ -1548,7 +1548,7 @@
     <xsl:template match="ead:repository | ead:origination | ead:unitdate | ead:unitid  
         | ead:physdesc | ead:physloc | ead:langmaterial | ead:materialspec | ead:container 
         | ead:abstract | ead:note" mode="dsc">
-        <xsl:if test="child::*">
+        <xsl:if test="normalize-space()">
         <fo:block xsl:use-attribute-sets="smpDsc">
             <fo:inline text-decoration="underline">
             <xsl:choose>
