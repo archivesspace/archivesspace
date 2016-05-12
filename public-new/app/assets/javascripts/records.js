@@ -127,9 +127,11 @@ var app = app || {};
 
 
     if(model.attributes.subjects && model.attributes.subjects.length) {
-      this.subjects = _.compact(_.map(model.attributes.subjects, function(obj) {
-        return _.get(obj, '_resolved.title');
-      })).sort();
+      var sorted = _.compact(model.attributes.subjects).sort();
+
+      this.subjects = _.map(sorted, function(obj) {
+        return "<a href='"+obj._resolved.uri+"'>"+_.get(obj, '_resolved.title')+"</a>";
+      });
     }
 
     if(model.attributes.classifications && model.attributes.classifications.length) {

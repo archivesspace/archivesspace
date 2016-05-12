@@ -465,19 +465,9 @@ var app = app || {};
       var sfv = this.searchFacetsView = new app.SearchFacetsView();
 
       $(document).foundation();
-      srv.on("showrecord.aspace", function(url) {
-        var parsed = app.utils.parsePublicUrl(url);
-
-        app.router.navigate(url);
+      srv.on("showrecord.aspace", function(publicUrl) {
         destroy();
-
-        if(parsed.asType === 'repository') {
-          new app.RepoContainerView(parsed);
-        } else if(parsed.asType.match(/agent/)) {
-          new app.AgentContainerView(parsed);
-        } else {
-          new app.RecordContainerView(parsed);
-        }
+        app.router.showRecord(publicUrl);
       });
 
 

@@ -7,8 +7,9 @@ var app = app || {};
     routes: {
       "": "welcome",
       "search?*queryString": "search",
-      "repositories/:repo_id/:type_plural/:id": "showRecord",
+      "repositories/:repo_id/:type_plural/:id": "showArchivalRecord",
       "agents/:type_plural/:id": "showAgentRecord",
+      "subjects/:id": "showSubjectRecord",
       "repositories/:id(?*params)": "showRepoRecord",
       "*path": "defaultPage"
     },
@@ -33,7 +34,7 @@ var app = app || {};
     },
 
 
-    showRecord: function(repoId, recordTypePathPlural, id) {
+    showArchivalRecord: function(repoId, recordTypePathPlural, id) {
       var opts = {
         repoId: repoId,
         recordTypePath: _.singularize(recordTypePathPlural),
@@ -44,6 +45,24 @@ var app = app || {};
       $(function() {
         var recordContainerView = new app.RecordContainerView(opts);
       })
+    },
+
+
+    // load the right container view and navigate
+    // to record url
+    showRecord: function(publicUrl) {
+      this.navigate(publicUrl);
+      var parsed = app.utils.parsePublicUrl(publicUrl);
+
+      if(parsed.asType === 'repository') {
+          new app.RepoContainerView(parsed);
+      } else if(parsed.asType.match(/agent/)) {
+        new app.AgentContainerView(parsed);
+      } else if(parsed.asType === 'subject') {
+        new app.SubjectContainerView(parsed);
+      } else {
+        new app.RecordContainerView(parsed);
+      }
     },
 
 
@@ -71,6 +90,17 @@ var app = app || {};
 
       $(function() {
         var agentContainerView = new app.AgentContainerView(opts);
+      })
+    },
+
+
+    showSubjectRecord: function(id) {
+      var opts = {
+        id: id
+      };
+
+      $(function() {
+        var subjectContainerView = new app.SubjectContainerView(opts);
       })
     },
 

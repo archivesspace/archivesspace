@@ -38,3 +38,7 @@
 .record-type-badge.repository {
   @include record-type-badge-colored($repository-color);
 }
+
+.record-type-badge.subject {
+  @include record-type-badge-colored($subject-color);
+}

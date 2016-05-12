@@ -28,6 +28,7 @@
 //= require embedded-search
 //= require records
 //= require agents
+//= require subjects
 //= require repositories
 //= require classifications
 //= require welcome

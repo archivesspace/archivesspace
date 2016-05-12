@@ -6,7 +6,7 @@ var app = app || {};
     this.hasFullWidthContext = false;
     this.hasToolbar = false;
     this.hasContentSidebar = true;
-    this.repositoryName = "Foo Repo";
+    this.repositoryName = "Repository Name";
     this.repositoryPublicUrl = "#";
 
     this.uri = _.get(model, 'attributes.uri');

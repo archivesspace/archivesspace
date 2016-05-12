@@ -108,7 +108,7 @@ var app = app || {};
 
         // maybe make a separate view for this
         // TODO - figure out how to load real stats
-        $('#whats-in-repo-container', $el).addClass('row collapse');
+        $('#whats-in-repo-container', $el).addClass('row collapse activated');
         $('#whats-in-repo-container', $el).html(app.utils.tmpl('whats-in-repo', whatsInRepoPresenter));
 
         var embeddedSearchView = new app.EmbeddedSearchView({
