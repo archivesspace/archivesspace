@@ -141,10 +141,14 @@ class Location < Sequel::Model(:location)
 
 
   def delete
-    # only allow delete if the location doesn't have any relationships
+    # only allow delete if the location doesn't have any relationships that should be preserved
     object_graph = self.object_graph
 
-    if object_graph.models.any? {|model| model.is_relationship?}
+    # These relationships should not prevent deletion if the location is otherwise unlinked.
+    ignored_relationships = [Location.find_relationship(:location_profile),
+                             Location.find_relationship(:owner_repo)]
+
+    if object_graph.models.any? {|model| model.is_relationship? && !ignored_relationships.include?(model) }
       raise ConflictException.new("Location cannot be deleted if linked")
     end
 
