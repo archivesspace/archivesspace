@@ -41,15 +41,15 @@ class Search
     p = params.dup
     p[:dt] = "json"
     result = search(p, repo_id)
-    
-    total_pages = params[:last_page]
+    total_pages = result["last_page"].to_i || 2
     page = 2 # we start on the second page bc the first will have headers
 
     Enumerator.new do |y|
+      # we get page 1 of csv w headers 
       y << search(params, repo_id)
-      while page != total_pages 
+      params[:no_csv_header] = true 
+      while page <= total_pages 
         params[:page] = page
-        params[:no_csv_header] = true 
         y << search(params, repo_id)
         page +=1 
       end
