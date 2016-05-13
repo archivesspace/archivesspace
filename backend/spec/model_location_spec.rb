@@ -139,12 +139,32 @@ describe 'Location model' do
     owner_repo = create(:unselected_repo, {:repo_code => "OWNER_REPO"})
 
     owner_repo_uri = JSONModel(:repository).uri_for(owner_repo.id)
-    opts = {:owner_repo => {'ref' => owner_repo_uri}}
-    
-    location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+    location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
 
     json = Location.to_jsonmodel(location.id)
     json['owner_repo']['ref'].should eq(owner_repo_uri)
+  end
+
+  it "allows you you delete a location that has a location profile attached" do
+    location_profile = create(:json_location_profile)
+    location = create(:json_location,
+                      :location_profile => {'ref' => location_profile.uri})
+
+    expect { Location[location.id].delete }.to_not raise_error
+
+    Location[location.id].should be(nil)
+  end
+
+  it "allows you you delete a location that has an owner" do
+    owner_repo = create(:unselected_repo, {:repo_code => "OWNER_REPO"})
+    owner_repo_uri = JSONModel(:repository).uri_for(owner_repo.id)
+
+    location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
+
+    expect { Location[location.id].delete }.to_not raise_error
+
+    Location[location.id].should be(nil)
   end
 
 
