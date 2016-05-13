@@ -42,6 +42,7 @@ var app = app || {};
 
       var searchResults = this.searchResults;
       var searchResultsView = this.searchResultsView;
+      var destroy = $.proxy(this.destroy, this);
 
       this.searchResultsView.on("changepage.aspace", function(page) {
         $('#wait-modal').foundation('open');
@@ -57,9 +58,14 @@ var app = app || {};
         });
       });
 
+      this.searchResultsView.on("showrecord.aspace", function(publicUrl) {
+        destroy();
+        app.router.showRecord(publicUrl);
+      });
+
       $editorContainer.addClass("search-panel-blue");
 
-      this.update();
+      this.update(false);
 
     },
 
@@ -68,16 +74,21 @@ var app = app || {};
         e.preventDefault();
         this.query.updateCriteria(this.searchEditor.extract());
 
-        this.update();
+        this.update(true);
       }
 
     },
 
-    update: function() {
+    update: function(rewind) {
       var searchResultsView = this.searchResultsView;
-      this.searchResults.updateQuery(this.query.toArray(), false).then(function() {
+      this.searchResults.updateQuery(this.query.toArray(), rewind).then(function() {
         searchResultsView.render();
       });
+    },
+
+    destroy: function() {
+      this.unbind();
+      this.$el.empty();
     }
 
 

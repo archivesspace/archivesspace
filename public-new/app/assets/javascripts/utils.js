@@ -51,6 +51,9 @@ var app = app || {};
         key_for_public_urls: "person",
         label_singular: "Person"
       },
+      subject: {
+        label_singular: "Subject"
+      },
       repository: {
         label_singular: "Repository"
       }

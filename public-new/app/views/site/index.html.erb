@@ -283,6 +283,10 @@
           ${abstract}
           </div>
 
+          { if(present('source')) {}
+          <span class="inline-label">Source:</span> ${source}
+          {}}
+
           { if(present('dates')) {}
           <h3>Dates</h3>
           <ul>

@@ -44,6 +44,16 @@ class RecordsController < ApplicationController
   end
 
 
+  def subject
+    subject = JSONModel(:subject).find(params[:id], "resolve[]" => [])
+    raise RecordNotFound.new if (!subject || !subject.publish)
+
+    hash = subject.to_hash_with_translated_enums(['subject_source'])
+
+    render :json => ASUtils.to_json(hash)
+  end
+
+
   def classification
     classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents", "repository", "creator"])
     raise RecordNotFound.new if (!classification || !classification.publish)
