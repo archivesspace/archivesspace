@@ -37,7 +37,7 @@ var app = app || {};
 
     this.relatedAgents = relations;
 
-    if(model.attributes.external_documents) {
+    if(model.attributes.external_documents && model.attributes.external_documents.length) {
       this.externalDocuments = "<ul>"+_.map(model.attributes.external_documents, function(doc) {
         return "<li>"+doc.title+"</li>";
       }).join('') + "<ul />";
