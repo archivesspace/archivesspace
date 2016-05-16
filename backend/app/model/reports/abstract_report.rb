@@ -7,12 +7,13 @@ class AbstractReport
   attr_accessor :format
   attr_accessor :params
 
-  def initialize(params)
+  def initialize(params, job)
     # sanity check, please. 
     params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
     @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
     @params = params 
+    @job = job
   end
 
   def get_binding
@@ -37,6 +38,10 @@ class AbstractReport
 
   def processor
     {}
+  end
+
+  def current_user
+    @job.owner
   end
 
   def query(db)

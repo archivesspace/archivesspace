@@ -5,7 +5,7 @@ class UnprocessedAccessionsReport < AbstractReport
                     :description => "Report on all unprocessed accessions",
                   })
 
-  def initialize(params)
+  def initialize(params, job)
     super
   end
 

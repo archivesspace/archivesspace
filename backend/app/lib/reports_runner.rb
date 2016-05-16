@@ -40,7 +40,7 @@ class ReportRunner < JobRunner
       report_model = report[:model] 
 
 
-      output = ReportResponse.new( report_model.new(params)  ).generate 
+      output = ReportResponse.new(report_model.new(params, @job)).generate
       if output.respond_to? :string
         file.write(output.string)
       elsif output.respond_to? :each

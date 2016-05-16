@@ -1,5 +1,6 @@
 <%
-repository_list = MemoryLeak::Resources.get(:repository).map {|repository| [repository.repo_code, repository.uri]}
+# We get this list from the ApplicationController and it's filtered to the repositories the current user can access.
+repository_list = @repositories.map {|repo| [repo.repo_code, repo.uri]}
 
 building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 %>
