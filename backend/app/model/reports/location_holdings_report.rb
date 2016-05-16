@@ -144,7 +144,14 @@ end
 		   .filter(:top_container__repo_id => repo_id)
 		   .select(:location__id)
 
-    db[:location].filter(:location__id => location_ids)
+    ds = db[:location].filter(:location__id => location_ids)
+
+    # We add a filter at this point to only show holdings for the current
+    # repository.  This works because we know our dataset will be joined with
+    # the top_container table in our `query` method, and Sequel doesn't mind if
+    # we add filters for columns that haven't been joined in yet.
+    #
+    ds.filter(:top_container__repo_id => repo_id)
   end
 
   def single_query(db)
