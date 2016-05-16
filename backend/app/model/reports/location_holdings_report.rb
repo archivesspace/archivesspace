@@ -10,13 +10,19 @@ class LocationHoldingsReport < AbstractReport
 
   attr_reader :building, :repository_uri, :start_location, :end_location
 
-  def initialize(params)
+  def initialize(params, job)
     super
 
     if ASUtils.present?(params['building'])
       @building = params['building']
     elsif ASUtils.present?(params['repository_uri'])
       @repository_uri = params['repository_uri']
+
+      RequestContext.open(:repo_id => JSONModel(:repository).id_for(@repository_uri)) do
+        unless current_user.can?(:view_repository)
+          raise AccessDeniedException.new("User does not have access to view the requested repository")
+        end
+      end
     else
       @start_location = Location.get_or_die(JSONModel(:location).id_for(params['location_start']['ref']))
 
