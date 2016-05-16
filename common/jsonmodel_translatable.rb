@@ -24,7 +24,10 @@ module JSONModelTranslatable
 
     schema["properties"].each do |property, definition|
 
-      if (definition['type'] == 'array') and (definition['items']['type'] == 'object')
+      if (definition['type'] == 'array') and (definition['items']['type'] =~ /^JSONModel\(:(.*)\)/)
+        type = $1
+        result[property] = hash[property].map {|item| self.translate_hash(item, JSONModel(type).schema, enums_to_translate) }
+      elsif (definition['type'] == 'array') and (definition['items']['type'] == 'object')
         result[property] = hash[property].map {|item| self.translate_hash(item, definition['items'], enums_to_translate) }
 
       elsif (definition['type'] == 'array') and (definition['items']['type'].is_a?(Array))

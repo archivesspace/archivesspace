@@ -5,11 +5,41 @@ var app = app || {};
     app.AbstractRecordPresenter.call(this, model);
     this.source = model.attributes.source;
 
+    // TODO - this is the same as agents. can
+    // it be de-duped?
+    if(model.attributes.external_documents && model.attributes.external_documents.length) {
+      this.externalDocuments = "<ul>"+_.map(model.attributes.external_documents, function(doc) {
+        return "<li>"+doc.title+"</li>";
+      }).join('') + "<ul />";
+    }
+
+    if(model.attributes.terms && model.attributes.terms.length) {
+      var termsByType = {};
+      _.forEach(model.attributes.terms, function(term) {
+        if(!termsByType[term['term_type']])
+          termsByType[term['term_type']] = [];
+
+        termsByType[term['term_type']].push(term['term']);
+
+      });
+
+      var result = "<ul>";
+      _.forEach(_.keys(termsByType).sort(), function(type){
+        result += "<li>" + type + "<ul>";
+        _.forEach(termsByType[type].sort(), function(term){
+          result += "<li>"+term+"</li>";
+        });
+        result += "</ul></li>";
+
+      });
+      result += "</ul>";
+
+      this.terms = result;
+    }
   }
 
   SubjectPresenter.prototype = Object.create(app.AbstractRecordPresenter.prototype);
   SubjectPresenter.prototype.constructor = SubjectPresenter;
-
 
 
   var SubjectModel = Bb.Model.extend({
@@ -48,9 +78,9 @@ var app = app || {};
           filters: [{"subjects": model.attributes.title}]
         });
 
-        // var nameSidebarView = new NameSidebarView({
-        //   presenter: presenter
-        // });
+        var moreAboutSubjectSidebarView = new MoreAboutSubjectSidebarView({
+          presenter: presenter
+        });
 
       });
 
@@ -80,6 +110,23 @@ var app = app || {};
           }
         }, 500);
       });
+    }
+  });
+
+
+  var MoreAboutSubjectSidebarView = Bb.View.extend({
+    el: "#sidebar-container",
+
+    initialize: function(opts) {
+      this.presenter = opts.presenter;
+      this.render();
+    },
+
+    render: function() {
+      this.$el.addClass('more-about-subject-sidebar');
+      this.$el.html(app.utils.tmpl('more-about-subject', this.presenter, true))
+
+      this.$el.foundation();
     }
   });
 

@@ -627,6 +627,36 @@
   </script>
 
 
+  <script type="text/template" id="more-about-subject-tmpl">
+    <h3>More About Subject</h3>
+    <div class="accordion-table" data-accordion-table>
+      {if(present('terms')) {}
+      <div class="navigation-row" data-header-for="terms-subdivisions">
+        <div><div class="arrow-right" ></div></div>
+        <div>Terms/Subdivisions</div>
+      </div>
+      <div id="terms-subdivisions" class="content-row">
+        <div></div>
+        <div>${terms}
+        </div>
+      </div>
+      {} }
+
+      {if(present('externalDocuments')) {}
+      <div class="navigation-row" data-header-for="external-documents">
+        <div><div class="arrow-right" ></div></div>
+        <div>External Documents</div>
+      </div>
+      <div id="external-documents" class="content-row">
+        <div></div>
+        <div>${externalDocuments}</div>
+      </div>
+      {} }
+
+    </div>
+  </script>
+
+
   <script type="text/template" id="more-about-name-tmpl">
     <h3>More About Name</h3>
     <div class="accordion-table" data-accordion-table>

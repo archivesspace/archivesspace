@@ -48,7 +48,7 @@ class RecordsController < ApplicationController
     subject = JSONModel(:subject).find(params[:id], "resolve[]" => [])
     raise RecordNotFound.new if (!subject || !subject.publish)
 
-    hash = subject.to_hash_with_translated_enums(['subject_source'])
+    hash = subject.to_hash_with_translated_enums(['subject_source', 'subject_term_type'])
 
     render :json => ASUtils.to_json(hash)
   end
