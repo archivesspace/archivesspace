@@ -220,8 +220,12 @@ end
       dataset = query(db)
 
       current_entry = nil
-      dataset.each do |row|
-	if current_entry && current_entry[:_top_container_id] == row[:top_container_id]
+      enum = dataset.to_enum
+
+      while true
+        row = next_row(enum)
+
+	if row && current_entry && current_entry[:_top_container_id] == row[:top_container_id]
 	  # This row can be combined with the previous entry
 	  collection_identifier_fields.each do |field|
 	    current_entry['resource_or_accession_id'] << row[field]
@@ -239,7 +243,10 @@ end
 	    yield current_entry
 	  end
 
-	  # and start a new entry
+          # If we hit the end of our rows, we're all done
+          break unless row
+
+	  # Otherwise, start a new entry for the next row
           current_entry = Hash[headers.map { |h|
 				 val = (processor.has_key?(h)) ? processor[h].call(row) : row[h.intern]
 				 [h, val]
@@ -256,6 +263,12 @@ end
   end
 
   private
+
+  def next_row(enum)
+    enum.next
+  rescue StopIteration
+    nil
+  end
 
   def format_identifier(s)
     if ASUtils.blank?(s)
