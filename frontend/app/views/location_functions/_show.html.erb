@@ -9,7 +9,7 @@
         <tbody>
         <% ASUtils.wrap(functions).each do |location_function| %>
           <tr>
-            <td><%= I18n.t("enumerations.location_function_type.#{location_function['location_function_type']}") %></td>
+            <td><%= I18n.t("enumerations.location_function_type.#{location_function['location_function_type']}", :default => location_function['location_function_type']) %></td>
           </tr>
         <% end %>
         </tbody>
