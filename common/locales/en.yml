@@ -1942,6 +1942,7 @@ en:
       creators: Creator
       notes: Notes
       subjects: Subject
+      identifier: Identifier 
     boolean:
       published: Published?
       suppressed: Suppressed?
