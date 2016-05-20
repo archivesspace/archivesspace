@@ -118,5 +118,5 @@ The conversion process can resolve some of these errors for you by supplying or 
 
 *Are there any known conversion issues?*
 
-Due to a change in the ArchivesSpace EAD importer in 2015, some EADs with hierarchical containers not designated by a @parent attribute were turned into multiple instance records. This has since been corrected in the application, but we are working on a plugin that will enable you to turn these back into single instances so that subcontainers are not mistakenly turned into top containers.
+Due to a change in the ArchivesSpace EAD importer in 2015, some EADs with hierarchical containers not designated by a @parent attribute were turned into multiple instance records. This has since been corrected in the application, but we are working on a plugin (now available at [https://github.com/archivesspace/instance_joiner]) that will enable you to turn these back into single instances so that subcontainers are not mistakenly turned into top containers.
 
