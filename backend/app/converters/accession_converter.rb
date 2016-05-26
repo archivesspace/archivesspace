@@ -62,6 +62,7 @@ class AccessionConverter < Converter
       'accession_processing_priority' => 'collection_management.processing_priority',
       'accession_processing_total_extent' => 'collection_management.processing_total_extent',
       'accession_processing_total_extent_type' => 'collection_management.processing_total_extent_type',
+      'accession_processing_status' => 'collection_management.processing_status',
       'accession_processors' => 'collection_management.processors',
       'accession_rights_determined' => 'collection_management.rights_determined',
 

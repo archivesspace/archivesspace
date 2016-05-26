@@ -502,6 +502,7 @@ class CommonIndexer
           'json' => cm.to_json(:max_nesting => false),
           'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
+          'processing_status' => cm['processing_status'], 
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],

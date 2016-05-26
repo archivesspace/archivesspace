@@ -38,5 +38,6 @@ describe 'Accession converter' do
     @dates.count.should eq(2)
   end
 
+
 end
 
