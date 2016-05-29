@@ -23,14 +23,14 @@ describe 'Accession converter' do
   end
 
   it "created one Accession record for each row in the CSV file" do
-    @accessions.count.should eq(18)
+    @accessions.count.should eq(10)
   end
 
   it "created a  Agent record if one is in the row" do
-    @agents.count.should eq(8)
+    @agents.count.should eq(5)
   end
   
-  it "created a  Agent record if one is in the row" do
+  it "created a Subject record if one is in the row" do
     @subjects.count.should eq(8)
   end
   
