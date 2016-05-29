@@ -51,7 +51,9 @@ class ASFop
   def to_pdf_stream
     begin 
       fo = StringIO.new(to_fo).to_inputstream  
-      fop = FopFactory.newInstance.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
+      fopfac = FopFactory.newInstance
+      fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') ) 
+      fop = fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream) 
       transformer = TransformerFactory.newInstance.newTransformer()
       res = SAXResult.new(fop.getDefaultHandler)
       transformer.transform(StreamSource.new(fo), res)
