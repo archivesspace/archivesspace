@@ -5,9 +5,38 @@ class TreesController < ApplicationController
 
     Rails.logger.debug(response.inspect)
     return nil unless response and response.has_key?('tree_json')
+    tree = ASUtils.json_parse(response['tree_json'])
 
+    tree['children'] = tree['direct_children'].map {|node|
 
-    render :json => response['tree_json']
+      if node['title'] =~ /(.+),\s+((\d+-)?\d+)/
+        title = $1
+        date = $2
+      else
+        title = node['title']
+        date = nil
+      end
+
+      title.strip!
+      title.sub!(/<title\s+render=['"]italic['"][^>]*>([^<]+)<\/title>/, '<i>\1</i>')
+
+      if node['containers'].length
+        node['container_label'] = [node['containers'][0]['type_1'], node['containers'][0]['indicator_1'], node['containers'][0]['type_2'], node['containers'][0]['indicator_2']].compact.join(" ")
+      end
+
+      {
+        'title' => title,
+        'date' => date,
+        'id' => node['id'],
+        'children' => node['has_children'],
+        'record_uri' => node['record_uri'],
+        'component_id' => node['component_id'],
+        'container_label' => node['container_label']
+      }
+    }
+
+    render :json => tree['children']
+#    render :json => tree['self']['node_type'] == 'resource' ? tree['children'] : tree
   end
 
 

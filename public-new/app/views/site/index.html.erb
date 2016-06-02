@@ -725,5 +725,33 @@
       </div>
   </script>
 
+  <script type="text/template" id="resource-tree-sidebar-tmpl">
+    <h3>Contents & Arrangements</h3>
+    <div class='search-collection-content'>
+      <h4>Search Collection Content</h4>
+      <div class='search-collection-content-form'>
+        <input type="text" />
+        <button class="button small">Search</button>
+      </div>
+    </div>
+    <br />
+    <div id='tree-container'>
+    </div>
+  </script>
+
+  <script type="text/template" id="resource-tree-node-tmpl">
+    <span class="tree-node-text">
+    { if(_.has(obj, 'component_id')) {}
+    <span class="component-id">${component_id}</span>
+    {} }
+    { if(_.has(obj, 'container_label')) {}
+    <span class="container-label">${container_label}</span>
+    {} }
+    ${obj.title}
+    { if(_.has(obj, 'date')) {}
+    <!-- <br />${date} -->
+    {} }
+    </span>
+  </script>
 </body>
 </html>
