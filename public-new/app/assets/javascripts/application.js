@@ -31,4 +31,5 @@
 //= require subjects
 //= require repositories
 //= require classifications
+//= require resource-tree-sidebar
 //= require welcome

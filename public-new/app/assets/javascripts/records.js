@@ -177,9 +177,16 @@ var app = app || {};
         $el.html(app.utils.tmpl('record', presenter));
         $('.abstract', $el).readmore(300);
 
-        //add a metadata accordion for object records
+
         if(_.includes(['resource', 'archival_object'], recordType)) {
+          //add a metadata accordion for object records
           $("#record-accordion-container", $el).html(app.utils.tmpl('record-accordion', presenter));
+
+          //add a tree sidebar
+          var opts = {
+            recordUri: presenter.uri
+          };
+          this.sidebarView = new app.ResourceTreeSidebar(opts);
         }
 
         //add an embedded search / browse for concept records

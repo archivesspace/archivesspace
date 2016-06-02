@@ -12,8 +12,16 @@ var app = app || {};
     this.uri = _.get(model, 'attributes.uri');
     this.title = _.get(model, 'attributes.title');
     this.language = _.get(model, 'attributes.language');
-    this.recordType = model.recordType;
-    this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
+    this.recordType = model.attributes.jsonmodel_type;
+
+    if(this.recordType === 'archival_object' && model.attributes.instances.length && model.attributes.instances[0].container) {
+      var firstContainer = model.attributes.instances[0].container;
+      var label = firstContainer.type_1 + " " + firstContainer.indicator_1 + " " + firstContainer.type_2 + " " + firstContainer.indicator_2;
+      this.recordTypeLabel = label;
+
+    } else {
+      this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
+    }
 
     if(this.recordType)
       this.recordTypeIconClass = app.icons.getIconClass(this.recordType);
@@ -34,9 +42,6 @@ var app = app || {};
       this.repositoryName = model.attributes.repository._resolved.name;
       this.repositoryPublicUrl = app.utils.getPublicUrl(model.attributes.repository.ref, 'repository');
     }
-
-    this.recordType = model.attributes.jsonmodel_type;
-    this.recordTypeLabel =  app.utils.getPublicTypeLabel(this.recordType);
 
   };
 
