@@ -44,7 +44,6 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
    
-    $stderr.puts parsed
     #parsed.find{|r| r['ref_id'] == '1'}['instances'].length.should eq(2)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type'].should eq('text')
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['barcode_1'].should eq('B@RC0D3')

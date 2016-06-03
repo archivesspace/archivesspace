@@ -90,10 +90,29 @@ module JSONModel
 
   # Parse a URI reference like /repositories/123/archival_objects/500 into
   # {:id => 500, :type => :archival_object}
+  #
+  # It turns out that when resolving thousands of records, the miss-rate of
+  # trying every model every time can be quite significant.  Trying to be a bit
+  # cleverer...
+  #
+  REFERENCE_KEY_REGEX = /(\/[0-9]+)/
+  @@model_lookup_cache = Atomic.new({})
+
   def self.parse_reference(reference, opts = {})
+    return nil if reference.nil?
+    cache_key = reference.gsub(REFERENCE_KEY_REGEX, '')
+
+    # Try our cache
+    (type, model) = @@model_lookup_cache.value[cache_key]
+    if type && (id = model.id_for(reference, opts, true))
+      return {:id => id, :type => type, :repository => repository_for(reference)}
+    end
+
+    # Do the slow search
     @@models.each do |type, model|
       id = model.id_for(reference, opts, true)
       if id
+        @@model_lookup_cache.update {|v| v.merge({cache_key => [type, model]})}
         return {:id => id, :type => type, :repository => repository_for(reference)}
       end
     end

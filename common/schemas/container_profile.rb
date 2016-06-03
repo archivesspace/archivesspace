@@ -18,6 +18,8 @@
       "width" => {"type" => "string",  "ifmissing" => "error"},
       "depth" => {"type" => "string",  "ifmissing" => "error"},
 
+      "stacking_limit" => {"type" => "string", "required" => false},
+
       "display_string" => {"type" => "string", "readonly" => true},
     },
   },

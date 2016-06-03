@@ -1,0 +1,128 @@
+<% if @container_profile_ref.blank? %>
+  <div class="alert alert-danger">
+    <%= I18n.t("space_calculator.message_container_profile_required") %>
+  </div>
+<% elsif !@by_building && @location_refs.blank? %>
+    <div class="alert alert-danger">
+      <%= I18n.t("space_calculator.message_locations_required") %>
+    </div>
+<% else %>
+  <% if @results.blank? || @results['locations_with_space'].empty? %>
+    <div class="alert alert-warning">
+      <%= I18n.t("space_calculator.message_no_locations_with_space") %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      <%= I18n.t("space_calculator.message_total_spaces", {:total_spaces => @results['total_spaces_available']}) %>
+      <br/>
+      <%= I18n.t("space_calculator.message_total_containers", {:total_containers => @results['total_containers_of_type']}) %>
+    </div>
+  <% end %>
+  <% if @results && !(@results['locations_with_space'] +
+                     @results['locations_without_space']  +
+                     @results['uncalculatable_locations']).empty? %>
+    <div id="spaceCalculatorToolbar" class="row">
+      <div class="col-xs-9">
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".has-space"
+                 type="checkbox"
+            <% if @results['locations_with_space'].length > 0 %>
+              checked="checked"
+            <% else %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-success">
+            <%= I18n.t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length)%>
+          </small>
+        </label>
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".no-space"
+                 type="checkbox"
+            <% if @results['locations_without_space'].length == 0 %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-warning">
+            <%= I18n.t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length)%>
+          </small>
+        </label>
+        <label class="btn btn-sm btn-default">
+          <input class="space-calculator-results-toggle"
+                 data-target-selector=".errored"
+                 type="checkbox"
+            <% if @results['uncalculatable_locations'].length > 0 %>
+              checked="checked"
+            <% else %>
+              disabled="disabled"
+            <% end %>
+          />
+          <small class="text-danger">
+            <%= I18n.t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length)%>
+          </small>
+        </label>
+      </div>
+      <div class="col-xs-3">
+        <input id="searchResultsFilter" class="form-control input-sm" type="text" placeholder="<%= I18n.t("space_calculator.result_filter") %>"/>
+      </div>
+    </div>
+    <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
+      <thead>
+        <tr>
+          <% if @selectable %>
+            <th class="col selectable"></th>
+          <% end %>
+          <th class="col space"><span class="glyphicon glyphicon-question-sign"></span></th>
+          <th class="col location"><%= I18n.t("location._singular") %></th>
+          <th class="col location-profile"><%= I18n.t("location_profile._singular") %></th>
+          <th class="col count"><%= I18n.t("space_calculator.count") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results['locations_with_space'].each do |location| %>
+          <tr class="has-space">
+            <% if @selectable %>
+              <td><%= radio_button_tag "linker-item", location["ref"], false, :"data-object" => location.to_json %></td>
+            <% end %>
+            <td class="space text-center"><span class="glyphicon glyphicon-ok-sign text-success"></span></td>
+            <td class="location"><%= location['_resolved']['title'] %></td>
+            <td class="location-profile"><%= location['_resolved']['location_profile']['_resolved']['display_string'] %></td>
+            <td class="count" data-count="<%= location['count'].to_i %>"><%= location['count'] %></td>
+          </tr>
+        <% end %>
+        <% @results['locations_without_space'].each do |location| %>
+        <tr class="no-space filtered-by-toggle">
+          <% if @selectable %>
+            <td></td>
+          <% end %>
+          <td class="space text-center"><span class="glyphicon glyphicon-remove-sign text-warning"></span></td>
+          <td class="location"><%= location['_resolved']['title'] %></td>
+          <td class="location-profile">
+            <% if location['_resolved']['location_profile'] %>
+              <%= location['_resolved']['location_profile']['_resolved']['display_string'] %>
+            <% end %>
+          </td>
+          <td class="text-warning count" data-count="0"><%= I18n.t("space_calculator.reason.#{location['reason']}", :default => location['reason']) %></td>
+        </tr>
+      <% end %>
+        <% @results['uncalculatable_locations'].each do |location| %>
+          <tr class="errored">
+            <% if @selectable %>
+              <td></td>
+            <% end %>
+            <td class="space text-center"><span class="glyphicon glyphicon-exclamation-sign text-danger"></span></td>
+            <td class="location"><%= location['_resolved']['title'] %></td>
+            <td class="location-profile">
+              <% if location['_resolved']['location_profile'] %>
+                <%= location['_resolved']['location_profile']['_resolved']['display_string'] %>
+              <% end %>
+            </td>
+            <td class="text-danger count" data-count="-1"><%= I18n.t("space_calculator.reason.#{location['reason']}", :default => location['reason']) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

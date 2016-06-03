@@ -319,6 +319,11 @@ module JSONModel::Validations
         end
       end
 
+      # Ensure stacking limit is a positive integer if it has value
+      if !hash['stacking_limit'].nil? and hash['stacking_limit'] !~ /^\d+$/
+        errors << ['stacking_limit', 'must be a positive integer']
+      end
+
       errors
   end
 
@@ -500,5 +505,23 @@ module JSONModel::Validations
   end
 
 
+  def self.check_location_profile(hash)
+    errors = []
+
+    # Ensure depth, width and height have no more than 2 decimal places
+    ["depth", "width", "height"].each do |k|
+      if !hash[k].nil? &&  hash[k] !~ /\A\d+(\.\d\d?)?\Z/
+        errors << [k, "must be a number with no more than 2 decimal places"]
+      end
+    end
+
+    errors
+  end
+
+  if JSONModel(:location_profile)
+    JSONModel(:location_profile).add_validation("check_location_profile") do |hash|
+      check_location_profile(hash)
+    end
+  end
 
 end

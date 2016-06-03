@@ -1,5 +1,5 @@
-<% if user_can?('update_container_profile_record') %>
-  <div class="record-toolbar">
+<div class="record-toolbar">
+  <% if user_can?('update_container_profile_record') %>
     <% if !['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
       <div class="btn-group pull-left">
         <%= link_to I18n.t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
@@ -14,7 +14,19 @@
         </div>
       </div>
     <% end %>
-    <div class="clearfix"></div>
-  </div>
-
-<% end %>
+  <% end %>
+  <% if !['new', 'create'].include?(controller.action_name) %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+          <button id="showSpaceCalculator" class="btn btn-sm btn-default"
+                  data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
+                  data-modal-content="<%= I18n.t("space_calculator.modal_loading") %>"
+                  data-selectable="false"
+                  data-container-profile-uri="<%= @container_profile.uri %>">
+            <%=  I18n.t("container_profile._frontend.action.space_calculator") %>
+          </button>
+        </div>
+      </div>
+  <% end %>
+  <div class="clearfix"></div>
+</div>

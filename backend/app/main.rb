@@ -134,9 +134,6 @@ class ArchivesSpaceService < Sinatra::Base
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
 
-      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
-
-
       if ASpaceEnvironment.environment == :production
         # Start the job scheduler
         if !settings.respond_to? :scheduler?
@@ -200,6 +197,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
       Notifications.notify("BACKEND_STARTED")
       Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"

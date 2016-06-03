@@ -8,6 +8,12 @@
       <%= form.label_and_textfield "floor" %>
       <%= form.label_and_textfield "room" %>
       <%= form.label_and_textfield "area" %>
+      <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
+        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
+      <% end %>
+      <% form.push("owner_repo", form.obj["owner_repo"] || {}) do %>
+    <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => I18n.t("repository._singular")} %>
+      <% end %>
       <% if @is_batch_update %> 
         <% @location_batch.record_uris.each do |uri| %> 
           <%= form.hidden_input "record_uris[]", uri %> 
@@ -19,4 +25,6 @@
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
 <% form.emit_template("location_batch") %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "functions", :template_erb => "location_functions/template", :template => "location_function"} %>
+
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>

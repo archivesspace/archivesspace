@@ -36,7 +36,6 @@ describe 'Default Values' do
 
 
     defaults['defaults']['title'] = "NEW TITLE"
-    p defaults
 
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
 
