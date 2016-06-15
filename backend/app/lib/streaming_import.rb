@@ -3,6 +3,8 @@ require 'json'
 require 'atomic'
 require 'tempfile'
 
+require_relative 'cycle_finder'
+
 class StreamingJsonReader
   attr_reader :count
 
@@ -120,6 +122,18 @@ class StreamingImport
     finished = true
 
     begin
+      with_status("Looking for cyclic relationships") do
+        uris_causing_cycles = []
+
+        CycleFinder.new(@dependencies, @ticker).each do |cycle_uri|
+          uris_causing_cycles << cycle_uri unless uris_causing_cycles.include?(cycle_uri)
+        end
+
+        create_records_without_relationships(uris_causing_cycles)
+      end
+
+      # Now we know our data is acyclic, we can run rounds without thinking
+      # about it.
       while true
         round += 1
 
@@ -153,10 +167,8 @@ class StreamingImport
           break
         end
 
-        with_status("Dealing with circular dependencies: cycle #{round}") do
-          if !progressed
-            run_dependency_breaking_cycle
-          end
+        if !progressed
+          raise "Failed to make any progress on the current import cycle.  This shouldn't happen!"
         end
       end
 
@@ -283,39 +295,40 @@ class StreamingImport
   end
 
 
-  # Find a record that we're able to create by lopping off its properties causing
-  # dependency cycles.  We'll reattach them with a separate update later.
-  def run_dependency_breaking_cycle
-    progressed = false
-
+  # Create a selection of records (identified by URI) that are known to cause
+  # dependency cycles.  We detach their relationships with other records and
+  # reattach them at the end.
+  #
+  # This gets us around chicken-and-egg problems of two records with mutual
+  # relationships.
+  def create_records_without_relationships(record_uris)
     @jstream.each do |rec|
       uri = rec['uri']
-
-      next if @logical_urls[uri]
+      next unless record_uris.include?(uri)
 
       missing_dependencies = @dependencies[uri].reject {|d| @logical_urls[d]}
 
-      rec.keys.each do |k|
-        if !extract_logical_urls(rec[k], missing_dependencies).empty?
-          @limbs_for_reattaching[uri] ||= []
-          @limbs_for_reattaching[uri] << [k, rec[k]]
-          rec.delete(k)
+      if !missing_dependencies.empty?
+        rec.keys.each do |k|
+          if !extract_logical_urls(rec[k], missing_dependencies).empty?
+            @limbs_for_reattaching[uri] ||= []
+            @limbs_for_reattaching[uri] << [k, rec[k]]
+            rec.delete(k)
+          end
         end
       end
 
-      # Create the cut down record (which might fail)
+      # Create the cut down record--we'll put its relationships back later
       created_uri = do_create(rewrite(rec, @logical_urls), true)
 
       if created_uri
         # It worked!
         @logical_urls[uri] = created_uri
-
-        progressed = true
-        break
+      else
+        raise "Failed to import the record #{uri} without its dependencies." +
+              "  Since it contains circular dependencies with other records, the import cannot continue."
       end
     end
-
-    raise "Can't progress any further.  Freaking out!" if !progressed
   end
 
 
@@ -331,7 +344,43 @@ class StreamingImport
       json = model.to_jsonmodel(obj)
 
       limbs.each do |k, v|
-        json[k.to_s] = rewrite(v, @logical_urls)
+        if json[k.to_s].is_a?(Array)
+          # It's possible that the record we're reattaching relationships to
+          # actually had some relationships added between when we lopped them
+          # off and now.
+          #
+          # For example:
+          #  * record A relates to [B, C]
+          #
+          #  * record A has those relationships detached to break cyclic dependencies
+          #
+          #  * record A is created without the relationships
+          #
+          #  * record D creates created, relating to [A]
+          #
+          #  * now, record A has its relationships attached.  Since the
+          #    relationship is reciprocal, its true list of relationships should
+          #    be [B, C, D], but if we just blindly overwrite with the list we
+          #    stored originally, we'll lose that relationship with D.
+          #
+          # To avoid losing that relationship, we just merge the lists and dedupe the relationships.
+          json[k.to_s] += rewrite(v, @logical_urls)
+          json[k.to_s] = json[k.to_s].uniq
+        else
+          # The same thing can happen in the 1:1 relationship case too.  We just
+          # sanity check things by making sure that, if the relationship was
+          # added through the reciprocal relationship with another record, we
+          # agree on who we're relating to.
+          ref = rewrite(v, @logical_urls)
+
+          if json[k.to_s] && json[k.to_s] != ref
+            raise "Assertion failed: expected relationship #{ref.inspect} to match #{json[k.to_s]} but they differ!" +
+                  "  This shouldn't happen, since it suggests that A thinks it relates to B, but C thinks it relates to A." +
+                  "  No love triangles allowed!"
+          end
+
+          json[k.to_s] = ref
+        end
       end
 
       cleaned = JSONModel(json.class.record_type).from_hash(json.to_hash)
