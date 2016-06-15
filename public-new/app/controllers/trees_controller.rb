@@ -20,7 +20,7 @@ class TreesController < ApplicationController
       title.strip!
       title.sub!(/<title\s+render=['"]italic['"][^>]*>([^<]+)<\/title>/, '<i>\1</i>')
 
-      if node['containers'].length
+      if !node['containers'].blank?
         node['container_label'] = [node['containers'][0]['type_1'], node['containers'][0]['indicator_1'], node['containers'][0]['type_2'], node['containers'][0]['indicator_2']].compact.join(" ")
       end
 
