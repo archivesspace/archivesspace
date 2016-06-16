@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: digital_object_record
-description: "Displays key fields for selected digital object record(s)."

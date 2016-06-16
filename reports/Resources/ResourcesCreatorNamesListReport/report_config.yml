@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: resources_creator_names_list
-description: "Displays only those resource(s) with name(s) linked as creator. Report contains title, resource identifier, level, date range, and creator name."
