@@ -211,6 +211,16 @@ describe 'Accession model' do
     }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "allows accession's collection management record to have a processing status" do
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :collection_management =>
+                                                 {
+                                                    "processing_status" => "completed" 
+                                                 }
+                                                 ),
+                                           :repo_id => $repo_id)
+    Accession[accession[:id]].collection_management.processing_status.should eq("completed") 
+  end
 
 
 
