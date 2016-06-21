@@ -32,23 +32,23 @@ describe 'Session model' do
 
 
   it "knows its age" do
-    Time.stub(:now).and_return(Time.at(0))
+    allow(Time).to receive(:now) { Time.at(0) }
     s = Session.new
-    Time.stub(:now).and_return(Time.at(10))
+    allow(Time).to receive(:now) { Time.at(10) }
     s.age.should eq(10)
   end
 
 
   it "becomes young again when touched" do
-    Time.stub(:now).and_return(Time.at(0))
+    allow(Time).to receive(:now) { Time.at(0) }
     s = Session.new
-    Time.stub(:now).and_return(Time.at(10))
+    allow(Time).to receive(:now) { Time.at(10) }
     s.touch
-    Time.stub(:now).and_return(Time.at(100))
+    allow(Time).to receive(:now) { Time.at(100) }
     s.age.should eq(90)
-    Time.stub(:now).and_return(Time.at(110))
+    allow(Time).to receive(:now) { Time.at(110) }
     s.touch
-    Time.stub(:now).and_return(Time.at(111))
+    allow(Time).to receive(:now) { Time.at(111) }
     s.age.should eq(1)
   end
 

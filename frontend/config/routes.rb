@@ -25,6 +25,7 @@ ArchivesSpace::Application.routes.draw do
       match 'repositories/:id' => 'repositories#update', :via => [:post]
       match 'repositories/:id/delete' => 'repositories#delete', :via => [:post]
       match 'repositories/delete_records' => 'repositories#delete_records', :via => [:post]
+      match('repositories/search/typeahead' => 'repositories#typeahead', :via => [:get])
 
       match 'users/manage_access' => 'users#manage_access', :via => [:get]
       match 'users/:id/edit_groups' => 'users#edit_groups', :via => [:get]
@@ -143,6 +144,7 @@ ArchivesSpace::Application.routes.draw do
 
       match 'locations/defaults' => 'locations#defaults', :via => [:get]
       match 'locations/defaults' => 'locations#update_defaults', :via => [:post]
+      match 'locations/search' => 'locations#search', :via => [:get]
       resources :locations
       match 'locations/:id' => 'locations#update', :via => [:post]
       match 'locations/:id/delete' => 'locations#delete', :via => [:post]
@@ -216,6 +218,7 @@ ArchivesSpace::Application.routes.draw do
       resources :container_profiles
       match('container_profiles/search/typeahead' => 'container_profiles#typeahead', :via => [:get])
       match('container_profiles/bulk_operations/update_barcodes' => 'top_containers#update_barcodes', :via => [:post])
+      match('container_profiles/bulk_operations/update_locations' => 'top_containers#update_locations', :via => [:post])
 
       match('container_profiles/:id' => 'container_profiles#update', :via => [:post])
       match('container_profiles/:id/delete' => 'container_profiles#delete', :via => [:post])
@@ -231,6 +234,14 @@ ArchivesSpace::Application.routes.draw do
       match('top_containers/:id/delete' => 'top_containers#delete', :via => [:post])
 
       match('extent_calculator' => 'extent_calculator#report', :via => [:get])
+
+      resources :location_profiles
+      match('location_profiles/search/typeahead' => 'location_profiles#typeahead', :via => [:get])
+      match('location_profiles/:id' => 'location_profiles#update', :via => [:post])
+      match('location_profiles/:id/delete' => 'location_profiles#delete', :via => [:post])
+
+      match('space_calculator' => 'space_calculator#show', :via => [:get])
+      match('space_calculator' => 'space_calculator#calculate', :via => [:post])
 
       if Plugins.system_menu_items?
         scope '/plugins' do

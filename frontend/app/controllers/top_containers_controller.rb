@@ -5,7 +5,7 @@ class TopContainersController < ApplicationController
 
   set_access_control  "view_repository" => [:show, :typeahead, :bulk_operations_browse],
                       "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes]
+                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes, :update_locations]
 
 
   def index
@@ -169,6 +169,31 @@ class TopContainersController < ApplicationController
   end
 
 
+  def update_locations
+    update_uris = params[:update_uris]
+    location_data = {}
+    update_uris.map{|uri| location_data[uri] = params[uri].blank? ? nil : params[uri]['ref']}
+
+    post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/locations"
+
+    response = JSONModel::HTTP::post_json(URI(post_uri), location_data.to_json)
+    result = ASUtils.json_parse(response.body) rescue nil
+
+    if response.code =~ /^4/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => (result || response.message),
+					       :jsonmodel => "top_container"},
+				   :status => 500
+    elsif response.code =~ /^5/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => response.message},
+				   :status => 500
+    end
+
+    render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+  end
+
+
   private
 
   helper_method :can_edit_search_result?
@@ -201,27 +226,34 @@ class TopContainersController < ApplicationController
                                                       'type[]' => ['top_container']
                                                     })
 
-    filters = []
+    filter_terms = []
+    simple_filters = []
 
-    filters.push({'collection_uri_u_sstr' => params['collection_resource']['ref']}.to_json) if params['collection_resource']
-    filters.push({'collection_uri_u_sstr' => params['collection_accession']['ref']}.to_json) if params['collection_accession']
+    filter_terms.push({'collection_uri_u_sstr' => params['collection_resource']['ref']}.to_json) if params['collection_resource']
+    filter_terms.push({'collection_uri_u_sstr' => params['collection_accession']['ref']}.to_json) if params['collection_accession']
 
-    filters.push({'container_profile_uri_u_sstr' => params['container_profile']['ref']}.to_json) if params['container_profile']
-    filters.push({'location_uri_u_sstr' => params['location']['ref']}.to_json) if params['location']
+    filter_terms.push({'container_profile_uri_u_sstr' => params['container_profile']['ref']}.to_json) if params['container_profile']
+    filter_terms.push({'location_uri_u_sstr' => params['location']['ref']}.to_json) if params['location']
     unless params['exported'].blank?
-      filters.push({'exported_u_sbool' => (params['exported'] == "yes" ? true : false)}.to_json)
+      filter_terms.push({'exported_u_sbool' => (params['exported'] == "yes" ? true : false)}.to_json)
     end
     unless params['empty'].blank?
-      filters.push({'empty_u_sbool' => (params['empty'] == "yes" ? true : false)}.to_json)
+      filter_terms.push({'empty_u_sbool' => (params['empty'] == "yes" ? true : false)}.to_json)
+    end
+    unless params['barcodes'].blank?
+      simple_filters.push(ASUtils.wrap(params['barcodes'].split(" ")).map{|barcode|
+        "barcode_u_sstr:#{barcode}"
+      }.join(" OR "))
     end
 
-    if filters.empty? && params['q'].blank?
+    if simple_filters.empty? && filter_terms.empty? && params['q'].blank?
       raise MissingFilterException.new
     end
 
-    unless filters.empty?
+    unless filter_terms.empty? && simple_filters.empty?
       search_params = search_params.merge({
-                                            "filter_term[]" => filters
+                                            "filter_term[]" => filter_terms,
+                                            "simple_filter[]" => simple_filters
                                           })
     end
 

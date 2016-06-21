@@ -121,6 +121,7 @@ class Repository < Sequel::Model(:repository)
     jsons = super
 
     jsons.zip(objs).each do |json, obj|
+      json['display_string'] = obj.display_string
       if (agent_id = obj.agent_representation_id)
         json["agent_representation"] = {
           "ref" => JSONModel(:agent_corporate_entity).uri_for(agent_id)
@@ -129,6 +130,11 @@ class Repository < Sequel::Model(:repository)
     end
 
     jsons
+  end
+
+
+  def display_string
+    "#{name} (#{repo_code})"
   end
 
 end

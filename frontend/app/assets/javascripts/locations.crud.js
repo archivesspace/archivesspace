@@ -1,4 +1,6 @@
+//= require subrecord.crud
 //= require form
+
 $(function() {
      
   var init_location_form = function(form) { 
@@ -61,5 +63,10 @@ $(function() {
     });
 
   });
+
+  // initialize any linkers not delivered via subrecord
+  $(document).ready(function() {
+    $(".linker:not(.initialised)").linker();
+  })
 
 });

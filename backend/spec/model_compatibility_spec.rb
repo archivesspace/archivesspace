@@ -7,11 +7,11 @@ DEFAULT_INDICATOR = 'default_indicator'
 
 
 def stub_default_indicator
-  AppConfig.stub(:[]).and_call_original
-  AppConfig.stub(:has_key?).and_call_original
+  allow(AppConfig).to receive(:[]).and_call_original
+  allow(AppConfig).to receive(:has_key?).and_call_original
 
-  AppConfig.stub(:has_key?).with(:managed_containers_default_indicator).and_return(true)
-  AppConfig.stub(:[]).with(:managed_containers_default_indicator).and_return(DEFAULT_INDICATOR)
+  allow(AppConfig).to receive(:has_key?).with(:managed_containers_default_indicator).and_return(true)
+  allow(AppConfig).to receive(:[]).with(:managed_containers_default_indicator).and_return(DEFAULT_INDICATOR)
 end
 
 
@@ -81,8 +81,6 @@ describe 'Managed Container compatibility' do
 
       generated_container = Accession.to_jsonmodel(accession.id)['instances'].first['container']
 
-      $stderr.puts container.to_json
-      $stderr.puts container.type
       generated_container['type_1'].should eq(container.type)
       generated_container['indicator_1'].should eq('1234')
     end

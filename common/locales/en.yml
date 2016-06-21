@@ -182,6 +182,8 @@ en:
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
     holdings: Holdings
+    owner_repo: Reserved For
+    owner_repo_tooltip: A repository that has reserved this location
     _singular: Location
     _plural: Locations
 
@@ -197,6 +199,18 @@ en:
     end: Range End
     _singular: Batch Locations
     _plural: Batch Locations
+
+  location_function:
+    location_function_type: Function Type
+    _singular: Function
+    _plural: Functions
+
+  function:
+    _singular: Function
+    _plural: Functions
+    _frontend:
+      action:
+        add: Add Function
 
   container_location:
     status: Status
@@ -1407,6 +1421,7 @@ en:
       update_container_record: create/update top container records
       manage_container_record: delete/bulk update top container records
       manage_container_profile_record: create/update/delete container profile records
+      manage_location_profile_record: create/update/delete location profile records
     _singular: Group
     _plural: Groups
 
@@ -1838,10 +1853,21 @@ en:
   reports:
     CreatedAccessionsReport: Created Accessions
     UnprocessedAccessionsReport: Unprocessed Accessions
+    LocationHoldingsReport: Location Holdings
+    location_holdings:
+      report_title: Report on containers shelved at one or more locations
+      repository_report_type: Repository
+      building_report_type: Building
+      single_location_report_type: Single Location
+      location_range_report_type: Range of Locations
+      search_range: Report on a range of locations
+      start_range: First location
+      end_range: Last location
     parameters:
       from: From
       from_tooltip:
       to: To
+      locations: Locations
     formats:
       json: JSON
       csv: CSV
@@ -1893,6 +1919,8 @@ en:
     must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
     length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
+    location_profile_name_not_unique: Location Profile name must be unique
+    must_be_a_positive_integer: Must be a positive integer
 
   job:
     _singular: Background Job

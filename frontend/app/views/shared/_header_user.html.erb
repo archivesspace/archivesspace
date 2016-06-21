@@ -30,6 +30,9 @@
           <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
         <% end %>
         <li><%= link_to I18n.t("navbar.manage_container_profiles"), :controller => :container_profiles, :action => :index %></li>
+        <% if user_can?('manage_location_profile_record') %>
+        <li><%= link_to I18n.t("navbar.manage_location_profiles"), :controller => :location_profiles, :action => :index %></li>
+        <% end %>
 
         <li class="divider"></li>
       <% end %>

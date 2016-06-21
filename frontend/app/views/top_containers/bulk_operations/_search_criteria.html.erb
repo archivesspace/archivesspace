@@ -16,6 +16,12 @@
         </div>
       </div>
       <div class="form-group">
+        <label class="control-label col-sm-2" for="q"><%= I18n.t("top_container._frontend.bulk_operations.barcodes_criteria") %></label>
+        <div class="controls col-sm-8">
+          <%= text_field_tag "barcodes", params["barcodes"], :class => "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
         <label class="control-label col-sm-2" for="collection_resource"><%= I18n.t("top_container._frontend.bulk_operations.collection_resource_singular") %></label>
         <div class="controls col-sm-8">
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/collection_resource_linker" %>
