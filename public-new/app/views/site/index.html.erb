@@ -254,7 +254,13 @@
       { if(hasFullWidthContext) {}
       <div class="row collapse context-row">
         <div class="columns small-12">
-          CONTEXT: | <a href="${repositoryPublicUrl}">${repositoryName}</a> | ${title}
+          CONTEXT: | <a href="${repositoryPublicUrl}">${repositoryName}</a> 
+             { if ( present('path')) {}
+	       {_.forEach(path, function(obj) {}
+	         | <a href="${obj.uri}">${obj.crumb}</a>
+               {}); }
+             {}}
+	  | ${title}
         </div>
       </div>
       {}}

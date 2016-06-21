@@ -155,6 +155,7 @@ var app = app || {};
     this.finding_aid_series_statement = _.get(model.attributes, 'finding_aid_series_statement');
     this.finding_aid_status = _.get(model.attributes, 'finding_aid_status');
     this.finding_aid_note = _.get(model.attributes, 'finding_aid_note');
+    this.path = _.get(model.attributes, 'path');
   }
 
   RecordPresenter.prototype = Object.create(app.AbstractRecordPresenter.prototype);
