@@ -276,6 +276,11 @@ var app = app || {};
     },
     events: {
       "click #search-button" : "search",
+      "keypress" : function(e) {
+	  if (e.which === 13) {
+	      $("#search-button").trigger("click");
+	  }
+      },
       "click #numberresults a": function(e) {
         e.preventDefault();
         var $a = $(e.target);
@@ -361,6 +366,11 @@ var app = app || {};
     },
     events: {
       "click #search-button" : "search",
+      "keypress" : function(e) {
+	  if (e.which === 13) {
+	      $("#search-button").trigger("click");
+	  }
+      },
       "click .remove-query-row a": function(e) {
         e.preventDefault();
       }
