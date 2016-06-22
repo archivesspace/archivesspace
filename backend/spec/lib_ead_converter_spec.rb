@@ -29,7 +29,7 @@ ANEAD
   }
 
 
-  
+
   it "should be able to manage empty tags" do
     converter = EADConverter.new(test_doc_1)
     converter.run
@@ -38,17 +38,17 @@ ANEAD
     parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
   end
-  
+
   it "should be able to manage all the funny stuff people do with labels" do
     converter = EADConverter.new(test_doc_1)
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
-   
+
     #parsed.find{|r| r['ref_id'] == '1'}['instances'].length.should eq(2)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type'].should eq('text')
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['barcode_1'].should eq('B@RC0D3')
   end
-  
+
   it "should remove unitdate from unittitle" do
     converter = EADConverter.new(test_doc_1)
     converter.run
@@ -57,28 +57,28 @@ ANEAD
     parsed.length.should eq(3)
     parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
     parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
-  
+
   end
 
   it "should be link to existing agents with authority_id" do
-  
+
     json =    build( :json_agent_person,
                      :names => [build(:json_name_person,
                      'authority_id' => 'thesame',
                      'source' => 'local'
                      )])
-   
+
     agent =    AgentPerson.create_from_json(json)
-    
+
     converter = EADConverter.new(test_doc_1)
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
-   
+
     # these lines are ripped out of StreamingImport
     new_agent_json = parsed.find { |r| r['jsonmodel_type'] == 'agent_person' }
     record = JSONModel(:agent_person).from_hash(new_agent_json, true, false)
-    new_agent = AgentPerson.ensure_exists(record, nil) 
-    
+    new_agent = AgentPerson.ensure_exists(record, nil)
+
 
     agent.should eq(new_agent)
   end
@@ -133,24 +133,24 @@ ANEAD
 
     # RESOURCE
     it "maps '<date>' correctly" do
-      # 	IF nested in <chronitem>
+      #   IF nested in <chronitem>
       get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][0]['event_date'].should eq('1895')
 
       get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][1]['event_date'].should eq('1995')
 
-      # 	IF nested in <publicationstmt>
+      #   IF nested in <publicationstmt>
       @resource['finding_aid_date'].should eq('Resource-FindingAidDate-AT')
 
-      # 	ELSE
+      #   ELSE
     end
 
     it "maps '<physdesc>' correctly" do
       # <extent> tag mapping
-      #  	IF value starts with a number followed by a space and can be parsed
+      #   IF value starts with a number followed by a space and can be parsed
       @resource['extents'][0]['number'].should eq("5.0")
       @resource['extents'][0]['extent_type'].should eq("Linear feet")
- 
-      # 	ELSE
+
+      #   ELSE
       @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
 
 
@@ -172,16 +172,16 @@ ANEAD
     end
 
     it "maps '<unitid>' correctly" do
-      # 	IF nested in <archdesc><did>
+      #   IF nested in <archdesc><did>
       @resource["id_0"].should eq("Resource.ID.AT")
 
-      # 	IF nested in <c><did>
+      #   IF nested in <c><did>
     end
 
     it "maps '<unittitle>' correctly" do
-      # 	IF nested in <archdesc><did>
+      #   IF nested in <archdesc><did>
       @resource["title"].should eq('Resource--<title render="italic">Title</title>-AT')
-      # 	IF nested in <c><did>
+      #   IF nested in <c><did>
       @archival_objects['12']['title'].should eq("Resource-C12-AT")
     end
 
@@ -237,97 +237,97 @@ ANEAD
 
     # NAMES
     it "maps '<corpname>' correctly" do
-      # 	IF nested in <origination> OR <controlaccess>
-      # 	IF nested in <origination>
+      #   IF nested in <origination> OR <controlaccess>
+      #   IF nested in <origination>
       c1 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)"}
       c1.should_not be_nil
 
       linked = @resource['linked_agents'].find {|a| a['ref'] == c1['uri']}
       linked['role'].should eq('creator')
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       c2 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Archives"}
       c2.should_not be_nil
 
       linked = @resource['linked_agents'].find {|a| a['ref'] == c2['uri']}
       linked['role'].should eq('subject')
 
-      # 	ELSE
-      # 	IF @rules != NULL ==> name_corporate_entity.rules
+      #   ELSE
+      #   IF @rules != NULL ==> name_corporate_entity.rules
       [c1, c2].map {|c| c['names'][0]['rules']}.uniq.should eq(['dacs'])
-      # 	IF @source != NULL ==> name_corporate_entity.source
+      #   IF @source != NULL ==> name_corporate_entity.source
         [c1, c2].map {|c| c['names'][0]['source']}.uniq.should eq(['naf'])
-      # 	IF @authfilenumber != NULL
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<famname>' correctly" do
-      # 	IF nested in <origination> OR <controlaccess>
+      #   IF nested in <origination> OR <controlaccess>
       uris = @archival_objects['06']['linked_agents'].map {|l| l['ref'] } & @families.map {|f| f['uri'] }
       links = @archival_objects['06']['linked_agents'].select {|l| uris.include?(l['ref']) }
       fams = @families.select {|f| uris.include?(f['uri']) }
 
-      # 	IF nested in <origination>
+      #   IF nested in <origination>
       n1 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'creator' }['ref'] }['names'][0]['family_name']
       n1.should eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT")
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       n2 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['names'][0]['family_name']
       n2.should eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
-      # 	ELSE
-      # 	IF @rules != NULL
+      #   ELSE
+      #   IF @rules != NULL
       fams.map{|f| f['names'][0]['rules']}.uniq.should eq(['aacr'])
-      # 	IF @source != NULL
+      #   IF @source != NULL
       fams.map{|f| f['names'][0]['source']}.uniq.should eq(['naf'])
-      # 	IF @authfilenumber != NULL
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<persname>' correctly" do
-      # 	IF nested in <origination> OR <controlaccess>
-      # 	IF nested in <origination>
+      #   IF nested in <origination> OR <controlaccess>
+      #   IF nested in <origination>
       @archival_objects['01']['linked_agents'].find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role'].should eq('creator')
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       @archival_objects['06']['linked_agents'].reverse.find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role'].should eq('subject')
-      # 	ELSE
-      # 	IF @rules != NULL
+      #   ELSE
+      #   IF @rules != NULL
       @people.map {|p| p['names'][0]['rules']}.uniq.should eq(['local'])
-      # 	IF @source != NULL
+      #   IF @source != NULL
       @people.map {|p| p['names'][0]['source']}.uniq.should eq(['local'])
-      # 	IF @authfilenumber != NULL
+      #   IF @authfilenumber != NULL
     end
 
       # SUBJECTS
     it "maps '<function>' correctly" do
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'function'}
         [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
         a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
       end
       #   @source
       subject['source'].should eq('local')
-      # 	ELSE
-      # 	IF @authfilenumber != NULL
+      #   ELSE
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<genreform>' correctly" do
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'genre_form'}
       [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
         a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
       end
       #   @source
       subject['source'].should eq('local')
-      # 	ELSE
-      # 	IF @authfilenumber != NULL
+      #   ELSE
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<geogname>' correctly" do
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'geographic'}
       [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
         a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
       end
       #   @source
       subject['source'].should eq('local')
-      # 	ELSE
-      # 	IF @authfilenumber != NULL
+      #   ELSE
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<occupation>' correctly" do
@@ -337,20 +337,20 @@ ANEAD
       end
       #   @source
       subject['source'].should eq('local')
-      # 	ELSE
-      # 	IF @authfilenumber != NULL
+      #   ELSE
+      #   IF @authfilenumber != NULL
     end
 
     it "maps '<subject>' correctly" do
-      # 	IF nested in <controlaccess>
+      #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'topical'}
         [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
         a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
       end
       #   @source
       subject['source'].should eq('local')
-      # 	ELSE
-      # 	IF @authfilenumber != NULL
+      #   ELSE
+      #   IF @authfilenumber != NULL
     end
 
       # NOTES
@@ -428,10 +428,10 @@ ANEAD
     end
 
     it "maps '<note>' correctly" do
-      # 	IF nested in <archdesc> OR <c>
+      #   IF nested in <archdesc> OR <c>
 
-      # 	ELSE, IF nested in <notestmnt>
-      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4") 
+      #   ELSE, IF nested in <notestmnt>
+      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4")
     end
 
     it "maps '<odd>' correctly" do
@@ -485,7 +485,7 @@ ANEAD
 
     # Structured Notes
     it "maps '<bibliography>' correctly" do
-      #   	IF nested in <archdesc>  OR <c>
+      #     IF nested in <archdesc>  OR <c>
       @resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref6")
       @archival_objects['06']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref48")
       @archival_objects['12']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref51")
@@ -500,7 +500,7 @@ ANEAD
     end
 
     it "maps '<index>' correctly" do
-      # 	IF nested in <archdesc>  OR <c>
+      #   IF nested in <archdesc>  OR <c>
       ref52 = get_note(@archival_objects['12'], 'ref52')
       ref52['jsonmodel_type'].should eq('note_index')
       #     <head>
@@ -607,14 +607,14 @@ ANEAD
     it "maps '<archdesc>' correctly" do
       #   @level	IF != NULL
       @resource['level'].should eq("collection")
-      # 	ELSE
+      #   ELSE
       #   @otherlevel
     end
 
     it "maps '<c>' correctly" do
       #   @level	IF != NULL
       @archival_objects['04']['level'].should eq('file')
-      # 	ELSE
+      #   ELSE
       #   @otherlevel
       #   @id
       @archival_objects['05']['ref_id'].should eq('ref34')
@@ -668,9 +668,9 @@ ANEAD
 <ead>
   <archdesc level="collection" audience="internal">
   <did>
-       <descgrp>                                                      
-          <processinfo/>                                                 
-      </descgrp>  
+       <descgrp>
+          <processinfo/>
+      </descgrp>
       <unittitle>Resource--Title-AT</unittitle>
       <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
       <unitid>Resource.ID.AT</unitid>
@@ -701,7 +701,7 @@ ANEAD
       parsed = convert(test_doc)
       @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
       @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
-    end      
+    end
 
     it "uses archdesc/@audience to set resource publish property" do
       @resource['publish'].should be false
@@ -780,12 +780,6 @@ ANEAD
       note_content(n).should_not match(/foo/)
     end
 
-    # See: https://www.pivotaltracker.com/story/show/54942792
-    # it "maps lists to a list subnote, and not a text subnote" do
-    #   n = get_note_by_type(@resource, 'odd')
-    #   get_subnotes_by_type(n, 'note_orderedlist').count.should eq(1)
-    #   get_subnotes_by_type(n, 'note_text').should be_empty
-    # end
   end
 
   # https://www.pivotaltracker.com/story/show/65722286
@@ -952,38 +946,38 @@ ANEAD
   end
 
  describe "DAO and DAOGROUPS" do
-   
-   before(:all) do 
+
+   before(:all) do
       test_file = File.expand_path("../app/exporters/examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
       parsed = convert(test_file)
 
       @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
-      @notes = @digital_objects.inject([]) { |c, rec| c + rec["notes"] } 
+      @notes = @digital_objects.inject([]) { |c, rec| c + rec["notes"] }
       @resources = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}
-      @resource = @resources.last  
+      @resource = @resources.last
       @archival_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}
-      @file_versions = @digital_objects.inject([]) { |c, rec| c + rec["file_versions"] } 
+      @file_versions = @digital_objects.inject([]) { |c, rec| c + rec["file_versions"] }
    end
-  
-   it "should make all the digital, archival objects and resources" do
-      @digital_objects.length.should == 5 
-      @archival_objects.length.should == 8 
+
+    it "should make all the digital, archival objects and resources" do
+      @digital_objects.length.should == 5
+      @archival_objects.length.should == 8
       @resources.length.should == 1
       @file_versions.length.should == 11
-   end
+    end
 
 
-   it "should turn all the daodsc into notes" do
-    @notes.length.should == 3
-    notes_content = @notes.inject([]) { |c, note| c +  note["content"]  } 
-    notes_content.should include('<p>first daogrp</p>')
-    notes_content.should include('<p>second daogrp</p>')
-    notes_content.should include('<p>dao no grp</p>')
-   end
- 
- end
+    it "should turn all the daodsc into notes" do
+      @notes.length.should == 3
+      notes_content = @notes.inject([]) { |c, note| c +  note["content"]  }
+      notes_content.should include('<p>first daogrp</p>')
+      notes_content.should include('<p>second daogrp</p>')
+      notes_content.should include('<p>dao no grp</p>')
+    end
 
- 
+  end
+
+
   describe "EAD With frontpage" do
 
     before(:all) do
@@ -995,22 +989,64 @@ ANEAD
     end
 
     it "shouldn't overwrite the finding_aid_title/titleproper from frontpage" do
-      @resource["finding_aid_title"].should eq("Proper Title") 
-      @resource["finding_aid_title"].should_not eq("TITLEPAGE titleproper") 
+      @resource["finding_aid_title"].should eq("Proper Title")
+      @resource["finding_aid_title"].should_not eq("TITLEPAGE titleproper")
     end
 
     it "should not have any of the titlepage content" do
       @parsed.to_s.should_not include("TITLEPAGE")
     end
-   
+
     it "should have instances grouped by their container @id/@parent relationships" do
-      instances = @archival_objects.first["instances"] 
+      instances = @archival_objects.first["instances"]
       instances.length.should eq(3)
       instances.each_with_index do |v,index|
-        
+
         container = v["container"]
         (1..( index + 1)) .to_a.each { |i|  container["indicator_#{i.to_s}"].should eq(( i + index ).to_s)  }
       end
+    end
+
+  end
+
+  # See https://archivesspace.atlassian.net/browse/AR-1134
+  describe "Mapping physdesc tags" do
+    def test_doc
+      src = <<ANEAD
+<c>
+ <did>
+ <unittitle>DIMENSIONS test </unittitle>
+ <physdesc>
+   <extent>1 photograph</extent>
+   <dimensions>8 x 10 inches</dimensions>
+   <physfacet>gelatin silver</physfacet>
+ </physdesc>
+ </did>
+</c>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before(:all) do
+      parsed = convert(test_doc)
+      @record = parsed.shift
+    end
+
+    it "should create an extent tag with dimensions data" do
+      @record['extents'].length.should eq(1)
+    end
+
+    it "should not create any notes from physdesc data" do
+      @record['notes'].length.should eq(0)
+    end
+
+    it "should map physdesc/dimensions to extent.dimensions" do
+      @record['extents'][0]['dimensions'].should eq('8 x 10 inches')
+    end
+
+    it "should map physdesc/physfacet to extent.physical_details" do
+      @record['extents'][0]['physical_details'].should eq('gelatin silver')
     end
 
   end
