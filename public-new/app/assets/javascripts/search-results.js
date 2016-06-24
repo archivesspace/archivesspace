@@ -117,6 +117,7 @@ var RAILS_API = "/api";
       }
 
       this.$el.html(app.utils.tmpl('search-result-row', presenter));
+      $('.recordsummary', this.$el).readmore(300);
       this.keywordsToggle = false;
       return this;
     }
