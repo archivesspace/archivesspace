@@ -4,6 +4,7 @@ module ManipulateNode
 
   # the beginning of processing mixed content  nodes for titles, notes, etc.
   def process_content(txt)
+    return if !txt
     txt.strip!
     frag = Nokogiri::XML.fragment(txt);
     frag.traverse { |el| 
