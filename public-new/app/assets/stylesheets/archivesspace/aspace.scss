@@ -438,3 +438,20 @@ i.giant {
   font-weight: bold;
   font-family: $serif-font;
 }
+
+/* the following are needed to support the @render attribute */
+
+/* smart double quotes, with nested smart single quotes
+q { quotes: '\201c' '\201d' '\2018' '\2019'; }
+q:before { content: open-quote; }
+q:after  { content: close-quote; }
+
+/* smart singles, with nested doubles */
+q.single { quotes: '\2018' '\2019'  '\201c' '\201d';}
+
+/* this one's up for grabs, using angle quotation marks at the moment */
+q.altrender {quotes: '\00ab' '\00bb' '\2039' '\203a' ;}
+
+.bold { font-weight: bold;}
+.italic {font-style: italic}
+.smcaps {font-variant: small-caps;}
