@@ -374,7 +374,7 @@ var RAILS_API = "/api";
           relatorSortField: relatorSortField
         });
 
-        $el.append(searchItemView.$el.html());
+        $el.append(searchItemView.$el);
       });
 
       var searchPagerView = new SearchPagerView({

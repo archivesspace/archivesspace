@@ -10,7 +10,9 @@ $.fn.readmore = function(idealCharCount) {
   if(graphs.length < 1)
     graphs = $(this);
 
-  $(this).on("click", "a.expander", function(e) {
+  $that.addClass("readmore");
+
+  $that.on("click", "a.expander", function(e) {
     e.preventDefault();
     var $a = $(e.target);
     var $elipses = $('.elipses', $that);
