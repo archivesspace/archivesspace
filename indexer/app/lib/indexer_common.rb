@@ -446,7 +446,8 @@ class CommonIndexer
         # index the top_container's linked via a sub_container
         ASUtils.wrap(record['record']['instances']).each{|instance|
           if instance['sub_container'] && instance['sub_container']['top_container']
-            doc['top_container_uri_u_sstr'] = instance['sub_container']['top_container']['ref']
+            doc['top_container_uri_u_sstr'] ||= []
+            doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
           end
         }
       end
