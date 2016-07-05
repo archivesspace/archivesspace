@@ -14,7 +14,7 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require jquery.browser
-//= require twitter/bootstrap
+//= require bootstrap-sprockets
 //= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto

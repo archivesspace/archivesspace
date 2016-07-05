@@ -1,3 +1,13 @@
+
+# rails 4 don't like da config.paths['config/routes'] approach.
+# https://github.com/rails/rails/compare/fa736e69a197...2d9dbf416b14
+# but that's OK!
+class ActionDispatch::Routing::Mapper
+  def draw(route_file)
+    instance_eval(File.read(route_file))
+  end
+end
+
 ArchivesSpace::Application.routes.draw do
 
   [AppConfig[:frontend_proxy_prefix], AppConfig[:frontend_prefix]].uniq.each do |prefix|
@@ -242,6 +252,11 @@ ArchivesSpace::Application.routes.draw do
 
       match('space_calculator' => 'space_calculator#show', :via => [:get])
       match('space_calculator' => 'space_calculator#calculate', :via => [:post])
+
+
+      if Plugins.routes?
+        Plugins.routes.each  { |route_file| draw route_file} 
+      end
 
       if Plugins.system_menu_items?
         scope '/plugins' do

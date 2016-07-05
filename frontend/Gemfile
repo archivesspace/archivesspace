@@ -1,7 +1,7 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.2.22.2'
-
+gem 'rails', '~> 4.2.4'
+gem 'rack', '~> 1.6.3'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,24 +11,26 @@ gem 'activerecord-jdbcsqlite3-adapter'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'coffee-script', '= 2.3.0'
-  gem 'coffee-script-source', '= 1.8.0'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'bootstrap-sass', '~> 3.3.6'
+  gem 'sass-rails',   '~> 5.0'
+  gem 'uglifier', '>= 1.3.0'
   gem 'therubyrhino'
 
-  gem 'less-rails', '~> 2.6.0'
+end
+
+group :assets, :development, :test do
+  gem 'less-rails', '~> 2.7.0'
 end
 
 gem 'jquery-rails', '~> 3.1.0'
 gem 'jquery-ui-rails', '~> 4.2.1'
-gem "json", "1.8.0"
+
+gem "json", "~> 1.8.0"
 gem 'json-schema', '1.0.10'
 
 gem 'useragent'
+gem "jruby-jars", "= 9.1.2.0"
 
-gem "jruby-jars", "= 1.7.21"
 gem 'atomic', '= 1.0.1'
 
 
@@ -38,7 +40,7 @@ group :test do
   gem 'simplecov', "0.7.1"
 end
 
-gem "puma", "2.8.2"
+gem "puma"
 
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
@@ -46,7 +48,7 @@ gem "multipart-post", "1.2.0"
 gem "rubyzip", "1.0.0"
 gem "zip-zip", "0.3"
 
-gem "nokogiri", '~> 1.6.1'
+gem "nokogiri", '~> 1.6.8'
 
 require 'asutils'
 

@@ -65,7 +65,7 @@ module TestUtils
 
 
   def self.start_backend(port, config = {}, config_file = nil)
-    base = File.dirname(__FILE__)
+    base = '..'
 
     java_opts = "-Xmx256M -XX:MaxPermSize=128M"
     java_opts += build_config_string(config)
@@ -86,8 +86,9 @@ module TestUtils
       java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
     end
 
-    pid = Process.spawn({:JAVA_OPTS => java_opts},
-                        "#{base}/../build/run", *build_args)
+
+    pid = Process.spawn({"JAVA_OPTS" => java_opts},
+                        "#{base}/build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
 
@@ -96,7 +97,7 @@ module TestUtils
 
 
   def self.start_frontend(port, backend_url, config = {})
-    base = File.dirname(__FILE__)
+    base = '..' 
 
     java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
@@ -107,8 +108,8 @@ module TestUtils
       build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
     end
 
-    pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
-                        "#{base}/../build/run", *build_args)
+    pid = Process.spawn({"JAVA_OPTS" => java_opts},
+                        "#{base}/build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
 

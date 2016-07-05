@@ -81,8 +81,8 @@ module ASUtils
   def self.find_base_directory(root = nil)
     [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
-     File.join(*[File.dirname(__FILE__), "..", root].compact)].find {|dir|
-      dir && Dir.exists?(dir)
+     File.join(*[ "..", root].compact)].find {|dir|
+      dir && Dir.exist?(dir)
     }
   end
 
@@ -169,7 +169,7 @@ EOF
   def self.load_plugin_gems(context)
     ASUtils.find_local_directories.each do |plugin|
       gemfile = File.join(plugin, 'Gemfile')
-      if File.exists?(gemfile)
+      if File.exist?(gemfile)
         context.instance_eval(File.read(gemfile))
       end
     end

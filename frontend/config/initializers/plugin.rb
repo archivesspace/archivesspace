@@ -4,7 +4,7 @@ require 'asutils'
 module Plugins
 
   def self.init
-    @config = {:system_menu_items => [], :repository_menu_items => [], :plugin => {}, :parents => {}}
+    @config = {:system_menu_items => [], :repository_menu_items => [], :plugin => {}, :parents => {}, :routes => []}
     Array(AppConfig[:plugins]).each do |plugin|
       # config.yml is optional, so defaults go here
       @config[:plugin][plugin] = {'parents' => []}
@@ -20,7 +20,18 @@ module Plugins
           @config[:parents][parent] << plugin
         end
       end
+      routes_file = File.join(plugin_dir, "frontend", "routes.rb")
+      if File.exist?(routes_file)
+        @config[:routes] << File.realdirpath(routes_file)
+      end
+
+
     end
+    
+    if @config[:routes].length > 0
+      puts "Found additional routes for plug-ins: #{routes.inspect}"
+    end
+
 
     if @config[:system_menu_items].length > 0
       puts "Found system menu items for plug-ins: #{system_menu_items.inspect}"
@@ -31,6 +42,13 @@ module Plugins
     end
   end
 
+  def self.routes
+    Array(@config[:routes]).flatten
+  end
+
+  def self.routes?
+    routes.length > 0
+  end
 
   def self.system_menu_items
     Array(@config[:system_menu_items]).flatten

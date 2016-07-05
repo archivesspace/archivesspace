@@ -122,6 +122,10 @@ module Exceptions
           json_response({:error => request.env['sinatra.error']}, 404)
         end
 
+        error Sinatra::NotFound do
+          json_response({:error => request.env['sinatra.error']}, 404)
+        end
+
         error BadParamsException do
           json_response({:error => request.env['sinatra.error'].params}, 400)
         end
@@ -188,7 +192,6 @@ module Exceptions
         define_method(:handle_exception!) do |ex|
           @env['sinatra.error'] = ex
           status ex.respond_to?(:code) ? Integer(ex.code) : 500
-
           if not_found?
             headers['X-Cascade'] = 'pass'
             body '<h1>Not Found</h1>'
