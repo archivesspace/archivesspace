@@ -18,15 +18,13 @@ class PublicFormatsController < ApplicationController
                 nil 
              end
     raise RecordNotFound.new unless ( record && record.publish ) 
-
-    uri      = URI.parse AppConfig[:backend_url]
-    http     = Net::HTTP.new uri.host, uri.port
     
     format, mime = format.split("_") 
     mime ||= "xml" 
 
-    request  = Net::HTTP::Get.new "/plugins/public_formats/repository/#{repo_id}/#{type}/#{format}/#{id}.#{mime}"
-    response = http.request request 
+    uri = URI("#{JSONModel::HTTP.backend_url}/plugins/public_formats/repository/#{repo_id}/#{type}/#{format}/#{id}.#{mime}")
+    response  = JSONModel::HTTP.get_response uri
+
     if response.code == "200"
       content_type = format == "html" ? format : mime 
       content = response.body
