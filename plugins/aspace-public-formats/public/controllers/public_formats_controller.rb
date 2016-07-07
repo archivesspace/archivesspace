@@ -8,6 +8,17 @@ class PublicFormatsController < ApplicationController
   private
 
   def handle(repo_id, type, format, id)
+    
+    record = case type
+             when "resources"
+                JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id])   
+             when "digital_objects"
+                JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id]) 
+             else
+                nil 
+             end
+    raise RecordNotFound.new unless ( record && record.publish ) 
+
     uri      = URI.parse AppConfig[:backend_url]
     http     = Net::HTTP.new uri.host, uri.port
     
