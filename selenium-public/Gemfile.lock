@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     activesupport (3.2.22.2)
       i18n (~> 0.6, >= 0.6.4)
@@ -8,11 +8,11 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     diff-lcs (1.2.5)
-    ffi (1.9.10-java)
+    ffi (1.9.13)
     i18n (0.7.0)
     json (1.8.0-java)
     json-schema (1.0.10)
-    multi_json (1.10.0)
+    multi_json (1.12.1)
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     rack (1.4.7)
@@ -32,9 +32,8 @@ GEM
       rspec-core
     rspec-support (3.3.0)
     rubyzip (1.0.0)
-    selenium-webdriver (2.45.0)
+    selenium-webdriver (2.53.4)
       childprocess (~> 0.5)
-      multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     websocket (1.2.3)
@@ -49,15 +48,15 @@ DEPENDENCIES
   atomic (= 1.0.1)
   json (= 1.8.0)
   json-schema (= 1.0.10)
-  multi_json (= 1.10.0)
+  multi_json (~> 1.12.1)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
   rack (~> 1.4.7)
   rspec (~> 3.3.0)
   rspec-retry
   rubyzip (= 1.0.0)
-  selenium-webdriver (= 2.45.0)
+  selenium-webdriver (~> 2.53.0)
   zip-zip (= 0.3)
 
 BUNDLED WITH
-   1.10.6
+   1.12.5

@@ -82,6 +82,7 @@
 
   <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
     <delete dir="gems/gems" />
+    <delete dir="gems/bin" />
     <delete dir="gems/specifications" />
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
@@ -95,7 +96,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="--1.9 -S gem install bundler -v 1.10.6" />
+      <arg line="--1.9 -S gem install bundler -v 1.12.5" />
     </java>
 
     <antcall target="bundler">

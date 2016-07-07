@@ -259,10 +259,17 @@ describe "Resources and archival objects" do
   it "can cancel edits to Archival Objects" do
     ao_id = @archival_object.uri.sub(/.*\//, '')
     @driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
+   
+    # sanity check..
+    @driver.find_element(:id => js_node(@archival_object).a_id).click 
+    pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
+    10.times {
+      @driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
+    }
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "unimportant change")
     @driver.find_element(:id => js_node(@resource).a_id).click
-
+    sleep(5)
     @driver.find_element(:id, "dismissChangesButton").click
 
     assert(5) {

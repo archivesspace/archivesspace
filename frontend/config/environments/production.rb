@@ -64,6 +64,7 @@ ArchivesSpace::Application.configure do
                                 file =~ /themes\/.*\/(application|bootstrap).css/ or
                                 file =~ /rde.css/ or
                                 file =~ /jquery.kiketable.colsizable.css/ or
+                                file =~ /jquery.tablesorter\/.*/ or 
                                 file =~ /bootstrap-select\/.*/
                               }]
 
