@@ -16,6 +16,16 @@ class StreamingJsonReader
 
     # The record number we've just yielded to the caller's `.each` block
     @record_index = 0
+
+    # Unfortunate to need this: we need a way of skipping the commas between
+    # incoming records.
+    #
+    # Calling parser.nextToken does discard them, but requires catching an
+    # exception, which adds a lot of overhead (about 30 seconds per import cycle
+    # for 500,000 records instead of ~5 seconds using this method).
+    #
+    @skip_next_character = org.codehaus.jackson.impl.ReaderBasedParser.java_class.declared_method("_skipWSOrEnd")
+    @skip_next_character.accessible = true
   end
 
 
@@ -99,11 +109,7 @@ class StreamingJsonReader
   private
 
   def skip_comma(parser)
-    begin
-      parser.nextToken
-    rescue org.codehaus.jackson.JsonParseException
-      # Skip over the pesky commas
-    end
+    @skip_next_character.invoke(parser)
   end
 
 
