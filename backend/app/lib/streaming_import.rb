@@ -3,57 +3,9 @@ require 'json'
 require 'atomic'
 require 'tempfile'
 
+require_relative 'dependency_set'
+require_relative 'streaming_json_reader'
 require_relative 'cycle_finder'
-
-class StreamingJsonReader
-  attr_reader :count
-
-  def initialize(filename)
-    @filename = filename
-    @count = nil
-  end
-
-
-  def empty?
-    File.size(@filename) <= 2
-  end
-
-
-  def each(determine_count = false)
-    return if empty?
-
-    stream = java.io.FileReader.new(@filename)
-    @count = 0 if determine_count
-
-    begin
-      mapper = org.codehaus.jackson.map.ObjectMapper.new
-
-      # Skip the opening [
-      stream.read
-
-      parser = mapper.getJsonFactory.createJsonParser(stream)
-
-      while parser.nextToken
-        result = parser.readValueAs(java.util.Map.java_class)
-        @count += 1 if determine_count
-        yield(result)
-
-        begin
-          puts parser.nextToken
-        rescue org.codehaus.jackson.JsonParseException
-          # Skip over the pesky commas
-        end
-      end
-    # rescue
-    #   raise JSON::ParserError.new($!)
-
-    ensure
-      stream.close
-    end
-  end
-
-end
-
 
 class StreamingImport
 
@@ -152,6 +104,10 @@ class StreamingImport
               # migrate it
               @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
 
+              # Now that it's created, we don't need to see the JSON record for
+              # this again either.  This will speed up subsequent cycles.
+              @jstream.delete_current
+
               progressed = true
             end
 
@@ -192,9 +148,9 @@ class StreamingImport
   def load_logical_urls
     logical_urls = {}
 
-    @ticker.tick_estimate = 20000; # made up
+    @ticker.tick_estimate = @jstream.determine_count
 
-    @jstream.each(true) do |rec|
+    @jstream.each do |rec|
 
       if !rec['uri']
         raise ImportException.new(:invalid_object => to_jsonmodel(rec, false),
@@ -214,7 +170,7 @@ class StreamingImport
 
 
   def load_dependencies
-    dependencies = {}
+    dependencies = DependencySet.new
     position_offsets = {}
 
     @ticker.tick_estimate = @jstream.count
@@ -222,7 +178,14 @@ class StreamingImport
     position_maps = {}
 
     @jstream.each do |rec|
-      dependencies[rec['uri']] = extract_logical_urls(rec, @logical_urls) - [rec['uri']]
+
+      # Add this record's references as dependencies
+      extract_logical_urls(rec, @logical_urls).each do |dependency|
+        unless dependency == rec['uri']
+          dependencies.add_dependency(rec['uri'], dependency)
+        end
+      end
+
       check_for_invalid_external_references(rec, @logical_urls)
 
       if rec['position']
@@ -247,7 +210,7 @@ class StreamingImport
         following = positions[0]
 
         unless positions.empty?
-          dependencies[following] << preceding
+          dependencies.add_dependency(following, preceding)
         end
       end
     end
