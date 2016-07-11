@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: names_record
-description: "Displays name(s) record information for selected record(s). Report shows all data contained in the Details and Contact Info record tabs."
