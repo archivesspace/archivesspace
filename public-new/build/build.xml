@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<project name="ArchivesSpace Public Interface" default="help">
+
+  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.2.0/jruby-complete-9.1.2.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.1.2.0.jar" />
+
+  <property name="gem_home" location="gems" />
+  <property name="devserver.port" value="4000" />
+
+  <property environment="env"/>
+  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx1g -Xss2m" />
+  <property name="default_java_options" value="-Daspace-public-interface=yes" />
+
+  <target name="help" description="This help">
+    <java classname="org.apache.tools.ant.Main">
+      <arg value="-projecthelp" />
+      <arg value="-buildfile" />
+      <arg value="${ant.file}" />
+    </java>
+  </target>
+
+
+  <!-- Configure our classpath. -->
+  <target name="set-classpath" description="Set JRuby classpath">
+    <property name="jruby_classpath" value="${jruby_file}:../lib/*" />
+  </target>
+
+  <target name="bootstrap-downloads" description="Download static files used for bootstrapping">
+    <delete>
+      <fileset dir="." includes="jruby-complete*.jar" excludes="${jruby_file}" />
+    </delete>
+
+    <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+  </target>
+
+
+  <target name="bundler" depends="set-classpath" description="Run bundler against a gemfile" >
+    <property name="build.home" location="."/>
+
+    <echo message="Fetching gems for ${gemfile}" />
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment" />
+    </java>
+  </target>
+
+  <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
+    <delete dir="gems/gems" />
+    <delete dir="gems/specifications" />
+    <property name="build.home" location="."/>
+
+    <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="-S gem install bundler" />
+    </java>
+
+    <antcall target="bundler"><param name="gemfile" value="../app/archivesspace-public/Gemfile" /></antcall>
+  </target>
+
+
+  <target name="devserver" depends="set-classpath" description="Start the development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../app">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="../app/archivesspace-public/bin/rails s -b 0.0.0.0 -p ${devserver.port}" />
+    </java>
+  </target>
+
+
+  <target name="rails" depends="set-classpath" description="Run the rails helper script">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../app/archivesspace-public">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="bin/rails ${args}" />
+    </java>
+  </target>
+
+</project>
