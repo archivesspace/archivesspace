@@ -1,0 +1,18 @@
+<h1>Hi</h1>
+
+<p>Here's a list of repositories we know about.  See <tt>/app/services/archives_space_client.rb</tt> for how we're getting them.</p>
+
+<ul>
+    <% @repositories.each do |repository| %>
+        <li><%= repository.code %> - <%= repository.name %></li>
+    <% end %>
+</ul>
+
+<p>
+    You could do a keyword search if you like:
+
+    <%= form_tag('/search', method: 'get') do %>
+        <%= text_field_tag(:q) %>
+        <%= submit_tag(I18n.t('search-button.label')) %>
+    <% end %>
+</p>

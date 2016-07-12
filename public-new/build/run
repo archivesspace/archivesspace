@@ -1,0 +1,41 @@
+#!/bin/bash
+
+base=$(cd "`dirname $0`"; pwd)
+
+if [ "$WITH_NODEJS" = "1" ]; then
+    export PATH="/var/tmp/aspace-nodejs/nodejs/bin:$PATH"
+
+    if [ ! -d /var/tmp/aspace-nodejs/nodejs/bin ]; then
+        cd /var/tmp
+        rm -rf aspace-nodejs
+
+        arch="x86"
+        if [ "`uname --machine`" == "x86_64" ]; then
+            arch="x64"
+        fi
+
+        mkdir aspace-nodejs
+        cd aspace-nodejs
+        wget "http://aspace.hudmol.com/node-v0.10.0-linux-${arch}.tar.gz"
+        tar xzf "node-v0.10.0-linux-${arch}.tar.gz"
+        mv "node-v0.10.0-linux-${arch}" nodejs
+    fi
+fi
+
+
+
+cd "$base"
+
+orig="`echo $1 | sed 's/devserver:integration$/devserver/'`"
+
+if [ "$orig" != "$1" ]; then
+    shift
+
+    if [ "$INTEGRATION_LOGFILE" = "" ]; then
+        export INTEGRATION_LOGFILE="/dev/null"
+    fi
+
+    exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher $orig -Daspace.integration=true ${1+"$@"} >>"$INTEGRATION_LOGFILE" 2>&1
+else
+    exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher ${1+"$@"}
+fi
