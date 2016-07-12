@@ -1,0 +1,22 @@
+<p>Showing results <%= @results['offset_first'] %> to <%= @results['offset_last'] %> of <%= @results['total_hits'] %></p>
+
+<ul>
+    <% @results['results'].each do |result| %>
+        <li><%= result['primary_type'] %> - <%= result['title'] %></li>
+    <% end %>
+</ul>
+
+<div class="ugly-pagination">
+    <% @pages.each do |page| %>
+        <% if page == @results['this_page']%>
+            <strong><%= page %></strong>
+        <% else %>
+            <%= link_to(page.to_s, {
+                controller: :search,
+                action: :search,
+                q: @query,
+                page: page
+            }) %>
+        <% end %>
+    <% end %>
+</div>
