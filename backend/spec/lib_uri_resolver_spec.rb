@@ -124,6 +124,14 @@ describe 'URIResolver' do
     resolved.should eq(resource.to_hash(:trusted))
   end
 
+  it "converts an array of JSONModel records to regular hashes if provided" do
+    resource1 = build(:json_resource)
+    resource2 = build(:json_resource)
+
+    resolved = resolve([resource1, resource2], ["invalid_property"])
+
+    resolved.should eq([resource1.to_hash(:trusted), resource2.to_hash(:trusted)])
+  end
 
   class MockResolver < URIResolver::ResolverType
     def initialize(*records)
