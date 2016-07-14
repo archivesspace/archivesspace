@@ -474,6 +474,12 @@ module ASModel
         NestedRecordResolver.new(nested_records, objs).resolve
       end
 
+      def associations_to_eagerly_load
+        # Allow subclasses to force eager loading of certain associations to
+        # save SQL queries.
+        []
+      end
+
 
       def to_jsonmodel(obj, opts = {})
         if obj.is_a? Integer

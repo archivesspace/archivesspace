@@ -7,12 +7,23 @@ class NestedRecordResolver
 
   def initialize(nested_records, objs)
     @nested_records = nested_records
+    fully_loaded_objs = load_with_all_associations(objs).clone
+
+    # We pull a bit of a trick here: replace the set of Sequel::Model instances
+    # we were passed with an equivalent set that have all of the nested records
+    # already loaded in.  That way, subsequent calls will have the data they
+    # need.
+    #
+    # Unfortunately the current interface requires us to mutate the array
+    # in-place, since there's no easy way to replace the set of objects with the
+    # current sequel_to_json API.
+    objs.clear
+    objs.concat(fully_loaded_objs)
     @objs = objs
   end
 
 
   def resolve
-    preload_nested_records
     do_resolve
   end
 
@@ -39,16 +50,12 @@ class NestedRecordResolver
       nested_records.each do |nested_record|
         model = Kernel.const_get(nested_record[:association][:class_name])
 
-        if [:one_to_one, :one_to_many].include?(nested_record[:association][:type])
-          nested_objs = nested_records_for(nested_record[:json_property], obj)
-        else
-          nested_objs = Array(obj.send(nested_record[:association][:name]))
-        end
-        
+        nested_objs = Array(obj.send(nested_record[:association][:name]))
+
         unless nested_record[:association][:order]
           nested_objs.sort_by!{ |rec| rec[:id] }
         end
-       
+
         records = model.sequel_to_jsonmodel(nested_objs).map {|rec|
           rec.to_hash(:trusted)
         }
@@ -64,37 +71,49 @@ class NestedRecordResolver
     }
   end
 
+  def load_with_all_associations(objs)
+    # Eagerly load all of the associations of the set of top-level objects we're
+    # asked to resolve.
 
-  def nested_records_for(property, obj)
-    @all_nested.fetch(property, {}).fetch(obj.id, [])
-  end
+    return objs if objs.empty?
 
+    model = objs[0].class
+    graph = nested_record_association_graph(model)
 
-  def preload_nested_records
-    @all_nested = {}
-
-    # Load all nested records into memory, doing all of our DB querying up
-    # front (and efficiently)
-    nested_records.each do |nested_record|
-      objs_ids = @objs.map(&:id)
-
-      @all_nested[nested_record[:json_property]] ||= {}
-
-      association = nested_record[:association]
-
-      next unless [:one_to_one, :one_to_many].include?(association[:type])
-      next if objs_ids.empty?
-
-      model = Kernel.const_get(association[:class_name])
-      matches = model.filter(association[:key] => objs_ids)
-
-      matches.each do |nested_obj|
-        @all_nested[nested_record[:json_property]][nested_obj[association[:key]]] ||= []
-        @all_nested[nested_record[:json_property]][nested_obj[association[:key]]] << nested_obj
+    if graph.empty?
+      objs
+    else
+      if graph.keys.all? {|association| objs.all? {|obj| obj.associations.has_key?(association)}}
+        # All loaded separately.  No need to redo it.
+        objs
+      else
+        model.any_repo.eager(graph).filter(:id => objs.map(&:id)).all
       end
     end
   end
 
+
+  # Create a graph of all Sequel associations starting with `model`.  Passed to
+  # `eager` to eagerly fetch the rows we know we'll need.
+  def nested_record_association_graph(model)
+    result = {}
+
+    model.nested_records.each do |nested_record|
+      association = nested_record[:association]
+      next unless [:one_to_one, :one_to_many].include?(association[:type])
+
+      nested_model = Kernel.const_get(association[:class_name])
+      result[association[:name]] = nested_record_association_graph(nested_model)
+    end
+
+
+    # Add any extras that were marked too
+    model.associations_to_eagerly_load.each do |association_name|
+      result[association_name] ||= {}
+    end
+
+    result
+  end
 
   attr_reader :nested_records
 end
