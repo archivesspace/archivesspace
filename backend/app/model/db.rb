@@ -176,8 +176,8 @@ EOF
   end
 
   def self.system_metadata
-    RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu', 
-                                                  'build', 'ruby_version'].include? key }
+    { "ruby_description" => RUBY_DESCRIPTION }.merge( RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu',
+                                                  'build', 'ruby_version'].include? key } )
   end
 
   def self.needs_savepoint?

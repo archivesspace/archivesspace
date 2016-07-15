@@ -18,3 +18,6 @@ DEPENDENCIES
   atomic (= 1.0.1)
   rack (= 1.4.7)
   sinatra (= 1.3.6)
+
+BUNDLED WITH
+   1.10.6
