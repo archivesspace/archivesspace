@@ -1049,5 +1049,76 @@ ANEAD
       @record['extents'][0]['physical_details'].should eq('gelatin silver')
     end
 
+    let (:records_with_extents) {
+      records = convert(File.join(File.dirname(__FILE__), 'fixtures', 'ead_with_extents.xml'))
+      Hash[records.map {|rec| [rec['title'], rec]}]
+    }
+
+    it "maps no extent, single dimensions, single physfacet to notes" do
+      rec = records_with_extents.fetch('No extent, single dimensions, single physfacet')
+
+      rec['extents'].should be_empty
+      rec['notes'][0]['content'].should eq(['gelatin silver'])
+      rec['notes'][1]['subnotes'][0]['content'].should eq('8 x 10 inches')
+    end
+
+    it "maps single extent and single dimensions to extent record" do
+      rec = records_with_extents.fetch('Test single extent and single dimensions')
+
+      rec['extents'].length.should eq(1)
+      rec['extents'][0]['extent_type'].should eq('photograph')
+      rec['extents'][0]['dimensions'].should eq('8 x 10 inches')
+    end
+
+    it "maps single extent and single physfacet to extent record" do
+      rec = records_with_extents.fetch('Test single extent and single physfacet')
+
+      rec['extents'].length.should eq(1)
+      rec['extents'][0]['extent_type'].should eq('photograph')
+      rec['extents'][0]['number'].should eq('1')
+      rec['extents'][0]['portion'].should eq('whole')
+      rec['extents'][0]['physical_details'].should eq('gelatin silver')
+    end
+
+    it "maps single extent, single dimensions, single physfacet to extent record" do
+      rec = records_with_extents.fetch('Test single extent, single dimensions, single physfacet')
+
+      rec['extents'].length.should eq(1)
+      rec['extents'][0]['extent_type'].should eq('photograph')
+      rec['extents'][0]['number'].should eq('1')
+      rec['extents'][0]['portion'].should eq('whole')
+      rec['extents'][0]['physical_details'].should eq('gelatin silver')
+      rec['extents'][0]['dimensions'].should eq('8 x 10 inches')
+    end
+
+    it "maps single extent and two physfacet to extent record" do
+      rec = records_with_extents.fetch('Test single extent and two physfacet')
+
+      rec['extents'].length.should eq(1)
+      rec['extents'][0]['extent_type'].should eq('photograph')
+      rec['extents'][0]['number'].should eq('1')
+      rec['extents'][0]['portion'].should eq('whole')
+      rec['extents'][0]['physical_details'].should eq('black and white; gelatin silver')
+    end
+
+    it "maps single extent and two dimensions to extent record" do
+      rec = records_with_extents.fetch('Test single extent and two dimensions')
+
+      rec['extents'].length.should eq(1)
+      rec['extents'][0]['extent_type'].should eq('photograph')
+      rec['extents'][0]['number'].should eq('1')
+      rec['extents'][0]['portion'].should eq('whole')
+      rec['extents'][0]['dimensions'].should eq('8 x 10 inches (photograph); 11 x 14 inches (support)')
+    end
+
+    it "maps text physdesc element to note" do
+      rec = records_with_extents.fetch('Physdesc only')
+
+      rec['extents'].should be_empty
+      rec['notes'].should_not be_empty
+      rec['notes'][0]['content'].should eq(["1 photograph: 8 x 10 inches (photograph) 11 x 14 inches (support)"])
+    end
+
   end
+
 end
