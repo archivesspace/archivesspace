@@ -18,6 +18,19 @@ If you prefer MRI Ruby, it should run using that too.  You might just
 need to remove `Gemfile.lock` prior to running bundler to install the
 gems.  Maybe there's a way we can get these to peacefully coexist...
 
+# Using Pry
+
+One disadvantage of launching the devserver from Ant is that it messes
+with your console, disabling input echo.  If you're trying to use
+interactive tools like Pry, that's a bit of an inconvenience.
+
+To get around this, running `build/run devserver` will also write out
+a shell script (to `build/devserver.sh`) that captures the command,
+working directory and environment variables needed to run a
+devserver.  As long as you run `build/run devserver` once, you can run
+`build/devserver.sh` thereafter to have a more normal console
+experience.
+
 ## Configuration
 
 At the top-level of this project, there is a configuration file called
