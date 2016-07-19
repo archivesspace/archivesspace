@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "Resource instances and containers" do
+describe "Resource and Accession instances and containers" do
 
   before(:all) do
     @repo = create(:repo, :repo_code => "instances_test_#{Time.now.to_i}")
@@ -254,7 +254,7 @@ describe "Resource instances and containers" do
   end
   
 
-  it "can calculate extents" do
+  it "can calculate extents in edit mode for Resources" do
 
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
     @driver.find_element(:link, 'Calculate Extent').click
@@ -277,7 +277,7 @@ describe "Resource instances and containers" do
 
   end
   
-  it "& fer accessions too!" do
+  it "can calculate extents in Edit mode for accessions" do
 
     @driver.navigate.to("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}/edit")
     @driver.find_element(:link, 'Calculate Extent').click
@@ -298,6 +298,20 @@ describe "Resource instances and containers" do
     extent_headings.length.should eq (1)
     assert(5) { extent_headings[0].text.should match (/^\d.*/) }
 
+  end
+  
+  it "can calculate extents in View mode for Resources" do
+    @driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}")
+    @driver.find_element(:link, 'Calculate Extent').click
+    modal = @driver.find_element(:id => "extentCalculationModal")
+    @driver.find_element_with_text('//p', /Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report/).should_not be_nil
+  end
+  
+  it "can calculate extents in View mode for Accessions" do
+    @driver.navigate.to("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}")
+    @driver.find_element(:link, 'Calculate Extent').click
+    modal = @driver.find_element(:id => "extentCalculationModal")
+    @driver.find_element_with_text('//p', /Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report/).should_not be_nil
   end
 
 
