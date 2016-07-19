@@ -135,6 +135,17 @@ module ASpaceImport
         end
       end
 
+      def invoke( method, node )
+        begin
+          # unconstrained handlers, e.g., date
+          if self.method(method).arity == 0
+            self.send(method)
+          else
+            self.send(method, node)
+          end
+        rescue NameError # no method...we roll on. 
+        end
+      end
 
       def handle_opener(node, empty_node)
         @node_name = node.local_name
@@ -147,11 +158,11 @@ module ASpaceImport
 
         # constrained handlers, e.g. publication/date
         @stickies.each_with_index do |prefix, i|
-          self.send("_#{@stickies[i..@stickies.length].join('_')}_#{@node_name}", node)
+          invoke("_#{@stickies[i..@stickies.length].join('_')}_#{@node_name}", node)
         end
 
         # unconstrained handlers, e.g., date
-        self.send("_#{@node_name}", node)
+        invoke("_#{@node_name}", node)
 
         # config calls for constrained handlers on this path
         make_sticky(@node_name) if self.class.make_sticky?(@node_name)

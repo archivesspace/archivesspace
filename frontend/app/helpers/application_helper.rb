@@ -29,7 +29,6 @@ module ApplicationHelper
 
   def include_theme_css
     css = ""
-    css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap", :media => "all")
     css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
     css.html_safe
   end

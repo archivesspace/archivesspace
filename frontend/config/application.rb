@@ -1,17 +1,14 @@
 require File.expand_path('../boot', __FILE__)
 
-#require 'rails/all'
+require 'rails'
 require 'action_controller/railtie'
 require 'sprockets/railtie'
 
 require 'java'
 require 'config/config-distribution'
 require 'asutils'
-
 require 'aspace_logger'
-
 require "rails_config_bug_workaround"
-
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -22,9 +19,6 @@ end
 
 
 module ArchivesSpace
-
-
-
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -57,7 +51,7 @@ module ArchivesSpace
     config.logger = ActiveSupport::TaggedLogging.new(ASpaceLogger.new($stderr))
 
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
@@ -65,14 +59,14 @@ module ArchivesSpace
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
-
+    config.assets.precompile += %w( *.js )
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
@@ -90,13 +84,6 @@ module ArchivesSpace
     # parameters by using an attr_accessible or attr_protected declaration.
     # config.active_record.whitelist_attributes = true
 
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
-
-    config.assets.precompile += %w( *.js )
 
     # Add fonts directory
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
@@ -104,13 +91,13 @@ module ArchivesSpace
     # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
       # i18n locales
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
         config.assets.paths.unshift(static_directory)
       end
     end
@@ -142,7 +129,7 @@ end
 # Load plugin init.rb files (if present)
 ASUtils.find_local_directories('frontend').each do |dir|
   init_file = File.join(dir, "plugin_init.rb")
-  if File.exists?(init_file)
+  if File.exist?(init_file)
     load init_file
   end
 end

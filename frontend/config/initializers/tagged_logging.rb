@@ -1,6 +1,6 @@
 module ActiveSupport  
 
-  class TaggedLogging 
+  module TaggedLogging 
 
     def backlog
       if @logger.respond_to?(:backlog_and_flush)
