@@ -204,7 +204,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
          $ cd lib
-         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar 
+         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/6.0.3/mysql-connector-java-6.0.3.jar 
 
 Note that the version of the MySQL connector may be different by the
 time you read this.

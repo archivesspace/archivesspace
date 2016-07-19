@@ -32,7 +32,7 @@ before_install:
 - export DISPLAY=:99.0
 before_script:
 - sleep 3
-- if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar);
+- if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/6.0.3/mysql-connector-java-6.0.3.jar );
   fi
 - if [[ "$DB" == "mysql" ]]; then export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://localhost:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=root";
   fi
