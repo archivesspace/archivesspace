@@ -1,20 +1,21 @@
 # A sample Gemfile
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 
 group :test do
   gem "rack", "~> 1.4.7"
   gem "activesupport", "~> 3.2.22" 
-  gem "selenium-webdriver", "2.45.0"
+  gem "selenium-webdriver", "~> 2.53.0"
 	gem "rspec", "~> 3.3.0"
   gem "rspec-retry"
   gem "json-schema", "1.0.10"
   gem "atomic", '= 1.0.1'
   gem "net-http-persistent", "2.8"
   gem "multipart-post", "1.2.0"
-
+  
   gem "json", "1.8.0"
-  gem 'multi_json', '1.10.0'
+  gem 'multi_json', '~> 1.12.1'
+
   gem "rubyzip", "1.0.0"
   gem "zip-zip", "0.3"
 end

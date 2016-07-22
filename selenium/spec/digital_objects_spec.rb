@@ -183,9 +183,5 @@ describe "Digital Objects" do
     target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
     target.find_element_with_text(".//a", /ICO/)
 
-    @driver.click_and_wait_until_gone(:link, "Close Record")
-    @driver.find_element(:xpath, "//a[@title='#{@do.title}']").click
-
-    @driver.find_element_with_text("//h2", /#{@do.title}/)
   end
 end

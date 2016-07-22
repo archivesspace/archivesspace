@@ -21,7 +21,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
          $ cd lib
-         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar 
+         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar 
 
 Note that the version of the MySQL connector may be different by the
 time you read this.
@@ -37,6 +37,9 @@ and password `as123`.
 ENCODING FOR THE DATABASE TO BE `utf8`.** This is particularly important
 if you use a MySQL client to create the database (e.g. Navicat, MySQL
 Workbench, phpMyAdmin, etc.).
+
+**NOTE: If using AWS RDS MySQL databases, binary logging is not enabled by default and updates will fail.** To enable binary logging, you must create a custom db parameter group for the database and set the `log_bin_trust_function_creators = 1`. See [Working with DB Parameter Groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html) for information about RDS parameter groups.
+
 
          $ mysql -uroot -p
 

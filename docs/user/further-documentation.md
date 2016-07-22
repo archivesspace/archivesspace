@@ -12,5 +12,5 @@ at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](
 
 The latest technical documentation, including API documentation and
 architecture notes, is published at
-[http://archivesspace.github.io/archivesspace/doc](http://archivesspace.github.com/archivesspace/doc/).
+[http://archivesspace.github.io/archivesspace/](http://archivesspace.github.io/archivesspace/).
 
