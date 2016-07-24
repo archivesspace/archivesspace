@@ -281,7 +281,7 @@
 
   <!-- Solr -->
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
-    <copy file="${solr_file}" tofile="solr.war" />
+    <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
       <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
     </war>
