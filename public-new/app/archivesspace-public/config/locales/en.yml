@@ -20,6 +20,216 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  brand:
+    title: ArchivesSpace Public Interface
+    title_link_text: Your link text here
+    home: Home
+    welcome_head: Welcome to the New Public Interface
+    welcome_message: |
+                     <p> You can put anything you want in this space, by 
+                     editing <strong>brand.welcome_message</strong> in the appropriate <em>config/locales/*yml</em> file</p>
+
+    welcome_search_label: "Find what you're looking for:"
+
+  actions:
+    search: Search
+    browse: Browse
+    show_advanced_search: Show Advanced Search
+    hide_advanced_search: Hide Advanced Search
+
   search-button:
     label: Search
 
+  pagination:
+    first: First
+    last: Last
+    previous: "&#171;"
+    next: "&#187;"
+    summary_prefix: Showing
+    summary_offset_connector: "-"
+    summary_total_connector: of
+    summary_suffix: Results
+    page_prefix: Page
+    page_connector: of
+
+  search_results:
+    head_prefix: Found
+    head_suffix: Results
+    searching: Searching
+    title: All Records
+    no_results: No Records
+    no_results_prefix: There were no search results for
+    result_type: Record Type
+    result_title: Title
+    filtered_by: Filtered By
+    modified: Last Modified
+    created: Created
+    text_placeholder: Filter by text
+    clear_all: Clear All
+    created: Created
+    modified: Modified
+    component_switch: Include Components
+    filter:
+      show_fewer: Show fewer
+      show_more: Show more
+      query: Text
+      subjects: Subject
+      primary_type: Type
+      repository: Repository
+      creators: Creator
+      fullrecord: Keyword
+      subjects_text: Subject
+      title: Title
+      creators_text: Creator
+      scope: Scope
+      notes: Notes
+      source: Source
+      agents: Agents
+      agents_text: Agents
+      classification_uri: Classification
+      linked_agent_roles: Role
+
+  search_sorting:
+    sort_by: "Sort by:"
+    and: "and:"
+    asc: Ascending
+    desc: Descending
+    relevance: Relevance
+    title_sort: Title
+    user_mtime: Modified
+    primary_type: Record Type
+    processing_priority: Priority
+    processing_status: Status
+    parent_id: Record Type
+    create_time: Created
+    authority_id: Authority ID
+    source: Source
+    rules: Rules
+    outcome: Outcome
+    event_type: Type
+    identifier: Identifier
+    select: Select
+
+  errors:
+    error_404: Record Not Found
+    error_404_message: "The record you've tried to access does not exist or may have been removed."
+    backend_down: Unable to Connect to Database
+    backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
+
+  boolean:
+    "true": "Yes"
+    "false": "No"
+
+  navbar:
+    search_placeholder: Enter your search terms
+    search_all: All Records
+
+  advanced_search:
+    operator:
+      AND: And
+      OR: Or
+      NOT: Not
+    button_text: Search
+    reset: Clear
+    nav_switcher:
+      show: Show Advanced
+      hide: Hide Advanced
+    index_switcher:
+      show: Show Advanced Search
+      hide: Hide Advanced Search
+
+  listing: Listing
+
+  accession:
+    _public:
+      section:
+        summary: Summary
+
+  archival_object:
+    _public:
+      section:
+        components: Components
+        summary: Summary
+      messages:
+        no_components: Archival Object has no components
+
+  repository:
+    _singular: Repository
+    _plural: Repositories
+    what: What's in this Repository?
+
+
+  resource:
+    _singular: Collection
+    _plural: Collections
+    _public:
+      section:
+        components: Components
+        summary: Summary
+      messages:
+        no_components: Resource has no components
+
+  related_resource:
+    _singular: Related Collection
+    _plural: Related Collections
+
+  digital_object: &digital_object_attributes
+    _singular: Digital Item
+    _plural: Digital Items
+    _public:
+      section:
+        components: Components
+        summary: Summary
+      messages:
+        no_components: Digital Object has no components
+
+  digital_object_component:
+    _public:
+      section:
+        components: Components
+        summary: Summary
+      messages:
+        no_components: Digital Object Component has no components
+
+  subject:
+    _singular: Subject
+    _plural: Subjects
+
+  unprocessed: Unprocessed Material
+
+  all_agents: People & Organizations
+
+  record:
+    _singular: Record
+    _plural: Records
+
+  record_group:
+    _singular: Record Group
+    _plural: Record Groups
+
+  agent:
+    _singular: Name
+    _plural: Names
+    _public:
+      section:
+        summary: Summary
+
+  components:
+    expand: Expand
+    collapse: Collapse
+
+  instance:
+    _public:
+      link_to_digital_object: Link to Record
+
+  record_tree:
+    record_tree_tab: Record Tree
+    search_tab: Search Components
+
+  location: Location
+
+  contact: Contact
+
+  hours: Hours
+
+  number_of: Number of
