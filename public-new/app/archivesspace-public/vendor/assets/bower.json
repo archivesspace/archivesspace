@@ -1,0 +1,29 @@
+{
+  "name": "archivesspace_public-new",
+  "description": "ArchivesSpace New Public Interface",
+  "authors": [
+    "Brian Hoffman <brianjhoffman@gmail.com>",
+    "Bobbi Fox <bobbi_fox@harvard.edu>"
+  ],
+
+  "homepage": "https://github.com/archivesspace/public-new",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.12.4",
+    "lodash": "~4.0.0",
+    "jquery.scrollTo": "~2.1.2",
+    "load-awesome": "~1.1.0",
+    "lodash-inflection": "~1.3.2",
+    "jstree": "git@github.com:vakata/jstree#~3.3.1",
+    "bootstrap-sass": "~3.3.6",
+    "font-awesome": "~4.6.3"
+  }
+}

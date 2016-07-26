@@ -39,6 +39,12 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.0.0)
+    autoprefixer-rails (6.3.7)
+      execjs
+    bootstrap-sass (3.3.6)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
+    bower-rails (0.10.0)
     builder (3.2.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -52,6 +58,8 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.14-java)
+    font-awesome-sass (4.6.2)
+      sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -83,6 +91,8 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
       spoon (~> 0.0)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     puma (3.4.0-java)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -155,11 +165,14 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  bootstrap-sass (~> 3.3.6)
+  bower-rails
   coffee-rails (~> 4.2)
+  font-awesome-sass
   jbuilder (~> 2.5)
   jquery-rails
   listen
-  pry
+  pry-rails
   puma (~> 3.0)
   rails (~> 5.0.0)
   sass-rails (~> 5.0)
