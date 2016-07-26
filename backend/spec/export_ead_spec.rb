@@ -1022,6 +1022,7 @@ describe "EAD export mappings" do
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
     let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
+    let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:serializer) { EADSerializer.new }
 
     it "can strip <p> tags from content when disallowed" do
@@ -1046,6 +1047,10 @@ describe "EAD export mappings" do
     
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
       serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+    end
+    
+    it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
+      serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
     end
 
   end
