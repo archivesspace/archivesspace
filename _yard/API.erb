@@ -205,6 +205,33 @@ __Returns__
 <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
+<% example =  @examples[e[:uri]][e[:method].to_s] %>
+
+<% if example %>
+```shell 
+<% if e[:method] == :get %>
+  curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+<% elsif e[:method] == :post %>
+  <% example.each_pair do |k,v| %>  
+  <% next if k == "id" %>   
+  curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d <%= v.inspect %> \
+  "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
+  <% end %>
+<% elsif e[:method] == :delete %>
+  curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
+<% else %>
+  <% example.each_pair do |k,v| %>  
+  <% next if k == "id" %>   
+  curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d <%= v.inspect %> \
+  "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
+  <% end %>
+<% end %>
+
+```
+<% end %>
+
 <% end %>
 
 

@@ -5,10 +5,8 @@ describe "Generate REST Documentation" do
 
  it "gets all the endpoints and makes something can write documentation for" do
  
-endpoints = [
- {:uri=>"/users/:id", :description=>"Update a user's account", :method=>:post, :params=>[["id", Integer, "The ID of the record"], ["password", String, "The user's password", {:optional=>true}], ["groups", [String], "Array of groups URIs to assign the user to", {:optional=>true}], ["remove_groups", RESTHelpers::BooleanParam, "Remove all groups from the user for the current repo_id if true", {:optional=>true}], ["repo_id", Integer, "The Repository groups to clear", {:optional=>true}], ["user", JSONModel(:user), "The updated record", {:body=>true}]], :paginated=>false, :returns=>[[200, "{:status => \"Updated\", :id => (id of updated object)}"], [400, "{:error => (description of error)}"]]}
- ]                                                                                              
  
+endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}                                                                                                      
 output = {}
 problems = []
 
@@ -17,17 +15,17 @@ models = {}
       begin
         models[type] = JSON.parse( build("json_#{type}".to_sym).to_json )
       rescue => err
-        $stderr.puts "Model problem with #{klass} : #{err.message}"
+        # if you want a verbose output of the issues, you can set an ENV  
+        $stderr.puts "Model problem with #{klass} : #{err.message}" if ENV["BUILD_DOCUMENTATION"]
       end
     end
 
 endpoints.each do |e|
-  
-      output[e[:uri]] = {}
+
+      output[e[:uri]] ||= {}
       output[e[:uri]][e[:method]] = {}
       e[:params].each do |p|
         begin       
-          puts p[0]
           klass = p[1]
           klass = klass.first if klass.is_a?(Array) 
           
@@ -35,9 +33,7 @@ endpoints.each do |e|
             record = klass.to_s
           elsif klass.respond_to?(:record_type)
             r = models[klass.record_type] || [ "Example Missing" ]
-            puts r.to_json 
-            puts "Add factory for #{klass}" if r.is_a?(Array) 
-            record = JSON.pretty_generate(r)
+            record = r
           elsif klass.to_s.include?("RESTHelpers")
             record = klass.to_s.split("::").last
           elsif klass == Integer
@@ -55,10 +51,14 @@ endpoints.each do |e|
       end
 
 end
+    
+    file = File.join(File.dirname(__FILE__), '../../', "endpoint_examples.json")
+    file_problems = File.join(File.dirname(__FILE__), '../../', "endpoint_examples_problems.json")
+    File.open(file, "w") {  |f| f << output.to_json }
+    File.open(file_problems, "w") {  |f| f << JSON.pretty_generate(problems) }
+    $stderr.puts "example file put at #{file}. Problems logged in #{file_problems}" 
+    
 
-puts output
-File.open(File.join( "/tmp/" ,"endpoint_examples.json"), "w") {  |file| file <<  JSON.pretty_generate(output) } 
-puts problems.inspect
 
 end
 end 
