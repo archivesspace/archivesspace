@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ArchivesspacePublic</title>
+ <title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= I18n.t('brand.title') %></title>
     <%= csrf_meta_tags %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container-fluid">
+      <section id="header" class="row page-header">
+        <div class="col-sm-9"><h1><a title="<%=I18n.t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= I18n.t('brand.title') %></a></h1> </div>
+        <div class="col-sm-3"><img class="pull-right" src="/img/Aspace-logo.png" /></div>
+      </section>
+    </div>
+
+      <section id="navigation">
+	<nav class="navbar navbar-default">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collasped" data-toggle="collapse" data-target="#collapsemenu" 
+		      aria-expanded="false">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	      </button>
+	      <div class="collapse navbar-collapse" id="collapsemenu">
+		<ul class="nav nav navbar-nav">
+		  <%# TODO: add class="active" if we're on that page %>
+		  <%# TODO: if only one repository, don't show this one %>
+		  <li><a href="/repositories"><%= I18n.t('repository._plural') %></a></li>
+		  <li><a href="/search?recordtype=collection"><%= I18n.t('resource._plural') %></a></li>
+		  <li><a href="/search?recordtype=digital_object"><%= I18n.t('digital_object._plural') %></a></li>
+		  <li><a href="/search?recordtype=accession"><%= I18n.t('unprocessed') %></a></li>
+		  <li><a href="/search?recordtype=subject"><%= I18n.t('subject._plural') %></a></li>
+		  <li><a href="/search?recordtype=agent_person&type=agent_family&type=agent_corporate_entity"><%= I18n.t('all_agents') %></a></li>
+		  <li><a href="/search?recordtype=classification"><%= I18n.t('record_group._plural') %></a></li>
+		</ul>
+	      </div>
+	    </div>
+	  </div>
+	</nav>
+      </section>
+      <section id="container" class="container">
+	
+      <%= yield %>
+      </section>
   </body>
 </html>
