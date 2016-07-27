@@ -19,10 +19,10 @@ ArchivesSpace you are upgrading to.  This will ensure that you are
 running the latest versions of all files.  For example, on Mac OS X or
 Linux:
 
-     $ mkdir archivesspace-1.2.0
-     $ cd archivesspace-1.2.0
-     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.2.0/archivesspace-v1.2.0.zip
-     $ unzip -x archivesspace-v1.2.0.zip
+     $ mkdir archivesspace-1.5.0
+     $ cd archivesspace-1.5.0
+     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.2.0/archivesspace-v1.5.0.zip
+     $ unzip -x archivesspace-v1.5.0.zip
 
 ( The curl step is optional and simply downloads the distribution from github. You can also
  simply download the zip file in your browser and copy it to the directory ) 
@@ -48,21 +48,21 @@ your original ArchivesSpace installation:
 
 For example, on Mac OS X or Linux:
 
-     $ cd archivesspace-1.2.0/archivesspace
-     $ cp -a /path/to/archivesspace-1.2.0/archivesspace/data/* data/
-     $ cp -a /path/to/archivesspace-1.2.0/archivesspace/config/* config/
-     $ cp -a /path/to/archivesspace-1.2.0/archivesspace/lib/mysql-connector* lib/
-     $ cp -a /path/to/archivesspace-1.2.0/archivesspace/plugins/local plugins/
-     $ cp -a /path/to/archivesspace-1.2.0/archivesspace/plugins/wonderful_plugin plugins/
+     $ cd archivesspace-1.5.0/archivesspace
+     $ cp -a /path/to/archivesspace-1.4.2/archivesspace/data/* data/
+     $ cp -a /path/to/archivesspace-1.4.2/archivesspace/config/* config/
+     $ cp -a /path/to/archivesspace-1.4.2/archivesspace/lib/mysql-connector* lib/
+     $ cp -a /path/to/archivesspace-1.4.2/archivesspace/plugins/local plugins/
+     $ cp -a /path/to/archivesspace-1.4.2/archivesspace/plugins/wonderful_plugin plugins/
 
 Or on Windows:
 
-     $ cd archivesspace-1.2.0\archivesspace
-     $ xcopy \path\to\archivesspace-1.2.0\archivesspace\data\* data /i /k /h /s /e /o /x /y
-     $ xcopy \path\to\archivesspace-1.2.0\archivesspace\config\* config /i /k /h /s /e /o /x /y
-     $ xcopy \path\to\archivesspace-1.2.0\archivesspace\lib\mysql-connector* lib /i /k /h /s /e /o /x /y
-     $ xcopy \path\to\archivesspace-1.2.0\archivesspace\plugins\local plugins\local /i /k /h /s /e /o /x /y
-     $ xcopy \path\to\archivesspace-1.2.0\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /e /o /x /y
+     $ cd archivesspace-1.5.0\archivesspace
+     $ xcopy \path\to\archivesspace-1.4.2\archivesspace\data\* data /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.4.2\archivesspace\config\* config /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.4.2\archivesspace\lib\mysql-connector* lib /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.4.2\archivesspace\plugins\local plugins\local /i /k /h /s /e /o /x /y
+     $ xcopy \path\to\archivesspace-1.4.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i /k /h /s /e /o /x /y
 
 
 Note that you may want to preserve the logs file (`logs/archivesspace.out` 
@@ -93,8 +93,8 @@ locale file.
 A good way to do this is to use a Diff tool, like Notepad++, TextMate, or just
 Linux diff command:
 
-     $ diff /path/to/archivesspace-1.2.0/locales/en.yml /path/to/archivesspace-1.2.0/archivesspace-v1.2.0/locales/en.yml
-     $ diff /path/to/archivesspace-1.2.0/locales/enums/en.yml /path/to/archivesspace-v1.2.0/locales/enums/en.yml
+     $ diff /path/to/archivesspace-1.4.2/locales/en.yml /path/to/archivesspace-1.5.0/archivesspace/locales/en.yml
+     $ diff /path/to/archivesspace-1.4.2/locales/enums/en.yml /path/to/archivesspace-v1.5.0/archivesspace/locales/enums/en.yml
 
 This will show you the differences in your current locales files, as well as the
 new additions in the new version locales files. Simply copy the values you wish
@@ -109,19 +109,19 @@ that need to happen as a part of the upgrade.  To do this, use the
 `setup-database` script for your platform. For example, on Mac OS X
 or Linux:
 
-     $ cd archivesspace-1.2.0/archivesspace
+     $ cd archivesspace-1.5.0/archivesspace
      $ scripts/setup-database.sh
 
 Or on Windows:
 
-     $ cd archivesspace-1.2.0\archivesspace
+     $ cd archivesspace-1.5.0\archivesspace
      $ scripts\setup-database.bat
 
 
 ## If you've deployed to Tomcat
 
 The steps to deploy to Tomcat are esentially the same as in the
-[README_TOMCAT.md](https://github.com/archivesspace/archivesspace/blob/master/README_TOMCAT.md)
+[archivesspace_tomcat](https://github.com/archivesspace/archivesspace_tomcat)
 
 But, prior to running your setup-tomcat script, you'll need to be sure to clean out the
 any libraries from the previous ASpace version from your Tomcat classpath.

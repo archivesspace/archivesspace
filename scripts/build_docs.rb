@@ -17,7 +17,7 @@ FileUtils::mkdir_p outdir
         puts "Processing #{title} ..." 
         next unless title.length > 0 
         permalink = "/user/#{title.downcase.gsub(" ", "-")}/"
-        File.open(File.join(outdir, "#{title.downcase.gsub(" ", "-")}.md"), 'w') do |file|
+        File.open(File.join(outdir, "#{title.downcase.gsub(" ", "-")}.md"), 'w') do |outfile|
           md = <<EOF
 ---
 title: #{title} 
@@ -25,12 +25,19 @@ layout: en
 permalink: #{permalink} 
 ---
 EOF
-          file << md 
-          file << sec.lines.to_a[1..-1].join
+          outfile << md 
+          outfile << sec.lines.to_a[1..-1].join
+          if permalink == "/user/configuring-archivesspace/"
+            outfile << "```ruby\n\n"
+            outfile << IO.read("common/config/config-defaults.rb") 
+            outfile << "```"
+          end
         end
       rescue => e
-        puts file
+        puts outfile
         puts e.backtrace
       end
     end
 end
+
+

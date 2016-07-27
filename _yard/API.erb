@@ -210,21 +210,30 @@ __Returns__
 <% if example %>
 ```shell 
 <% if e[:method] == :get %>
-  curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+  <% if e[:paginated] %>
+# return first 10 records    
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?page=1&page_size=10"
+# return first 5 records in the Fibonacci sequence
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?id_set=1,2,3,5,8"
+# return an array of all the ids 
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?all_ids=true"
+  <% else %> 
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+  <% end %>
 <% elsif e[:method] == :post %>
   <% example.each_pair do |k,v| %>  
   <% next if k == "id" %>   
-  curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d <%= v.inspect %> \
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
   "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
   <% end %>
 <% elsif e[:method] == :delete %>
-  curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
+curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
 <% else %>
   <% example.each_pair do |k,v| %>  
   <% next if k == "id" %>   
-  curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d <%= v.inspect %> \
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
   "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
   <% end %>
 <% end %>
