@@ -29,6 +29,7 @@ webdriver-profile*
 common/ARCHIVESSPACE_VERSION
 .yardoc
 API.md
+endpoint_examples*
 config/gemnasium.yml
 build/demo_db_backups
 *.jasper

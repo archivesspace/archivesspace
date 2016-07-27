@@ -40,6 +40,8 @@ namespace :doc do
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
+    @examples = JSON.parse( IO.read File.dirname(__FILE__) + "/../endpoint_examples.json" )
+
 
     erb = ERB.new(File.read('API.erb'), nil, '<>')
 
