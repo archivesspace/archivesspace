@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: JSONModelType
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "JSONModelType";
   relpath = '';
-  framesUrl = "frames.html#!JSONModelType.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (J)</a> &raquo;
     
     
     <span class="title">JSONModelType</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: JSONModelType
+      <div id="content"><h1>Class: JSONModelType
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Object</span>
       
         <ul class="fullTree">
@@ -88,21 +81,25 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">common/jsonmodel_type.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>common/jsonmodel_type.rb</dd>
+  </dl>
+  
+</div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
@@ -115,16 +112,44 @@
   
 
 </div>
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="ID_REGEXP-constant" class="">ID_REGEXP =
+        <div class="docstring">
+  <div class="discussion">
+    <p>The inverse of uri_for:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='string val'>&quot;/repositories/123/archival_objects/500&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>123</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>might yield 500</p>
+
+<p>IDs are either positive integers, or importer-provided logical IDs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+      </dt>
+      <dd><pre class="code"><span class='regexp val'>/([0-9]+|import_[a-f0-9-]+)/</span>
+</pre></dd>
+    
+  </dl>
 
 
 
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
     
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#uri-instance_method" title="#uri (instance method)">- (Object) <strong>uri</strong> </a>
+      <a href="#uri-instance_method" title="#uri (instance method)">#<strong>uri</strong>  &#x21d2; Object </a>
     
 
     
@@ -155,7 +180,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -163,7 +188,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_validation-class_method" title="add_validation (class method)">+ (Object) <strong>add_validation</strong>(name, level = :error, &amp;block) </a>
+      <a href="#add_validation-class_method" title="add_validation (class method)">.<strong>add_validation</strong>(name, level = :error, &amp;block)  &#x21d2; Object </a>
     
 
     
@@ -186,7 +211,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_hash-class_method" title="from_hash (class method)">+ (Object) <strong>from_hash</strong>(hash, raise_errors = true, trusted = false) </a>
+      <a href="#from_hash-class_method" title="from_hash (class method)">.<strong>from_hash</strong>(hash, raise_errors = true, trusted = false)  &#x21d2; Object </a>
     
 
     
@@ -209,7 +234,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_json-class_method" title="from_json (class method)">+ (Object) <strong>from_json</strong>(s, raise_errors = true) </a>
+      <a href="#from_json-class_method" title="from_json (class method)">.<strong>from_json</strong>(s, raise_errors = true)  &#x21d2; Object </a>
     
 
     
@@ -232,7 +257,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#id_for-class_method" title="id_for (class method)">+ (Object) <strong>id_for</strong>(uri, opts = {}, noerror = false) </a>
+      <a href="#id_for-class_method" title="id_for (class method)">.<strong>id_for</strong>(uri, opts = {}, noerror = false)  &#x21d2; Object </a>
     
 
     
@@ -246,7 +271,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The inverse of uri_for:.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -255,7 +280,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong>(type, schema, mixins = []) </a>
+      <a href="#init-class_method" title="init (class method)">.<strong>init</strong>(type, schema, mixins = [])  &#x21d2; Object </a>
     
 
     
@@ -278,7 +303,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#record_type-class_method" title="record_type (class method)">+ (Object) <strong>record_type</strong> </a>
+      <a href="#record_type-class_method" title="record_type (class method)">.<strong>record_type</strong>  &#x21d2; Object </a>
     
 
     
@@ -301,7 +326,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#schema-class_method" title="schema (class method)">+ (Object) <strong>schema</strong> </a>
+      <a href="#schema-class_method" title="schema (class method)">.<strong>schema</strong>  &#x21d2; Object </a>
     
 
     
@@ -324,7 +349,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#schema_version-class_method" title="schema_version (class method)">+ (Object) <strong>schema_version</strong> </a>
+      <a href="#schema_version-class_method" title="schema_version (class method)">.<strong>schema_version</strong>  &#x21d2; Object </a>
     
 
     
@@ -347,7 +372,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_s-class_method" title="to_s (class method)">+ (Object) <strong>to_s</strong> </a>
+      <a href="#to_s-class_method" title="to_s (class method)">.<strong>to_s</strong>  &#x21d2; Object </a>
     
 
     
@@ -370,7 +395,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#type_of-class_method" title="type_of (class method)">+ (Object) <strong>type_of</strong>(path) </a>
+      <a href="#type_of-class_method" title="type_of (class method)">.<strong>type_of</strong>(path)  &#x21d2; Object </a>
     
 
     
@@ -393,7 +418,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#uri_and_remaining_options_for-class_method" title="uri_and_remaining_options_for (class method)">+ (Object) <strong>uri_and_remaining_options_for</strong>(id = nil, opts = {}) </a>
+      <a href="#uri_and_remaining_options_for-class_method" title="uri_and_remaining_options_for (class method)">.<strong>uri_and_remaining_options_for</strong>(id = nil, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -416,7 +441,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#uri_for-class_method" title="uri_for (class method)">+ (Object) <strong>uri_for</strong>(id = nil, opts = {}) </a>
+      <a href="#uri_for-class_method" title="uri_for (class method)">.<strong>uri_for</strong>(id = nil, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -440,7 +465,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -448,7 +473,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(key) </a>
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
     
 
     
@@ -471,7 +496,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">- (Object) <strong>[]=</strong>(key, val) </a>
+      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(key, val)  &#x21d2; Object </a>
     
 
     
@@ -494,7 +519,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#_always_valid%21-instance_method" title="#_always_valid! (instance method)">- (Object) <strong>_always_valid!</strong> </a>
+      <a href="#_always_valid%21-instance_method" title="#_always_valid! (instance method)">#<strong>_always_valid!</strong>  &#x21d2; Object </a>
     
 
     
@@ -517,7 +542,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#_exceptions-instance_method" title="#_exceptions (instance method)">- (Object) <strong>_exceptions</strong> </a>
+      <a href="#_exceptions-instance_method" title="#_exceptions (instance method)">#<strong>_exceptions</strong>  &#x21d2; Object </a>
     
 
     
@@ -540,7 +565,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#_warnings-instance_method" title="#_warnings (instance method)">- (Object) <strong>_warnings</strong> </a>
+      <a href="#_warnings-instance_method" title="#_warnings (instance method)">#<strong>_warnings</strong>  &#x21d2; Object </a>
     
 
     
@@ -563,7 +588,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_error-instance_method" title="#add_error (instance method)">- (Object) <strong>add_error</strong>(attribute, message) </a>
+      <a href="#add_error-instance_method" title="#add_error (instance method)">#<strong>add_error</strong>(attribute, message)  &#x21d2; Object </a>
     
 
     
@@ -586,7 +611,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#clear_errors-instance_method" title="#clear_errors (instance method)">- (Object) <strong>clear_errors</strong> </a>
+      <a href="#clear_errors-instance_method" title="#clear_errors (instance method)">#<strong>clear_errors</strong>  &#x21d2; Object </a>
     
 
     
@@ -609,7 +634,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#has_key%3F-instance_method" title="#has_key? (instance method)">- (Boolean) <strong>has_key?</strong>(key) </a>
+      <a href="#has_key%3F-instance_method" title="#has_key? (instance method)">#<strong>has_key?</strong>(key)  &#x21d2; Boolean </a>
     
 
     
@@ -632,7 +657,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#id-instance_method" title="#id (instance method)">- (Object) <strong>id</strong> </a>
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Object </a>
     
 
     
@@ -655,7 +680,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (JSONModelType) <strong>initialize</strong>(params = {}, trusted = false) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(params = {}, trusted = false)  &#x21d2; JSONModelType </a>
     
 
     
@@ -680,7 +705,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#inspect-instance_method" title="#inspect (instance method)">- (Object) <strong>inspect</strong> </a>
+      <a href="#inspect-instance_method" title="#inspect (instance method)">#<strong>inspect</strong>  &#x21d2; Object </a>
     
 
     
@@ -703,7 +728,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#instance_data-instance_method" title="#instance_data (instance method)">- (Object) <strong>instance_data</strong> </a>
+      <a href="#instance_data-instance_method" title="#instance_data (instance method)">#<strong>instance_data</strong>  &#x21d2; Object </a>
     
 
     
@@ -726,7 +751,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#replace-instance_method" title="#replace (instance method)">- (Object) <strong>replace</strong>(params) </a>
+      <a href="#replace-instance_method" title="#replace (instance method)">#<strong>replace</strong>(params)  &#x21d2; Object </a>
     
 
     
@@ -749,7 +774,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reset_from-instance_method" title="#reset_from (instance method)">- (Object) <strong>reset_from</strong>(another_jsonmodel) </a>
+      <a href="#reset_from-instance_method" title="#reset_from (instance method)">#<strong>reset_from</strong>(another_jsonmodel)  &#x21d2; Object </a>
     
 
     
@@ -772,7 +797,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_hash-instance_method" title="#to_hash (instance method)">- (Object) <strong>to_hash</strong>(mode = nil) </a>
+      <a href="#to_hash-instance_method" title="#to_hash (instance method)">#<strong>to_hash</strong>(mode = nil)  &#x21d2; Object </a>
     
 
     
@@ -795,7 +820,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_json-instance_method" title="#to_json (instance method)">- (Object) <strong>to_json</strong>(opts = {}) </a>
+      <a href="#to_json-instance_method" title="#to_json (instance method)">#<strong>to_json</strong>(opts = {})  &#x21d2; Object </a>
     
 
     
@@ -818,7 +843,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_s-instance_method" title="#to_s (instance method)">- (Object) <strong>to_s</strong> </a>
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
     
 
     
@@ -841,7 +866,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong>(params) </a>
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>(params)  &#x21d2; Object </a>
     
 
     
@@ -870,7 +895,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="JSONModelType (class)">JSONModelType</a></span></tt>) <strong>initialize</strong>(params = {}, trusted = false) 
+    #<strong>initialize</strong>(params = {}, trusted = false)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONModelType (class)">JSONModelType</a></span></tt> 
   
 
   
@@ -942,7 +967,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="uri-instance_method">
   
-    - (<tt>Object</tt>) <strong>uri</strong> 
+    #<strong>uri</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -990,7 +1015,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="add_validation-class_method">
   
-    + (<tt>Object</tt>) <strong>add_validation</strong>(name, level = :error, &amp;block) 
+    .<strong>add_validation</strong>(name, level = :error, &amp;block)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1044,7 +1069,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_hash-class_method">
   
-    + (<tt>Object</tt>) <strong>from_hash</strong>(hash, raise_errors = true, trusted = false) 
+    .<strong>from_hash</strong>(hash, raise_errors = true, trusted = false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1119,7 +1144,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_json-class_method">
   
-    + (<tt>Object</tt>) <strong>from_json</strong>(s, raise_errors = true) 
+    .<strong>from_json</strong>(s, raise_errors = true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1160,36 +1185,18 @@
       <div class="method_details ">
   <h3 class="signature " id="id_for-class_method">
   
-    + (<tt>Object</tt>) <strong>id_for</strong>(uri, opts = {}, noerror = false) 
+    .<strong>id_for</strong>(uri, opts = {}, noerror = false)  &#x21d2; <tt>Object</tt> 
   
 
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>The inverse of uri_for:</p>
-
-<pre class="code ruby18"><code class="ruby18">JSONModel(:archival_object).id_for(&quot;/repositories/123/archival_objects/500&quot;, :repo_id =&gt; 123)
-</code></pre>
-
-<p>might yield 500</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-130
-131
-132
 133
 134
 135
@@ -1216,7 +1223,7 @@
 156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_noerror identifier id'>noerror</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
@@ -1230,12 +1237,9 @@
   <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
   <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/:[a-zA-Z_]+\//</span><span class='comma token'>,</span> <span class='string val'>'/[^/ ]+/'</span><span class='rparen token'>)</span>
 
-  <span class='comment val'># IDs are either positive integers, or importer-provided logical IDs</span>
-  <span class='rubyid_id_regexp identifier id'>id_regexp</span> <span class='assign token'>=</span> <span class='regexp val'>/([0-9]+|import_[a-f0-9-]+)/</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern}\/#{id_regexp}(\#.*)?$/</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern}\/#{ID_REGEXP}(\#.*)?$/</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_id_to_int identifier id'>id_to_int</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{id_regexp}\/tree$/</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/tree$/</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_id_to_int identifier id'>id_to_int</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_noerror identifier id'>noerror</span>
@@ -1254,7 +1258,7 @@
       <div class="method_details ">
   <h3 class="signature " id="init-class_method">
   
-    + (<tt>Object</tt>) <strong>init</strong>(type, schema, mixins = []) 
+    .<strong>init</strong>(type, schema, mixins = [])  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1327,7 +1331,7 @@
       <div class="method_details ">
   <h3 class="signature " id="record_type-class_method">
   
-    + (<tt>Object</tt>) <strong>record_type</strong> 
+    .<strong>record_type</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1369,7 +1373,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema-class_method">
   
-    + (<tt>Object</tt>) <strong>schema</strong> 
+    .<strong>schema</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1410,7 +1414,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema_version-class_method">
   
-    + (<tt>Object</tt>) <strong>schema_version</strong> 
+    .<strong>schema_version</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1451,7 +1455,7 @@
       <div class="method_details ">
   <h3 class="signature " id="to_s-class_method">
   
-    + (<tt>Object</tt>) <strong>to_s</strong> 
+    .<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1482,7 +1486,7 @@
       <div class="method_details ">
   <h3 class="signature " id="type_of-class_method">
   
-    + (<tt>Object</tt>) <strong>type_of</strong>(path) 
+    .<strong>type_of</strong>(path)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1541,7 +1545,7 @@
       <div class="method_details ">
   <h3 class="signature " id="uri_and_remaining_options_for-class_method">
   
-    + (<tt>Object</tt>) <strong>uri_and_remaining_options_for</strong>(id = nil, opts = {}) 
+    .<strong>uri_and_remaining_options_for</strong>(id = nil, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1596,7 +1600,7 @@
       <div class="method_details ">
   <h3 class="signature " id="uri_for-class_method">
   
-    + (<tt>Object</tt>) <strong>uri_for</strong>(id = nil, opts = {}) 
+    .<strong>uri_for</strong>(id = nil, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1653,7 +1657,7 @@ For example:</p>
       <div class="method_details first">
   <h3 class="signature first" id="[]-instance_method">
   
-    - (<tt>Object</tt>) <strong>[]</strong>(key) 
+    #<strong>[]</strong>(key)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1684,7 +1688,7 @@ For example:</p>
       <div class="method_details ">
   <h3 class="signature " id="[]=-instance_method">
   
-    - (<tt>Object</tt>) <strong>[]=</strong>(key, val) 
+    #<strong>[]=</strong>(key, val)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1717,7 +1721,7 @@ For example:</p>
       <div class="method_details ">
   <h3 class="signature " id="_always_valid!-instance_method">
   
-    - (<tt>Object</tt>) <strong>_always_valid!</strong> 
+    #<strong>_always_valid!</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1762,7 +1766,7 @@ out by the user.</p>
       <div class="method_details ">
   <h3 class="signature " id="_exceptions-instance_method">
   
-    - (<tt>Object</tt>) <strong>_exceptions</strong> 
+    #<strong>_exceptions</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1826,7 +1830,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="_warnings-instance_method">
   
-    - (<tt>Object</tt>) <strong>_warnings</strong> 
+    #<strong>_warnings</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1869,7 +1873,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="add_error-instance_method">
   
-    - (<tt>Object</tt>) <strong>add_error</strong>(attribute, message) 
+    #<strong>add_error</strong>(attribute, message)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1908,7 +1912,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="clear_errors-instance_method">
   
-    - (<tt>Object</tt>) <strong>clear_errors</strong> 
+    #<strong>clear_errors</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1943,7 +1947,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="has_key?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>has_key?</strong>(key) 
+    #<strong>has_key?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1997,7 +2001,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="id-instance_method">
   
-    - (<tt>Object</tt>) <strong>id</strong> 
+    #<strong>id</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2050,7 +2054,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="inspect-instance_method">
   
-    - (<tt>Object</tt>) <strong>inspect</strong> 
+    #<strong>inspect</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2081,7 +2085,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="instance_data-instance_method">
   
-    - (<tt>Object</tt>) <strong>instance_data</strong> 
+    #<strong>instance_data</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2112,7 +2116,7 @@ produced.</p>
       <div class="method_details ">
   <h3 class="signature " id="replace-instance_method">
   
-    - (<tt>Object</tt>) <strong>replace</strong>(params) 
+    #<strong>replace</strong>(params)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2156,7 +2160,7 @@ of &#8216;params&#8217;, validating before accepting the replacement.</p>
       <div class="method_details ">
   <h3 class="signature " id="reset_from-instance_method">
   
-    - (<tt>Object</tt>) <strong>reset_from</strong>(another_jsonmodel) 
+    #<strong>reset_from</strong>(another_jsonmodel)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2187,7 +2191,7 @@ of &#8216;params&#8217;, validating before accepting the replacement.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_hash-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_hash</strong>(mode = nil) 
+    #<strong>to_hash</strong>(mode = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2266,7 +2270,7 @@ result.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_json</strong>(opts = {}) 
+    #<strong>to_json</strong>(opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2308,7 +2312,7 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_s-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_s</strong> 
+    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2339,7 +2343,7 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
       <div class="method_details ">
   <h3 class="signature " id="update-instance_method">
   
-    - (<tt>Object</tt>) <strong>update</strong>(params) 
+    #<strong>update</strong>(params)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2384,10 +2388,11 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:15 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Wed Jul 27 11:07:53 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

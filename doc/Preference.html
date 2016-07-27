@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Preference
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "Preference";
   relpath = '';
-  framesUrl = "frames.html#!Preference.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (P)</a> &raquo;
     
     
     <span class="title">Preference</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: Preference
+      <div id="content"><h1>Class: Preference
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Sequel::Model</span>
       
         <ul class="fullTree">
@@ -90,28 +83,39 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
-      
-    
+
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/preference.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/preference.rb</dd>
+  </dl>
+  
+</div>
 
 
 
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
 
 
 
@@ -120,7 +124,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -128,7 +132,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_from_json-class_method" title="create_from_json (class method)">+ (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+      <a href="#create_from_json-class_method" title="create_from_json (class method)">.<strong>create_from_json</strong>(json, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -151,7 +155,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#current_preferences-class_method" title="current_preferences (class method)">+ (Object) <strong>current_preferences</strong>(repo_id = RequestContext.get(:repo_id)) </a>
+      <a href="#current_preferences-class_method" title="current_preferences (class method)">.<strong>current_preferences</strong>(repo_id = RequestContext.get(:repo_id))  &#x21d2; Object </a>
     
 
     
@@ -174,7 +178,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#defaults-class_method" title="defaults (class method)">+ (Object) <strong>defaults</strong> </a>
+      <a href="#defaults-class_method" title="defaults (class method)">.<strong>defaults</strong>  &#x21d2; Object </a>
     
 
     
@@ -197,7 +201,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#global_defaults-class_method" title="global_defaults (class method)">+ (Object) <strong>global_defaults</strong> </a>
+      <a href="#global_defaults-class_method" title="global_defaults (class method)">.<strong>global_defaults</strong>  &#x21d2; Object </a>
     
 
     
@@ -220,7 +224,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#init-class_method" title="init (class method)">+ (Object) <strong>init</strong> </a>
+      <a href="#init-class_method" title="init (class method)">.<strong>init</strong>  &#x21d2; Object </a>
     
 
     
@@ -243,7 +247,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parsed_defaults_for-class_method" title="parsed_defaults_for (class method)">+ (Object) <strong>parsed_defaults_for</strong>(filter) </a>
+      <a href="#parsed_defaults_for-class_method" title="parsed_defaults_for (class method)">.<strong>parsed_defaults_for</strong>(filter)  &#x21d2; Object </a>
     
 
     
@@ -266,7 +270,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#repo_defaults-class_method" title="repo_defaults (class method)">+ (Object) <strong>repo_defaults</strong> </a>
+      <a href="#repo_defaults-class_method" title="repo_defaults (class method)">.<strong>repo_defaults</strong>  &#x21d2; Object </a>
     
 
     
@@ -289,7 +293,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">+ (Object) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) </a>
+      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">.<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -312,7 +316,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#user_global_defaults-class_method" title="user_global_defaults (class method)">+ (Object) <strong>user_global_defaults</strong> </a>
+      <a href="#user_global_defaults-class_method" title="user_global_defaults (class method)">.<strong>user_global_defaults</strong>  &#x21d2; Object </a>
     
 
     
@@ -336,7 +340,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -344,7 +348,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#after_save-instance_method" title="#after_save (instance method)">- (Object) <strong>after_save</strong> </a>
+      <a href="#after_save-instance_method" title="#after_save (instance method)">#<strong>after_save</strong>  &#x21d2; Object </a>
     
 
     
@@ -367,7 +371,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#before_save-instance_method" title="#before_save (instance method)">- (Object) <strong>before_save</strong> </a>
+      <a href="#before_save-instance_method" title="#before_save (instance method)">#<strong>before_save</strong>  &#x21d2; Object </a>
     
 
     
@@ -390,7 +394,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parsed_defaults-instance_method" title="#parsed_defaults (instance method)">- (Object) <strong>parsed_defaults</strong> </a>
+      <a href="#parsed_defaults-instance_method" title="#parsed_defaults (instance method)">#<strong>parsed_defaults</strong>  &#x21d2; Object </a>
     
 
     
@@ -413,7 +417,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) </a>
+      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; Object </a>
     
 
     
@@ -468,7 +472,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="create_from_json-class_method">
   
-    + (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
+    .<strong>create_from_json</strong>(json, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -499,7 +503,7 @@
       <div class="method_details ">
   <h3 class="signature " id="current_preferences-class_method">
   
-    + (<tt>Object</tt>) <strong>current_preferences</strong>(repo_id = RequestContext.get(:repo_id)) 
+    .<strong>current_preferences</strong>(repo_id = RequestContext.get(:repo_id))  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -612,7 +616,7 @@
       <div class="method_details ">
   <h3 class="signature " id="defaults-class_method">
   
-    + (<tt>Object</tt>) <strong>defaults</strong> 
+    .<strong>defaults</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -653,7 +657,7 @@
       <div class="method_details ">
   <h3 class="signature " id="global_defaults-class_method">
   
-    + (<tt>Object</tt>) <strong>global_defaults</strong> 
+    .<strong>global_defaults</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -688,7 +692,7 @@
       <div class="method_details ">
   <h3 class="signature " id="init-class_method">
   
-    + (<tt>Object</tt>) <strong>init</strong> 
+    .<strong>init</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -769,7 +773,7 @@
       <div class="method_details ">
   <h3 class="signature " id="parsed_defaults_for-class_method">
   
-    + (<tt>Object</tt>) <strong>parsed_defaults_for</strong>(filter) 
+    .<strong>parsed_defaults_for</strong>(filter)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -802,7 +806,7 @@
       <div class="method_details ">
   <h3 class="signature " id="repo_defaults-class_method">
   
-    + (<tt>Object</tt>) <strong>repo_defaults</strong> 
+    .<strong>repo_defaults</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -833,7 +837,7 @@
       <div class="method_details ">
   <h3 class="signature " id="sequel_to_jsonmodel-class_method">
   
-    + (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) 
+    .<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -876,7 +880,7 @@
       <div class="method_details ">
   <h3 class="signature " id="user_global_defaults-class_method">
   
-    + (<tt>Object</tt>) <strong>user_global_defaults</strong> 
+    .<strong>user_global_defaults</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -927,7 +931,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="after_save-instance_method">
   
-    - (<tt>Object</tt>) <strong>after_save</strong> 
+    #<strong>after_save</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -958,7 +962,7 @@
       <div class="method_details ">
   <h3 class="signature " id="before_save-instance_method">
   
-    - (<tt>Object</tt>) <strong>before_save</strong> 
+    #<strong>before_save</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -991,7 +995,7 @@
       <div class="method_details ">
   <h3 class="signature " id="parsed_defaults-instance_method">
   
-    - (<tt>Object</tt>) <strong>parsed_defaults</strong> 
+    #<strong>parsed_defaults</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1022,7 +1026,7 @@
       <div class="method_details ">
   <h3 class="signature " id="update_from_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) 
+    #<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1056,10 +1060,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:02 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Wed Jul 27 11:07:30 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

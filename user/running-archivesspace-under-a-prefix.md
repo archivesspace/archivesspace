@@ -15,9 +15,9 @@ serve each application under a prefix, e.g.
 This configuration described in this document is one possible approach,
 and to keep things simple the following are assumed:
 
-  * ArchivesSpace is running on a single Linux server
+  *ArchivesSpace is running on a single Linux server
 
-  * The server is running the Apache 2.2+ webserver
+  *The server is running the Apache 2.2+ webserver
 
 Unless otherwise stated, it is assumed that you have root access on
 your machines, and all commands are to be run as root (or with sudo).

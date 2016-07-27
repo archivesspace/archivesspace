@@ -1,0 +1,22 @@
+JSON Schema: Location_profile
+/location_profiles
+Properties
+
+string	uri
+
+string	name
+
+string	display_string
+
+string	dimension_units
+
+string	height
+
+string	width
+
+string	depth
+
+
+
+
+
