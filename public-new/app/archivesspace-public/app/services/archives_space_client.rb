@@ -37,12 +37,15 @@ class ArchivesSpaceClient
   end
 
   def search(query, page = 1, search_opts = {})
-    search_opts = search_opts.merge(DEFAULT_SEARCH_OPTS)
-    request = Net::HTTP::Get.new(build_url('/search', search_opts.merge(:q => query, :page => page)))
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    url = build_url('/search', search_opts.merge(:q => query, :page => page))
+    Rails.logger.debug("Search URL: #{url}")
+    request = Net::HTTP::Get.new(url)
 
     response = do_http_request(request)
-
+Rails.logger.debug(response.body)
     if response.code != '200'
+      Rails.logger.debug("Code: #{response.code}")
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end
 
