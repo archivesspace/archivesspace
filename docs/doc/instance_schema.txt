@@ -10,6 +10,8 @@ JSONModel(:sub_container) object	sub_container
 
 object	digital_object
 
+boolean	is_representative
+
 
 
 

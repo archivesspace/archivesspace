@@ -20,9 +20,13 @@ string (max length: 255)	file_format_version
 
 integer	file_size_bytes
 
+boolean	is_representative
+
 string (max length: 255)	checksum
 
 string	checksum_method
+
+string (max length: 16384)	caption
 
 
 
