@@ -3,6 +3,18 @@ html {
   font-size: 100%;
 }
 
+a {
+  color: $lightblue;
+  text-decoration: none;
+  line-height: inherit;
+  cursor: pointer; }
+  a:hover, a:focus {
+    color: #1585cf; }
+  a img {
+    border: 0; }
+
+
+
 #header {
   > .row {
     height: rem-calc(120);
@@ -19,29 +31,78 @@ html {
   }
 }
 
+.no-pad {
+	padding-left: 0;
+	padding-right: 0;
+}	   
+
 .top-bar {
-  padding-left: rem-calc(45);
-  background: $lightgrey !important;
+  background: $nvBgDefault !important;
   border-top: 1px solid $border-accent;
   border-bottom: rem-calc(1) solid $border-accent;
-
-  .top-bar-section ul li {
-    background: none !important;
-
-    a {
-      background: none !important;
-      font-size: 1.0rem !important;
-    }
+  float: none !important;
   }
 
-  ul {
-    background: none !important;
-  }
+/* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
+  for the answer at http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
+*/
 
-  /* li { */
-  /*   background: none !important; */
-  /* } */
+.navbar-default {
+  background-color: $nvBgDefault;
+  border-color: $nvBgHighlight;
+  .navbar-brand {
+    color: $nvColDefault;
+    &:hover, &:focus { 
+      color: $nvColHighlight; }}
+  .navbar-text {
+    color: $nvColDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $nvColDefault;
+	font-size: 1.0rem !important;
+        &:hover,  &:focus {
+          color: $nvColHighlight;
+	  text-decoration: underline; }}}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}}
+  .navbar-toggle {
+    border-color: $nvBgHighlight;
+    &:hover, &:focus {
+      background-color: $nvBgHighlight; }
+    .icon-bar {
+      background-color: $nvColDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $nvColDefault; }
+  .navbar-link {
+    color: $nvColDefault;
+    font-size: 1.0rem !important;
+    &:hover {
+      color: $nvColHighlight;
+      text-decoration: underline; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $nvColDefault;
+      &:hover, &:focus {
+        color: $nvColHighlight;
+ 	text-decoration: underline; }}
+    > .active {
+      > a, > a:hover, > a:focus, {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}}
 }
+
 
 
 #welcome {
