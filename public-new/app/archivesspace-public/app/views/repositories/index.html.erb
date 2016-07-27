@@ -1,0 +1,9 @@
+<div class="row">
+<h2><%= @hits %> Repositories</h2>
+
+<% @json.each do |result| %>
+<%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
+
+<% end %>
+
+</div>
