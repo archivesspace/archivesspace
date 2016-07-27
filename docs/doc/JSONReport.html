@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: JSONReport
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "JSONReport";
   relpath = '';
-  framesUrl = "frames.html#!JSONReport.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (J)</a> &raquo;
     
     
     <span class="title">JSONReport</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: JSONReport
+      <div id="content"><h1>Class: JSONReport
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName"><span class='object_link'><a href="JasperReport.html" title="JasperReport (class)">JasperReport</a></span></span>
       
         <ul class="fullTree">
@@ -90,21 +83,25 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/reports/json_report.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/reports/json_report.rb</dd>
+  </dl>
+  
+</div>
 
 
 
@@ -121,7 +118,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -129,7 +126,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#default_params-instance_method" title="#default_params (instance method)">- (Object) <strong>default_params</strong> </a>
+      <a href="#default_params-instance_method" title="#default_params (instance method)">#<strong>default_params</strong>  &#x21d2; Object </a>
     
 
     
@@ -152,7 +149,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fill-instance_method" title="#fill (instance method)">- (Object) <strong>fill</strong>(params = {}) </a>
+      <a href="#fill-instance_method" title="#fill (instance method)">#<strong>fill</strong>(params = {})  &#x21d2; Object </a>
     
 
     
@@ -175,7 +172,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (JSONReport) <strong>initialize</strong>(params) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(params, job)  &#x21d2; JSONReport </a>
     
 
     
@@ -200,7 +197,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_datasource-instance_method" title="#load_datasource (instance method)">- (Object) <strong>load_datasource</strong> </a>
+      <a href="#load_datasource-instance_method" title="#load_datasource (instance method)">#<strong>load_datasource</strong>  &#x21d2; Object </a>
     
 
     
@@ -223,7 +220,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#query-instance_method" title="#query (instance method)">- (Object) <strong>query</strong> </a>
+      <a href="#query-instance_method" title="#query (instance method)">#<strong>query</strong>  &#x21d2; Object </a>
     
 
     
@@ -246,7 +243,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#render-instance_method" title="#render (instance method)">- (Object) <strong>render</strong>(format, params = {}) </a>
+      <a href="#render-instance_method" title="#render (instance method)">#<strong>render</strong>(format, params = {})  &#x21d2; Object </a>
     
 
     
@@ -269,7 +266,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_csv-instance_method" title="#to_csv (instance method)">- (Object) <strong>to_csv</strong> </a>
+      <a href="#to_csv-instance_method" title="#to_csv (instance method)">#<strong>to_csv</strong>  &#x21d2; Object </a>
     
 
     
@@ -292,7 +289,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_html-instance_method" title="#to_html (instance method)">- (Object) <strong>to_html</strong> </a>
+      <a href="#to_html-instance_method" title="#to_html (instance method)">#<strong>to_html</strong>  &#x21d2; Object </a>
     
 
     
@@ -315,7 +312,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_json-instance_method" title="#to_json (instance method)">- (Object) <strong>to_json</strong> </a>
+      <a href="#to_json-instance_method" title="#to_json (instance method)">#<strong>to_json</strong>  &#x21d2; Object </a>
     
 
     
@@ -338,7 +335,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_pdf-instance_method" title="#to_pdf (instance method)">- (Object) <strong>to_pdf</strong> </a>
+      <a href="#to_pdf-instance_method" title="#to_pdf (instance method)">#<strong>to_pdf</strong>  &#x21d2; Object </a>
     
 
     
@@ -361,7 +358,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_xlsx-instance_method" title="#to_xlsx (instance method)">- (Object) <strong>to_xlsx</strong> </a>
+      <a href="#to_xlsx-instance_method" title="#to_xlsx (instance method)">#<strong>to_xlsx</strong>  &#x21d2; Object </a>
     
 
     
@@ -413,7 +410,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="JSONReport (class)">JSONReport</a></span></tt>) <strong>initialize</strong>(params) 
+    #<strong>initialize</strong>(params, job)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONReport (class)">JSONReport</a></span></tt> 
   
 
   
@@ -446,7 +443,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/reports/json_report.rb', line 5</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&quot;&quot;</span>
   <span class='rubyid_@base_path ivar id'>@base_path</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_report_base identifier id'>report_base</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='rparen token'>)</span> 
   <span class='rubyid_@datasource ivar id'>@datasource</span> <span class='assign token'>=</span> <span class='rubyid_Tempfile constant id'>Tempfile</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='plus op'>+</span> <span class='string val'>'.data'</span><span class='rparen token'>)</span>
@@ -469,7 +466,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="default_params-instance_method">
   
-    - (<tt>Object</tt>) <strong>default_params</strong> 
+    #<strong>default_params</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -514,7 +511,7 @@
       <div class="method_details ">
   <h3 class="signature " id="fill-instance_method">
   
-    - (<tt>Object</tt>) <strong>fill</strong>(params = {}) 
+    #<strong>fill</strong>(params = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -553,7 +550,7 @@
       <div class="method_details ">
   <h3 class="signature " id="load_datasource-instance_method">
   
-    - (<tt>Object</tt>) <strong>load_datasource</strong> 
+    #<strong>load_datasource</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -601,7 +598,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="query-instance_method">
   
-    - (<tt>Object</tt>) <strong>query</strong> 
+    #<strong>query</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -642,7 +639,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="render-instance_method">
   
-    - (<tt>Object</tt>) <strong>render</strong>(format, params = {}) 
+    #<strong>render</strong>(format, params = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -685,7 +682,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_csv-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_csv</strong> 
+    #<strong>to_csv</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -728,7 +725,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_html-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_html</strong> 
+    #<strong>to_html</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -765,7 +762,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_json</strong> 
+    #<strong>to_json</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -796,7 +793,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_pdf-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_pdf</strong> 
+    #<strong>to_pdf</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -827,7 +824,7 @@ will be the default.</p>
       <div class="method_details ">
   <h3 class="signature " id="to_xlsx-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_xlsx</strong> 
+    #<strong>to_xlsx</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -879,10 +876,11 @@ will be the default.</p>
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:07 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Wed Jul 27 11:07:40 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

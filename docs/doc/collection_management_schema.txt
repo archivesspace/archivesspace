@@ -24,6 +24,8 @@ string (max length: 65000)	processors
 
 boolean	rights_determined
 
+string	processing_status
+
 
 
 

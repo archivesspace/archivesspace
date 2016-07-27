@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: AdvancedSearch
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "AdvancedSearch";
   relpath = '';
-  framesUrl = "frames.html#!AdvancedSearch.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (A)</a> &raquo;
     
     
     <span class="title">AdvancedSearch</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: AdvancedSearch
+      <div id="content"><h1>Class: AdvancedSearch
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Object</span>
       
         <ul class="fullTree">
@@ -88,21 +81,25 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">common/advanced_search.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>common/advanced_search.rb</dd>
+  </dl>
+  
+</div>
 
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -126,7 +123,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -134,7 +131,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#define_field-class_method" title="define_field (class method)">+ (Object) <strong>define_field</strong>(opts) </a>
+      <a href="#define_field-class_method" title="define_field (class method)">.<strong>define_field</strong>(opts)  &#x21d2; Object </a>
     
 
     
@@ -157,7 +154,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fields_matching-class_method" title="fields_matching (class method)">+ (Object) <strong>fields_matching</strong>(query) </a>
+      <a href="#fields_matching-class_method" title="fields_matching (class method)">.<strong>fields_matching</strong>(query)  &#x21d2; Object </a>
     
 
     
@@ -180,7 +177,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_definitions-class_method" title="load_definitions (class method)">+ (Object) <strong>load_definitions</strong> </a>
+      <a href="#load_definitions-class_method" title="load_definitions (class method)">.<strong>load_definitions</strong>  &#x21d2; Object </a>
     
 
     
@@ -203,7 +200,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_default-class_method" title="set_default (class method)">+ (Object) <strong>set_default</strong>(type, name) </a>
+      <a href="#set_default-class_method" title="set_default (class method)">.<strong>set_default</strong>(type, name)  &#x21d2; Object </a>
     
 
     
@@ -226,7 +223,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#solr_field_for-class_method" title="solr_field_for (class method)">+ (Object) <strong>solr_field_for</strong>(field) </a>
+      <a href="#solr_field_for-class_method" title="solr_field_for (class method)">.<strong>solr_field_for</strong>(field)  &#x21d2; Object </a>
     
 
     
@@ -258,7 +255,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="define_field-class_method">
   
-    + (<tt>Object</tt>) <strong>define_field</strong>(opts) 
+    .<strong>define_field</strong>(opts)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -291,7 +288,7 @@
       <div class="method_details ">
   <h3 class="signature " id="fields_matching-class_method">
   
-    + (<tt>Object</tt>) <strong>fields_matching</strong>(query) 
+    .<strong>fields_matching</strong>(query)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -330,7 +327,7 @@
       <div class="method_details ">
   <h3 class="signature " id="load_definitions-class_method">
   
-    + (<tt>Object</tt>) <strong>load_definitions</strong> 
+    .<strong>load_definitions</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -381,7 +378,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_default-class_method">
   
-    + (<tt>Object</tt>) <strong>set_default</strong>(type, name) 
+    .<strong>set_default</strong>(type, name)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -424,7 +421,7 @@
       <div class="method_details ">
   <h3 class="signature " id="solr_field_for-class_method">
   
-    + (<tt>Object</tt>) <strong>solr_field_for</strong>(field) 
+    .<strong>solr_field_for</strong>(field)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -466,10 +463,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:15 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Wed Jul 27 11:07:53 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

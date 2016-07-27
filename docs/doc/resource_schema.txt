@@ -72,6 +72,8 @@ array (Object (ref, _resolved))	classifications
 
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 
+JSONModel(:file_version) object	representative_image
+
 
 
 

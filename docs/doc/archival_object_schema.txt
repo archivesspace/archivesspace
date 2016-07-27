@@ -32,6 +32,8 @@ array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:n
 
 boolean	has_unpublished_ancestor
 
+JSONModel(:file_version) object	representative_image
+
 
 
 
