@@ -11,17 +11,19 @@
   </head>
 
   <body>
-    <div class="container-fluid">
-      <section id="header" class="row page-header">
-        <div class="col-sm-9"><h1><a title="<%=I18n.t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= I18n.t('brand.title') %></a></h1> </div>
-        <div class="col-sm-3"><img class="pull-right" src="/img/Aspace-logo.png" /></div>
+    <div class="container-fluid no-pad">
+      <section  id="header">
+	<div class="row">
+          <div class="col-sm-9"><h1><a title="<%=I18n.t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= I18n.t('brand.title') %></a></h1> </div>
+          <div class="col-sm-3"><img class="logo" src="/img/Aspace-logo.png" /></div>
+	</div>
       </section>
     </div>
 
       <section id="navigation">
 	<nav class="navbar navbar-default">
-	  <div class="container">
-	    <div class="navbar-header">
+	  <div class="container-fluid no-pad" role="navigation">
+	    <div class="navbar-header top-bar">
 	      <button type="button" class="navbar-toggle collasped" data-toggle="collapse" data-target="#collapsemenu" 
 		      aria-expanded="false">
 		<span class="sr-only">Toggle navigation</span>
