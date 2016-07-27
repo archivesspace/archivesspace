@@ -1,0 +1,30 @@
+
+<div id="main-content" class="row">
+  <div class="abstract">
+<%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
+
+    <div id="whats-in-repo-container" class="row">
+      <div class="col-sm-12">
+      
+	<h3><%= t('repository.what') %> </h3>
+	<ul class="list-inline">
+	<li class="large-badge align-center resource"><i class="fa fa-archive fa-4x"></i><br />
+	<%= @result['count'] %> <%= (@result['count'] != 1 ? t('resource._plural') :  t('resource._singular')) %>
+	</li>
+	<li class="large-badge align-center archival_object"><i class="fa fa-files-o fa-4x"></i><br />
+	<%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
+	</li>
+	<li class="large-badge align-center subject"><i class="fa fa-tags fa-4x"></i><br />
+	  <%= @subj_ct %> <%= (@subj_ct != 1 ? t('subject._plural'): t('subject._singular')) %>
+	</li>
+	<li class="large-badge align-center agent">
+	  <span class="fa-stack fa-2x">
+	    <i class="fa fa-institution fa-stack-2x"></i>
+	    <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+	  </span>
+	<br /><%= @agent_ct %> <%= t('all_agents') %>
+	</li>
+      </ul>
+    </div>
+  </div>
+</div>

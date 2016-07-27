@@ -1,0 +1,29 @@
+<% if !full %>
+   <div class="recordrow">
+<% end %>
+      <h3><a class="record-title" href="<%= result['uri'] %>"> <%= result['display_string']%></a></h3>
+      <div class="badge-and-identifier">
+        <div class="record-type-badge repository">
+          <i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
+        </div>
+        <div class="identifier">
+          <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
+        </div>
+	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
+	  <% if !result['parent_institution_name'].blank? %>
+	  <div><strong>Parent Institution:</strong> 
+	    <% if !result['url'].blank? &&  result['url'] != 'http://url.unspecified' %>
+	    <a href="<%= result['url'] %>"><%= result['parent_institution_name']  %></a>
+	    <% else %>
+	    <%= result['parent_institution_name'] %>
+	    <% end %>
+	  </div>
+	  <% end %>
+	 <% if !full %>
+	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
+	 <% end %>
+	</div>					  
+      </div>
+<% if !full %>
+   </div>
+<% end %>
