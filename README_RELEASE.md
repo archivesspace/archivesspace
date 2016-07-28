@@ -19,6 +19,15 @@ suite passes.
 
 Once everything passes, commit your Gemfiles and Gemfile.lock files.
 
+Review the various README docs and update them as necessary. In particular the 
+`UPGRADING.md` instructions should be updated to reference the current and new 
+release version numbers.
+
+## Optional recommended step
+
+If you're building locally start with a fresh clone and bootstrap of ArchivesSpace 
+to minimize the risk of older dependencies creeping into the distribution.
+
 ## Build the ArchivesSpace technical documentation
 
 ArchivesSpace ships with the current documentation, located in "docs"
@@ -37,6 +46,8 @@ need to add those to the [scripts/build_docs.rb](https://github.com/archivesspac
 script that rips apart the READMEs. Links in the site's side bar need to be
 added to [Jekyll's
 sidebar](https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html).
+
+Before the `build/run doc:build` step, but sure you run the `backend:test` step. This will run all your tests, including the documentation_spec.rb spec, which runs through all the endpoints, generates factory girl fixture json, and spits it into a json file ( endpoint_examples.json ).
 
 To build the documentation:
 
@@ -58,10 +69,11 @@ To build the documentation:
 ```
   $ cd docs/slate 
   $ gem install bundler 
-  $ bundle instal --binstubs
+  $ bundle install --binstubs
   $ ./bin/middleman build
-  $ rm -r ../API
-  $ mv build ../API
+  $ ./bin/middleman server # optional if you want to have a look at the site.
+  $ rm -r ../api
+  $ mv build ../api
 ```
 
 5. Compile Jekyll
@@ -71,7 +83,7 @@ To build the documentation:
   $ gem install bundler 
   $ bundle install --binstubs
   $ ./bin/jekyll build
-  $ ./bin/jekyll serve # optional if you want to have a look at the site.. 
+  $ ./bin/jekyll serve # optional if you want to have a look at the site. 
 ```
 
 6. Commit the docs directory to git then push it to the gh-pages branch
