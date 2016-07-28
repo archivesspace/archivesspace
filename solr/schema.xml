@@ -306,7 +306,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100">
+    <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
