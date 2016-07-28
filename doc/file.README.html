@@ -59,9 +59,7 @@
 
       <iframe id="search_frame" src="file_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><p>&#171;&#171;&#171;&lt; HEAD
-ArchivesSpace README
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+      <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
 
 <p><a href="https://travis-ci.org/archivesspace/archivesspace.svg"><img src="https://travis-ci.org/archivesspace/archivesspace.svg" alt="Build Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a></p>
 
@@ -616,113 +614,11 @@ version 2.0</a>. See the
 in partnership with the New York University Libraries, UC San Diego
 Libraries, and University of Illinois Urbana-Champaign Library and with
 funding from the Andrew W. Mellon Foundation, organizational support from
-LYRASIS, and contributions from diverse persons in the archives community.
-=======
-## ArchivesSpace Technical Documentation</p>
-
-<p>This is the documentation for ArchivesSpace (http://archivesspace.org)</p>
-
-<h2 id="how-to-contribute">How to contribute</h2>
-
-<p>Fork the ArchivesSpace repository, read the rest of this README file and make some changes.
-Once you&#8217;re done with your changes send a pull request. Thanks!</p>
-
-<h2 id="content">Content</h2>
-
-<p>All of the pages for the documentation are generated from the README markdown
-files in the ArchivesSpace repository. Take a look at the
-<a href="https://github.com/archivesspace/archivesspace/tree/master/scripts">scripts/build_docs.rb</a> to 
-see which READMEs are included. This script breaks up the READMEs into their
-own pages, with each h1 sections ( or sections starting with &#8220;#&#8221; in markdown )
-into their own pages.</p>
-
-<p>To build all the documentation, use the 
-<code>
-build/run doc:build
-</code>
-to assemble all the documentation.</p>
-
-<p>You will then need to complie the Slate and  Jekyll&#8230;</p>
-
-<h2 id="slate">Slate</h2>
-
-<p><a href="https://github.com/tripit/slate">Slate</a> is a nice way to make good looking API 
-documentation. Once you&#8217;ve run the doc:build step, you will need to compile 
-the HTML.</p>
-
-<p>First, go to docs/slate.</p>
-
-<p>Make sure you have Ruby and RubyGems installed. Next install
-<a href="http://bundler.io/">bundler</a>:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_gem identifier id'>gem</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_bundler identifier id'>bundler</span>
-</code></pre>
-
-<p>Then install dependencies:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_binstubs identifier id'>binstubs</span>
-</code></pre>
-
-<p>Then compile the Slate files:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_bin identifier id'>bin</span><span class='div op'>/</span><span class='rubyid_middleman identifier id'>middleman</span> <span class='rubyid_build identifier id'>build</span>
-</code></pre>
-
-<p>This will make a directory called &#8220;build&#8221; in the slate directory. Move this
-directory to replace the  the docs/API directory.</p>
-
-<h2 id="jekyll">Jekyll</h2>
-
-<p>Jekyll is another static HTML site, which is used for the general documentation
-that was ripped from all the READMEs. This also needs to be compiled.</p>
-
-<p>Go to the docs directory.</p>
-
-<p>Make sure you have Ruby and RubyGems installed. Next install
-<a href="http://bundler.io/">bundler</a>:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_gem identifier id'>gem</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_bundler identifier id'>bundler</span>
-</code></pre>
-
-<p>Then install dependencies:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_binstubs identifier id'>binstubs</span>
-</code></pre>
-
-<p>Then compile the site:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_bin identifier id'>bin</span><span class='div op'>/</span><span class='rubyid_jekyll identifier id'>jekyll</span> <span class='rubyid_build identifier id'>build</span>
-</code></pre>
-
-<p>This will create a site in the _site directory.</p>
-
-<h2 id="pushing-to-github-pages">Pushing to Github pages</h2>
-
-<p>If you have commit access to the ArchivesSpace repository, you can publish the
-documents to the <a href="http://archivesspace.github.io/archivesspace">Github pages</a>.</p>
-
-<p>To do this, run the doc:build command, compile Slate and Jekyll, and commit the
-docs ( you can do this to a branch other than master ). Then run:</p>
-
-<p><code>
- git subtree push --prefix docs origin gh-pages
-</code></p>
-
-<p>or ( this the tree is wacked up, you might get a FF error..that&#8217;s ok, because
-the gh-pages branch is ephemeral )</p>
-
-<p><code>
-git push origin `git subtree split --prefix docs master`:gh-pages --force
-</code></p>
-
-<h2 id="license-1">License</h2>
-
-<p>Distributed under the MIT license. 
-&#187;&#187;&#187;&gt; f47bc574f3d6c7552785f3402c3f787bffd18edb</p>
+LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Wed Jul 27 11:06:56 2016 by
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:33 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
