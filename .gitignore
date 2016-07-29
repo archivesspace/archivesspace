@@ -38,3 +38,4 @@ build/demo_db_backups
 locales.diff
 */bower_components
 Gemfile.local
+supervisord.*
