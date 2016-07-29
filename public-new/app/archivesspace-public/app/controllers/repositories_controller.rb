@@ -2,37 +2,28 @@ class RepositoriesController < ApplicationController
   include HandleFaceting
   def index
     @criteria = {}
+    @criteria['sort'] = "title asc"  # "title" is really the code
+    
     # let's not include any 0-colection repositories unless specified
-    include_zero = (!params.blank? && params['include_empty']) 
-    facets = fetch_facets('types:resource', ['repository'], include_zero)
-    facets_ct = 0
-    if !facets.blank?
-      repos = facets['repository']
-      facets_ct = (repos.length / 2)
-#      Rails.logger.debug("repos.length: #{repos.length}")
-      repos.each_slice(2) do |r, ct|
-        facets[r] = ct if (ct > 0 || include_zero )
-      end
-    else 
-      facets = {}
-    end
+    # include_zero = (!params.blank? && params['include_empty']) 
+
     # ok, page sizing is kind of complicated if not including zero counts
     page_size =  params['page_size'].to_i if !params.blank?
-    page_size = 20 if page_size == 0
-    include_zero = include_zero || facets_ct == facets.length || facets.length == 0  # don't need to worry about pagination if there are no zero-count repos
-    page_size = facets_ct if (!include_zero && facets_ct > page_size) 
+    page_size = 10 if page_size == 0
     query = 'primary_type:repository'
+    facets = find_resource_facet
     page = params['page'] || 1 if !params.blank?
-#    @criteria['page_size'] = page_size
-    if !include_zero
-      query = "id:( #{facets.keys.to_s.gsub(/,/, " OR ").gsub(/\[/, '').gsub(/\]/, '')} )"
-    end
+#    if !include_zero
+#      query = "id:( #{facets.keys.to_s.gsub(/,/, " OR ").gsub(/\[/, '').gsub(/\]/, '')} )"
+#    end
+    @criteria[:page_size] = page_size
     Rails.logger.debug(@criteria.keys)
-    @search_data =  archivesspace.search(query, page) || {}
-    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}")
+    @search_data =  archivesspace.search(query, page, @criteria) || {}
+    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
     @hits = facets.length
     @json = []
     if !@search_data['results'].blank?
+      @pager =  Pager.new("/repositories?", @search_data['this_page'],@search_data['last_page'])
       @search_data['results'].each do |result| 
         hash = JSON.parse(result['json']) || {}
         id = hash['uri']
@@ -43,7 +34,7 @@ class RepositoriesController < ApplicationController
       end
 #      Rails.logger.debug("First hash: #{@json[0]}")
     end
-    @json.sort_by!{|h| h['display_string'].upcase}
+#    @json.sort_by!{|h| h['display_string'].upcase}
     @page_title = (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular')) +  " " + I18n.t('listing') 
     render 
   end
@@ -94,6 +85,21 @@ class RepositoriesController < ApplicationController
     facets
   end
 
-
+  private
+  def find_resource_facet
+     facets = fetch_facets('types:resource', ['repository'], true) # we want all repositories
+    facets_ct = 0
+    if !facets.blank?
+      repos = facets['repository']
+      facets_ct = (repos.length / 2)
+#      Rails.logger.debug("repos.length: #{repos.length}")
+      repos.each_slice(2) do |r, ct|
+        facets[r] = ct   # we had an 'if (ct >0 || include_zero)'
+      end
+    else 
+      facets = {}
+    end
+    facets
+  end
 
 end
