@@ -6,7 +6,7 @@ permalink: /user/upgrading-to-a-new-release-of-archivesspace/
 
 *  **Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md) for special considerations when upgrading to v1.1.1**
 *  **Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md) for special considerations when upgrading to v1.1.0**
-*  **Please also see [UPGRADING_1.5.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md) for special considerations when upgrading to v1.5.0**
+*  **Please also see [UPGRADING_1.5.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md) for special considerations when upgrading to v1.5.0 or v1.5.1 (from v1.4.2)**
 
 
 ## Create a backup of your ArchivesSpace instance
@@ -23,10 +23,10 @@ ArchivesSpace you are upgrading to.  This will ensure that you are
 running the latest versions of all files.  For example, on Mac OS X or
 Linux:
 
-     $ mkdir archivesspace-1.5.0
-     $ cd archivesspace-1.5.0
-     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.2.0/archivesspace-v1.5.0.zip
-     $ unzip -x archivesspace-v1.5.0.zip
+     $ mkdir archivesspace-1.5.1
+     $ cd archivesspace-1.5.1
+     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.5.1/archivesspace-v1.5.1.zip
+     $ unzip -x archivesspace-v1.5.1.zip
 
 ( The curl step is optional and simply downloads the distribution from github. You can also
  simply download the zip file in your browser and copy it to the directory ) 
@@ -52,7 +52,7 @@ your original ArchivesSpace installation:
 
 For example, on Mac OS X or Linux:
 
-     $ cd archivesspace-1.5.0/archivesspace
+     $ cd archivesspace-1.5.1/archivesspace
      $ cp -a /path/to/archivesspace-1.4.2/archivesspace/data/* data/
      $ cp -a /path/to/archivesspace-1.4.2/archivesspace/config/* config/
      $ cp -a /path/to/archivesspace-1.4.2/archivesspace/lib/mysql-connector* lib/
@@ -61,7 +61,7 @@ For example, on Mac OS X or Linux:
 
 Or on Windows:
 
-     $ cd archivesspace-1.5.0\archivesspace
+     $ cd archivesspace-1.5.1\archivesspace
      $ xcopy \path\to\archivesspace-1.4.2\archivesspace\data\* data /i /k /h /s /e /o /x /y
      $ xcopy \path\to\archivesspace-1.4.2\archivesspace\config\* config /i /k /h /s /e /o /x /y
      $ xcopy \path\to\archivesspace-1.4.2\archivesspace\lib\mysql-connector* lib /i /k /h /s /e /o /x /y
@@ -97,8 +97,8 @@ locale file.
 A good way to do this is to use a Diff tool, like Notepad++, TextMate, or just
 Linux diff command:
 
-     $ diff /path/to/archivesspace-1.4.2/locales/en.yml /path/to/archivesspace-1.5.0/archivesspace/locales/en.yml
-     $ diff /path/to/archivesspace-1.4.2/locales/enums/en.yml /path/to/archivesspace-v1.5.0/archivesspace/locales/enums/en.yml
+     $ diff /path/to/archivesspace-1.4.2/locales/en.yml /path/to/archivesspace-1.5.1/archivesspace/locales/en.yml
+     $ diff /path/to/archivesspace-1.4.2/locales/enums/en.yml /path/to/archivesspace-v1.5.1/archivesspace/locales/enums/en.yml
 
 This will show you the differences in your current locales files, as well as the
 new additions in the new version locales files. Simply copy the values you wish
@@ -113,14 +113,28 @@ that need to happen as a part of the upgrade.  To do this, use the
 `setup-database` script for your platform. For example, on Mac OS X
 or Linux:
 
-     $ cd archivesspace-1.5.0/archivesspace
+     $ cd archivesspace-1.5.1/archivesspace
      $ scripts/setup-database.sh
 
 Or on Windows:
 
-     $ cd archivesspace-1.5.0\archivesspace
+     $ cd archivesspace-1.5.1\archivesspace
      $ scripts\setup-database.bat
 
+## If you're using external Solr
+
+It's recommeneded you check your version against the version included with 
+ArchivesSpace:
+
+https://github.com/archivesspace/archivesspace/blob/v1.5.1/build/build.xml#L9
+
+If your version is older than the one provided by ArchivesSpace you may want to 
+consider upgrading.
+
+Also you should check `schema.xml` and `solrconfig.xml` for changes and update 
+them if necessary (this is required for proper functionality).
+
+https://github.com/archivesspace/archivesspace/tree/v1.5.1/solr
 
 ## If you've deployed to Tomcat
 
