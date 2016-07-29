@@ -1,0 +1,47 @@
+@mixin record-type-badge-colored($color) {
+  color: $color;
+  border-color: $color;
+}
+
+.record-type-badge {
+  float: left;
+  padding: rem-calc(4);
+  border: 1px solid #333;
+  font-family: $serif-font;
+  font-weight: bold;
+  i {
+    margin-right: rem-calc(2);
+  }
+}
+
+.record-type-badge.resource {
+  @include record-type-badge-colored($collection-color);
+}
+
+.record-type-badge.archival_object {
+  @include record-type-badge-colored($record-color);
+}
+
+.record-type-badge.agent {
+ @include record-type-badge-colored($agent-color);
+}
+
+.record-type-badge.accession {
+  @include record-type-badge-colored($accession-color);
+}
+
+.record-type-badge.classification {
+  @include record-type-badge-colored($accent-color);
+}
+
+.record-type-badge.digital_object {
+  @include record-type-badge-colored($digital-object-color);
+}
+
+.record-type-badge.repository {
+  @include record-type-badge-colored($repository-color);
+}
+
+.record-type-badge.subject {
+  @include record-type-badge-colored($subject-color);
+}
