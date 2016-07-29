@@ -1,0 +1,19 @@
+
+<nav id="paging">
+  <ul class="pagination">
+    <% if pager.need_prev %>
+      <li class="previous"><a href="<%= pager.link %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span>Previous</a></li>
+    <% end %>
+    <% pager.pages.each do |page| %>
+      <% if page == pager.page %>
+        <li class="active"><a href="#"><%= page %></a></li>
+      <% else %>
+        <li><a href="<%= pager.link %>&page=<%= page %>"><%= page %></a></li>
+      <% end %>
+    <% end %>
+    <% if pager.need_next %>
+      <li class="next"><a href="<%= pager.link %>&page=<%= pager.next %>"><span aria-hidden="true">&rarr;</span>Next</a></li>
+    <% end %>
+</ul>
+</nav>
+
