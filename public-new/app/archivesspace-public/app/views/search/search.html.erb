@@ -1,3 +1,5 @@
+<div class="row">
+<div class="col-sm-9">
 <p>Showing results <%= @results['offset_first'] %> to <%= @results['offset_last'] %> of <%= @results['total_hits'] %></p>
 
 <ul>
@@ -6,17 +8,6 @@
     <% end %>
 </ul>
 
-<div class="ugly-pagination">
-    <% @pages.each do |page| %>
-        <% if page == @results['this_page']%>
-            <strong><%= page %></strong>
-        <% else %>
-            <%= link_to(page.to_s, {
-                controller: :search,
-                action: :search,
-                q: @query,
-                page: page
-            }) %>
-        <% end %>
-    <% end %>
+<%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+</div>
 </div>
