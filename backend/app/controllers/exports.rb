@@ -22,8 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_dc.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(DigitalObject[params[:id]].digital_object_id, "_dc.xml" ),
                    "mimetype" => "application/xml"})
   end
 
@@ -49,7 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_mets.xml".gsub(/\s+/, '_'),
+                    safe_filenmae(DigitalObject[params[:id]].digital_object_id, "_mets.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -75,7 +74,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_mods.xml".gsub(/\s+/, '_'),
+                    safe_filename(DigitalObject[params[:id]].digital_object_id, "_mods.xml"), 
                    "mimetype" => "application/xml"})
   end
 
@@ -101,7 +100,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{Resource.id_to_identifier(params[:id])}_marc21.xml".gsub(/\s+/, '_'),
+                    safe_filename(Resource.id_to_identifier(params[:id]), "_marc21.xml"), 
                    "mimetype" => "application/xml"})
   end
 
@@ -167,7 +166,7 @@ class ArchivesSpaceService < Sinatra::Base
        
      
 
-      json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.#{params[:fmt]}".gsub(/\s+/, '_'),
+      json_response({"filename" => safe_filename(Resource.id_to_identifier(params[:id]), "_ead.#{params[:fmt]}" ),
                    "mimetype" => "application/#{params[:fmt]}"})
   end
 
@@ -193,7 +192,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{Resource.id_to_identifier(params[:id])}_labels.tsv".gsub(/\s+/, '_'),
+                    safe_filename(Resource.id_to_identifier(params[:id]), "_labels.tsv"),
                     "mimetype" => 'text/tab-separated-values'})
   end
 
@@ -221,7 +220,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentPerson.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -249,7 +248,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentCorporateEntity.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -277,7 +276,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentFamily.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['family_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -305,7 +304,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentSoftware.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['software_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
