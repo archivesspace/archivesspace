@@ -165,7 +165,7 @@ The JSON that is returned will have a session key, which can be stored and used
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
 
 # ArchivesSpace REST API
-As of 2016-08-02 15:30:20 +0200 the following REST endpoints exist in the master branch of the development repository:
+As of 2016-08-02 23:15:19 +0200 the following REST endpoints exist in the master branch of the development repository:
 
 
 ## GET /agents/corporate_entities 
