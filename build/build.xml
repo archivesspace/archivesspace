@@ -19,7 +19,7 @@
   <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
-  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx2048m -Xss2m" />
+  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx300m -Xss2m" />
   <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
 
 
