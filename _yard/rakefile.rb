@@ -40,6 +40,10 @@ namespace :doc do
     Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
+    @schemata = JSONModel.models 
+    @schemata.each do |k,s|
+      File.open(File.join(File.dirname(__FILE__), "/../docs/schemas/", "#{s.record_type}.json"), "w") { |f| f << JSON.pretty_generate(s.schema).to_s }
+    end
     @examples = JSON.parse( IO.read File.dirname(__FILE__) + "/../endpoint_examples.json" )
 
 
