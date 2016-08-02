@@ -276,14 +276,14 @@
       win: Escritor de introducción
       wpr: Escritor de prefacio
       wst: Escritor de contexto suplementario
-    linked_agent_event_roles: 
+    linked_agent_event_roles:
       authorizer: Autorizador
       executing_program: Programa en ejecución
       implementer: Implementador
       recipient: Destinatario
       transmitter: Transmisor
       validator: Validador
-    name_source: 
+    name_source:
       cash: Encabezamientos de materias canadienses
       ingest: Sin especificar
       lcshac: Biblioteca del encabezamientos Congreso infantil
@@ -293,12 +293,12 @@
       nal: Encabezamientos biblioteca agrícola nacionales
       rvm: Répertoire de vedettes-matière
       ulan: Union List of Artist Names
-    name_rule: 
+    name_rule:
       local: Reglas locales
       aacr: Reglas de catalogación angloamericanas
       dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
-    extent_extent_type: 
+    extent_extent_type:
       cassettes: Casetes
       cubic_feet: Metros cúbicos
       files: Archivos
@@ -312,21 +312,21 @@
       sheets: Partituras
       terabytes: Terabytes
       volumes: Volúmenes
-    collection_management_processing_priority: 
+    collection_management_processing_priority:
       none: Sin especificar
       high: Alta
       medium: Medio
       low: Baja
-    collection_management_processing_status: 
+    collection_management_processing_status:
       none: Sin especificar
       new: Nuevo
       in_progress: En progreso
       completed: Completado
-    date_era: 
+    date_era:
       ce: CE
-    date_calendar: 
+    date_calendar:
       gregorian: Gregoriano
-    digital_object_digital_object_type: 
+    digital_object_digital_object_type:
       cartographic: Cartográfica
       mixed_materials: Materiales diversos
       moving_image: Imagen en movimiento
@@ -337,15 +337,16 @@
       sound_recording_nonmusical: Gabación de sonido(No musicales)
       still_image: Imagen fija
       text: Texto
-    digital_object_level: 
+    digital_object_level:
       collection: Colección
       work: Trabajo
       image: Imagen
-    event_event_type: 
+    event_event_type:
       accession: Acta de ingreso
       accumulation: Acumulación
       acknowledgement: Reconocimiento
       acknowledgement_sent: Reconocimiento enviado
+      acknowledgement_received: Reconocimiento recibido
       agreement_received: Acuerdo recibido
       agreement_sent: Acuerdo enviado
       agreement_signed: Acuerdo firmado
@@ -370,29 +371,32 @@
       migration: Migración
       normalization: Normalización
       processing_new: Nuevo Procesado
+      processing_started: Procesado Comenzado
+      processing_in_progress: Procesado en progreso
+      processing_completed: Procesado Completado
       processed: Procesado
       publication: Publicación
       replication: Replicación
       rights_transferred: Derechos transferidos
       validation: Validación
       virus_check: Comprobación de virus
-    resource_resource_type: 
+    resource_resource_type:
       collection: Colección
       publications: Publicaciones
       papers: Papeles
       records: Registros
-    resource_finding_aid_description_rules: 
+    resource_finding_aid_description_rules:
       aacr: Reglas de catalogación angloamericanas (AACR)
       cco: Catalogación de bienes culturales (CCO)
       dacs: Descripción de archivos (DACS)
       rad: Reglas para la descripción archivística (RAD)
       isadg: Norma internacional de descripción archivística - General (ISADG)
-    resource_finding_aid_status: 
+    resource_finding_aid_status:
       completed: Completado
       in_progress: En proceso
       under_revision: En revisión
       unprocessed: Sin procesar
-    instance_instance_type: 
+    instance_instance_type:
       accession: Acta de ingreso
       audio: Audio
       books: Libros
@@ -406,22 +410,22 @@
       moving_images: Imágenes en movimiento
       realia: Realia
       text: Texto
-    accession_acquisition_type: 
+    accession_acquisition_type:
       deposit: Depósito
       gift: Regalo
       purchase: Compra
       transfer: Transferencia
-    accession_resource_type: 
+    accession_resource_type:
       collection: Colección
       publications: Publicaciones
       papers: Papeles
       records: Registros
-    subject_source: 
+    subject_source:
       aat: "Thesaurus Getty de Arte & Arquitectura"
       cash: Encabezamientos de materias canadienses
       gmgpc: "TGM II, género y términos característicos físicos"
       ingest: Sin especificar
-      lcsh: Encabezamientos de la Biblioteca del Congreso 
+      lcsh: Encabezamientos de la Biblioteca del Congreso
       lcshac: Encabezamientos de la Biblioteca Congreso Infantil
       local: Fuentes locales
       mesh: Encabezamientos de materia médica
@@ -429,17 +433,17 @@
       rbgenr: Términos de género
       rvm: Répertoire de vedettes-matière
       tgn: Thesaurus Getty de Nombres Geográficos
-    event_outcome: 
+    event_outcome:
       pass: Pase
       partial pass: Paso parcial
       fail: Fallo
-    agent_contact_salutation: 
+    agent_contact_salutation:
       mr: Señor
       mrs: Señora.
       ms: MS.
       madame: Madame
       sir: Señor
-    container_type: 
+    container_type:
       box: Caja
       carton: Cartón
       case: Cajón
@@ -449,7 +453,7 @@
       page: Página
       reel: Carrete
       volume: Volumen
-    file_version_use_statement: 
+    file_version_use_statement:
       audio-clip: Clip de audio
       audio-master: Audio-Master
       audio-master-edited: Audio-Master-Editado
@@ -473,13 +477,13 @@
       video-master-edited: Video-Master-Editado
       video-service: Video-Servicio
       video-streaming: Streaming Video
-    file_version_checksum_methods: 
+    file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
       sha-256: SHA-256
       sha-384: SHA-384
       sha-512: SHA-512
-    language_iso639_2: 
+    language_iso639_2:
       aar: Afar
       abk: Abjasia
       ace: Achinese
@@ -965,7 +969,7 @@
       zun: Zuni
       zxx: No hay contenido lingüístico; No aplicable
       zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-    archival_record_level: 
+    archival_record_level:
       class: Clase
       collection: Colección
       file: Documento de archivo
@@ -977,16 +981,16 @@
       subfonds: Subfondos
       subgrp: Subgrupo
       subseries: Subserie
-    container_location_status: 
+    container_location_status:
       current: Actual
       previous: Anterior
-    date_type: 
+    date_type:
       expression: Formato
       single: Individual
       bulk: Fechas extremas
       inclusive: Fechas de creación fondo
       range: Rango
-    date_label: 
+    date_label:
       record_keeping: Mantenimiento de Registros
       broadcast: Difusión
       copyright: Copyright
@@ -1001,28 +1005,28 @@
       publication: Publicación
       usage: Utilización
       other: Otras
-    date_certainty: 
+    date_certainty:
       approximate: Aproximada
       inferred: Deducida
       questionable: Cuestionable
-    extent_portion: 
+    extent_portion:
       whole: Total
       part: Parcial
-    deaccession_scope: 
+    deaccession_scope:
       whole: Total
       part: Parcial
-    file_version_xlink_actuate_attribute: 
+    file_version_xlink_actuate_attribute:
       none: Ninguno
       other: otros
       onLoad: onLoad
       onRequest: onRequest
-    file_version_xlink_show_attribute: 
+    file_version_xlink_show_attribute:
       new: Nueva
       replace: reemplazar
       embed: Insertar
       other: otros
       none: Ninguno
-    file_version_file_format_name: 
+    file_version_file_format_name:
       aiff: Audio Interchange File Format
       avi: Audio/vídeo entrelazado formato
       gif: Formato de intercambio de gráficos
@@ -1031,15 +1035,15 @@
       pdf: Formato de documento portátil
       tiff: Tagged Image File Format
       txt: Archivo de texto plano
-    location_temporary: 
+    location_temporary:
       conservation: Conservación
       exhibit: Exposición
       loan: Préstamo
       reading_room: Sala de lectura
-    name_person_name_order: 
+    name_person_name_order:
       direct: Directa
       inverted: Indirecta
-    country_iso_3166: 
+    country_iso_3166:
       AF: Afganistán
       AX: Islas Åland
       AL: Albania
@@ -1289,16 +1293,16 @@
       YE: Yemen
       ZM: Zambia
       ZW: Zimbabue
-    rights_statement_rights_type: 
+    rights_statement_rights_type:
       intellectual_property: Propiedad intelectual
       license: Licencia
       statute: Estatuto
       institutional_policy: Política institucional
-    rights_statement_ip_status: 
+    rights_statement_ip_status:
       copyrighted: Derechos de autor
       public_domain: Dominio público
       unknown: Desconocido
-    subject_term_type: 
+    subject_term_type:
       cultural_context: Contexto cultural
       function: Función
       geographic: Geográfica
@@ -1345,37 +1349,37 @@
       physloc: Nota de ubicación física
       materialspec: Nota de detalles específicos de los materiales
       physfacet: Nota de apariencia del material
-    note_digital_object_type: 
+    note_digital_object_type:
       <<: *note_type_definitions
-    note_multipart_type: 
+    note_multipart_type:
       <<: *note_type_definitions
-    note_singlepart_type: 
+    note_singlepart_type:
       <<: *note_type_definitions
-    linked_agent_role: 
+    linked_agent_role:
       creator: Autor
       source: Donante
       subject: Materia
-    agent_relationship_associative_relator: 
+    agent_relationship_associative_relator:
       is_associative_with: Associative with Related
-    agent_relationship_earlierlater_relator: 
+    agent_relationship_earlierlater_relator:
       is_earlier_form_of: Earlier Form of Related
       is_later_form_of: Later Form of Related
-    agent_relationship_parentchild_relator: 
+    agent_relationship_parentchild_relator:
       is_child_of: Hijo de relacionados
       is_parent_of: Padre de relacionados
-    accession_sibling_relator: 
+    accession_sibling_relator:
       sibling_of: Es hermano de
-    accession_parts_relator: 
+    accession_parts_relator:
       forms_part_of: Forma parte de
       has_part: Tiene parte
-    accession_parts_relator_type: 
+    accession_parts_relator_type:
       part: Relación de "\"Parte\""
-    accession_sibling_relator_type: 
+    accession_sibling_relator_type:
       bound_with: Relación de "\"Unido a\""
-    agent_relationship_subordinatesuperior_relator: 
+    agent_relationship_subordinatesuperior_relator:
       is_subordinate_to: Es subordinado a relacionados
       is_superior_of: El superior de relacionados
-    note_index_item_type: 
+    note_index_item_type:
       name: Nombre
       person: Persona
       family: Familia
@@ -1385,21 +1389,40 @@
       occupation: Ocupación
       title: Título
       geographic_name: Nombre geográfico
-    user_defined_enum_1: 
+    user_defined_enum_1:
       novalue: Ningún valor definido
-    user_defined_enum_2: 
+    user_defined_enum_2:
       novalue: Ningún valor definido
-    user_defined_enum_3: 
+    user_defined_enum_3:
       novalue: Ningún valor definido
-    user_defined_enum_4: 
+    user_defined_enum_4:
       novalue: Ningún valor definido
     job_type:
       print_to_pdf_job: Imprimir en PDF
       import_job: Importar Datos
       find_and_replace_job: Busca y reemplaza en bloque (Beta)
+      report_job: Reports
+      container_conversion_job: Reports
+    dimension_units:
+      inches: Pulgadas
+      feet: Pies
+      yards: Yardas
+      millimeters: Milimetros
+      centimeters: Centimetros
+      meters: Metros
+    restriction_type:
+      RestrictedSpecColl: 1 - Donante/universidada imponen restricciones de acceso
+      RestrictedCurApprSpecColl: 2 - Repositorio con restricciones de acceso
+      RestrictedFragileSpecColl: 3 - Restringido fragil
+      InProcessSpecColl: 4 - Restringido en proceso
+      ColdStorageBrbl: 5 - Otros
+    location_function_type:
+      av_materials: Materiales Audiovisuales
+      arrivals: Llegadas
+      shared: Compartidos
 
 
-  enumeration_names: 
+  enumeration_names:
     accession_acquisition_type: Tipo de acta de ingreso
     accession_parts_relator: Partes de acta de ingreso relacionadas
     accession_parts_relator_type: Tipos de partes de acta de ingreso relacionadas
@@ -1464,3 +1487,6 @@
     user_defined_enum_3: Enum 3 definido por el usuario
     user_defined_enum_4: Enum 4 definido por el usuario
     job_type: Job Type
+    dimension_units: Unidades de dimensión
+    restriction_type: Tipos de restricciones de acceso loceles
+    location_function_type: Tipos de funciones de localización
