@@ -4,6 +4,14 @@ require_relative "../lib/serialize_extra_container_values"
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
+  # https://www.loc.gov/ead/tglib/elements/p.html
+  TAGS_ALLOWED_IN_P = %w{ abbr  address  archref  bibref  blockquote  chronlist 
+                          corpname  date  emph  expan  extptr  extref  famname  
+                          function  genreform  geogname  lb  linkgrp  list  name  note  num  
+                          occupation  origination  persname  ptr  ref  repository  subject  table  
+                          title  unitdate  unittitle }
+
+
   # Allow plugins to hook in to record processing by providing their own
   # serialization step (a class with a 'call' method accepting the arguments
   # defined in `run_serialize_step`.
@@ -36,7 +44,7 @@ class EADSerializer < ASpaceExport::Serializer
     ignore = [ /Namespace prefix .* is not defined/, /The prefix .* is not bound/  ] 
     ignore = Regexp.union(ignore) 
     # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
-    Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
+    Nokogiri::XML("<wrap>#{content}</wrap>", nil,  "utf-8").errors.reject { |e| e.message =~ ignore  }
   end 
 
 
@@ -44,18 +52,38 @@ class EADSerializer < ASpaceExport::Serializer
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
+    # remove any doubleline breaks that happen right before a closing tag, as 
+    # those are stupid. looks for " \n\n   </p>" which we dont wanna wrap.
+    content.gsub!( /\n\n\s*(?=<\/)/, "") 
+    # split things up in double line breaks  
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
+    # regex for xml is totally the best
+    # the point of this is to check if the text block starts with a closing 
+    # tag or has tags that are not TAGS_ALLOWED_IN_P
+    check =  /^<\/|<[\/](?!#{ TAGS_ALLOWED_IN_P.join("|") })/ 
+    
+    # so wrong 
     if blocks.length > 1
-      content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
+      content = blocks.inject("") do |c,n|
+        n.strip!
+        n.chomp!
+        if n =~ check # either a closing tag or something that's not allowed in a p.
+          c << n
+        else
+          c << "<p>#{n.chomp}</p>"  
+        end 
+      end
     else
-      content = "<p>#{content.strip}</p>"
+      # there are no 2x linebreaks, so we wrap in p unless there's tags that
+      # aren't allowed in p 
+      content = "<p>#{content.strip}</p>" unless content =~ check 
     end
    
     # first lets see if there are any &
     # note if there's a &somewordwithnospace , the error is EntityRef and wont
     # be fixed here...
-    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
-      content.gsub!("& ", "&amp; ")
+    if xml_errors(content).any?
+      content = Nokogiri::HTML.fragment(content, 'utf-8').to_xml 
     end
 
     # in some cases adding p tags can create invalid markup with mixed content
