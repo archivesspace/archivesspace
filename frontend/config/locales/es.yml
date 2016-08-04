@@ -1,6 +1,6 @@
 ﻿es:
   actions:
-    add: Añadir 
+    add: Añadir
     add_event: Agregar evento
     automate: Generar automáticamente
     batch: Lote
@@ -29,7 +29,7 @@
     merge_confirm_title: ¿Se combinan en este registro?
     merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad."
-    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo." 
+    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -60,6 +60,7 @@
     delete: Borrar
     delete_confirm_title: ¿Desea eliminar este registro? %{title}
     delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
+    show_space_calculator: Encontrar con la calculadora de espacio
     delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
     delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Borrar registros
@@ -74,6 +75,7 @@
     export_mets: Descargar METS
     export_marc: Descargar MARCXML
     export_dc: Descargar DC
+    export_csv: Descargar CSV
     loading: Cargando...
     revert: Revertir los cambios
     finish_editing: Finalizar edición
@@ -88,6 +90,7 @@
     print_to_pdf: Imprimir Fondos en PDF
     resource_to_pdf: Fondo a imprimir
     download_pdf: Descargar PDF
+    download_report: Descargar Informe
     click_to_show: Pulsa para cargar los registros.
 
 
@@ -158,6 +161,22 @@
       title: Título
       creators_text: Creador
       notes: Notas
+      container_profile_width_u_sstr: Ancho
+      container_profile_height_u_sstr: Alto
+      container_profile_depth_u_sstr: Alto
+      container_profile_dimension_units_u_sstr: Unidades de dimensión
+      building: Edificio
+      floor: Planta
+      room: Habitación
+      area: Area
+      location_profile_display_string_u_ssort: Location Profile
+      location_profile_width_u_sstr: Ancho
+      location_profile_height_u_sstr: Alto
+      location_profile_depth_u_sstr: Alto
+      location_profile_dimension_units_u_sstr: Unidades de dimensión
+    help:
+      row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
+
 
   search_sorting:
     sort_by: "Ordenar por"
@@ -197,6 +216,7 @@
     digital_object_id: ID de objeto digital
     digital_object_type: Tipo de objeto digital
     publish: Publicar
+    location_profile_display_string_u_ssort: Perfil de ubicación
 
   advanced_search:
     operator:
@@ -244,6 +264,9 @@
     repositories_manage: Gestionar repositorios
     manage_groups: Administrar grupos
     manage_users: Gestionar usuarios
+    manage_container_profiles: Gestionar Container Profiles
+    manage_location_profiles: Gestionar Location Profiles
+    manage_top_containers: Gestionar Top Containers
     manage_enumerations: Administrar listas de valores controlados
     user_global_preferences: Mis preferencias globales
     user_repo_preferences: Mis preferencias de repositorio
@@ -376,7 +399,7 @@
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
-        merge_description: Seleccione a continuación las autoridades a unificar 
+        merge_description: Seleccione a continuación las autoridades a unificar
         merged: Autoridad(es) se unificaron
         please_select_a_agent_to_merge: Por favor seleccione una autoridad
       section:
@@ -594,6 +617,7 @@
     _frontend:
       action:
         add: Añadir la versión del archivo
+        make_representative: Make Representative
 
   group:
     _frontend:
@@ -712,7 +736,7 @@
   revision_statement:
     _frontend:
       action:
-        add: Agregar nota de revisión 
+        add: Agregar nota de revisión
 
   repository:
     _frontend:
@@ -944,6 +968,7 @@
         drag_and_drop_hint: Arrastrar y soltar archivos aquí
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "
@@ -955,3 +980,267 @@
       close_record: "Cerrar el registro que se está editando"
       open_browse: "Abrir el menú de navegación"
       open_create: "Abrir el menú de creación"
+      instance_container:
+    container: Container
+
+  sub_container:
+    top_container: Contenedor Top
+    top_container_tooltip: |
+        <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el material descrito.</p>
+        <p>Se puede seleccionar de una lista existente de los mejores contenedores mediante el tipo de adelante o Explorar las funciones o creadas mediante la función Crear.</p>
+    type_2: Tipo hijo
+    type_2_tooltip: |
+        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    indicator_2: Indicador de hijo
+    indicator_2_tooltip: |
+        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    type_3: Tipo nieto
+    type_3_tooltip: |
+        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    indicator_3: Indicador de nieto
+    indicator_3_tooltip: |
+        <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    _singular: Sub Contenedor
+    _plural: Sub Contenedores
+    _frontend:
+      action:
+        add: Añadir contenedor
+
+  top_container:
+    indicator: Indicador
+    indicator_tooltip: |
+        <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
+    barcode: Código de barras
+    barcode_tooltip: |
+        <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
+    type: Tipo de contenedor
+    ils_holding_id: ILS Holding ID
+    ils_holding_id_tooltip: |
+        <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
+    ils_item_id: ILS Item ID
+    ils_item_id_tooltip: |
+        <p>Identificador, suministrada por la API, para un registro elemento asociado en la biblioteca ILS (sistema de campo; no se pueden editar manualmente)</p>
+    exported_to_ils: Exportar a ILS
+    not_exported: No exportado
+    restricted: Restringido?
+    parent: Contenedor padre
+
+    managed_container_2_type: Tipo de contenedor hijo
+    managed_container_2_type_tooltip: |
+        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    managed_container_2_indicator: Indicador de contenido hijo
+    managed_container_2_indicator_tooltip: |
+        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    managed_container_3_type: Contenedor de tipo nieto
+    managed_container_3_type_tooltip: |
+        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator_tooltip: |
+       <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    barcode_length_for_this_repository: "Longitud de código de barras para este repositorio:"
+    characters: caracteres
+
+    batch_delete:
+      success: Los contenedores top se han eliminado correctamente
+      error: Ha habido un problema borrando los contenedores top
+
+    _singular: Contenedor Top
+    _plural: Contenedores Top
+
+    _frontend:
+      section:
+        active_restrictions: Restricciones activas
+        linked_records: Registros enlazados
+        basic_information: Información de contenedor
+      action:
+        add: Añadir Contenedor Top
+        create: Crear un Contenedor Top
+        save: Guardar Contenedor Top
+      messages:
+        created: Contenedor Top creado
+        updated: Contenedor Top actualizado
+        filter_required: Por favor proporcionar un filtro
+        max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
+        max_results_limit_details: "Mostrando <strong>% {visibles} </ strong> de <strong> {% num_found} </ strong> Resultados de la búsqueda"
+        results_summary: "Los resultados coinciden con: <strong> {% num_found} </ strong>"
+        bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
+        bulk_action_success: Contenedores Top actualizado
+        bulk_action_success_info: Tenga en cuenta que antes de que los cambios se reflejen en los resultados de búsqueda puede pasar un rato.
+        no_active_restrictions: Sin restricciones activas
+      bulk_operations:
+        title: Operaciones masivas
+        collection_singular: Fondo/Entrada
+        collection_plural: Fondos/Entradas
+        collection_resource_singular: Fondo
+        collection_resource_plural: Fondos
+        collection_accession_singular: Entrada
+        collection_accession_plural: Entradas
+        series: Series
+        current_location: Ubicación actual
+        keyword_criteria: Palabra clave
+        barcodes_criteria: Código(s) de barra(s)
+        exported_to_ils_true: "Si"
+        exported_to_ils_false: "No"
+        empty: Contenedores sin asociar
+        empty_true: "Si"
+        empty_false: "No"
+        search: Buscar
+        update_ils_holding_ids: Actualzar ILS Holding IDs
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_container_profiles: Actualizar perfiles de contenedores
+        update_container_profiles_help: Elige un perfil de contenedor para los contenedores seleccionados
+        update_locations_singular: "Actualizar ubicaciones: Ubicación simple"
+        update_locations_singular_help: Elige ubicación para los contenedores seleccionados
+        update_locations_multiple: "Actualizar ubicaciones: ubicaciones multiples"
+        update_locations_multiple_help: Elige ubicación para cada uno de los contenedores seleccionados
+        rapid_barcode_entry: Entrada rápida de código de barras rápida
+        rapid_barcode_entry_existing_barcode: Código de barras existente
+        rapid_barcode_entry_new_barcode: Nuevo código de barras
+        batch_delete: Borrar Contenedores Top
+        batch_delete_help: Borrar todos los contenedores seleccionados.
+        update_n_records: "Actualizar %{n} registros"
+        delete_n_records: "Borrar %{n} registros"
+        update_locations_current_location: Ubicación actual
+        update_locations_new_location: Nueva ubicación
+
+  container_profile:
+    _singular: Perfil de contenedor
+    _plural: Perfiles de contenedores
+    _frontend:
+      action:
+        save: Guardar Perfil de contenedor
+        edit: Editar Perfil de contenedor
+        create: Crear Perfil de contenedor
+        space_calculator: Calculadora de espacio
+      messages:
+        created: Perfil de contenedor creado
+        updated: Perfil de contenedor actualizado
+      section:
+        basic_information: Información básica
+    name: Nombre
+    name_tooltip: |
+        <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
+        <p>Ejemplos:</p>
+        <ul>
+        <li>document box</li>
+        <li>Paige 15</li>
+        <li>small card file box</li>
+        </ul>
+    url: URL
+    url_tooltip: |
+        <p>Un hipervínculo para una descripción externa del contenedor.</p>
+    dimension_units: Unidades de dimensión
+    dimension_units_tooltip: |
+        <p>Unidades de dimensiones</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    extent_dimension: Dimensión de extensión
+    extent_dimension_tooltip: |
+        <p>La dimensión utiliza para calcular e indicando la dimensión medida de los materiales en el contenedor. Esto ayuda a determinar qué dimensión se mide por la calculadora de medida.</p>
+    extent_dimension_depth: Profundidad
+    extent_dimension_depth_tooltip: |
+        <p>Valor numérico para la profundidad del contenedor.</p>
+    extent_dimension_height: Altura
+    extent_dimension_height_tooltip: |
+        <p>Valor numérico para la altura del contenedor.</p>
+    extent_dimension_width: Anchura
+    extent_dimension_width_tooltip: |
+       <p>Valor numérico para la anchura del contenedor.</p>
+    depth: Profundidad
+    depth_tooltip: |
+        <p>Valor numérico para la profundidad del contenedor.</p>
+    height: Altura
+    height_tooltip: |
+        <<p>Valor numérico para la altura del contenedor.</p>
+    width: Anchura
+    width_tooltip: |
+        <p>Valor numérico para la anchura del contenedor.</p>
+    stacking_limit: Límite de apilamiento
+    stacking_limit_tooltip: |
+        <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
+
+  rights_restriction:
+    begin: Comienzo de la restricción
+    begin_tooltip: |
+        <p>Fecha de inicio de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+    end: Finalización de la restricción
+    end_tooltip: |
+        <p>Fecha de finalización de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+    local_access_restriction_type: Restricción de tipo de acceso local
+    local_access_restriction_type_inline_help: "Mantenga pulsados  CTRL (Windows) / Command (Mac) para seleccionar varias opciones o anular la selección"
+    local_access_restriction_type_tooltip: |
+        <p>Para aquellas restricciones sin tiempo indicar la razón de la restricción.</p>
+        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    linked_records: Registro enlazado
+    restriction_note_type: Tipo de nota
+
+  extent_calculator:
+    no_object_message: Especifica un objeto
+    report_title: Informe de cálculo de extensión
+    container_profile_header: Perfil de contenedor
+    count_header: Total
+    extent_header: Extensión
+    no_profile: <span class="text-error">SIN PERFIL</span>
+    all_containers_label: Todos los contenedores
+    timestamp_label: Informe generado
+    extent_record_header: Registro de extensión
+    create_extent: Crear extensión
+    calculate_extent: Calcular extensión
+    create_extent_record_message: Ejecutar la calculadora de Extensión en el modo de edición para tener la opción de crear un registro de medida basado en el informe.
+    waiting_for_report_message: Calculando extensión ...
+    container_summary_type:
+      _singular: contenedor
+      _plural: contenedores
+
+  location_profile:
+    _singular: Perfil de ubicación
+    _plural: Perfiles de ubicación
+    _frontend:
+      action:
+        save: Guardar Perfil de ubicación
+        edit: Editar Perfil de ubicación
+        create: Crear Perfil de ubicación
+      messages:
+        created: Perfil de ubicación creado
+        updated: Perfil de ubicación actualizado
+        fields_required_for_calculator: Tenga en cuenta que las unidades de dimensión, profundidad, altura y anchura son todos los datos necesarios para la calculadora espacio. Las ubicaciones serán omitidas de los resultados si cualquiera de estos valores no están.
+      section:
+        basic_information: Información básica
+    name: Nombre
+    dimension_units: Unidades de dimension
+    depth: Profundidad
+    height: Altura
+    width: Anchura
+
+  space_calculator:
+    modal_title: Calculadora de espacio
+    modal_loading: Cargando...
+    message_container_profile_required: La Calculadora de espacio requiere un perfil de contenedores establecido
+    message_locations_required: La Calculadora de espacio requiere ubicaciones
+    message_select_locations: "Calcula el espacio en las siguientes ubicaciones:"
+    message_no_locations_with_space: No se han encontrado ubicaciones con espacio
+    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de contenedores: %{total_spaces}"
+    message_total_containers: "Número total de contenedores de este tipo que se encuentran en estas ubicaciones: %{total_containers}"
+    message_loading: Cargando...
+    count: Espacio disponible (de tipo de contenedor)
+    reason: Resultado de la Calculadora
+    calculate_space: Calcula el espacio
+    locations_without_space_details: Revisa ubicaciones sin espacio
+    by_locations: Por ubicacion(es)
+    by_building: Por edificio
+    result_filter: Filtra resultados
+    summary:
+      locations_with_space: "Ubicaciones con espacio: <strong>%{count}</strong>"
+      locations_without_space: "Ubicaciones sin espacio: <strong>%{count}</strong>"
+      uncalculatable_locations: "No se puede calcular: <strong>%{count}</strong>"
+    view_all_toggle: Muestra ubicaciones sin espacio
+    reason:
+      location_lacks_a_profile: Ubicación sin perfil
+      location_lacks_dimension_data: Perfil de ubicación sin datos de dimensiones
+      container_is_bigger: El contenedor es más grande que la ubicación en al menos una dimensión
+      container_at_location_lacks_profile: Al menos uno de los contenedores actualmente en la ubicación carece de un perfil
+      containers_at_location_dont_fit: Los contenedores en la ubicacion no se ajustan
+      location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor de este tipo
