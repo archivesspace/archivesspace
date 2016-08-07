@@ -75,7 +75,7 @@ class EADConverter < Converter
           # what a hack. ripping out the list might leave some dangling <p>s 
           [sn, theleftovers].each do |s|
             next if s["content"].nil?
-            s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,'')).to_xml(:encoding => 'utf-8') 
+            s["content"] = Nokogiri::HTML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,''), "uft-8").to_xml(:encoding => 'utf-8') 
           end
         end
         
@@ -147,7 +147,7 @@ class EADConverter < Converter
     with 'unittitle' do |node|
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
         unless obj.class.record_type == "note_multipart"   
-          title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
+          title = Nokogiri::HTML::DocumentFragment.parse(inner_xml.strip, 'utf-8')
           title.xpath(".//unitdate").remove 
           obj.title = format_content( title.to_xml(:encoding => 'utf-8') ) 
         end
@@ -181,7 +181,7 @@ class EADConverter < Converter
 
     with "langmaterial" do
       # first, assign the primary language to the ead
-      langmaterial = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+      langmaterial = Nokogiri::HTML::DocumentFragment.parse(inner_xml, 'uft-8')
       langmaterial.children.each do |child|
         if child.name == 'language'
           set ancestor(:resource, :archival_object), :language, child.attr("langcode")
@@ -240,7 +240,7 @@ class EADConverter < Converter
     end
     
     with 'physdesc' do
-      physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+      physdesc = Nokogiri::HTML::DocumentFragment.parse(inner_xml, 'utf-8')
 
       extent_number_and_type = nil
     

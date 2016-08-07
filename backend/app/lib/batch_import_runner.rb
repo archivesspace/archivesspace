@@ -76,7 +76,7 @@ class BatchImportRunner < JobRunner
                 converter.run
 
                 File.open(converter.get_output_path, "r") do |fh|
-                  batch = StreamingImport.new(fh, ticker, @import_canceled)
+                  batch = StreamingImport.new(fh, ticker, @import_canceled, true)
                   batch.process
 
                   if batch.created_records
