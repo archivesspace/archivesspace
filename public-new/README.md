@@ -40,3 +40,9 @@ install.
 
 To see the full list of available options, see the file
 [`app/archivesspace-public/app/lib/config_defaults.rb`](app/archivesspace-public/app/lib/config_defaults.rb)
+
+## License
+
+ArchivesSpace is released under the [Educational Community License,
+version 2.0](http://opensource.org/licenses/ecl2.php). See the
+[COPYING](COPYING) file for more information.
