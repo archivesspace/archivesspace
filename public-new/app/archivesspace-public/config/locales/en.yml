@@ -146,6 +146,7 @@ en:
         summary: Summary
 
   archival_object:
+    _singular: Archival Object
     _public:
       section:
         components: Components
