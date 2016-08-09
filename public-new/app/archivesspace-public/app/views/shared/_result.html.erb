@@ -1,0 +1,37 @@
+ <%# any result that is going to be presented in a list %>
+   <div class="recordrow">
+      <h3><a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a></h3>
+      <div class="badge-and-identifier">
+        <div class="record-type-badge <%= result['primary_type'] %>">
+          <i class="fa <%= case  result['primary_type']
+		    when 'repository'
+		     'fa-home'
+		     when  'resource'
+		     'fa-archive'
+		     when 'archival_object'
+		     'fa-files-o'
+		     else
+		     'fa-cog'
+		     end %>"></i>&#160;<%= t("#{result['primary_type']}._singular") %>
+        </div>
+        <div class="identifier">
+          <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
+        </div>
+	<div class="recordsummary">
+	  <% if !result['parent_institution_name'].blank? %>
+	  <div><strong>Parent Institution:</strong> 
+	    <% if !result['url'].blank? &&  result['url'] != 'http://url.unspecified' %>
+	    <a href="<%= result['url'] %>"><%= result['parent_institution_name']  %></a>
+	    <% else %>
+	    <%= result['parent_institution_name'] %>
+	    <% end %>
+	  </div>
+	  <% end %>
+	 <% if !full && result['primary_type'] == 'repository' %>
+	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
+	 <% end %>
+	</div>					  
+      </div>
+<% if !full %>
+   </div>
+<% end %>
