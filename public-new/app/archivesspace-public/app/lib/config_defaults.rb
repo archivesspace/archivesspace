@@ -4,6 +4,7 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:archivesspace_password] = 'admin'
 
   AppConfig[:search_results_page_size] = 10
+   AppConfig[:public_url] = '/'
 
   $CONFIG_DEFAULTS_LOADED = true
 end
