@@ -140,8 +140,23 @@ a {
   border: 1px solid $border;
   padding: rem-calc(20);
 
-  h3 {
+
+}
+
+#whats-in-container {
+  margin-top: rem-calc(20);
+  padding-bottom: rem-calc(20);
+  padding-left: rem-calc(20); 
+  margin-bottom: rem-calc(10);
+  border: 1px solid $border;
+  > h3 {
+    margin-top: 0px;
+    margin-left: rem-calc(-20);
+    background-color: $row-background;
     color: $secondary-color;
+    border-bottom: 1px solid $border-accent;
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
   }
 }
 
@@ -247,6 +262,7 @@ a {
   }
 
 
+
   h3 {
     color: $secondary-color;
   }
@@ -296,6 +312,8 @@ h3 {
   font-family: $sans-font;
   font-size: rem-calc(24);
   font-weight: bold;
+  color: $secondary-color;
+
 }
 
 h4 {
