@@ -166,6 +166,7 @@
 
    <!-- Sort fields -->
    <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <field name="repo_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
