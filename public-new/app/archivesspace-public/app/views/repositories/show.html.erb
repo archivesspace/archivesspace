@@ -3,10 +3,10 @@
   <div class="abstract">
 <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
 
-    <div id="whats-in-repo-container" class="row">
-      <div class="col-sm-12">
+    <div id="whats-in-container">
       
 	<h3><%= t('repository.what') %> </h3>
+	<div>
 	<ul class="list-inline">
 	<li class="large-badge align-center resource"><i class="fa fa-archive fa-4x"></i><br />
 	<%= @result['count'] %> <%= (@result['count'] != 1 ? t('resource._plural') :  t('resource._singular')) %>
@@ -25,6 +25,7 @@
 	<br /><%= @agent_ct %> <%= t('all_agents') %>
 	</li>
       </ul>
-    </div>
+	</div>
+
   </div>
 </div>
