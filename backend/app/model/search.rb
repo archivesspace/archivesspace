@@ -1,8 +1,9 @@
+require_relative 'search_resolver'
+
 class Search
 
-
   def self.search(params, repo_id )
-   
+    
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
@@ -18,22 +19,59 @@ class Search
 
 
     query.pagination(params[:page], params[:page_size]).
-          set_repo_id(repo_id).
-          set_record_types(params[:type]).
-          show_suppressed(show_suppressed).
-          show_published_only(show_published_only).
-          set_excluded_ids(params[:exclude]).
-          set_filter_terms(params[:filter_term]).
-          set_simple_filters(params[:simple_filter]).
-          set_facets(params[:facet]).
-          set_sort(params[:sort]).
-          set_root_record(params[:root_record]).
-          highlighting(params[:hl]).
-          set_writer_type( params[:dt] || "json" )
+      set_repo_id(repo_id).
+      set_record_types(params[:type]).
+      show_suppressed(show_suppressed).
+      show_published_only(show_published_only).
+      set_excluded_ids(params[:exclude]).
+      set_filter_terms(params[:filter_term]).
+      set_simple_filters(params[:simple_filter]).
+      set_facets(params[:facet]).
+      set_sort(params[:sort]).
+      set_root_record(params[:root_record]).
+      highlighting(params[:hl]).
+      set_writer_type( params[:dt] || "json" )
 
-      query.remove_csv_header if ( params[:dt] == "csv" and params[:no_csv_header] ) 
-    
-      Solr.search(query)
+    query.remove_csv_header if ( params[:dt] == "csv" and params[:no_csv_header] ) 
+
+    results = Solr.search(query)
+
+    if params[:resolve]
+      # As with the ArchivesSpace API, resolving a field gives a way of
+      # returning linked records without having to make multiple queries.
+      #
+      # In the case of searching, a resolve parameter like:
+      #
+      #      &resolve[]=repository:id
+      #
+      # will take the (stored) field value for "repository" and search for
+      # that value in the "id" field of other Solr documents.  Any document(s)
+      # returned will be inserted into the search response under the key
+      # "_resolved_repository".
+      #
+      # Since you might want to resolve a multi-valued field, we'll use the
+      # following format:
+      #
+      #      "_resolved_myfield": {
+      #          "/stored/value/1": [{... matched record 1...}, {... matched record 2...}],
+      #          "/stored/value/2": [{... matched record 1...}, {... matched record 2...}]
+      #      }
+      #
+      # To avoid the inlined resolved records being unreasonably large, you can
+      # also specify a custom resolver to be used when rendering the record.
+      # For example, the query:
+      #
+      #      &resolve[]=resource:id@compact_resource
+      #
+      # will use the "compact_resource" resolver to render the inlined resource
+      # records.  This is defined by `search_resolver_compact_resource.rb`.  You
+      # can define as many of these classes as needed, and they'll be available
+      # via the API in this same way.
+      resolver = SearchResolver.new(params[:resolve])
+      resolver.resolve(results)
+    end
+
+    results
   end
 
   def self.search_csv( params, repo_id )  
