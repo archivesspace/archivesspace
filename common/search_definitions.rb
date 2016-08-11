@@ -14,7 +14,11 @@ AdvancedSearch.define_field(:name => 'user_mtime', :type => :date, :visibility =
 AdvancedSearch.define_field(:name => 'system_mtime', :type => :date, :visibility => [:api], :solr_field => 'system_mtime')
 AdvancedSearch.define_field(:name => 'last_modified_by', :type => :text, :visibility => [:api], :solr_field => 'last_modified_by')
 
+AdvancedSearch.define_field(:name => 'id', :type => :text, :visibility => [:api], :solr_field => 'id')
+AdvancedSearch.define_field(:name => 'resource', :type => :text, :visibility => [:api], :solr_field => 'resource')
+AdvancedSearch.define_field(:name => 'repository', :type => :text, :visibility => [:api], :solr_field => 'repository')
 
 AdvancedSearch.set_default(:text, 'keyword')
 AdvancedSearch.set_default(:boolean, 'published')
 AdvancedSearch.set_default(:date, 'create_time')
+
