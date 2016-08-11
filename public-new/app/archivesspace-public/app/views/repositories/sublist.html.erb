@@ -1,0 +1,15 @@
+<div id="main-content" class="row">
+  <div class="col-sm-9">
+    <h2><a href="<%= @repo_id %>"><%= @repo_name %></a>:  </h2>
+<p><%= "#{I18n.t('pagination.summary_prefix')} #{I18n.t('pagination.summary_suffix')}" %> <%= @results['offset_first'] %>
+<%= t('pagination.summary_offset_connector') %> <%= @results['offset_last'] %> <%= t('pagination.summary_total_connector') %> <%= @results['total_hits'] %></p>
+
+    <% @results['results'].each do |result| %>
+    <%= render partial: 'shared/result', locals: {:result => result, :full => false} %>
+
+    <% end %>
+
+<%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+
+  </div>
+</div>
