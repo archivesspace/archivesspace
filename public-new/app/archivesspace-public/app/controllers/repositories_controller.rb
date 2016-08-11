@@ -63,7 +63,7 @@ class RepositoriesController < ApplicationController
       else
         @agent_query =  "(#{sublist_query_base} AND types:agent AND  #{compose_title_list(agents)})"
       end
-      resources = strip_facets(facets['resource'], true).length
+      resources = strip_facets(facets['resource'], false).length
       types = strip_facets(facets['types'], false)
       @rec_ct = (types['archival_object'] || 0) + (types['digital_object'] || 0)
     end
@@ -102,6 +102,12 @@ class RepositoriesController < ApplicationController
       query = compose_sublist_query(type, params)
     else
       query = params[:qr]
+    end
+# right now, this is special to collections & agents
+    if type == 'resource' || type == 'archival_object'
+      resolve_arr = ['repository:id']
+      resolve_arr.push 'resource:id@compact_resource' if type == 'archival_object'
+      @criteria['resolve[]'] = resolve_arr
     end
     Rails.logger.debug("sublist query:\n#{query}")
     page = params['page'] || 1 if !params.blank?
@@ -157,14 +163,14 @@ class RepositoriesController < ApplicationController
   end
 
   def find_resource_facet
-     facets = fetch_facets('types:resource', ['repository'], true) # we want all repositories
+     facets = fetch_facets('types:resource', ['repository'], false) # if we want all repositories, change false to true
     facets_ct = 0
     if !facets.blank?
       repos = facets['repository']
       facets_ct = (repos.length / 2)
 #      Rails.logger.debug("repos.length: #{repos.length}")
       repos.each_slice(2) do |r, ct|
-        facets[r] = ct   # we had an 'if (ct >0 || include_zero)'
+        facets[r] = ct   if ct > 0 # we had an 'if (ct >0 || include_zero)'
       end
     else 
       facets = {}
