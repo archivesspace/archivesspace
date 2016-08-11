@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get '/', to: 'welcome#show' #'index#index'
   get '/welcome', to: 'welcome#show'
+  get "repositories/:id/:type" => 'repositories#sublist'
+  post "repositories/:id/:type" => 'repositories#sublist'
   get "repositories/:id" => 'repositories#show'
   get '/repositories', to: 'repositories#index'
   get '/search', to: 'search#search'

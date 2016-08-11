@@ -8,21 +8,47 @@
 	<h3><%= t('repository.what') %> </h3>
 	<div>
 	<ul class="list-inline">
-	<li class="large-badge align-center resource"><i class="fa fa-archive fa-4x"></i><br />
-	<%= @result['count'] %> <%= (@result['count'] != 1 ? t('resource._plural') :  t('resource._singular')) %>
+	<li class="large-badge align-center resource">
+	  <form id="coll_sub" action="<%= @sublist_action %>collections" method="get">
+	    <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+	    <button type="submit" class="btn btn-default resource">
+	      <i class="fa fa-archive fa-4x"></i><br />
+	      <%= @result['count'] %> <%= (@result['count'] != 1 ? t('resource._plural') :  t('resource._singular')) %>
+	    </button>
+	  </form>
 	</li>
-	<li class="large-badge align-center archival_object"><i class="fa fa-files-o fa-4x"></i><br />
-	<%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
+	<li class="large-badge align-center archival_object">
+	  <form id="arch_sub" action="<%= @sublist_action %>records" method="get">
+	    <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+	     <button type="submit" class="btn btn-default archival_object">
+	       <i class="fa fa-files-o fa-4x"></i><br />
+	       <%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
+	     </button>
+	  </form>
 	</li>
-	<li class="large-badge align-center subject"><i class="fa fa-tags fa-4x"></i><br />
+	<li class="large-badge align-center subject">
+	  <form id="subj_sub" action='<%= @subj_ct > 0 ? "#{@sublist_action}subjects" :"#" %>' method="get">
+	  <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+	  <input type="hidden" name="qr" id="qr" value="<%= @subj_query %>" />
+	  <button type="submit" class="btn btn-default subject">
+	  <i class="fa fa-tags fa-4x"></i><br />
 	  <%= @subj_ct %> <%= (@subj_ct != 1 ? t('subject._plural'): t('subject._singular')) %>
+	    </button>
+	  </form>
+ 
 	</li>
 	<li class="large-badge align-center agent">
-	  <span class="fa-stack fa-2x">
-	    <i class="fa fa-institution fa-stack-2x"></i>
-	    <i class="fa fa-users fa-stack-1x fa-inverse"></i>
-	  </span>
-	<br /><%= @agent_ct %> <%= t('all_agents') %>
+	  <form id="ag_sub" action="<%= @sublist_action %>agents" method="get">
+	     <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+             <input type="hidden" name="qr" id="qr" value="<%= @agent_query %>" />
+             <button type="submit" class="btn btn-default agent">
+	       <span class="fa-stack fa-2x">
+		 <i class="fa fa-institution fa-stack-2x"></i>
+		 <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+	       </span>
+	       <br /><%= @agent_ct %> <%= t('all_agents') %>
+	     </button>
+	  </form>
 	</li>
       </ul>
 	</div>
