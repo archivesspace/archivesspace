@@ -2,24 +2,22 @@
 <div id="main-content" class="row">
   <div class="abstract">
 <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
-
     <div id="whats-in-container">
-      
 	<h3><%= t('repository.what') %> </h3>
 	<div>
 	<ul class="list-inline">
 	<li class="large-badge align-center resource">
-	  <form id="coll_sub" action="<%= @sublist_action %>collections" method="get">
-	    <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+	  <form id="coll_sub" action="<%= @sublist_action %>resources" method="postt">
+	    <input type="hidden" name="repo" id="repo_res" value="<%= @result['name'] %>" />
 	    <button type="submit" class="btn btn-default resource">
 	      <i class="fa fa-archive fa-4x"></i><br />
-	      <%= @result['count'] %> <%= (@result['count'] != 1 ? t('resource._plural') :  t('resource._singular')) %>
+	      <%= @resource_ct %> <%= (@resource_ct != 1 ? t('resource._plural') :  t('resource._singular')) %>
 	    </button>
 	  </form>
 	</li>
 	<li class="large-badge align-center archival_object">
-	  <form id="arch_sub" action="<%= @sublist_action %>records" method="get">
-	    <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
+	  <form id="arch_sub" action="<%= @sublist_action %>objects" method="post">
+	    <input type="hidden" name="repo" id="repo_obj" value="<%= @result['name'] %>" />
 	     <button type="submit" class="btn btn-default archival_object">
 	       <i class="fa fa-files-o fa-4x"></i><br />
 	       <%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
@@ -27,9 +25,9 @@
 	  </form>
 	</li>
 	<li class="large-badge align-center subject">
-	  <form id="subj_sub" action='<%= @subj_ct > 0 ? "#{@sublist_action}subjects" :"#" %>' method="get">
-	  <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
-	  <input type="hidden" name="qr" id="qr" value="<%= @subj_query %>" />
+	  <form id="subj_sub" action='<%= @subj_ct > 0 ? "#{@sublist_action}subjects" : "#" %>' method="post">
+	  <input type="hidden" name="repo" id="repo_subj" value="<%= @result['name'] %>" />
+	  <input type="hidden" name="qr" id="qr_subj" value="<%= @subj_query %>" />
 	  <button type="submit" class="btn btn-default subject">
 	  <i class="fa fa-tags fa-4x"></i><br />
 	  <%= @subj_ct %> <%= (@subj_ct != 1 ? t('subject._plural'): t('subject._singular')) %>
@@ -38,9 +36,9 @@
  
 	</li>
 	<li class="large-badge align-center agent">
-	  <form id="ag_sub" action="<%= @sublist_action %>agents" method="get">
-	     <input type="hidden" name="repo" id="repo" value="<%= @result['display_string'] %>" />
-             <input type="hidden" name="qr" id="qr" value="<%= @agent_query %>" />
+	  <form id="ag_sub" action="<%= @sublist_action %>agents" method="post">
+	     <input type="hidden" name="repo" id="repo_ag" value="<%= @result['name'] %>" />
+             <input type="hidden" name="qr" id="qr_ag" value="<%= @agent_query %>" />
              <button type="submit" class="btn btn-default agent">
 	       <span class="fa-stack fa-2x">
 		 <i class="fa fa-institution fa-stack-2x"></i>
