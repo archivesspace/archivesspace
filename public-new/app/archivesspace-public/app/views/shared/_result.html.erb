@@ -1,7 +1,8 @@
  <%# any result that is going to be presented in a list %>
 <%# Pry::ColorPrinter.pp(result['json'])%>
-
+<% if !full %>
    <div class="recordrow">
+<% end %>
       <h3><a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a></h3>
       <div class="badge-and-identifier">
         <div class="record-type-badge <%= result['primary_type'] %>">
@@ -21,7 +22,7 @@
         <div class="identifier">
           <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
         </div>
-	<div class="recordsummary">
+	<div class="recordsummary" style="clear:both">
           <% if !result['parent_institution_name'].blank? %>
           <div><strong><%= t('parent_inst') %>:</strong>
             <%= result['parent_institution_name'] %>
