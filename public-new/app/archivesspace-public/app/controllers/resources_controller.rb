@@ -22,6 +22,17 @@ class ResourcesController <  ApplicationController
   end
 
   def show
-
+    @resource_id = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    @criteria = {}
+    @criteria['resolve[]']  = ['repository:id']
+    query = "id:#{@resource_id}"
+    @results =  archivesspace.search(query,1, @criteria) || {}
+    @results = handle_results(@results)
+    if !@results['results'].blank? && @results['results'].length > 0
+      @result = @results['results'][0]
+      @page_title = "#{I18n.t('resource._singular')}: #{@result['json']['title']}"
+    else
+      @page_title = "#{I18n.t('resource._singular')} NOT FOUND"
+    end
   end
 end
