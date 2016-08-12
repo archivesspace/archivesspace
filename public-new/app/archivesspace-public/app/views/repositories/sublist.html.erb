@@ -1,6 +1,6 @@
 <div id="main-content" class="row">
   <div class="col-sm-9">
-    <h2><a href="<%= @repo_id %>"><%= @repo_name %></a>:  </h2>
+    <h2><a href="<%= @repo_id %>"><%= @repo_name %></a>: <%= t("#{@type}._plural")%> </h2>
 <p><%= "#{I18n.t('pagination.summary_prefix')} #{I18n.t('pagination.summary_suffix')}" %> <%= @results['offset_first'] %>
 <%= t('pagination.summary_offset_connector') %> <%= @results['offset_last'] %> <%= t('pagination.summary_total_connector') %> <%= @results['total_hits'] %></p>
 

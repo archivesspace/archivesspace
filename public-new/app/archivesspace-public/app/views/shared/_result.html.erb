@@ -1,4 +1,6 @@
  <%# any result that is going to be presented in a list %>
+<%# Pry::ColorPrinter.pp(result['json'])%>
+
    <div class="recordrow">
       <h3><a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a></h3>
       <div class="badge-and-identifier">
@@ -20,18 +22,18 @@
           <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
         </div>
 	<div class="recordsummary">
-<%# Pry::ColorPrinter.pp(result['json'])%>
-	  <% if !result['parent_institution_name'].blank? %>
-	  <div><strong>Parent Institution:</strong> 
-	    <% if !result['url'].blank? &&  result['url'] != 'http://url.unspecified' %>
-	    <a href="<%= result['url'] %>"><%= result['parent_institution_name']  %></a>
-	    <% else %>
-	    <%= result['parent_institution_name'] %>
-	    <% end %>
+          <% if !result['parent_institution_name'].blank? %>
+          <div><strong><%= t('parent_inst') %>:</strong>
+            <%= result['parent_institution_name'] %>
+          </div>
+          <% end %>
+	  <% if !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank? %>
+	  <div class="repo_name"><strong><%= t('repository._singular') %>: </strong>
+	      <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a>
 	  </div>
 	  <% end %>
 	  <div class="abstract more"><%= get_note(result['json'], 'abstract').html_safe %></div>
-	  
+
 	 <% if !full && result['primary_type'] == 'repository' %>
 	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
 	 <% end %>
