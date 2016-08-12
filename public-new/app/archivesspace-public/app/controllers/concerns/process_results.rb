@@ -21,11 +21,12 @@ module ProcessResults
           result['_resolved_repository']['json'] = JSON.parse( rr[1][0]['json'])
         end
       end
-      # I'm going to assume for today that the same holds true for this
+      # A different kind of convolution
       if result['_resolved_resource'].kind_of?(Hash)
-        rr = result['_resolved_resource'].shift
-        if !rr[1][0]['json'].blank?
-          result['_resolved__resource']['json'] =  JSON.parse( rr[1][0]['json'])
+        keys  = result['_resolved_resource'].keys
+        if keys
+          rr = result['_resolved_resource'][keys[0]]
+          result['_resolved_resource']['json'] =  rr[0]
         end
       end
     end

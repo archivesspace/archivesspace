@@ -33,12 +33,17 @@
 	  </div>
 	  <% end %>
 	  <div class="abstract more"><%= get_note(result['json'], 'abstract').html_safe %></div>
+	  <% if !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
+	  <div class="resource_name"><strong><%= t('resource._singular') %>: </strong>
+	    <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= result['_resolved_resource']['json']['title'] %></a>
+	  </div>
+	  <% end %>
 
-	 <% if !full && result['primary_type'] == 'repository' %>
-	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
-	 <% end %>
+	  <% if !full && result['primary_type'] == 'repository' %>
+	  <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
+	  <% end %>
 	</div>					  
       </div>
-<% if !full %>
+      <% if !full %>
    </div>
-<% end %>
+   <% end %>
