@@ -1,5 +1,6 @@
 class RepositoriesController < ApplicationController
   include HandleFaceting
+  skip_before_filter  :verify_authenticity_token  
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
@@ -44,7 +45,7 @@ class RepositoriesController < ApplicationController
     @subj_ct = 0
     @agent_ct = 0
     @rec_ct = 0
-    @collection_ct = 0
+    @resource_ct = 0
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
     sublist_query_base = "publish:true"
     facets = fetch_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\" AND publish:true)", ['subjects', 'agents','types', 'resource'], true)
@@ -63,7 +64,7 @@ class RepositoriesController < ApplicationController
       else
         @agent_query =  "(#{sublist_query_base} AND types:agent AND  #{compose_title_list(agents)})"
       end
-      resources = strip_facets(facets['resource'], false).length
+      @resource_ct = strip_facets(facets['resource'], false).length
       types = strip_facets(facets['types'], false)
       @rec_ct = (types['archival_object'] || 0) + (types['digital_object'] || 0)
     end
@@ -83,30 +84,29 @@ class RepositoriesController < ApplicationController
   def sublist
     @repo_name = params[:repo] || ''
     @repo_id = "/repositories/#{params[:id]}"
-    type = case params[:type]
-             when 'collections'
+    @type = case params[:type]
+             when 'resources'
              'resource'
              when 'subjects'
              'subject'
              when 'agents'
              'agent'
-             when 'records'
+             when 'objects'
              'archival_object'
            end
-    
     @criteria = {}
     @criteria['sort'] = "title asc" 
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
     if params[:qr].blank?
-      query = compose_sublist_query(type, params)
+      query = compose_sublist_query(@type, params)
     else
       query = params[:qr]
     end
-# right now, this is special to collections & agents
-    if type == 'resource' || type == 'archival_object'
+# right now, this is special to resources & agents
+    if @type == 'resource' || @type == 'archival_object'
       resolve_arr = ['repository:id']
-      resolve_arr.push 'resource:id@compact_resource' if type == 'archival_object'
+      resolve_arr.push 'resource:id@compact_resource' if @type == 'archival_object'
       @criteria['resolve[]'] = resolve_arr
     end
     Rails.logger.debug("sublist query:\n#{query}")
@@ -125,7 +125,7 @@ class RepositoriesController < ApplicationController
       end
     end
     @pager =  Pager.new("/repositories/#{params[:id]}/#{params[:type]}?repo=#{@repo_name}&qr=#{query}", @results['this_page'],@results['last_page'])
-    @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{type}._plural") : I18n.t("#{type}._singular")) +  " " + I18n.t('listing')
+    @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{@type}._plural") : I18n.t("#{@type}._singular")) +  " " + I18n.t('listing')
   end
 
   private
