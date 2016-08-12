@@ -147,6 +147,7 @@ en:
 
   archival_object:
     _singular: Archival Object
+    _plural: records
     _public:
       section:
         components: Components
@@ -234,3 +235,5 @@ en:
   hours: Hours
 
   number_of: Number of
+
+  parent_inst: Parent Institution
