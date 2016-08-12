@@ -1,0 +1,11 @@
+<div class="row">
+<div class="col-sm-9">
+<h2><%= @results['total_hits'] %> <%= (@results['total_hits'] == 1 ? t('resource._singular'): t('resource._plural')) %></h2>
+    <% @results['results'].each do |result| %>
+    <%= render partial: 'shared/result', locals: {:result => result, :full => false} %>
+
+    <% end %>
+
+
+</div>
+</div> 
