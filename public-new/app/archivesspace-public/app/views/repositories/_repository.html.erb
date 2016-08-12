@@ -12,12 +12,14 @@
 	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
 	  <% if !result['parent_institution_name'].blank? %>
 	  <div><strong>Parent Institution:</strong> 
-	    <% if !result['url'].blank? &&  result['url'] != 'http://url.unspecified' %>
-	    <a href="<%= result['url'] %>"><%= result['parent_institution_name']  %></a>
-	    <% else %>
 	    <%= result['parent_institution_name'] %>
-	    <% end %>
 	  </div>
+	  <% end %>
+	  <% if full && !result['url'].blank? && result['url'] != "http://url.unspecified" %>
+	  <div><strong>Website:</strong> 
+	    <a href="<%= result['url'] %>"><%= result['name']  %></a>
+	  </div>
+
 	  <% end %>
 	 <% if !full %>
 	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>

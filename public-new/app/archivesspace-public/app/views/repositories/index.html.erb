@@ -1,6 +1,6 @@
 <div class="row">
 <div class="col-sm-9">
-<h2><%= @hits %> Repositories</h2>
+<h2><%= @hits %> <%= t('repository._plural')%></h2>
 
 <% @json.each do |result| %>
 <%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
