@@ -1,5 +1,6 @@
-
+<% if pager.pages.last >1 %>
 <nav id="paging">
+  
   <ul class="pagination">
     <% if pager.need_prev %>
       <li class="previous"><a href="<%= pager.link %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span>Previous</a></li>
@@ -16,4 +17,4 @@
     <% end %>
 </ul>
 </nav>
-
+<% end %>
