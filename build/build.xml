@@ -614,7 +614,7 @@
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
-      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar,gems/saxon-xslt-0.5.1-java/spec/,gems/warbler-*" />
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar,gems/**/spec/,gems/warbler-*" />
     </copy>
 
     <copy todir="target/archivesspace/launcher">
