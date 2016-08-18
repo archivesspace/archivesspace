@@ -1,6 +1,4 @@
----
-title: API Reference
-
+--- title: API Reference 
 language_tabs:
   - shell
 
@@ -165,7 +163,7 @@ The JSON that is returned will have a session key, which can be stored and used
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
 
 # ArchivesSpace REST API
-As of 2016-08-02 23:15:19 +0200 the following REST endpoints exist in the master branch of the development repository:
+As of 2016-08-18 14:28:18 +0200 the following REST endpoints exist in the master branch of the development repository:
 
 
 ## GET /agents/corporate_entities 
@@ -9488,613 +9486,19465 @@ curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/vocabularies/
 
 
 ##JSONModel(:abstract_agent)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_agent.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "agent_type": {
+      "type": "string",
+      "required": false,
+      "enum": [
+        "agent_person",
+        "agent_corporate_entity",
+        "agent_software",
+        "agent_family",
+        "user"
+      ]
+    },
+    "agent_contacts": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:agent_contact) object"
+      }
+    },
+    "linked_agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "readonly": true
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "system_generated": {
+      "readonly": true,
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bioghist) object"
+          }
+        ]
+      }
+    },
+    "dates_of_existence": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | enum | items | ifmissing | subtype  
+ ----- | ---- | -------- | -------- | ---- | ----- | --------- | ------- |  
+ uri | string |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  
+ agent_type | string |  |  | agent_person | agent_corporate_entity | agent_software | agent_family | user |  |  |  
+ agent_contacts | array |  |  |  | {"type"=>"JSONModel(:agent_contact) object"} |  |  
+ linked_agent_roles | array |  | true |  | {"type"=>"string"} |  |  
+ external_documents | array |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  
+ rights_statements | array |  |  |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  
+ system_generated | boolean |  | true |  |  |  |  
+ notes | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_bioghist) object"}]} |  |  
+ dates_of_existence | array |  |  |  | {"type"=>"JSONModel(:date) object"} |  |  
+ publish | boolean |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  
+ created_by | string |  | true |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  
+ repository | object |  | true |  |  |  | ref 
+
+
 
 
 ##JSONModel(:abstract_agent_relationship)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_agent_relationship.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "subtype": "ref",
+  "properties": {
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "dates": {
+      "type": "JSONModel(:date) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- |  
+ description | string | 65000 |  |  |  |  
+ dates | JSONModel(:date) object |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:abstract_archival_object)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_archival_object.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "language": {
+      "type": "string",
+      "dynamic_enum": "language_iso639_2"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | minLength | maxLength | ifmissing | dynamic_enum | readonly | subtype  
+ ----- | ---- | -------- | ----- | --------- | --------- | --------- | ------------ | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 | error |  |  |  
+ language | string |  |  |  |  |  | language_iso639_2 |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  |  |  |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "title"=>{"type"=>"string"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  | true |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:abstract_classification)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_classification.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean",
+      "default": true,
+      "readonly": true
+    },
+    "path_from_root": {
+      "type": "array",
+      "readonly": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "ifmissing": "error"
+          }
+        }
+      }
+    },
+    "linked_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:accession) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              }
+            ]
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "creator": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:agent_corporate_entity) uri"
+            },
+            {
+              "type": "JSONModel(:agent_family) uri"
+            },
+            {
+              "type": "JSONModel(:agent_person) uri"
+            },
+            {
+              "type": "JSONModel(:agent_software) uri"
+            }
+          ],
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | default | readonly | items | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ----- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ identifier | string |  | 255 | error |  |  |  |  |  
+ title | string |  | 16384 | error | 1 |  |  |  |  
+ description | string |  | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  | true | true |  |  
+ path_from_root | array |  |  |  |  |  | true | {"type"=>"object", "properties"=>{"identifier"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}, "title"=>{"type"=>"string", "minLength"=>1, "maxLength"=>16384, "ifmissing"=>"error"}}} |  
+ linked_records | array |  |  |  |  |  |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:accession) uri"}, {"type"=>"JSONModel(:resource) uri"}]}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  
+ creator | object |  |  |  |  |  |  |  | ref 
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:abstract_name)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_name.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | dynamic_enum | default | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | ------------ | ------- | -------- | --------- | -------- | ------- |  
+ authority_id | string | 255 |  |  |  |  |  |  |  
+ dates | string | 255 |  |  |  |  |  |  |  
+ use_dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ qualifier | string | 255 |  |  |  |  |  |  |  
+ source | string |  |  | name_source |  |  |  |  |  
+ rules | string |  |  | name_rule |  |  |  |  |  
+ authorized | boolean |  |  |  |  |  |  |  |  
+ is_display_name | boolean |  |  |  |  |  |  |  |  
+ sort_name | string | 255 |  |  |  |  |  |  |  
+ sort_name_auto_generate | boolean |  |  |  | true |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:abstract_note)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/abstract_note.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- |  
+ label | string | 65000 |  |  |  |  
+ publish | boolean |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:accession)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/accession.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/accessions",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 8192,
+      "ifmissing": null
+    },
+    "display_string": {
+      "type": "string",
+      "maxLength": 8192,
+      "readonly": true
+    },
+    "id_0": {
+      "type": "string",
+      "ifmissing": "error",
+      "maxLength": 255
+    },
+    "id_1": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "id_2": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "id_3": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "content_description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "condition_description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "disposition": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "inventory": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "provenance": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "related_accessions": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:accession_parts_relationship) object"
+          },
+          {
+            "type": "JSONModel(:accession_sibling_relationship) object"
+          }
+        ]
+      }
+    },
+    "accession_date": {
+      "type": "date",
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:classification) uri"
+              },
+              {
+                "type": "JSONModel(:classification_term) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "deaccessions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:deaccession) object"
+      }
+    },
+    "collection_management": {
+      "type": "JSONModel(:collection_management) object"
+    },
+    "user_defined": {
+      "type": "JSONModel(:user_defined) object"
+    },
+    "related_resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:resource) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "acquisition_type": {
+      "type": "string",
+      "dynamic_enum": "accession_acquisition_type"
+    },
+    "resource_type": {
+      "type": "string",
+      "dynamic_enum": "accession_resource_type"
+    },
+    "restrictions_apply": {
+      "type": "boolean",
+      "default": false
+    },
+    "retention_rule": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "general_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "access_restrictions": {
+      "type": "boolean",
+      "default": false
+    },
+    "access_restrictions_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "use_restrictions": {
+      "type": "boolean",
+      "default": false
+    },
+    "use_restrictions_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:instance) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "accession_check_identifier"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | maxLength | ifmissing | readonly | minLength | dynamic_enum | default | subtype  
+ ----- | ---- | -------- | ----- | --------- | --------- | -------- | --------- | ------------ | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  |  
+ title | string |  |  | 8192 |  |  |  |  |  |  
+ display_string | string |  |  | 8192 |  | true |  |  |  |  
+ id_0 | string |  |  | 255 | error |  |  |  |  |  
+ id_1 | string |  |  | 255 |  |  |  |  |  |  
+ id_2 | string |  |  | 255 |  |  |  |  |  |  
+ id_3 | string |  |  | 255 |  |  |  |  |  |  
+ content_description | string |  |  | 65000 |  |  |  |  |  |  
+ condition_description | string |  |  | 65000 |  |  |  |  |  |  
+ disposition | string |  |  | 65000 |  |  |  |  |  |  
+ inventory | string |  |  | 65000 |  |  |  |  |  |  
+ provenance | string |  |  | 65000 |  |  |  |  |  |  
+ related_accessions | array |  | {"type"=>[{"type"=>"JSONModel(:accession_parts_relationship) object"}, {"type"=>"JSONModel(:accession_sibling_relationship) object"}]} |  |  |  |  |  |  |  
+ accession_date | date |  |  |  | error |  | 1 |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  
+ classifications | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:classification) uri"}, {"type"=>"JSONModel(:classification_term) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  | true |  |  |  |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  |  |  |  |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  |  
+ deaccessions | array |  | {"type"=>"JSONModel(:deaccession) object"} |  |  |  |  |  |  |  
+ collection_management | JSONModel(:collection_management) object |  |  |  |  |  |  |  |  |  
+ user_defined | JSONModel(:user_defined) object |  |  |  |  |  |  |  |  |  
+ related_resources | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:resource) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  | true |  |  |  |  
+ acquisition_type | string |  |  |  |  |  |  | accession_acquisition_type |  |  
+ resource_type | string |  |  |  |  |  |  | accession_resource_type |  |  
+ restrictions_apply | boolean |  |  |  |  |  |  |  |  |  
+ retention_rule | string |  |  | 65000 |  |  |  |  |  |  
+ general_note | string |  |  | 65000 |  |  |  |  |  |  
+ access_restrictions | boolean |  |  |  |  |  |  |  |  |  
+ access_restrictions_note | string |  |  | 65000 |  |  |  |  |  |  
+ use_restrictions | boolean |  |  |  |  |  |  |  |  |  
+ use_restrictions_note | string |  |  | 65000 |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "title"=>{"type"=>"string"}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ instances | array |  | {"type"=>"JSONModel(:instance) object"} |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  | true |  |  |  |  
+ last_modified_by | string |  |  |  |  | true |  |  |  |  
+ user_mtime | date-time |  |  |  |  | true |  |  |  |  
+ system_mtime | date-time |  |  |  |  | true |  |  |  |  
+ create_time | date-time |  |  |  |  | true |  |  |  |  
+ repository | object |  |  |  |  | true |  |  |  | ref 
+
+
 
 
 ##JSONModel(:accession_parts_relationship)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/accession_parts_relationship.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "subtype": "ref",
+  "properties": {
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "accession_parts_relator",
+      "ifmissing": "error"
+    },
+    "relator_type": {
+      "type": "string",
+      "dynamic_enum": "accession_parts_relator_type",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": "JSONModel(:accession) uri",
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | ifmissing | readonly | required | subtype  
+ ----- | ---- | ------------ | --------- | -------- | -------- | ------- |  
+ relator | string | accession_parts_relator | error |  |  |  
+ relator_type | string | accession_parts_relator_type | error |  |  |  
+ ref | JSONModel(:accession) uri |  | error |  |  |  
+ _resolved | object |  |  | true |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  | true |  |  
+ last_modified_by | string |  |  | true |  |  
+ user_mtime | date-time |  |  | true |  |  
+ system_mtime | date-time |  |  | true |  |  
+ create_time | date-time |  |  | true |  |  
+ repository | object |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:accession_sibling_relationship)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/accession_sibling_relationship.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "subtype": "ref",
+  "properties": {
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "accession_sibling_relator",
+      "ifmissing": "error"
+    },
+    "relator_type": {
+      "type": "string",
+      "dynamic_enum": "accession_sibling_relator_type",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": "JSONModel(:accession) uri",
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | ifmissing | readonly | required | subtype  
+ ----- | ---- | ------------ | --------- | -------- | -------- | ------- |  
+ relator | string | accession_sibling_relator | error |  |  |  
+ relator_type | string | accession_sibling_relator_type | error |  |  |  
+ ref | JSONModel(:accession) uri |  | error |  |  |  
+ _resolved | object |  |  | true |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  | true |  |  
+ last_modified_by | string |  |  | true |  |  
+ user_mtime | date-time |  |  | true |  |  
+ system_mtime | date-time |  |  | true |  |  
+ create_time | date-time |  |  | true |  |  
+ repository | object |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:active_edits)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/active_edits.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "uri": "/update_monitor",
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "active_edits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          },
+          "uri": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          },
+          "time": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | ----- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  |  
+ active_edits | array |  | {"type"=>"object", "properties"=>{"user"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}, "uri"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}, "time"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}}} |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:advanced_query)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/advanced_query.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": [
+        "JSONModel(:boolean_query) object",
+        "JSONModel(:field_query) object",
+        "JSONModel(:date_field_query) object",
+        "JSONModel(:boolean_field_query) object"
+      ]
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | -------- | ------- |  
+ query | JSONModel(:boolean_query) object | JSONModel(:field_query) object | JSONModel(:date_field_query) object | JSONModel(:boolean_field_query) object |  |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string |  | error |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:agent_contact)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_contact.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "salutation": {
+      "type": "string",
+      "dynamic_enum": "agent_contact_salutation"
+    },
+    "address_1": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "address_2": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "address_3": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "region": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "post_code": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "telephones": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:telephone) object"
+      }
+    },
+    "fax": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "email_signature": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | ifmissing | dynamic_enum | items | required | readonly | subtype  
+ ----- | ---- | --------- | --------- | ------------ | ----- | -------- | -------- | ------- |  
+ name | string | 65000 | error |  |  |  |  |  
+ salutation | string |  |  | agent_contact_salutation |  |  |  |  
+ address_1 | string | 65000 |  |  |  |  |  |  
+ address_2 | string | 65000 |  |  |  |  |  |  
+ address_3 | string | 65000 |  |  |  |  |  |  
+ city | string | 65000 |  |  |  |  |  |  
+ region | string | 65000 |  |  |  |  |  |  
+ country | string | 65000 |  |  |  |  |  |  
+ post_code | string | 65000 |  |  |  |  |  |  
+ telephones | array |  |  |  | {"type"=>"JSONModel(:telephone) object"} |  |  |  
+ fax | string | 65000 |  |  |  |  |  |  
+ email | string | 65000 |  |  |  |  |  |  
+ email_signature | string | 65000 |  |  |  |  |  |  
+ note | string | 65000 |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:agent_corporate_entity)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_corporate_entity.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent",
+  "uri": "/agents/corporate_entities",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "agent_type": {
+      "type": "string",
+      "required": false,
+      "enum": [
+        "agent_person",
+        "agent_corporate_entity",
+        "agent_software",
+        "agent_family",
+        "user"
+      ]
+    },
+    "agent_contacts": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:agent_contact) object"
+      }
+    },
+    "linked_agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "readonly": true
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "system_generated": {
+      "readonly": true,
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bioghist) object"
+          }
+        ]
+      }
+    },
+    "dates_of_existence": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:name_corporate_entity) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "display_name": {
+      "type": "JSONModel(:name_corporate_entity) object",
+      "readonly": true
+    },
+    "related_agents": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:agent_relationship_subordinatesuperior) object"
+          },
+          {
+            "type": "JSONModel(:agent_relationship_earlierlater) object"
+          },
+          {
+            "type": "JSONModel(:agent_relationship_associative) object"
+          }
+        ]
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_agent_corporate_entity"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | enum | items | ifmissing | subtype | minItems  
+ ----- | ---- | -------- | -------- | ---- | ----- | --------- | ------- | -------- |  
+ uri | string |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  |  
+ agent_type | string |  |  | agent_person | agent_corporate_entity | agent_software | agent_family | user |  |  |  |  
+ agent_contacts | array |  |  |  | {"type"=>"JSONModel(:agent_contact) object"} |  |  |  
+ linked_agent_roles | array |  | true |  | {"type"=>"string"} |  |  |  
+ external_documents | array |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  
+ rights_statements | array |  |  |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  
+ system_generated | boolean |  | true |  |  |  |  |  
+ notes | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_bioghist) object"}]} |  |  |  
+ dates_of_existence | array |  |  |  | {"type"=>"JSONModel(:date) object"} |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  
+ repository | object |  | true |  |  |  | ref |  
+ names | array |  |  |  | {"type"=>"JSONModel(:name_corporate_entity) object"} | error |  | 1 
+ display_name | JSONModel(:name_corporate_entity) object |  | true |  |  |  |  |  
+ related_agents | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:agent_relationship_subordinatesuperior) object"}, {"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}]} |  |  |  
+
+
 
 
 ##JSONModel(:agent_family)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_family.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent",
+  "uri": "/agents/families",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "agent_type": {
+      "type": "string",
+      "required": false,
+      "enum": [
+        "agent_person",
+        "agent_corporate_entity",
+        "agent_software",
+        "agent_family",
+        "user"
+      ]
+    },
+    "agent_contacts": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:agent_contact) object"
+      }
+    },
+    "linked_agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "readonly": true
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "system_generated": {
+      "readonly": true,
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bioghist) object"
+          }
+        ]
+      }
+    },
+    "dates_of_existence": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:name_family) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "display_name": {
+      "type": "JSONModel(:name_family) object",
+      "readonly": true
+    },
+    "related_agents": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:agent_relationship_earlierlater) object"
+          },
+          {
+            "type": "JSONModel(:agent_relationship_associative) object"
+          }
+        ]
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_agent_family"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | enum | items | ifmissing | subtype | minItems  
+ ----- | ---- | -------- | -------- | ---- | ----- | --------- | ------- | -------- |  
+ uri | string |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  |  
+ agent_type | string |  |  | agent_person | agent_corporate_entity | agent_software | agent_family | user |  |  |  |  
+ agent_contacts | array |  |  |  | {"type"=>"JSONModel(:agent_contact) object"} |  |  |  
+ linked_agent_roles | array |  | true |  | {"type"=>"string"} |  |  |  
+ external_documents | array |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  
+ rights_statements | array |  |  |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  
+ system_generated | boolean |  | true |  |  |  |  |  
+ notes | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_bioghist) object"}]} |  |  |  
+ dates_of_existence | array |  |  |  | {"type"=>"JSONModel(:date) object"} |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  
+ repository | object |  | true |  |  |  | ref |  
+ names | array |  |  |  | {"type"=>"JSONModel(:name_family) object"} | error |  | 1 
+ display_name | JSONModel(:name_family) object |  | true |  |  |  |  |  
+ related_agents | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}]} |  |  |  
+
+
 
 
 ##JSONModel(:agent_person)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_person.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent",
+  "uri": "/agents/people",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "agent_type": {
+      "type": "string",
+      "required": false,
+      "enum": [
+        "agent_person",
+        "agent_corporate_entity",
+        "agent_software",
+        "agent_family",
+        "user"
+      ]
+    },
+    "agent_contacts": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:agent_contact) object"
+      }
+    },
+    "linked_agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "readonly": true
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "system_generated": {
+      "readonly": true,
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bioghist) object"
+          }
+        ]
+      }
+    },
+    "dates_of_existence": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:name_person) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "display_name": {
+      "type": "JSONModel(:name_person) object",
+      "readonly": true
+    },
+    "related_agents": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:agent_relationship_parentchild) object"
+          },
+          {
+            "type": "JSONModel(:agent_relationship_earlierlater) object"
+          },
+          {
+            "type": "JSONModel(:agent_relationship_associative) object"
+          }
+        ]
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_agent_person"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | enum | items | ifmissing | subtype | minItems  
+ ----- | ---- | -------- | -------- | ---- | ----- | --------- | ------- | -------- |  
+ uri | string |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  |  
+ agent_type | string |  |  | agent_person | agent_corporate_entity | agent_software | agent_family | user |  |  |  |  
+ agent_contacts | array |  |  |  | {"type"=>"JSONModel(:agent_contact) object"} |  |  |  
+ linked_agent_roles | array |  | true |  | {"type"=>"string"} |  |  |  
+ external_documents | array |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  
+ rights_statements | array |  |  |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  
+ system_generated | boolean |  | true |  |  |  |  |  
+ notes | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_bioghist) object"}]} |  |  |  
+ dates_of_existence | array |  |  |  | {"type"=>"JSONModel(:date) object"} |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  
+ repository | object |  | true |  |  |  | ref |  
+ names | array |  |  |  | {"type"=>"JSONModel(:name_person) object"} | error |  | 1 
+ display_name | JSONModel(:name_person) object |  | true |  |  |  |  |  
+ related_agents | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:agent_relationship_parentchild) object"}, {"type"=>"JSONModel(:agent_relationship_earlierlater) object"}, {"type"=>"JSONModel(:agent_relationship_associative) object"}]} |  |  |  
+
+
 
 
 ##JSONModel(:agent_relationship_associative)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_relationship_associative.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "subtype": "ref",
+  "parent": "abstract_agent_relationship",
+  "properties": {
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "dates": {
+      "type": "JSONModel(:date) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "agent_relationship_associative_relator",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": [
+        {
+          "type": "JSONModel(:agent_person) uri"
+        },
+        {
+          "type": "JSONModel(:agent_family) uri"
+        },
+        {
+          "type": "JSONModel(:agent_corporate_entity) uri"
+        }
+      ],
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ------------ |  
+ description | string | 65000 |  |  |  |  |  
+ dates | JSONModel(:date) object |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true | ref |  
+ relator | string |  |  | error |  |  | agent_relationship_associative_relator 
+ ref | {"type"=>"JSONModel(:agent_person) uri"} | {"type"=>"JSONModel(:agent_family) uri"} | {"type"=>"JSONModel(:agent_corporate_entity) uri"} |  |  | error |  |  |  
+ _resolved | object |  |  |  | true |  |  
+
+
 
 
 ##JSONModel(:agent_relationship_earlierlater)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_relationship_earlierlater.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent_relationship",
+  "subtype": "ref",
+  "properties": {
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "dates": {
+      "type": "JSONModel(:date) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "agent_relationship_earlierlater_relator",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": [
+        {
+          "type": "JSONModel(:agent_person) uri"
+        },
+        {
+          "type": "JSONModel(:agent_corporate_entity) uri"
+        },
+        {
+          "type": "JSONModel(:agent_family) uri"
+        }
+      ],
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ------------ |  
+ description | string | 65000 |  |  |  |  |  
+ dates | JSONModel(:date) object |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true | ref |  
+ relator | string |  |  | error |  |  | agent_relationship_earlierlater_relator 
+ ref | {"type"=>"JSONModel(:agent_person) uri"} | {"type"=>"JSONModel(:agent_corporate_entity) uri"} | {"type"=>"JSONModel(:agent_family) uri"} |  |  | error |  |  |  
+ _resolved | object |  |  |  | true |  |  
+
+
 
 
 ##JSONModel(:agent_relationship_parentchild)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_relationship_parentchild.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent_relationship",
+  "subtype": "ref",
+  "properties": {
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "dates": {
+      "type": "JSONModel(:date) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "agent_relationship_parentchild_relator",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": [
+        {
+          "type": "JSONModel(:agent_person) uri"
+        }
+      ],
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ------------ |  
+ description | string | 65000 |  |  |  |  |  
+ dates | JSONModel(:date) object |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true | ref |  
+ relator | string |  |  | error |  |  | agent_relationship_parentchild_relator 
+ ref | {"type"=>"JSONModel(:agent_person) uri"} |  |  | error |  |  |  
+ _resolved | object |  |  |  | true |  |  
+
+
 
 
 ##JSONModel(:agent_relationship_subordinatesuperior)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_relationship_subordinatesuperior.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent_relationship",
+  "subtype": "ref",
+  "properties": {
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "dates": {
+      "type": "JSONModel(:date) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "relator": {
+      "type": "string",
+      "dynamic_enum": "agent_relationship_subordinatesuperior_relator",
+      "ifmissing": "error"
+    },
+    "ref": {
+      "type": [
+        {
+          "type": "JSONModel(:agent_corporate_entity) uri"
+        }
+      ],
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ------------ |  
+ description | string | 65000 |  |  |  |  |  
+ dates | JSONModel(:date) object |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true | ref |  
+ relator | string |  |  | error |  |  | agent_relationship_subordinatesuperior_relator 
+ ref | {"type"=>"JSONModel(:agent_corporate_entity) uri"} |  |  | error |  |  |  
+ _resolved | object |  |  |  | true |  |  
+
+
 
 
 ##JSONModel(:agent_software)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/agent_software.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_agent",
+  "uri": "/agents/software",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "agent_type": {
+      "type": "string",
+      "required": false,
+      "enum": [
+        "agent_person",
+        "agent_corporate_entity",
+        "agent_software",
+        "agent_family",
+        "user"
+      ]
+    },
+    "agent_contacts": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:agent_contact) object"
+      }
+    },
+    "linked_agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "readonly": true
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "system_generated": {
+      "readonly": true,
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bioghist) object"
+          }
+        ]
+      }
+    },
+    "dates_of_existence": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "display_name": {
+      "type": "JSONModel(:name_software) object",
+      "readonly": true
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:name_software) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_agent_software"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | enum | items | ifmissing | subtype | minItems  
+ ----- | ---- | -------- | -------- | ---- | ----- | --------- | ------- | -------- |  
+ uri | string |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  |  
+ agent_type | string |  |  | agent_person | agent_corporate_entity | agent_software | agent_family | user |  |  |  |  
+ agent_contacts | array |  |  |  | {"type"=>"JSONModel(:agent_contact) object"} |  |  |  
+ linked_agent_roles | array |  | true |  | {"type"=>"string"} |  |  |  
+ external_documents | array |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  
+ rights_statements | array |  |  |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  
+ system_generated | boolean |  | true |  |  |  |  |  
+ notes | array |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_bioghist) object"}]} |  |  |  
+ dates_of_existence | array |  |  |  | {"type"=>"JSONModel(:date) object"} |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  
+ repository | object |  | true |  |  |  | ref |  
+ display_name | JSONModel(:name_software) object |  | true |  |  |  |  |  
+ names | array |  |  |  | {"type"=>"JSONModel(:name_software) object"} | error |  | 1 
+
+
 
 
 ##JSONModel(:archival_object)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/archival_object.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_archival_object",
+  "uri": "/repositories/:repo_id/archival_objects",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192,
+      "ifmissing": null
+    },
+    "language": {
+      "type": "string",
+      "dynamic_enum": "language_iso639_2"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "ref_id": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "\\A[a-zA-Z0-9\\-_:\\.]*\\z"
+    },
+    "component_id": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false,
+      "default": ""
+    },
+    "level": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "archival_record_level"
+    },
+    "other_level": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "display_string": {
+      "type": "string",
+      "maxLength": 8192,
+      "readonly": true
+    },
+    "restrictions_apply": {
+      "type": "boolean",
+      "default": false
+    },
+    "repository_processing_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "parent": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:archival_object) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:resource) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "series": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:archival_object) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "position": {
+      "type": "integer",
+      "required": false
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:instance) object"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bibliography) object"
+          },
+          {
+            "type": "JSONModel(:note_index) object"
+          },
+          {
+            "type": "JSONModel(:note_multipart) object"
+          },
+          {
+            "type": "JSONModel(:note_singlepart) object"
+          }
+        ]
+      }
+    },
+    "has_unpublished_ancestor": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "representative_image": {
+      "type": "JSONModel(:file_version) object",
+      "readonly": true
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "archival_object_check_identifier"
+    ],
+    [
+      "error",
+      "check_archival_object"
+    ],
+    [
+      "warning",
+      "check_archival_object_otherlevel"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | minLength | maxLength | ifmissing | dynamic_enum | readonly | subtype | pattern | default  
+ ----- | ---- | -------- | ----- | --------- | --------- | --------- | ------------ | -------- | ------- | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 8192 |  |  |  |  |  |  
+ language | string |  |  |  |  |  | language_iso639_2 |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  |  |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  |  |  |  |  |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "title"=>{"type"=>"string"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  | true |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  |  |  | true | ref |  |  
+ ref_id | string |  |  |  | 255 |  |  |  |  | \A[a-zA-Z0-9\-_:\.]*\z |  
+ component_id | string |  |  |  | 255 |  |  |  |  |  |  
+ level | string |  |  |  |  | error | archival_record_level |  |  |  |  
+ other_level | string |  |  |  | 255 |  |  |  |  |  |  
+ display_string | string |  |  |  | 8192 |  |  | true |  |  |  
+ restrictions_apply | boolean |  |  |  |  |  |  |  |  |  |  
+ repository_processing_note | string |  |  |  | 65000 |  |  |  |  |  |  
+ parent | object |  |  |  |  |  |  |  | ref |  |  
+ resource | object |  |  |  |  |  |  |  | ref |  |  
+ series | object |  |  |  |  |  |  |  | ref |  |  
+ position | integer |  |  |  |  |  |  |  |  |  |  
+ instances | array |  | {"type"=>"JSONModel(:instance) object"} |  |  |  |  |  |  |  |  
+ notes | array |  | {"type"=>[{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}]} |  |  |  |  |  |  |  |  
+ has_unpublished_ancestor | boolean |  |  |  |  |  |  | true |  |  |  
+ representative_image | JSONModel(:file_version) object |  |  |  |  |  |  | true |  |  |  
+
+
 
 
 ##JSONModel(:archival_record_children)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/archival_record_children.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:archival_object) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | ----- | -------- | --------- | -------- | ------- |  
+ children | array | {"type"=>"JSONModel(:archival_object) object"} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:boolean_field_query)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/boolean_field_query.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "field": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "value": {
+      "type": "boolean",
+      "ifmissing": "error",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | default | required | readonly | subtype  
+ ----- | ---- | --------- | ------- | -------- | -------- | ------- |  
+ field | string | error |  |  |  |  
+ value | boolean | error | true |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string | error |  |  |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:boolean_query)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/boolean_query.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "op": {
+      "type": "string",
+      "enum": [
+        "AND",
+        "OR",
+        "NOT"
+      ],
+      "ifmissing": "error"
+    },
+    "subqueries": {
+      "type": [
+        "JSONModel(:boolean_query) object",
+        "JSONModel(:field_query) object",
+        "JSONModel(:boolean_field_query) object",
+        "JSONModel(:date_field_query) object"
+      ],
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | enum | ifmissing | minItems | required | readonly | subtype  
+ ----- | ---- | ---- | --------- | -------- | -------- | -------- | ------- |  
+ op | string | AND | OR | NOT | error |  |  |  |  
+ subqueries | JSONModel(:boolean_query) object | JSONModel(:field_query) object | JSONModel(:boolean_field_query) object | JSONModel(:date_field_query) object |  | error | 1 |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:classification)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/classification.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_classification",
+  "uri": "/repositories/:repo_id/classifications",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean",
+      "default": true,
+      "readonly": true
+    },
+    "path_from_root": {
+      "type": "array",
+      "readonly": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "ifmissing": "error"
+          }
+        }
+      }
+    },
+    "linked_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:accession) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              }
+            ]
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "creator": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:agent_corporate_entity) uri"
+            },
+            {
+              "type": "JSONModel(:agent_family) uri"
+            },
+            {
+              "type": "JSONModel(:agent_person) uri"
+            },
+            {
+              "type": "JSONModel(:agent_software) uri"
+            }
+          ],
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | default | readonly | items | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ----- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ identifier | string |  | 255 | error |  |  |  |  |  
+ title | string |  | 16384 | error | 1 |  |  |  |  
+ description | string |  | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  | true | true |  |  
+ path_from_root | array |  |  |  |  |  | true | {"type"=>"object", "properties"=>{"identifier"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}, "title"=>{"type"=>"string", "minLength"=>1, "maxLength"=>16384, "ifmissing"=>"error"}}} |  
+ linked_records | array |  |  |  |  |  |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:accession) uri"}, {"type"=>"JSONModel(:resource) uri"}]}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  
+ creator | object |  |  |  |  |  |  |  | ref 
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:classification_term)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/classification_term.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_classification",
+  "uri": "/repositories/:repo_id/classification_terms",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean",
+      "default": true,
+      "readonly": true
+    },
+    "path_from_root": {
+      "type": "array",
+      "readonly": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "maxLength": 255,
+            "ifmissing": "error"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "ifmissing": "error"
+          }
+        }
+      }
+    },
+    "linked_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:accession) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              }
+            ]
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "creator": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:agent_corporate_entity) uri"
+            },
+            {
+              "type": "JSONModel(:agent_family) uri"
+            },
+            {
+              "type": "JSONModel(:agent_person) uri"
+            },
+            {
+              "type": "JSONModel(:agent_software) uri"
+            }
+          ],
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "position": {
+      "type": "integer",
+      "required": false
+    },
+    "parent": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:classification_term) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "subtype": "ref",
+      "ifmissing": "error",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:classification) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | default | readonly | items | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ----- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ identifier | string |  | 255 | error |  |  |  |  |  
+ title | string |  | 16384 | error | 1 |  |  |  |  
+ description | string |  | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  | true | true |  |  
+ path_from_root | array |  |  |  |  |  | true | {"type"=>"object", "properties"=>{"identifier"=>{"type"=>"string", "maxLength"=>255, "ifmissing"=>"error"}, "title"=>{"type"=>"string", "minLength"=>1, "maxLength"=>16384, "ifmissing"=>"error"}}} |  
+ linked_records | array |  |  |  |  |  |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:accession) uri"}, {"type"=>"JSONModel(:resource) uri"}]}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  
+ creator | object |  |  |  |  |  |  |  | ref 
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  | true |  | ref 
+ position | integer |  |  |  |  |  |  |  |  
+ parent | object |  |  |  |  |  |  |  | ref 
+ classification | object |  |  | error |  |  |  |  | ref 
+
+
 
 
 ##JSONModel(:record_tree)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/record_tree.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "id": {
+      "type": "integer",
+      "ifmissing": "error"
+    },
+    "record_uri": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "required": false,
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "default": false
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "has_children": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "node_type": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | minLength | maxLength | default | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  
+ id | integer |  | error |  |  |  |  |  
+ record_uri | string |  | error |  |  |  |  |  
+ title | string |  |  | 1 | 16384 |  |  |  
+ suppressed | boolean |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ has_children | boolean |  |  |  |  |  | true |  
+ node_type | string |  |  |  | 255 |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:classification_tree)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/classification_tree.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/classifications/:classification_id/tree",
+  "parent": "record_tree",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "id": {
+      "type": "integer",
+      "ifmissing": "error"
+    },
+    "record_uri": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "required": false,
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "default": false
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "has_children": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "node_type": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "children": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "JSONModel(:classification_tree) object"
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | minLength | maxLength | default | readonly | subtype | additionalItems | items  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ------- | --------------- | ----- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ id | integer |  | error |  |  |  |  |  |  |  
+ record_uri | string |  | error |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  
+ has_children | boolean |  |  |  |  |  | true |  |  |  
+ node_type | string |  |  |  | 255 |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  |  | true | ref |  |  
+ identifier | string |  |  |  | 255 |  |  |  |  |  
+ children | array |  |  |  |  |  |  |  |  | {"type"=>"JSONModel(:classification_tree) object"} 
+
+
 
 
 ##JSONModel(:collection_management)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/collection_management.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/collection_management",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "processing_hours_per_foot_estimate": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "processing_total_extent": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "processing_total_extent_type": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "extent_extent_type"
+    },
+    "processing_hours_total": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "processing_plan": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "processing_priority": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "collection_management_processing_priority"
+    },
+    "processing_funding_source": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "processors": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "rights_determined": {
+      "type": "boolean",
+      "default": false
+    },
+    "processing_status": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "collection_management_processing_status"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_collection_management"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | maxLength | dynamic_enum | default | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | ----- | --------- | ------------ | ------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  
+ processing_hours_per_foot_estimate | string |  |  | 255 |  |  |  |  |  
+ processing_total_extent | string |  |  | 255 |  |  |  |  |  
+ processing_total_extent_type | string |  |  |  | extent_extent_type |  |  |  |  
+ processing_hours_total | string |  |  | 255 |  |  |  |  |  
+ processing_plan | string |  |  | 65000 |  |  |  |  |  
+ processing_priority | string |  |  |  | collection_management_processing_priority |  |  |  |  
+ processing_funding_source | string |  |  | 65000 |  |  |  |  |  
+ processors | string |  |  | 65000 |  |  |  |  |  
+ rights_determined | boolean |  |  |  |  |  |  |  |  
+ processing_status | string |  |  |  | collection_management_processing_status |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:container)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/container.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "container_profile_key": {
+      "type": "string"
+    },
+    "type_1": {
+      "type": "string",
+      "dynamic_enum": "container_type",
+      "required": false
+    },
+    "indicator_1": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "required": false
+    },
+    "barcode_1": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1
+    },
+    "type_2": {
+      "type": "string",
+      "dynamic_enum": "container_type"
+    },
+    "indicator_2": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "type_3": {
+      "type": "string",
+      "dynamic_enum": "container_type"
+    },
+    "indicator_3": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "container_extent": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "container_extent_type": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "extent_extent_type"
+    },
+    "container_locations": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:container_location) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_container"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | required | maxLength | minLength | items | ifmissing | readonly | subtype  
+ ----- | ---- | ------------ | -------- | --------- | --------- | ----- | --------- | -------- | ------- |  
+ container_profile_key | string |  |  |  |  |  |  |  |  
+ type_1 | string | container_type |  |  |  |  |  |  |  
+ indicator_1 | string |  |  | 255 | 1 |  |  |  |  
+ barcode_1 | string |  |  | 255 | 1 |  |  |  |  
+ type_2 | string | container_type |  |  |  |  |  |  |  
+ indicator_2 | string |  |  | 255 |  |  |  |  |  
+ type_3 | string | container_type |  |  |  |  |  |  |  
+ indicator_3 | string |  |  | 255 |  |  |  |  |  
+ container_extent | string |  |  | 255 |  |  |  |  |  
+ container_extent_type | string | extent_extent_type |  |  |  |  |  |  |  
+ container_locations | array |  |  |  |  | {"type"=>"JSONModel(:container_location) object"} |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:container_conversion_job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/container_conversion_job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | required | readonly | subtype  
+ ----- | ---- | --------- | -------- | -------- | ------- |  
+ format | string | error |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string | error |  |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:container_location)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/container_location.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "subtype": "ref",
+  "properties": {
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "container_location_status"
+    },
+    "start_date": {
+      "type": "date",
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "note": {
+      "type": "string"
+    },
+    "ref": {
+      "type": "JSONModel(:location) uri",
+      "ifmissing": "error"
+    },
+    "_resolved": {
+      "type": "object",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_container_location"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | minLength | ifmissing | dynamic_enum | readonly | required | subtype  
+ ----- | ---- | --------- | --------- | ------------ | -------- | -------- | ------- |  
+ status | string | 1 | error | container_location_status |  |  |  
+ start_date | date | 1 | error |  |  |  |  
+ end_date | date |  |  |  |  |  |  
+ note | string |  |  |  |  |  |  
+ ref | JSONModel(:location) uri |  | error |  |  |  |  
+ _resolved | object |  |  |  | true |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:container_profile)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/container_profile.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/container_profiles",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "url": {
+      "type": "string",
+      "required": false
+    },
+    "dimension_units": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "dimension_units"
+    },
+    "extent_dimension": {
+      "type": "string",
+      "ifmissing": "error",
+      "enum": [
+        "height",
+        "width",
+        "depth"
+      ]
+    },
+    "height": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "width": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "depth": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "stacking_limit": {
+      "type": "string",
+      "required": false
+    },
+    "display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_container_profile"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | dynamic_enum | enum | readonly | subtype  
+ ----- | ---- | -------- | --------- | ------------ | ---- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  
+ name | string |  | error |  |  |  |  
+ url | string |  |  |  |  |  |  
+ dimension_units | string |  | error | dimension_units |  |  |  
+ extent_dimension | string |  | error |  | height | width | depth |  |  
+ height | string |  | error |  |  |  |  
+ width | string |  | error |  |  |  |  
+ depth | string |  | error |  |  |  |  
+ stacking_limit | string |  |  |  |  |  |  
+ display_string | string |  |  |  |  | true |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:date)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/date.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "date_type": {
+      "type": "string",
+      "dynamic_enum": "date_type",
+      "ifmissing": "error"
+    },
+    "label": {
+      "type": "string",
+      "dynamic_enum": "date_label",
+      "ifmissing": "error"
+    },
+    "certainty": {
+      "type": "string",
+      "dynamic_enum": "date_certainty"
+    },
+    "expression": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "begin": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "end": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "era": {
+      "type": "string",
+      "dynamic_enum": "date_era"
+    },
+    "calendar": {
+      "type": "string",
+      "dynamic_enum": "date_calendar"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_date"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | ifmissing | maxLength | required | readonly | subtype  
+ ----- | ---- | ------------ | --------- | --------- | -------- | -------- | ------- |  
+ date_type | string | date_type | error |  |  |  |  
+ label | string | date_label | error |  |  |  |  
+ certainty | string | date_certainty |  |  |  |  |  
+ expression | string |  |  | 255 |  |  |  
+ begin | string |  |  | 255 |  |  |  
+ end | string |  |  | 255 |  |  |  
+ era | string | date_era |  |  |  |  |  
+ calendar | string | date_calendar |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:date_field_query)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/date_field_query.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "comparator": {
+      "type": "string",
+      "enum": [
+        "greater_than",
+        "lesser_than",
+        "equal"
+      ]
+    },
+    "field": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "value": {
+      "type": "date",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | enum | ifmissing | required | readonly | subtype  
+ ----- | ---- | ---- | --------- | -------- | -------- | ------- |  
+ comparator | string | greater_than | lesser_than | equal |  |  |  |  
+ field | string |  | error |  |  |  
+ value | date |  | error |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:deaccession)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/deaccession.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "dynamic_enum": "deaccession_scope",
+      "ifmissing": "error"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "disposition": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "notification": {
+      "type": "boolean",
+      "default": false
+    },
+    "date": {
+      "type": "JSONModel(:date) object",
+      "ifmissing": "error"
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | ifmissing | maxLength | minLength | default | items | required | readonly | subtype  
+ ----- | ---- | ------------ | --------- | --------- | --------- | ------- | ----- | -------- | -------- | ------- |  
+ scope | string | deaccession_scope | error |  |  |  |  |  |  |  
+ description | string |  | error | 65000 | 1 |  |  |  |  |  
+ reason | string |  |  | 65000 |  |  |  |  |  |  
+ disposition | string |  |  | 65000 |  |  |  |  |  |  
+ notification | boolean |  |  |  |  |  |  |  |  |  
+ date | JSONModel(:date) object |  | error |  |  |  |  |  |  |  
+ extents | array |  |  |  |  |  | {"type"=>"JSONModel(:extent) object"} |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:default_values)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/default_values.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/default_values/:record_type",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "record_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "enum": [
+        "archival_object",
+        "digital_object_component",
+        "resource",
+        "accession",
+        "subject",
+        "digital_object",
+        "agent_person",
+        "agent_family",
+        "agent_software",
+        "agent_corporate_entity",
+        "event",
+        "location",
+        "classification",
+        "classification_term"
+      ]
+    },
+    "defaults": {
+      "type": "object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | enum | readonly | subtype  
+ ----- | ---- | -------- | --------- | ---- | -------- | ------- |  
+ uri | string |  |  |  |  |  
+ record_type | string |  | error | archival_object | digital_object_component | resource | accession | subject | digital_object | agent_person | agent_family | agent_software | agent_corporate_entity | event | location | classification | classification_term |  |  
+ defaults | object |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:defaults)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/defaults.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "show_suppressed": {
+      "type": "boolean",
+      "required": false
+    },
+    "publish": {
+      "type": "boolean",
+      "required": false
+    },
+    "accession_browse_column_1": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "accession_date",
+        "acquisition_type",
+        "resource_type",
+        "restrictions_apply",
+        "access_restrictions",
+        "use_restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "accession_browse_column_2": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "accession_date",
+        "acquisition_type",
+        "resource_type",
+        "restrictions_apply",
+        "access_restrictions",
+        "use_restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "accession_browse_column_3": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "accession_date",
+        "acquisition_type",
+        "resource_type",
+        "restrictions_apply",
+        "access_restrictions",
+        "use_restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "accession_browse_column_4": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "accession_date",
+        "acquisition_type",
+        "resource_type",
+        "restrictions_apply",
+        "access_restrictions",
+        "use_restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "accession_browse_column_5": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "accession_date",
+        "acquisition_type",
+        "resource_type",
+        "restrictions_apply",
+        "access_restrictions",
+        "use_restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "resource_browse_column_1": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "resource_type",
+        "level",
+        "language",
+        "restrictions",
+        "ead_id",
+        "finding_aid_status",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "resource_browse_column_2": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "resource_type",
+        "level",
+        "language",
+        "restrictions",
+        "ead_id",
+        "finding_aid_status",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "resource_browse_column_3": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "resource_type",
+        "level",
+        "language",
+        "restrictions",
+        "ead_id",
+        "finding_aid_status",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "resource_browse_column_4": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "resource_type",
+        "level",
+        "language",
+        "restrictions",
+        "ead_id",
+        "finding_aid_status",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "resource_browse_column_5": {
+      "type": "string",
+      "enum": [
+        "identifier",
+        "resource_type",
+        "level",
+        "language",
+        "restrictions",
+        "ead_id",
+        "finding_aid_status",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "digital_object_browse_column_1": {
+      "type": "string",
+      "enum": [
+        "digital_object_id",
+        "digital_object_type",
+        "level",
+        "restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "digital_object_browse_column_2": {
+      "type": "string",
+      "enum": [
+        "digital_object_id",
+        "digital_object_type",
+        "level",
+        "restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "digital_object_browse_column_3": {
+      "type": "string",
+      "enum": [
+        "digital_object_id",
+        "digital_object_type",
+        "level",
+        "restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "digital_object_browse_column_4": {
+      "type": "string",
+      "enum": [
+        "digital_object_id",
+        "digital_object_type",
+        "level",
+        "restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "digital_object_browse_column_5": {
+      "type": "string",
+      "enum": [
+        "digital_object_id",
+        "digital_object_type",
+        "level",
+        "restrictions",
+        "publish",
+        "no_value"
+      ],
+      "required": false
+    },
+    "default_values": {
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    "note_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | enum | default | items | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | ---- | ------- | ----- | --------- | -------- | ------- |  
+ show_suppressed | boolean |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ accession_browse_column_1 | string |  | identifier | accession_date | acquisition_type | resource_type | restrictions_apply | access_restrictions | use_restrictions | publish | no_value |  |  |  |  |  
+ accession_browse_column_2 | string |  | identifier | accession_date | acquisition_type | resource_type | restrictions_apply | access_restrictions | use_restrictions | publish | no_value |  |  |  |  |  
+ accession_browse_column_3 | string |  | identifier | accession_date | acquisition_type | resource_type | restrictions_apply | access_restrictions | use_restrictions | publish | no_value |  |  |  |  |  
+ accession_browse_column_4 | string |  | identifier | accession_date | acquisition_type | resource_type | restrictions_apply | access_restrictions | use_restrictions | publish | no_value |  |  |  |  |  
+ accession_browse_column_5 | string |  | identifier | accession_date | acquisition_type | resource_type | restrictions_apply | access_restrictions | use_restrictions | publish | no_value |  |  |  |  |  
+ resource_browse_column_1 | string |  | identifier | resource_type | level | language | restrictions | ead_id | finding_aid_status | publish | no_value |  |  |  |  |  
+ resource_browse_column_2 | string |  | identifier | resource_type | level | language | restrictions | ead_id | finding_aid_status | publish | no_value |  |  |  |  |  
+ resource_browse_column_3 | string |  | identifier | resource_type | level | language | restrictions | ead_id | finding_aid_status | publish | no_value |  |  |  |  |  
+ resource_browse_column_4 | string |  | identifier | resource_type | level | language | restrictions | ead_id | finding_aid_status | publish | no_value |  |  |  |  |  
+ resource_browse_column_5 | string |  | identifier | resource_type | level | language | restrictions | ead_id | finding_aid_status | publish | no_value |  |  |  |  |  
+ digital_object_browse_column_1 | string |  | digital_object_id | digital_object_type | level | restrictions | publish | no_value |  |  |  |  |  
+ digital_object_browse_column_2 | string |  | digital_object_id | digital_object_type | level | restrictions | publish | no_value |  |  |  |  |  
+ digital_object_browse_column_3 | string |  | digital_object_id | digital_object_type | level | restrictions | publish | no_value |  |  |  |  |  
+ digital_object_browse_column_4 | string |  | digital_object_id | digital_object_type | level | restrictions | publish | no_value |  |  |  |  |  
+ digital_object_browse_column_5 | string |  | digital_object_id | digital_object_type | level | restrictions | publish | no_value |  |  |  |  |  
+ default_values | boolean |  |  |  |  |  |  |  
+ note_order | array |  |  |  | {"type"=>"string"} |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:digital_object)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/digital_object.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_archival_object",
+  "uri": "/repositories/:repo_id/digital_objects",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "language": {
+      "type": "string",
+      "dynamic_enum": "language_iso639_2"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "digital_object_id": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "level": {
+      "type": "string",
+      "dynamic_enum": "digital_object_level"
+    },
+    "digital_object_type": {
+      "type": "string",
+      "dynamic_enum": "digital_object_digital_object_type"
+    },
+    "file_versions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:file_version) object"
+      }
+    },
+    "restrictions": {
+      "type": "boolean",
+      "default": false
+    },
+    "tree": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:digital_object_tree) uri",
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bibliography) object"
+          },
+          {
+            "type": "JSONModel(:note_digital_object) object"
+          }
+        ]
+      }
+    },
+    "collection_management": {
+      "type": "JSONModel(:collection_management) object"
+    },
+    "user_defined": {
+      "type": "JSONModel(:user_defined) object"
+    },
+    "linked_instances": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              "JSONModel(:resource) uri",
+              "JSONModel(:archival_object) object"
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | minLength | maxLength | ifmissing | dynamic_enum | readonly | subtype | default  
+ ----- | ---- | -------- | ----- | --------- | --------- | --------- | ------------ | -------- | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 | error |  |  |  |  
+ language | string |  |  |  |  |  | language_iso639_2 |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  |  |  |  |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "title"=>{"type"=>"string"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  | true |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  |  | true | ref |  
+ digital_object_id | string |  |  |  | 255 | error |  |  |  |  
+ level | string |  |  |  |  |  | digital_object_level |  |  |  
+ digital_object_type | string |  |  |  |  |  | digital_object_digital_object_type |  |  |  
+ file_versions | array |  | {"type"=>"JSONModel(:file_version) object"} |  |  |  |  |  |  |  
+ restrictions | boolean |  |  |  |  |  |  |  |  |  
+ tree | object |  |  |  |  |  |  |  | ref |  
+ notes | array |  | {"type"=>[{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}]} |  |  |  |  |  |  |  
+ collection_management | JSONModel(:collection_management) object |  |  |  |  |  |  |  |  |  
+ user_defined | JSONModel(:user_defined) object |  |  |  |  |  |  |  |  |  
+ linked_instances | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>["JSONModel(:resource) uri", "JSONModel(:archival_object) object"], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  |  
+
+
 
 
 ##JSONModel(:digital_object_component)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/digital_object_component.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_archival_object",
+  "uri": "/repositories/:repo_id/digital_object_components",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": null
+    },
+    "language": {
+      "type": "string",
+      "dynamic_enum": "language_iso639_2"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      }
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "component_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "label": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "display_string": {
+      "type": "string",
+      "maxLength": 8192,
+      "readonly": true
+    },
+    "file_versions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:file_version) object"
+      }
+    },
+    "parent": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:digital_object_component) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "digital_object": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:digital_object) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "position": {
+      "type": "integer",
+      "required": false
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bibliography) object"
+          },
+          {
+            "type": "JSONModel(:note_digital_object) object"
+          }
+        ]
+      }
+    },
+    "has_unpublished_ancestor": {
+      "type": "boolean",
+      "readonly": "true"
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_digital_object_component"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | minLength | maxLength | ifmissing | dynamic_enum | readonly | subtype  
+ ----- | ---- | -------- | ----- | --------- | --------- | --------- | ------------ | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 |  |  |  |  
+ language | string |  |  |  |  |  | language_iso639_2 |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  |  |  |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "title"=>{"type"=>"string"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  | true |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+ component_id | string |  |  |  | 255 |  |  |  |  
+ label | string |  |  |  | 255 |  |  |  |  
+ display_string | string |  |  |  | 8192 |  |  | true |  
+ file_versions | array |  | {"type"=>"JSONModel(:file_version) object"} |  |  |  |  |  |  
+ parent | object |  |  |  |  |  |  |  | ref 
+ digital_object | object |  |  |  |  |  |  |  | ref 
+ position | integer |  |  |  |  |  |  |  |  
+ notes | array |  | {"type"=>[{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_digital_object) object"}]} |  |  |  |  |  |  
+ has_unpublished_ancestor | boolean |  |  |  |  |  |  | true |  
+
+
 
 
 ##JSONModel(:digital_object_tree)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/digital_object_tree.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/digital_objects/:digital_object_id/tree",
+  "parent": "record_tree",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "id": {
+      "type": "integer",
+      "ifmissing": "error"
+    },
+    "record_uri": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "required": false,
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "default": false
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "has_children": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "node_type": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "level": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "digital_object_type": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "file_versions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "children": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "JSONModel(:digital_object_tree) object"
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | minLength | maxLength | default | readonly | subtype | items | additionalItems  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ------- | ----- | --------------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ id | integer |  | error |  |  |  |  |  |  |  
+ record_uri | string |  | error |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  
+ has_children | boolean |  |  |  |  |  | true |  |  |  
+ node_type | string |  |  |  | 255 |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  |  | true | ref |  |  
+ level | string |  |  |  | 255 |  |  |  |  |  
+ digital_object_type | string |  |  |  | 255 |  |  |  |  |  
+ file_versions | array |  |  |  |  |  |  |  | {"type"=>"object"} |  
+ children | array |  |  |  |  |  |  |  | {"type"=>"JSONModel(:digital_object_tree) object"} |  
+
+
 
 
 ##JSONModel(:digital_record_children)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/digital_record_children.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:digital_object_component) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | ----- | -------- | --------- | -------- | ------- |  
+ children | array | {"type"=>"JSONModel(:digital_object_component) object"} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:enumeration)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/enumeration.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/config/enumerations",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "default_value": {
+      "type": "string"
+    },
+    "editable": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "enumeration_values": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:enumeration_value) object"
+      }
+    },
+    "values": {
+      "type": "array",
+      "ifmissing": "error",
+      "items": {
+        "type": "string"
+      }
+    },
+    "readonly_values": {
+      "type": "array",
+      "readonly": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | readonly | items | subtype  
+ ----- | ---- | -------- | --------- | --------- | -------- | ----- | ------- |  
+ uri | string |  |  |  |  |  |  
+ name | string |  | 255 | error |  |  |  
+ default_value | string |  |  |  |  |  |  
+ editable | boolean |  |  |  | true |  |  
+ relationships | array |  |  |  |  | {"type"=>"string"} |  
+ enumeration_values | array |  |  |  |  | {"type"=>"JSONModel(:enumeration_value) object"} |  
+ values | array |  |  | error |  | {"type"=>"string"} |  
+ readonly_values | array |  |  |  | true | {"type"=>"string"} |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:enumeration_migration)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/enumeration_migration.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/config/enumerations/migration",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "enum_uri": {
+      "type": "JSONModel(:enumeration) uri",
+      "ifmissing": "error"
+    },
+    "from": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "to": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  
+ enum_uri | JSONModel(:enumeration) uri |  | error |  |  
+ from | string |  | error |  |  
+ to | string |  | error |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string |  | error |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:enumeration_value)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/enumeration_value.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/config/enumeration_values",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "value": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "position": {
+      "type": "integer"
+    },
+    "suppressed": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  |  
+ value | string |  | 255 | error |  |  
+ position | integer |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:event)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/event.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/events",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "event_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "event_event_type"
+    },
+    "date": {
+      "type": "JSONModel(:date) object"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string",
+      "dynamic_enum": "event_outcome"
+    },
+    "outcome_note": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "linked_agents": {
+      "type": "array",
+      "ifmissing": "error",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_event_roles",
+            "ifmissing": "error"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_records": {
+      "type": "array",
+      "ifmissing": "error",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_event_archival_record_roles",
+            "ifmissing": "error"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              },
+              {
+                "type": "JSONModel(:accession) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              },
+              {
+                "type": "JSONModel(:digital_object) uri"
+              },
+              {
+                "type": "JSONModel(:archival_object) uri"
+              },
+              {
+                "type": "JSONModel(:digital_object_component) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_event"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | ifmissing | dynamic_enum | maxLength | readonly | minItems | subtype  
+ ----- | ---- | -------- | ----- | --------- | ------------ | --------- | -------- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  
+ event_type | string |  |  | error | event_event_type |  |  |  |  
+ date | JSONModel(:date) object |  |  |  |  |  |  |  |  
+ timestamp | string |  |  |  |  |  |  |  |  
+ outcome | string |  |  |  | event_outcome |  |  |  |  
+ outcome_note | string |  |  |  |  | 16384 |  |  |  
+ suppressed | boolean |  |  |  |  |  | true |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_event_roles", "ifmissing"=>"error"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} | error |  |  |  | 1 |  
+ linked_records | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_event_archival_record_roles", "ifmissing"=>"error"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_software) uri"}, {"type"=>"JSONModel(:accession) uri"}, {"type"=>"JSONModel(:resource) uri"}, {"type"=>"JSONModel(:digital_object) uri"}, {"type"=>"JSONModel(:archival_object) uri"}, {"type"=>"JSONModel(:digital_object_component) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} | error |  |  |  | 1 |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:extent)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/extent.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "portion": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "extent_portion"
+    },
+    "number": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "extent_type": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "extent_extent_type"
+    },
+    "container_summary": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "physical_details": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "dimensions": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | minLength | ifmissing | dynamic_enum | maxLength | required | readonly | subtype  
+ ----- | ---- | --------- | --------- | ------------ | --------- | -------- | -------- | ------- |  
+ portion | string | 1 | error | extent_portion |  |  |  |  
+ number | string | 1 | error |  | 255 |  |  |  
+ extent_type | string | 1 | error | extent_extent_type |  |  |  |  
+ container_summary | string |  |  |  | 65000 |  |  |  
+ physical_details | string |  |  |  | 65000 |  |  |  
+ dimensions | string |  |  |  | 255 |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:external_document)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/external_document.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 16384,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "location": {
+      "type": "string",
+      "maxLength": 16384,
+      "ifmissing": "error",
+      "default": ""
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | ifmissing | minLength | default | required | readonly | subtype  
+ ----- | ---- | --------- | --------- | --------- | ------- | -------- | -------- | ------- |  
+ title | string | 16384 | error | 1 |  |  |  |  
+ location | string | 16384 | error |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:external_id)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/external_id.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- |  
+ external_id | string | 255 |  |  |  |  
+ source | string | 255 |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:field_query)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/field_query.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "negated": {
+      "type": "boolean",
+      "default": false
+    },
+    "field": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "value": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "literal": {
+      "type": "boolean",
+      "default": false
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | default | ifmissing | required | readonly | subtype  
+ ----- | ---- | ------- | --------- | -------- | -------- | ------- |  
+ negated | boolean |  |  |  |  |  
+ field | string |  | error |  |  |  
+ value | string |  | error |  |  |  
+ literal | boolean |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:file_version)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/file_version.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "type": "string",
+      "readonly": true
+    },
+    "file_uri": {
+      "type": "string",
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "use_statement": {
+      "type": "string",
+      "dynamic_enum": "file_version_use_statement"
+    },
+    "xlink_actuate_attribute": {
+      "type": "string",
+      "dynamic_enum": "file_version_xlink_actuate_attribute"
+    },
+    "xlink_show_attribute": {
+      "type": "string",
+      "dynamic_enum": "file_version_xlink_show_attribute"
+    },
+    "file_format_name": {
+      "type": "string",
+      "dynamic_enum": "file_version_file_format_name"
+    },
+    "file_format_version": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "file_size_bytes": {
+      "type": "integer"
+    },
+    "is_representative": {
+      "type": "boolean",
+      "default": false
+    },
+    "checksum": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "checksum_method": {
+      "type": "string",
+      "dynamic_enum": "file_version_checksum_methods"
+    },
+    "caption": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | readonly | maxLength | ifmissing | dynamic_enum | default | required | subtype  
+ ----- | ---- | -------- | --------- | --------- | ------------ | ------- | -------- | ------- |  
+ identifier | string | true |  |  |  |  |  |  
+ file_uri | string |  | 16384 | error |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ use_statement | string |  |  |  | file_version_use_statement |  |  |  
+ xlink_actuate_attribute | string |  |  |  | file_version_xlink_actuate_attribute |  |  |  
+ xlink_show_attribute | string |  |  |  | file_version_xlink_show_attribute |  |  |  
+ file_format_name | string |  |  |  | file_version_file_format_name |  |  |  
+ file_format_version | string |  | 255 |  |  |  |  |  
+ file_size_bytes | integer |  |  |  |  |  |  |  
+ is_representative | boolean |  |  |  |  |  |  |  
+ checksum | string |  | 255 |  |  |  |  |  
+ checksum_method | string |  |  |  | file_version_checksum_methods |  |  |  
+ caption | string |  | 16384 |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  
+ created_by | string | true |  |  |  |  |  |  
+ last_modified_by | string | true |  |  |  |  |  |  
+ user_mtime | date-time | true |  |  |  |  |  |  
+ system_mtime | date-time | true |  |  |  |  |  |  
+ create_time | date-time | true |  |  |  |  |  |  
+ repository | object | true |  |  |  |  |  | ref 
+
+
 
 
 ##JSONModel(:find_and_replace_job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/find_and_replace_job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "find": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "replace": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "record_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "property": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "base_record_uri": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "only target properties on the target schemas"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | required | readonly | subtype  
+ ----- | ---- | --------- | -------- | -------- | ------- |  
+ find | string | error |  |  |  
+ replace | string | error |  |  |  
+ record_type | string | error |  |  |  
+ property | string | error |  |  |  
+ base_record_uri | string | error |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string | error |  |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:group)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/group.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/groups",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "group_code": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error",
+      "default": ""
+    },
+    "member_usernames": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "grants_permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | default | items | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | ----- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ group_code | string |  | 255 | error | 1 |  |  |  |  
+ description | string |  | 65000 | error |  |  |  |  |  
+ member_usernames | array |  |  |  |  |  | {"type"=>"string", "minLength"=>1} |  |  
+ grants_permissions | array |  |  |  |  |  | {"type"=>"string", "minLength"=>1} |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:import_job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/import_job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "filenames": {
+      "type": "array",
+      "ifmissing": "error",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "import_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | minItems | items | required | readonly | subtype  
+ ----- | ---- | --------- | -------- | ----- | -------- | -------- | ------- |  
+ filenames | array | error | 1 | {"type"=>"string"} |  |  |  
+ import_type | string | error |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string | error |  |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:instance)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/instance.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "instance_type": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "instance_instance_type"
+    },
+    "container": {
+      "type": "JSONModel(:container) object"
+    },
+    "sub_container": {
+      "type": "JSONModel(:sub_container) object"
+    },
+    "digital_object": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:digital_object) uri",
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "is_representative": {
+      "type": "boolean",
+      "default": false
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_instance"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | minLength | ifmissing | dynamic_enum | subtype | default | required | readonly  
+ ----- | ---- | --------- | --------- | ------------ | ------- | ------- | -------- | -------- |  
+ instance_type | string | 1 | error | instance_instance_type |  |  |  |  
+ container | JSONModel(:container) object |  |  |  |  |  |  |  
+ sub_container | JSONModel(:sub_container) object |  |  |  |  |  |  |  
+ digital_object | object |  |  |  | ref |  |  |  
+ is_representative | boolean |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  | true 
+ last_modified_by | string |  |  |  |  |  |  | true 
+ user_mtime | date-time |  |  |  |  |  |  | true 
+ system_mtime | date-time |  |  |  |  |  |  | true 
+ create_time | date-time |  |  |  |  |  |  | true 
+ repository | object |  |  |  | ref |  |  | true 
+
+
 
 
 ##JSONModel(:job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/jobs",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "job_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "minLength": 1,
+      "dynamic_enum": "job_type"
+    },
+    "job": {
+      "type": [
+        {
+          "type": "JSONModel(:import_job) object"
+        },
+        {
+          "type": "JSONModel(:find_and_replace_job) object"
+        },
+        {
+          "type": "JSONModel(:print_to_pdf_job) object"
+        },
+        {
+          "type": "JSONModel(:report_job) object"
+        },
+        {
+          "type": "JSONModel(:container_conversion_job) object"
+        }
+      ]
+    },
+    "job_params": {
+      "type": "string"
+    },
+    "time_submitted": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "time_started": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "time_finished": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "owner": {
+      "type": "string",
+      "readonly": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "canceled",
+        "queued",
+        "failed"
+      ],
+      "default": "queued",
+      "readonly": true
+    },
+    "queue_position": {
+      "type": "number",
+      "readonly": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | minLength | dynamic_enum | readonly | enum | default | subtype  
+ ----- | ---- | -------- | --------- | --------- | ------------ | -------- | ---- | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ job_type | string |  | error | 1 | job_type |  |  |  |  
+ job | {"type"=>"JSONModel(:import_job) object"} | {"type"=>"JSONModel(:find_and_replace_job) object"} | {"type"=>"JSONModel(:print_to_pdf_job) object"} | {"type"=>"JSONModel(:report_job) object"} | {"type"=>"JSONModel(:container_conversion_job) object"} |  |  |  |  |  |  |  |  
+ job_params | string |  |  |  |  |  |  |  |  
+ time_submitted | date-time |  |  |  |  | true |  |  |  
+ time_started | date-time |  |  |  |  | true |  |  |  
+ time_finished | date-time |  |  |  |  | true |  |  |  
+ owner | string |  |  |  |  | true |  |  |  
+ status | string |  |  |  |  | true | running | completed | canceled | queued | failed | queued |  
+ queue_position | number |  |  |  |  | true |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  
+ created_by | string |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  | true |  |  | ref 
+
+
 
 
 ##JSONModel(:location)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/location.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/locations",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "building": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "floor": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "room": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "area": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "barcode": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "classification": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "temporary": {
+      "type": "string",
+      "dynamic_enum": "location_temporary"
+    },
+    "location_profile": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:location_profile) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "owner_repo": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "functions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:location_function) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_location"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | items | maxLength | minLength | ifmissing | dynamic_enum | subtype  
+ ----- | ---- | -------- | -------- | ----- | --------- | --------- | --------- | ------------ | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  |  
+ external_ids | array |  |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  
+ building | string |  |  |  | 255 | 1 | error |  |  
+ floor | string |  |  |  | 255 |  |  |  |  
+ room | string |  |  |  | 255 |  |  |  |  
+ area | string |  |  |  | 255 |  |  |  |  
+ barcode | string |  |  |  | 255 |  |  |  |  
+ classification | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_indicator | string |  |  |  | 255 |  |  |  |  
+ temporary | string |  |  |  |  |  |  | location_temporary |  
+ location_profile | object |  |  |  |  |  |  |  | ref 
+ owner_repo | object |  |  |  |  |  |  |  | ref 
+ functions | array |  |  | {"type"=>"JSONModel(:location_function) object"} |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  |  
+ repository | object |  | true |  |  |  |  |  | ref 
+
+
 
 
 ##JSONModel(:location_batch)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/location_batch.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "location",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "building": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "floor": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "room": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "area": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "barcode": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "classification": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "temporary": {
+      "type": "string",
+      "dynamic_enum": "location_temporary"
+    },
+    "location_profile": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:location_profile) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "owner_repo": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "functions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:location_function) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:location) uri"
+      }
+    },
+    "coordinate_1_range": {
+      "type": "object",
+      "ifmissing": "error",
+      "properties": {
+        "label": {
+          "type": "string",
+          "ifmissing": "error"
+        },
+        "start": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "suffix": {
+          "type": "string"
+        }
+      }
+    },
+    "coordinate_2_range": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "ifmissing": "error"
+        },
+        "start": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "suffix": {
+          "type": "string"
+        }
+      }
+    },
+    "coordinate_3_range": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "ifmissing": "error"
+        },
+        "start": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "ifmissing": "error",
+          "minLength": 1
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "suffix": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | items | maxLength | minLength | ifmissing | dynamic_enum | subtype  
+ ----- | ---- | -------- | -------- | ----- | --------- | --------- | --------- | ------------ | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  |  
+ external_ids | array |  |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  
+ building | string |  |  |  | 255 | 1 | error |  |  
+ floor | string |  |  |  | 255 |  |  |  |  
+ room | string |  |  |  | 255 |  |  |  |  
+ area | string |  |  |  | 255 |  |  |  |  
+ barcode | string |  |  |  | 255 |  |  |  |  
+ classification | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_indicator | string |  |  |  | 255 |  |  |  |  
+ temporary | string |  |  |  |  |  |  | location_temporary |  
+ location_profile | object |  |  |  |  |  |  |  | ref 
+ owner_repo | object |  |  |  |  |  |  |  | ref 
+ functions | array |  |  | {"type"=>"JSONModel(:location_function) object"} |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  |  
+ repository | object |  | true |  |  |  |  |  | ref 
+ locations | array |  |  | {"type"=>"JSONModel(:location) uri"} |  |  |  |  |  
+ coordinate_1_range | object |  |  |  |  |  | error |  |  
+ coordinate_2_range | object |  |  |  |  |  |  |  |  
+ coordinate_3_range | object |  |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:location_batch_update)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/location_batch_update.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "location",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "building": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": null
+    },
+    "floor": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "room": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "area": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "barcode": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "classification": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_1_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_2_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_label": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "coordinate_3_indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "temporary": {
+      "type": "string",
+      "dynamic_enum": "location_temporary"
+    },
+    "location_profile": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:location_profile) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "owner_repo": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "functions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:location_function) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "record_uris": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:location) uri"
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | items | maxLength | minLength | ifmissing | dynamic_enum | subtype  
+ ----- | ---- | -------- | -------- | ----- | --------- | --------- | --------- | ------------ | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  |  
+ external_ids | array |  |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  
+ building | string |  |  |  | 255 | 1 |  |  |  
+ floor | string |  |  |  | 255 |  |  |  |  
+ room | string |  |  |  | 255 |  |  |  |  
+ area | string |  |  |  | 255 |  |  |  |  
+ barcode | string |  |  |  | 255 |  |  |  |  
+ classification | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_1_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_2_indicator | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_label | string |  |  |  | 255 |  |  |  |  
+ coordinate_3_indicator | string |  |  |  | 255 |  |  |  |  
+ temporary | string |  |  |  |  |  |  | location_temporary |  
+ location_profile | object |  |  |  |  |  |  |  | ref 
+ owner_repo | object |  |  |  |  |  |  |  | ref 
+ functions | array |  |  | {"type"=>"JSONModel(:location_function) object"} |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  | true |  |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  |  
+ repository | object |  | true |  |  |  |  |  | ref 
+ record_uris | array |  |  | {"type"=>"JSONModel(:location) uri"} |  |  |  |  |  
+
+
 
 
 ##JSONModel(:location_function)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/location_function.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "location_function_type": {
+      "type": "string",
+      "dynamic_enum": "location_function_type"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | dynamic_enum | required | ifmissing | readonly | subtype  
+ ----- | ---- | ------------ | -------- | --------- | -------- | ------- |  
+ location_function_type | string | location_function_type |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:location_profile)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/location_profile.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/location_profiles",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "dimension_units": {
+      "type": "string",
+      "dynamic_enum": "dimension_units"
+    },
+    "height": {
+      "type": "string",
+      "required": false
+    },
+    "width": {
+      "type": "string",
+      "required": false
+    },
+    "depth": {
+      "type": "string",
+      "required": false
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_location_profile"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly | dynamic_enum | subtype  
+ ----- | ---- | -------- | --------- | -------- | ------------ | ------- |  
+ uri | string |  |  |  |  |  
+ name | string |  | error |  |  |  
+ display_string | string |  |  | true |  |  
+ dimension_units | string |  |  |  | dimension_units |  
+ height | string |  |  |  |  |  
+ width | string |  |  |  |  |  
+ depth | string |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  | true |  |  
+ last_modified_by | string |  |  | true |  |  
+ user_mtime | date-time |  |  | true |  |  
+ system_mtime | date-time |  |  | true |  |  
+ create_time | date-time |  |  | true |  |  
+ repository | object |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:merge_request)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/merge_request.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "uri": "/merge_requests/:record_type",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "target": {
+      "type": "object",
+      "ifmissing": "error",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:subject) uri"
+            },
+            {
+              "type": "JSONModel(:agent_person) uri"
+            },
+            {
+              "type": "JSONModel(:agent_corporate_entity) uri"
+            },
+            {
+              "type": "JSONModel(:agent_software) uri"
+            },
+            {
+              "type": "JSONModel(:agent_family) uri"
+            },
+            {
+              "type": "JSONModel(:resource) uri"
+            },
+            {
+              "type": "JSONModel(:digital_object) uri"
+            }
+          ],
+          "ifmissing": "error"
+        }
+      }
+    },
+    "victims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:subject) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:resource) uri"
+              },
+              {
+                "type": "JSONModel(:digital_object) uri"
+              }
+            ],
+            "ifmissing": "error"
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | subtype | minItems | items | readonly  
+ ----- | ---- | -------- | --------- | ------- | -------- | ----- | -------- |  
+ uri | string |  |  |  |  |  |  
+ target | object |  | error | ref |  |  |  
+ victims | array |  |  |  | 1 | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:subject) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_software) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:resource) uri"}, {"type"=>"JSONModel(:digital_object) uri"}], "ifmissing"=>"error"}}} |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  |  | true 
+ last_modified_by | string |  |  |  |  |  | true 
+ user_mtime | date-time |  |  |  |  |  | true 
+ system_mtime | date-time |  |  |  |  |  | true 
+ create_time | date-time |  |  |  |  |  | true 
+ repository | object |  |  | ref |  |  | true 
+
+
 
 
 ##JSONModel(:name_corporate_entity)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/name_corporate_entity.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "parent": "abstract_name",
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "primary_name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "subordinate_name_1": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "subordinate_name_2": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "number": {
+      "type": "string",
+      "maxLength": 255
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "name_corporate_entity_check_source"
+    ],
+    [
+      "error",
+      "name_corporate_entity_check_name"
+    ],
+    [
+      "warning",
+      "name_corporate_entity_check_authority_id"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | dynamic_enum | default | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | ------------ | ------- | -------- | --------- | -------- | ------- |  
+ authority_id | string | 255 |  |  |  |  |  |  |  
+ dates | string | 255 |  |  |  |  |  |  |  
+ use_dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ qualifier | string | 255 |  |  |  |  |  |  |  
+ source | string |  |  | name_source |  |  |  |  |  
+ rules | string |  |  | name_rule |  |  |  |  |  
+ authorized | boolean |  |  |  |  |  |  |  |  
+ is_display_name | boolean |  |  |  |  |  |  |  |  
+ sort_name | string | 255 |  |  |  |  |  |  |  
+ sort_name_auto_generate | boolean |  |  |  | true |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+ primary_name | string | 65000 |  |  |  |  | error |  |  
+ subordinate_name_1 | string | 65000 |  |  |  |  |  |  |  
+ subordinate_name_2 | string | 65000 |  |  |  |  |  |  |  
+ number | string | 255 |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:name_family)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/name_family.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "parent": "abstract_name",
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "family_name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "prefix": {
+      "type": "string",
+      "maxLength": 65000
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "name_family_check_source"
+    ],
+    [
+      "error",
+      "name_family_check_name"
+    ],
+    [
+      "warning",
+      "name_family_check_authority_id"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | dynamic_enum | default | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | ------------ | ------- | -------- | --------- | -------- | ------- |  
+ authority_id | string | 255 |  |  |  |  |  |  |  
+ dates | string | 255 |  |  |  |  |  |  |  
+ use_dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ qualifier | string | 255 |  |  |  |  |  |  |  
+ source | string |  |  | name_source |  |  |  |  |  
+ rules | string |  |  | name_rule |  |  |  |  |  
+ authorized | boolean |  |  |  |  |  |  |  |  
+ is_display_name | boolean |  |  |  |  |  |  |  |  
+ sort_name | string | 255 |  |  |  |  |  |  |  
+ sort_name_auto_generate | boolean |  |  |  | true |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+ family_name | string | 65000 |  |  |  |  | error |  |  
+ prefix | string | 65000 |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:name_form)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/name_form.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/agents/:agent_id/name_forms",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "kind": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "sort_name": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  
+ kind | string |  | error |  |  
+ sort_name | string |  | error |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string |  | error |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:name_person)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/name_person.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "parent": "abstract_name",
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "primary_name": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "name_order": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "name_person_name_order"
+    },
+    "prefix": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "rest_of_name": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "suffix": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "fuller_form": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "number": {
+      "type": "string",
+      "maxLength": 255
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "name_person_check_source"
+    ],
+    [
+      "error",
+      "name_person_check_name"
+    ],
+    [
+      "warning",
+      "name_person_check_authority_id"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | dynamic_enum | default | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | ------------ | ------- | -------- | --------- | -------- | ------- |  
+ authority_id | string | 255 |  |  |  |  |  |  |  
+ dates | string | 255 |  |  |  |  |  |  |  
+ use_dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ qualifier | string | 255 |  |  |  |  |  |  |  
+ source | string |  |  | name_source |  |  |  |  |  
+ rules | string |  |  | name_rule |  |  |  |  |  
+ authorized | boolean |  |  |  |  |  |  |  |  
+ is_display_name | boolean |  |  |  |  |  |  |  |  
+ sort_name | string | 255 |  |  |  |  |  |  |  
+ sort_name_auto_generate | boolean |  |  |  | true |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+ primary_name | string | 255 |  |  |  |  | error |  |  
+ title | string | 16384 |  |  |  |  |  |  |  
+ name_order | string |  |  | name_person_name_order |  |  | error |  |  
+ prefix | string | 65000 |  |  |  |  |  |  |  
+ rest_of_name | string | 65000 |  |  |  |  |  |  |  
+ suffix | string | 65000 |  |  |  |  |  |  |  
+ fuller_form | string | 65000 |  |  |  |  |  |  |  
+ number | string | 255 |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:name_software)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/name_software.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "parent": "abstract_name",
+  "type": "object",
+  "properties": {
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "dates": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "use_dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      }
+    },
+    "qualifier": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "name_source"
+    },
+    "rules": {
+      "type": "string",
+      "dynamic_enum": "name_rule"
+    },
+    "authorized": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_display_name": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "sort_name_auto_generate": {
+      "type": "boolean",
+      "default": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "software_name": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "manufacturer": {
+      "type": "string",
+      "maxLength": 65000
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "name_software_check_source"
+    ],
+    [
+      "error",
+      "name_software_check_name"
+    ],
+    [
+      "warning",
+      "name_software_check_authority_id"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | dynamic_enum | default | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | ------------ | ------- | -------- | --------- | -------- | ------- |  
+ authority_id | string | 255 |  |  |  |  |  |  |  
+ dates | string | 255 |  |  |  |  |  |  |  
+ use_dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  |  |  |  |  
+ qualifier | string | 255 |  |  |  |  |  |  |  
+ source | string |  |  | name_source |  |  |  |  |  
+ rules | string |  |  | name_rule |  |  |  |  |  
+ authorized | boolean |  |  |  |  |  |  |  |  
+ is_display_name | boolean |  |  |  |  |  |  |  |  
+ sort_name | string | 255 |  |  |  |  |  |  |  
+ sort_name_auto_generate | boolean |  |  |  | true |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+ software_name | string | 65000 |  |  |  |  | error |  |  
+ version | string | 65000 |  |  |  |  |  |  |  
+ manufacturer | string | 65000 |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:note_abstract)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_abstract.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 1,
+      "ifmissing": "error"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- |  
+ label | string | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  
+ repository | object |  |  |  | true | ref |  |  
+ content | array |  |  | error |  |  | {"type"=>"string", "maxLength"=>65000} | 1 
+
+
 
 
 ##JSONModel(:note_bibliography)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_bibliography.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 0,
+      "ifmissing": null
+    },
+    "type": {
+      "type": "string",
+      "readonly": true,
+      "dynamic_enum": "note_bibliography_type"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- | ------------ |  
+ label | string | 65000 |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  |  
+ repository | object |  |  |  | true | ref |  |  |  
+ content | array |  |  |  |  |  | {"type"=>"string", "maxLength"=>65000} | 0 |  
+ type | string |  |  |  | true |  |  |  | note_bibliography_type 
+ items | array |  |  |  |  |  | {"type"=>"string", "maxLength"=>65000} |  |  
+
+
 
 
 ##JSONModel(:note_bioghist)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_bioghist.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "subnotes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_abstract) object"
+          },
+          {
+            "type": "JSONModel(:note_chronology) object"
+          },
+          {
+            "type": "JSONModel(:note_citation) object"
+          },
+          {
+            "type": "JSONModel(:note_orderedlist) object"
+          },
+          {
+            "type": "JSONModel(:note_definedlist) object"
+          },
+          {
+            "type": "JSONModel(:note_text) object"
+          },
+          {
+            "type": "JSONModel(:note_outline) object"
+          }
+        ]
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "note_bioghist_check_at_least_one_subnote"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- |  
+ label | string | 65000 |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  
+ created_by | string |  |  |  | true |  |  
+ last_modified_by | string |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  | true |  |  
+ create_time | date-time |  |  |  | true |  |  
+ repository | object |  |  |  | true | ref |  
+ subnotes | array |  |  |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_abstract) object"}, {"type"=>"JSONModel(:note_chronology) object"}, {"type"=>"JSONModel(:note_citation) object"}, {"type"=>"JSONModel(:note_orderedlist) object"}, {"type"=>"JSONModel(:note_definedlist) object"}, {"type"=>"JSONModel(:note_text) object"}, {"type"=>"JSONModel(:note_outline) object"}]} 
+
+
 
 
 ##JSONModel(:note_chronology)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_chronology.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_date": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 65000
+            }
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | -------- | --------- | -------- | ------- |  
+ title | string | 16384 |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  
+ items | array |  | {"type"=>"object", "properties"=>{"event_date"=>{"type"=>"string", "maxLength"=>255}, "events"=>{"type"=>"array", "items"=>{"type"=>"string", "maxLength"=>65000}}}} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:note_citation)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_citation.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 1,
+      "ifmissing": "error"
+    },
+    "xlink": {
+      "type": "object",
+      "properties": {
+        "actuate": {
+          "type": "string",
+          "maxLength": 65000
+        },
+        "arcrole": {
+          "type": "string",
+          "maxLength": 65000
+        },
+        "href": {
+          "type": "string",
+          "maxLength": 65000
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 65000
+        },
+        "show": {
+          "type": "string",
+          "maxLength": 65000
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 65000
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- |  
+ label | string | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  
+ repository | object |  |  |  | true | ref |  |  
+ content | array |  |  | error |  |  | {"type"=>"string", "maxLength"=>65000} | 1 
+ xlink | object |  |  |  |  |  |  |  
+
+
 
 
 ##JSONModel(:note_definedlist)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_definedlist.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "ifmissing": "error",
+            "maxLength": 65000
+          },
+          "value": {
+            "type": "string",
+            "ifmissing": "error",
+            "maxLength": 65000
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ----- | -------- | --------- | -------- | ------- |  
+ title | string | 16384 |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  
+ items | array |  | {"type"=>"object", "properties"=>{"label"=>{"type"=>"string", "ifmissing"=>"error", "maxLength"=>65000}, "value"=>{"type"=>"string", "ifmissing"=>"error", "maxLength"=>65000}}} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:note_digital_object)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_digital_object.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 1,
+      "ifmissing": "error"
+    },
+    "type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "note_digital_object_type"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- | ------------ |  
+ label | string | 65000 |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  |  
+ repository | object |  |  |  | true | ref |  |  |  
+ content | array |  |  | error |  |  | {"type"=>"string", "maxLength"=>65000} | 1 |  
+ type | string |  |  | error |  |  |  |  | note_digital_object_type 
+
+
 
 
 ##JSONModel(:note_index)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_index.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 0,
+      "ifmissing": null
+    },
+    "type": {
+      "type": "string",
+      "readonly": true,
+      "dynamic_enum": "note_index_type"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_index_item) object"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- | ------------ |  
+ label | string | 65000 |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  |  
+ repository | object |  |  |  | true | ref |  |  |  
+ content | array |  |  |  |  |  | {"type"=>"string", "maxLength"=>65000} | 0 |  
+ type | string |  |  |  | true |  |  |  | note_index_type 
+ items | array |  |  |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_index_item) object"}]} |  |  
+
+
 
 
 ##JSONModel(:note_index_item)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_index_item.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string",
+      "ifmissing": "error",
+      "maxLength": 65000
+    },
+    "type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "note_index_item_type"
+    },
+    "reference": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "reference_text": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "reference_ref": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "readonly": true
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | maxLength | dynamic_enum | subtype | required | readonly  
+ ----- | ---- | --------- | --------- | ------------ | ------- | -------- | -------- |  
+ value | string | error | 65000 |  |  |  |  
+ type | string | error |  | note_index_item_type |  |  |  
+ reference | string |  | 65000 |  |  |  |  
+ reference_text | string |  | 65000 |  |  |  |  
+ reference_ref | object |  |  |  | ref |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true 
+ last_modified_by | string |  |  |  |  |  | true 
+ user_mtime | date-time |  |  |  |  |  | true 
+ system_mtime | date-time |  |  |  |  |  | true 
+ create_time | date-time |  |  |  |  |  | true 
+ repository | object |  |  |  | ref |  | true 
+
+
 
 
 ##JSONModel(:note_multipart)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_multipart.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "note_multipart_type"
+    },
+    "rights_restriction": {
+      "type": "JSONModel(:rights_restriction) object"
+    },
+    "subnotes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_chronology) object"
+          },
+          {
+            "type": "JSONModel(:note_orderedlist) object"
+          },
+          {
+            "type": "JSONModel(:note_definedlist) object"
+          },
+          {
+            "type": "JSONModel(:note_text) object"
+          }
+        ]
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "note_multipart_check_at_least_one_subnote"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | dynamic_enum | items  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ------------ | ----- |  
+ label | string | 65000 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  
+ repository | object |  |  |  | true | ref |  |  
+ type | string |  |  | error |  |  | note_multipart_type |  
+ rights_restriction | JSONModel(:rights_restriction) object |  |  |  |  |  |  |  
+ subnotes | array |  |  |  |  |  |  | {"type"=>[{"type"=>"JSONModel(:note_chronology) object"}, {"type"=>"JSONModel(:note_orderedlist) object"}, {"type"=>"JSONModel(:note_definedlist) object"}, {"type"=>"JSONModel(:note_text) object"}]} 
+
+
 
 
 ##JSONModel(:note_orderedlist)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_orderedlist.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 16384
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "enumeration": {
+      "type": "string",
+      "dynamic_enum": "note_orderedlist_enumeration"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | dynamic_enum | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | --------- | ------------ | ----- | -------- | --------- | -------- | ------- |  
+ title | string | 16384 |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  
+ enumeration | string |  | note_orderedlist_enumeration |  |  |  |  |  
+ items | array |  |  | {"type"=>"string", "maxLength"=>65000} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:note_outline)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_outline.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "publish": {
+      "type": "boolean"
+    },
+    "levels": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:note_outline_level) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | ----- | -------- | --------- | -------- | ------- |  
+ publish | boolean |  |  |  |  |  
+ levels | array | {"type"=>"JSONModel(:note_outline_level) object"} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:note_outline_level)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_outline_level.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "JSONModel(:note_outline_level) object"
+          }
+        ]
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | items | required | ifmissing | readonly | subtype  
+ ----- | ---- | ----- | -------- | --------- | -------- | ------- |  
+ items | array | {"type"=>[{"type"=>"string"}, {"type"=>"JSONModel(:note_outline_level) object"}]} |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:note_singlepart)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_singlepart.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_note",
+  "properties": {
+    "label": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "persistent_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ingest_problem": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 65000
+      },
+      "minItems": 1,
+      "ifmissing": "error"
+    },
+    "type": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "note_singlepart_type"
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | required | ifmissing | readonly | subtype | items | minItems | dynamic_enum  
+ ----- | ---- | --------- | -------- | --------- | -------- | ------- | ----- | -------- | ------------ |  
+ label | string | 65000 |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  
+ persistent_id | string | 255 |  |  |  |  |  |  |  
+ ingest_problem | string | 65000 |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  | true |  |  |  |  
+ last_modified_by | string |  |  |  | true |  |  |  |  
+ user_mtime | date-time |  |  |  | true |  |  |  |  
+ system_mtime | date-time |  |  |  | true |  |  |  |  
+ create_time | date-time |  |  |  | true |  |  |  |  
+ repository | object |  |  |  | true | ref |  |  |  
+ content | array |  |  | error |  |  | {"type"=>"string", "maxLength"=>65000} | 1 |  
+ type | string |  |  | error |  |  |  |  | note_singlepart_type 
+
+
 
 
 ##JSONModel(:note_text)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/note_text.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | maxLength | ifmissing | required | readonly | subtype  
+ ----- | ---- | --------- | --------- | -------- | -------- | ------- |  
+ content | string | 65000 | error |  |  |  
+ publish | boolean |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:permission)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/permission.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/permissions",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "permission_code": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "level": {
+      "type": "string",
+      "ifmissing": "error",
+      "enum": [
+        "repository",
+        "global"
+      ]
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | enum | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ---- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  
+ permission_code | string |  | 255 | error | 1 |  |  |  
+ description | string |  | 65000 | error | 1 |  |  |  
+ level | string |  |  | error |  | repository | global |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:preference)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/preference.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/preferences",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "defaults": {
+      "type": "JSONModel(:defaults) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  
+ user_id | integer |  |  |  |  
+ defaults | JSONModel(:defaults) object |  |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string |  | error |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:print_to_pdf_job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/print_to_pdf_job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | required | readonly | subtype  
+ ----- | ---- | --------- | -------- | -------- | ------- |  
+ source | string | error |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string | error |  |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:rde_template)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/rde_template.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/rde_templates",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "record_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "enum": [
+        "archival_object",
+        "digital_object_component"
+      ]
+    },
+    "order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "visible": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "type": "object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | enum | items | readonly | subtype  
+ ----- | ---- | -------- | --------- | ---- | ----- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  
+ name | string |  | error |  |  |  |  
+ record_type | string |  | error | archival_object | digital_object_component |  |  |  
+ order | array |  |  |  | {"type"=>"string"} |  |  
+ visible | array |  |  |  | {"type"=>"string"} |  |  
+ defaults | object |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:report_job)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/report_job.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "report_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "format": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | ifmissing | required | readonly | subtype  
+ ----- | ---- | --------- | -------- | -------- | ------- |  
+ report_type | string | error |  |  |  
+ format | string | error |  |  |  
+ lock_version | integer | string |  |  |  |  
+ jsonmodel_type | string | error |  |  |  
+ created_by | string |  |  | true |  
+ last_modified_by | string |  |  | true |  
+ user_mtime | date-time |  |  | true |  
+ system_mtime | date-time |  |  | true |  
+ create_time | date-time |  |  | true |  
+ repository | object |  |  | true | ref 
+
+
 
 
 ##JSONModel(:repository)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/repository.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "repo_code": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "default": ""
+    },
+    "org_code": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "country": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "country_iso_3166"
+    },
+    "parent_institution_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "url": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "\\Ahttps?:\\/\\/[\\S]+\\z"
+    },
+    "image_url": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "\\Ahttps?:\\/\\/[\\S]+\\z"
+    },
+    "contact_persons": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "agent_representation": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:agent_corporate_entity) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | default | dynamic_enum | pattern | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | ------------ | ------- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ repo_code | string |  | 255 | error | 1 |  |  |  |  |  
+ name | string |  | 255 | error |  |  |  |  |  |  
+ org_code | string |  | 255 |  |  |  |  |  |  |  
+ country | string |  |  |  |  |  | country_iso_3166 |  |  |  
+ parent_institution_name | string |  | 255 |  |  |  |  |  |  |  
+ url | string |  | 255 |  |  |  |  | \Ahttps?:\/\/[\S]+\z |  |  
+ image_url | string |  | 255 |  |  |  |  | \Ahttps?:\/\/[\S]+\z |  |  
+ contact_persons | string |  | 65000 |  |  |  |  |  |  |  
+ display_string | string |  |  |  |  |  |  |  | true |  
+ agent_representation | object |  |  |  |  |  |  |  |  | ref 
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:repository_with_agent)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/repository_with_agent.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/with_agent",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "repository": {
+      "type": "JSONModel(:repository) object",
+      "ifmissing": "error"
+    },
+    "agent_representation": {
+      "type": "JSONModel(:agent_corporate_entity) object"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | readonly  
+ ----- | ---- | -------- | --------- | -------- |  
+ uri | string |  |  |  
+ repository | JSONModel(:repository) object |  | error |  
+ agent_representation | JSONModel(:agent_corporate_entity) object |  |  |  
+ lock_version | integer | string |  |  |  
+ jsonmodel_type | string |  | error |  
+ created_by | string |  |  | true 
+ last_modified_by | string |  |  | true 
+ user_mtime | date-time |  |  | true 
+ system_mtime | date-time |  |  | true 
+ create_time | date-time |  |  | true 
+
+
 
 
 ##JSONModel(:resource)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/resource.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "parent": "abstract_archival_object",
+  "uri": "/repositories/:repo_id/resources",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "ifmissing": "error"
+    },
+    "language": {
+      "type": "string",
+      "dynamic_enum": "language_iso639_2",
+      "ifmissing": "warn"
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:subject) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "linked_events": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:event) uri",
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "extents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:extent) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "dates": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:date) object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "rights_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:rights_statement) object"
+      }
+    },
+    "linked_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "role": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_role",
+            "ifmissing": "error"
+          },
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "JSONModel(:term) uri_or_object"
+            }
+          },
+          "relator": {
+            "type": "string",
+            "dynamic_enum": "linked_agent_archival_record_relators"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:agent_corporate_entity) uri"
+              },
+              {
+                "type": "JSONModel(:agent_family) uri"
+              },
+              {
+                "type": "JSONModel(:agent_person) uri"
+              },
+              {
+                "type": "JSONModel(:agent_software) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "suppressed": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "id_0": {
+      "type": "string",
+      "ifmissing": "error",
+      "maxLength": 255
+    },
+    "id_1": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "id_2": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "id_3": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "level": {
+      "type": "string",
+      "ifmissing": "error",
+      "dynamic_enum": "archival_record_level"
+    },
+    "other_level": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "resource_type": {
+      "type": "string",
+      "dynamic_enum": "resource_resource_type"
+    },
+    "tree": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:resource_tree) uri",
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "restrictions": {
+      "type": "boolean",
+      "default": false
+    },
+    "repository_processing_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "ead_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "ead_location": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "finding_aid_title": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_subtitle": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_filing_title": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_date": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "finding_aid_author": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_description_rules": {
+      "type": "string",
+      "dynamic_enum": "resource_finding_aid_description_rules"
+    },
+    "finding_aid_language": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "finding_aid_sponsor": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_edition_statement": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_series_statement": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "finding_aid_status": {
+      "type": "string",
+      "dynamic_enum": "resource_finding_aid_status"
+    },
+    "finding_aid_note": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "revision_statements": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:revision_statement) object"
+      }
+    },
+    "instances": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:instance) object"
+      }
+    },
+    "deaccessions": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:deaccession) object"
+      }
+    },
+    "collection_management": {
+      "type": "JSONModel(:collection_management) object"
+    },
+    "user_defined": {
+      "type": "JSONModel(:user_defined) object"
+    },
+    "related_accessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:accession) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:classification) uri"
+              },
+              {
+                "type": "JSONModel(:classification_term) uri"
+              }
+            ],
+            "ifmissing": "error"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": [
+          {
+            "type": "JSONModel(:note_bibliography) object"
+          },
+          {
+            "type": "JSONModel(:note_index) object"
+          },
+          {
+            "type": "JSONModel(:note_multipart) object"
+          },
+          {
+            "type": "JSONModel(:note_singlepart) object"
+          }
+        ]
+      }
+    },
+    "representative_image": {
+      "type": "JSONModel(:file_version) object",
+      "readonly": true
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "resource_check_identifier"
+    ],
+    [
+      "warning",
+      "check_resource_otherlevel"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | items | minLength | maxLength | ifmissing | dynamic_enum | readonly | minItems | subtype | default  
+ ----- | ---- | -------- | ----- | --------- | --------- | --------- | ------------ | -------- | -------- | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  |  
+ external_ids | array |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 | error |  |  |  |  |  
+ language | string |  |  |  |  | warn | language_iso639_2 |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  |  
+ subjects | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:subject) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ linked_events | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:event) uri", "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  | true |  |  |  
+ extents | array |  | {"type"=>"JSONModel(:extent) object"} |  |  | error |  |  | 1 |  |  
+ dates | array |  | {"type"=>"JSONModel(:date) object"} |  |  | error |  |  | 1 |  |  
+ external_documents | array |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  |  |  
+ rights_statements | array |  | {"type"=>"JSONModel(:rights_statement) object"} |  |  |  |  |  |  |  |  
+ linked_agents | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"role"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_role", "ifmissing"=>"error"}, "terms"=>{"type"=>"array", "items"=>{"type"=>"JSONModel(:term) uri_or_object"}}, "relator"=>{"type"=>"string", "dynamic_enum"=>"linked_agent_archival_record_relators"}, "title"=>{"type"=>"string"}, "ref"=>{"type"=>[{"type"=>"JSONModel(:agent_corporate_entity) uri"}, {"type"=>"JSONModel(:agent_family) uri"}, {"type"=>"JSONModel(:agent_person) uri"}, {"type"=>"JSONModel(:agent_software) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  | true |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  |  |  | true |  | ref |  
+ id_0 | string |  |  |  | 255 | error |  |  |  |  |  
+ id_1 | string |  |  |  | 255 |  |  |  |  |  |  
+ id_2 | string |  |  |  | 255 |  |  |  |  |  |  
+ id_3 | string |  |  |  | 255 |  |  |  |  |  |  
+ level | string |  |  |  |  | error | archival_record_level |  |  |  |  
+ other_level | string |  |  |  | 255 |  |  |  |  |  |  
+ resource_type | string |  |  |  |  |  | resource_resource_type |  |  |  |  
+ tree | object |  |  |  |  |  |  |  |  | ref |  
+ restrictions | boolean |  |  |  |  |  |  |  |  |  |  
+ repository_processing_note | string |  |  |  | 65000 |  |  |  |  |  |  
+ ead_id | string |  |  |  | 255 |  |  |  |  |  |  
+ ead_location | string |  |  |  | 255 |  |  |  |  |  |  
+ finding_aid_title | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_subtitle | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_filing_title | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_date | string |  |  |  | 255 |  |  |  |  |  |  
+ finding_aid_author | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_description_rules | string |  |  |  |  |  | resource_finding_aid_description_rules |  |  |  |  
+ finding_aid_language | string |  |  |  | 255 |  |  |  |  |  |  
+ finding_aid_sponsor | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_edition_statement | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_series_statement | string |  |  |  | 65000 |  |  |  |  |  |  
+ finding_aid_status | string |  |  |  |  |  | resource_finding_aid_status |  |  |  |  
+ finding_aid_note | string |  |  |  | 65000 |  |  |  |  |  |  
+ revision_statements | array |  | {"type"=>"JSONModel(:revision_statement) object"} |  |  |  |  |  |  |  |  
+ instances | array |  | {"type"=>"JSONModel(:instance) object"} |  |  |  |  |  |  |  |  
+ deaccessions | array |  | {"type"=>"JSONModel(:deaccession) object"} |  |  |  |  |  |  |  |  
+ collection_management | JSONModel(:collection_management) object |  |  |  |  |  |  |  |  |  |  
+ user_defined | JSONModel(:user_defined) object |  |  |  |  |  |  |  |  |  |  
+ related_accessions | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:accession) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ classifications | array |  | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:classification) uri"}, {"type"=>"JSONModel(:classification_term) uri"}], "ifmissing"=>"error"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  |  |  |  |  |  |  |  
+ notes | array |  | {"type"=>[{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}]} |  |  |  |  |  |  |  |  
+ representative_image | JSONModel(:file_version) object |  |  |  |  |  |  | true |  |  |  
+
+
 
 
 ##JSONModel(:resource_tree)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/resource_tree.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/resources/:resource_id/tree",
+  "parent": "record_tree",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "id": {
+      "type": "integer",
+      "ifmissing": "error"
+    },
+    "record_uri": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "required": false,
+      "maxLength": 16384
+    },
+    "suppressed": {
+      "type": "boolean",
+      "default": false
+    },
+    "publish": {
+      "type": "boolean"
+    },
+    "has_children": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "node_type": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "finding_aid_filing_title": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "level": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "component_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "instance_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "containers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "children": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "JSONModel(:resource_tree) object"
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | ifmissing | minLength | maxLength | default | readonly | subtype | items | additionalItems  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------- | -------- | ------- | ----- | --------------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ id | integer |  | error |  |  |  |  |  |  |  
+ record_uri | string |  | error |  |  |  |  |  |  |  
+ title | string |  |  | 1 | 16384 |  |  |  |  |  
+ suppressed | boolean |  |  |  |  |  |  |  |  |  
+ publish | boolean |  |  |  |  |  |  |  |  |  
+ has_children | boolean |  |  |  |  |  | true |  |  |  
+ node_type | string |  |  |  | 255 |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  |  | true | ref |  |  
+ finding_aid_filing_title | string |  |  |  | 65000 |  |  |  |  |  
+ level | string |  |  |  | 255 |  |  |  |  |  
+ component_id | string |  |  |  | 255 |  |  |  |  |  
+ instance_types | array |  |  |  |  |  |  |  | {"type"=>"string"} |  
+ containers | array |  |  |  |  |  |  |  | {"type"=>"object"} |  
+ children | array |  |  |  |  |  |  |  | {"type"=>"JSONModel(:resource_tree) object"} |  
+
+
 
 
 ##JSONModel(:revision_statement)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/revision_statement.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/revision_statement",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "date": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 65000,
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | -------- | ------- |  
+ uri | string |  |  |  |  |  
+ date | string |  | 255 | error |  |  
+ description | string |  | 65000 | error |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  
+ created_by | string |  |  |  | true |  
+ last_modified_by | string |  |  |  | true |  
+ user_mtime | date-time |  |  |  | true |  
+ system_mtime | date-time |  |  |  | true |  
+ create_time | date-time |  |  |  | true |  
+ repository | object |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:rights_restriction)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/rights_restriction.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "begin": {
+      "type": "string"
+    },
+    "end": {
+      "type": "string"
+    },
+    "local_access_restriction_type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "dynamic_enum": "restriction_type"
+      }
+    },
+    "linked_records": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:archival_object) uri"
+            },
+            {
+              "type": "JSONModel(:resource) uri"
+            }
+          ]
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "restriction_note_type": {
+      "type": "string",
+      "readonly": "true"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | items | subtype | readonly | required | ifmissing  
+ ----- | ---- | ----- | ------- | -------- | -------- | --------- |  
+ begin | string |  |  |  |  |  
+ end | string |  |  |  |  |  
+ local_access_restriction_type | array | {"type"=>"string", "dynamic_enum"=>"restriction_type"} |  |  |  |  
+ linked_records | object |  | ref |  |  |  
+ restriction_note_type | string |  |  | true |  |  
+ lock_version | integer | string |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  | error 
+ created_by | string |  |  | true |  |  
+ last_modified_by | string |  |  | true |  |  
+ user_mtime | date-time |  |  | true |  |  
+ system_mtime | date-time |  |  | true |  |  
+ create_time | date-time |  |  | true |  |  
+ repository | object |  | ref | true |  |  
+
+
 
 
 ##JSONModel(:rights_statement)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/rights_statement.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "rights_type": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "rights_statement_rights_type"
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "required": false
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "materials": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "ip_status": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "rights_statement_ip_status"
+    },
+    "ip_expiration_date": {
+      "type": "date",
+      "required": false
+    },
+    "license_identifier_terms": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "statute_citation": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "jurisdiction": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "country_iso_3166"
+    },
+    "type_note": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "permissions": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "restrictions": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "restriction_start_date": {
+      "type": "date",
+      "required": false
+    },
+    "restriction_end_date": {
+      "type": "date",
+      "required": false
+    },
+    "granted_note": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_rights_statement"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | minLength | ifmissing | dynamic_enum | maxLength | required | default | items | readonly | subtype  
+ ----- | ---- | --------- | --------- | ------------ | --------- | -------- | ------- | ----- | -------- | ------- |  
+ rights_type | string | 1 | error | rights_statement_rights_type |  |  |  |  |  |  
+ identifier | string | 1 |  |  | 255 |  |  |  |  |  
+ active | boolean |  |  |  |  |  | true |  |  |  
+ materials | string |  |  |  | 255 |  |  |  |  |  
+ ip_status | string |  |  | rights_statement_ip_status |  |  |  |  |  |  
+ ip_expiration_date | date |  |  |  |  |  |  |  |  |  
+ license_identifier_terms | string |  |  |  | 255 |  |  |  |  |  
+ statute_citation | string |  |  |  | 255 |  |  |  |  |  
+ jurisdiction | string |  |  | country_iso_3166 |  |  |  |  |  |  
+ type_note | string |  |  |  | 255 |  |  |  |  |  
+ permissions | string |  |  |  | 65000 |  |  |  |  |  
+ restrictions | string |  |  |  | 65000 |  |  |  |  |  
+ restriction_start_date | date |  |  |  |  |  |  |  |  |  
+ restriction_end_date | date |  |  |  |  |  |  |  |  |  
+ granted_note | string |  |  |  | 255 |  |  |  |  |  
+ external_documents | array |  |  |  |  |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  |  |  |  
+ created_by | string |  |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:sub_container)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/sub_container.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "top_container": {
+      "type": "object",
+      "subtype": "ref",
+      "ifmissing": "error",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:top_container) uri",
+          "ifmissing": "error"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "type_2": {
+      "type": "string",
+      "dynamic_enum": "container_type"
+    },
+    "indicator_2": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "type_3": {
+      "type": "string",
+      "dynamic_enum": "container_type"
+    },
+    "indicator_3": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_sub_container"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | subtype | ifmissing | dynamic_enum | maxLength | readonly | required  
+ ----- | ---- | ------- | --------- | ------------ | --------- | -------- | -------- |  
+ top_container | object | ref | error |  |  |  |  
+ type_2 | string |  |  | container_type |  |  |  
+ indicator_2 | string |  |  |  | 255 |  |  
+ type_3 | string |  |  | container_type |  |  |  
+ indicator_3 | string |  |  |  | 255 |  |  
+ display_string | string |  |  |  |  | true |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  | error |  |  |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object | ref |  |  |  | true |  
+
+
 
 
 ##JSONModel(:subject)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/subject.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/subjects",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "title": {
+      "type": "string",
+      "readonly": true
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_id) object"
+      }
+    },
+    "is_linked_to_published_record": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "publish": {
+      "type": "boolean",
+      "default": true,
+      "readonly": true
+    },
+    "source": {
+      "type": "string",
+      "dynamic_enum": "subject_source",
+      "ifmissing": "error"
+    },
+    "scope_note": {
+      "type": "string"
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:term) uri_or_object"
+      },
+      "ifmissing": "error",
+      "minItems": 1
+    },
+    "vocabulary": {
+      "type": "JSONModel(:vocabulary) uri",
+      "ifmissing": "error"
+    },
+    "authority_id": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | readonly | items | default | dynamic_enum | ifmissing | minItems | maxLength | subtype  
+ ----- | ---- | -------- | -------- | ----- | ------- | ------------ | --------- | -------- | --------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  |  
+ title | string |  | true |  |  |  |  |  |  |  
+ external_ids | array |  |  | {"type"=>"JSONModel(:external_id) object"} |  |  |  |  |  |  
+ is_linked_to_published_record | boolean |  | true |  |  |  |  |  |  |  
+ publish | boolean |  | true |  | true |  |  |  |  |  
+ source | string |  |  |  |  | subject_source | error |  |  |  
+ scope_note | string |  |  |  |  |  |  |  |  |  
+ terms | array |  |  | {"type"=>"JSONModel(:term) uri_or_object"} |  |  | error | 1 |  |  
+ vocabulary | JSONModel(:vocabulary) uri |  |  |  |  |  | error |  |  |  
+ authority_id | string |  |  |  |  |  |  |  | 255 |  
+ external_documents | array |  |  | {"type"=>"JSONModel(:external_document) object"} |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  |  
+ created_by | string |  | true |  |  |  |  |  |  |  
+ last_modified_by | string |  | true |  |  |  |  |  |  |  
+ user_mtime | date-time |  | true |  |  |  |  |  |  |  
+ system_mtime | date-time |  | true |  |  |  |  |  |  |  
+ create_time | date-time |  | true |  |  |  |  |  |  |  
+ repository | object |  | true |  |  |  |  |  |  | ref 
+
+
 
 
 ##JSONModel(:telephone)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/telephone.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/telephone",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "number": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "ext": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "number_type": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "telephone_number_type"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | dynamic_enum | ifmissing | readonly | subtype  
+ ----- | ---- | -------- | --------- | ------------ | --------- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  
+ number | string |  | 65000 |  |  |  |  
+ ext | string |  | 65000 |  |  |  |  
+ number_type | string |  |  | telephone_number_type |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  
+ created_by | string |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  | true |  
+ repository | object |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:term)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/term.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/terms",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "term": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "term_type": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "subject_term_type"
+    },
+    "vocabulary": {
+      "type": "JSONModel(:vocabulary) uri",
+      "ifmissing": "error"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | minLength | ifmissing | dynamic_enum | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------------ | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  
+ term | string |  | 255 | 1 | error |  |  |  
+ term_type | string |  |  | 1 | error | subject_term_type |  |  
+ vocabulary | JSONModel(:vocabulary) uri |  |  |  | error |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:top_container)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/top_container.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/top_containers",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "indicator": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "type": {
+      "type": "string",
+      "dynamic_enum": "container_type",
+      "required": false
+    },
+    "barcode": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "long_display_string": {
+      "type": "string",
+      "readonly": true
+    },
+    "ils_holding_id": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "ils_item_id": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "exported_to_ils": {
+      "type": "string",
+      "required": false
+    },
+    "restricted": {
+      "type": "boolean",
+      "readonly": "true"
+    },
+    "active_restrictions": {
+      "type": "array",
+      "readonly": "true",
+      "items": {
+        "type": "JSONModel(:rights_restriction) object"
+      }
+    },
+    "container_locations": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:container_location) object"
+      }
+    },
+    "container_profile": {
+      "type": "object",
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:container_profile) uri"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "series": {
+      "readonly": "true",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": "JSONModel(:archival_object) uri"
+          },
+          "display_string": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "string"
+          },
+          "level_display_string": {
+            "type": "string"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "collection": {
+      "readonly": "true",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "subtype": "ref",
+        "properties": {
+          "ref": {
+            "type": [
+              {
+                "type": "JSONModel(:resource) uri"
+              },
+              {
+                "type": "JSONModel(:accession) uri"
+              }
+            ]
+          },
+          "display_string": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "string"
+          },
+          "_resolved": {
+            "type": "object",
+            "readonly": "true"
+          }
+        }
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | minLength | ifmissing | dynamic_enum | readonly | items | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ------------ | -------- | ----- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ indicator | string |  | 255 | 1 | error |  |  |  |  
+ type | string |  |  |  |  | container_type |  |  |  
+ barcode | string |  | 255 |  |  |  |  |  |  
+ display_string | string |  |  |  |  |  | true |  |  
+ long_display_string | string |  |  |  |  |  | true |  |  
+ ils_holding_id | string |  | 255 |  |  |  |  |  |  
+ ils_item_id | string |  | 255 |  |  |  |  |  |  
+ exported_to_ils | string |  |  |  |  |  |  |  |  
+ restricted | boolean |  |  |  |  |  | true |  |  
+ active_restrictions | array |  |  |  |  |  | true | {"type"=>"JSONModel(:rights_restriction) object"} |  
+ container_locations | array |  |  |  |  |  |  | {"type"=>"JSONModel(:container_location) object"} |  
+ container_profile | object |  |  |  |  |  |  |  | ref 
+ series | array |  |  |  |  |  | true | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>"JSONModel(:archival_object) uri"}, "display_string"=>{"type"=>"string"}, "identifier"=>{"type"=>"string"}, "level_display_string"=>{"type"=>"string"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  
+ collection | array |  |  |  |  |  | true | {"type"=>"object", "subtype"=>"ref", "properties"=>{"ref"=>{"type"=>[{"type"=>"JSONModel(:resource) uri"}, {"type"=>"JSONModel(:accession) uri"}]}, "display_string"=>{"type"=>"string"}, "identifier"=>{"type"=>"string"}, "_resolved"=>{"type"=>"object", "readonly"=>"true"}}} |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  |  |  
+ created_by | string |  |  |  |  |  | true |  |  
+ last_modified_by | string |  |  |  |  |  | true |  |  
+ user_mtime | date-time |  |  |  |  |  | true |  |  
+ system_mtime | date-time |  |  |  |  |  | true |  |  
+ create_time | date-time |  |  |  |  |  | true |  |  
+ repository | object |  |  |  |  |  | true |  | ref 
+
+
 
 
 ##JSONModel(:user)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/user.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/users",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "username": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "ifmissing": "error",
+      "minLength": 1
+    },
+    "is_system_user": {
+      "type": "boolean",
+      "readonly": true
+    },
+    "permissions": {
+      "type": "object",
+      "readonly": true
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:group) uri"
+      }
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "first_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "last_name": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "telephone": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "department": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "additional_contact": {
+      "type": "string",
+      "maxLength": 65000
+    },
+    "agent_record": {
+      "type": "object",
+      "readonly": true,
+      "subtype": "ref",
+      "properties": {
+        "ref": {
+          "type": [
+            {
+              "type": "JSONModel(:agent_person) uri"
+            },
+            {
+              "type": "JSONModel(:agent_software) uri"
+            }
+          ]
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    },
+    "is_admin": {
+      "type": "boolean",
+      "default": false
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | ifmissing | minLength | readonly | items | subtype | default  
+ ----- | ---- | -------- | --------- | --------- | --------- | -------- | ----- | ------- | ------- |  
+ uri | string |  |  |  |  |  |  |  |  
+ username | string |  | 255 | error | 1 |  |  |  |  
+ name | string |  | 255 | error | 1 |  |  |  |  
+ is_system_user | boolean |  |  |  |  | true |  |  |  
+ permissions | object |  |  |  |  | true |  |  |  
+ groups | array |  |  |  |  |  | {"type"=>"JSONModel(:group) uri"} |  |  
+ email | string |  | 255 |  |  |  |  |  |  
+ first_name | string |  | 255 |  |  |  |  |  |  
+ last_name | string |  | 255 |  |  |  |  |  |  
+ telephone | string |  | 255 |  |  |  |  |  |  
+ title | string |  | 255 |  |  |  |  |  |  
+ department | string |  | 255 |  |  |  |  |  |  
+ additional_contact | string |  | 65000 |  |  |  |  |  |  
+ agent_record | object |  |  |  |  | true |  | ref |  
+ is_admin | boolean |  |  |  |  |  |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  | error |  |  |  |  |  
+ created_by | string |  |  |  |  | true |  |  |  
+ last_modified_by | string |  |  |  |  | true |  |  |  
+ user_mtime | date-time |  |  |  |  | true |  |  |  
+ system_mtime | date-time |  |  |  |  | true |  |  |  
+ create_time | date-time |  |  |  |  | true |  |  |  
+ repository | object |  |  |  |  | true |  | ref |  
+
+
 
 
 ##JSONModel(:user_defined)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/user_defined.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "boolean_1": {
+      "type": "boolean",
+      "default": false
+    },
+    "boolean_2": {
+      "type": "boolean",
+      "default": false
+    },
+    "boolean_3": {
+      "type": "boolean",
+      "default": false
+    },
+    "integer_1": {
+      "type": "string",
+      "maxlength": 255,
+      "required": false
+    },
+    "integer_2": {
+      "type": "string",
+      "maxlength": 255,
+      "required": false
+    },
+    "integer_3": {
+      "type": "string",
+      "maxlength": 255,
+      "required": false
+    },
+    "real_1": {
+      "type": "string",
+      "maxlength": 13,
+      "required": false
+    },
+    "real_2": {
+      "type": "string",
+      "maxlength": 13,
+      "required": false
+    },
+    "real_3": {
+      "type": "string",
+      "maxlength": 13,
+      "required": false
+    },
+    "string_1": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "string_2": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "string_3": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "string_4": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "text_1": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "text_2": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "text_3": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "text_4": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "text_5": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "date_1": {
+      "type": "date",
+      "required": false
+    },
+    "date_2": {
+      "type": "date",
+      "required": false
+    },
+    "date_3": {
+      "type": "date",
+      "required": false
+    },
+    "enum_1": {
+      "type": "string",
+      "dynamic_enum": "user_defined_enum_1"
+    },
+    "enum_2": {
+      "type": "string",
+      "dynamic_enum": "user_defined_enum_2"
+    },
+    "enum_3": {
+      "type": "string",
+      "dynamic_enum": "user_defined_enum_3"
+    },
+    "enum_4": {
+      "type": "string",
+      "dynamic_enum": "user_defined_enum_4"
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_user-defined"
+    ]
+  ]
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | default | maxlength | required | maxLength | dynamic_enum | ifmissing | readonly | subtype  
+ ----- | ---- | ------- | --------- | -------- | --------- | ------------ | --------- | -------- | ------- |  
+ boolean_1 | boolean |  |  |  |  |  |  |  |  
+ boolean_2 | boolean |  |  |  |  |  |  |  |  
+ boolean_3 | boolean |  |  |  |  |  |  |  |  
+ integer_1 | string |  | 255 |  |  |  |  |  |  
+ integer_2 | string |  | 255 |  |  |  |  |  |  
+ integer_3 | string |  | 255 |  |  |  |  |  |  
+ real_1 | string |  | 13 |  |  |  |  |  |  
+ real_2 | string |  | 13 |  |  |  |  |  |  
+ real_3 | string |  | 13 |  |  |  |  |  |  
+ string_1 | string |  |  |  | 255 |  |  |  |  
+ string_2 | string |  |  |  | 255 |  |  |  |  
+ string_3 | string |  |  |  | 255 |  |  |  |  
+ string_4 | string |  |  |  | 255 |  |  |  |  
+ text_1 | string |  |  |  | 65000 |  |  |  |  
+ text_2 | string |  |  |  | 65000 |  |  |  |  
+ text_3 | string |  |  |  | 65000 |  |  |  |  
+ text_4 | string |  |  |  | 65000 |  |  |  |  
+ text_5 | string |  |  |  | 65000 |  |  |  |  
+ date_1 | date |  |  |  |  |  |  |  |  
+ date_2 | date |  |  |  |  |  |  |  |  
+ date_3 | date |  |  |  |  |  |  |  |  
+ enum_1 | string |  |  |  |  | user_defined_enum_1 |  |  |  
+ enum_2 | string |  |  |  |  | user_defined_enum_2 |  |  |  
+ enum_3 | string |  |  |  |  | user_defined_enum_3 |  |  |  
+ enum_4 | string |  |  |  |  | user_defined_enum_4 |  |  |  
+ lock_version | integer | string |  |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  |  |  | error |  |  
+ created_by | string |  |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  |  | true | ref 
+
+
 
 
 ##JSONModel(:vocabulary)
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/vocabulary.json">
-  </script>
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/vocabularies",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "ref_id": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "ifmissing": "error"
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:term) uri"
+      },
+      "readonly": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}
+```
+ 
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+  
+   
+  
+
+ title | type | required | maxLength | minLength | ifmissing | items | readonly | subtype  
+ ----- | ---- | -------- | --------- | --------- | --------- | ----- | -------- | ------- |  
+ uri | string |  |  |  |  |  |  |  
+ ref_id | string |  | 255 | 1 | error |  |  |  
+ name | string |  | 255 | 1 | error |  |  |  
+ terms | array |  |  |  |  | {"type"=>"JSONModel(:term) uri"} | true |  
+ lock_version | integer | string |  |  |  |  |  |  |  
+ jsonmodel_type | string |  |  |  | error |  |  |  
+ created_by | string |  |  |  |  |  | true |  
+ last_modified_by | string |  |  |  |  |  | true |  
+ user_mtime | date-time |  |  |  |  |  | true |  
+ system_mtime | date-time |  |  |  |  |  | true |  
+ create_time | date-time |  |  |  |  |  | true |  
+ repository | object |  |  |  |  |  | true | ref 
+
+
 

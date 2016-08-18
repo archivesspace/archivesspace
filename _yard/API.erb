@@ -1,6 +1,4 @@
----
-title: API Reference
-
+--- title: API Reference 
 language_tabs:
   - shell
 
@@ -256,8 +254,27 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 <%  @schemata.each do |key,schema| %>
 
 ##<%= schema.to_s %>
+```json
 
-<script src="/archivesspace/docson/widget.js" data-schema="/archivesspace/schemas/<%= schema.record_type %>.json">
-  </script>
+<%= JSON.pretty_generate(schema.schema) %>
+
+```
+<% theaders = ["title"] + schema.schema["properties"].values.map { |z| z.keys }.flatten.uniq.reject { |k| k == "properties" } %>
+<% trows = [] %> 
+<% schema.schema["properties"].map { |k,v| %>
+  <% cells = theaders.map { |h| v[h] || "" }; %>
+  <%  cells[0] = k; %> 
+  <%  trows << cells.join(' | '); %>
+<% } %>
+
+<%= " #{theaders.join(' | ') } " %> 
+<%= " #{theaders.inject('') { |m,h|  m << ( "-" * h.length ) + " | "; m; }} " %>
+
+<% trows.each do |trow|  %>
+<%= " #{trow} " %>
+
+<% end %>
+
+
 
 <% end %>
