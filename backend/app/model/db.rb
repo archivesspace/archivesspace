@@ -156,7 +156,7 @@ EOF
           sleep(opts[:db_failed_retry_delay] || 3)
 
 
-        rescue Sequel::DatabaseError => e
+        rescue Sequel::NoExistingObject, Sequel::DatabaseError => e
           if (attempt + 1) < retries && is_retriable_exception(e, opts) && transaction
             Log.info("Retrying transaction after retriable exception (#{e})")
             sleep(opts[:retry_delay] || 1)
@@ -251,7 +251,7 @@ EOF
     (exception.instance_of?(RetryTransaction) ||
      (opts[:retry_on_optimistic_locking_fail] &&
       exception.instance_of?(Sequel::Plugins::OptimisticLocking::Error)) ||
-     (exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/)
+     (exception.wrapped_exception && ( exception.wrapped_exception.cause or exception.wrapped_exception).getSQLState() =~ /^(40|41)/) )
   end
 
 

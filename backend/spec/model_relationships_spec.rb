@@ -359,5 +359,46 @@ describe 'Relationships' do
 
     banana.my_relationships(:friends).first.suppressed.should eq(1)
   end
+  
+  it "will raise a exception if the optisitmic locking fails" do
+    # this is supposed to replicate when a relationship is attempted to be
+    # made, but the Sequel throws an optimisitcLocking error
+    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "IIe"))
+
+    # by default we just try once and raise an error
+    attempt =0  
+    expect {
+      banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "white"
+                                                     }])
+      attempt += 1 
+      Banana.create_from_json(banana_json)
+    }.to raise_error(Sequel::NoExistingObject)
+    attempt.should eq(1)
+  
+  end 
+    
+  it "will retry on optimistic locking failue if told to do so" do  
+    # in some situations ( like EAD imports ), we want to retry
+    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "Lisa"))
+    
+    # we can tell the db to retry ( it will do 10 times by default ) 
+    attempt =0  
+    expect {
+      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 )  do
+        banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "black"
+                                                     }])
+        attempt += 1 
+        Banana.create_from_json(banana_json)
+      end
+    }.to raise_error(Sequel::NoExistingObject)
+    attempt.should eq(6)
+  end
+
 
 end
