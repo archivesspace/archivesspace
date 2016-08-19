@@ -748,7 +748,7 @@ class EADConverter < Converter
       
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
-        :title => att('title'),
+        :title => att('title') || SecureRandom.uuid,
        } do |obj|
          obj.file_versions <<  {   
              :use_statement => att('role'),
@@ -772,9 +772,11 @@ class EADConverter < Converter
     end
     
     with 'daogrp' do
-      title = '' 
-      ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' } 
-      
+      title = nil 
+      ancestor(:resource, :archival_object ) { |ao| title ||= ao.title  } 
+      title ||= SecureRandom.uuid
+      title << " Digital Object"
+
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
         :title => title,
