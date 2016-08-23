@@ -78,6 +78,29 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/search/records')
+    .description("Return a set of records by URI")
+    .params(["uri",
+             [String],
+             "The list of record URIs to fetch",
+             :optional => true],
+            ["resolve",
+             [String],
+             "The list of result fields to resolve (if any)",
+             :optional => true])
+    .permissions([:view_all_records])
+    .returns([200, "a JSON map of records"]) \
+  do
+    params[:uri].each do |uri|
+      JSONModel.parse_reference(uri) or raise "Parse error for URI: #{uri}"
+    end
+
+    records = Search.records_for_uris(Array(params[:uri]), Array(params[:resolve]))
+
+    json_response(records)
+  end
+
+
   Endpoint.get('/search/subjects')
     .description("Search across subjects")
     .params(*BASE_SEARCH_PARAMS)
