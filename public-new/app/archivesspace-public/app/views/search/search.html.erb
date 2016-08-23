@@ -4,7 +4,7 @@
 <%= t('pagination.summary_offset_connector') %> <%= @results['offset_last'] %> <%= t('pagination.summary_total_connector') %> <%= @results['total_hits'] %></p>
 
     <% @results['results'].each do |result| %>
-    <%= render partial: 'shared/result', locals: {:result => result, :full => false} %>
+    <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
 
     <% end %>
 
