@@ -1,5 +1,6 @@
 <div id="main-content" class="row">
-  <div class="abstract">
-<%= render partial: 'shared/result', locals: {:result => @result,  :full => true} %>
+  <div class="information">
 
+<%= render partial: 'shared/result', locals: {:result => @result,  :props =>{:full => true}} %>
+<div class="scope more"><%= get_note(@result['json'], 'scopecontent').html_safe %></div>
 </div>
