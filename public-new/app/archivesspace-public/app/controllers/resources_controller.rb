@@ -22,14 +22,16 @@ class ResourcesController <  ApplicationController
   end
 
   def show
-    @resource_id = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    record_list = ["/repositories/#{params[:rid]}/resources/#{params[:id]}"]
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id']
-    query = "id:#{@resource_id}"
-    @results =  archivesspace.search(query,1, @criteria) || {}
+    @results =  archivesspace.search_records(record_list,1, @criteria) || {}
     @results = handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
+      Pry::ColorPrinter.pp(@result['json'])
+      #Rails.logger.debug("REPOSITORY:")
+      #Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
       @page_title = "#{I18n.t('resource._singular')}: #{@result['json']['title']}"
     else
       @page_title = "#{I18n.t('resource._singular')} NOT FOUND"
