@@ -39,17 +39,14 @@ class ArchivesSpaceClient
   def search(query, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
-    Rails.logger.debug("Search URL: #{url}")
-    request = Net::HTTP::Get.new(url)
+    results = do_search(url)
+  end
 
-    response = do_http_request(request)
-Rails.logger.debug(response.body)
-    if response.code != '200'
-      Rails.logger.debug("Code: #{response.code}")
-      raise RequestFailedException.new("#{response.code}: #{response.body}")
-    end
-
-    JSON.parse(response.body)
+  # calls the '/search/records' endpoint
+  def search_records(record_list, page = 1, search_opts = {})
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    url = build_url('/search/records', search_opts.merge("uri[]" => record_list))
+    results = do_search(url)
   end
 
   private
@@ -57,6 +54,20 @@ Rails.logger.debug(response.body)
   class LoginFailedException < StandardError; end
 
   class RequestFailedException < StandardError; end
+
+  # perform the actual search, returning json-ized results, 
+  # or raising an error
+  def do_search(url)
+    Rails.logger.debug("Search url: #{url}")
+    request = Net::HTTP::Get.new(url)
+    response = do_http_request(request)
+    if response.code != '200'
+      Rails.logger.debug("Code: #{response.code}")
+      raise RequestFailedException.new("#{response.code}: #{response.body}")
+    end
+    JSON.parse(response.body)
+  end
+  
 
   # Authenticate to ArchivesSpace and grab a session token
   def login!
