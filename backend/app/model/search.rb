@@ -74,6 +74,28 @@ class Search
     results
   end
 
+  def self.records_for_uris(uris, resolve = [])
+    boolean_query = JSONModel.JSONModel(:boolean_query)
+                    .from_hash('op' => 'OR',
+                               'subqueries' => uris.map {|uri|
+                                 JSONModel.JSONModel(:field_query)
+                                   .from_hash('field' => 'id',
+                                              'value' => uri,
+                                              'literal' => true)
+                                   .to_hash
+                               })
+
+    query = Solr::Query.create_advanced_search(JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query))
+    query.pagination(1, uris.length)
+
+    results = Solr.search(query)
+
+    resolver = SearchResolver.new(resolve)
+    resolver.resolve(results)
+
+    results
+  end
+
   def self.search_csv( params, repo_id )  
     # first let's get a json response with the number of pages 
     p = params.dup
