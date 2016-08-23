@@ -182,11 +182,7 @@ class RepositoriesController < ApplicationController
   def compose_title_list(pairs)
     query = ''
     pairs.each do |s, ct|
-      next if ct == 0
-      if query.length > 0
-        query = query + " OR "
-      end
-      query = query + "title:\"#{s}\""
+      query = query + " title:\"#{s}\""
     end
     "(#{query})"
   end
