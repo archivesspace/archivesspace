@@ -528,3 +528,5 @@ i.giant {
 .clear {
        clear: both;
 }
+
+.breadcrumb>li+li:before {color: $black; content: "\007C\00a0";}
