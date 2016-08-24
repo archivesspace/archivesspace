@@ -1,0 +1,14 @@
+<% if defined?(@context) && !@context.blank? %>
+<div class="clear">
+    <nav aria-label="hierarchical navigation">
+      <ul class="breadcrumb">
+	<% @context.each do |bread| %>
+	<li><% if bread[:uri].blank? %><%= process_mixed_content(bread[:crumb]).html_safe %>
+	  <% else %> <a href='<%=bread[:uri] %>'><%=  process_mixed_content(bread[:crumb]).html_safe %></a>
+	  <% end %>
+	</li>
+	<% end %>
+      </ul>
+    </nav>
+</div>
+<% end %>

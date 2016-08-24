@@ -22,6 +22,9 @@
         <div class="identifier">
           <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
         </div>
+	<% if props.fetch(:full, false) %>
+	<%= render partial: 'shared/breadcrumbs' %>
+	<% end %>
 	<div class="recordsummary" style="clear:both">
           <% if !result['parent_institution_name'].blank? %>
           <div><strong><%= t('parent_inst') %>:</strong>
