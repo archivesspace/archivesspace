@@ -1,53 +1,32 @@
  <%# any result that is going to be presented in a list %>
-<%# Pry::ColorPrinter.pp(result['json'])%>
-<% if !props.fetch(:full,false) %>
-   <div class="recordrow">
-<% end %>
-      <h3><a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a></h3>
-      <div class="badge-and-identifier">
-        <div class="record-type-badge <%= result['primary_type'] %>">
-          <i class="fa <%= case  result['primary_type']
-		    when 'repository'
-		     'fa-home'
-		     when  'resource'
-		     'fa-archive'
-		     when 'archival_object'
-		     'fa-files-o'
-		     when 'subject'
-		     'fa-tags'
-		     else
-		     'fa-cog'
-		     end %>"></i>&#160;<%= t("#{result['primary_type']}._singular") %>
-        </div>
-        <div class="identifier">
-          <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
-        </div>
-	<% if props.fetch(:full, false) %>
-	<%= render partial: 'shared/breadcrumbs' %>
-	<% end %>
-	<div class="recordsummary" style="clear:both">
-          <% if !result['parent_institution_name'].blank? %>
-          <div><strong><%= t('parent_inst') %>:</strong>
-            <%= result['parent_institution_name'] %>
-          </div>
-          <% end %>
-	  <% if !props.fetch(:no_repo, false) && !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank? %>
-	  <div class="repo_name"><strong><%= t('repository._singular') %>: </strong>
-	      <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a>
-	  </div>
-	  <% end %>
-	  <div class="abstract more"><%= get_note(result['json'], 'abstract').html_safe %></div>
-	  <% if !props.fetch(:no_res, false) && !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
-	  <div class="resource_name"><strong><%= t('resource._singular') %>: </strong>
-	    <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= result['_resolved_resource']['json']['title'] %></a>
-	  </div>
-	  <% end %>
+ <%# Pry::ColorPrinter.pp(result['json'])%>
+ <% if !props.fetch(:full,false) %>
+   <div class="recordrow" style="clear:both">
+     <% end %>
+     <%= render partial: 'shared/idbadge', locals: {:result => result } %>
+     <div class="recordsummary" style="clear:both">
+       <% if !result['parent_institution_name'].blank? %>
+       <div><strong><%= t('parent_inst') %>:</strong>
+         <%= result['parent_institution_name'] %>
+       </div>
+       <% end %>
+       <% if !props.fetch(:no_repo, false) && !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank? %>
+       <div class="repo_name"><strong><%= t('repository._singular') %>: </strong>
+	 <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a>
+       </div>
+       <% end %>
+       <div class="abstract more"><%= get_note(result['json'], 'abstract').html_safe %></div>
+       <% if !props.fetch(:no_res, false) && !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
+       <div class="resource_name"><strong><%= t('resource._singular') %>: </strong>
+	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= result['_resolved_resource']['json']['title'] %></a>
+       </div>
+       <% end %>
 
-	  <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
-	  <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
-	  <% end %>
-	</div>					  
-      </div>
-      <% if !props.fetch(:full,false) %>
+       <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
+       <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
+       <% end %>
+     </div>					  
+
+   <% if !props.fetch(:full,false) %>
    </div>
    <% end %>
