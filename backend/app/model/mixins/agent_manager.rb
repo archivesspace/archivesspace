@@ -321,9 +321,12 @@ module AgentManager
       def sequel_to_jsonmodel(objs, opts = {})
         jsons = super
 
+        agents_to_repositories = GlobalRecordRepositoryLinkages.new(self, :linked_agents).call(objs)
+
         jsons.zip(objs).each do |json, obj|
           json.agent_type = my_agent_type[:jsonmodel].to_s
           json.linked_agent_roles = obj.linked_agent_roles
+          json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
 
           populate_display_name(json)
           json.title = json['display_name']['sort_name']
