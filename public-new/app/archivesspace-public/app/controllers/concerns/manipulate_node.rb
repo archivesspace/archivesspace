@@ -6,7 +6,13 @@ module ManipulateNode
   def process_mixed_content(txt)
     return if !txt
     txt.strip!
-    frag = Nokogiri::XML.fragment(txt);
+    txt.gsub!("list>", "ul>")
+    txt.gsub!("item>", "li>")
+#    if txt.gsub!(/\n\n/,"</div><div>")
+#      txt = "<div>#{txt}</div>"
+#Rails.logger.debug(txt)
+#   end
+    frag = Nokogiri::XML.fragment(txt)
     frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
       node_check(el) if el.parent && !el.text?
@@ -25,7 +31,7 @@ module ManipulateNode
     elsif newnode.name == 'lb'
       newnode.name = 'br'
     else
-      if newnode.name != 'p'
+      if !newnode.name.match(/p|ul|li/)
         clss = newnode['class'] || ''
         newnode['class']  = "#{newnode.name} #{clss}".strip 
         newnode.name = 'span'

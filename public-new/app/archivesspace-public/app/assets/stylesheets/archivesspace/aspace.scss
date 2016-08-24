@@ -529,4 +529,11 @@ i.giant {
        clear: both;
 }
 
+span.head {
+	  display: block;
+	  font-weight: bold;
+	  font-family: $serif-font;
+}
+
+
 .breadcrumb>li+li:before {color: $black; content: "\007C\00a0";}
