@@ -1,0 +1,20 @@
+<h3><a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a></h3>
+<div class="badge-and-identifier">
+  <div class="record-type-badge <%= result['primary_type'] %>">
+    <i class="fa <%= case  result['primary_type']
+	      when 'repository'
+	      'fa-home'
+	      when  'resource'
+	      'fa-archive'
+	      when 'archival_object'
+	      'fa-files-o'
+	      when 'subject'
+	      'fa-tags'
+	      else
+	      'fa-cog'
+	      end %>"></i>&#160;<%= t("#{result['primary_type']}._singular") %>
+  </div>
+  <div class="identifier">
+    <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
+  </div>
+</div>

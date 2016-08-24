@@ -1,7 +1,13 @@
 <div id="main-content" class="row">
 
   <div class="information col-sm-12">
-
-<%= render partial: 'shared/result', locals: {:result => @result,  :props =>{:full => true}} %>
-<div class="scope more"><%= get_note(@result['json'], 'scopecontent').html_safe %></div>
+    <%= render partial: 'shared/idbadge', locals: {:result => @result } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+    <div class="abstract more"><%= get_note(@result['json'], 'abstract').html_safe %></div>
+    <div class="scope more"><%= get_note(@result['json'], 'scopecontent').html_safe %></div>
+  </div>
+  <div class="col-sm-3 sidebar">
+  </div>
 </div>
