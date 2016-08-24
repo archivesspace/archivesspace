@@ -1,6 +1,7 @@
 class ResourcesController <  ApplicationController
   include HandleFaceting
   include ProcessResults
+  include TreeApis
   skip_before_filter  :verify_authenticity_token
   def index
     @repo_name = params[:repo] || ""
@@ -22,17 +23,20 @@ class ResourcesController <  ApplicationController
   end
 
   def show
-    record_list = ["/repositories/#{params[:rid]}/resources/#{params[:id]}"]
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    record_list = [uri]
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id']
     @results =  archivesspace.search_records(record_list,1, @criteria) || {}
     @results = handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      Pry::ColorPrinter.pp(@result['json'])
+#      Pry::ColorPrinter.pp(@result['json'])
       #Rails.logger.debug("REPOSITORY:")
-      #Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
+      Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
+      repo = @result['_resolved_repository']['json']
       @page_title = "#{I18n.t('resource._singular')}: #{@result['json']['title']}"
+      @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => @result['json']['title']}]
     else
       @page_title = "#{I18n.t('resource._singular')} NOT FOUND"
     end
