@@ -49,8 +49,15 @@ class ArchivesSpaceClient
     results = do_search(url)
   end
 
-  private
+  # calls the '/search/published_tree' endpoint
+  def get_tree(node_uri)
+    url =  build_url('/search/published_tree', {:node_uri => node_uri})
+    results = do_search(url)
+    tree = JSON.parse(results['tree_json'])
+  end
 
+  private
+  
   class LoginFailedException < StandardError; end
 
   class RequestFailedException < StandardError; end
