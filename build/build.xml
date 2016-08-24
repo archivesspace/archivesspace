@@ -254,7 +254,7 @@
     <parallel>
       <daemons>
         <java
-          classpath="${winstone_file}:../solr:../common/lib/slf4j-api-1.7.17.jar:../common/lib/jcl-over-slf4j-1.7.17.jar"
+          classpath="${winstone_file}:../solr:../common/lib/*"
               classname="winstone.Launcher" fork="true">
           <jvmarg line="${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/winstone.${user.name}" />
           <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
