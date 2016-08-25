@@ -109,10 +109,17 @@ class Search
         boolean_query = JSONModel.JSONModel(:boolean_query)
                         .from_hash('op' => 'AND',
                                    'subqueries' => [
-                                     JSONModel.JSONModel(:field_query)
-                                     .from_hash('field' => 'used_within_repository',
-                                                'value' => repo_uri,
-                                                'literal' => true).to_hash,
+                                     JSONModel.JSONModel(:boolean_query).from_hash('op' => 'OR',
+                                                                                   'subqueries' => [
+                                                                                     JSONModel.JSONModel(:field_query)
+                                                                                     .from_hash('field' => 'used_within_repository',
+                                                                                                'value' => repo_uri,
+                                                                                                'literal' => true).to_hash,
+                                                                                     JSONModel.JSONModel(:field_query)
+                                                                                     .from_hash('field' => 'repository',
+                                                                                                'value' => repo_uri,
+                                                                                                'literal' => true).to_hash
+                                                                                   ]),
                                      JSONModel.JSONModel(:field_query)
                                        .from_hash('field' => 'types',
                                                   'value' => record_type,
