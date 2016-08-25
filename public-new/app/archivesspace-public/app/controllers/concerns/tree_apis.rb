@@ -4,9 +4,9 @@ module TreeApis
   # TODO: try/catch for non 200 responses
   def fetch_tree(node_uri)
     tree = archivesspace.get_tree(node_uri)
-    if !tree.blank?
-      Pry::ColorPrinter.pp(tree)
-    end
+#    if !tree.blank?
+#      Pry::ColorPrinter.pp(tree)
+#    end
     tree
   end
   # create the contents for breadcrumbs
@@ -16,11 +16,12 @@ module TreeApis
     if !tree['path_to_root'].blank?
       path_to_root = tree['path_to_root'].map {|node|
         {
-          'crumb' => process_mixed_content(node['title'] || ''),
-          'uri' => node['record_uri'] || ''
+          :crumb => process_mixed_content(node['title'] || ''),
+          :uri => node['record_uri'] || ''
         }
       }
     end
     path_to_root
   end
+  
 end
