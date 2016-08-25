@@ -10,6 +10,8 @@
     <div class="bioghist more"><%= get_note(@result['json'], 'Biography or History').html_safe %></div>
 
   </div>
-  <div class="col-sm-3 sidebar">
+  <div class="col-sm-3 sidebar sidebar-container">
+    <h3>Contents &amp; Arrangements</h3>
+    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
   </div>
 </div>
