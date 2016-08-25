@@ -17,35 +17,37 @@ class SearchResolver
       # Build up and run a Solr query to pull back the documents we'll be inlining
       search_terms = results['results'].map {|doc| doc[source_field]}.compact.flatten
 
-      boolean_query = JSONModel.JSONModel(:boolean_query)
-                      .from_hash('op' => 'OR',
-                                 'subqueries' => search_terms.map {|term|
-                                   JSONModel.JSONModel(:field_query)
-                                     .from_hash('field' => target_field,
-                                                'value' => term,
-                                                'literal' => true)
-                                     .to_hash
-                                 })
+      unless search_terms.empty?
+        boolean_query = JSONModel.JSONModel(:boolean_query)
+                        .from_hash('op' => 'OR',
+                                   'subqueries' => search_terms.map {|term|
+                                     JSONModel.JSONModel(:field_query)
+                                       .from_hash('field' => target_field,
+                                                  'value' => term,
+                                                  'literal' => true)
+                                       .to_hash
+                                   })
 
-      query = JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query)
+        query = JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query)
 
-      resolved_results = Solr.search(Solr::Query.create_advanced_search(query).pagination(1, MAX_RESOLVE_RESULTS))
+        resolved_results = Solr.search(Solr::Query.create_advanced_search(query).pagination(1, MAX_RESOLVE_RESULTS))
 
-      if resolved_results['total_hits'] > MAX_RESOLVE_RESULTS
-        Log.warn("Resolve query hit MAX_RESOLVE_RESULTS.  Result set may be incomplete: #{query.to_hash.inspect}")
-      end
+        if resolved_results['total_hits'] > MAX_RESOLVE_RESULTS
+          Log.warn("Resolve query hit MAX_RESOLVE_RESULTS.  Result set may be incomplete: #{query.to_hash.inspect}")
+        end
 
-      # Insert the resolved records into our original result set.
-      results['results'].each do |result|
-        resolved = resolved_results['results'].map {|resolved|
-          key = resolved[target_field]
-          if ASUtils.wrap(result[source_field]).include?(key)
-            {key => [SearchResolver.resolver_for(custom_resolver).resolve(resolved)]}
-          end
-        }.compact
+        # Insert the resolved records into our original result set.
+        results['results'].each do |result|
+          resolved = resolved_results['results'].map {|resolved|
+            key = resolved[target_field]
+            if ASUtils.wrap(result[source_field]).include?(key)
+              {key => [SearchResolver.resolver_for(custom_resolver).resolve(resolved)]}
+            end
+          }.compact
 
-        # Merge our entries into a single hash keyed on `key`
-        result["_resolved_#{source_field}"] = resolved.reduce {|merged, elt| merged.merge(elt) {|key, coll1, coll2| coll1 + coll2}}
+          # Merge our entries into a single hash keyed on `key`
+          result["_resolved_#{source_field}"] = resolved.reduce {|merged, elt| merged.merge(elt) {|key, coll1, coll2| coll1 + coll2}}
+        end
       end
     end
   end
