@@ -96,13 +96,19 @@ class Search
     results
   end
 
-  def self.record_type_counts(record_types)
+  def self.record_type_counts(record_types, for_repo_uri = nil)
     result = {}
 
-    Repository.filter(:hidden => 0).select(:id).each do |row|
-      repo_id = row[:id]
-      repo_uri = JSONModel.JSONModel(:repository).uri_for(repo_id)
+    repos_of_interest = if for_repo_uri
+                          [for_repo_uri]
+                        else
+                          Repository.filter(:hidden => 0).select(:id).map do |row|
+                            repo_id = row[:id]
+                            JSONModel.JSONModel(:repository).uri_for(repo_id)
+                          end
+                        end
 
+    repos_of_interest.each do |repo_uri|
       result[repo_uri] ||= {}
 
       record_types.each do |record_type|
@@ -139,7 +145,13 @@ class Search
         result[repo_uri][record_type] = hits['total_hits']
       end
     end
-    result
+
+    if repos_of_interest
+      # We're just targeting a single repo
+      result.values.first
+    else
+      result
+    end
   end
 
   def self.search_csv( params, repo_id )  
