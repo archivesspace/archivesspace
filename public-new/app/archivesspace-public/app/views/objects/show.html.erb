@@ -1,0 +1,22 @@
+<div id="main-content" class="row">
+
+  <div class="information col-sm-12">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+
+<br/>
+    <% if !@result['json']['ref_id'].blank? %>
+    <span class='ref_id'><%= @result['json']['ref_id'] %></span>
+    <% end %>
+    <% if !@result['json']['component_id'].blank? %>
+    <span class='component'>Found in <%= @result['json']['component_id'] %></span>
+    <% end %>
+
+  </div>
+  <div class="col-sm-3 sidebar sidebar-container">
+    <h3>Contents &amp; Arrangements</h3>
+    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
+  </div>
+</div>
