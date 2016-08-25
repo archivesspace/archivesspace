@@ -5,6 +5,9 @@ AdvancedSearch.define_field(:name => 'creators', :type => :text, :visibility => 
 AdvancedSearch.define_field(:name => 'notes', :type => :text, :visibility => [:staff, :public], :solr_field => 'notes')
 AdvancedSearch.define_field(:name => 'subjects', :type => :text, :visibility => [:staff, :public], :solr_field => 'subjects_text')
 
+AdvancedSearch.define_field(:name => 'used_within_repository', :type => :text, :visibility => [:api], :solr_field => 'used_within_repository')
+AdvancedSearch.define_field(:name => 'types', :type => :text, :visibility => [:api], :solr_field => 'types')
+
 AdvancedSearch.define_field(:name => 'published', :type => :boolean, :visibility => [:staff], :solr_field => 'publish')
 AdvancedSearch.define_field(:name => 'suppressed', :type => :boolean, :visibility => [:staff], :solr_field => 'suppressed')
 

@@ -100,6 +100,15 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(records)
   end
 
+  Endpoint.get('/search/record_types_by_repository')
+    .description("Return the counts of record types of interest by repository")
+    .params(["record_types", [String], "The list of record types to tally"])
+    .permissions([:view_all_records])
+    .returns([200, "a map of repository => record type => count"]) \
+  do
+    json_response(Search.record_type_counts(params[:record_types]))
+  end
+
 
   Endpoint.get('/search/subjects')
     .description("Search across subjects")
