@@ -8,10 +8,7 @@ module ManipulateNode
     txt.strip!
     txt.gsub!("list>", "ul>")
     txt.gsub!("item>", "li>")
-#    if txt.gsub!(/\n\n/,"</div><div>")
-#      txt = "<div>#{txt}</div>"
-#Rails.logger.debug(txt)
-#   end
+    txt.gsub!(/\n\n/,"<br /><br />")
     frag = Nokogiri::XML.fragment(txt)
     frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
@@ -31,10 +28,10 @@ module ManipulateNode
     elsif newnode.name == 'lb'
       newnode.name = 'br'
     else
-      if !newnode.name.match(/p|ul|li/)
+      if !newnode.name.match(/p|ul|li|br/)
         clss = newnode['class'] || ''
         newnode['class']  = "#{newnode.name} #{clss}".strip 
-        newnode.name = 'span'
+        newnode.name = newnode.name == 'accession' ? 'div' : 'span'
       end
     end
     newnode = process_anchor(newnode) if newnode.name != 'a'
