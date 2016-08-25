@@ -3,13 +3,18 @@ class ResourcesController <  ApplicationController
   include ProcessResults
   include TreeApis
   skip_before_filter  :verify_authenticity_token
+
+  # present a list of resources.  If no repository named, just get all of them.
   def index
     @repo_name = params[:repo] || ""
-    @repo_id = "/repositories/#{params[:rid]}"
+    query = 'publish:true AND types:resource'
+    if !params[:rid].blank?
+      @repo_id = "/repositories/#{params[:rid]}"
+      query = "repository:\"#{@repo_id}\" AND #{query}"
+    end
     @criteria = {}
     @criteria['sort'] = 'title asc'
     @criteria['resolve[]']  = ['repository:id']
-    query = "repository:\"#{@repo_id}\" AND publish:true AND types:resource"
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
     page = params['page'] || 1 if !params.blank?
