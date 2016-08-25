@@ -96,6 +96,45 @@ class Search
     results
   end
 
+  def self.record_type_counts(record_types)
+    result = {}
+
+    Repository.filter(:hidden => 0).select(:id).each do |row|
+      repo_id = row[:id]
+      repo_uri = JSONModel.JSONModel(:repository).uri_for(repo_id)
+
+      result[repo_uri] ||= {}
+
+      record_types.each do |record_type|
+        boolean_query = JSONModel.JSONModel(:boolean_query)
+                        .from_hash('op' => 'AND',
+                                   'subqueries' => [
+                                     JSONModel.JSONModel(:field_query)
+                                     .from_hash('field' => 'used_within_repository',
+                                                'value' => repo_uri,
+                                                'literal' => true).to_hash,
+                                     JSONModel.JSONModel(:field_query)
+                                       .from_hash('field' => 'types',
+                                                  'value' => record_type,
+                                                  'literal' => true).to_hash,
+                                     JSONModel.JSONModel(:field_query)
+                                       .from_hash('field' => 'published',
+                                                  'value' => 'true',
+                                                  'literal' => true).to_hash
+
+                                   ])
+
+        query = Solr::Query.create_advanced_search(JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query))
+        query.pagination(1, 1)
+
+        hits = Solr.search(query)
+
+        result[repo_uri][record_type] = hits['total_hits']
+      end
+    end
+    result
+  end
+
   def self.search_csv( params, repo_id )  
     # first let's get a json response with the number of pages 
     p = params.dup
