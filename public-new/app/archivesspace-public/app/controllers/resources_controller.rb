@@ -42,6 +42,7 @@ class ResourcesController <  ApplicationController
       repo = @result['_resolved_repository']['json']
       @page_title = "#{I18n.t('resource._singular')}: #{@result['json']['title']}"
       @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => @result['json']['title']}]
+      @tree = fetch_tree(uri)
     else
       @page_title = "#{I18n.t('resource._singular')} NOT FOUND"
     end
