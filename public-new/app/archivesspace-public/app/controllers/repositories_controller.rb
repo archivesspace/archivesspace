@@ -14,13 +14,10 @@ class RepositoriesController < ApplicationController
     query = 'primary_type:repository'
     facets = find_resource_facet
     page = params['page'] || 1 if !params.blank?
-#    if !include_zero
-#      query = "id:( #{facets.keys.to_s.gsub(/,/, " OR ").gsub(/\[/, '').gsub(/\]/, '')} )"
-#    end
     @criteria[:page_size] = page_size
-    Rails.logger.debug(@criteria.keys)
+#    Rails.logger.debug(@criteria.keys)
     @search_data =  archivesspace.search(query, page, @criteria) || {}
-    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
+#    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
     @hits = facets.length
     @json = []
     if !@search_data['results'].blank?
@@ -70,10 +67,14 @@ class RepositoriesController < ApplicationController
     end
     @criteria = {}
     @criteria[:page_size] = 1
+# temporary tryout of get record types
+#    types = archivesspace.get_types_counts([ 'pui_collection','pui_record','pui_record_group','pui_person','pui_subject'])
+# Pry::ColorPrinter.pp types
     @data =  archivesspace.search(query, 1, @criteria) || {}
     @result
     unless @data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
+#Pry::ColorPrinter.pp @data['results'][0]
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = @result['name']
