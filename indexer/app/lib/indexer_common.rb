@@ -355,6 +355,19 @@ class CommonIndexer
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      if ['archival_object', 'accession', 'digital_object', 'digital_object_component'].include?(doc['primary_type'])
+        doc['types'] << 'pui_record'
+      elsif ['resource'].include?(doc['primary_type'])
+        doc['types'] << 'pui_collection'
+      elsif ['classification'].include?(doc['primary_type'])
+        doc['types'] << 'pui_record_group'
+      elsif ['agent_person'].include?(doc['primary_type'])
+        doc['types'] << 'pui_person'
+      elsif ['subject'].include?(doc['primary_type'])
+        doc['types'] << 'pui_subject'
+      end
+    }
 
     add_document_prepare_hook {|doc, record|
       if ['classification', 'classification_term'].include?(doc['primary_type'])
