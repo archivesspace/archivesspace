@@ -364,6 +364,8 @@ class CommonIndexer
         doc['types'] << 'pui_record_group'
       elsif ['agent_person'].include?(doc['primary_type'])
         doc['types'] << 'pui_person'
+      elsif ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
+        doc['types'] << 'pui_agent'
       elsif ['subject'].include?(doc['primary_type'])
         doc['types'] << 'pui_subject'
       end
