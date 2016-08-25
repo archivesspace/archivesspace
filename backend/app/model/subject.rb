@@ -105,11 +105,16 @@ class Subject < Sequel::Model(:subject)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
-    subjects_to_repositories = GlobalRecordRepositoryLinkages.new(self, :subject).call(objs)
+    if opts[:calculate_linked_repositories]
+      subjects_to_repositories = GlobalRecordRepositoryLinkages.new(self, :subject).call(objs)
+
+      jsons.zip(objs).each do |json, obj|
+        json.used_within_repositories = subjects_to_repositories.fetch(obj, []).map {|repo| repo.uri}
+      end
+    end
 
     jsons.zip(objs).each do |json, obj|
       json.vocabulary = uri_for(:vocabulary, obj.vocab_id)
-      json.used_within_repositories = subjects_to_repositories.fetch(obj, []).map {|repo| repo.uri}
     end
 
     jsons

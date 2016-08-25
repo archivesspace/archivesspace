@@ -258,6 +258,12 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if record['record'].has_key?('used_within_repositories')
+        doc['used_within_repository'] = record['record']['used_within_repositories']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
@@ -506,7 +512,6 @@ class CommonIndexer
         doc['location_profile_display_string_u_ssort'] = record['record']['location_profile']['_resolved']['display_string']
       end
     }
-
 
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
