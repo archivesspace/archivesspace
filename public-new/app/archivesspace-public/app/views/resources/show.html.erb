@@ -5,8 +5,10 @@
     <%= render partial: 'shared/breadcrumbs' %>
   </div>
   <div class="col-sm-9">
-    <div class="abstract more"><%= get_note(@result['json'], 'abstract').html_safe %></div>
-    <div class="scope more"><%= get_note(@result['json'], 'scopecontent').html_safe %></div>
+    <div class="abstract more"><%= get_note(@result['json'], 'abstract', 'Abstract').html_safe %></div>
+    <div class="scope more"><%= get_note(@result['json'], 'scopecontent', 'Scope and Contents').html_safe %></div>
+    <div class="bioghist more"><%= get_note(@result['json'], 'Biography or History').html_safe %></div>
+
   </div>
   <div class="col-sm-3 sidebar">
   </div>
