@@ -43,7 +43,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "(:subject)"]) \
   do
-    json_response(Subject.to_jsonmodel(params[:id]))
+    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    json_response(Subject.to_jsonmodel(params[:id], opts))
   end
 
 
