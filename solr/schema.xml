@@ -173,7 +173,7 @@
    <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
-
+   <field name="used_within_repository" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Audit fields -->
    <field name="created_by" type="string" indexed="true" stored="true" multiValued="false"/>
