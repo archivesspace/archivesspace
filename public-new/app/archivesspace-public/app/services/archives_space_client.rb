@@ -56,6 +56,20 @@ class ArchivesSpaceClient
     tree = JSON.parse(results['tree_json'])
   end
 
+  def get_types_counts(record_type_list, repo_uri = nil)
+    opts = {"record_types[]" => record_type_list}
+    opts["repo_uri"] = "\"#{repo_uri}\"" if repo_uri
+    url = build_url('/search/record_types_by_repository',  opts)
+    results = do_search(url)
+  end
+
+  def get_repos_sublist(uri, type, search_opts = {})
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = search_opts.merge({"q" => "(used_within_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
+    url = build_url("/search", search_opts)
+    results = do_search(url)
+  end
+
   private
   
   class LoginFailedException < StandardError; end

@@ -39,37 +39,18 @@ class RepositoriesController < ApplicationController
 
   def show
     resources = {}
-    @subj_ct = 0
-    @agent_ct = 0
-    @rec_ct = 0
-    @resource_ct = 0
+
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
+    counts = get_counts("/repositories/#{params[:id]}")
+    #Pry::ColorPrinter.pp(@counts_results)
+    @subj_ct = counts["subject"] || 0
+    @agent_ct = counts["person"] || 0
+    @rec_ct = counts["record"] || 0
+    @resource_ct = counts["collection"] || 0
+    @group_ct = counts["record_group"] || 0
     sublist_query_base = "publish:true"
-    facets = fetch_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\" AND publish:true)", ['subjects', 'agents','types', 'resource'], true)
-    unless facets.blank?
-      subjs = strip_facets(facets['subjects'], false)
-      @subj_ct = subjs.length
-      if @subj_ct == 0
-        @subj_query = ""
-      else
-        @subj_query = "(#{sublist_query_base} AND types:subject AND #{compose_title_list(subjs)} )"
-      end
-      agents = strip_facets(facets['agents'], false) 
-      @agent_ct = agents.length
-      if @agent_ct == 0
-        @agent_query = ""
-      else
-        @agent_query =  "(#{sublist_query_base} AND types:agent AND  #{compose_title_list(agents)})"
-      end
-      @resource_ct = strip_facets(facets['resource'], false).length
-      types = strip_facets(facets['types'], false)
-      @rec_ct = (types['archival_object'] || 0) + (types['digital_object'] || 0)
-    end
     @criteria = {}
     @criteria[:page_size] = 1
-# temporary tryout of get record types
-#    types = archivesspace.get_types_counts([ 'pui_collection','pui_record','pui_record_group','pui_person','pui_subject'])
-# Pry::ColorPrinter.pp types
     @data =  archivesspace.search(query, 1, @criteria) || {}
     @result
     unless @data['results'].blank?
@@ -97,9 +78,12 @@ class RepositoriesController < ApplicationController
            end
     @criteria = {}
     @criteria['sort'] = "title asc" 
+    page  =  params['page'] || 1 if !params.blank?
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
-    if params[:qr].blank?
+    @criteria[:page_size] = page_size
+
+    if params[:qr].blank? && ( @type == 'resource' || @type == 'archival_object')
       query = compose_sublist_query(@type, params)
     else
       query = params[:qr]
@@ -109,12 +93,12 @@ class RepositoriesController < ApplicationController
       resolve_arr = ['repository:id']
       resolve_arr.push 'resource:id@compact_resource' if @type == 'archival_object'
       @criteria['resolve[]'] = resolve_arr
+      @results =  archivesspace.search(query, page, @criteria) || {}
+    else
+      @criteria[:page] = page
+      @results = archivesspace.get_repos_sublist(@repo_id, (@type == 'agent' ? 'people' : @type), @criteria) || {}
     end
-    Rails.logger.debug("sublist query:\n#{query}")
-    page = params['page'] || 1 if !params.blank?
-    @criteria[:page_size] = page_size
-    Rails.logger.debug(@criteria.keys)
-    @results =  archivesspace.search(query, page, @criteria) || {}
+
     Rails.logger.debug("TOTAL HITS: #{@results['total_hits']}, last_page: #{@results['last_page']}")
     if !@results['results'].blank?
       @results['results'].each do |result|
@@ -130,7 +114,27 @@ class RepositoriesController < ApplicationController
   end
 
   private
- 
+
+  # get counts for repository
+  def get_counts(repo_id = nil, collection_only = false)
+    if collection_only
+      types = ['pui_collection']
+    else
+      types = ['pui_collection', 'pui_record', 'pui_record_group', 'pui_person', 'pui_subject']
+    end
+    # for now, we've got to get the whole enchilada, until we figure out what's wrong
+    #  counts = archivesspace.get_types_counts(types, repo_id)
+    counts = archivesspace.get_types_counts(types)
+    final_counts = {}
+    if counts[repo_id]
+      counts[repo_id].each do |k, v|
+        final_counts[k.sub("pui_",'')] = v
+      end
+    end
+    final_counts
+  end
+
+
   # get sublist query if it isn't there
   def compose_sublist_query(type, params)
     type_statement = "types:#{type =='archival_object' ? 'archival_object OR types:digital_object' : type}"
@@ -164,17 +168,10 @@ class RepositoriesController < ApplicationController
   end
 
   def find_resource_facet
-     facets = fetch_facets('types:resource', ['repository'], false) # if we want all repositories, change false to true
-    facets_ct = 0
-    if !facets.blank?
-      repos = facets['repository']
-      facets_ct = (repos.length / 2)
-#      Rails.logger.debug("repos.length: #{repos.length}")
-      repos.each_slice(2) do |r, ct|
-        facets[r] = ct   if ct > 0 # we had an 'if (ct >0 || include_zero)'
-      end
-    else 
-      facets = {}
+    counts = archivesspace.get_types_counts(['pui_collection'])
+    facets = {}
+    counts.each do |rep, h|
+      facets[rep] = h['pui_collection']
     end
     facets
   end
