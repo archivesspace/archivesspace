@@ -11,10 +11,11 @@ class ObjectsController <  ApplicationController
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      Pry::ColorPrinter.pp(@result['json'])
+      Pry::ColorPrinter.pp(@result)
       @page_title = "#{@result['json']['title']}"
       @tree = fetch_tree(uri)
       @context = get_path(@tree)
+      @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => @result['json']['title'] })
     else
       @page_title = "NOT FOUND"
