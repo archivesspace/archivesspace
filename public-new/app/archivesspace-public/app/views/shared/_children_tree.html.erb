@@ -1,6 +1,6 @@
 <%# displaying the children of a resource or object %>
 <% if !tree['direct_children'].blank? %>
-<ul class="tree children">
+<ul class="tree children no-bullets">
   <% tree['direct_children'].each do | child | %>
   <li><a href="<%= child['record_uri'] %>"><%= child['title'] %></a>
     <% if child['has_children'] %>
