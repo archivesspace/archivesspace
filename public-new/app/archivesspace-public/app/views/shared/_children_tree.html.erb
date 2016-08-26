@@ -2,7 +2,7 @@
 <% if !tree['direct_children'].blank? %>
 <ul class="tree children no-bullets">
   <% tree['direct_children'].each do | child | %>
-  <li><a href="<%= child['record_uri'] %>"><%= child['title'] %></a>
+  <li><a href="<%= child['record_uri'] %>"><%= process_mixed_content(child['title']).html_safe %></a>
     <% if child['has_children'] %>
     <a href="javascript: go_deep(\"tree/<%= child['record_uri'] %>\")">*</a>
     <% end %>
