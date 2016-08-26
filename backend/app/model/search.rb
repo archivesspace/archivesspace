@@ -146,7 +146,7 @@ class Search
       end
     end
 
-    if repos_of_interest
+    if for_repo_uri
       # We're just targeting a single repo
       result.values.first
     else
