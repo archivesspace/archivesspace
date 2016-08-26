@@ -10,7 +10,7 @@ class Pager < Struct.new( :link, :page, :last_page, :pages, :need_next, :next, :
     self.need_prev = (lower_page > 1)
     self.prev = lower_page - 1
     self.need_next = (upper_page < last_page.to_i)
-    self.next = upper_page + 1
+    self.next = lower_page + 1
     self.pages = Range.new(lower_page, upper_page, true)
   end
   def to_s
