@@ -356,19 +356,12 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
-      if ['archival_object', 'accession', 'digital_object', 'digital_object_component'].include?(doc['primary_type'])
-        doc['types'] << 'pui_record'
-      elsif ['resource'].include?(doc['primary_type'])
-        doc['types'] << 'pui_collection'
-      elsif ['classification'].include?(doc['primary_type'])
-        doc['types'] << 'pui_record_group'
-      elsif ['agent_person'].include?(doc['primary_type'])
-        doc['types'] << 'pui_person'
-      elsif ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
-        doc['types'] << 'pui_agent'
-      elsif ['subject'].include?(doc['primary_type'])
-        doc['types'] << 'pui_subject'
-      end
+      doc['types'] << 'pui_record' if ['archival_object', 'accession', 'digital_object', 'digital_object_component'].include?(doc['primary_type'])
+      doc['types'] << 'pui_collection' if ['resource'].include?(doc['primary_type'])
+      doc['types'] << 'pui_record_group' if ['classification'].include?(doc['primary_type'])
+      doc['types'] << 'pui_person' if ['agent_person'].include?(doc['primary_type'])
+      doc['types'] << 'pui_agent' if ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
+      doc['types'] << 'pui_subject' if ['subject'].include?(doc['primary_type'])
     }
 
     add_document_prepare_hook {|doc, record|
