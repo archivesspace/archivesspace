@@ -1,11 +1,17 @@
 class SearchController < ApplicationController
   include ProcessResults
- 
+  include JsonHelper
+
   def search
     @criteria = {}
     @criteria['sort'] = 'title asc'
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
-    @query = params.require(:q)
+    record_type = params.fetch(:recordtype, nil)
+    if record_type
+      @query = "primary_type:subject"
+    else
+      @query = params.require(:q)
+    end
     page_search = "/search?q=#{@query}" 
 
     @query = "#{@query} AND publish:true"
