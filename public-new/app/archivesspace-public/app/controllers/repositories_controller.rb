@@ -1,5 +1,6 @@
 class RepositoriesController < ApplicationController
   include HandleFaceting
+  include JsonHelper
   skip_before_filter  :verify_authenticity_token  
   def index
     @criteria = {}
@@ -55,7 +56,8 @@ class RepositoriesController < ApplicationController
     @result
     unless @data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
-#Pry::ColorPrinter.pp @data['results'][0]
+Rails.logger.debug("repository json: ")
+Pry::ColorPrinter.pp @result
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = @result['name']
