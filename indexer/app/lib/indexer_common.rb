@@ -29,7 +29,11 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['location_profile', 'container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
+  @@resolved_attributes = ['location_profile', 'container_profile',
+                           'container_locations', 'subjects',
+                           'linked_agents', 'linked_records',
+                           'classifications', 'digital_object',
+                           'agent_representation']
 
   @@paused_until = Time.now
 
