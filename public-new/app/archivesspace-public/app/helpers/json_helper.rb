@@ -1,29 +1,57 @@
 module JsonHelper
 
-  def get_note(json, type, deflabel='')
-    note_text = ''
-    if !json['notes'].blank?
-      if json['notes'].kind_of?(Array)
-        json['notes'].each do |note|
-           if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
-             if note.has_key?('type') && note['type'] == type
-               label = note['label'].blank? ? deflabel : note['label']
-               note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
-               if note['jsonmodel_type'] == 'note_multipart'
-                 note['subnotes'].each do |sub|
-                  note_text = handle_single_note(sub, note_text)
-                end
-               else
-                 note_text = handle_single_note(note, note_text)
-               end
-             end
-           end
+  #process the entire notes structure.  If req is specified, process and return only the notes that
+  #  match the requested type (may be nil)
+  def process_json_notes(notes, req = nil)
+    notes_hash = {}
+    if !notes.blank?
+      if notes.kind_of?(Array)
+        notes.each do |note|
+          type = note['type']
+          Rails.logger.debug("type: #{type}, req: #{req}")
+          if !req || type == req
+            note_text = handle_note_structure(note)
+            notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
+          end
+        end
+      else
+        type = notes['type']
+        if !req || type == req
+          note_text = handle_note_structure(notes)
+          notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
         end
       end
+    end
+    notes_hash
+  end
+
+  def get_note(json, type, deflabel='')
+    note_text = ''
+    key = "#{type}_html"
+    if json.has_key?(key)
+      note_text = json[key]
     end
     note_text
   end
 
+  private
+  def handle_note_structure(note)
+    note_text = ''
+    if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
+      label = note.has_key?('label') ? note['label'] : ''
+      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
+      if note['jsonmodel_type'] == 'note_multipart'
+        note['subnotes'].each do |sub|
+          note_text = handle_single_note(sub, note_text)
+        end
+      else
+        note_text = handle_single_note(note, note_text)
+      end
+    end
+    note_text
+          
+  end
+  
   def handle_single_note(note, input_note_text)
     note_text = input_note_text
     if  note['jsonmodel_type'] == 'note_orderedlist' && !note['items'].blank?
