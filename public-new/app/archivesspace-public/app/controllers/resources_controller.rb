@@ -2,6 +2,7 @@ class ResourcesController <  ApplicationController
   include HandleFaceting
   include ProcessResults
   include TreeApis
+  include JsonHelper
   skip_before_filter  :verify_authenticity_token
 
   # present a list of resources.  If no repository named, just get all of them.
@@ -21,7 +22,7 @@ class ResourcesController <  ApplicationController
     @criteria[:page_size] = page_size
     # might as well get the facets here
     @results =  archivesspace.search(query, page, @criteria) || {}
-    @results = handle_results(@results)
+    @results = handle_results(@results, 'abstract')  # we only want the abstract for the index
     @pager =  Pager.new("/repositories/#{params[:rid]}/resources?repo=#{@repo_name}", @results['this_page'],@results['last_page'])
     @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t('resource._plural') : I18n.t('resource._singular')) +  " " + I18n.t('listing')
     Rails.logger.debug("Page title #{@page_title}")
@@ -33,10 +34,10 @@ class ResourcesController <  ApplicationController
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id']
     @results =  archivesspace.search_records(record_list,1, @criteria) || {}
-    @results = handle_results(@results)
+    @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      Pry::ColorPrinter.pp(@result['json'])
+Rails.logger.debug(@result['json'].keys)
       #Rails.logger.debug("REPOSITORY:")
 #      Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
       repo = @result['_resolved_repository']['json']
