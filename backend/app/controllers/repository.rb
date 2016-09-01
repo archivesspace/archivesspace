@@ -142,17 +142,20 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:id')
     .description("Get a Repository by ID")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["resolve", :resolve])
     .permissions([])
     .returns([200, "(:repository)"],
              [404, "Not found"]) \
   do
-    json_response(Repository.to_jsonmodel(Repository.get_or_die(params[:id])))
+    json_response(resolve_references(Repository.to_jsonmodel(Repository.get_or_die(params[:id])),
+                                     params[:resolve]))
   end
 
 
   Endpoint.get('/repositories')
     .description("Get a list of Repositories")
+    .params(["resolve", :resolve])
     .permissions([])
     .returns([200, "[(:repository)]"]) \
   do
