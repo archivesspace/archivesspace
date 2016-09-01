@@ -42,7 +42,7 @@ module ManipulateNode
     href = node['href']
     href.strip? if href
     target = node['target']
-    target.strip? if target
+    target.strip! if target
     return node if !href && target.blank? 
     ttl = node['title']
     anchornode = node.document.create_element('a')
