@@ -1,10 +1,11 @@
 <%# displaying the children of a resource or object %>
 <% if !tree['direct_children'].blank? %>
-<ul class="tree children no-bullets">
+<ul class="tree children ">
   <% tree['direct_children'].each do | child | %>
-  <li><a href="<%= child['record_uri'] %>"><%= process_mixed_content(child['title']).html_safe %></a>
+  <li class="fa <%= child['has_children'] ? 'fa-folder-o' : 'fa-sticky-note-o' %>">
+    <a href="<%= child['record_uri'] %>"><%= process_mixed_content(child['title']).html_safe %></a>
     <% if child['has_children'] %>
-    <a href="javascript: go_deep(\"tree/<%= child['record_uri'] %>\")">*</a>
+    <a title="more objects below" href="javascript: go_deep(\"tree/<%= child['record_uri'] %>\")"><i class="fa fa-level-down" aria-hidden="true"></i></a>
     <% end %>
   </li>
   <% end %>
