@@ -19,7 +19,9 @@
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-
+    <% if @result['json'].has_key?('odd_html') %>
+    <%= @result['json']['odd_html'].html_safe %>
+    <% end %>
 
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
