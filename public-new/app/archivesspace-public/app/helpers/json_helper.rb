@@ -27,7 +27,7 @@ module JsonHelper
   # pull the note out of the result['json']['html'] hash, if it exists
   def get_note(json, type, deflabel='')
     note_text = ''
-    if json['html'].has_key?(type)
+    if json['html'].present? && json['html'].has_key?(type)
       note_text = json['html'][type]
     end
     note_text
