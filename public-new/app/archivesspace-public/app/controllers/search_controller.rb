@@ -8,7 +8,7 @@ class SearchController < ApplicationController
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     record_type = params.fetch(:recordtype, nil)
     if record_type
-      @query = "primary_type:subject"
+      @query = "primary_type:#{record_type}"
     else
       @query = params.require(:q)
     end
@@ -22,7 +22,7 @@ class SearchController < ApplicationController
       @query = "resource:\"#{res_id}\" AND #{@query}"
       page_search = "#{page_search}&res_id=#{res_id.gsub('/','%2f')}"
     elsif !repo_id.blank?
-      @query =  "repository:\"#{repo_id}\" AND #{@query}""
+      @query =  "repository:\"#{repo_id}\" AND #{@query}"
       page_search = "#{page_search}&repo_id=#{repo_id.gsub('/','%2f')}"
     end
     Rails.logger.debug("page search: #{page_search}")
