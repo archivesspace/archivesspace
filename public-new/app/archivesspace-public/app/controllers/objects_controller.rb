@@ -17,6 +17,10 @@ class ObjectsController <  ApplicationController
       @page_title = "#{@result['json']['title']}"
       @tree = fetch_tree(uri)
       @context = get_path(@tree)
+      # TODO: This is a monkey patch for digital objects
+      if @context.blank?
+        @context = []
+      end
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => @result['json']['title'] })
     else
