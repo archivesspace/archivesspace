@@ -141,7 +141,7 @@ class RepositoriesController < ApplicationController
   # get sublist query if it isn't there
   def compose_sublist_query(type, params)
     type_statement = "types:#{type =='archival_object' ? 'archival_object OR types:digital_object' : type}"
-    Rails.logger.debug("Type: #{type} statement: #{type_statement}")
+#    Rails.logger.debug("Type: #{type} statement: #{type_statement}")
     query =  "(#{type_statement}) "
     query = "#{query} AND publish:true " if type != 'subject'
     if type == 'subject' || type == 'agent'
