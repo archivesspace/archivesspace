@@ -6,9 +6,12 @@ class SearchController < ApplicationController
     @criteria = {}
     @criteria['sort'] = 'title asc'
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
-    record_type = params.fetch(:recordtype, nil)
-    if record_type
-      @query = "primary_type:#{record_type}"
+    record_types = params.fetch(:recordtypes, nil)
+    if record_types
+      @query = ''
+      record_types.each do |type|
+        @query = "#{@query} primary_type:#{type}"
+      end
     else
       @query = params.require(:q)
     end
