@@ -99,7 +99,7 @@ class RepositoriesController < ApplicationController
       @results =  archivesspace.search(query, page, @criteria) || {}
     else
       @criteria[:page] = page
-      @results = archivesspace.get_repos_sublist(@repo_id, (@type == 'agent' ? 'people' : @type), @criteria) || {}
+      @results = archivesspace.get_repos_sublist(@repo_id, @type, @criteria) || {}
     end
 
     Rails.logger.debug("TOTAL HITS: #{@results['total_hits']}, last_page: #{@results['last_page']}")
