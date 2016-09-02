@@ -40,7 +40,6 @@ class RepositoriesController < ApplicationController
 
   def show
     resources = {}
-
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
     counts = get_counts("/repositories/#{params[:id]}")
     #Pry::ColorPrinter.pp(@counts_results)
@@ -56,8 +55,10 @@ class RepositoriesController < ApplicationController
     @result
     unless @data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
-Rails.logger.debug("repository json: ")
-Pry::ColorPrinter.pp @result
+      # make the repository details easier to get at in the view
+      if @result['agent_representation']['_resolved'] && @result['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
+        @result['repo_info'] = repo_info(@result['agent_representation']['_resolved']['agent_contacts'][0])
+      end
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = @result['name']
@@ -187,5 +188,27 @@ Pry::ColorPrinter.pp @result
     "(#{query})"
   end
  
+  # extract the repository agent info
+  def repo_info(in_h)
+    ret_h = {}
+    %w{city region post_code country email }.each do |k|
+      ret_h[k] = in_h[k] if in_h[k].present?
+    end
+    if in_h['address_1'].present?
+      ret_h['address'] = []
+      [1,2,3].each do |i|
+        ret_h['address'].push(in_h["address_#{i}"]) if in_h["address_#{i}"].present?
+      end
+    end
+    if in_h['telephones'].present?
+      ret_h['telephones'] = []
+      in_h['telephones'].each do |tel|
+        if tel['number'].present?
+          ret_h['telephones'].push(tel['number'])
+        end
+      end
+    end
+    ret_h
+  end
 
 end

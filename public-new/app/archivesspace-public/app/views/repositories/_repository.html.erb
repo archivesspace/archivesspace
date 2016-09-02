@@ -15,19 +15,14 @@
           <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
         </div>
 	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
-	  <% if !result['parent_institution_name'].blank? %>
+	  <% if result['parent_institution_name'].present? %>
 	  <div><strong>Parent Institution:</strong> 
 	    <%= result['parent_institution_name'] %>
-
 	  </div>
 	  <% end %>
-	  <% if full && !result['url'].blank? && result['url'] != "http://url.unspecified" %>
-	  <div><strong>Website:</strong> 
-	    <a href="<%= result['url'] %>"><%= result['name']  %></a>
-	  </div>
-
-	  <% end %>
-	 <% if !full %>
+	  <% if full %> 
+	  <%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
+	 <% else %>
 	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
 	 <% end %>
 	</div>					  
