@@ -2,7 +2,7 @@ module ProcessResults
   extend ActiveSupport::Concern
 # process search results in one place, including stripping 0-value facets, and JSON-izing any expected JSON
 # if req is not nil, process notes for the type matching the value in req, storing the returned html string in
-  #  results['json'}["#{type}_html"]
+  #  results['json'}['html'][type]
   def handle_results(results, req = nil, no_zero = true)
     if no_zero && !results['facets'].blank? && !results['facets']['facet_fields'].blank?
       results['facets']['facet_fields'] = strip_facet_fields(results['facets']['facet_fields'])
@@ -17,8 +17,9 @@ module ProcessResults
       end
       if result['json'].has_key?('notes')
         notes_html =  process_json_notes( result['json']['notes'], req)
+        result['json']['html'] = {}
         notes_html.each do |type, html|
-          result['json']["#{type}_html"] = html
+          result['json']['html'][type] = html
         end
       end
       # the info is deeply nested; find & bring it up 
