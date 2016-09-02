@@ -1,0 +1,28 @@
+<% if url && url!= "http://url.unspecified" %>
+<div class="website">
+  <a href="<%= url %>"><%= url  %></a>
+</div>
+<% end %>
+
+<% if info.present?  %>
+<div class='contact_info'>
+  <strong><%= t('contact') %>:</strong> <br/>
+<% if info["address"].present? %>
+  <span class="street">
+    <%= info["address"].join(" <br/>").html_safe %>
+    <br />
+  </span>
+<% end %>
+
+  <% %w{city region post_code country}.each do |type|
+      if info[type].present? %>
+        <span class="<%= type %>"><%= info[type] %></span>
+      <% end %>
+   <% end %>
+<% if info["telephones"].present? %>
+<br/>
+<span class"telephone"><%= info["telephones"].join(" <br />").html_safe %></span><br />
+<% end %>
+</div>
+<% end %>
+
