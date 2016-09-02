@@ -199,6 +199,13 @@ en:
 
   unprocessed: Unprocessed Material
 
+  accession:
+    _singular: Unprocessed
+
+  classification:
+    _singular: Record Group
+    _plural: Record Groups
+
   all_agents: People & Organizations
 
   record:
@@ -215,6 +222,15 @@ en:
     _public:
       section:
         summary: Summary
+   
+  agent_person:
+    _singular: Person
+
+  agent_family:
+    _singular: Family
+
+  agent_corporate_entity:
+    _singular: Organization
 
   components:
     expand: Expand
