@@ -19,8 +19,12 @@
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-    <%= get_note(@result['json'],'odd').html_safe %>
-
+    <% @result['json']['html'].keys.each do |type| 
+      note = get_note(@result['json'],type) %>
+    <div class="<%= type %>" >
+    <%= note.html_safe %>
+    </div>
+    <% end %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <h4>Contents &amp; Arrangements</h4>
