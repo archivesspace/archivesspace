@@ -37,7 +37,7 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-Rails.logger.debug(@result['json'].keys)
+#Rails.logger.debug(@result['json'].keys)
       #Rails.logger.debug("REPOSITORY:")
 #      Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
       repo = @result['_resolved_repository']['json']
