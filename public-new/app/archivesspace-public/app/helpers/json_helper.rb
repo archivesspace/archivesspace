@@ -8,7 +8,7 @@ module JsonHelper
       if notes.kind_of?(Array)
         notes.each do |note|
           type = note['type']
-          Rails.logger.debug("type: #{type}, req: #{req}")
+#          Rails.logger.debug("type: #{type}, req: #{req}")
           if !req || type == req
             note_text = handle_note_structure(note)
             notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
@@ -24,12 +24,11 @@ module JsonHelper
     end
     notes_hash
   end
-
+  # pull the note out of the result['json']['html'] hash, if it exists
   def get_note(json, type, deflabel='')
     note_text = ''
-    key = "#{type}_html"
-    if json.has_key?(key)
-      note_text = json[key]
+    if json['html'].has_key?(type)
+      note_text = json['html'][type]
     end
     note_text
   end
