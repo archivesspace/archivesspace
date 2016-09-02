@@ -11,8 +11,8 @@ require 'uri'
 class ArchivesSpaceClient
 
   DEFAULT_SEARCH_OPTS = {
-    :page_size => AppConfig[:search_results_page_size],
-    :sort => 'title asc'
+    'page_size' => AppConfig[:search_results_page_size],
+    'sort' => 'title asc'
   }
 
   # FIXME: Ultimately we'll set up a dedicated user for the public application
@@ -39,6 +39,7 @@ class ArchivesSpaceClient
 
   def search(query, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    Rails.logger.debug("merged opts: #{search_opts}")
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
     results = do_search(url)
   end
