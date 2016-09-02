@@ -25,6 +25,20 @@
     <%= note.html_safe %>
     </div>
     <% end %>
+ <% if !@result['json']['file_versions'].blank? && @result['json']['file_versions'].kind_of?(Array) %>
+<h4>Just a place holder for now!</h>
+   <ul>
+    <% @result['json']['file_versions'].each do |version| %>
+     <li>
+       <% if version['xlink_show_attribute'] == "embed" %>
+          <img src="<%= version['file_uri'] %>" title="you should see something here!" />
+       <% else %>
+          <a href="<%= version['file_uri'] %>" target="elsewhere" title="this should be a link">Link out</a>
+       <% end %>
+     </li>
+     <% end %>
+     </ul>
+   <% end %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <h4>Contents &amp; Arrangements</h4>
