@@ -1,0 +1,23 @@
+<div id="main-content" class="row">
+
+  <div class="information col-sm-12">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+
+<br/>
+    <% if @result['json']['linked_records'].present? %>
+     <% @result['json']['linked_records'].each do |rec| %>
+       <% if rec['_resolved'].present? && rec['_resolved']['publish'] %>
+         <h4>Linked record: <%= process_mixed_content(rec['_resolved']['display_string'] || '[Missing title]') %></h4>
+	 <%= render partial: 'shared/record', locals: {:rec => rec['_resolved']} %>
+       <% end %> 
+     <% end %>
+    <% end %>
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <h4>Contents &amp; Arrangements</h4>
+    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
+  </div>
+</div>

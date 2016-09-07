@@ -1,0 +1,41 @@
+<div id="main-content" class="row">
+
+  <div class="information col-sm-12">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+
+<br/>
+    <% if !@result['json']['extents'].blank? %>
+    <%   @result['json']['extents'].each do |ext| %>
+    <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
+    <% end %>
+    <br/>
+    <% end %>
+    <% if !@result['json']['dates'].blank? %>
+    <%   @result['json']['dates'].each do |date|  %>
+    <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+    <% end %>
+    <br/>
+    <% end %>
+
+  <% if !@result['json']['component_id'].blank? %>
+    <span class='component'>Component: <%= @result['json']['component_id'] %></span>
+    <% end %>
+    <% if !@result['json']['ref_id'].blank? %>
+    <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
+    <% end %>
+    <% @result['json']['html'].keys.each do |type| 
+      note = get_note(@result['json'],type) %>
+    <div class="<%= type %>" >
+    <%= note.html_safe %>
+    </div>
+    <% end %>
+ <p>Eventually we'll offer a 'search for resources with this agent' here </p>
+  </div>
+    <%# nothing at the moment %>
+  <!-- div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+
+  </div -->
+</div>
