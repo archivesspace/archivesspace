@@ -1,0 +1,21 @@
+
+  <% if !rec['extents'].blank? %>
+<!--  NUMBER OF EXTENTS: <%= rec['extents'].length %> -->
+    <%   rec['extents'].each do |ext| %>
+    <span class="extent"><%= ext['container_summary'].present? ? "#{ext['container_summary']}: " : ''%> <%= ext['physical_details'] || '' %> <%= ext['number'] %> <%= ext['extent_type'] %></span> <br />
+    <% end %>
+  <% end %>
+   <% if !rec['dates'].blank? %>
+<!-- NUMBER OF DATES: <%= rec['dates'].length %> -->
+    <%   rec['dates'].each do |date|  %>
+    <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+    <% end %>
+    <br/>
+    <% end %>
+<% %w{ inventory disposition content_description provenance access_date access_restricions_note use_restrictions_note}.each do  |k|\
+ %>
+
+  <% if !rec[k].blank? %>
+     <p class="<%= k %>"><%= process_mixed_content(rec[k]) %></p>
+   <% end %>
+<% end %>
