@@ -2,6 +2,17 @@
 <div id="main-content" class="row">
   <div class="abstract">
 <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
+  <div class="search">
+    <p><%= "#{t('actions.search')} " %> <%= t('repository._singular') %>:
+      <%= form_tag("#{@result['uri']}/search", method: 'post') do %>
+            <%= text_field_tag(:q) %>
+        <%= submit_tag(I18n.t('search-button.label')) %>
+    <% end %>
+
+    </p>
+
+  </div>
+
     <div id="whats-in-container">
 	<h3><%= t('repository.what') %> </h3>
 	<div>
