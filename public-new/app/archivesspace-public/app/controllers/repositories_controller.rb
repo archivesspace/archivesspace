@@ -1,7 +1,15 @@
 class RepositoriesController < ApplicationController
   include HandleFaceting
+  include ProcessResults
   include JsonHelper
   skip_before_filter  :verify_authenticity_token  
+
+  DEFAULT_REPO_SEARCH_OPTS = {
+    'types[]' => %w{archival_object digital_object resource accession},
+    'sort' => 'title asc',
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'facet[]' => ['types', 'subjects']
+  }
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
@@ -38,6 +46,26 @@ class RepositoriesController < ApplicationController
     render 
   end
 
+  def search
+    @criteria = DEFAULT_REPO_SEARCH_OPTS
+    repo_id = params.require(:rid)
+    @criteria['repository'] = repo_id
+    @query = params.require(:q)
+    @query = "#{@query} AND publish:true"
+    page = Integer(params.fetch(:page, "1"))
+    @results = archivesspace.search(@query, page, @criteria)
+    Rails.logger.debug("Has facets? #{@results['facets']}")
+    @results = handle_results(@results)
+    @repo = {}
+    if @results['results'].length > 0 && @results['results'][0]['_resolved_repository'].present?
+      @repo = @results['results'][0]['_resolved_repository']['json'] || {}
+    end
+    page_search = "/repositories/#{repo_id}/search?q=#{@query}"
+    @pager = Pager.new(page_search,@results['this_page'],@results['last_page'])
+    @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
+    render 
+  end
+
   def show
     resources = {}
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
@@ -65,6 +93,8 @@ class RepositoriesController < ApplicationController
       render 
     end
   end
+
+  
 
   def sublist
     @repo_name = params[:repo] || ''
