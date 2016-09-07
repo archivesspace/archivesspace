@@ -1,0 +1,32 @@
+<div id="main-content" class="row">
+
+  <div class="information col-sm-12">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+
+<br/>
+    <% if !@result['json']['extents'].blank? %>
+    <%   @result['json']['extents'].each do |ext| %>
+    <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span> <br />
+    <% end %>
+    <% end %>
+    <% if !@result['json']['dates'].blank? %>
+    <%   @result['json']['dates'].each do |date|  %>
+    <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+    <% end %>
+    <br/>
+    <% end %>
+
+    <% %w{inventory content_description provenance access_date access_restricions_note use_restrictions_note}.each do  |k| 
+       if !@result['json'][k].blank? %>
+       <p class="<%= k %>"><%= process_mixed_content(@result['json'][k]) %></p>
+       <% end %>
+    <% end %>
+    <%# nothing at the moment %>
+  <!-- div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+
+  </div -->
+
+</div>
