@@ -3,7 +3,12 @@ Rails.application.routes.draw do
 
   get '/', to: 'welcome#show' #'index#index'
   get '/welcome', to: 'welcome#show'
+
+  get "subjects/:id" => 'subjects#show'
+  get "agents/:eid/:id" => 'agents#show'
   get 'repositories/resources' => 'resources#index'
+  get  "repositories/:rid/accessions/:id" => 'accessions#show'
+  get  "repositories/:rid/classifications/:id" => 'classifications#show'
   get "repositories/:rid/resources/:id"  => 'resources#show'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'
   get "repositories/:rid/resources" => 'resources#index'
