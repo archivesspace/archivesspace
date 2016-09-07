@@ -15,9 +15,9 @@ module ProcessResults
       if !result['json'].blank?
         result['json'] = JSON.parse(result['json']) || {}
       end
+      result['json']['html'] = {}
       if result['json'].has_key?('notes')
         notes_html =  process_json_notes( result['json']['notes'], req)
-        result['json']['html'] = {}
         notes_html.each do |type, html|
           result['json']['html'][type] = html
         end
