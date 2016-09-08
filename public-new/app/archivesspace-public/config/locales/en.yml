@@ -36,7 +36,8 @@ en:
     browse: Browse
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
-
+    backup:  Return to the previous page
+    backup_abbr: Go back
   search-button:
     label: Search
 
@@ -253,3 +254,1497 @@ en:
   number_of: Number of
 
   parent_inst: Parent Institution
+
+#  The following are the enums for things like notes type, etc.
+
+  enumerations:
+    linked_event_archival_record_roles:
+      source: Source
+      outcome: Outcome
+      transfer: Transfer
+    linked_agent_archival_record_relators:
+      abr: Abridger
+      act: Actor
+      adi: Art director
+      adp: Adapter
+      anl: Analyst
+      anm: Animator
+      ann: Annotator
+      ape: Appellee
+      apl: Appellant
+      app: Applicant
+      arc: Architect
+      arr: Arranger
+      acp: Art copyist
+      art: Artist
+      ard: Artistic director
+      asg: Assignee
+      asn: Associated name
+      att: Attributed name
+      auc: Auctioneer
+      aut: Author
+      aqt: Author in quotations or text abstracts 
+      aft: Author of afterword, colophon, etc.
+      aud: Author of dialog
+      aui: Author of introduction, etc.
+      aus: Author of screenplay, etc.
+      ato: Autographer
+      ant: Bibliographic antecedent
+      bnd: Binder
+      bdd: Binding designer
+      blw: Blurb writer
+      bkd: Book designer
+      bkp: Book producer
+      bjd: Bookjacket designer
+      bpd: Bookplate designer
+      bsl: Bookseller
+      brl: Braille embosser
+      brd: Broadcaster
+      cll: Calligrapher
+      ctg: Cartographer
+      cas: Caster
+      cns: Censor
+      chr: Choreographer
+      cng: Cinematographer
+      cli: Client
+      cor: Collection registrar
+      clb: Collaborator
+      col: Collector
+      clt: Collotyper
+      clr: Colorist
+      cmm: Commentator
+      cwt: Commentator for written text
+      com: Compiler
+      cpl: Complainant
+      cpt: Complainant-appellant
+      cpe: Complainant-appellee
+      cmp: Composer
+      cmt: Compositor
+      ccp: Conceptor
+      cnd: Conductor
+      con: Conservator
+      csl: Consultant
+      csp: Consultant to a project
+      cos: Contestant
+      cot: Contestant-appellant
+      coe: Contestant-appellee
+      cts: Contestee
+      ctt: Contestee-appellant
+      cte: Contestee-appellee
+      ctr: Contractor
+      ctb: Contributor
+      cpc: Copyright claimant
+      cph: Copyright holder
+      crr: Corrector
+      crp: Correspondent
+      cst: Costume designer
+      cou: Court governed
+      crt: Court reporter
+      cov: Cover designer
+      cre: Creator
+      cur: Curator of an exhibition
+      dnc: Dancer
+      dtc: Data contributor
+      dtm: Data manager
+      dte: Dedicatee
+      dto: Dedicator
+      dfd: Defendant
+      dft: Defendant-appellant
+      dfe: Defendant-appellee
+      dgg: Degree grantor
+      dgs: Degree supervisor
+      dln: Delineator
+      dpc: Depicted
+      dpt: Depositor
+      dsr: Designer
+      drt: Director
+      dis: Dissertant
+      dbp: Distribution place
+      dst: Distributor
+      dnr: Donor
+      drm: Draftsman
+      dub: Dubious author
+      edt: Editor
+      edc: Editor of compilation
+      edm: Editor of moving image work
+      elg: Electrician
+      elt: Electrotyper
+      enj: Enacting jurisdiction
+      eng: Engineer
+      egr: Engraver
+      etr: Etcher
+      evp: Event place
+      exp: Appraiser
+      fac: Facsimilist
+      fld: Field director
+      fmd: Film director
+      fds: Film distributor
+      flm: Film editor
+      fmp: Film producer
+      fmk: Filmmaker
+      fpy: First party
+      frg: Forger
+      fmo: Former owner
+      fnd: Funder
+      gis: Geographic information specialist
+      grt: Graphic technician
+      hnr: Honoree
+      hst: Host
+      his: Host institution
+      ilu: Illuminator
+      ill: Illustrator
+      ins: Inscriber
+      itr: Instrumentalist
+      ive: Interviewee
+      ivr: Interviewer
+      inv: Inventor
+      isb: Issuing body
+      jud: Judge
+      jug: Jurisdiction governed
+      lbr: Laboratory
+      ldr: Laboratory director
+      lsa: Landscape architect
+      led: Lead
+      len: Lender
+      lil: Libelant
+      lit: Libelant-appellant
+      lie: Libelant-appellee
+      lel: Libelee
+      let: Libelee-appellant
+      lee: Libelee-appellee
+      lbt: Librettist
+      lse: Licensee
+      lso: Licensor
+      lgd: Lighting designer
+      ltg: Lithographer
+      lyr: Lyricist
+      mfp: Manufacture place
+      mfr: Manufacturer
+      mrb: Marbler
+      mrk: Markup editor
+      med: Medium
+      mdc: Metadata contact
+      mte: Metal-engraver
+      mtk: Minute taker
+      mod: Moderator
+      mon: Monitor
+      mcp: Music copyist
+      msd: Musical director
+      mus: Musician
+      nrt: Narrator
+      osp: Onscreen presenter
+      opn: Opponent
+      orm: Organizer of meeting
+      org: Originator
+      oth: Other
+      own: Owner
+      pan: Panelist
+      ppm: Papermaker
+      pta: Patent applicant
+      pth: Patentee
+      pat: Patron
+      prf: Performer
+      pma: Permitting agency
+      pht: Photographer
+      ptf: Plaintiff
+      ptt: Plaintiff-appellant
+      pte: Plaintiff-appellee
+      plt: Platemaker
+      pra: Praeses
+      pre: Presenter
+      prt: Printer
+      pop: Printer of plates
+      prm: Printmaker
+      prc: Process contact
+      pro: Producer
+      prn: Production company
+      pmn: Production manager
+      prs: Production designer
+      prd: Production personnel
+      prp: Production place
+      prg: Programmer
+      pdr: Project director
+      pfr: Proofreader
+      prv: Provider
+      pup: Publication place
+      pbl: Publisher
+      pbd: Publishing director
+      ppt: Puppeteer
+      rdd: Radio director
+      rpc: Radio producer
+      rcp: Recipient
+      rce: Recording engineer
+      rcd: Recordist
+      red: Redaktor
+      ren: Renderer
+      rpt: Reporter
+      rps: Repository
+      rth: Research team head
+      rtm: Research team member
+      res: Researcher
+      rsp: Respondent
+      rst: Respondent-appellant
+      rse: Respondent-appellee
+      rpy: Responsible party
+      rsg: Restager
+      rsr: Restorationist
+      rev: Reviewer
+      rbr: Rubricator
+      sce: Scenarist
+      sad: Scientific advisor
+      scr: Scribe
+      scl: Sculptor
+      spy: Second party
+      sec: Secretary
+      sll: Seller
+      std: Set designer
+      stg: Setting
+      sgn: Signer
+      sng: Singer
+      sds: Sound designer
+      spk: Speaker
+      spn: Sponsor
+      sgd: Stage director
+      stm: Stage manager
+      stn: Standards body
+      str: Stereotyper
+      stl: Storyteller
+      sht: Supporting host
+      srv: Surveyor
+      tch: Teacher
+      tcd: Technical director
+      tld: Television director
+      tlp: Television producer
+      ths: Thesis advisor
+      trc: Transcriber
+      trl: Translator
+      tyd: Type designer
+      tyg: Typographer
+      uvp: University place
+      vdg: Videographer
+      vac: Voice actor
+      voc: Vocalist
+      wit: Witness
+      wde: Wood engraver
+      wdc: Woodcutter
+      wam: Writer of accompanying material
+      wac: Writer of added commentary
+      wal: Writer of added lyrics
+      wat: Writer of added text
+      win: Writer of introduction
+      wpr: Writer of preface
+      wst: Writer of supplementary textual content
+    linked_agent_event_roles:
+      authorizer: Authorizer
+      executing_program: Executing Program
+      implementer: Implementer
+      recipient: Recipient
+      transmitter: Transmitter
+      validator: Validator
+    name_source:
+      cash: Canadian Subject Headings
+      ingest: Unspecified ingested source
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      naf: NACO Authority File
+      nad: NAD / ARK II Name Authority Database
+      nal: National Agricultural Library subject headings
+      rvm: Répertoire de vedettes-matière
+      ulan: Union List of Artist Names
+    name_rule:
+      local: Local rules
+      aacr: Anglo-American Cataloging Rules
+      dacs: "Describing Archives: A Content Standard"
+      rda: Resource Description and Access
+    extent_extent_type:
+      cassettes: Cassettes
+      cubic_feet: Cubic Feet
+      files: Files
+      gigabytes: Gigabytes
+      leaves: Leaves
+      linear_feet: Linear Feet
+      megabytes: Megabytes
+      photographic_prints: Photographic Prints
+      photographic_slides: Photographic Slides
+      reels: Reels
+      sheets: Sheets
+      terabytes: Terabytes
+      volumes: Volumes
+    collection_management_processing_priority:
+      none: Not specified
+      high: High
+      medium: Medium
+      low: Low
+    collection_management_processing_status:
+      none: Not specified
+      new: New
+      in_progress: In Progress
+      completed: Completed
+    date_era:
+      ce: ce
+    date_calendar:
+      gregorian: Gregorian
+    digital_object_digital_object_type:
+      cartographic: Cartographic
+      mixed_materials: Mixed Materials
+      moving_image: Moving Image
+      notated_music: Notated Music
+      software_multimedia: Software, Multimedia
+      sound_recording: Sound Recording
+      sound_recording_musical: Sound Recording (Musical)
+      sound_recording_nonmusical: Sound Recording (Non-musical)
+      still_image: Still Image
+      text: Text
+    digital_object_level:
+      collection: Collection
+      work: Work
+      image: Image
+    event_event_type:
+      accession: Accession
+      accumulation: Accumulation
+      acknowledgement: Acknowledgement
+      acknowledgement_sent: Acknowledgement Sent
+      acknowledgement_received: Acknowledgement Received
+      agreement_received: Agreement Received
+      agreement_sent: Agreement Sent
+      agreement_signed: Agreement Signed
+      appraisal: Appraisal
+      assessment: Assessment
+      capture: Capture
+      cataloged: Cataloged
+      collection: Collection
+      compression: Compression
+      contribution: Contribution
+      component_transfer: Component Transfer
+      copyright_transfer: Copyright Transfer
+      custody_transfer: Custody Transfer
+      deaccession: Deaccession
+      decompression: Decompression
+      decryption: Decryption
+      deletion: Deletion
+      digital_signature_validation: Digital Signature Validation
+      fixity_check: Fixity Check
+      ingestion: Ingestion
+      message_digest_calculation: Message Digest Calculation
+      migration: Migration
+      normalization: Normalization
+      processed: Processed
+      processing_new: Processing New
+      processing_started: Processing Started
+      processing_in_progress: Processing in Progress
+      processing_completed: Processing Completed
+      publication: Publication
+      replication: Replication
+      rights_transferred: Rights Transferred
+      validation: Validation
+      virus_check: Virus Check
+    resource_resource_type:
+      collection: Collection
+      publications: Publications
+      papers: Papers
+      records: Records
+    resource_finding_aid_description_rules:
+      aacr: Anglo-American Cataloguing Rules
+      cco: Cataloging Cultural Objects
+      dacs: "Describing Archives: A Content Standard"
+      rad: Rules for Archival Description
+      isadg: International Standard for Archival Description - General
+    resource_finding_aid_status:
+      completed: Completed
+      in_progress: In Progress
+      under_revision: Under Revision
+      unprocessed: Unprocessed
+    instance_instance_type:
+      accession: Accession
+      audio: Audio
+      books: Books
+      computer_disks: Computer Disks
+      digital_object: Digital Object
+      digital_object_link: Digital Object Link
+      graphic_materials: Graphic Materials
+      maps: Maps
+      microform: Microform
+      mixed_materials: Mixed Materials
+      moving_images: Moving Images
+      realia: Realia
+      text: Text
+    accession_acquisition_type:
+      deposit: Deposit
+      gift: Gift
+      purchase: Purchase
+      transfer: Transfer
+    accession_resource_type:
+      collection: Collection
+      publications: Publications
+      papers: Papers
+      records: Records
+    subject_source:
+      aat: "Art & Architecture Thesaurus"
+      cash: Canadian Subject Headings
+      gmgpc: "TGM II, Genre and physical characteristic terms"
+      ingest: Unspecified ingested source
+      lcsh: Library of Congress Subject Headings
+      lcshac: Library of Congress Children's Subject Headings
+      local: Local sources
+      mesh: Medical Subject Headings
+      nal: National Agricultural Library subject headings
+      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      rvm: Répertoire de vedettes-matière
+      tgn: Getty Thesaurus of Geographic Names
+    event_outcome:
+      pass: Pass
+      partial pass: Partial Pass
+      fail: Fail
+    agent_contact_salutation:
+      mr: Mr.
+      mrs: Mrs.
+      ms: Ms.
+      madame: Madame
+      sir: Sir
+    container_type:
+      box: Box
+      carton: Carton
+      case: Case
+      folder: Folder
+      frame: Frame
+      object: Object
+      page: Page
+      reel: Reel
+      volume: Volume
+    file_version_use_statement:
+      audio-clip: Audio-Clip
+      audio-master: Audio-Master
+      audio-master-edited: Audio-Master-Edited
+      audio-service: Audio-Service
+      audio-streaming: Audio-Streaming
+      image-master: Image-Master
+      image-master-edited: Image-Master-Edited
+      image-service: Image-Service
+      image-service-edited: Image-Service-Edited
+      image-thumbnail: Image-Thumbnail
+      text-codebook: Text-Codebook
+      text-data: Text-Data
+      text-data_definition: Text-Data Definition
+      text-georeference: Text-Georeference
+      text-ocr-edited: Text-Ocr-Edited
+      text-ocr-unedited: Text-Ocr-Unedited
+      text-tei-transcripted: Text-Tei-Transcripted
+      text-tei-translated: Text-Tei-Translated
+      video-clip: Video-Clip
+      video-master: Video-Master
+      video-master-edited: Video-Master-Edited
+      video-service: Video-Service
+      video-streaming: Video-Streaming
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    language_iso639_2:
+      aar: Afar
+      abk: Abkhazian
+      ace: Achinese
+      ach: Acoli
+      ada: Adangme
+      ady: Adyghe; Adygei
+      afa: Afro-Asiatic languages
+      afh: Afrihili
+      afr: Afrikaans
+      ain: Ainu
+      aka: Akan
+      akk: Akkadian
+      alb: Albanian
+      ale: Aleut
+      alg: Algonquian languages
+      alt: Southern Altai
+      amh: Amharic
+      ang: "English, Old (ca.450-1100)"
+      anp: Angika
+      apa: Apache languages
+      ara: Arabic
+      arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)
+      arg: Aragonese
+      arm: Armenian
+      arn: Mapudungun; Mapuche
+      arp: Arapaho
+      art: Artificial languages
+      arw: Arawak
+      asm: Assamese
+      ast: Asturian; Bable; Leonese; Asturleonese
+      ath: Athapascan languages
+      aus: Australian languages
+      ava: Avaric
+      ave: Avestan
+      awa: Awadhi
+      aym: Aymara
+      aze: Azerbaijani
+      bad: Banda languages
+      bai: Bamileke languages
+      bak: Bashkir
+      bal: Baluchi
+      bam: Bambara
+      ban: Balinese
+      baq: Basque
+      bas: Basa
+      bat: Baltic languages
+      bej: Beja; Bedawiyet
+      bel: Belarusian
+      bem: Bemba
+      ben: Bengali
+      ber: Berber languages
+      bho: Bhojpuri
+      bih: Bihari languages
+      bik: Bikol
+      bin: Bini; Edo
+      bis: Bislama
+      bla: Siksika
+      bnt: Bantu (Other)
+      bos: Bosnian
+      bra: Braj
+      bre: Breton
+      btk: Batak languages
+      bua: Buriat
+      bug: Buginese
+      bul: Bulgarian
+      bur: Burmese
+      byn: Blin; Bilin
+      cad: Caddo
+      cai: Central American Indian languages
+      car: Galibi Carib
+      cat: Catalan; Valencian
+      cau: Caucasian languages
+      ceb: Cebuano
+      cel: Celtic languages
+      cha: Chamorro
+      chb: Chibcha
+      che: Chechen
+      chg: Chagatai
+      chi: Chinese
+      chk: Chuukese
+      chm: Mari
+      chn: Chinook jargon
+      cho: Choctaw
+      chp: Chipewyan; Dene Suline
+      chr: Cherokee
+      chu: Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
+      chv: Chuvash
+      chy: Cheyenne
+      cmc: Chamic languages
+      cop: Coptic
+      cor: Cornish
+      cos: Corsican
+      cpe: "Creoles and pidgins, English-based"
+      cpf: "Creoles and pidgins, French-based"
+      cpp: "Creoles and pidgins, Portuguese-based"
+      cre: Cree
+      crh: Crimean Tatar; Crimean Turkish
+      crp: Creoles and pidgins
+      csb: Kashubian
+      cus: Cushitic languages
+      cze: Czech
+      dak: Dakota
+      dan: Danish
+      dar: Dargwa
+      day: Land Dayak languages
+      del: Delaware
+      den: Slave (Athapascan)
+      dgr: Dogrib
+      din: Dinka
+      div: Divehi; Dhivehi; Maldivian
+      doi: Dogri
+      dra: Dravidian languages
+      dsb: Lower Sorbian
+      dua: Duala
+      dum: "Dutch, Middle (ca.1050-1350)"
+      dut: Dutch; Flemish
+      dyu: Dyula
+      dzo: Dzongkha
+      efi: Efik
+      egy: Egyptian (Ancient)
+      eka: Ekajuk
+      elx: Elamite
+      eng: English
+      enm: "English, Middle (1100-1500)"
+      epo: Esperanto
+      est: Estonian
+      ewe: Ewe
+      ewo: Ewondo
+      fan: Fang
+      fao: Faroese
+      fat: Fanti
+      fij: Fijian
+      fil: Filipino; Pilipino
+      fin: Finnish
+      fiu: Finno-Ugrian languages
+      fon: Fon
+      fre: French
+      frm: "French, Middle (ca.1400-1600)"
+      fro: "French, Old (842-ca.1400)"
+      frr: Northern Frisian
+      frs: Eastern Frisian
+      fry: Western Frisian
+      ful: Fulah
+      fur: Friulian
+      gaa: Ga
+      gay: Gayo
+      gba: Gbaya
+      gem: Germanic languages
+      geo: Georgian
+      ger: German
+      gez: Geez
+      gil: Gilbertese
+      gla: Gaelic; Scottish Gaelic
+      gle: Irish
+      glg: Galician
+      glv: Manx
+      gmh: "German, Middle High (ca.1050-1500)"
+      goh: "German, Old High (ca.750-1050)"
+      gon: Gondi
+      gor: Gorontalo
+      got: Gothic
+      grb: Grebo
+      grc: "Greek, Ancient (to 1453)"
+      gre: "Greek, Modern (1453-)"
+      grn: Guarani
+      gsw: Swiss German; Alemannic; Alsatian
+      guj: Gujarati
+      gwi: Gwich'in
+      hai: Haida
+      hat: Haitian; Haitian Creole
+      hau: Hausa
+      haw: Hawaiian
+      heb: Hebrew
+      her: Herero
+      hil: Hiligaynon
+      him: Himachali languages; Western Pahari languages
+      hin: Hindi
+      hit: Hittite
+      hmn: Hmong; Mong
+      hmo: Hiri Motu
+      hrv: Croatian
+      hsb: Upper Sorbian
+      hun: Hungarian
+      hup: Hupa
+      iba: Iban
+      ibo: Igbo
+      ice: Icelandic
+      ido: Ido
+      iii: Sichuan Yi; Nuosu
+      ijo: Ijo languages
+      iku: Inuktitut
+      ile: Interlingue; Occidental
+      ilo: Iloko
+      ina: Interlingua (International Auxiliary Language Association)
+      inc: Indic languages
+      ind: Indonesian
+      ine: Indo-European languages
+      inh: Ingush
+      ipk: Inupiaq
+      ira: Iranian languages
+      iro: Iroquoian languages
+      ita: Italian
+      jav: Javanese
+      jbo: Lojban
+      jpn: Japanese
+      jpr: Judeo-Persian
+      jrb: Judeo-Arabic
+      kaa: Kara-Kalpak
+      kab: Kabyle
+      kac: Kachin; Jingpho
+      kal: Kalaallisut; Greenlandic
+      kam: Kamba
+      kan: Kannada
+      kar: Karen languages
+      kas: Kashmiri
+      kau: Kanuri
+      kaw: Kawi
+      kaz: Kazakh
+      kbd: Kabardian
+      kha: Khasi
+      khi: Khoisan languages
+      khm: Central Khmer
+      kho: Khotanese; Sakan
+      kik: Kikuyu; Gikuyu
+      kin: Kinyarwanda
+      kir: Kirghiz; Kyrgyz
+      kmb: Kimbundu
+      kok: Konkani
+      kom: Komi
+      kon: Kongo
+      kor: Korean
+      kos: Kosraean
+      kpe: Kpelle
+      krc: Karachay-Balkar
+      krl: Karelian
+      kro: Kru languages
+      kru: Kurukh
+      kua: Kuanyama; Kwanyama
+      kum: Kumyk
+      kur: Kurdish
+      kut: Kutenai
+      lad: Ladino
+      lah: Lahnda
+      lam: Lamba
+      lao: Lao
+      lat: Latin
+      lav: Latvian
+      lez: Lezghian
+      lim: Limburgan; Limburger; Limburgish
+      lin: Lingala
+      lit: Lithuanian
+      lol: Mongo
+      loz: Lozi
+      ltz: Luxembourgish; Letzeburgesch
+      lua: Luba-Lulua
+      lub: Luba-Katanga
+      lug: Ganda
+      lui: Luiseno
+      lun: Lunda
+      luo: Luo (Kenya and Tanzania)
+      lus: Lushai
+      mac: Macedonian
+      mad: Madurese
+      mag: Magahi
+      mah: Marshallese
+      mai: Maithili
+      mak: Makasar
+      mal: Malayalam
+      man: Mandingo
+      mao: Maori
+      map: Austronesian languages
+      mar: Marathi
+      mas: Masai
+      may: Malay
+      mdf: Moksha
+      mdr: Mandar
+      men: Mende
+      mga: "Irish, Middle (900-1200)"
+      mic: Mi'kmaq; Micmac
+      min: Minangkabau
+      mis: Uncoded languages
+      mkh: Mon-Khmer languages
+      mlg: Malagasy
+      mlt: Maltese
+      mnc: Manchu
+      mni: Manipuri
+      mno: Manobo languages
+      moh: Mohawk
+      mon: Mongolian
+      mos: Mossi
+      mul: Multiple languages
+      mun: Munda languages
+      mus: Creek
+      mwl: Mirandese
+      mwr: Marwari
+      myn: Mayan languages
+      myv: Erzya
+      nah: Nahuatl languages
+      nai: North American Indian languages
+      nap: Neapolitan
+      nau: Nauru
+      nav: Navajo; Navaho
+      nbl: "Ndebele, South; South Ndebele"
+      nde: "Ndebele, North; North Ndebele"
+      ndo: Ndonga
+      nds: "Low German; Low Saxon; German, Low; Saxon, Low"
+      nep: Nepali
+      new: Nepal Bhasa; Newari
+      nia: Nias
+      nic: Niger-Kordofanian languages
+      niu: Niuean
+      nno: "Norwegian Nynorsk; Nynorsk, Norwegian"
+      nob: "Norwegian Bokmål; Bokmål, Norwegian"
+      nog: Nogai
+      non: "Norse, Old"
+      nor: Norwegian
+      nqo: N'Ko
+      nso: Pedi; Sepedi; Northern Sotho
+      nub: Nubian languages
+      nwc: Classical Newari; Old Newari; Classical Nepal Bhasa
+      nya: Chichewa; Chewa; Nyanja
+      nym: Nyamwezi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oci: Occitan (post 1500); Provençal
+      oji: Ojibwa
+      ori: Oriya
+      orm: Oromo
+      osa: Osage
+      oss: Ossetian; Ossetic
+      ota: "Turkish, Ottoman (1500-1928)"
+      oto: Otomian languages
+      paa: Papuan languages
+      pag: Pangasinan
+      pal: Pahlavi
+      pam: Pampanga; Kapampangan
+      pan: Panjabi; Punjabi
+      pap: Papiamento
+      pau: Palauan
+      peo: "Persian, Old (ca.600-400 B.C.)"
+      per: Persian
+      phi: Philippine languages
+      phn: Phoenician
+      pli: Pali
+      pol: Polish
+      pon: Pohnpeian
+      por: Portuguese
+      pra: Prakrit languages
+      pro: "Provençal, Old (to 1500)"
+      pus: Pushto; Pashto
+      qaa-qtz: "Reserved for local use"
+      que: Quechua
+      raj: Rajasthani
+      rap: Rapanui
+      rar: Rarotongan; Cook Islands Maori
+      roa: Romance languages
+      roh: Romansh
+      rom: Romany
+      rum: Romanian; Moldavian; Moldovan
+      run: Rundi
+      rup: Aromanian; Arumanian; Macedo-Romanian
+      rus: Russian
+      sad: Sandawe
+      sag: Sango
+      sah: Yakut
+      sai: South American Indian (Other)
+      sal: Salishan languages
+      sam: Samaritan Aramaic
+      san: Sanskrit
+      sas: Sasak
+      sat: Santali
+      scn: Sicilian
+      sco: Scots
+      sel: Selkup
+      sem: Semitic languages
+      sga: "Irish, Old (to 900)"
+      sgn: Sign Languages
+      shn: Shan
+      sid: Sidamo
+      sin: Sinhala; Sinhalese
+      sio: Siouan languages
+      sit: Sino-Tibetan languages
+      sla: Slavic languages
+      slo: Slovak
+      slv: Slovenian
+      sma: Southern Sami
+      sme: Northern Sami
+      smi: Sami languages
+      smj: Lule Sami
+      smn: Inari Sami
+      smo: Samoan
+      sms: Skolt Sami
+      sna: Shona
+      snd: Sindhi
+      snk: Soninke
+      sog: Sogdian
+      som: Somali
+      son: Songhai languages
+      sot: "Sotho, Southern"
+      spa: Spanish; Castilian
+      srd: Sardinian
+      srn: Sranan Tongo
+      srp: Serbian
+      srr: Serer
+      ssa: Nilo-Saharan languages
+      ssw: Swati
+      suk: Sukuma
+      sun: Sundanese
+      sus: Susu
+      sux: Sumerian
+      swa: Swahili
+      swe: Swedish
+      syc: Classical Syriac
+      syr: Syriac
+      tah: Tahitian
+      tai: Tai languages
+      tam: Tamil
+      tat: Tatar
+      tel: Telugu
+      tem: Timne
+      ter: Tereno
+      tet: Tetum
+      tgk: Tajik
+      tgl: Tagalog
+      tha: Thai
+      tib: Tibetan
+      tig: Tigre
+      tir: Tigrinya
+      tiv: Tiv
+      tkl: Tokelau
+      tlh: Klingon; tlhIngan-Hol
+      tli: Tlingit
+      tmh: Tamashek
+      tog: Tonga (Nyasa)
+      ton: Tonga (Tonga Islands)
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tsn: Tswana
+      tso: Tsonga
+      tuk: Turkmen
+      tum: Tumbuka
+      tup: Tupi languages
+      tur: Turkish
+      tut: Altaic languages
+      tvl: Tuvalu
+      twi: Twi
+      tyv: Tuvinian
+      udm: Udmurt
+      uga: Ugaritic
+      uig: Uighur; Uyghur
+      ukr: Ukrainian
+      umb: Umbundu
+      und: Undetermined
+      urd: Urdu
+      uzb: Uzbek
+      vai: Vai
+      ven: Venda
+      vie: Vietnamese
+      vol: Volapük
+      vot: Votic
+      wak: Wakashan languages
+      wal: Walamo
+      war: Waray
+      was: Washo
+      wel: Welsh
+      wen: Sorbian languages
+      wln: Walloon
+      wol: Wolof
+      xal: Kalmyk; Oirat
+      xho: Xhosa
+      yao: Yao
+      yap: Yapese
+      yid: Yiddish
+      yor: Yoruba
+      ypk: Yupik languages
+      zap: Zapotec
+      zbl: Blissymbols; Blissymbolics; Bliss
+      zen: Zenaga
+      zha: Zhuang; Chuang
+      znd: Zande languages
+      zul: Zulu
+      zun: Zuni
+      zxx: No linguistic content; Not applicable
+      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
+    archival_record_level:
+      class: Class
+      collection: Collection
+      file: File
+      fonds: Fonds
+      item: Item
+      otherlevel: Other Level
+      recordgrp: Record Group
+      series: Series
+      subfonds: Sub-Fonds
+      subgrp: Sub-Group
+      subseries: Sub-Series
+    container_location_status:
+      current: Current
+      previous: Previous
+    date_type:
+      expression: Expression
+      single: Single
+      bulk: Bulk Dates
+      inclusive: Inclusive Dates
+      range: Range
+    date_label:
+      record_keeping: Record Keeping
+      broadcast: Broadcast
+      copyright: Copyright
+      creation: Creation
+      deaccession: Deaccession
+      agent_relation: Agent Relation
+      digitized: Digitized
+      existence: Existence
+      event: Event
+      issued: Issued
+      modified: Modified
+      publication: Publication
+      usage: Usage
+      other: Other
+    date_certainty:
+      approximate: Approximate
+      inferred: Inferred
+      questionable: Questionable
+    extent_portion:
+      whole: Whole
+      part: Part
+    deaccession_scope:
+      whole: Whole
+      part: Part
+    file_version_xlink_actuate_attribute:
+      none: none
+      other: other
+      onLoad: onLoad
+      onRequest: onRequest
+    file_version_xlink_show_attribute:
+      new: new
+      replace: replace
+      embed: embed
+      other: other
+      none: none
+    file_version_file_format_name:
+      aiff: Audio Interchange File Format
+      avi: Audio/Video Interleaved Format
+      gif: Graphics Interchange Format
+      jpeg: JPEG File Interchange Format
+      mp3: MPEG Audio Layer 3
+      pdf: Portable Document Format
+      tiff: Tagged Image File Format
+      txt: Plain Text File
+    location_temporary:
+      conservation: Conservation
+      exhibit: Exhibit
+      loan: Loan
+      reading_room: Reading Room
+    name_person_name_order:
+      direct: Direct
+      inverted: Indirect
+    country_iso_3166:
+      AF: Afghanistan
+      AX: Åland Islands
+      AL: Albania
+      DZ: Algeria
+      AS: American Samoa
+      AD: Andorra
+      AO: Angola
+      AI: Anguilla
+      AQ: Antarctica
+      AG: Antigua and Barbuda
+      AR: Argentina
+      AM: Armenia
+      AW: Aruba
+      AU: Australia
+      AT: Austria
+      AZ: Azerbaijan
+      BS: Bahamas
+      BH: Bahrain
+      BD: Bangladesh
+      BB: Barbados
+      BY: Belarus
+      BE: Belgium
+      BZ: Belize
+      BJ: Benin
+      BM: Bermuda
+      BT: Bhutan
+      BO: Bolivia
+      BQ: "Bonaire, Sint Eustatius and Saba"
+      BA: Bosnia and Herzegovina
+      BW: Botswana
+      BV: Bouvet Island
+      BR: Brazil
+      IO: British Indian Ocean Territory
+      BN: Brunei Darussalam
+      BG: Bulgaria
+      BF: Burkina Faso
+      BI: Burundi
+      KH: Cambodia
+      CM: Cameroon
+      CA: Canada
+      CV: Cape Verde
+      KY: Cayman Islands
+      CF: Central African Republic
+      TD: Chad
+      CL: Chile
+      CN: China
+      CX: Christmas island
+      CC: Cocos (Keeling) Islands
+      CO: Colombia
+      KM: Comoros
+      CG: Congo
+      CD: Democratic Republic of the Congo
+      CK: Cook Islands
+      CR: Costa Rica
+      CI: Côte d'Ivoire
+      HR: Croatia
+      CU: Cuba
+      CW: Curaçao
+      CY: Cyprus
+      CZ: Czech Republic
+      DK: Denmark
+      DJ: Djibouti
+      DM: Dominica
+      DO: Dominican Republic
+      EC: Ecuador
+      EG: Egypt
+      SV: El Salvador
+      GQ: Equatorial Guinea
+      ER: Eritrea
+      EE: Estonia
+      ET: Ethiopia
+      FK: Falkland Islands (Malvinas)
+      FO: Faroe Islands
+      FJ: Fiji
+      FI: Finland
+      FR: France
+      GF: French Guiana
+      PF: French Polynesia
+      TF: French Southern Territories
+      GA: Gabon
+      GM: Gambia
+      GE: Georgia
+      DE: Germany
+      GH: Ghana
+      GI: Gibraltar
+      GR: Greece
+      GL: Greenland
+      GD: Grenada
+      GP: Guadeloupe
+      GU: Guam
+      GT: Guatemala
+      GG: Guernsey
+      GN: Guinea
+      GW: Guinea-Bissau
+      GY: Guyana
+      HT: Haiti
+      HM: Heard Island and Mcdonald Islands
+      VA: Holy See (Vatican City State)
+      HN: Honduras
+      HK: Hong Kong
+      HU: Hungary
+      IS: Iceland
+      IN: India
+      ID: Indonesia
+      IR: "Iran, Islamic Republic of"
+      IQ: Iraq
+      IE: Ireland
+      IM: Isle of Man
+      IL: Israel
+      IT: Italy
+      JM: Jamaica
+      JP: Japan
+      JE: Jersey
+      JO: Jordan
+      KZ: Kazakhstan
+      KE: Kenya
+      KI: Kiribati
+      KP: "Korea, Democratic People's Republic of"
+      KR: "Korea, Republic of"
+      KW: Kuwait
+      KG: Kyrgyzstan
+      LA: "Lao People's Democratic Republic"
+      LV: Latvia
+      LB: Lebanon
+      LS: Lesotho
+      LR: Liberia
+      LY: Libya
+      LI: Liechtenstein
+      LT: Lithuania
+      LU: Luxembourg
+      MO: Macao
+      MK: "Macedonia, Former Yugoslav Republic of"
+      MG: Madagascar
+      MW: Malawi
+      MY: Malaysia
+      MV: Maldives
+      ML: Mali
+      MT: Malta
+      MH: Marshall Islands
+      MQ: Martinique
+      MR: Mauritania
+      MU: Mauritius
+      YT: Mayotte
+      MX: Mexico
+      FM: "Micronesia, Federated States of"
+      MD: "Moldova, Republic of"
+      MC: Monaco
+      MN: Mongolia
+      ME: Montenegro
+      MS: Montserrat
+      MA: Morocco
+      MZ: Mozambique
+      MM: Myanmar
+      NA: Namibia
+      NR: Nauru
+      NP: Nepal
+      NL: Netherlands
+      NC: New Caledonia
+      NZ: New Zealand
+      NI: Nicaragua
+      NE: Niger
+      NG: Nigeria
+      NU: Niue
+      NF: Norfolk Island
+      MP: Northern Mariana Islands
+      NO: Norway
+      OM: Oman
+      PK: Pakistan
+      PW: Palau
+      PS: "Palestinian Territory, Occupied"
+      PA: Panama
+      PG: Papua New Guinea
+      PY: Paraguay
+      PE: Peru
+      PH: Philippines
+      PN: Pitcairn
+      PL: Poland
+      PT: Portugal
+      PR: Puerto rico
+      QA: Qatar
+      RE: Réunion
+      RO: Romania
+      RU: Russian Federation
+      RW: Rwanda
+      BL: Saint Barthélemy
+      SH: "Saint Helena, Ascension and Tristan da Cunha"
+      KN: Saint Kitts and Nevis
+      LC: Saint Lucia
+      MF: Saint Martin (French Part)
+      PM: Saint Pierre and Miquelon
+      VC: Saint Vincent and the Grenadines
+      WS: Samoa
+      SM: San Marino
+      ST: Sao Tome and Principe
+      SA: Saudi Arabia
+      SN: Senegal
+      RS: Serbia
+      SC: Seychelles
+      SL: Sierra Leone
+      SG: Singapore
+      SX: Sint Maarten (Dutch Part)
+      SK: Slovakia
+      SI: Slovenia
+      SB: Solomon Islands
+      SO: Somalia
+      ZA: South Africa
+      GS: South Georgia and the South Sandwich Islands
+      SS: South Sudan
+      ES: Spain
+      LK: Sri Lanka
+      SD: Sudan
+      SR: Suriname
+      SJ: Svalbard and Jan Mayen
+      SZ: Swaziland
+      SE: Sweden
+      CH: Switzerland
+      SY: Syrian Arab Republic
+      TW: "Taiwan, Province of China"
+      TJ: Tajikistan
+      TZ: "Tanzania, United Republic of"
+      TH: Thailand
+      TL: Timor-Leste
+      TG: Togo
+      TK: Tokelau
+      TO: Tonga
+      TT: Trinidad and Tobago
+      TN: Tunisia
+      TR: Turkey
+      TM: Turkmenistan
+      TC: Turks and Caicos Islands
+      TV: Tuvalu
+      UG: Uganda
+      UA: Ukraine
+      AE: United Arab Emirates
+      GB: United Kingdom
+      US: United States
+      UM: United States Minor Outlying Islands
+      UY: Uruguay
+      UZ: Uzbekistan
+      VU: Vanuatu
+      VE: Venezuela
+      VN: Viet Nam
+      VG: "Virgin Islands, British"
+      VI: "Virgin Islands, U.S."
+      WF: Wallis and Futuna
+      EH: Western Sahara
+      YE: Yemen
+      ZM: Zambia
+      ZW: Zimbabwe
+    rights_statement_rights_type:
+      intellectual_property: Intellectual Property
+      license: License
+      statute: Statute
+      institutional_policy: Institutional Policy
+    rights_statement_ip_status:
+      copyrighted: Copyrighted
+      public_domain: Public Domain
+      unknown: Unknown
+    subject_term_type:
+      cultural_context: Cultural context
+      function: Function
+      geographic: Geographic
+      genre_form: "Genre / Form"
+      occupation: Occupation
+      style_period: "Style / Period"
+      technique: Technique
+      temporal: Temporal
+      topical: Topical
+      uniform_title: Uniform Title
+    _note_types: &note_type_definitions
+      accessrestrict: Conditions Governing Access
+      accruals: Accruals
+      acqinfo: Immediate Source of Acquisition
+      altformavail: Existence and Location of Copies
+      appraisal: Appraisal
+      arrangement: Arrangement
+      bibliography: Bibliography
+      bioghist: Biographical / Historical
+      custodhist: Custodial History
+      fileplan: File Plan
+      index: Index
+      odd: General
+      otherfindaid: Other Finding Aids
+      originalsloc: Existence and Location of Originals
+      phystech: Physical Characteristics and Technical Requirements
+      prefercite: Preferred Citation
+      processinfo: Processing Information
+      relatedmaterial: Related Archival Materials
+      scopecontent: Scope and Contents
+      separatedmaterial: Separated Materials
+      userestrict: Conditions Governing Use
+      dimensions: Dimensions
+      legalstatus: Legal Status
+      summary: Summary
+      edition: Edition
+      extent: Extent
+      note: General Note
+      inscription: Inscription
+      langmaterial: Language of Materials
+      physdesc: Physical Description
+      relatedmaterial: Related Materials
+      abstract: Abstract
+      physloc: Physical Location
+      materialspec: Materials Specific Details
+      physfacet: Physical Facet
+    note_digital_object_type:
+      <<: *note_type_definitions
+    note_multipart_type:
+      <<: *note_type_definitions
+    note_singlepart_type:
+      <<: *note_type_definitions
+    linked_agent_role:
+      creator: Creator
+      source: Source
+      subject: Subject
+    agent_relationship_associative_relator:
+      is_associative_with: Associative with Related
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Earlier Form of Related
+      is_later_form_of: Later Form of Related
+    agent_relationship_parentchild_relator:
+      is_child_of: Child of Related
+      is_parent_of: Parent of Related
+    accession_sibling_relator:
+      sibling_of: Is Sibling of
+    accession_parts_relator:
+      forms_part_of: Forms Part of
+      has_part: Has Part
+    accession_parts_relator_type:
+      part: "\"Part\" relationship"
+    accession_sibling_relator_type:
+      bound_with: "\"Bound With\" relationship"
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: Is Subordinate to Related
+      is_superior_of: Is Superior of Related
+    note_index_item_type:
+      name: Name
+      person: Person
+      family: Family
+      corporate_entity: Corporate Entity
+      subject: Subject
+      function: Function
+      occupation: Occupation
+      title: Title
+      geographic_name: Geographic Name
+    user_defined_enum_1:
+      novalue: No value defined
+    user_defined_enum_2:
+      novalue: No value defined
+    user_defined_enum_3:
+      novalue: No value defined
+    user_defined_enum_4:
+      novalue: No value defined
+    job_type:
+      print_to_pdf_job: Print To PDF 
+      import_job: Import Data
+      find_and_replace_job: Batch Find and Replace (Beta)
+      report_job: Reports
+      container_conversion_job: Reports
+    dimension_units:
+      inches: Inches
+      feet: Feet
+      yards: Yards
+      millimeters: Millimeters
+      centimeters: Centimeters
+      meters: Meters
+    restriction_type:
+      RestrictedSpecColl: 1 - Donor/university imposed access restriction
+      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
+      RestrictedFragileSpecColl: 3 - Restricted fragile
+      InProcessSpecColl: 4 - Restricted in-process
+      ColdStorageBrbl: 5 - Other
+    location_function_type:
+      av_materials: Audiovisual Materials
+      arrivals: Arrivals
+      shared: Shared
+
+
+  enumeration_names:
+    accession_acquisition_type: Accession Acquisition Type
+    accession_parts_relator: Accession Parts Relator
+    accession_parts_relator_type: Accession Parts Relator Type
+    accession_sibling_relator: "Accession Sibling Relator"
+    accession_sibling_relator_type: Accession Sibling Relator Type
+    accession_resource_type: Accession Resource Type
+    agent_contact_salutation: Agent Contact Salutation
+    agent_relationship_associative_relator: Agent Relationship Associative Relator
+    agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
+    agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
+    archival_record_level: Archival Record Level
+    collection_management_processing_priority: Collection Management Processing Priority
+    collection_management_processing_status: Collection Management Processing Status
+    container_location_status: Container Location Status
+    container_type: Container Type
+    country_iso_3166: Country ISO 3166
+    date_calendar: Date Calendar
+    date_certainty: Date Certainty
+    date_era: Date Era
+    date_label: Date Label
+    date_type: Date Type
+    deaccession_scope: Deaccession Scope
+    digital_object_digital_object_type: Digital Object Digital Object Type
+    digital_object_level: Digital Object Level
+    event_event_type: Event Event Type
+    event_outcome: Event Outcome
+    extent_extent_type: Extent Extent Type
+    extent_portion: Extent Portion
+    file_version_checksum_methods: File Version Checksum Methods
+    file_version_file_format_name: File Version File Format Name
+    file_version_use_statement: File Version Use Statement
+    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
+    file_version_xlink_show_attribute: File Version Xlink Show Attribute
+    instance_instance_type: Instance Instance Type
+    language_iso639_2: Language ISO 639-2
+    linked_agent_archival_record_relators: Linked Agent Archival Record Relators
+    linked_agent_event_roles: Linked Agent Event Roles
+    linked_agent_role: Linked Agent Role
+    linked_event_archival_record_roles: Linked Event Archival Record Roles
+    location_temporary: Location Temporary
+    name_person_name_order: Name Person Name Order
+    name_rule: Name Rule
+    name_source: Name Source
+    note_bibliography_type: Note Bibliography Type
+    note_digital_object_type: Note Digital Object Type
+    note_index_item_type: Note Index Item Type
+    note_index_type: Note Index Type
+    note_multipart_type: Note Multipart Type
+    note_orderedlist_enumeration: Note Orderedlist Enumeration
+    note_singlepart_type: Note Singlepart Type
+    telephone_number_type: Telephone Number Type 
+    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
+    resource_finding_aid_status: Resource Finding Aid Status
+    resource_resource_type: Resource Resource Type
+    rights_statement_ip_status: Rights Statement IP Status
+    rights_statement_rights_type: Rights Statement Rights Type
+    subject_source: Subject Source
+    subject_term_type: Subject Term Type
+    user_defined_enum_1: User Defined Enum 1
+    user_defined_enum_2: User Defined Enum 2
+    user_defined_enum_3: User Defined Enum 3
+    user_defined_enum_4: User Defined Enum 4
+    job_type: Job Type
+    dimension_units: Dimension Units
+    restriction_type: Local Access Restriction Type
+    location_function_type: Location Function Type
