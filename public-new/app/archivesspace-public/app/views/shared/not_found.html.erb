@@ -2,10 +2,10 @@
 
   
  <div class="warning col-sm-12">
-   <h3>Unable to find record</h3>
-   <p><b><%= @uri %></p>
+   <h4><%= t('errors.error_404_message') %></h4>
+   <p><b><%= @uri %></b></p>
    <% if @back_url.present? %>
-   <a href="<%= @back_url %>" title="go back">Return to the previous page</a>
+   <a href="<%= @back_url %>" title="<%= t('actions.backup_abbr')%>"><%= t('actions.backup') %></a>
    <% end %>
  </div>
 </div>
