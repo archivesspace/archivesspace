@@ -1,0 +1,12 @@
+<%# displaying chosen facet(s) (if any) and facets %>
+<div>We'd add the current facets here</div>
+<% if !@facets.blank? %>
+<dl id="facets">
+  <%  @facets.each do |type, h| %>
+    <dt><%= t("filter.#{type}") %></dt>
+    <% h.each do |v, ct| %>
+      <dd><a href='<%= "#{@page_search}&facet[]=#{type}:%22#{v}%22" %>' title="Filter by '<%= v %>'"><%= v %></a><span class="recordnumber"><%= ct %></dd>
+    <% end %>
+  <% end %>
+</dl>
+<% end %>
