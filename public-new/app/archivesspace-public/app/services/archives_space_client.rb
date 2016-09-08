@@ -51,6 +51,11 @@ class ArchivesSpaceClient
     results = do_search(url)
   end
 
+  def search_repository( query, repo_id, page = 1, search_opts = {})
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    url = build_url("/repositories/#{repo_id}/search",search_opts.merge(:q => query, :page => page))
+    results = do_search(url)
+  end
   # calls the '/search/published_tree' endpoint
   def get_tree(node_uri)
     url =  build_url('/search/published_tree', {:node_uri => node_uri})
