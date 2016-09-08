@@ -5,11 +5,13 @@ class RepositoriesController < ApplicationController
   skip_before_filter  :verify_authenticity_token  
 
   DEFAULT_REPO_SEARCH_OPTS = {
-    'types[]' => %w{archival_object digital_object resource accession},
     'sort' => 'title asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
-    'facet[]' => ['types', 'subjects']
+    'facet[]' => ['primary_type', 'subjects'],
+    'facet.mincount' => 1
   }
+  DEFAULT_FILTER_TYPES =  %w{archival_object digital_object resource accession}.map {|t| "types:#{t}"}.join(" OR ")
+
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
@@ -49,19 +51,44 @@ class RepositoriesController < ApplicationController
   def search
     @criteria = DEFAULT_REPO_SEARCH_OPTS
     repo_id = params.require(:rid)
-    @criteria['repository'] = repo_id
-    @query = params.require(:q)
-    @query = "#{@query} AND publish:true"
+#    str = "#{DEFAULT_FILTER_TYPES}}"
+#    Rails.logger.debug("JSONIZED FILTER TERM:*#{str.to_json}*")
+#    @criteria['filter_term[]'] = "{ #{str.to_json}}"
     page = Integer(params.fetch(:page, "1"))
-    @results = archivesspace.search(@query, page, @criteria)
-    Rails.logger.debug("Has facets? #{@results['facets']}")
+    facet = params.fetch(:facet, [])
+    facet_str = ''
+    if facet.length > 0
+      facet.each do |f|
+        facet_str = "#{facet_str} AND #{f}"
+      end
+    end
+    q = params.require(:q)
+    @query = "#{q}#{facet_str} AND (#{DEFAULT_FILTER_TYPES})"
+     
+
+    Rails.logger.debug("input facets? #{facet}")
+    @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
+#    Rails.logger.debug("Has facets? #{@results['facets']}")
+    @facets = {}
+    if !@results['facets'].blank?
+      @results['facets']['facet_fields'].keys.each do |type|
+        @facets[type] = strip_facets( @results['facets']['facet_fields'][type])
+      end
+    end
+#Rails.logger.debug("Stripped facets:\n")
+#Pry::ColorPrinter.pp(@facets)
     @results = handle_results(@results)
     @repo = {}
     if @results['results'].length > 0 && @results['results'][0]['_resolved_repository'].present?
       @repo = @results['results'][0]['_resolved_repository']['json'] || {}
     end
-    page_search = "/repositories/#{repo_id}/search?q=#{@query}"
-    @pager = Pager.new(page_search,@results['this_page'],@results['last_page'])
+    @page_search = "/repositories/#{repo_id}/search?q=#{q}"
+    if facet.length > 0
+      facet.each do |f|
+        @page_search = "#{@page_search}&facet[]=#{f}"
+      end
+    end
+    @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
     render 
   end
@@ -190,7 +217,7 @@ class RepositoriesController < ApplicationController
 
   # strip out: 0-value facets, facets of form "ead/ arch*"
   # returns a hash with the text of the facet as the key, count as the value
-  def strip_facets(facets_array, zero_only)
+  def strip_facets(facets_array, zero_only = false)
     facets = {}
     facets_array.each_slice(2) do |t, ct|
       next if (!zero_only && ct == 0)
