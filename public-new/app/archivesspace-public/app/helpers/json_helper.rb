@@ -10,14 +10,14 @@ module JsonHelper
           type = note['type']
 #          Rails.logger.debug("type: #{type}, req: #{req}")
           if !req || type == req
-            note_text = handle_note_structure(note)
+            note_text = handle_note_structure(note, type)
             notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
           end
         end
       else
         type = notes['type']
         if !req || type == req
-          note_text = handle_note_structure(notes)
+          note_text = handle_note_structure(notes, type)
           notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
         end
       end
@@ -34,10 +34,10 @@ module JsonHelper
   end
 
   private
-  def handle_note_structure(note)
+  def handle_note_structure(note, type)
     note_text = ''
     if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
-      label = note.has_key?('label') ? note['label'] : ''
+      label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
       note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
       if note['jsonmodel_type'] == 'note_multipart'
         note['subnotes'].each do |sub|
