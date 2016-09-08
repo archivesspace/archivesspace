@@ -4,7 +4,7 @@
 <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
   <div class="search">
     <p><%= "#{t('actions.search')} " %> <%= t('repository._singular') %>:
-      <%= form_tag("#{@result['uri']}/search", method: 'post') do %>
+      <%= form_tag("#{@result['uri']}/search", method: 'get') do %>
             <%= text_field_tag(:q) %>
         <%= submit_tag(I18n.t('search-button.label')) %>
     <% end %>
