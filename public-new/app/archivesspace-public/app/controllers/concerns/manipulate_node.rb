@@ -2,21 +2,32 @@ module ManipulateNode
   extend ActiveSupport::Concern
   require 'nokogiri'
 
+
   # the beginning of processing mixed content  nodes for titles, notes, etc.
-  def process_mixed_content(txt)
-    return if !txt
-    txt.strip!
-    txt.gsub!("list>", "ul>")
-    txt.gsub!("item>", "li>")
-    txt.gsub!(/\n\n/,"<br /><br />")
+  #TODO:  look at replacing these gsubs with syntax like:
+  #  @xml.xpath("//item").each do |item|
+  #    item.name = "li"
+  #  end
+
+  def process_mixed_content(in_txt)
+    return if !in_txt
+    txt = in_txt.strip
+    txt = txt.gsub("list>", "ul>")
+      .gsub("item>", "li>")
+      .gsub(/\n\n/,"<br /><br />")
     frag = Nokogiri::XML.fragment(txt)
     frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
       node_check(el) if el.parent && !el.text?
+      el.content = el.content.gsub("\"", "&quot;") if el.text
     }
-    frag.to_xml
+    frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
   end
 
+  # strips all xml markup; used for things like titles.
+  def strip_mixed_content(in_text)
+    in_text.content
+  end
   private 
 
   def node_check(el)
