@@ -6,9 +6,10 @@ ArchivesSpace README
 
 * [archivesspace.org](http://archivesspace.org)
 * [User Documentation](https://docs.archivesspace.org/)
-* [Documentation](http://archivesspace.github.io/archivesspace/)
+* [Technical Documentation](http://archivesspace.github.io/archivesspace/)
 * [API](http://archivesspace.github.io/archivesspace/api)
-* [Wiki and Issue Tracker](https://archivesspace.atlassian.net)
+* [Wiki](http://wiki.archivesspace.org)
+* [Issue Tracker](http://development.archivesspace.org)
 * IRC: #archivesspace ( chat.freenode.net )
 
 # System requirements
@@ -38,10 +39,12 @@ You can check your Java version by running the command:
 
      java -version
 
+<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
 Currently, if you want to use Java 1.8, you will need to remove the
 jdt-compiler jar library from the java classpath ( lib directory of
 your ArchivesSpace directory). This will disable the use of Jasper
 reports ( but not regular reports).  
+--->
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
@@ -486,7 +489,7 @@ appropriate and specify the `encryption` option:
 
 # Plug-ins and local customizations
 
-[ Plug-ins and locat customizations readme](https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md)
+[ Plug-ins and local customizations readme](https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md)
 
 
 # Running ArchivesSpace with an external Solr instance
@@ -509,7 +512,7 @@ appropriate and specify the `encryption` option:
 # Further documentation
 
 Additional documentation can be found on the ArchivesSpace
-wiki at [https://archivesspace.atlassian.net/wiki/display/ADC](https://archivesspace.atlassian.net/wiki/display/ADC).
+wiki at [http://wiki.archivesspace.org](http://wiki.archivesspace.org).
 
 A document describing the architecture of ArchivesSpace is published
 at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).
@@ -520,7 +523,7 @@ architecture notes, is published at
 
 # Contributing
 
-Contributors are welcome! Please read about our [Contributor License Agreement](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information. 
+Contributors are welcome! Please read about our [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information. 
 
 # License
 
@@ -531,7 +534,7 @@ version 2.0](http://opensource.org/licenses/ecl2.php). See the
 
 # Credits
 
-ArchivesSpace 1.0 has been developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)
+ArchivesSpace 1.0 was developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)
 in partnership with the New York University Libraries, UC San Diego
 Libraries, and University of Illinois Urbana-Champaign Library and with
 funding from the Andrew W. Mellon Foundation, organizational support from
