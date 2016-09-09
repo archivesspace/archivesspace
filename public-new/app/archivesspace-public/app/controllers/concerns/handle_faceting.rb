@@ -16,4 +16,18 @@ module HandleFaceting
     end
    end
 
+  # strip out: facets with counts less than input minimum or equal to the total hits, facets of form "ead/ arch*"
+  # returns a hash with the text of the facet as the key, count as the value
+  def strip_facets(facets_array, min, total_hits = nil)
+    facets = {}
+    facets_array.each_slice(2) do |t, ct|
+      next if ct < min
+      next if total_hits && ct == total_hits
+      next if t.start_with?("ead/ archdesc/ ")
+      facets[t] = ct
+    end
+    facets
+  end
+
+
 end
