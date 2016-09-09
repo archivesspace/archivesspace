@@ -30,6 +30,7 @@ en:
                      editing <strong>brand.welcome_message</strong> in the appropriate <em>config/locales/*yml</em> file</p>
 
     welcome_search_label: "Find what you're looking for:"
+    welcome_page_title: Welcome! A New Day Dawns!
 
   actions:
     search: Search
@@ -208,6 +209,8 @@ en:
     _plural: Record Groups
 
   all_agents: People & Organizations
+  
+  an_agent: People or Organization
 
   record:
     _singular: Record

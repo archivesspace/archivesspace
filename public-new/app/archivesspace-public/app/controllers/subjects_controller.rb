@@ -12,12 +12,12 @@ class SubjectsController <  ApplicationController
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      Pry::ColorPrinter.pp(@result)
-      @page_title = "#{@result['json']['title']}" || "Agent #{uri}"
-      Rails.logger.debug("subject title: #{@page_title}")
+#      Pry::ColorPrinter.pp(@result)
+      @page_title = strip_mixed_content(@result['json']['title']) || "#{I18n.t('subject._singular')} #{uri}"
+#      Rails.logger.debug("subject title: #{@page_title}")
       @context = []
     else
-      @page_title = "NOT FOUND"
+      @page_title = I18n.t 'errors.error_404'
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
