@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def show
-    @page_title = "Welcome! A New Day Dawns!"
+    @page_title = I18n.t 'brand.welcome_page_title'
     render  
   end
 end

@@ -41,11 +41,14 @@ class ResourcesController <  ApplicationController
       #Rails.logger.debug("REPOSITORY:")
 #      Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
       repo = @result['_resolved_repository']['json']
-      @page_title = "#{I18n.t('resource._singular')}: #{@result['json']['title']}"
-      @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => @result['json']['title']}]
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
+      @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
       @tree = fetch_tree(uri)
     else
-      @page_title = "#{I18n.t('resource._singular')} NOT FOUND"
+      @page_title = "#{I18n.t('resource._singular')} {I18n.t('errors.error_404')} NOT FOUND"
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
     end
   end
 end

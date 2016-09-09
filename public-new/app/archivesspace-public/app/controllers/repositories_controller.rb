@@ -70,9 +70,11 @@ class RepositoriesController < ApplicationController
     @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
 #    Rails.logger.debug("Has facets? #{@results['facets']}")
     @facets = {}
+    hits = Integer(@results['total_hits'])
     if !@results['facets'].blank?
       @results['facets']['facet_fields'].keys.each do |type|
-        @facets[type] = strip_facets( @results['facets']['facet_fields'][type])
+        facet_hash = strip_facets( @results['facets']['facet_fields'][type],1, hits)
+        @facets[type] = facet_hash unless facet_hash.blank?
       end
     end
 #Rails.logger.debug("Stripped facets:\n")
@@ -116,7 +118,7 @@ class RepositoriesController < ApplicationController
       end
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
-      @page_title = @result['name']
+      @page_title = strip_mixed_content(@result['name'])
       render 
     end
   end
@@ -204,7 +206,7 @@ class RepositoriesController < ApplicationController
     if type == 'subject' || type == 'agent'
       facets = fetch_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
       unless facets.blank?
-        types = strip_facets(facets["#{type}s"], false)
+        types = strip_facets(facets["#{type}s"], 1)
         query = "#{query} AND #{compose_title_list(types)}"
         Rails.logger.debug("subject or agent  query: #{query}")
       end
@@ -212,19 +214,6 @@ class RepositoriesController < ApplicationController
       query = "#{query} AND repository:\"/repositories/#{params[:id]}\""
     end
     "( #{query} )"
-  end
-
-
-  # strip out: 0-value facets, facets of form "ead/ arch*"
-  # returns a hash with the text of the facet as the key, count as the value
-  def strip_facets(facets_array, zero_only = false)
-    facets = {}
-    facets_array.each_slice(2) do |t, ct|
-      next if (!zero_only && ct == 0)
-      next if (zero_only && t.start_with?("ead/ archdesc/ "))
-      facets[t] = ct
-    end
-    facets
   end
 
   def find_resource_facet

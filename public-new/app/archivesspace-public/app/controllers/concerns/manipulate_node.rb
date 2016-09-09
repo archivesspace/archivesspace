@@ -26,7 +26,8 @@ module ManipulateNode
 
   # strips all xml markup; used for things like titles.
   def strip_mixed_content(in_text)
-    in_text.content
+    frag = Nokogiri::XML.fragment(in_text)
+    frag.content
   end
   private 
 
