@@ -5,7 +5,7 @@
   <%  @facets.each do |type, h| %>
     <dt><%= t("filter.#{type}") %></dt>
     <% h.each do |v, ct| %>
-      <dd><a href='<%= "#{@page_search}&facet[]=#{type}:%22#{v}%22" %>' title="Filter by '<%= v %>'"><%= v %></a><span class="recordnumber"><%= ct %></dd>
+      <dd><a href='<%= "#{@page_search}&facet[]=#{type}:%22#{v}%22" %>' title="Filter by '<%= v %>'"><%= process_mixed_content(v) %></a><span class="recordnumber"><%= ct %></dd>
     <% end %>
   <% end %>
 </dl>
