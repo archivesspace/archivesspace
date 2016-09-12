@@ -469,6 +469,7 @@ class EADSerializer < ASpaceExport::Serializer
         atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
         atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
         atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
+        atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
         xml.dao(atts) {
           xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         }
