@@ -7,7 +7,7 @@ class RepositoriesController < ApplicationController
   DEFAULT_REPO_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
-    'facet[]' => ['primary_type', 'subjects'],
+    'facet[]' => ['primary_type', 'subjects', 'agents'],
     'facet.mincount' => 1
   }
   DEFAULT_FILTER_TYPES =  %w{archival_object digital_object resource accession}.map {|t| "types:#{t}"}.join(" OR ")
