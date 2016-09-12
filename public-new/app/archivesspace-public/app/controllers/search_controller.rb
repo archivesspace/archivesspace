@@ -4,7 +4,7 @@ class SearchController < ApplicationController
 
   def search
     @criteria = {}
-    @criteria['sort'] = 'title asc'
+    @criteria['sort'] = 'title_sort asc'
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     record_types = params.fetch(:recordtypes, nil)
     if record_types
