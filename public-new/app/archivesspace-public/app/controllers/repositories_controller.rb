@@ -25,8 +25,7 @@ class RepositoriesController < ApplicationController
     query = 'primary_type:repository'
     facets = find_resource_facet
     page = params['page'] || 1 if !params.blank?
-    @criteria[:page_size] = page_size
-#    Rails.logger.debug(@criteria.keys)
+    @criteria['page_size'] = page_size
     @search_data =  archivesspace.search(query, page, @criteria) || {}
 #    Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
     @hits = facets.length
