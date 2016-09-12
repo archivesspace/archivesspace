@@ -86,8 +86,8 @@ en:
       scope: Scope
       notes: Notes
       source: Source
-      agents: Agents
-      agents_text: Agents
+      agents: People & Organizations
+      agents_text: People & Organizations
       classification_uri: Classification
       linked_agent_roles: Role
 
@@ -211,6 +211,10 @@ en:
   all_agents: People & Organizations
   
   an_agent: People or Organization
+
+  pui_agent:
+    _singular: Person or Organization
+    _plural:  People & Organizations
 
   record:
     _singular: Record
