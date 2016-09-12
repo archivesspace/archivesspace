@@ -1,5 +1,5 @@
 # container for paging information, to keep it in one place
-class Pager < Struct.new( :link, :page, :last_page, :pages, :need_next, :next, :need_prev, :prev)
+class Pager < Struct.new( :link, :page, :last_page, :pages, :need_next, :next, :need_prev, :need_last, :prev)
   PAGE_NUMBERS_TO_SHOW = 10
   def initialize(link, page, last_page)
     self.link = link
@@ -10,6 +10,7 @@ class Pager < Struct.new( :link, :page, :last_page, :pages, :need_next, :next, :
     self.need_prev = (lower_page > 1)
     self.prev = self.page - 1
     self.need_next = (upper_page < last_page.to_i)
+    self.need_last = (last_page.to_i + 1 > upper_page )
     self.next = self.page + 1 
     self.pages = Range.new(lower_page, upper_page, true)
   end
