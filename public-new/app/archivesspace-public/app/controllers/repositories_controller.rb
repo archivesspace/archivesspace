@@ -5,7 +5,7 @@ class RepositoriesController < ApplicationController
   skip_before_filter  :verify_authenticity_token  
 
   DEFAULT_REPO_SEARCH_OPTS = {
-    'sort' => 'title asc',
+    'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
     'facet[]' => ['primary_type', 'subjects'],
     'facet.mincount' => 1
