@@ -55,7 +55,7 @@
 		 <i class="fa fa-institution fa-stack-2x"></i>
 		 <i class="fa fa-users fa-stack-1x fa-inverse"></i>
 	       </span>
-	       <br /><%= @agent_ct %> <%= t('all_agents') %>
+	       <br /><%= @agent_ct %> <%= (@agent_ct == 1 ? t('pui_agent._singular') : t('pui_agent._plural')) %>
 	     </button>
 	  </form>
 	</li>
