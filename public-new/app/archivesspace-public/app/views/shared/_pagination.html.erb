@@ -12,6 +12,10 @@
         <li><a href="<%= pager.link %>&page=<%= page %>"><%= page %></a></li>
       <% end %>
     <% end %>
+    <% if pager.need_last %>
+       <li><a href="" style="pointer-events: none;">...</a></li>
+       <li><a href="<%= pager.link %>&page=<%= pager.last_page %>"><%=  pager.last_page %></a></li>
+    <% end %>
     <% if pager.need_next %>
       <li class="next"><a href="<%= pager.link %>&page=<%= pager.next %>"><span aria-hidden="true">&rarr;</span>Next</a></li>
     <% end %>
