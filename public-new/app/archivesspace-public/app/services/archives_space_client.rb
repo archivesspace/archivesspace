@@ -38,8 +38,10 @@ class ArchivesSpaceClient
   end
 
   def search(query, page = 1, search_opts = {})
+#    Rails.logger.debug("input opts #{search_opts}")
+    query = "#{query}#{process_filters(search_opts)}"
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    Rails.logger.debug("merged opts: #{search_opts}")
+#    Rails.logger.debug("merged opts: #{search_opts}")
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
     results = do_search(url)
   end
@@ -52,6 +54,7 @@ class ArchivesSpaceClient
   end
 
   def search_repository( query, repo_id, page = 1, search_opts = {})
+    query = "#{query}#{process_filters(search_opts)}"
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url("/repositories/#{repo_id}/search",search_opts.merge(:q => query, :page => page))
     results = do_search(url)
@@ -149,6 +152,18 @@ class ArchivesSpaceClient
     request['X-ArchivesSpace-Session'] = @session
 
     http.request(request)
+  end
+
+  # process any filter information; at the moment, we add it to the query; later, hopefully, an fq
+  def process_filters(search_opts = {})
+    filter_str = ''
+    if search_opts['filter']
+      search_opts['filter'].each do |f|
+        filter_str = "#{filter_str} AND #{f}"
+      end
+      search_opts.delete('filter')
+    end
+    filter_str
   end
 
 end

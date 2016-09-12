@@ -10,7 +10,7 @@ class RepositoriesController < ApplicationController
     'facet[]' => ['primary_type', 'subjects', 'agents'],
     'facet.mincount' => 1
   }
-  DEFAULT_FILTER_TYPES =  %w{archival_object digital_object resource accession}.map {|t| "types:#{t}"}.join(" OR ")
+  DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}.map {|t| "types:#{t}"}.join(" OR ")
 
   def index
     @criteria = {}
@@ -50,24 +50,16 @@ class RepositoriesController < ApplicationController
   def search
     @criteria = DEFAULT_REPO_SEARCH_OPTS
     repo_id = params.require(:rid)
-#    str = "#{DEFAULT_FILTER_TYPES}}"
+#    str = "#{DEFAULT_TYPES}}"
 #    Rails.logger.debug("JSONIZED FILTER TERM:*#{str.to_json}*")
 #    @criteria['filter_term[]'] = "{ #{str.to_json}}"
     page = Integer(params.fetch(:page, "1"))
     facet = params.fetch(:facet, [])
-    facet_str = ''
-    if facet.length > 0
-      facet.each do |f|
-        facet_str = "#{facet_str} AND #{f}"
-      end
-    end
+    @criteria['filter'] = facet
     q = params.require(:q)
-    @query = "#{q}#{facet_str} AND (#{DEFAULT_FILTER_TYPES})"
-     
-
-    Rails.logger.debug("input facets? #{facet}")
+    @query = "#{q} AND (#{DEFAULT_TYPES})"
+#    Rails.logger.debug("input facets? #{facet}")
     @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
-#    Rails.logger.debug("Has facets? #{@results['facets']}")
     @facets = {}
     hits = Integer(@results['total_hits'])
     if !@results['facets'].blank?
@@ -76,7 +68,6 @@ class RepositoriesController < ApplicationController
         @facets[type] = facet_hash unless facet_hash.blank?
       end
     end
-#Rails.logger.debug("Stripped facets:\n")
 #Pry::ColorPrinter.pp(@facets)
     @results = handle_results(@results)
     @repo = {}
