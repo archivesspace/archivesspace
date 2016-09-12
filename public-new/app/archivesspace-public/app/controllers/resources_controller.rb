@@ -14,7 +14,7 @@ class ResourcesController <  ApplicationController
       query = "repository:\"#{@repo_id}\" AND #{query}"
     end
     @criteria = {}
-    @criteria['sort'] = 'title asc'
+    @criteria['sort'] = 'title_sort asc'
     @criteria['resolve[]']  = ['repository:id']
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
