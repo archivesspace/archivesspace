@@ -269,7 +269,7 @@ a {
 
 
   h3 {
-    color: $secondary-color;
+    color: $darkest;
   }
 
   .recordsummary {
@@ -558,4 +558,4 @@ span.head {
 }
 
 
-.breadcrumb>li+li:before {color: $black; content: "\007C\00a0";}
+.breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
