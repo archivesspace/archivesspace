@@ -17,13 +17,14 @@ a {
 
 #header {
   > .row {
-    height: rem-calc(120);
+    height: rem-calc(90);
     margin-left: 0;
     margin-right: 0;
     padding-left: rem-calc(60);
     padding-right: rem-calc(40);
     border-bottom: rem-calc(4) solid $primary-color;
     width: 100%;
+    padding-bottom: rem-calc(1);
   }
 
   .logo {
@@ -301,7 +302,7 @@ a:hover {
 
 h1 {
   font-family: $sans-font;
-  font-size: rem-calc(36);
+  font-size: rem-calc(30);
   font-weight: bold;
   color: $primary-color;
 }
@@ -310,28 +311,28 @@ h1 {
 
 @media (max-width: $screen-xs-max) {
        h1 {
-      	  font-size: rem-calc(28);
+      	  font-size: rem-calc(22);
        }
 }
 
 
 h2 {
   font-family: $sans-font;
-  font-size: rem-calc(28);
+  font-size: rem-calc(24 );
   font-weight: bold;
   color: $accent-color;
 }
 
 h3 {
   font-family: $sans-font;
-  font-size: rem-calc(24);
+  font-size: rem-calc(20);
   font-weight: bold;
   color: $secondary-color;
 
 }
 
 h4 {
-  font-size: rem-calc(20);
+  font-size: rem-calc(18);
   font-family: $serif-font;
 }
 
