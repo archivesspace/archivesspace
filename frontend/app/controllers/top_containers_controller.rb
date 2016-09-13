@@ -216,7 +216,12 @@ class TopContainersController < ApplicationController
     return {} if uri.blank?
 
     return {
-      "filter_term[]" => [{"collection_uri_u_sstr" => uri}.to_json]
+      "aq" => JSONModel(:advanced_query).from_hash({
+                                                     'query' => JSONModel(:field_query).from_hash({
+                                                                                                    'field' => 'collection_uri_u_sstr',
+                                                                                                    'value' => uri
+                                                                                                  })
+                                                   })
     }
   end
 
@@ -226,34 +231,80 @@ class TopContainersController < ApplicationController
                                                       'type[]' => ['top_container']
                                                     })
 
-    filter_terms = []
-    simple_filters = []
+    queries = []
 
-    filter_terms.push({'collection_uri_u_sstr' => params['collection_resource']['ref']}.to_json) if params['collection_resource']
-    filter_terms.push({'collection_uri_u_sstr' => params['collection_accession']['ref']}.to_json) if params['collection_accession']
+    if params['collection_resource']
+      queries << JSONModel(:field_query).from_hash({
+                                                     'field' => 'collection_uri_u_sstr',
+                                                     'value' => params['collection_resource']['ref']
+                                                   })
+    end
 
-    filter_terms.push({'container_profile_uri_u_sstr' => params['container_profile']['ref']}.to_json) if params['container_profile']
-    filter_terms.push({'location_uri_u_sstr' => params['location']['ref']}.to_json) if params['location']
+    if params['collection_accession']
+      queries << JSONModel(:field_query).from_hash({
+                                                     'field' => 'collection_uri_u_sstr',
+                                                     'value' => params['collection_accession']['ref']
+                                                   })
+    end
+
+    if params['container_profile']
+      queries << JSONModel(:field_query).from_hash({
+                                                     'field' => 'container_profile_uri_u_sstr',
+                                                     'value' => params['container_profile']['ref']
+                                                   })
+    end
+
+    if params['location']
+      queries << JSONModel(:field_query).from_hash({
+                                                     'field' => 'location_uri_u_sstr',
+                                                     'value' => params['location']['ref']
+                                                   })
+    end
+
     unless params['exported'].blank?
-      filter_terms.push({'exported_u_sbool' => (params['exported'] == "yes" ? true : false)}.to_json)
-    end
-    unless params['empty'].blank?
-      filter_terms.push({'empty_u_sbool' => (params['empty'] == "yes" ? true : false)}.to_json)
-    end
-    unless params['barcodes'].blank?
-      simple_filters.push(ASUtils.wrap(params['barcodes'].split(" ")).map{|barcode|
-        "barcode_u_sstr:#{barcode}"
-      }.join(" OR "))
+      queries << JSONModel(:boolean_field_query).from_hash({
+                                                             'field' => 'exported_u_sbool',
+                                                             'value' => (params['exported'] == "yes" ? true : false)
+                                                           })
     end
 
-    if simple_filters.empty? && filter_terms.empty? && params['q'].blank?
+    unless params['empty'].blank?
+      queries << JSONModel(:boolean_field_query).from_hash({
+                                                             'field' => 'empty_u_sbool',
+                                                             'value' => (params['empty'] == "yes" ? true : false)
+                                                           })
+    end
+
+    unless params['barcodes'].blank?
+      barcode_queries = []
+
+      ASUtils.wrap(params['barcodes'].split(" ")).map { |barcode|
+        barcode_queries << JSONModel(:field_query).from_hash({
+                                                               'field' => 'barcode_u_sstr',
+                                                               'value' => barcode
+                                                             })
+      }
+
+      unless barcode_queries.empty?
+        queries << JSONModel(:boolean_query).from_hash({
+                                                         'subqueries' => barcode_queries,
+                                                         'op' => 'OR'
+                                                       })
+      end
+    end
+
+    if queries.empty? && params['q'].blank?
       raise MissingFilterException.new
     end
 
-    unless filter_terms.empty? && simple_filters.empty?
+    unless queries.empty?
       search_params = search_params.merge({
-                                            "filter_term[]" => filter_terms,
-                                            "simple_filter[]" => simple_filters
+                                            "aq" => JSONModel(:advanced_query).from_hash({
+                                              'query' => JSONModel(:boolean_query).from_hash({
+                                                'subqueries' => queries,
+                                                'op' => 'AND'
+                                              })
+                                            }).to_json,
                                           })
     end
 

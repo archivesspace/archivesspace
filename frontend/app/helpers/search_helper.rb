@@ -6,8 +6,6 @@ module SearchHelper
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
-    
-    search_params["simple_filters"] = Array(opts["simple_filters"] || params["simple_filters"]).clone
 
     if params["multiplicity"]
       search_params["multiplicity"] = params["multiplicity"] 

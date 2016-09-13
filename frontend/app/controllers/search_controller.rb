@@ -12,7 +12,7 @@ class SearchController < ApplicationController
     queries = advanced_search_queries.reject{|field| field["value"].nil? || field["value"] == ""}
 
     if not queries.empty?
-      criteria["aq"] = AdvancedQueryBuilder.new(queries, :staff).build_query.to_json
+      criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
       criteria['facet[]'] = SearchResultData.BASE_FACETS
     end
 
