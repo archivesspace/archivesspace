@@ -235,10 +235,11 @@ class TopContainer < Sequel::Model(:top_container)
     query.pagination(1, max_results).
       set_repo_id(repo_id).
       set_record_types(params[:type]).
-      set_filter_terms(params[:filter_term]).
-      set_simple_filters(params[:simple_filter]).
       set_facets(params[:facet])
 
+    if params[:filter_term]
+      query.set_filter(AdvancedQueryBuilder.from_json_filter_terms(params[:filter_term]))
+    end
 
     query.add_solr_param(:qf, "series_identifier_u_stext collection_identifier_u_stext")
 

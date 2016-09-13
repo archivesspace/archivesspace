@@ -39,7 +39,7 @@ class Solr
     end
 
 
-    def self.construct_advanced_query_string(advanced_query)
+    def self.construct_advanced_query_string(advanced_query, use_literal = false)
       if advanced_query.has_key?('subqueries')
         subqueries = advanced_query['subqueries'].map {|subq|
           construct_advanced_query_string(subq)
@@ -48,8 +48,8 @@ class Solr
         "(#{subqueries})"
       else
         prefix = advanced_query['negated'] ? "-" : ""
-        field = AdvancedSearch.solr_field_for(advanced_query['field'])
 
+        field = AdvancedSearch.solr_field_for(advanced_query['field'])
         if advanced_query["jsonmodel_type"] == "date_field_query"
           if advanced_query["comparator"] == "lesser_than"
             value = "[* TO #{advanced_query["value"]}T00:00:00Z-1MILLISECOND]"
@@ -58,7 +58,7 @@ class Solr
           else # advanced_query["comparator"] == "equal"
             value = "[#{advanced_query["value"]}T00:00:00Z TO #{advanced_query["value"]}T00:00:00Z+1DAY-1MILLISECOND]"
           end
-        elsif advanced_query["jsonmodel_type"] == "field_query" && advanced_query["literal"]
+        elsif advanced_query["jsonmodel_type"] == "field_query" && (use_literal || advanced_query["literal"])
           value = "(\"#{solr_escape(advanced_query['value'])}\")"
         else
           value = "(#{advanced_query['value']})"
@@ -165,23 +165,11 @@ class Solr
     end
 
 
-    def set_filter_terms(filter_terms)
-      unless Array(filter_terms).empty?
-        filter_terms.map{|str| ASUtils.json_parse(str)}.each{|json|
-          json.each {|facet, term|
-            add_solr_param(:fq, self.class.term_query(facet.strip, term.to_s.strip))
-          }
-        }
-      end
-
-      self
-    end
-    
-    def set_simple_filters(filter_terms)
-      unless Array(filter_terms).empty?
-        filter_terms.map{|str| 
-          add_solr_param(:fq, str.strip )
-        }
+    def set_filter(advanced_query)
+      if advanced_query
+        query_string = self.class.construct_advanced_query_string(advanced_query['query'],
+                                                                  use_literal = true)
+        add_solr_param(:fq, query_string)
       end
 
       self
