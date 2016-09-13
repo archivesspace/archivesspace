@@ -24,7 +24,7 @@ class Search
       show_published_only(show_published_only).
       set_excluded_ids(params[:exclude]).
       set_filter(params[:filter]).
-      set_facets(params[:facet]).
+      set_facets(params[:facet], (params[:facet_mincount] || 0)).
       set_sort(params[:sort]).
       set_root_record(params[:root_record]).
       highlighting(params[:hl]).

@@ -182,10 +182,12 @@ class Solr
     end
 
 
-    def set_facets(fields)
+    def set_facets(fields, mincount = 0)
       if fields
         @facet_fields = fields
       end
+
+      @facet_mincount = mincount
 
       self
     end
@@ -249,6 +251,7 @@ class Solr
       unless @facet_fields.empty?
         add_solr_param(:"facet.field", @facet_fields)
         add_solr_param(:"facet.limit", AppConfig[:solr_facet_limit])
+        add_solr_param(:"facet.mincount", @facet_mincount)
       end
 
       if @query_type == :edismax
