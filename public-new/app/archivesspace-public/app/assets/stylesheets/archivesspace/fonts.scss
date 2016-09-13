@@ -1,0 +1,75 @@
+
+/* PT Sans fonts */
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('PTS55F-webfont.eot');
+    src: url('PTS55F-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PTS55F-webfont.woff') format('woff'),
+         url('PTS55F-webfont.ttf') format('truetype'),
+         url('PTS55F-webfont.svg#pt_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {                                                                                                                                            font-family: 'PT Sans';
+    src: url('PTS56F-webfont.eot');
+    src: url('PTS56F-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PTS56F-webfont.woff') format('woff'),
+         url('PTS56F-webfont.ttf') format('truetype'),
+         url('PTS56F-webfont.svg#pt_sansitalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+
+}
+
+@font-face { 
+    font-family: 'PT Sans';
+    src: url('PTS75F-webfont.eot');
+    src: url('PTS75F-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PTS75F-webfont.woff') format('woff'),
+         url('PTS75F-webfont.ttf') format('truetype'),
+         url('PTS75F-webfont.svg#pt_sansbold') format('svg');
+    font-weight: bold;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('PTS76F-webfont.eot');
+    src: url('PTS76F-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PTS76F-webfont.woff') format('woff'),
+         url('PTS76F-webfont.ttf') format('truetype'),
+         url('PTS76F-webfont.svg#pt_sansbold_italic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Roboto Slab */
+
+@font-face {
+    font-family: 'Roboto Slab';
+    font-family: 'roboto_slabregular';
+    src: url('RobotoSlab-Regular-webfont.eot');
+    src: url('RobotoSlab-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('RobotoSlab-Regular-webfont.woff') format('woff'),
+         url('RobotoSlab-Regular-webfont.ttf') format('truetype'),
+         url('RobotoSlab-Regular-webfont.svg#roboto_slabregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url('RobotoSlab-Bold-webfont.eot');
+    src: url('RobotoSlab-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('RobotoSlab-Bold-webfont.woff') format('woff'),
+         url('RobotoSlab-Bold-webfont.ttf') format('truetype'),
+         url('RobotoSlab-Bold-webfont.svg#roboto_slabbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+

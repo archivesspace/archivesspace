@@ -13,6 +13,9 @@
  * NO = require_tree .
  * NO = require_self
  */
+@import  "archivesspace/fonts";
+@import "archivesspace/colors";
+@import "archivesspace/variables";
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -22,8 +25,6 @@
 // @import "bootstrap-sass/_glyphicons.scss";
 // @import "load-awesome/line-spin-clockwise-fade.css";
 @import "foundation/_functions.scss";
-@import "archivesspace/variables";
-@import "archivesspace/colors";
 @import "archivesspace/aspace"; 
 @import "archivesspace/record-type-badge";
 @import "jstree/style.css";

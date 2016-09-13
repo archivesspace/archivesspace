@@ -1,7 +1,8 @@
-$sans-font: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 
+$sans-font: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $serif-font: 'Roboto Slab', serif;
-
+$font-family-sans-serif: $sans-font;
+$font-family-serif: $serif-font;
 
 $fi-path: "foundation-icon-fonts";
 
@@ -15,6 +16,6 @@ $bootstrap-sass-asset-helper: false;
 
 $row-width: 100%;
 
-
-
 $body-font-family: $sans-font;
+
+$text-color: $darkest;
