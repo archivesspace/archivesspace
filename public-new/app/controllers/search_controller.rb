@@ -1,3 +1,4 @@
+require 'advanced_search'
 require 'advanced_query_builder'
 
 class SearchController < ApplicationController
@@ -11,61 +12,39 @@ class SearchController < ApplicationController
   FACETS = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
 
 
+
   def search
+
     set_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
-    @term_map = params[:term_map] ? ASUtils.json_parse(params[:term_map]) : {}
 
-    respond_to do |format|
-      format.html { render "search/results" }
-      format.js { render_aspace_partial :partial => "search/inline_results", :content_type => "text/html", :locals => {:search_data => @search_data} }
-    end
+    render :json => @search_data
   end
+
 
   def advanced_search
     set_advanced_search_criteria
 
     @search_data = Search.all(@criteria, @repositories)
 
-    render "search/results"
-  end
-
-  def repository
-    set_search_criteria
-
-    if params[:repo_id].blank?
-      @search_data = Search.all(@criteria.merge({"facet[]" => [], "type[]" => ["repository"]}), {})
-
-      return render "search/results"
-    end
-
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
-    @breadcrumbs = [
-      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
-    ]
-
-    @search_data = Search.repo(@repository.id, @criteria, @repositories)
-
-    render "search/results"
+    render :json => @search_data
   end
 
 
   private
 
   def set_search_criteria
-    
     @criteria = params.select{|k,v|
-      ["page", "q", "type", "sort",
+      ["page", "page_size", "q", "type", "sort",
        "filter_term", "root_record", "format"].include?(k) and not v.blank?
     }
-    
+
     @criteria["page"] ||= 1
     @criteria["sort"] = "title_sort asc" unless @criteria["sort"] or @criteria["q"] or params["advanced"].present?
 
     if @criteria["filter_term"]
-      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}.map { |ft|  ActionController::Base.helpers.sanitize(ft) }
+      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
       @criteria.delete("filter_term")
     end
 
@@ -78,8 +57,9 @@ class SearchController < ApplicationController
 
     @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
     @criteria['facet[]'] = FACETS
-  end
 
+    @criteria['hl'] = true
+  end
 
   def set_advanced_search_criteria
     set_search_criteria
@@ -99,6 +79,8 @@ class SearchController < ApplicationController
       @criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(terms).to_json
       @criteria['facet[]'] = FACETS
     end
+
+    @criteria['hl'] = true
   end
 
   def search_term(i)
@@ -106,5 +88,6 @@ class SearchController < ApplicationController
       { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
     end
   end
+
 
 end

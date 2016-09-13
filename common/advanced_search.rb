@@ -18,7 +18,7 @@ class AdvancedSearch
   def self.solr_field_for(field)
     load_definitions
     field = @fields.fetch(field.to_s) do
-      raise "Unrecognized search field: #{field}"
+      return field
     end
 
     field.solr_field

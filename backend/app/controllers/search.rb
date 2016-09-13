@@ -1,3 +1,5 @@
+require 'advanced_query_builder'
+
 class ArchivesSpaceService < Sinatra::Base
 
   BASE_SEARCH_PARAMS =
@@ -17,11 +19,9 @@ class ArchivesSpaceService < Sinatra::Base
       [String],
       "The list of the fields to produce facets for",
       :optional => true],
-     ["filter_term", [String], "A json string containing the term/value pairs to be applied as filters.  Of the form: {\"fieldname\": \"fieldvalue\"}.",
+     ["filter", JSONModel(:advanced_query), "A json string containing the advanced query to filter by",
       :optional => true],
-     ["simple_filter", [String], "A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.",
-      :optional => true],
-      ["exclude",
+     ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",
       :optional => true],
@@ -148,11 +148,7 @@ class ArchivesSpaceService < Sinatra::Base
                         set_record_types(['tree_view']).
                         show_suppressed(show_suppressed).
                         show_excluded_docs(true).
-                        set_filter_terms([
-                                          {
-                                            :node_uri => params[:node_uri]
-                                          }.to_json
-                                         ])
+                        set_filter(AdvancedQueryBuilder.new.and('node_uri', params[:node_uri]).build)
 
     search_data = Solr.search(query)
 
