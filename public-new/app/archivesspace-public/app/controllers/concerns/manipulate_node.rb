@@ -19,8 +19,9 @@ module ManipulateNode
     frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
       node_check(el) if el.parent && !el.text?
-      el.content = el.content.gsub("\"", "&quot;") if el.text
     }
+    # replace the inline quotes with &quot;
+    frag.text.gsub("\"", "&quot;") if frag.text
     frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
   end
 
