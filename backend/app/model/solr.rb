@@ -42,7 +42,7 @@ class Solr
     def self.construct_advanced_query_string(advanced_query, use_literal = false)
       if advanced_query.has_key?('subqueries')
         subqueries = advanced_query['subqueries'].map {|subq|
-          construct_advanced_query_string(subq)
+          construct_advanced_query_string(subq, use_literal)
         }.join(" #{advanced_query['op']} ")
 
         "(#{subqueries})"
