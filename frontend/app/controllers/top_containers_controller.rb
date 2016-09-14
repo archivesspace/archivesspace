@@ -1,5 +1,6 @@
 require 'uri'
 require 'barcode_check'
+require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
@@ -231,80 +232,53 @@ class TopContainersController < ApplicationController
                                                       'type[]' => ['top_container']
                                                     })
 
-    queries = []
+    builder = AdvancedQueryBuilder.new
 
     if params['collection_resource']
-      queries << JSONModel(:field_query).from_hash({
-                                                     'field' => 'collection_uri_u_sstr',
-                                                     'value' => params['collection_resource']['ref']
-                                                   })
+      builder.and('collection_uri_u_sstr', params['collection_resource']['ref'], 'text', literal = true)
     end
 
     if params['collection_accession']
-      queries << JSONModel(:field_query).from_hash({
-                                                     'field' => 'collection_uri_u_sstr',
-                                                     'value' => params['collection_accession']['ref']
-                                                   })
+      builder.and('collection_uri_u_sstr', params['collection_accession']['ref'], 'text', literal = true)
     end
 
     if params['container_profile']
-      queries << JSONModel(:field_query).from_hash({
-                                                     'field' => 'container_profile_uri_u_sstr',
-                                                     'value' => params['container_profile']['ref']
-                                                   })
+      builder.and('container_profile_uri_u_sstr', params['container_profile']['ref'], 'text', literal = true)
     end
 
     if params['location']
-      queries << JSONModel(:field_query).from_hash({
-                                                     'field' => 'location_uri_u_sstr',
-                                                     'value' => params['location']['ref']
-                                                   })
+      builder.and('location_uri_u_sstr', params['location']['ref'], 'text', literal = true)
     end
 
     unless params['exported'].blank?
-      queries << JSONModel(:boolean_field_query).from_hash({
-                                                             'field' => 'exported_u_sbool',
-                                                             'value' => (params['exported'] == "yes" ? true : false)
-                                                           })
+      builder.and('exported_u_sbool',
+                  (params['exported'] == "yes" ? 'true' : 'false'),
+                  'boolean')
     end
 
     unless params['empty'].blank?
-      queries << JSONModel(:boolean_field_query).from_hash({
-                                                             'field' => 'empty_u_sbool',
-                                                             'value' => (params['empty'] == "yes" ? true : false)
-                                                           })
+      builder.and('empty_u_sbool', (params['empty'] == "yes" ? 'true' : 'false'), 'boolean')
     end
 
     unless params['barcodes'].blank?
-      barcode_queries = []
+      barcode_query = AdvancedQueryBuilder.new
 
-      ASUtils.wrap(params['barcodes'].split(" ")).map { |barcode|
-        barcode_queries << JSONModel(:field_query).from_hash({
-                                                               'field' => 'barcode_u_sstr',
-                                                               'value' => barcode
-                                                             })
-      }
+      ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
+        barcode_query.or('barcode_u_sstr', barcode)
+      end
 
-      unless barcode_queries.empty?
-        queries << JSONModel(:boolean_query).from_hash({
-                                                         'subqueries' => barcode_queries,
-                                                         'op' => 'OR'
-                                                       })
+      unless barcode_query.empty?
+        builder.and(barcode_query)
       end
     end
 
-    if queries.empty? && params['q'].blank?
+    if builder.empty? && params['q'].blank?
       raise MissingFilterException.new
     end
 
-    unless queries.empty?
+    unless builder.empty?
       search_params = search_params.merge({
-                                            "aq" => JSONModel(:advanced_query).from_hash({
-                                              'query' => JSONModel(:boolean_query).from_hash({
-                                                'subqueries' => queries,
-                                                'op' => 'AND'
-                                              })
-                                            }).to_json,
+                                            "filter" => builder.build.to_json,
                                           })
     end
 

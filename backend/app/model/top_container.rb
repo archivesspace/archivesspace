@@ -235,7 +235,8 @@ class TopContainer < Sequel::Model(:top_container)
     query.pagination(1, max_results).
       set_repo_id(repo_id).
       set_record_types(params[:type]).
-      set_facets(params[:facet])
+      set_facets(params[:facet]).
+      set_filter(params[:filter])
 
     if params[:filter_term]
       query.set_filter(AdvancedQueryBuilder.from_json_filter_terms(params[:filter_term]))
