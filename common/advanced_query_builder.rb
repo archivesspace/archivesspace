@@ -6,26 +6,30 @@ class AdvancedQueryBuilder
     @query = nil
   end
 
-  def and(field_or_subquery, value = nil, type = 'text', negated = false)
+  def and(field_or_subquery, value = nil, type = 'text', literal = false, negated = false)
     if field_or_subquery.is_a?(AdvancedQueryBuilder)
       push_subquery('AND', field_or_subquery)
     else
       raise "Missing value" unless value
-      push_term('AND', field_or_subquery, value, type, negated)
+      push_term('AND', field_or_subquery, value, type, literal, negated)
     end
 
     self
   end
 
-  def or(field_or_subquery, value = nil, type = 'text', negated = false)
+  def or(field_or_subquery, value = nil, type = 'text', literal = false, negated = false)
     if field_or_subquery.is_a?(AdvancedQueryBuilder)
       push_subquery('OR', field_or_subquery)
     else
       raise "Missing value" unless value
-      push_term('OR', field_or_subquery, value, type, negated)
+      push_term('OR', field_or_subquery, value, type, literal, negated)
     end
 
     self
+  end
+
+  def empty?
+    @query.nil?
   end
 
   def build
@@ -80,7 +84,7 @@ class AdvancedQueryBuilder
     @query = new_query
   end
 
-  def push_term(operator, field, value, type = 'text', negated = false)
+  def push_term(operator, field, value, type = 'text', literal = false, negated = false)
     new_query = {
       :operator => operator,
       :type => 'boolean_query',
@@ -89,6 +93,7 @@ class AdvancedQueryBuilder
         :value => value,
         :type => type,
         :negated => negated,
+        :literal => literal,
       },
       :arg2 => @query,
     }
