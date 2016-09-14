@@ -217,12 +217,7 @@ class TopContainersController < ApplicationController
     return {} if uri.blank?
 
     return {
-      "aq" => JSONModel(:advanced_query).from_hash({
-                                                     'query' => JSONModel(:field_query).from_hash({
-                                                                                                    'field' => 'collection_uri_u_sstr',
-                                                                                                    'value' => uri
-                                                                                                  })
-                                                   })
+      'filter' => AdvancedQueryBuilder.new.and('collection_uri_u_sstr', uri, 'text', true).build.to_json
     }
   end
 
