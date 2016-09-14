@@ -1,21 +1,35 @@
 class AdvancedQueryBuilder
 
+  attr_reader :query
+
   def initialize
     @query = nil
   end
 
-  def and(field, value, type = 'text', negated = false)
-    push_term('AND', field, value, type, negated)
+  def and(field_or_subquery, value = nil, type = 'text', negated = false)
+    if field_or_subquery.is_a?(AdvancedQueryBuilder)
+      push_subquery('AND', field_or_subquery)
+    else
+      raise "Missing value" unless value
+      push_term('AND', field_or_subquery, value, type, negated)
+    end
+
     self
   end
 
-  def or(field, value, type = 'text', negated = false)
-    push_term('OR', field, value, type, negated)
+  def or(field_or_subquery, value = nil, type = 'text', negated = false)
+    if field_or_subquery.is_a?(AdvancedQueryBuilder)
+      push_subquery('OR', field_or_subquery)
+    else
+      raise "Missing value" unless value
+      push_term('OR', field_or_subquery, value, type, negated)
+    end
+
     self
   end
 
   def build
-    JSONModel(:advanced_query).from_hash({"query" => build_query(@query)})
+    JSONModel::JSONModel(:advanced_query).from_hash({"query" => build_query(@query)})
   end
 
   def self.from_json_filter_terms(array_of_json)
@@ -38,7 +52,7 @@ class AdvancedQueryBuilder
         a = stack.pop
         b = stack.pop
 
-        stack.push(JSONModel(:boolean_query).from_hash({
+        stack.push(JSONModel::JSONModel(:boolean_query).from_hash({
                                                          :op => b["op"],
                                                          :subqueries => [as_field_query(a), as_field_query(b)]
                                                        }))
@@ -49,11 +63,22 @@ class AdvancedQueryBuilder
       as_field_query(queries[0])
     end
 
-    JSONModel(:advanced_query).from_hash({"query" => query})
+    JSONModel::JSONModel(:advanced_query).from_hash({"query" => query})
   end
 
 
   private
+
+  def push_subquery(operator, subquery)
+    new_query = {
+      :operator => operator,
+      :type => 'boolean_query',
+      :arg1 => subquery.query,
+      :arg2 => @query,
+    }
+
+    @query = new_query
+  end
 
   def push_term(operator, field, value, type = 'text', negated = false)
     new_query = {
@@ -77,7 +102,7 @@ class AdvancedQueryBuilder
         build_query(subquery)
       }
 
-      JSONModel(:boolean_query).from_hash({
+      JSONModel::JSONModel(:boolean_query).from_hash({
                                             :op => query[:operator],
                                             :subqueries => subqueries
                                           })
@@ -87,14 +112,14 @@ class AdvancedQueryBuilder
   end
 
   def self.as_field_query(query_data)
-    if query_data.kind_of? JSONModelType
+    if query_data.kind_of?(JSONModelType)
       query_data
     elsif query_data["type"] == "date"
-      JSONModel(:date_field_query).from_hash(query_data)
+      JSONModel::JSONModel(:date_field_query).from_hash(query_data)
     elsif query_data["type"] == "boolean"
-      JSONModel(:boolean_field_query).from_hash(query_data)
+      JSONModel::JSONModel(:boolean_field_query).from_hash(query_data)
     else
-      query = JSONModel(:field_query).from_hash(query_data)
+      query = JSONModel::JSONModel(:field_query).from_hash(query_data)
 
       if query_data["type"] == "enum"
         query.literal = true
