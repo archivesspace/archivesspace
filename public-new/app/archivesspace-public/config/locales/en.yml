@@ -143,7 +143,8 @@ en:
   listing: Listing
 
   accession:
-    _public:
+   _singular: Unprocessed 
+   _public:
       section:
         summary: Summary
 
@@ -200,9 +201,6 @@ en:
     _plural: Subjects
 
   unprocessed: Unprocessed Material
-
-  accession:
-    _singular: Unprocessed
 
   classification:
     _singular: Record Group
