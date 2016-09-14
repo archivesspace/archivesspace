@@ -2,12 +2,13 @@ class RepositoriesController < ApplicationController
   include HandleFaceting
   include ProcessResults
   include JsonHelper
+
   skip_before_filter  :verify_authenticity_token  
 
+  DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'agents']
   DEFAULT_REPO_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
-    'facet[]' => ['primary_type', 'subjects', 'agents'],
     'facet.mincount' => 1
   }
   DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}.map {|t| "types:#{t}"}.join(" OR ")
@@ -54,11 +55,11 @@ class RepositoriesController < ApplicationController
 #    Rails.logger.debug("JSONIZED FILTER TERM:*#{str.to_json}*")
 #    @criteria['filter_term[]'] = "{ #{str.to_json}}"
     page = Integer(params.fetch(:page, "1"))
-    facet = params.fetch(:facet, [])
-    @criteria['filter'] = facet
+    filtering = FacetFilter.new(DEFAULT_SEARCH_FACET_TYPES, params.fetch(:filter,[]))
+    @criteria['filter'] = filtering.filters if !filtering.filters.blank?
+    @criteria['facet[]'] = filtering.get_facet_types
     q = params.require(:q)
     @query = "#{q} AND (#{DEFAULT_TYPES})"
-#    Rails.logger.debug("input facets? #{facet}")
     @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
     @facets = {}
     hits = Integer(@results['total_hits'])
@@ -75,11 +76,12 @@ class RepositoriesController < ApplicationController
       @repo = @results['results'][0]['_resolved_repository']['json'] || {}
     end
     @page_search = "/repositories/#{repo_id}/search?q=#{q}"
-    if facet.length > 0
-      facet.each do |f|
-        @page_search = "#{@page_search}&facet[]=#{f}"
+    if filtering.filters.length > 0
+      filtering.filters.each do |f|
+        @page_search = "#{@page_search}&filter[]=#{f}"
       end
     end
+    @filters = filtering.get_filter_hash
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
     render 
