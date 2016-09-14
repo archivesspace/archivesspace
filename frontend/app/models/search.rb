@@ -36,22 +36,16 @@ class Search
   private
 
   def self.build_filters(criteria)
-    queries = Array(criteria['filter_term[]']).map do |json_filter|
-      filter = ASUtils.json_parse(json_filter)
+    queries = AdvancedQueryBuilder.new
 
-      {
-        'op' => 'AND',
-        'type' => 'text',
-        'field' => filter.keys[0],
-        'value' => filter.values[0],
-      }
+    Array(criteria['filter_term[]']).each do |json_filter|
+      filter = ASUtils.json_parse(json_filter)
+      queries.and(filter.keys[0], filter.values[0])
     end
 
-    return if queries.empty?
-
-    result = AdvancedQueryBuilder.build_query_from_form(queries)
-
-    criteria['filter'] = result.to_json
+    unless queries.empty?
+      criteria['filter'] = queries.build.to_json
+    end
   end
 
 end
