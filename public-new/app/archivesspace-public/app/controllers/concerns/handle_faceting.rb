@@ -4,7 +4,7 @@ module HandleFaceting
   # does the fetches when you only want facet information
 
   def fetch_facets(query, facets_array, include_zero)
-    Rails.logger.debug("Finding facets for query '#{query}'")
+#    Rails.logger.debug("Finding facets for query '#{query}'")
     criteria = {}
     criteria[:page_size] = 1
     criteria['facet[]'] = facets_array
@@ -40,7 +40,7 @@ module HandleFaceting
   end
    # bury the mess! 
   def get_pretty_facet_value(k, v)
-    Rails.logger.debug("input v: #{v}")
+#    Rails.logger.debug("input v: #{v}")
     pv = strip_mixed_content(v)
     if (k == 'primary_type')
       pv = I18n.t("#{v}._singular")
