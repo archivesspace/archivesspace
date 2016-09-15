@@ -5,27 +5,31 @@ class ResourcesController <  ApplicationController
   include JsonHelper
   skip_before_filter  :verify_authenticity_token
 
+  DEFAULT_RES_SEARCH_OPTS = {
+    'sort' => 'title_sort asc',
+    'resolve[]' => ['repository:id'],
+    'facet[]' => ['primary_type', 'subjects', 'agents'],
+    'facet.mincount' => 1
+  }
   # present a list of resources.  If no repository named, just get all of them.
   def index
     @repo_name = params[:repo] || ""
-    query = 'publish:true AND types:resource'
-    if !params[:rid].blank?
+    set_up_search(['resource'], [],DEFAULT_RES_SEARCH_OPTS, params)
+    query = 'publish:true'
+    base_search = '/repositories'
+    if !params.fetch(:rid,'').blank?
       @repo_id = "/repositories/#{params[:rid]}"
       query = "repository:\"#{@repo_id}\" AND #{query}"
+      base_search += "/#{params.fetch(:rid)}"
     end
-    @criteria = {}
-    @criteria['sort'] = 'title_sort asc'
-    @criteria['resolve[]']  = ['repository:id']
-    page_size =  params['page_size'].to_i if !params.blank?
-    page_size = AppConfig[:search_results_page_size] if page_size == 0
-    page = params['page'] || 1 if !params.blank?
-    @criteria[:page_size] = page_size
-    # might as well get the facets here
+    base_search += '/resources'
+    @criteria = DEFAULT_RES_SEARCH_OPTS
+    page = Integer(params.fetch(:page, "1"))
+    page_size =  params.fetch('page_size',  AppConfig[:search_results_page_size].to_s).to_i 
+    @criteria['page_size'] = page_size
     @results =  archivesspace.search(query, page, @criteria) || {}
-    @results = handle_results(@results, 'abstract')  # we only want the abstract for the index
-    @pager =  Pager.new("/repositories/#{params[:rid]}/resources?repo=#{@repo_name}", @results['this_page'],@results['last_page'])
-    @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t('resource._plural') : I18n.t('resource._singular')) +  " " + I18n.t('listing')
-    Rails.logger.debug("Page title #{@page_title}")
+    process_search_results("#{base_search}?q=#{query}")
+    render
   end
 
   def show
