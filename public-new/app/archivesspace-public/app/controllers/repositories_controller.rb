@@ -11,11 +11,12 @@ class RepositoriesController < ApplicationController
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
-  DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}.map {|t| "types:#{t}"}.join(" OR ")
+  DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}
 
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
+
     
     # let's not include any 0-colection repositories unless specified
     # include_zero = (!params.blank? && params['include_empty']) 
@@ -49,41 +50,12 @@ class RepositoriesController < ApplicationController
   end
 
   def search
-    @criteria = DEFAULT_REPO_SEARCH_OPTS
+    set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
     repo_id = params.require(:rid)
-#    str = "#{DEFAULT_TYPES}}"
-#    Rails.logger.debug("JSONIZED FILTER TERM:*#{str.to_json}*")
-#    @criteria['filter_term[]'] = "{ #{str.to_json}}"
     page = Integer(params.fetch(:page, "1"))
-    filtering = FacetFilter.new(DEFAULT_SEARCH_FACET_TYPES, params.fetch(:filter,[]))
-    @criteria['filter'] = filtering.filters if !filtering.filters.blank?
-    @criteria['facet[]'] = filtering.get_facet_types
     q = params.require(:q)
-    @query = "#{q} AND (#{DEFAULT_TYPES})"
-    @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
-    @facets = {}
-    hits = Integer(@results['total_hits'])
-    if !@results['facets'].blank?
-      @results['facets']['facet_fields'].keys.each do |type|
-        facet_hash = strip_facets( @results['facets']['facet_fields'][type],1, hits)
-        @facets[type] = facet_hash unless facet_hash.blank?
-      end
-    end
-#Pry::ColorPrinter.pp(@facets)
-    @results = handle_results(@results)
-    @repo = {}
-    if @results['results'].length > 0 && @results['results'][0]['_resolved_repository'].present?
-      @repo = @results['results'][0]['_resolved_repository']['json'] || {}
-    end
-    @page_search = "/repositories/#{repo_id}/search?q=#{q}"
-    if filtering.filters.length > 0
-      filtering.filters.each do |f|
-        @page_search = "#{@page_search}&filter[]=#{f}"
-      end
-    end
-    @filters = filtering.get_filter_hash
-    @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
-    @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
+    @results = archivesspace.search_repository(q,repo_id, page, @criteria)
+    process_search_results("/repositories/#{repo_id}/search?q=#{q}")
     render 
   end
 
