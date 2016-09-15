@@ -697,6 +697,14 @@ class CommonIndexer
   end
 
 
+  def clean_for_sort(value)
+    out = value.gsub(/<[^>]+>/, '')
+    out.gsub!(/-/, ' ')
+    out.gsub!(/[^\w\s]/, '')
+    out.strip
+  end
+
+
   def index_records(records)
     batch = IndexBatch.new
 
@@ -739,6 +747,8 @@ class CommonIndexer
       @document_prepare_hooks.each do |hook|
         hook.call(doc, record)
       end
+
+      doc['title_sort'] = clean_for_sort(doc['title'])
 
       batch << clean_whitespace(doc)
 
