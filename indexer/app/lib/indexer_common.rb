@@ -81,6 +81,15 @@ class CommonIndexer
     end
   end
 
+
+  def self.generate_years_for_date_range(begin_date, end_date)
+    return [] unless begin_date
+    b = begin_date[0..3]
+    e = (end_date || begin_date)[0..3]
+    (b .. e).to_a
+  end
+
+
   def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
 
@@ -166,6 +175,17 @@ class CommonIndexer
   end
 
 
+  def add_years(doc, record)
+    if record['record']['dates']
+      doc['years'] = []
+      record['record']['dates'].each do |date|
+        doc['years'] += CommonIndexer.generate_years_for_date_range(date['begin'], date['end'])
+      end
+      doc['years'].sort.uniq
+    end
+  end
+
+
   def add_level(doc, record)
     if record['record'].has_key? 'level'
       doc['level'] = (record['record']['level'] === 'otherlevel') ? record['record']['other_level'] : record['record']['level']
@@ -234,6 +254,7 @@ class CommonIndexer
       add_agents(doc, record)
       add_audit_info(doc, record)
       add_notes(doc, record)
+      add_years(doc, record)
       add_level(doc, record)
       add_summary(doc, record)
     }
