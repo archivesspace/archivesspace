@@ -30,11 +30,14 @@ class ArchivesSpaceClient
   end
 
   def list_repositories
+    repos = {}
     results = search_all_results("primary_type:repository")
 
     results.map { |result|
       Repository.from_json(JSON.parse(result['json']))
     }
+      .each { |r| repos[r['uri']] = r }
+    repos
   end
 
   def search(query, page = 1, search_opts = {})
