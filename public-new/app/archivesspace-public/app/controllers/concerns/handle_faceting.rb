@@ -21,7 +21,6 @@ module HandleFaceting
     adjusted = []
     if facets_arr && filters_arr
       filters_arr.collect! {|f| f.split[":"][0]}
-      
     end
     adjusted
   end
@@ -42,12 +41,17 @@ module HandleFaceting
   def get_pretty_facet_value(k, v)
 #    Rails.logger.debug("input v: #{v}")
     pv = strip_mixed_content(v)
-    if (k == 'primary_type')
+    if k == 'primary_type'
       pv = I18n.t("#{v}._singular")
+    elsif k == 'repository'
+      repos = Repository.get_repos
+      if repos[v].nil?
+        pv = v
+      else
+        pv = repos[v]['name'] || v
+      end
     end
     pv
   end
-
-
 
 end
