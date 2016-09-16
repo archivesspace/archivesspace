@@ -92,7 +92,7 @@ class ArchivesSpaceClient
   # perform the actual search, returning json-ized results, 
   # or raising an error
   def do_search(url)
-    Rails.logger.debug("Search url: #{url}")
+#    Rails.logger.debug("Search url: #{url}")
     request = Net::HTTP::Get.new(url)
     response = do_http_request(request)
     if response.code != '200'
