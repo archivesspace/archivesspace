@@ -53,7 +53,7 @@ module ManipulateNode
 
   def process_anchor(node)
     href = node['href']
-    href.strip? if href
+    href.strip! if href
     target = node['target']
     target.strip! if target
     return node if !href && target.blank? 
