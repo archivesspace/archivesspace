@@ -5,12 +5,15 @@ class ResourcesController <  ApplicationController
   include JsonHelper
   skip_before_filter  :verify_authenticity_token
 
+
+  DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
+
   DEFAULT_RES_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id'],
-    'facet[]' => ['primary_type', 'subjects', 'agents'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
+  DEFAULT_TYPES = %w{archival_object digital_object agent subject}
   # present a list of resources.  If no repository named, just get all of them.
   def index
     @repo_name = params[:repo] || ""
@@ -32,6 +35,17 @@ class ResourcesController <  ApplicationController
     render
   end
 
+  def search 
+    set_up_search(DEFAULT_TYPES, DEFAULT_RES_FACET_TYPES, DEFAULT_RES_SEARCH_OPTS, params)
+     repo_id = params.require(:rid)
+    res_id = "/repositories/#{repo_id}/resources/#{params.require(:id)}"
+    q = params.require(:q)
+    page = Integer(params.fetch(:page, "1"))
+    qry = "#{q} AND resource:\"#{res_id}\""
+    @results = archivesspace.search(qry,page, @criteria)
+    process_search_results("#{res_id}/search?q=#{q}")
+    render
+  end
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     record_list = [uri]
