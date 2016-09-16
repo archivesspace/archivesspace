@@ -1,7 +1,27 @@
-class Repository < Struct.new(:code, :name)
+class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :parent_url)
+
+  @@AllRepos = {}
+  def Repository.get_repos
+    if @@AllRepos.blank?
+      @@AllRepos = ArchivesSpaceClient.new.list_repositories
+    end
+    @@AllRepos
+  end
+
+  def Repository.set_repos(repos)
+    @@AllRepos = repos
+  end
+  def initialize(code, name, uri, display_name, parent, parent_url = '')
+    self.code = code
+    self.name = name
+    self.uri = uri
+    self.display_name = display_name
+    self.parent = parent
+    self.parent_url = parent_url if !parent_url.blank? &&  !parent_url.end_with?("url\.unspecified")
+  end
 
   def self.from_json(json)
-    new(json['repo_code'], json['name'])
+    new(json['repo_code'], json['name'], json['uri'], json['display_string'], json['parent_institution_name'], json['url'])
   end
 
 end
