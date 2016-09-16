@@ -19,7 +19,12 @@ module ProcessResults
     if !@results['facets'].blank?
       @results['facets']['facet_fields'].keys.each do |type|
         facet_hash = strip_facets( @results['facets']['facet_fields'][type],1, hits)
-        @facets[type] = facet_hash unless facet_hash.blank?
+        if facet_hash.present?
+          @facets[type] = facet_hash 
+          if type == 'repository'
+            @facets['repository'].delete('global')
+          end
+        end
       end
     end
     @results = handle_results(@results)
