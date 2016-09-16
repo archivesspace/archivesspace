@@ -63,7 +63,9 @@ en:
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
+    filter_by: Filter By
     filtered_by: Filtered By
+    remove_filter: Remove this filter
     modified: Last Modified
     created: Created
     text_placeholder: Filter by text
