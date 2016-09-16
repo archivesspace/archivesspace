@@ -2,9 +2,9 @@
 <div class="filters">
  <% if !@filters.blank? %>
 <span class="inline-label"><%= t('search_results.filtered_by')%> </span> 
- <ul>
+ <ul class="list-group">
    <% @filters.each do |k,h|  %>
-    <li><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
+    <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
 <a href="<%= @page_search.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(h['v'])}", "")%>" 
 title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></li>
    <% end %>
