@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'repositories/resources' => 'resources#index'
   get  "repositories/:rid/accessions/:id" => 'accessions#show'
   get  "repositories/:rid/classifications/:id" => 'classifications#show'
+   get "repositories/:rid/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
 
   get "repositories/:rid/:obj_type/:id" => 'objects#show'

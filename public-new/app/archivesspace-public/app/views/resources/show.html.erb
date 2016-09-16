@@ -15,6 +15,16 @@
 
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <div class="search">
+      <p><%= "#{t('actions.search')} " %> <%= t('resource._singular') %>:
+	<%= form_tag("#{@result['uri']}/search", method: 'get') do %>
+            <%= text_field_tag(:q) %>
+        <%= submit_tag(I18n.t('search-button.label')) %>
+
+	<% end %>
+      </p>
+    </div>
+
     <h4>Contents &amp; Arrangements</h4>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
   </div>
