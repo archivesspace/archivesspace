@@ -1,23 +1,24 @@
 <%# displaying chosen facet(s) (if any) and facets %>
 <div class="filters">
  <% if !@filters.blank? %>
-<span class="inline-label">Filters applied: </span> 
+<span class="inline-label"><%= t('search_results.filtered_by')%> </span> 
  <ul>
    <% @filters.each do |k,h|  %>
     <li><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
-<a href="<%= @page_search.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(h['v'])}", "")%>" title="Remove this filter" class="delete_filter">X</a></li>
+<a href="<%= @page_search.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(h['v'])}", "")%>" 
+title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></li>
    <% end %>
  </ul>
  <% end %>
 
 </div>
 <% if !@facets.blank? %>
-<span class="inline-label">Filter by: </span>
+<span class="inline-label"><%= t('search_results.filter_by')%>: </span>
 <dl id="facets">
   <%  @facets.each do |type, h| %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
     <% h.each do |v, ct| %>
-      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="Filter by '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></dd>
+      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></dd>
     <% end %>
   <% end %>
 </dl>
