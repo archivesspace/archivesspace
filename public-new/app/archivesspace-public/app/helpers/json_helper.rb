@@ -10,35 +10,51 @@ module JsonHelper
           type = note['type']
 #          Rails.logger.debug("type: #{type}, req: #{req}")
           if !req || type == req
-            note_text = handle_note_structure(note, type)
-            notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
+            set_up_note(notes_hash, type, note)
           end
         end
       else
         type = notes['type']
         if !req || type == req
-          note_text = handle_note_structure(notes, type)
-          notes_hash[type] = notes_hash.has_key?(type) ? "#{notes_hash[type]} #{note_text}" : note_text
+          set_up_note(notes_hash, type, note)
         end
       end
     end
     notes_hash
   end
+
+
   # pull the note out of the result['json']['html'] hash, if it exists
   def get_note(json, type, deflabel='')
-    note_text = ''
+    note_struct = {}
     if json['html'].present? && json['html'].has_key?(type)
-      note_text = json['html'][type]
+      note_struct = json['html'][type]
     end
-    note_text
+# Pry::ColorPrinter.pp note_struct
+    note_struct
   end
 
   private
+  # handle possible multiple notes of same kind
+  def set_up_note(notes_hash, type, note)
+    note_struct = handle_note_structure(note, type)
+    if notes_hash.has_key? type
+      notes_hash[type]['note_text'] = "#{notes_hash[type]['note_text']} #{note_struct['note_text']}"
+      notes_hash[type]['label'] = note_struct['label'] if notes_hash['label'].blank?
+    else
+      notes_hash[type] = note_struct
+    end
+  end
+
+
+
   def handle_note_structure(note, type)
+    note_struct = {}
     note_text = ''
     if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
-      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
+      note_struct['label'] = label || ''
+#      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
       if note['jsonmodel_type'] == 'note_multipart'
         note['subnotes'].each do |sub|
           note_text = handle_single_note(sub, note_text)
@@ -47,8 +63,8 @@ module JsonHelper
         note_text = handle_single_note(note, note_text)
       end
     end
-    note_text
-          
+    note_struct['note_text'] = note_text
+    note_struct
   end
   
   def handle_single_note(note, input_note_text)

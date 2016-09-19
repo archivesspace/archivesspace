@@ -6,9 +6,9 @@
   </div>
   <div class="col-sm-9">
     <% %w{abstract scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
-     note = get_note(@result['json'],type) 
-        if !note.blank? %>
-         <div class="<%= type %> more" ><%= note.html_safe %></div>
+     note_struct = get_note(@result['json'],type) 
+        if !note_struct['note_text'].blank? %>
+         <div class="<%= type %> more" ><span class='inline-label'><%= note_struct['label'] %></span><%= note_struct['note_text'].html_safe %></div>
         <% end %>
     <% end %>
 
