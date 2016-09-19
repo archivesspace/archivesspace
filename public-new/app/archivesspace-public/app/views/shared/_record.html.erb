@@ -16,6 +16,7 @@
  %>
 
   <% if !rec[k].blank? %>
+   <span class="inline-label"><%= t(k) %></span>
      <p class="<%= k %>"><%= process_mixed_content(rec[k]) %></p>
    <% end %>
 <% end %>

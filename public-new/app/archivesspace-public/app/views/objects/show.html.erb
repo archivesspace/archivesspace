@@ -26,15 +26,11 @@
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-    <% @result['json']['html'].keys.each do |type| 
-      note = get_note(@result['json'],type) %>
-    <div class="<%= type %>" >
-    <%= note.html_safe %>
-    </div>
-    <% end %>
- <% if !@result['json']['file_versions'].blank? && @result['json']['file_versions'].kind_of?(Array) %>
-<h4>Just a place holder for now!</h>
-   <ul>
+    <%= render partial: 'shared/display_notes' %>
+
+    <% if !@result['json']['file_versions'].blank? && @result['json']['file_versions'].kind_of?(Array) %>
+    <h4>Just a place holder for now!</h4>
+    <ul>
     <% @result['json']['file_versions'].each do |version| %>
      <li>
        <% if version['xlink_show_attribute'] == "embed" %>

@@ -19,9 +19,10 @@
     <br/>
     <% end %>
 
-    <% %w{inventory content_description provenance access_date access_restricions_note use_restrictions_note}.each do  |k| 
-       if !@result['json'][k].blank? %>
-       <p class="<%= k %>"><%= process_mixed_content(@result['json'][k]) %></p>
+    <% %w{inventory content_description provenance access_date access_restricions_note use_restrictions_note}.each do  |type| 
+       if !@result['json'][type].blank? %>
+       <span class="inline-label"><%= t(type) %></span><p class="<%= type %>"><%= process_mixed_content(@result['json'][type]) %></p>
+
        <% end %>
     <% end %>
     <%# nothing at the moment %>
