@@ -21,6 +21,6 @@
 	      end %>"></i>&#160;<%= t("#{result['primary_type']}._singular") %>
   </div>
   <div class="identifier">
-    <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
+    <span class="id-label">Identifier:</span>&#160;<%= (result['json']['id_0'].present? ? result['json']['id_0'] : result['uri']) %>
   </div>
 </div>
