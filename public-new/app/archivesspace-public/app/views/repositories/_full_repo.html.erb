@@ -23,6 +23,10 @@
 <br/>
 <span class"telephone"><%= info["telephones"].join(" <br />").html_safe %></span><br />
 <% end %>
+<% if info["email"].present? %>
+<span class"email"><a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></span>
+<br/>
+<% end %>
 </div>
 <% end %>
 
