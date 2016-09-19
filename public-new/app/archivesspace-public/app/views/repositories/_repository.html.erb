@@ -3,7 +3,7 @@
 <% end %>
       <h3><a class="record-title" href="<%= result['uri'] %>">  <%= result['display_string']%></a>
 	<% if result.has_key?('image_url') %>
-	<img src="<%=result['image_url'] %>" />
+	<img src="<%=result['image_url'] %>" alt='' />
 	<% end %>
 
       </h3>
