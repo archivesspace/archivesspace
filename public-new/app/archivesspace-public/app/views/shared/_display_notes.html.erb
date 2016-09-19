@@ -1,9 +1,4 @@
    <% @result['json']['html'].keys.each do |type|
-      note_struct  = get_note(@result['json'],type)
-       if !note_struct['note_text'].blank? %>
-        <div class="<%= type %> more" >
-        <%= note.html_safe %><span class='inline-label'><%= note_struct['label'] %></span>
-          <%= note_struct['note_text'].html_safe %>
-       </div>
-      <% end %>
+      note_struct  = get_note(@result['json'],type) %>
+      <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct} %>
     <% end %>
