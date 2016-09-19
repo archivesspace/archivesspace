@@ -26,12 +26,8 @@
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-    <% @result['json']['html'].keys.each do |type| 
-      note = get_note(@result['json'],type) %>
-    <div class="<%= type %>" >
-    <%= note.html_safe %>
-    </div>
-    <% end %>
+    <%= render partial: 'shared/display_notes' %>
+
  <p>Eventually we'll offer a 'search for resources with this subject' here; </p>
   </div>
     <%# nothing at the moment %>
