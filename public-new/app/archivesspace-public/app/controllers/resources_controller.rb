@@ -44,20 +44,21 @@ class ResourcesController <  ApplicationController
     qry = "#{q} AND resource:\"#{res_id}\""
     @results = archivesspace.search(qry,page, @criteria)
     process_search_results("#{res_id}/search?q=#{q}")
+# Pry::ColorPrinter.pp @results['results'][0]['_resolved_resource']['json']
     render
   end
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     record_list = [uri]
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     @results =  archivesspace.search_records(record_list,1, @criteria) || {}
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
 #Rails.logger.debug(@result['json'].keys)
       #Rails.logger.debug("REPOSITORY:")
-#      Pry::ColorPrinter.pp(@result['_resolved_repository']['json'])
+#      Pry::ColorPrinter.pp(@result)
       repo = @result['_resolved_repository']['json']
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
