@@ -262,6 +262,8 @@ en:
 
   parent_inst: Parent Institution
 
+  email: Send email
+
 #  The following are the enums for things like notes type, etc.
 
   enumerations:
