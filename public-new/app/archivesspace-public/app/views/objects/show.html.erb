@@ -28,8 +28,12 @@
     <% end %>
     <%= render partial: 'shared/display_notes' %>
 
+    <% if !@result['json']['digital_object_id'].blank? %>
+    <p> Assume link-out if there's a digital object id?</p>
+    <a href="<%= @result['json']['digital_object_id'] %>" target="out" title="see this"><%= process_mixed_content( @result['json']['title']).html_safe %></a>
+    <% end %>
     <% if !@result['json']['file_versions'].blank? && @result['json']['file_versions'].kind_of?(Array) %>
-    <h4>Just a place holder for now!</h4>
+    <h4>Just a place holder for now for file versions!</h4>
     <ul>
     <% @result['json']['file_versions'].each do |version| %>
      <li>
