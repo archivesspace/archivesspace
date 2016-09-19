@@ -1,8 +1,8 @@
 <h3>
   <% if !props.fetch(:full,false) %>
-  <a class="record-title" href="<%= result['uri'] %>">  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%></a>
+  <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title'])%></a>
   <% else %>
-  <%= process_mixed_content(result['json']['display_string'] || result['title']).html_safe%>
+  <%= strip_mixed_content(result['json']['display_string'] || result['title'])%>
   <% end %>
 </h3>
 <div class="badge-and-identifier">
