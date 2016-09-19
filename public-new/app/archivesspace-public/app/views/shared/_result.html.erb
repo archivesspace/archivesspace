@@ -22,7 +22,7 @@
          <% end %>
        <% if !props.fetch(:no_res, false) && !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
        <div class="resource_name"><strong><%= t('resource._singular') %>: </strong>
-	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= result['_resolved_resource']['json']['title'] %></a>
+	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= process_mixed_content(result['_resolved_resource']['json']['title']).html_safe %></a>
        </div>
        <% end %>
 
