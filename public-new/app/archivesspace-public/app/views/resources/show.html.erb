@@ -5,7 +5,8 @@
     <%= render partial: 'shared/breadcrumbs' %>
   </div>
   <div class="col-sm-9">
-    <% %w{abstract scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
+    <% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
      note_struct = get_note(@result['json'],type) 
         if !note_struct['note_text'].blank? %>
          <div class="<%= type %> more" ><span class='inline-label'><%= note_struct['label'] %></span><%= note_struct['note_text'].html_safe %></div>
