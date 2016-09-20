@@ -39,8 +39,13 @@ module JsonHelper
   def set_up_note(notes_hash, type, note)
     note_struct = handle_note_structure(note, type)
     if notes_hash.has_key? type
+      if notes_hash[type]['label'].blank?
+        notes_hash[type]['label'] = note_struct['label'] 
+      elsif notes_hash[type]['label'] != note_struct['label']
+        #add a secondary label as an inline label
+        note_struct['note_text']= "<span class='inline-label'>#{note_struct['label']}</span> #{note_struct['note_text']}"
+      end
       notes_hash[type]['note_text'] = "#{notes_hash[type]['note_text']} #{note_struct['note_text']}"
-      notes_hash[type]['label'] = note_struct['label'] if notes_hash['label'].blank?
     else
       notes_hash[type] = note_struct
     end
@@ -49,11 +54,12 @@ module JsonHelper
 
 
   def handle_note_structure(note, type)
+
     note_struct = {}
     note_text = ''
     if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
-      note_struct['label'] = label || ''
+      note_struct['label'] = label
 #      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
       if note['jsonmodel_type'] == 'note_multipart'
         note['subnotes'].each do |sub|
