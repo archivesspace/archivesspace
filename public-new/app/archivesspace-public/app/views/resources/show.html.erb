@@ -6,14 +6,29 @@
   </div>
   <div class="col-sm-9">
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
+    <div class="panel-group" id="res_accordion">
+
     <% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
      note_struct = get_note(@result['json'],type) 
         if !note_struct['note_text'].blank? %>
-         <div class="<%= type %> more" ><span class='inline-label'><%= note_struct['label'] %></span><%= note_struct['note_text'].html_safe %></div>
+          <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="#res_accordion" href="#<%= type %>">
+		  <%= note_struct['label'] %>
+		</a>
+	      </h4>
+	    </div>
+	    <div id="<%= type %>" class="panel-collapse collapse in">
+	      <div class="panel-body">
+		<div class="more"><%= note_struct['note_text'].html_safe %></div>
+	      </div>
+	    </div>
+	  </div>        
         <% end %>
     <% end %>
-
-
+    </div>
+<script type="text/javascript" >$(".collapse").collapse({parent: true});</script>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <div class="search">
