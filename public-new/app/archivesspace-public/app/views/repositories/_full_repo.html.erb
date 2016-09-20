@@ -14,15 +14,19 @@
   </span>
 <% end %>
 
-  <% %w{city region post_code country}.each do |type|
-      if info[type].present? %>
-        <span class="<%= type %>"><%= info[type] %></span>
-      <% end %>
+<% %w{city region post_code country}.each do |type|
+   if info[type].present? %>
+     <span class="<%= type %>"><%= info[type] %></span>
    <% end %>
-<% if info["telephones"].present? %>
+<% end %>
+
 <br/>
+
+<% if info["telephones"].present? %>
 <span class"telephone"><%= info["telephones"].join(" <br />").html_safe %></span><br />
 <% end %>
+
+<!-- YEE HAW -->
 <% if info["email"].present? %>
 <span class"email"><a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></span>
 <br/>
