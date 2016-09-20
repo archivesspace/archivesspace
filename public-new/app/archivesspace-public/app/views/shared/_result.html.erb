@@ -17,7 +17,7 @@
        <% end %>
        <% note_struct = get_note(result['json'], 'abstract')
 	  if !note_struct['note_text'].blank? %>
-          <div class="abstract more"><span class='inline-label'><%= note_struct['label'] %></span>
+          <div class="abstract"><span class='inline-label'><%= note_struct['label'] %></span>
 	   <%= note_struct['note_text'].html_safe %></div>
          <% end %>
        <% if !props.fetch(:no_res, false) && !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
