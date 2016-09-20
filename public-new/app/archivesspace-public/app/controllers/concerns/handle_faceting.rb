@@ -3,7 +3,7 @@ module HandleFaceting
 
   # does the fetches when you only want facet information
 
-  def fetch_facets(query, facets_array, include_zero)
+  def fetch_only_facets(query, facets_array, include_zero)
 #    Rails.logger.debug("Finding facets for query '#{query}'")
     criteria = {}
     criteria[:page_size] = 1
@@ -16,14 +16,6 @@ module HandleFaceting
     end
    end
 
-  # 
-  def adjust_facet_filters(facets_arr, filters_arr)
-    adjusted = []
-    if facets_arr && filters_arr
-      filters_arr.collect! {|f| f.split[":"][0]}
-    end
-    adjusted
-  end
 
   # strip out: facets with counts less than input minimum or equal to the total hits, facets of form "ead/ arch*"
   # returns a hash with the text of the facet as the key, count as the value

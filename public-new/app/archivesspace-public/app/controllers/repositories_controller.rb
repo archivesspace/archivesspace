@@ -168,7 +168,7 @@ class RepositoriesController < ApplicationController
     query =  "(#{type_statement}) "
     query = "#{query} AND publish:true " if type != 'subject'
     if type == 'subject' || type == 'agent'
-      facets = fetch_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
+      facets = fetch_only_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
       unless facets.blank?
         types = strip_facets(facets["#{type}s"], 1)
         query = "#{query} AND #{compose_title_list(types)}"
