@@ -51,6 +51,20 @@ a {
 	font-style: italic;
 }
 
+/* handling of more/less */
+.readmore .more {
+  visibility: hidden;
+  display: none; }
+.readmore.expanded .more {
+  visibility: visible;
+  display: inline; }
+.readmore.expanded .elipses {
+  visibility: hidden;
+  width: 0; }
+.readmore .expander .fa {
+  font-size: 0.8em; }
+
+
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
   for the answer at http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
 */
