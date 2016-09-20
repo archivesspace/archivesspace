@@ -450,7 +450,7 @@ ul.no-bullets {
 .collection, .resource {
   color: $collection-color;
 }
-.subject {
+button.subject {          /* class subject also turns up in finding aid transforms */
   color:$subject-color;
 }
 .person {
