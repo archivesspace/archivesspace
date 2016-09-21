@@ -246,6 +246,7 @@ class CommonIndexer
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
+        doc['component_id'] = record['record']['component_id']
       end
     }
 
