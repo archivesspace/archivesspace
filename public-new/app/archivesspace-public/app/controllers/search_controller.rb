@@ -20,6 +20,7 @@ class SearchController < ApplicationController
       record_types.each do |type|
         @query = "primary_type:#{type} #{@query}"
       end
+      @query = "publish:true AND (#{@query})"
     else
       @query = params.require(:q)
     end
