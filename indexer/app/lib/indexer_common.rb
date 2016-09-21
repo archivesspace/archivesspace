@@ -335,6 +335,10 @@ class CommonIndexer
         doc['digital_object_id'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
+
+        doc['linked_instance_uris'] = record['record']['linked_instances'].
+                                         collect{|instance| instance["ref"]}.
+                                         compact.uniq
       end
     }
 
@@ -417,6 +421,10 @@ class CommonIndexer
                                   collect{|instance| instance["container"]}.compact.
                                   collect{|container| container["container_locations"]}.flatten.
                                   collect{|container_location| container_location["ref"]}.uniq
+        doc['digital_object_uris'] = record['record']['instances'].
+                                        collect{|instance| instance["digital_object"]}.compact.
+                                        collect{|digital_object_instance| digital_object_instance["ref"]}.
+                                        flatten.uniq
       end
     }
 
