@@ -57,6 +57,7 @@
    <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="publish" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="component_id" type="string" indexed="true" stored="true" multiValued="false" />
 
    <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
 
