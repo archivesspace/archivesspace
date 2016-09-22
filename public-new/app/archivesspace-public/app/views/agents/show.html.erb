@@ -4,9 +4,9 @@
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     <%= render partial: 'shared/breadcrumbs' %>
   </div>
+</div>
+<div class="row">
   <div class="col-sm-9">
-
-<br/>
     <% if !@result['json']['extents'].blank? %>
     <%   @result['json']['extents'].each do |ext| %>
     <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
@@ -27,11 +27,20 @@
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
     <%= render partial: 'shared/display_notes' %>
+  
+ <% if !@results.blank? && @results['total_hits'] > 0 %>
+     <h3><%= t('found') %> <%= @results['total_hits'] %> <%= (@results['total_hits'] == 1? t('resource._singular') : t('resource._plural')) %>:</h3>
+         <% @results['results'].each do |result| %>
+           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+         <% end %>
+         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
 
- <p>Eventually we'll offer a 'search for resources with this agent' here </p>
+   <% end %>
+
   </div>
-    <%# nothing at the moment %>
-  <!-- div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-
-  </div -->
+  <% if !@facets.blank? || !@filters.blank? %>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+  <%= render partial: 'shared/facets' %>
+  </div>
+  <% end %>
 </div>
