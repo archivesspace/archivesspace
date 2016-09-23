@@ -1767,3 +1767,11 @@ en:
     dimension_units: Dimension Units
     restriction_type: Local Access Restriction Type
     location_function_type: Location Function Type
+# added to support things like provenance
+    inventory: Inventory
+    disposition: Disposition
+    content_description: Content Description
+    provenance: Provenance
+    access_date: Access Date
+    access_restrictions_note: Conditions Governing Access
+    use_restrictions_note: Conditions Governing Use

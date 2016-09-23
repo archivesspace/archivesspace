@@ -16,7 +16,7 @@
 <% %w{ inventory disposition content_description provenance access_date access_restrictions_note use_restrictions_note}.each do  |k| %>
 
   <% if !rec[k].blank? %>
-   <span class="inline-label"><%= t(k) %></span>
+   <span class="inline-label"><%= t("enumeration_names.#{k}") %></span>
      <p class="<%= k %>"><%= process_mixed_content(rec[k]) %></p>
    <% end %>
 <% end %>
