@@ -1,7 +1,5 @@
 class AccessionsController <  ApplicationController
-  include ProcessResults
   include TreeApis
-  include JsonHelper
 
   skip_before_filter  :verify_authenticity_token
 
