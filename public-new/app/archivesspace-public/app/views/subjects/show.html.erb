@@ -3,7 +3,7 @@
   <div class="information col-sm-9">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     <div class="clear">
-    <span class="inline-label clear"><%= t('subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %> 
+    <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %> 
     </div>
 
 
@@ -22,12 +22,14 @@
     <% end %>
 
   <% if !@result['json']['component_id'].blank? %>
-    <span class='component'>Component: <%= @result['json']['component_id'] %></span>
+     <span class='component'><%= t(component._singular) %>: <%= @result['json']['component_id'] %></span>
     <% end %>
     <% if !@result['json']['ref_id'].blank? %>
-    <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
+      <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-
+    <% if @result['json']['scope_note'].present? %>
+      <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
+    <% end %>
     <%= render partial: 'shared/display_notes' %>
   <% if !@results.blank? && @results['total_hits'] > 0 %>
      <h3><%= t('found') %> <%= @results['total_hits'] %> <%= (@results['total_hits'] == 1? t('resource._singular') : t('resource._plural')) %>:</h3>
