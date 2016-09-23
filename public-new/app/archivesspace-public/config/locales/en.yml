@@ -143,7 +143,10 @@ en:
       hide: Hide Advanced Search
 
   found: Found in
-  
+ 
+  # I don't have a place for this, so I'm putting it here
+  scope_note : Scope Note
+ 
   more_about: More about
   listing: Listing
 
@@ -204,6 +207,10 @@ en:
   subject:
     _singular: Subject
     _plural: Subjects
+
+  component:
+    _singular: Component
+    _plural: Components
 
   unprocessed: Unprocessed Material
 
