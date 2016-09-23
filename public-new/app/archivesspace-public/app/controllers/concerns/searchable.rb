@@ -1,7 +1,7 @@
-module ProcessResults
+module Searchable
   extend ActiveSupport::Concern
 # also sets up searches, handles search results.  
-# TODO: rename this concern to be 'Searchable'; refactor processing
+# TODO: refactor processing
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params)
     @criteria = default_search_opts
     @facet_filter = FacetFilter.new(default_facets, params.fetch(:filter_fields,[]), params.fetch(:filter_values,[]))

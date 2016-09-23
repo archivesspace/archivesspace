@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :fetch_only_facets
   helper_method :strip_facets
 
-  include ProcessResults
+  include Searchable
   helper_method :set_up_search
   helper_method :process_search_results
   helper_method :handle_results
