@@ -12,8 +12,8 @@
     <% end %>
     <br/>
     <% end %>
-<% %w{ inventory disposition content_description provenance access_date access_restricions_note use_restrictions_note}.each do  |k|\
- %>
+
+<% %w{ inventory disposition content_description provenance access_date access_restrictions_note use_restrictions_note}.each do  |k| %>
 
   <% if !rec[k].blank? %>
    <span class="inline-label"><%= t(k) %></span>
