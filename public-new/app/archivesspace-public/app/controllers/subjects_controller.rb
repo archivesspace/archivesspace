@@ -1,7 +1,4 @@
 class SubjectsController <  ApplicationController
-  include HandleFaceting
-  include ProcessResults
-  include JsonHelper
 
   skip_before_filter  :verify_authenticity_token
   DEFAULT_SUBJ_TYPES = %w{repository resource archival_object digital_object}

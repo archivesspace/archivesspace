@@ -1,7 +1,4 @@
 class RepositoriesController < ApplicationController
-  include HandleFaceting
-  include ProcessResults
-  include JsonHelper
 
   skip_before_filter  :verify_authenticity_token  
 
