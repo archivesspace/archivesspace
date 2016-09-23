@@ -1,7 +1,4 @@
 class SearchController < ApplicationController
-  include HandleFaceting
-  include ProcessResults
-  include JsonHelper
 
   DEFAULT_SEARCH_FACET_TYPES = ['repository','primary_type', 'subjects', 'agents']
   DEFAULT_SEARCH_OPTS = {
