@@ -91,7 +91,7 @@ class Enumeration < Sequel::Model(:enumeration)
     removed_values.each do |value|
       DB.attempt {
         EnumerationValue.filter(:enumeration_id => obj.id,
-                                :value => value).delete
+                                :value => value, :suppressed => 0 ).delete
       }.and_if_constraint_fails {
         raise ConflictException.new("Can't delete a value that's in use: #{value}")
       }
