@@ -151,7 +151,40 @@ describe "Enumeration controller" do
     obj.values.should include(val["value"])
     
   end
+
+  it "will be keep suppressed values if other changes are made" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    
+    val = obj.enumeration_values[0]
+    @model.create(:my_enum_id => val['id'])
+   
+    enum_val = JSONModel(:enumeration_value).find(val['id'])
+    enum_val.set_suppressed(true) 
+    
+    
+    obj = nil
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values.should_not include(val["value"])
+    
+    vals = obj.values
+
+    new_val = "moremoremore" 
+    obj.values += [new_val]
+    obj.save
+    
+    # make sure we refresh 
+    obj = nil 
+    obj = JSONModel(:enumeration).find(@enum_id)
+
+    obj.values.should eq( vals << new_val )
+   
+    obj.enumeration_values.map { |v| v["value"] }.should include(val["value"])
+    
+    
+  end
+
   
+
   it "can change positions of  values" do
     obj = JSONModel(:enumeration).find(@enum_id)
     
