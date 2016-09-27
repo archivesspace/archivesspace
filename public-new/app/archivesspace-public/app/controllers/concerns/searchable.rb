@@ -2,15 +2,60 @@ module Searchable
   extend ActiveSupport::Concern
 # also sets up searches, handles search results.  
 # TODO: refactor processing
-  def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params)
+  def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
+    @query = ''
+    q = nil if q.strip.blank?
+    record_types = params.fetch(:recordtypes, nil)
+    if record_types
+      record_types.each do |type|
+        @query = "primary_type:#{type} #{@query}"
+        @base_search += "&recordtypes[]=#{type}"
+      end
+      @query = "publish:true AND (#{@query})"
+      
+    elsif q
+      @query = q
+      @base_search = "#{@base_search}q=#{q}"
+    else
+      @query = params.fetch(:q, '*')
+      @base_search = "#{@base_search}q=#{@query}"
+    end
+    res_id = params.fetch(:res_id, '')
+    repo_id = params.fetch(:repo_id, '')
+    if !res_id.blank?
+      @query = "resource:\"#{res_id}\" AND #{@query}"
+      @base_search = "#{@base_search}&res_id=#{res_id.gsub('/','%2f')}"
+    elsif !repo_id.blank?
+      @query =  "repository:\"#{repo_id}\" AND #{@query}"
+      @base_search = "#{@base_search}&repo_id=#{repo_id.gsub('/','%2f')}"
+    end
+    years = get_years(params)
+    if !years.blank?
+      @query = "#{@query} AND years:[#{years['from_year']} TO #{years['to_year']}]"
+      @base_search = "#{@base_search}&from_year=#{years['from_year']}&to_year=#{years['to_year']}"
+    end
+#    Rails.logger.debug("SEARCHABLE BASE: #{@base_search}")
     @criteria = default_search_opts
     @facet_filter = FacetFilter.new(default_facets, params.fetch(:filter_fields,[]), params.fetch(:filter_values,[]))
+    # building the query for the facetting
     type_query_builder = AdvancedQueryBuilder.new
     default_types.reduce(type_query_builder) {|b, type|
       b.or('types', type)
     }
     @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
+    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:search_results_page_size])
+  end
+
+  def get_years(params)
+    years = {}
+    from = params.fetch(:from_year,'').strip
+    to = params.fetch(:to_year,'').strip
+    if !from.blank? || !to.blank?
+      years['from_year'] = from.blank? ? '*' : from
+      years['to_year'] = to.blank? ? '*' : to
+    end
+    years
   end
 
   def process_search_results(base="/search")
