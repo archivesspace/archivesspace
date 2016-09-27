@@ -11,8 +11,6 @@ class AgentsController <  ApplicationController
     'facet.mincount' => 1
   }
 
-
-
   def show
     uri = "/agents/#{params[:eid]}/#{params[:id]}"
     @criteria = {}
@@ -21,7 +19,7 @@ class AgentsController <  ApplicationController
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
       @result = results['results'][0]
-#      Pry::ColorPrinter.pp(@result)
+      Pry::ColorPrinter.pp(@result)
       @results = fetch_agent_results(@result['title'],uri, params)
       if !@results.blank?
         @pager =  Pager.new("#{uri}?q=#{params.fetch(:q,'*')}", @results['this_page'],@results['last_page'])
@@ -42,13 +40,13 @@ class AgentsController <  ApplicationController
   private
   def fetch_agent_results(title, uri, params)
     @results = []
-    set_up_search(DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES, DEFAULT_AG_SEARCH_OPTS, params)
-    q = params.fetch(:q,'*')
+    qry = "#{params.fetch(:q,'*')} AND  agents:\"#{title}\""
+    @base_search = "#{uri}?"
+    set_up_search(DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES, DEFAULT_AG_SEARCH_OPTS, params,qry)
     page = Integer(params.fetch(:page, "1"))
-    qry = "#{q} AND agents:\"#{title}\""
     @results =  archivesspace.search(qry,page, @criteria)
     if @results['total_hits'] > 0
-      process_search_results("#{uri}?q=#{q}")
+      process_search_results(@base_search)
     else
       @results = []
     end

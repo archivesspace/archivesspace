@@ -10,6 +10,8 @@ class RepositoriesController < ApplicationController
   }
   DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}
 
+  # get all repositories
+  # TODO: get this somehow in line with using the Searchable module
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
@@ -47,12 +49,13 @@ class RepositoriesController < ApplicationController
   end
 
   def search
-    set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
     repo_id = params.require(:rid)
+    @base_search = "/repositories/#{repo_id}/search?"
+    set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
     page = Integer(params.fetch(:page, "1"))
-    q = params.require(:q)
-    @results = archivesspace.search_repository(q,repo_id, page, @criteria)
-    process_search_results("/repositories/#{repo_id}/search?q=#{q}")
+#    q = params.require(:q)
+    @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
+    process_search_results(@base_search)
     render 
   end
 
@@ -85,7 +88,8 @@ class RepositoriesController < ApplicationController
   end
 
   
-
+  # get the collections, records, subjects or agents of a repository
+  # TODO: somehow refactor to use Searchable
   def sublist
     @repo_name = params[:repo] || ''
     @repo_id = "/repositories/#{params[:id]}"
