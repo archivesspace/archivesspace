@@ -1,24 +1,14 @@
-
-<div id="main-content" class="row">
-  <div class="abstract">
-<%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
-  <div class="search">
-    <p><%= "#{t('actions.search')} " %> <%= t('repository._singular') %>:
-      <%= form_tag("#{@result['uri']}/search", method: 'get') do %>
-            <%= text_field_tag(:q) %>
-        <%= submit_tag(I18n.t('search-button.label')) %>
-    <% end %>
-
-    </p>
-
+<div id="main-content">
+  <div class="abstract row">
+    <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
   </div>
 
-    <div id="whats-in-container">
-	<h3><%= t('repository.what') %> </h3>
-	<div>
-	<ul class="list-inline">
+  <div id="whats-in-container row">
+    <h3><%= t('repository.what') %> </h3>
+    <div>
+      <ul class="list-inline">
 	<li class="large-badge align-center resource">
-	  <form id="coll_sub" action="<%= @sublist_action %>resources" method="postt">
+	  <form id="coll_sub" action="<%= @sublist_action %>resources" method="post">
 	    <input type="hidden" name="repo" id="repo_res" value="<%= @result['name'] %>" />
 	    <button type="submit" class="btn btn-default resource">
 	      <i class="fa fa-archive fa-4x"></i><br />
@@ -29,38 +19,47 @@
 	<li class="large-badge align-center archival_object">
 	  <form id="arch_sub" action="<%= @sublist_action %>objects" method="post">
 	    <input type="hidden" name="repo" id="repo_obj" value="<%= @result['name'] %>" />
-	     <button type="submit" class="btn btn-default archival_object">
-	       <i class="fa fa-files-o fa-4x"></i><br />
-	       <%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
-	     </button>
+	    <button type="submit" class="btn btn-default archival_object">
+	      <i class="fa fa-files-o fa-4x"></i><br />
+	      <%= @rec_ct %> <%= (@rec_ct != 1 ? t('record._plural') :  t('record._singular')) %>
+	    </button>
 	  </form>
 	</li>
 	<li class="large-badge align-center subject">
 	  <form id="subj_sub" action='<%= @subj_ct > 0 ? "#{@sublist_action}subjects" : "#" %>' method="post">
-	  <input type="hidden" name="repo" id="repo_subj" value="<%= @result['name'] %>" />
-	  <input type="hidden" name="qr" id="qr_subj" value="<%= @subj_query %>" />
-	  <button type="submit" class="btn btn-default subject">
-	  <i class="fa fa-tags fa-4x"></i><br />
-	  <%= @subj_ct %> <%= (@subj_ct != 1 ? t('subject._plural'): t('subject._singular')) %>
+	    <input type="hidden" name="repo" id="repo_subj" value="<%= @result['name'] %>" />
+	    <input type="hidden" name="qr" id="qr_subj" value="<%= @subj_query %>" />
+	    <button type="submit" class="btn btn-default subject">
+	      <i class="fa fa-tags fa-4x"></i><br />
+	      <%= @subj_ct %> <%= (@subj_ct != 1 ? t('subject._plural'): t('subject._singular')) %>
 	    </button>
 	  </form>
- 
-	</li>
+ 	</li>
 	<li class="large-badge align-center agent">
 	  <form id="ag_sub" action="<%= @sublist_action %>agents" method="post">
-	     <input type="hidden" name="repo" id="repo_ag" value="<%= @result['name'] %>" />
-             <input type="hidden" name="qr" id="qr_ag" value="<%= @agent_query %>" />
-             <button type="submit" class="btn btn-default agent">
-	       <span class="fa-stack fa-2x">
-		 <i class="fa fa-institution fa-stack-2x"></i>
-		 <i class="fa fa-users fa-stack-1x fa-inverse"></i>
-	       </span>
-	       <br /><%= @agent_ct %> <%= (@agent_ct == 1 ? t('pui_agent._singular') : t('pui_agent._plural')) %>
-	     </button>
+	    <input type="hidden" name="repo" id="repo_ag" value="<%= @result['name'] %>" />
+            <input type="hidden" name="qr" id="qr_ag" value="<%= @agent_query %>" />
+            <button type="submit" class="btn btn-default agent">
+	      <span class="fa-stack fa-2x">
+		<i class="fa fa-institution fa-stack-2x"></i>
+		<i class="fa fa-users fa-stack-1x fa-inverse"></i>
+	      </span>
+	      <br /><%= @agent_ct %> <%= (@agent_ct == 1 ? t('pui_agent._singular') : t('pui_agent._plural')) %>
+	    </button>
 	  </form>
 	</li>
       </ul>
-	</div>
-
+    </div>
+    
   </div>
+  <%= render partial: 'shared/search', locals: {:search_url => "#{@result['uri']}/search",
+   :title => t('repository._singular'),
+   :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
+                      ["#{t('search-limit')} #{t('search-limits.resources')}",'resource'],
+                      ["#{t('search-limit')} #{t('search-limits.digital')}",'digital_object']],
+  :field_options => [[t('search_results.filter.fullrecord'),''],
+  [t('search_results.filter.title'),'title'],
+  [t('search_results.filter.creators'),'creators_text'],
+  [t('search_results.filter.notes'), 'notes'] ] }
+%>
 </div>

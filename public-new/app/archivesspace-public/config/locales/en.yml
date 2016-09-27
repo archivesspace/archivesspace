@@ -41,6 +41,13 @@ en:
     backup_abbr: Go back
   search-button:
     label: Search
+  search-limit: Limit to
+  search-limits:
+    all: all record types
+    repositories: repositories
+    resources: collections
+    digital: digital materials
+  search-field: Search field
 
   pagination:
     first: First
@@ -92,6 +99,11 @@ en:
       agents_text: People & Organizations
       classification_uri: Classification
       linked_agent_roles: Role
+      from_year: From year
+      to_year: To year
+      years: Years
+      from: From
+      to: To
 
   search_sorting:
     sort_by: "Sort by:"
@@ -166,6 +178,10 @@ en:
       messages:
         no_components: Archival Object has no components
 
+  archive:
+    _singular: The Archive
+    _plural: The Archives
+
   repository:
     _singular: Repository
     _plural: Repositories
@@ -188,7 +204,7 @@ en:
 
   digital_object: &digital_object_attributes
     _singular: Digital Item
-    _plural: Digital Items
+    _plural: Digital Material
     _public:
       section:
         components: Components

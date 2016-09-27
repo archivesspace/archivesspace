@@ -1,0 +1,36 @@
+<div class="search">
+  <h3><%=  t('actions.search') %>  <%= title %> </h3>
+  <%= form_tag("#{search_url}", method: 'get') do %>
+  <div class="row">
+    <div class="col-sm-3 form-group">
+      <%= label_tag(:q, t('navbar.search_placeholder'),:class => 'sr-only') %>
+      <%= text_field_tag(:q, nil, :placeholder =>  t('navbar.search_placeholder'), :class=> "form-control") %>
+    </div>
+    <div class="col-sm-3 form-group">
+      <%= label_tag(:limit, t('search_limit'),:class => 'sr-only') %>
+      <%= select_tag(:limit, options_for_select(limit_options), :class=> "form-control") %>
+    </div>
+    <div class="col-sm-3 form-group">
+      <%= label_tag(:field, t('search_field'),:class => 'sr-only') %>
+      <%= select_tag(:field, options_for_select(field_options), :class=> "form-control") %>
+    </div>
+
+  </div>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-2 form-group">
+    <%= label_tag(:from_year, t('search_results.filter.from_year')) %><br />
+    <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :class=>"form-control") %>
+    </div>
+    <div class="col-sm-2 form-group">
+     <%= label_tag(:to_year, t('search_results.filter.to_year')) %><br />
+     <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control") %>
+    </div>
+  </div>
+  <div class="row">
+    <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
+  </div>
+  <% end %>
+
+</div>
