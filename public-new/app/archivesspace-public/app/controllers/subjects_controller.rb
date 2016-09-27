@@ -16,10 +16,10 @@ class SubjectsController <  ApplicationController
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
       @result = results['results'][0]
-#      Pry::ColorPrinter.pp(@result)
+      Pry::ColorPrinter.pp(@result)
       @results = fetch_subject_results(@result['title'],uri, params)
       if !@results.blank?
-        @pager =  Pager.new("/subjects/#{sid}/&q=#{params.fetch(:q,'*')}", @results['this_page'],@results['last_page']) 
+        @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page']) 
       else
         @pager = nil
       end
@@ -37,13 +37,14 @@ class SubjectsController <  ApplicationController
   
   def fetch_subject_results(title, uri, params)
     @results = []
-    set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, DEFAULT_SUBJ_SEARCH_OPTS, params)
-    q = params.fetch(:q,'*')
+    qry = "#{params.fetch(:q,'*')} AND subjects:\"#{title}\""
+    @base_search = "#{uri}?"
+    set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, DEFAULT_SUBJ_SEARCH_OPTS, params, qry)
     page = Integer(params.fetch(:page, "1"))
-    qry = "#{q} AND subjects:\"#{title}\""
-    @results =  archivesspace.search(qry,page, @criteria)
+    Rails.logger.debug("subject results query: #{@query}")
+    @results =  archivesspace.search(@query,page, @criteria)
     if @results['total_hits'] > 0
-      process_search_results("#{uri}?q=#{q}")
+      process_search_results(@base_search)
     else
       @results = []
     end
