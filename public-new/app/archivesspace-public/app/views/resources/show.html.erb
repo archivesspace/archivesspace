@@ -32,13 +32,26 @@
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <div class="search">
-      <p><%= "#{t('actions.search')} " %> <%= t('resource._singular') %>:
-	<%= form_tag("#{@result['uri']}/search", method: 'get') do %>
-            <%= text_field_tag(:q) %>
-        <%= submit_tag(I18n.t('search-button.label')) %>
+	<%= form_tag("#{@result['uri']}/search", method: 'get', :class=> "form-inline") do %>
+	<div class="form-group">
+	  <% label_tag(:q,  "#{t('actions.search')} #{t('resource._singular')}", :class => 'sr-only') %>
+          <%= text_field_tag(:q, nil, :placeholder =>  "#{t('actions.search')} #{t('resource._singular')}", :class=> "form-control") %>
+	</div>
+	<div class="form-group">
+	  <span class="inline-label"><%= t('search_results.filter.years') %>:</span>
+	   <%= label_tag(:from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+    <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+:class=>"form-control") %> <span class="inline-label"><%= t('to') %></span> <%= label_tag(:to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+     <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+ :placeholder => t('search_results.filter.to')) %>
+
+
+	</div>
+        <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary btn-sm') %>
+
+	</div>
 
 	<% end %>
-      </p>
     </div>
 
     <h4>Contents &amp; Arrangements</h4>
