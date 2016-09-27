@@ -3,6 +3,11 @@ module Searchable
 # also sets up searches, handles search results.  
 # TODO: refactor processing
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
+    limit = params.fetch(:limit,'')
+    field = params.fetch(:field, nil)
+    if !limit.blank?
+      default_types = [limit]
+    end
     @query = ''
     q = nil if q.strip.blank?
     record_types = params.fetch(:recordtypes, nil)
@@ -18,7 +23,8 @@ module Searchable
     else
       pq = params.fetch(:q, '*').strip
       pq = '*' if pq.blank?
-      @query = pq
+      @query += "#{field}:" if field
+      @query += pq
       @base_search = "#{@base_search}q=#{@query}"
     end
     res_id = params.fetch(:res_id, '')
@@ -35,6 +41,7 @@ module Searchable
       @query = "#{@query} AND years:[#{years['from_year']} TO #{years['to_year']}]"
       @base_search = "#{@base_search}&from_year=#{years['from_year']}&to_year=#{years['to_year']}"
     end
+    @base_search += "&limit=#{limit}" if !limit.blank?
 #    Rails.logger.debug("SEARCHABLE BASE: #{@base_search}")
     @criteria = default_search_opts
     @facet_filter = FacetFilter.new(default_facets, params.fetch(:filter_fields,[]), params.fetch(:filter_values,[]))

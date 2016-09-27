@@ -5,16 +5,16 @@
       <div><%= t('brand.welcome_message').html_safe %> </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12">
-    <p>
-    You could do a keyword search if you like:
+    <%= render partial: 'shared/search', locals: {:search_url => "/search",
+     :title => t('archive._plural'),
+     :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''], 
+            ["#{t('search-limit')} #{t('search-limits.repositories')}",'repository'],
+            ["#{t('search-limit')} #{t('search-limits.resources')}",'resource'],
+            ["#{t('search-limit')} #{t('search-limits.digital')}",'digital_object']],
+  :field_options => [["#{t('search_results.filter.fullrecord')}",''],
+            ["#{t('search_results.filter.title')}",'title'],
+            ["#{t('search_results.filter.creators')}",'creators_text'],
+           ["#{t('search_results.filter.notes')}", 'notes'] ] } %>
 
-    <%= form_tag('/search', method: 'get') do %>
-        <%= text_field_tag(:q) %>
-        <%= submit_tag(I18n.t('search-button.label')) %>
-    <% end %>
-    </p>
 
-  </div>
-</div>
+
