@@ -182,7 +182,7 @@ module Notes
     end
 
 
-    def resolve_note_persistent_id_references(obj, json)
+    def resolve_note_persistent_id_references(obj, json, cache)
       json.notes.each do |note|
         JSONSchemaUtils.map_hash_with_schema(note, JSONModel(note['jsonmodel_type']).schema,
                                              [proc {|hash, schema|
@@ -190,11 +190,24 @@ module Notes
                                                   hash["items"].each do |item|
                                                     if item["reference"]
                                                       (parent_id, parent_type) = obj.persistent_id_context
-                                                      persistent_id_record = NotePersistentId.filter(:parent_id => parent_id,
-                                                                                                     :parent_type => parent_type,
-                                                                                                     :persistent_id => item["reference"]).first
-                                                      if !persistent_id_record.nil?
-                                                        note = Note[persistent_id_record[:note_id]]
+                                                      persistent_id_records = {}
+                                                      if cache.has_key?(parent_type) and cache[parent_type].has_key?(parent_id)
+                                                        persistent_id_records = cache[parent_type][parent_id]
+                                                      else
+                                                        # query for these once per context and collect persistent_id => note_id
+                                                        persistent_id_records = NotePersistentId.filter(
+                                                          :parent_id => parent_id,
+                                                          :parent_type => parent_type
+                                                        ).each_with_object({}) do |pid, h|
+                                                          h[pid.persistent_id] = pid.note_id
+                                                        end
+                                                        cache[parent_type][parent_id] = persistent_id_records
+                                                      end
+
+                                                      note_id = persistent_id_records[item["reference"]]
+
+                                                      if !note_id.nil?
+                                                        note = Note[note_id]
 
                                                         referenced_record = Note.associations.map {|association|
                                                           next if association == :note_persistent_id
@@ -215,9 +228,9 @@ module Notes
     end
 
 
-    def resolve_note_references(obj, json)
+    def resolve_note_references(obj, json, cache)
       resolve_note_component_references(obj, json)
-      resolve_note_persistent_id_references(obj, json)
+      resolve_note_persistent_id_references(obj, json, cache)
     end
 
 
@@ -251,6 +264,12 @@ module Notes
 
       association = self.association_reflection(:note)
       notes = {}
+
+      # we'll use this to store note_persistent_id data (by parent type and id)
+      # reducing the no. of db queries which can be a problem when there are many
+      # persistent id references associated with a parent type + id
+      persistent_id_cache = Hash.new { |hash, key| hash[key] = {} }
+
       Note.filter(association[:key] => objs.map(&:id)).map {|note|
         record_id = note[association[:key]]
         notes[record_id] ||= []
@@ -271,8 +290,9 @@ module Notes
 
         json.notes = my_notes
 
-        resolve_note_references(obj, json)
+        resolve_note_references(obj, json, persistent_id_cache)
       end
+      persistent_id_cache = nil
 
       jsons
     end
