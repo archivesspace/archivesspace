@@ -12,12 +12,13 @@ module Searchable
         @base_search += "&recordtypes[]=#{type}"
       end
       @query = "publish:true AND (#{@query})"
-      
     elsif q
       @query = q
       @base_search = "#{@base_search}q=#{q}"
     else
-      @query = params.fetch(:q, '*')
+      pq = params.fetch(:q, '*').strip
+      pq = '*' if pq.blank?
+      @query = pq
       @base_search = "#{@base_search}q=#{@query}"
     end
     res_id = params.fetch(:res_id, '')
