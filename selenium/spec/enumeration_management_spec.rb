@@ -190,7 +190,7 @@ describe "Enumeration Management" do
     }
     
     assert(5) {
-      @driver.find_element_with_text('//tr', /fooman/).find_element(:link, 'Delete').should be_nil
+      @driver.find_element_with_text('//tr', /fooman/).find_element(:link, 'Delete').length.should eq(0)
     }
 
     # now lets make sure it's there
