@@ -7,17 +7,15 @@
       <%= text_field_tag(:q, nil, :placeholder =>  t('navbar.search_placeholder'), :class=> "form-control") %>
     </div>
     <div class="col-sm-3 form-group">
-      <%= label_tag(:limit, t('search_limit'),:class => 'sr-only') %>
+      <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
       <%= select_tag(:limit, options_for_select(limit_options), :class=> "form-control") %>
     </div>
     <div class="col-sm-3 form-group">
-      <%= label_tag(:field, t('search_field'),:class => 'sr-only') %>
+      <%= label_tag(:field, t('search-field'),:class => 'sr-only') %>
       <%= select_tag(:field, options_for_select(field_options), :class=> "form-control") %>
     </div>
-
   </div>
 
-  </div>
   <div class="row">
     <div class="col-sm-2 form-group">
     <%= label_tag(:from_year, t('search_results.filter.from_year')) %><br />
