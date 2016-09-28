@@ -81,6 +81,8 @@ en:
     modified: Modified
     component_switch: Include Components
     filter:
+      head: Filter Results
+      add: Additional filters
       show_fewer: Show fewer
       show_more: Show more
       query: Text
@@ -104,7 +106,8 @@ en:
       years: Years
       from: From
       to: To
-
+      years_include: Years to include
+      year_now: now
   search_sorting:
     sort_by: "Sort by:"
     and: "and:"

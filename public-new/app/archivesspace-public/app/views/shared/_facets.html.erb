@@ -1,8 +1,17 @@
 <%# displaying chosen facet(s) (if any) and facets %>
+
+
 <div class="filters">
- <% if !@filters.blank? %>
-<span class="inline-label"><%= t('search_results.filtered_by')%> </span> 
+ <% if !@filters.blank? || !request.query_parameters()['from_year'].blank? ||  !request.query_parameters()['to_year'].blank? %>
+<h3><%= t('search_results.filtered_by')%> </h3> 
  <ul class="list-group">
+   <% if !request.query_parameters()['from_year'].blank? || 
+!request.query_parameters()['to_year'].blank? %>
+   <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= (request.query_parameters()['from_year'].blank? ? '' : request.query_parameters()['from_year']) %>  <%= t('search_results.filter.to').downcase %>
+<%= (request.query_parameters()['to_year'].blank? ? t('search_results.filter.year_now') : request.query_parameters()['to_year']) %>
+       
+</span></li>
+  <% end  %> 
    <% @filters.each do |k,h|  %>
     <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
 <a href="<%= @page_search.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(h['v'])}", "")%>" 
@@ -10,10 +19,39 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
    <% end %>
  </ul>
  <% end %>
-
 </div>
+<h3><%= t('search_results.filter.head') %></h3>
+<div class="filter_dates">
+<span class="inline-label"><%= t('search_results.filter.years_include') %></span>
+ <%= form_tag("#{@base_search}", method: 'get') do %>
+    <% request.query_parameters.each do |p, v| %>
+    <%  if !%w{commit utf8 from_year to_year}.include?(p) %>
+    <%    if v.is_a? Array  %>
+    <%      v.each do |val| %>
+             <%= hidden_field_tag("#{p}[]".to_sym, val) %>
+    <%      end %>
+    <% else %>
+          <%= hidden_field_tag(p.to_sym, v) %>
+     <% end %>
+    <% end %>
+
+
+    <% end %>
+  <div class="form-group">
+	
+    <%= label_tag(:from_year, t('search_results.filter.from_year'), :class=> "sr-only") %>
+    <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :class=>"form-control") %>
+    <%= label_tag(:to_year, t('search_results.filter.to')) %><br />
+    <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control") %>
+</div>
+ <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
+
+<% end %>
+
+</div> 
+
 <% if !@facets.blank? %>
-<span class="inline-label"><%= t('search_results.filter_by')%>: </span>
+<h4><%= t('search_results.filter.add')%>: </h4>
 <dl id="facets">
   <%  @facets.each do |type, h| %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
