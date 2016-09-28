@@ -23,7 +23,7 @@ module Searchable
     else
       pq = params.fetch(:q, '*').strip
       pq = '*' if pq.blank?
-      @query += "#{field}:" if field
+      @query += "#{field}:" if !field.blank?
       @query += pq
       @base_search = "#{@base_search}q=#{@query}"
     end
