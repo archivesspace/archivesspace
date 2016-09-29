@@ -30,10 +30,12 @@ module Searchable
     res_id = params.fetch(:res_id, '')
     repo_id = params.fetch(:repo_id, '')
     if !res_id.blank?
-      @query = "resource:\"#{res_id}\" AND #{@query}"
+      @query = @query != '*' ? "#{@query} AND " : ''
+      @query += "resource:\"#{res_id}\""
       @base_search = "#{@base_search}&res_id=#{res_id.gsub('/','%2f')}"
     elsif !repo_id.blank?
-      @query =  "repository:\"#{repo_id}\" AND #{@query}"
+      @query = @query != '*' ? "#{@query} AND " : ''
+      @query +=  "repository:\"#{repo_id}\""
       @base_search = "#{@base_search}&repo_id=#{repo_id.gsub('/','%2f')}"
     end
     years = get_years(params)
