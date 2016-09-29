@@ -19,7 +19,7 @@
 }
 
 .record-type-badge.archival_object {
-  @include record-type-badge-colored($record-color);
+  @include record-type-badge-colored($archival-object-color);
 }
 
 .record-type-badge.agent {
