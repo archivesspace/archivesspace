@@ -19,7 +19,7 @@ class AgentsController <  ApplicationController
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
       @result = results['results'][0]
-      Pry::ColorPrinter.pp(@result)
+#      Pry::ColorPrinter.pp(@result)
       @results = fetch_agent_results(@result['title'],uri, params)
       if !@results.blank?
         @pager =  Pager.new("#{uri}?q=#{params.fetch(:q,'*')}", @results['this_page'],@results['last_page'])
