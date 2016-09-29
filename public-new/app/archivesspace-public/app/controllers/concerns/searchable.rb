@@ -131,6 +131,13 @@ module Searchable
           result['_resolved_resource']['json'] =  rr[0]
         end
       end
+      # and yet another kind of convolution
+      if result['_resolved_top_container_uri_u_sstr'].kind_of?(Hash)
+        rr = result['_resolved_top_container_uri_u_sstr'].shift
+        if !rr[1][0]['json'].blank?
+          result['_resolved_top_container_uri_u_sstr']['json'] = JSON.parse( rr[1][0]['json'])
+        end
+      end
     end
     results
   end
