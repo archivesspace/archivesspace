@@ -7,7 +7,7 @@ class ObjectsController <  ApplicationController
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
     @results =  archivesspace.search_records([uri],1,@criteria)
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
