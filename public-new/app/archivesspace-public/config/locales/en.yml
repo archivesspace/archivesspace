@@ -158,6 +158,9 @@ en:
       hide: Hide Advanced Search
 
   found: Found in
+  coll_obj: 
+    _singular: Collection or Record
+    _plural: Collections and/or Records
  
   # I don't have a place for this, so I'm putting it here
   scope_note : Scope Note
