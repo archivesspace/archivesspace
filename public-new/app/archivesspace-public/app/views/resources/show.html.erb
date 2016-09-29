@@ -40,17 +40,12 @@
 	<div class="form-group">
 	  <span class="inline-label"><%= t('search_results.filter.years') %>:</span>
 	   <%= label_tag(:from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-    <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
-:class=>"form-control") %> <span class="inline-label"><%= t('to') %></span> <%= label_tag(:to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-     <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
- :placeholder => t('search_results.filter.to')) %>
-
-
+	   <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+            :class=>"form-control") %> <span class="inline-label"><%= t('to') %></span> <%= label_tag(:to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+	   <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+           :placeholder => t('search_results.filter.to')) %>
 	</div>
         <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary btn-sm') %>
-
-	</div>
-
 	<% end %>
     </div>
 
