@@ -16,7 +16,7 @@ class SubjectsController <  ApplicationController
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
       @result = results['results'][0]
-      Pry::ColorPrinter.pp(@result)
+#      Pry::ColorPrinter.pp(@result)
       @results = fetch_subject_results(@result['title'],uri, params)
       if !@results.blank?
         @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page']) 
