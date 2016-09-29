@@ -23,7 +23,7 @@ class ResourcesController <  ApplicationController
       query = "repository:\"#{@repo_id}\" AND #{query}"
       @base_search += "/#{params.fetch(:rid)}"
     end
-    @base_search += '/resources'
+    @base_search += '/resources?'
 
     set_up_search(['resource'], [],DEFAULT_RES_SEARCH_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
@@ -33,9 +33,10 @@ class ResourcesController <  ApplicationController
   end
 
   def search 
-    repo_id = params.require(:rid)
+    repo_id = params.require(:repo_id)
     res_id = "/repositories/#{repo_id}/resources/#{params.require(:id)}"
-    q = "#{params.fetch(:q,'*')} AND resource:\"#{res_id}\""
+    params[:res_id] = res_id
+    q = params.fetch(:q,'')
     @base_search = "#{res_id}/search?"
     set_up_search(DEFAULT_RES_TYPES, DEFAULT_RES_FACET_TYPES, DEFAULT_RES_SEARCH_OPTS, params,q)
 
