@@ -12,7 +12,7 @@ class ObjectsController <  ApplicationController
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      Pry::ColorPrinter.pp(@result)
+#      Pry::ColorPrinter.pp(@result)
       @page_title = strip_mixed_content(@result['json']['title'])
       @tree = fetch_tree(uri)
       @context = get_path(@tree)
