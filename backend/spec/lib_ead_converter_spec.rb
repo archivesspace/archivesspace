@@ -966,6 +966,10 @@ ANEAD
       @file_versions.length.should == 11
     end
 
+    it "should honor xlink:show and xlink:actuate from arc elements" do
+      @file_versions[0..2].map {|fv| fv['xlink_actuate_attribute']}.should == %w|onLoad onRequest onLoad|
+      @file_versions[0..2].map{|fv| fv['xlink_show_attribute']}.should == %w|new embed new|
+    end
 
     it "should turn all the daodsc into notes" do
       @notes.length.should == 3
