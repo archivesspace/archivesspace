@@ -772,9 +772,10 @@ class EADConverter < Converter
     end
     
     with 'daogrp' do
-      title = ''
+      title = att('title')
 
-      unless title = att('title')
+      unless title
+        title = ''
         ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' }
       end
 
