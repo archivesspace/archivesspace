@@ -282,6 +282,7 @@ en:
     list_reports: Reports
     global_admin: System
     system_info: System Information
+    unpublished: Unpublished
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity

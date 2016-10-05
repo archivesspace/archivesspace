@@ -505,6 +505,13 @@ module ASModel
       end
 
 
+      def update_mtime_for_repo_id(repo_id)
+        if model_scope == :repository
+          self.dataset.filter(:repo_id => repo_id).update(:system_mtime => Time.now)
+        end
+      end
+
+
       def update_mtime_for_ids(ids)
         now = Time.now
         ids.each_slice(50) do |subset|

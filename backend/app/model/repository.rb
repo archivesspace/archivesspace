@@ -148,4 +148,21 @@ class Repository < Sequel::Model(:repository)
     "#{name} (#{repo_code})"
   end
 
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    reindex_required = self.publish != (json['publish'] ? 1 : 0)
+
+    result = super
+    reindex_repository_records if reindex_required
+    result
+  end
+
+  def reindex_repository_records
+    ASModel.all_models.each do |model|
+      if model.model_scope(true) == :repository && model.publishable?
+        model.update_mtime_for_repo_id(self.id)
+      end
+    end
+  end
+
 end
