@@ -33,7 +33,7 @@ class CommonIndexer
                            'container_locations', 'subjects',
                            'linked_agents', 'linked_records',
                            'classifications', 'digital_object',
-                           'agent_representation']
+                           'agent_representation', 'repository']
 
   @@paused_until = Time.now
 
@@ -670,6 +670,15 @@ class CommonIndexer
   end
 
 
+  def is_repository_unpublished?(uri, values)
+    repo_id = get_record_scope(uri)
+
+    return false if (repo_id == "global")
+
+    values['repository']['_resolved']['publish'] == false
+  end
+
+
   def delete_records(records)
 
     return if records.empty?
@@ -766,7 +775,9 @@ class CommonIndexer
       doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
       if doc['suppressed'] == 'true'
         doc['publish'] = 'false'
-      elsif values['has_unpublished_ancestor']
+      elsif is_repository_unpublished?(uri, values)
+        doc['publish'] = 'false'
+      elsif values['is_repository_unpublished']
         doc['publish'] = 'false'
       else
         doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
