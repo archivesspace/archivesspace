@@ -1607,6 +1607,10 @@ en:
         <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
     _singular: Repository
     _plural: Repositories
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
+
 
   term: &term_attributes
     # tooltips not displaying
