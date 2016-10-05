@@ -105,6 +105,9 @@
               <button class="btn btn-default navbar-btn">
                 <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                   <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
+                  <% unless current_repo.publish %>
+                    <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
+                  <% end %>
                 </span>
               </button>
               <div class="btn-group">
