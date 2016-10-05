@@ -1,5 +1,6 @@
 class Repository < Sequel::Model(:repository)
   include ASModel
+  include Publishable
 
   set_model_scope :global
   corresponds_to JSONModel(:repository)
