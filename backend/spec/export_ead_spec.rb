@@ -1019,8 +1019,9 @@ describe "EAD export mappings" do
 
     let(:note_with_p) { "<p>A NOTE!</p>" }
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
-    let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
-    let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
+    let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<blockquote>something.</blockquote>\n\n" }
+    let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<blockquote>something.\n\n</blockquote>\n\n" }
+    let(:note_with_broken_xml) { "Something, something,\n\n<bioghist><emph>something!\n\n</bioghist>\n\n" }
     let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
     let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:serializer) { EADSerializer.new }
@@ -1038,19 +1039,23 @@ describe "EAD export mappings" do
     end
 
     it "will add <p> tags to content with linebreaks and mixed content" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_good_mixed_content).should eq("<p>Something, something,</p><p><bioghist>something.</bioghist></p>")
+      serializer.handle_linebreaks(note_with_linebreaks_and_good_mixed_content).should eq("<p>Something, something,</p><p><blockquote>something.</blockquote></p>")
     end
 
-    it "will return original content when linebreaks and mixed content produce invalid markup" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content).should eq(note_with_linebreaks_and_evil_mixed_content)
+    it "will return fixed content when linebreaks and mixed content produce invalid markup" do
+      serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content).should eq("<p>Something, something,</p><p><blockquote>something.</blockquote></p>")
+    end
+    
+    it "will fix_content with_broken markup" do
+      serializer.handle_linebreaks(note_with_broken_xml).should eq("<p>Something, something,</p><bioghist><emph>something!</emph></bioghist>")
     end
     
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
-      serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+      serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><prefercite>XML &amp; How to Live it!</prefercite>")
     end
     
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
+      serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>")
     end
 
   end
