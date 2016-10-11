@@ -18,12 +18,23 @@
       <%= form.label_and_textfield "coordinate_2_indicator" %>
       <%= form.label_and_textfield "coordinate_3_label" %>
       <%= form.label_and_textfield "coordinate_3_indicator" %>
+      <hr/>
+      <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
+        <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
+      <% end %>
+      <hr/>
+      <% form.push("owner_repo", form.obj["owner_repo"] || {}) do %>
+        <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => I18n.t("repository._singular")} %>
+      <% end %>
     </section>
   </fieldset>
 <% end %>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @location, :form => form} %>
 <% form.emit_template("location") %>
+
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "functions", :template_erb => "location_functions/template", :template => "location_function"} %>
+
 <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
 <%= form_plugins_for("location", form) %>

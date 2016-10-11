@@ -101,11 +101,16 @@ class EADConverter < Converter
 
     ignore "titlepage"
 
+    # addresses https://archivesspace.atlassian.net/browse/AR-1282
+    with 'eadheader' do
+      set :finding_aid_status, att('findaidstatus')
+    end
 
     with 'archdesc' do
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
       set :publish, att('audience') != 'internal'
+      # set :publish, att('audience') == 'external'
     end
 
 
@@ -153,9 +158,10 @@ class EADConverter < Converter
     with 'unitdate' do |node|
 
       norm_dates = (att('normal') || "").sub(/^\s/, '').sub(/\s$/, '').split('/')
-      if norm_dates.length == 1
-        norm_dates[1] = norm_dates[0]
-      end
+      # why were the next 3 lines added?  removed for now, since single dates can stand on their own.
+      #if norm_dates.length == 1
+      #  norm_dates[1] = norm_dates[0]
+      #end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
       
       make :date, {
@@ -194,6 +200,7 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => "langmaterial",
         :persistent_id => att('id'),
+        :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.*?<\/head>/, '') )
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -209,6 +216,7 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => note_name,
         :persistent_id => att('id'),
+		    :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.?<\/head>/, '').strip)
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -221,6 +229,7 @@ class EADConverter < Converter
       make :note_multipart, {
         :type => note_name,
         :persistent_id => att('id'),
+		    :publish => att('audience') != 'internal',
         :subnotes => {
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )
@@ -232,7 +241,7 @@ class EADConverter < Converter
     
     with 'physdesc' do
       physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
-    
+
       extent_number_and_type = nil
     
       dimensions = []
@@ -251,31 +260,37 @@ class EADConverter < Converter
         portion = 'whole'
       end
     
-      physdesc.children.each do |child|
-        # "extent" can have one of two kinds of semantic meanings: either a true extent with number and type,
-        # or a container summary. Disambiguation is done through a regex.
-        if child.name == 'extent'
-          child_content = child.content.strip
-          if extent_number_and_type.nil? && child_content =~ /^([0-9\.]+)+\s+(.*)$/
-            extent_number_and_type = {:number => $1, :extent_type => $2}
-          else
-            container_summaries << child
-            container_summary_texts << child.content.strip
+      # Special case: if the physdesc is just a plain string with no child elements, treat its contents as a physdesc note
+      if physdesc.children.length == 1 && physdesc.children[0].name == 'text'
+        container_summaries << physdesc
+      else
+        # Otherwise, attempt to parse out an extent record from the child elements.
+        physdesc.children.each do |child|
+          # "extent" can have one of two kinds of semantic meanings: either a true extent with number and type,
+          # or a container summary. Disambiguation is done through a regex.
+          if child.name == 'extent'
+            child_content = child.content.strip
+            if extent_number_and_type.nil? && child_content =~ /^([0-9\.]+)+\s+(.*)$/
+              extent_number_and_type = {:number => $1, :extent_type => $2}
+            else
+              container_summaries << child
+              container_summary_texts << child.content.strip
+            end
+            
+          elsif child.name == 'physfacet'
+            physfacets << child
+            physfacet_texts << child.content.strip
+            
+          elsif child.name == 'dimensions'
+            dimensions << child
+            dimensions_texts << child.content.strip
+            
+          elsif child.name != 'text'
+            other_extent_data << child
           end
-    
-        elsif child.name == 'physfacet'
-          physfacets << child
-          physfacet_texts << child.content.strip
-    
-        elsif child.name == 'dimensions'
-          dimensions << child
-          dimensions_texts << child.content.strip
-    
-        elsif child.name != 'text'
-          other_extent_data << child
         end
       end
-    
+
       # only make an extent if we got a number and type, otherwise put all tags in the physdesc in new notes
       if extent_number_and_type
         make :extent, {
@@ -392,7 +407,9 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal',
           :subnotes => {
+            :publish => att('audience') != 'internal',
             'jsonmodel_type' => 'note_text',
             'content' => format_content( content )
           }
@@ -410,6 +427,7 @@ class EADConverter < Converter
         make :note_singlepart, {
           :type => note,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal',
           :content => format_content( content.sub(/<head>.*?<\/head>/, '') )
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
@@ -431,6 +449,7 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal'
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
@@ -469,6 +488,7 @@ class EADConverter < Converter
         make :note_multipart, {
           :type => 'odd',
           :persistent_id => att('id'),
+          :publish => att('audience') != 'internal'
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
@@ -563,15 +583,15 @@ class EADConverter < Converter
           # top level container that will be referenced later, so we need to
           # make a new instance
           if ( inst.nil? or  att('id')  )
-            instance_label = att("label") ? att("label").downcase : 'mixed_materials'
+            instance_label = att("label") ? att("label") : 'mixed_materials'
 
-            if instance_label =~ /(.*)\s\[([0-9]+)\]$/
+            if instance_label =~ /(.*)\s\((.*)\)$/
               instance_label = $1
               barcode = $2
             end
 
             make :instance, {
-              :instance_type => instance_label
+              :instance_type => instance_label.downcase.strip
             } do |instance|
               set ancestor(:resource, :archival_object), :instances, instance
             end
@@ -588,7 +608,7 @@ class EADConverter < Converter
 
           # and now finally we get the container. 
           cont =  inst.container || context_obj
-          cont['barcode_1'] = barcode if barcode
+          cont['barcode_1'] = barcode.strip if barcode
           cont['container_profile_key'] = att("altrender")
         end
 
@@ -840,3 +860,4 @@ class EADConverter < Converter
     end
   end
 end
+

@@ -103,8 +103,11 @@
                               <%= select_tag( "job[job_params][#{param[0]}]", options_for_select(
                                                       JSONModel.enum_values(param[3]["enumeration"]).map{|v| [I18n.t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
                                              )) %>
-                            <% else %>
+                            <% elsif param[1] === "String" %>
                               <%= text_field_tag "job[job_params][#{param[0]}]", nil  , :class => 'form-control' %>
+                            <% else %>
+                              <%# Custom types will be rendered using a partial with the corresponding name %>
+                              <%= render_aspace_partial :partial => "jobs/report_partials/#{param[1].downcase}", :locals => {:object => @job, :form => form, :name => param[0]} %>
                             <% end %>
                           </div>
                         </div> 

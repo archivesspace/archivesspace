@@ -1,0 +1,10 @@
+JSON Schema: Location_function
+
+Properties
+
+string	location_function_type
+
+
+
+
+

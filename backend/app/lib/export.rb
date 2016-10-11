@@ -13,7 +13,7 @@ module ExportHelpers
   def generate_pdf_from_ead( ead )
     xml = ""
     ead.each { |e| xml << e  }
-    ASFop.new(xml).to_pdf_stream
+    ASFop.new(xml).to_pdf
   end
 
   def xml_response(xml)

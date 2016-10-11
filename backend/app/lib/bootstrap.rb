@@ -22,11 +22,12 @@ require "jsonmodel"
 require "asutils"
 require "asconstants"
 require 'open-uri'
+require 'aspace_i18n'
 require_relative 'exceptions'
 require_relative 'logging'
 require 'config/config-distribution'
 require_relative 'username'
-require_relative 'aspace_i18n'
+
 
 
 class ASpaceEnvironment
@@ -41,9 +42,9 @@ class ASpaceEnvironment
 
     if environment != :auto
       @environment = environment
-    elsif ENV["ASPACE_DEMO"] == 'true' 
+    elsif ENV["ASPACE_DEMO"] == 'true'
       download_demo_db
-      @environment = :production 
+      @environment = :production
     else
       if ENV["ASPACE_INTEGRATION"] == "true"
         @environment = :integration
@@ -61,13 +62,13 @@ class ASpaceEnvironment
   end
 
   def self.download_demo_db
-    
+
     if File.exists?(File.join(Dir.tmpdir, 'data'))
-      puts "Data directory already exists at #{File.join(Dir.tmpdir, 'data')}." 
-      AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data') 
-      return 
+      puts "Data directory already exists at #{File.join(Dir.tmpdir, 'data')}."
+      AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data')
+      return
     end
-    
+
     zip_file = File.join( Dir.tmpdir, "archivesspace_demo_data.zip")
     File.open( zip_file, 'wb' ) do |file|
       puts "Attempting to download data from #{AppConfig[:demo_data_url]}"
@@ -75,26 +76,26 @@ class ASpaceEnvironment
         file.write(zip.read)
       end
     end
-    
+
     if File.exists?(zip_file)
-      puts "Extracting data to #{Dir.tmpdir} directory" 
+      puts "Extracting data to #{Dir.tmpdir} directory"
       Zip::File.open(zip_file) do |zf|
         zf.each do |entry|
           entry.extract(File.join(Dir.tmpdir, entry.name))
         end
       end
-      AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data') 
+      AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data')
     else
         puts <<EOF
 
 ************************************************************************
 *
-*   WARNING: Unable to download demo data. Using database defined in config     
+*   WARNING: Unable to download demo data. Using database defined in config
 *
 ************************************************************************
 EOF
     end
-    
+
 
   end
 

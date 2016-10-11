@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Module: Notes
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "Notes";
   relpath = '';
-  framesUrl = "frames.html#!Notes.html";
 </script>
 
 
@@ -28,70 +27,68 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (N)</a> &raquo;
     
     
     <span class="title">Notes</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Module: Notes
+      <div id="content"><h1>Module: Notes
   
   
   
 </h1>
+<div class="box_info">
+  
 
-<dl class="box">
   
   
-    
-  
-    
   
   
-    <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="AgentCorporateEntity.html" title="AgentCorporateEntity (class)">AgentCorporateEntity</a></span>, <span class='object_link'><a href="AgentFamily.html" title="AgentFamily (class)">AgentFamily</a></span>, <span class='object_link'><a href="AgentPerson.html" title="AgentPerson (class)">AgentPerson</a></span>, <span class='object_link'><a href="AgentSoftware.html" title="AgentSoftware (class)">AgentSoftware</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
-    
   
+
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/mixins/notes.rb</dd>
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="AgentCorporateEntity.html" title="AgentCorporateEntity (class)">AgentCorporateEntity</a></span>, <span class='object_link'><a href="AgentFamily.html" title="AgentFamily (class)">AgentFamily</a></span>, <span class='object_link'><a href="AgentPerson.html" title="AgentPerson (class)">AgentPerson</a></span>, <span class='object_link'><a href="AgentSoftware.html" title="AgentSoftware (class)">AgentSoftware</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
+  </dl>
   
-</dl>
-<div class="clear"></div>
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/mixins/notes.rb</dd>
+  </dl>
+  
+</div>
 
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -115,7 +112,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -123,7 +120,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#included-class_method" title="included (class method)">+ (Object) <strong>included</strong>(base) </a>
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(base)  &#x21d2; Object </a>
     
 
     
@@ -147,7 +144,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -155,7 +152,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#persistent_id_context-instance_method" title="#persistent_id_context (instance method)">- (Object) <strong>persistent_id_context</strong> </a>
+      <a href="#persistent_id_context-instance_method" title="#persistent_id_context (instance method)">#<strong>persistent_id_context</strong>  &#x21d2; Object </a>
     
 
     
@@ -178,7 +175,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) </a>
+      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; Object </a>
     
 
     
@@ -210,7 +207,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="included-class_method">
   
-    + (<tt>Object</tt>) <strong>included</strong>(base) 
+    .<strong>included</strong>(base)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -255,7 +252,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="persistent_id_context-instance_method">
   
-    - (<tt>Object</tt>) <strong>persistent_id_context</strong> 
+    #<strong>persistent_id_context</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -302,7 +299,7 @@
       <div class="method_details ">
   <h3 class="signature " id="update_from_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) 
+    #<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -336,10 +333,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:51 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:42 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

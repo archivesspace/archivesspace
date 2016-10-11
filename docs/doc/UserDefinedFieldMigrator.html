@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: UserDefinedFieldMigrator
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "UserDefinedFieldMigrator";
   relpath = '';
-  framesUrl = "frames.html#!UserDefinedFieldMigrator.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (U)</a> &raquo;
     
     
     <span class="title">UserDefinedFieldMigrator</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: UserDefinedFieldMigrator
+      <div id="content"><h1>Class: UserDefinedFieldMigrator
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Object</span>
       
         <ul class="fullTree">
@@ -88,31 +81,34 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/lib/user_defined_field_migrator.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/user_defined_field_migrator.rb</dd>
+  </dl>
+  
+</div>
 
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="EXTERNAL_ID_MAPPING-constant" class="">EXTERNAL_ID_MAPPING =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <dl class="constants">
+    
+      <dt id="EXTERNAL_ID_MAPPING-constant" class="">EXTERNAL_ID_MAPPING =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span>
   <span class='lbrace token'>{</span>
     <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Archivists Toolkit Database::RESOURCE&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:aspace_column</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:resource_id</span><span class='comma token'>,</span>
@@ -125,9 +121,8 @@
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
 <span class='rbrack token'>]</span>
 </pre></dd>
-      
-    </dl>
-  
+    
+  </dl>
 
 
 
@@ -138,7 +133,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -146,7 +141,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#apply_update-instance_method" title="#apply_update (instance method)">- (Object) <strong>apply_update</strong>(top_container, container_data) </a>
+      <a href="#apply_update-instance_method" title="#apply_update (instance method)">#<strong>apply_update</strong>(top_container, container_data)  &#x21d2; Object </a>
     
 
     
@@ -169,7 +164,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dry_run%3F-instance_method" title="#dry_run? (instance method)">- (Boolean) <strong>dry_run?</strong> </a>
+      <a href="#dry_run%3F-instance_method" title="#dry_run? (instance method)">#<strong>dry_run?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -192,7 +187,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#migrate-instance_method" title="#migrate (instance method)">- (Object) <strong>migrate</strong> </a>
+      <a href="#migrate-instance_method" title="#migrate (instance method)">#<strong>migrate</strong>  &#x21d2; Object </a>
     
 
     
@@ -224,7 +219,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="apply_update-instance_method">
   
-    - (<tt>Object</tt>) <strong>apply_update</strong>(top_container, container_data) 
+    #<strong>apply_update</strong>(top_container, container_data)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -305,8 +300,7 @@
 94
 95
 96
-97
-98</pre>
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 28</span>
@@ -317,7 +311,6 @@
   <span class='rubyid_update_values identifier id'>update_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:ils_holding_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_voyager_holding_id identifier id'>voyager_holding_id</span><span class='comma token'>,</span>
     <span class='symbol val'>:exported_to_ils</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='comma token'>,</span>
-    <span class='symbol val'>:legacy_restricted</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_restricted identifier id'>restricted</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
   <span class='rbrace token'>}</span>
 
   <span class='rubyid_profile identifier id'>profile</span> <span class='assign token'>=</span> <span class='rubyid_container_data identifier id'>container_data</span><span class='dot token'>.</span><span class='rubyid_container_profile identifier id'>container_profile</span>
@@ -391,7 +384,7 @@
       <div class="method_details ">
   <h3 class="signature " id="dry_run?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>dry_run?</strong> 
+    #<strong>dry_run?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -445,7 +438,7 @@
       <div class="method_details ">
   <h3 class="signature " id="migrate-instance_method">
   
-    - (<tt>Object</tt>) <strong>migrate</strong> 
+    #<strong>migrate</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -457,6 +450,7 @@
       <pre class="lines">
 
 
+100
 101
 102
 103
@@ -545,11 +539,10 @@
 186
 187
 188
-189
-190</pre>
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/user_defined_field_migrator.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_migrate identifier id'>migrate</span>
 
@@ -651,10 +644,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:09 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:05:04 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

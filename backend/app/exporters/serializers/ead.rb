@@ -30,6 +30,16 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+  def xml_errors(content)
+    # there are message we want to ignore. annoying that java xml lib doesn't
+    # use codes like libxml does...
+    ignore = [ /Namespace prefix .* is not defined/, /The prefix .* is not bound/  ] 
+    ignore = Regexp.union(ignore) 
+    # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
+    Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
+  end 
+
+
   def handle_linebreaks(content)
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
@@ -40,10 +50,17 @@ class EADSerializer < ASpaceExport::Serializer
     else
       content = "<p>#{content.strip}</p>"
     end
+   
+    # first lets see if there are any &
+    # note if there's a &somewordwithnospace , the error is EntityRef and wont
+    # be fixed here...
+    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
+      content.gsub!("& ", "&amp; ")
+    end
+
     # in some cases adding p tags can create invalid markup with mixed content
-    # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
-    content = original_content if Nokogiri::XML("<wrap>#{content}</wrap>").errors.any?
-    content
+    # just return the original content if there's still problems 
+    xml_errors(content).any? ? original_content : content 
   end
 
   def strip_p(content)

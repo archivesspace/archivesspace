@@ -1,5 +1,5 @@
 # A sample Gemfile
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 group :doc do
   gem "yard"

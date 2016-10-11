@@ -78,7 +78,7 @@ describe 'Managed Container model' do
   it "doesn't blow up if you don't provide a barcode for a top-level element" do
     expect {
       create(:json_top_container, :barcode => nil)
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
   end
 
 
@@ -97,7 +97,7 @@ describe 'Managed Container model' do
 
     expect {
       create(:json_top_container, :barcode => "1234")
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
     expect {
       create(:json_top_container, :barcode => "123")
@@ -500,7 +500,7 @@ describe 'Managed Container model' do
 
         expect {
           TopContainer.bulk_update_barcodes(barcode_data)
-        }.to_not raise_error(Sequel::DatabaseError)
+        }.to_not raise_error
 
         TopContainer[container1_json.id].barcode.should eq("22222222")
         TopContainer[container2_json.id].barcode.should eq("11111111")

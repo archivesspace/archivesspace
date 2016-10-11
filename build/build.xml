@@ -5,8 +5,8 @@
   <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.22/jruby-complete-1.7.22.jar" />
   <property name="jruby_file" value="jruby-complete-1.7.22.jar" />
 
-  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.9.1/solr-4.9.1.war" />
-  <property name="solr_file" value="solr-4.9.1.war" />
+  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
+  <property name="solr_file" value="solr-4.10.4.war" />
 
   <property name="winstone_url" value="http://repo1.maven.org/maven2/org/jvnet/hudson/winstone/winstone/0.9.10/winstone-0.9.10.jar" />
   <property name="winstone_file" value="winstone-0.9.10.jar" />
@@ -19,7 +19,7 @@
   <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
-  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx1g -Xss2m" />
+  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx300m -Xss2m" />
   <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
 
 
@@ -82,6 +82,7 @@
 
   <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
     <delete dir="gems/gems" />
+    <delete dir="gems/bin" />
     <delete dir="gems/specifications" />
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
@@ -95,7 +96,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="--1.9 -S gem install bundler -v 1.10.6" />
+      <arg line="--1.9 -S gem install bundler -v 1.12.5" />
     </java>
 
     <antcall target="bundler">
@@ -280,7 +281,7 @@
 
   <!-- Solr -->
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
-    <copy file="${solr_file}" tofile="solr.war" />
+    <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
       <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
     </war>
@@ -386,7 +387,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx1g -XX:MaxPermSize=96m"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -409,7 +410,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../selenium-public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Xmx1g -XX:MaxPermSize=96m"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -XX:MaxPermSize=96m"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -613,7 +614,7 @@
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
-      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar,gems/saxon-xslt-0.5.1-java/spec/,gems/warbler-*" />
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-1.7.11/lib/*.dev.jar,gems/**/spec/,gems/warbler-*" />
     </copy>
 
     <copy todir="target/archivesspace/launcher">

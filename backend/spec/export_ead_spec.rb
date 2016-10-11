@@ -161,7 +161,6 @@ describe "EAD export mappings" do
     # let's makes sure there's one agent a creator without and terms.
     agents.find { |a| a[:role] == "creator" }[:terms] = []
     agents.shuffle
-
   end
 
 
@@ -658,11 +657,23 @@ describe "EAD export mappings" do
       it "maps linked agents with role 'subject' or 'source' to {desc_path}/controlaccess/NODE" do
         object.linked_agents.each do |link|
           link_role = link[:role] || link['role']
+          ref = link[:ref] || link['ref']
+          agent = @agents[ref]
+          node_name = case agent.agent_type
+                      when 'agent_person'; 'persname'
+                      when 'agent_family'; 'famname'
+                      when 'agent_corporate_entity'; 'corpname'
+                      end
+
+          # https://archivesspace.atlassian.net/browse/AR-985?focusedCommentId=17531&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-17531
+          if link_role == 'creator'
+            path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{agent.names[0]['sort_name']}')]"
+            doc.should_not have_node(path)
+          end
+
           next unless %w(source subject).include?(link_role)
           relator = link[:relator] || link['relator']
-          ref = link[:ref] || link['ref']
           role = relator ? relator : (link_role == 'source' ? 'fmo' : nil)
-          agent = @agents[ref]
           sort_name = agent.names[0]['sort_name']
           rules = agent.names[0]['rules']
           source = agent.names[0]['source']
@@ -675,12 +686,6 @@ describe "EAD export mappings" do
             content << " -- "
             content << terms.map{|t| t['term']}.join(' -- ')
           end
-
-          node_name = case agent.agent_type
-                      when 'agent_person'; 'persname'
-                      when 'agent_family'; 'famname'
-                      when 'agent_corporate_entity'; 'corpname'
-                      end
 
           path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{sort_name}')]"
 
@@ -1016,6 +1021,8 @@ describe "EAD export mappings" do
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
+    let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
+    let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:serializer) { EADSerializer.new }
 
     it "can strip <p> tags from content when disallowed" do
@@ -1036,6 +1043,14 @@ describe "EAD export mappings" do
 
     it "will return original content when linebreaks and mixed content produce invalid markup" do
       serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content).should eq(note_with_linebreaks_and_evil_mixed_content)
+    end
+    
+    it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
+      serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+    end
+    
+    it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
+      serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
     end
 
   end

@@ -4,7 +4,7 @@
     deleted: Eliminado
     auto_generated: Generado automáticamente
 
-  boolean: 
+  boolean:
     "true": "Verdadero"
     "false": "Falso"
 
@@ -40,7 +40,7 @@
     _singular: Definido por el usuario
     _plural: Definido por los usuarios
 
-  content_items: 
+  content_items:
     content: Contenido
     content_tooltip: |
         <p>El contenido de la nota.</p>
@@ -75,7 +75,7 @@
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
-    user_defined: 
+    user_defined:
       <<: *user_defined_attributes
     title: Título
     title_tooltip: |
@@ -104,7 +104,7 @@
     digital_object_type_tooltip: |
         <p>Un término genérico que indica el tipo de contenido básico del objeto digital. Las opciones por defecto corresponden al elemento MODS &lt; typeOfResource &gt;.</p>
     language: Idioma
-    language_tooltip: 
+    language_tooltip:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
         <p>Una casilla de verificación para indicar que se aplican restricciones. Las restricciones pueden explicarse mediante los subregistros nota o subregistros de derechos.</p>
@@ -182,10 +182,12 @@
     display_string: Cadena de presentación
     has_unpublished_ancestor: ¿Tiene una serie/subserie por encima sin publicar?
     holdings: Ejemplares
+    owner_repo: Reservado para
+    owner_repo_tooltip: Un repositorio con una localización reservada
     _singular: Ubicación
     _plural: Ubicaciones
 
-  location_batch: 
+  location_batch:
     <<: *location_attributes
     label: Etiqueta
     prefix: Prefijo de número de
@@ -197,6 +199,17 @@
     end: Gama final
     _singular: Lote ubicaciones
     _plural: Lote ubicaciones
+  location_function:
+    location_function_type: Tipo de función
+    _singular: Función
+    _plural: Funciones
+
+  function:
+    _singular: Función
+    _plural: Funciones
+    _frontend:
+      action:
+        add: Añadir Función
 
   container_location:
     status: Estado
@@ -234,7 +247,7 @@
         <p>Una indicación de qué papel tiene la autoridad en lo que respecta a su función (por ejemplo, autor, donante o materia) a un determinado registro descripción. Por ejemplo, una autoridad puede estar vinculada como autor pero con el papel más específico de "ilustrador".</p>
         <p>Ver la lista de códigos MARC para relatores.</p>
     ref: Autoridad
-    # ref_tooltip is not displaying: 
+    # ref_tooltip is not displaying:
     ref_tooltip: |
         <p>La Autoridad relacionado con el material descrito en el expediente.</p>
         <p>Las Autoridades pueden consultarse utilizando Autocompletar, usando una función de navegación, o pueden crearse en la demanda.</p>
@@ -247,22 +260,22 @@
     _singular: Autoridad
     _plural: Autoridades
 
-  accession_linked_agent: 
+  accession_linked_agent:
     <<: *linked_agent_attributes
 
-  event_linked_agent: 
+  event_linked_agent:
     <<: *linked_agent_attributes
 
-  resource_linked_agent: 
+  resource_linked_agent:
     <<: *linked_agent_attributes
 
-  archival_object_linked_agent: 
+  archival_object_linked_agent:
     <<: *linked_agent_attributes
 
-  digital_object_linked_agent: 
+  digital_object_linked_agent:
     <<: *linked_agent_attributes
 
-  digital_object_component_linked_agent: 
+  digital_object_component_linked_agent:
     <<: *linked_agent_attributes
 
   event: &event
@@ -288,7 +301,7 @@
     chronotype_label: Especificador de fecha/hora
     chronotype_label_tooltip: |
         <p>Indica qué tipo de cita se asocia a este evento.</p>
-    chronotype: 
+    chronotype:
       subrecord: Subregistro de fecha
       timestamp: Fecha y hora UTC
     date_tooltip: |
@@ -298,14 +311,14 @@
         <p>SUBREGISTRO REQUERIDO
     linked_records_tooltip: |
         <p>SUBREGISTRO REQUERIDO: Asocia acta de ingreso, Objetos Digitales, o Recursos con el Evento</p>
-    types: 
+    types:
       accession: Acta de ingreso
       accumulation: Acumulación
       acknowledgement: Reconocimiento
       acknowledgement_sent: Reconocimiento enviado
       agreement_signed: Acuerdo firmado
       agreement_received: Acuerdo recibida
-      agreement_sent: Acuerdo enviado 
+      agreement_sent: Acuerdo enviado
       appraisal: Valoración
       assessment: Evaluación
       capture: Captura
@@ -320,7 +333,7 @@
       decryption: Descifrado
       deletion: Eliminación
       digital_signature_validation: Validación de firma digital
-      fixity_check: Chequeo de fijeza 
+      fixity_check: Chequeo de fijeza
       ingestion: Ingesta
       message_digest_calculation: Mensaje Digest cálculo
       migration: Migración
@@ -489,7 +502,7 @@
     family_name_tooltip: |
         <p>El apellido, o apellido, para una familia, típicamente complementado con el término "familia".</p>
 
-  name_corporate_entity: 
+  name_corporate_entity:
     <<: *agent_name_attributes
     subordinate_name_1: Nombre subordinado 1
     subordinate_name_1_tooltip: |
@@ -502,7 +515,7 @@
     subordinate_name_2_tooltip: |
         <p>Una unidad jerárquica con la entidad corporativa nombrada en el campo nombre primario y menor que la unidad denominada en el campo nombre 1 subordinado.</p>
 
-  name_software: 
+  name_software:
     <<: *agent_name_attributes
     software_name: Nombre del software
     software_name_tooltip: |
@@ -529,7 +542,7 @@
         <li>Biblioteca del Congreso <em>(para la biblioteca del Congreso Bagger 2.1.2)</em></li>
         </ul>
 
-  name: 
+  name:
     _singular: Formulario de nombre
     _plural: Formularios de nombre
 
@@ -606,33 +619,33 @@
     type_tooltip: |
       <p>El tipo de nota para el contenido.  Tipos de notas se utilizan para guiar la exportación de contenido de la nota a ciertos elementos en los formatos de datos específicos.</p>
 
-  related_agent: 
+  related_agent:
     relationship_type: Tipo de relación
     _singular: Agente relacionado
     _plural: Agentes relacionados
 
-  agent_relationship_parentchild: 
+  agent_relationship_parentchild:
     relator: Tipo de relación
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
     _singular: Relación padre/hijo
 
-  agent_relationship_earlierlater: 
+  agent_relationship_earlierlater:
     relator: Tipo de relación
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
     _singular: Relación antes/después
 
-  agent_relationship_subordinatesuperior: 
+  agent_relationship_subordinatesuperior:
     relator: Tipo de relación
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
     _singular: Relación subordinada/Superior
 
-  agent_relationship_associative: 
+  agent_relationship_associative:
     relator: Tipo de relación
     description: Descripción
     date: Fecha
@@ -659,15 +672,15 @@
     _singular: Nota
     _plural: Notas
 
-  note_text: 
+  note_text:
     <<: *note_attributes
     option: Texto
 
-  note_index: 
+  note_index:
     <<: *note_attributes
     option: Índice
 
-  note_index_item: 
+  note_index_item:
     value: Valor
     value_tooltip: El contenido de cada entrada en la bibliografía. Al menos uno es requerido para cualquier nota de índice.
     type: Tipo
@@ -677,29 +690,29 @@
     reference_text: Texto de referencia
     reference_text_tooltip: Una descripción de la referencia, si se justifica.
 
-  note_singlepart: 
+  note_singlepart:
     <<: *note_attributes
 
-  note_multipart: 
+  note_multipart:
     <<: *note_attributes
     subnotes: Subnotas
     sub_notes: Subnotas
     sub_notes_singular: Subnotas
 
-  note_digital_object: 
+  note_digital_object:
     <<: *note_attributes
 
-  note_bibliography: 
+  note_bibliography:
     <<: *note_attributes
     option: Bibliografía
 
-  note_chronology: 
+  note_chronology:
     <<: *note_attributes
     option: Cronología
     title: Título
     items: Eventos
 
-  chronology_item: 
+  chronology_item:
     event_date: Fecha del evento
     event_date_tooltip: |
         <p>La fecha de un evento en una lista de cronología.</p>
@@ -708,11 +721,11 @@
         <p>Una descripción de un evento correspondiente al elemento fecha cronología.</p>
     events_singular: Evento
 
-  note_definedlist: 
+  note_definedlist:
     <<: *note_attributes
     option: Lista definida
 
-  definedlist_item: 
+  definedlist_item:
     label: Etiqueta
     label_tooltip: |
         <p>Una cadena de texto que, o bien contextualiza o se explica por el contenido en el elemento de la lista nota definida.: </p>
@@ -720,26 +733,26 @@
     value_tooltip: |
         <p>Un elemento de la lista se define en una lista definida.: </p>
 
-  note_orderedlist: 
+  note_orderedlist:
     <<: *note_attributes
     option: Lista ordenada
     enumeration: (Enumeración)
     enumeration_tooltip: |
         <p>Un atributo para indicar el tipo de numeración que se aplicará a los elementos de la nota</p>
 
-  note_bioghist: 
+  note_bioghist:
     <<: *note_attributes
 
-  note_abstract: 
+  note_abstract:
     <<: *note_attributes
     option: Resumen
 
-  note_citation: 
+  note_citation:
     <<: *note_attributes
     option: Cita
     xlink: XLink
 
-  note_citation_xlink: 
+  note_citation_xlink:
     actuate: Actuate
     arcrole: Arc Role
     href: Href
@@ -748,12 +761,13 @@
     title: Título
     type: Tipo
 
-  note_outline: 
+  note_outline:
     <<: *note_attributes
     option: Esquema
     levels: Niveles
 
   instance: &instance_attributes
+    is_representative: ¿Es representativo?
     instance_type: Tipo
     instance_type_tooltip: |
         <p>Una designación de la manifestación de los materiales descritos. La designación de instancia es opcional, pero necesaria para abrir y para completar un registro de contenedor para el material descrito.</p>
@@ -762,13 +776,13 @@
     _plural: Representaciones
     _singular: Representación
 
-  instance_container: 
+  instance_container:
     <<: *instance_attributes
 
-  instance_digital_object: 
+  instance_digital_object:
     <<: *instance_attributes
 
-  file_version: 
+  file_version:
     _plural: Versiones de archivo
     _singular: Versión de archivo
     file: Archivo
@@ -785,7 +799,7 @@
     xlink_actuate_attribute: Accionar atributo XLink
     xlink_actuate_attribute_tooltip: |
         <p>Un atributo XLink utilizado para la exportación para indicar cómo debe mostrar el objeto digital (por ejemplo si el enlace se produce automáticamente o debe ser solicitado por el usuario). Se utiliza en conjunción con el atributo XLink Mostrar.</p>
-    xlink_show_attribute: Mostrar atributo XLink 
+    xlink_show_attribute: Mostrar atributo XLink
     xlink_show_attribute_tooltip: |
         <p>Un atributo XLink utilizado para la exportación para indicar cómo debe mostrarse el destino de un vínculo. Se utiliza en conjunción con el atributo XLink accione.</p>
     file_format_name: Nombre de formato de archivo
@@ -825,7 +839,8 @@
         <li>SHA-256</li>
         </ul>
     identifier: Identificador
-
+    caption: Subtítulo
+    is_representative: Representativo
   extent: &extent_attributes
     portion: Parte del fondo
     portion_tooltip: |
@@ -867,11 +882,11 @@
     _singular: Extensión
 
   container: &container_attributes
-    type_1: Tipo de contenedor 1 
+    type_1: Tipo de contenedor 1
     type_1_tooltip: &container_type_tooltip |
         <p>El tipo del contenedor primario en el cual está ubicado el material descrito.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-    indicator_1: Indicador envase 1 
+    indicator_1: Indicador envase 1
     indicator_1_tooltip: &container_indicator_tooltip |
         <p>Una expresión alfanumérica para indicar el lugar de un contenedor en una secuencia de contenedores.</p>
     barcode_1: Envase 1 código de barras
@@ -998,16 +1013,16 @@
     _plural: Normativas
     _singular: Normativa
 
-  rights_type_intellectual_property: 
+  rights_type_intellectual_property:
     <<: *rights_statement_attributes
 
-  rights_type_license: 
+  rights_type_license:
     <<: *rights_statement_attributes
 
-  rights_type_statute: 
+  rights_type_statute:
     <<: *rights_statement_attributes
 
-  rights_type_institutional_policy: 
+  rights_type_institutional_policy:
     <<: *rights_statement_attributes
 
   date: &date_attributes
@@ -1064,42 +1079,42 @@
     _plural: Fechas
     _singular: Fecha
 
-  date_type_single: 
+  date_type_single:
     <<: *date_attributes
 
-  date_type_bulk: 
+  date_type_bulk:
     <<: *date_attributes
 
-  date_type_inclusive: 
+  date_type_inclusive:
     <<: *date_attributes
 
-  date_type_range: 
+  date_type_range:
     <<: *date_attributes
 
-  date_label: 
+  date_label:
     <<: *date_attributes
 
-  existence_date: 
+  existence_date:
     <<: *date_attributes
 
-  usage_date: 
+  usage_date:
     <<: *date_attributes
 
-  archival_record_date: 
+  archival_record_date:
     <<: *date_attributes
 
-  date_fields: 
+  date_fields:
     <<: *date_attributes
 
-  accession: 
+  accession:
     <<: *section_tooltips
-    user_defined: 
-      <<: *user_defined_attributes 
+    user_defined:
+      <<: *user_defined_attributes
     accession_date: Fecha de entrada
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
         <p>CAMPO OBLIGATORIO
-        necessarily the same date as when the record is created.</p>: 
+        necessarily the same date as when the record is created.</p>:
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>
@@ -1110,30 +1125,30 @@
     id_3: Identificador 4
     id_0_tooltip: |
         <p>CAMPO OBLIGATORIO
-        repository.</p>: 
+        repository.</p>:
         <p>En ArchivesSpace, se proporcionan cuatro campos para analizar a un
-        accession identifier into its component parts. Each segment is: 
-        limited to 50 characters, or 200 characters total for the identifier.: 
-        At least the first part must be used for a valid accession record.</p>: 
+        accession identifier into its component parts. Each segment is:
+        limited to 50 characters, or 200 characters total for the identifier.:
+        At least the first part must be used for a valid accession record.</p>:
         <p>Los valores predeterminados pueden utilizarse para rellenar las piezas que son
-        the same across all accession numbers.</p>: 
+        the same across all accession numbers.</p>:
         <p>Ver DACS 5.2.5</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
         <p>Una descripción de los tipos de documentos y contenidos tópicos de la
-        accession.</p>: 
+        accession.</p>:
         <p>Ver 3.1.4-3.1.7 DACS</p>
         <p>Ejemplos</p>
         <p>Diez cajas de materiales que contengan notas de campo, diarios, y
-        drafts of maps documenting Mr. Smith's 10 years in residence at the: 
-        Otay Mesa Ranch.</p>: 
+        drafts of maps documenting Mr. Smith's 10 years in residence at the:
+        Otay Mesa Ranch.</p>:
     condition_description: Descripción de la condición
     condition_description_tooltip: |
         <p>Una descripción de la condición física de los contenidos de la
-        accession, including any special handling requirements.</p>: 
+        accession, including any special handling requirements.</p>:
         <p>Ejemplos</p>
         <p>Los mapas en la casilla 4 son frágiles y varios están cubiertas de moho.
-        Inhalation guards should be worn during processing.</p>: 
+        Inhalation guards should be worn during processing.</p>:
     disposition: Disposición
     disposition_tooltip: |
         <p>Una nota para describir cómo un acta de ingreso particular que han sido asignada a diferentes recursos.</p>
@@ -1194,7 +1209,7 @@
     acquisition_type: Tipo de acta de ingreso
     acquisition_type_tooltip: |
         <p>Un descriptor categórico para el tipo de acta de ingreso. Repositorios
-        may customize the list of data values.</p>: 
+        may customize the list of data values.</p>:
         <p>Ejemplos</p>
         <ul>
         <li>Regalo</li>
@@ -1212,10 +1227,10 @@
     title: Título
     title_tooltip: |
         <p>El título asignado a un recurso o de entrada. El título de entrada
-        need not be the same as the resource title. Moreover, a title need not: 
-        be expressed for the accession record, as it can be implicitly : 
-        inherited from the resource record to which the accession is: 
-        linked.</p>: 
+        need not be the same as the resource title. Moreover, a title need not:
+        be expressed for the accession record, as it can be implicitly :
+        inherited from the resource record to which the accession is:
+        linked.</p>:
         <p>Ver 2.3.18-2.3.22 DACS</p>
     related_resources_tooltip: |
         <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
@@ -1224,18 +1239,18 @@
     _singular: Acta de ingreso
     _plural: Actas de ingreso
 
-  interrelated_accession: 
+  interrelated_accession:
     _plural: Actas de ingreso relacionadas
     relationship_type: Tipo de relación
 
-  accession_sibling_relationship: 
+  accession_sibling_relationship:
     _singular: Relación de hermanos
     relator: Este proceso de entrada
     sibling_of: Hermano de
     relator_type: Tipo de relación
     bound_with: "\"Unido a\"relación"
 
-  accession_parts_relationship: 
+  accession_parts_relationship:
     _singular: "\"Parte de\"relación"
     part: "\"Parte de\"relación"
     relator: Este proceso de entrada
@@ -1249,7 +1264,7 @@
     type_tooltip: |
         <p>El tipo de entidad representada por el registro del autoridad.</p>
         <p>Ver entidad DACS 10.2 y autoridad PREMIS</p>
-    agent_type: 
+    agent_type:
       agent_family: Familia
       agent_person: Persona
       agent_corporate_entity: Entidad corporativa
@@ -1273,27 +1288,27 @@
     _singular: Autoridad
     _plural: Autoridades
 
-  agent_person: 
+  agent_person:
     <<: *agent_attributes
     _singular: Persona
     _plural: Personas
 
-  agent_family: 
+  agent_family:
     <<: *agent_attributes
     _singular: Familia
     _plural: Familias
 
-  agent_software: 
+  agent_software:
     <<: *agent_attributes
     _singular: Software
     _plural: Software
 
-  agent_corporate_entity: 
+  agent_corporate_entity:
     <<: *agent_attributes
     _singular: Entidad corporativa
     _plural: Entidades corporativas
 
-  archival_object: &archival_object_attributes 
+  archival_object: &archival_object_attributes
     title: Título
     title_tooltip: |
         <p>CAMPO OBLIGATORIO CONDICIONAL
@@ -1362,7 +1377,7 @@
     _singular: Documento de archivo
     _plural: Objetos de archivo
 
-  group: 
+  group:
     group_code: Código de grupo
     group_code_tooltip: |
         <p>Una versión abreviada del nombre del grupo.</p>
@@ -1379,31 +1394,35 @@
         <p>Los miembros que forman parte de este grupo.</p>
     permissions: "Los miembros pueden"
     permission_types:
-      manage_repository: "manage this repository (change groups and other settings)"
-      update_location_record: create/modify/delete location records in this repository
-      update_subject_record: create/update registros de subject 
-      update_agent_record: create/update registros de autoridad 
-      update_vocabulary_record: create/update registros de vocabulary 
-      update_accession_record: create/update registros de entradas in this repository
-      update_resource_record: create/update resources in this repository
-      update_digital_object_record: create/update digital objects in this repository
-      update_event_record: create/update event records in this repository
-      view_repository: view the records in this repository
-      view_suppressed: view suppressed records in this repository
-      suppress_archival_record: suppress the major record types in this repository
-      delete_archival_record: delete the major record types in this repository
-      delete_event_record: delete event records in this repository
-      update_classification_record: create/update classifications and classification terms
+      manage_repository: "gestionar repositorio"
+      update_location_record: crear/modificar/borrar location records en este repositorio
+      update_subject_record: crear/modificar registros de subject
+      update_agent_record: crear/modificar registros de autoridad
+      update_vocabulary_record: crear/modificar registros de vocabulary
+      update_accession_record: crear/modificar registros de entradas en este repositorio
+      update_resource_record: crear/modificar resources en este repositorio
+      update_digital_object_record: crear/modificar objetos digitales en este repositorio
+      update_event_record: crear/modificar event records en este repositorio
+      view_repository: view the records en este repositorio
+      view_suppressed: view suppressed records en este repositorio
+      suppress_archival_record: suppress the major record types en este repositorio
+      delete_archival_record: delete the major record types en este repositorio
+      delete_event_record: delete event records en este repositorio
+      update_classification_record: crear/modificar classifications and classification terms
       delete_classification_record: delete classifications and classification terms
       merge_agents_and_subjects: merge agent/subject records
-      merge_archival_record: merge the major record types in this repository
+      merge_archival_record: merge the major record types en este repositorio
       transfer_repository: transfer the entire contents of a repository
       transfer_archival_record: transfer major record types between repositories
-      manage_subject_record: create/update/delete subject records
-      manage_agent_record: create/update/delete agent records
-      manage_vocabulary_record: create/update/delete vocabulary records
+      manage_subject_record: crear/modificar/borrar subject records
+      manage_agent_record: crear/modificar/borrar agent records
+      manage_vocabulary_record: crear/modificar/borrar vocabulary records
       import_records: initiate import jobs
       cancel_importer_job: cancel an import job
+      update_container_record: crear/modificar top container records
+      manage_container_record: delete/bulk update top container records
+      manage_container_profile_record: crear/modificar/borrar container profile records
+      manage_location_profile_record: crear/modificar/borrar location profile records
     _singular: Group
     _plural: Groups
 
@@ -1507,7 +1526,7 @@
     _singular: Fondo
     _plural: Fondos
 
-  related_accession: 
+  related_accession:
     _singular: Acta de ingreso relacionada
     _plural: Actas de ingreso relacionadas
 
@@ -1521,11 +1540,11 @@
     description_tooltip: |
         <p>A description of the last revision(s) done to the instrumento de descripción.</p>
 
-  related_resource: 
+  related_resource:
     _singular: Fondos relacionados
     _plural: Fondos relacionados
 
-  repository: 
+  repository:
     repo_code: Nombre corto del repositorio
     repo_code_tooltip: |
         <p>CAMPO OBLIGATORIO. Una abreviatura o acrónimo del nombre del repositorio, que pueden ser mejor acomodados en la interfaz de usuario.</p>
@@ -1588,7 +1607,7 @@
     _plural: Repositorios
 
   term: &term_attributes
-    # tooltips not displaying: 
+    # tooltips not displaying:
     term: Término
     term_tooltip: |
         <p>CAMPO OBLIGATORIO. Un descriptor de parte de un encabezado. Un encabezado debe tener al menos un término asociado.</p>
@@ -1598,7 +1617,7 @@
     _singular: Término
     _plural: Términos
 
-  subject: 
+  subject:
     authority_id: Identificador de autoridad
     authority_id_tooltip: |
         <p>El identificador único para el registro de la fuente de la cual fue adquirida, (es decir, un número LCSH). El identificador puede ser representado como un URI.</p>
@@ -1628,7 +1647,7 @@
     _singular: Materia
     _plural: Materias
 
-  user: 
+  user:
     username: Nombre de usuario
     username_tooltip: |
         <p>CAMPO OBLIGATORIO. El nombre de usuario para la cuenta de que el usuario utilizará para autenticar a la aplicación.</p>
@@ -1708,7 +1727,7 @@
         <li>Medio</li>
         <li>Baja</li>
         </ul>
-    processing_started_date: Procesamiento fecha inicio 
+    processing_started_date: Procesamiento fecha inicio
     processing_status: Estado de procesamiento
     processing_status_tooltip: |
         <p>Para indicar el estado actual del proceso de una unidad de archivo (acta de ingreso, recurso u objeto digital).</p>
@@ -1726,7 +1745,7 @@
     processors_tooltip: |
         <p>Para el listado del personal a quien se ha asignado el procesamiento de la unidad de archivo (acta de ingreso, recursos u objetos digitales).</p>
     rights_determined: ¿Derechos determinados?
-    rights_determined_tooltip: | 
+    rights_determined_tooltip: |
         <p>Indica si se han determinado los derechos para una unidad de archivo (acta de ingreso, recurso u objeto digital) y un registro de derechos creada y vinculada a la unidad de archivo.</p>
     rights_determined_true: Sí
     rights_determined_false: No
@@ -1734,8 +1753,8 @@
     _singular: Gestión de la colección
     _plural: Gestión de las colecciones
 
-  enumeration: 
-    # tooltips not displaying: 
+  enumeration:
+    # tooltips not displaying:
     name: Nombre
     name_tooltip: |
         <p>El nombre de la lista de valores controlados al que desea añadir un valor.</p>
@@ -1751,7 +1770,7 @@
     _singular: Lista de valores controlados
     _plural: Listas de valor controladas
 
-  classification: 
+  classification:
     _singular: Clasificación
     _plural: Clasificaciones
     identifier: Identificador
@@ -1760,7 +1779,7 @@
     creator: Creador
     id_separator: /
 
-  classification_term: 
+  classification_term:
     _singular: Término de clasificación
     _plural: Términos de clasificación
     identifier: Identificador
@@ -1828,21 +1847,32 @@
     _singular: Valores predeterminados
     _plural: Valores predeterminados
 
-  reports: 
+  reports:
     CreatedAccessionsReport: Informe de actas de ingreso creado
     UnprocessedAccessionsReport: Actas de ingreso sin procesar
-    parameters: 
+    LocationHoldingsReport: Ubicaciones de contenido
+    location_holdings:
+      report_title: Informe de contenedores archivados en una o mas localizaciones
+      repository_report_type: Repositorio
+      building_report_type: Edificio
+      single_location_report_type: Localización sencilla
+      location_range_report_type: Conjunto de ubicaciones
+      search_range: Informe de conjunto de ubicaciones
+      start_range: Primera localización
+      end_range: Última localización
+    parameters:
       from: De
-      from_tooltip: 
+      from_tooltip:
       to: Para
-    formats: 
+      locations: Localizaciones
+    formats:
       json: JSON
       csv: CSV
       xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
 
-  validation_errors: 
+  validation_errors:
     agent_must_be_unique: Registros de autoridad no pueden ser idénticos
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
@@ -1871,13 +1901,23 @@
     is_required_if_there_is_an_authority_id: es necesario si hay un 'identificador de autoridad'
     you_must_provide_a_label__title_or_date: Usted debe proporcionar una etiqueta, título o fecha
     location_fields_error: >
-      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator: 
+      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator:
     location_must_be_unique_within_a_record: Debe ser único dentro de un registro
     location_cannot_be_deleted_if_linked: Ubicación actualmente está vinculada a uno o más registros de representación y no puede ser bloqueado. Por favor, enlace estas instancias a nuevas ubicaciones antes de eliminar el registro del lugar.
-    cannot_be_previous_if_location_is_not_temporary: No se puede transferir a la anterior si la situación es temporal. 
+    cannot_be_previous_if_location_is_not_temporary: No se puede transferir a la anterior si la situación es temporal.
     authority_id_must_be_unique: Identificador de autoridad ya está en uso
     either_type_1_or_barcode_is_required: Un envase debe contener 1 tipo de envase o código de barras.
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Debe ser un número con no más de 9 dígitos y 5 decimales.   
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Debe ser un número con no más de 9 dígitos y 5 decimales.
+    container_2_requires_both_a_type_and_indicator: Debes dar un Indicador
+    container_3_requires_both_a_type_and_indicator: Debes dar un Indicador
+    container_2_is_required_if_container_3_is_provided: Debes dar un contenedor hijo
+    a_barcode_must_be_unique_within_a_repository: El código de barras debe de ser único
+    container_profile_name_not_unique: El nombre del Container Profile debe ser único
+    must_be_a_number_with_no_more_than_2_decimal_places: Tiene que ser un número con no más de 2 decimales
+    length_must_be_within_the_range_set_in_configuration: La longitud debe estar en el rango dado en la configuración
+    is_required_if_status_is_previous: se necesita si el 'Stado' es 'Previo'
+    location_profile_name_not_unique: El nombre del Location Profile tiene que ser único
+    must_be_a_positive_integer: Tiene que ser un entero positivo
 
   job:
     _singular: Tarea en el background
@@ -1901,6 +1941,7 @@
     time_started: Tiempo comenzado
     time_finished: Tiempo terminado
     owner: Propietario
+    show_description: Muestra descripción
     filenames: Importación de archivos
 
   import_job:
@@ -1923,25 +1964,26 @@
     record_type: Registro o tipo de subregistro
     property: Propiedad
 
-  advanced_search: 
-    type: 
+  advanced_search:
+    type:
       text: Texto
       date: Fecha
       boolean: Boolean
       controlled_value: Valor controlado
-    text: 
+    text:
       keyword: Palabra clave
       title: Título
       creators: Creador
       notes: Notas
       subjects: Materia
-    boolean: 
+      identifier: Identificador
+    boolean:
       published: ¿Publicado?
       suppressed: ¿Bloqueado?
-    date: 
+    date:
       create_time: Creado
       user_mtime: Actualizado
-  system_info: 
+  system_info:
     frontend: UI frontend
     backend: Backend
     frontend_info: Información del sistema frontend

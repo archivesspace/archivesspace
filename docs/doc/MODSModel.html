@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: MODSModel
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "MODSModel";
   relpath = '';
-  framesUrl = "frames.html#!MODSModel.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (M)</a> &raquo;
     
     
     <span class="title">MODSModel</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: MODSModel
+      <div id="content"><h1>Class: MODSModel
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName"><span class='object_link'><a href="ASpaceExport/ExportModel.html" title="ASpaceExport::ExportModel (class)">ASpaceExport::ExportModel</a></span></span>
       
         <ul class="fullTree">
@@ -90,50 +83,59 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
-      
-    
+
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/exporters/models/mods.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/exporters/models/mods.rb</dd>
+  </dl>
+  
+</div>
 
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="mods_note-classvariable" class="">@@mods_note =
-          
-        </dt>
-        <dd><pre class="code"><span class='rubyid_Struct constant id'>Struct</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:tag</span><span class='comma token'>,</span> <span class='symbol val'>:type</span><span class='comma token'>,</span> <span class='symbol val'>:label</span><span class='comma token'>,</span> <span class='symbol val'>:content</span><span class='comma token'>,</span> <span class='symbol val'>:wrapping_tag</span><span class='rparen token'>)</span>
+  <dl class="constants">
+    
+      <dt id="mods_note-classvariable" class="">@@mods_note =
+        
+      </dt>
+      <dd><pre class="code"><span class='rubyid_Struct constant id'>Struct</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:tag</span><span class='comma token'>,</span> <span class='symbol val'>:type</span><span class='comma token'>,</span> <span class='symbol val'>:label</span><span class='comma token'>,</span> <span class='symbol val'>:content</span><span class='comma token'>,</span> <span class='symbol val'>:wrapping_tag</span><span class='rparen token'>)</span>
 </pre></dd>
-      
-    </dl>
+    
+  </dl>
+
+
+
   
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
 
 
-
-
-  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
     
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#extents-instance_method" title="#extents (instance method)">- (Object) <strong>extents</strong> </a>
+      <a href="#extents-instance_method" title="#extents (instance method)">#<strong>extents</strong>  &#x21d2; Object </a>
     
 
     
@@ -159,7 +161,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#language_term-instance_method" title="#language_term (instance method)">- (Object) <strong>language_term</strong> </a>
+      <a href="#language_term-instance_method" title="#language_term (instance method)">#<strong>language_term</strong>  &#x21d2; Object </a>
     
 
     
@@ -185,7 +187,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#names-instance_method" title="#names (instance method)">- (Object) <strong>names</strong> </a>
+      <a href="#names-instance_method" title="#names (instance method)">#<strong>names</strong>  &#x21d2; Object </a>
     
 
     
@@ -211,7 +213,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#notes-instance_method" title="#notes (instance method)">- (Object) <strong>notes</strong> </a>
+      <a href="#notes-instance_method" title="#notes (instance method)">#<strong>notes</strong>  &#x21d2; Object </a>
     
 
     
@@ -237,7 +239,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parts-instance_method" title="#parts (instance method)">- (Object) <strong>parts</strong> </a>
+      <a href="#parts-instance_method" title="#parts (instance method)">#<strong>parts</strong>  &#x21d2; Object </a>
     
 
     
@@ -263,7 +265,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#repository_note-instance_method" title="#repository_note (instance method)">- (Object) <strong>repository_note</strong> </a>
+      <a href="#repository_note-instance_method" title="#repository_note (instance method)">#<strong>repository_note</strong>  &#x21d2; Object </a>
     
 
     
@@ -289,7 +291,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#subjects-instance_method" title="#subjects (instance method)">- (Object) <strong>subjects</strong> </a>
+      <a href="#subjects-instance_method" title="#subjects (instance method)">#<strong>subjects</strong>  &#x21d2; Object </a>
     
 
     
@@ -315,7 +317,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#title-instance_method" title="#title (instance method)">- (Object) <strong>title</strong> </a>
+      <a href="#title-instance_method" title="#title (instance method)">#<strong>title</strong>  &#x21d2; Object </a>
     
 
     
@@ -341,7 +343,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#type_of_resource-instance_method" title="#type_of_resource (instance method)">- (Object) <strong>type_of_resource</strong> </a>
+      <a href="#type_of_resource-instance_method" title="#type_of_resource (instance method)">#<strong>type_of_resource</strong>  &#x21d2; Object </a>
     
 
     
@@ -372,7 +374,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -380,7 +382,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_repo_note-class_method" title="build_repo_note (class method)">+ (Object) <strong>build_repo_note</strong>(repo_record) </a>
+      <a href="#build_repo_note-class_method" title="build_repo_note (class method)">.<strong>build_repo_note</strong>(repo_record)  &#x21d2; Object </a>
     
 
     
@@ -403,7 +405,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">+ (Object) <strong>from_archival_object</strong>(obj) </a>
+      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">.<strong>from_archival_object</strong>(obj)  &#x21d2; Object </a>
     
 
     
@@ -426,7 +428,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">+ (Object) <strong>from_digital_object</strong>(obj, opts = {}) </a>
+      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">.<strong>from_digital_object</strong>(obj, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -449,7 +451,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_digital_object_component-class_method" title="from_digital_object_component (class method)">+ (Object) <strong>from_digital_object_component</strong>(obj) </a>
+      <a href="#from_digital_object_component-class_method" title="from_digital_object_component (class method)">.<strong>from_digital_object_component</strong>(obj)  &#x21d2; Object </a>
     
 
     
@@ -472,7 +474,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name_part_type_map-class_method" title="name_part_type_map (class method)">+ (Object) <strong>name_part_type_map</strong> </a>
+      <a href="#name_part_type_map-class_method" title="name_part_type_map (class method)">.<strong>name_part_type_map</strong>  &#x21d2; Object </a>
     
 
     
@@ -495,7 +497,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name_type_map-class_method" title="name_type_map (class method)">+ (Object) <strong>name_type_map</strong> </a>
+      <a href="#name_type_map-class_method" title="name_type_map (class method)">.<strong>name_type_map</strong>  &#x21d2; Object </a>
     
 
     
@@ -518,7 +520,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#new_mods_note-class_method" title="new_mods_note (class method)">+ (Object) <strong>new_mods_note</strong>(*a) </a>
+      <a href="#new_mods_note-class_method" title="new_mods_note (class method)">.<strong>new_mods_note</strong>(*a)  &#x21d2; Object </a>
     
 
     
@@ -542,7 +544,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -550,7 +552,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each_related_item-instance_method" title="#each_related_item (instance method)">- (Object) <strong>each_related_item</strong>(children = nil, maxDepth = 20) </a>
+      <a href="#each_related_item-instance_method" title="#each_related_item (instance method)">#<strong>each_related_item</strong>(children = nil, maxDepth = 20)  &#x21d2; Object </a>
     
 
     
@@ -573,7 +575,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_agents-instance_method" title="#handle_agents (instance method)">- (Object) <strong>handle_agents</strong>(linked_agents) </a>
+      <a href="#handle_agents-instance_method" title="#handle_agents (instance method)">#<strong>handle_agents</strong>(linked_agents)  &#x21d2; Object </a>
     
 
     
@@ -596,7 +598,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_extent-instance_method" title="#handle_extent (instance method)">- (Object) <strong>handle_extent</strong>(extents) </a>
+      <a href="#handle_extent-instance_method" title="#handle_extent (instance method)">#<strong>handle_extent</strong>(extents)  &#x21d2; Object </a>
     
 
     
@@ -619,7 +621,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_notes-instance_method" title="#handle_notes (instance method)">- (Object) <strong>handle_notes</strong>(notes) </a>
+      <a href="#handle_notes-instance_method" title="#handle_notes (instance method)">#<strong>handle_notes</strong>(notes)  &#x21d2; Object </a>
     
 
     
@@ -642,7 +644,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_subjects-instance_method" title="#handle_subjects (instance method)">- (Object) <strong>handle_subjects</strong>(subjects) </a>
+      <a href="#handle_subjects-instance_method" title="#handle_subjects (instance method)">#<strong>handle_subjects</strong>(subjects)  &#x21d2; Object </a>
     
 
     
@@ -665,7 +667,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_tree-instance_method" title="#handle_tree (instance method)">- (Object) <strong>handle_tree</strong>(tree) </a>
+      <a href="#handle_tree-instance_method" title="#handle_tree (instance method)">#<strong>handle_tree</strong>(tree)  &#x21d2; Object </a>
     
 
     
@@ -688,7 +690,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MODSModel) <strong>initialize</strong> </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; MODSModel </a>
     
 
     
@@ -713,7 +715,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name_parts-instance_method" title="#name_parts (instance method)">- (Object) <strong>name_parts</strong>(name, type) </a>
+      <a href="#name_parts-instance_method" title="#name_parts (instance method)">#<strong>name_parts</strong>(name, type)  &#x21d2; Object </a>
     
 
     
@@ -736,7 +738,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#new_mods_note-instance_method" title="#new_mods_note (instance method)">- (Object) <strong>new_mods_note</strong>(*a) </a>
+      <a href="#new_mods_note-instance_method" title="#new_mods_note (instance method)">#<strong>new_mods_note</strong>(*a)  &#x21d2; Object </a>
     
 
     
@@ -798,7 +800,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="MODSModel (class)">MODSModel</a></span></tt>) <strong>initialize</strong> 
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="MODSModel (class)">MODSModel</a></span></tt> 
   
 
   
@@ -854,7 +856,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="extents-instance_method">
   
-    - (<tt>Object</tt>) <strong>extents</strong> 
+    #<strong>extents</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -897,7 +899,7 @@
       <div class="method_details ">
   <h3 class="signature " id="language_term-instance_method">
   
-    - (<tt>Object</tt>) <strong>language_term</strong> 
+    #<strong>language_term</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -940,7 +942,7 @@
       <div class="method_details ">
   <h3 class="signature " id="names-instance_method">
   
-    - (<tt>Object</tt>) <strong>names</strong> 
+    #<strong>names</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -983,7 +985,7 @@
       <div class="method_details ">
   <h3 class="signature " id="notes-instance_method">
   
-    - (<tt>Object</tt>) <strong>notes</strong> 
+    #<strong>notes</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1026,7 +1028,7 @@
       <div class="method_details ">
   <h3 class="signature " id="parts-instance_method">
   
-    - (<tt>Object</tt>) <strong>parts</strong> 
+    #<strong>parts</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1069,7 +1071,7 @@
       <div class="method_details ">
   <h3 class="signature " id="repository_note-instance_method">
   
-    - (<tt>Object</tt>) <strong>repository_note</strong> 
+    #<strong>repository_note</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1112,7 +1114,7 @@
       <div class="method_details ">
   <h3 class="signature " id="subjects-instance_method">
   
-    - (<tt>Object</tt>) <strong>subjects</strong> 
+    #<strong>subjects</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1155,7 +1157,7 @@
       <div class="method_details ">
   <h3 class="signature " id="title-instance_method">
   
-    - (<tt>Object</tt>) <strong>title</strong> 
+    #<strong>title</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1198,7 +1200,7 @@
       <div class="method_details ">
   <h3 class="signature " id="type_of_resource-instance_method">
   
-    - (<tt>Object</tt>) <strong>type_of_resource</strong> 
+    #<strong>type_of_resource</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1246,7 +1248,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="build_repo_note-class_method">
   
-    + (<tt>Object</tt>) <strong>build_repo_note</strong>(repo_record) 
+    .<strong>build_repo_note</strong>(repo_record)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1305,7 +1307,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_archival_object-class_method">
   
-    + (<tt>Object</tt>) <strong>from_archival_object</strong>(obj) 
+    .<strong>from_archival_object</strong>(obj)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1356,7 +1358,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_digital_object-class_method">
   
-    + (<tt>Object</tt>) <strong>from_digital_object</strong>(obj, opts = {}) 
+    .<strong>from_digital_object</strong>(obj, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1409,7 +1411,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_digital_object_component-class_method">
   
-    + (<tt>Object</tt>) <strong>from_digital_object_component</strong>(obj) 
+    .<strong>from_digital_object_component</strong>(obj)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1444,7 +1446,7 @@
       <div class="method_details ">
   <h3 class="signature " id="name_part_type_map-class_method">
   
-    + (<tt>Object</tt>) <strong>name_part_type_map</strong> 
+    .<strong>name_part_type_map</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1475,7 +1477,7 @@
       <div class="method_details ">
   <h3 class="signature " id="name_type_map-class_method">
   
-    + (<tt>Object</tt>) <strong>name_type_map</strong> 
+    .<strong>name_type_map</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1506,7 +1508,7 @@
       <div class="method_details ">
   <h3 class="signature " id="new_mods_note-class_method">
   
-    + (<tt>Object</tt>) <strong>new_mods_note</strong>(*a) 
+    .<strong>new_mods_note</strong>(*a)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1543,7 +1545,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="each_related_item-instance_method">
   
-    - (<tt>Object</tt>) <strong>each_related_item</strong>(children = nil, maxDepth = 20) 
+    #<strong>each_related_item</strong>(children = nil, maxDepth = 20)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1598,7 +1600,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_agents-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_agents</strong>(linked_agents) 
+    #<strong>handle_agents</strong>(linked_agents)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1657,7 +1659,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_extent-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_extent</strong>(extents) 
+    #<strong>handle_extent</strong>(extents)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1700,7 +1702,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_notes-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_notes</strong>(notes) 
+    #<strong>handle_notes</strong>(notes)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1793,7 +1795,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_subjects-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_subjects</strong>(subjects) 
+    #<strong>handle_subjects</strong>(subjects)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1834,7 +1836,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_tree-instance_method">
   
-    - (<tt>Object</tt>) <strong>handle_tree</strong>(tree) 
+    #<strong>handle_tree</strong>(tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1865,7 +1867,7 @@
       <div class="method_details ">
   <h3 class="signature " id="name_parts-instance_method">
   
-    - (<tt>Object</tt>) <strong>name_parts</strong>(name, type) 
+    #<strong>name_parts</strong>(name, type)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1932,7 +1934,7 @@
       <div class="method_details ">
   <h3 class="signature " id="new_mods_note-instance_method">
   
-    - (<tt>Object</tt>) <strong>new_mods_note</strong>(*a) 
+    #<strong>new_mods_note</strong>(*a)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1964,10 +1966,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:05 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:58 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

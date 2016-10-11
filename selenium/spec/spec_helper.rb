@@ -70,9 +70,8 @@ RSpec.configure do |config|
   end
   
   config.before(:all) do
-    %w{ csv pdf xml }.each do |f|
-      file = "*.#{f}"
-      cmd = "rm #{ File.join(Dir.tmpdir, file) }"
+    Dir.glob(File.join(Dir.tmpdir, "*.{csv, pdf,xml}") ).each do |file| 
+      cmd = "rm #{ file }"
       %x{ #{cmd} }
     end
   end

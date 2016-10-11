@@ -2,6 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'fileutils'
+require 'aspace_i18n'
 
 require 'asutils'
 require 'jsonmodel'
@@ -15,7 +16,7 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile,
+  @@record_types = [ :top_container,:container_profile, :location_profile,
                      :archival_object, :resource,
                     :digital_object, :digital_object_component,
                     :subject, :location, :classification, :classification_term,
@@ -28,7 +29,7 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
+  @@resolved_attributes = ['location_profile', 'container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
 
   @@paused_until = Time.now
 
@@ -121,6 +122,22 @@ class CommonIndexer
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
+
+      # make a special sort field for each agent
+      # creator > subject > source
+      seen = {}
+      record['record']['linked_agents'].each do |link|
+        if seen[link['ref']] == 'creator'
+          # do nothing
+        elsif seen[link['ref']] == 'subject' && link['role'] != 'creator'
+          # do nothing
+        else
+          relator_label = link['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
+
+          doc["#{link['ref'].gsub(/\//, '_')}_relator_sort"] = "#{link['role']} #{relator_label}"
+          seen[link['ref']] = link['role']
+        end
+      end
     end
   end
 
@@ -416,6 +433,7 @@ class CommonIndexer
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['barcode_u_sstr'] = record['record']['barcode']
       end
     }
 
@@ -428,7 +446,8 @@ class CommonIndexer
         # index the top_container's linked via a sub_container
         ASUtils.wrap(record['record']['instances']).each{|instance|
           if instance['sub_container'] && instance['sub_container']['top_container']
-            doc['top_container_uri_u_sstr'] = instance['sub_container']['top_container']['ref']
+            doc['top_container_uri_u_sstr'] ||= []
+            doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
           end
         }
       end
@@ -452,7 +471,7 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] = CommonIndexer.extract_string_values(doc)
+      doc['fullrecord'] = CommonIndexer.extract_string_values(record)
       %w(finding_aid_subtitle finding_aid_author).each do |field|
         if record['record'].has_key?(field)
           doc['fullrecord'] << "#{record['record'][field]} "
@@ -463,6 +482,27 @@ class CommonIndexer
         doc['fullrecord'] << record['record']['names'].map {|name|
           CommonIndexer.extract_string_values(name)
         }.join(" ")
+      end
+    }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location_profile'
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        ['width', 'height', 'depth'].each do |property|
+          doc["location_profile_#{property}_u_sstr"] = record['record'][property]
+        end
+
+        doc["location_profile_dimension_units_u_sstr"] = record['record']['dimension_units']
+
+        doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
+      end
+
+      if record['record']['location_profile']
+        doc['location_profile_uri_u_sstr'] = record['record']['location_profile']['ref']
+        doc['location_profile_display_string_u_ssort'] = record['record']['location_profile']['_resolved']['display_string']
       end
     }
 
@@ -485,6 +525,7 @@ class CommonIndexer
           'json' => cm.to_json(:max_nesting => false),
           'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
+          'processing_status' => cm['processing_status'], 
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],

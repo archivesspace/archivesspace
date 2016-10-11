@@ -2,6 +2,12 @@
   display: table;
   width: 100%;
 
+  .navigation-row:first-child {
+    div {
+      border-top: 1px solid $grey;
+    }
+  }
+
   .navigation-row {
     display: table-row;
 
@@ -13,12 +19,52 @@
     > div {
       display: table-cell;
     }
+
+    > div:first-child {
+      padding: rem-calc(10);
+      border-left: 1px solid $grey;
+      border-bottom: 1px solid $grey;
+      .arrow-down {
+        @include css-triangle(rem-calc(6), $black, 'down');
+      }
+
+      .arrow-right {
+        @include css-triangle(rem-calc(6), $black, 'right');
+      }
+    }
+
+    > div:last-child {
+      width: 100%;
+      border-left: 1px solid $grey;
+      border-right: 1px solid $grey;
+      border-bottom: 1px solid $grey;
+      vertical-align: middle;
+      padding-left: rem-calc(10);
+    }
   }
 
   .content-row {
 
     > div {
       display: table-cell;
+    }
+
+    > div:first-child {
+      border-left: 1px solid $grey;
+    }
+
+    > div:last-child {
+      border-left: 1px solid $grey;
+      border-right: 1px solid $grey;
+      padding-left: rem-calc(10);
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+    }
+  }
+
+  .content-row:last-child {
+    > div {
+      border-bottom: 1px solid $grey;
     }
   }
 }
@@ -48,6 +94,7 @@
 
 }
 
+/* TODO - move to record-metadata file */
 .accordion-table.record-metadata {
   border-bottom: 1px solid $grey;
 
@@ -55,13 +102,13 @@
     background-color: $lightgrey;
 
     > div:first-child {
-      border-top: 1px solid $grey;
+
       border-left: 1px solid $grey;
     }
 
     > div:last-child {
       background-color: $lightgrey;
-      border-top: 1px solid $grey;
+
       border-left: 1px solid $grey;
       border-right: 1px solid $grey;
       padding-left: rem-calc(40);
@@ -75,7 +122,6 @@
     > div:first-child {
       background-color: $lightblue;
       border-left: 1px solid $grey;
-      border-top: 1px solid $grey;
 
 
       .arrow-down {
@@ -94,13 +140,13 @@
       background-color: $lightgrey;
       border-left: 1px solid $grey;
       border-right: 1px solid $grey;
-      border-top: 1px solid $grey;
       vertical-align: middle;
       padding-left: rem-calc(20);
     }
   }
 }
 
+/* TODO - move to sidebar file */
 .accordion-table.sidebar-tree {
   border-bottom: 1px solid $grey;
 
@@ -150,7 +196,6 @@
   }
 
   .content-row {
-
 
     > div:last-child {
       color: $container-color;

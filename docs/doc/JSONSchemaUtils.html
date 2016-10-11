@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Module: JSONSchemaUtils
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "JSONSchemaUtils";
   relpath = '';
-  framesUrl = "frames.html#!JSONSchemaUtils.html";
 </script>
 
 
@@ -28,76 +27,72 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (J)</a> &raquo;
     
     
     <span class="title">JSONSchemaUtils</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Module: JSONSchemaUtils
+      <div id="content"><h1>Module: JSONSchemaUtils
   
   
   
 </h1>
+<div class="box_info">
+  
 
-<dl class="box">
-  
-  
-    
-  
-    
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">common/json_schema_utils.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>common/json_schema_utils.rb</dd>
+  </dl>
+  
+</div>
 
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="SCHEMA_PARSE_RULES-constant" class="">SCHEMA_PARSE_RULES =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <dl class="constants">
+    
+      <dt id="SCHEMA_PARSE_RULES-constant" class="">SCHEMA_PARSE_RULES =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span>
  <span class='lbrace token'>{</span>
    <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Properties'</span><span class='comma token'>,</span> <span class='string val'>'IfMissing'</span><span class='comma token'>,</span> <span class='string val'>'ArchivesSpaceSubType'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
    <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/([A-Z]+: )?The property '.*?' did not contain a required property of '(.*?)'.*/</span><span class='comma token'>,</span>
@@ -236,9 +231,8 @@
  <span class='rbrace token'>}</span>
 <span class='rbrack token'>]</span>
 </pre></dd>
-      
-    </dl>
-  
+    
+  </dl>
 
 
 
@@ -249,7 +243,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -257,7 +251,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#apply_schema_defaults-class_method" title="apply_schema_defaults (class method)">+ (Object) <strong>apply_schema_defaults</strong>(hash, schema) </a>
+      <a href="#apply_schema_defaults-class_method" title="apply_schema_defaults (class method)">.<strong>apply_schema_defaults</strong>(hash, schema)  &#x21d2; Object </a>
     
 
     
@@ -280,7 +274,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#drop_empty_elements-class_method" title="drop_empty_elements (class method)">+ (Object) <strong>drop_empty_elements</strong>(obj) </a>
+      <a href="#drop_empty_elements-class_method" title="drop_empty_elements (class method)">.<strong>drop_empty_elements</strong>(obj)  &#x21d2; Object </a>
     
 
     
@@ -303,7 +297,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#drop_unknown_properties-class_method" title="drop_unknown_properties (class method)">+ (Object) <strong>drop_unknown_properties</strong>(hash, schema, drop_readonly = false) </a>
+      <a href="#drop_unknown_properties-class_method" title="drop_unknown_properties (class method)">.<strong>drop_unknown_properties</strong>(hash, schema, drop_readonly = false)  &#x21d2; Object </a>
     
 
     
@@ -326,7 +320,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#extract_suberrors-class_method" title="extract_suberrors (class method)">+ (Object) <strong>extract_suberrors</strong>(errors) </a>
+      <a href="#extract_suberrors-class_method" title="extract_suberrors (class method)">.<strong>extract_suberrors</strong>(errors)  &#x21d2; Object </a>
     
 
     
@@ -349,7 +343,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#fragment_join-class_method" title="fragment_join (class method)">+ (Object) <strong>fragment_join</strong>(fragment, property = nil) </a>
+      <a href="#fragment_join-class_method" title="fragment_join (class method)">.<strong>fragment_join</strong>(fragment, property = nil)  &#x21d2; Object </a>
     
 
     
@@ -372,7 +366,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_blank%3F-class_method" title="is_blank? (class method)">+ (Boolean) <strong>is_blank?</strong>(obj) </a>
+      <a href="#is_blank%3F-class_method" title="is_blank? (class method)">.<strong>is_blank?</strong>(obj)  &#x21d2; Boolean </a>
     
 
     
@@ -395,7 +389,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#map_hash_with_schema-class_method" title="map_hash_with_schema (class method)">+ (Object) <strong>map_hash_with_schema</strong>(record, schema, transformations = []) </a>
+      <a href="#map_hash_with_schema-class_method" title="map_hash_with_schema (class method)">.<strong>map_hash_with_schema</strong>(record, schema, transformations = [])  &#x21d2; Object </a>
     
 
     
@@ -418,7 +412,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_schema_messages-class_method" title="parse_schema_messages (class method)">+ (Object) <strong>parse_schema_messages</strong>(messages, validator) </a>
+      <a href="#parse_schema_messages-class_method" title="parse_schema_messages (class method)">.<strong>parse_schema_messages</strong>(messages, validator)  &#x21d2; Object </a>
     
 
     
@@ -441,7 +435,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#schema_path_lookup-class_method" title="schema_path_lookup (class method)">+ (Object) <strong>schema_path_lookup</strong>(schema, path) </a>
+      <a href="#schema_path_lookup-class_method" title="schema_path_lookup (class method)">.<strong>schema_path_lookup</strong>(schema, path)  &#x21d2; Object </a>
     
 
     
@@ -473,7 +467,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="apply_schema_defaults-class_method">
   
-    + (<tt>Object</tt>) <strong>apply_schema_defaults</strong>(hash, schema) 
+    .<strong>apply_schema_defaults</strong>(hash, schema)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -538,7 +532,7 @@
       <div class="method_details ">
   <h3 class="signature " id="drop_empty_elements-class_method">
   
-    + (<tt>Object</tt>) <strong>drop_empty_elements</strong>(obj) 
+    .<strong>drop_empty_elements</strong>(obj)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -587,7 +581,7 @@
       <div class="method_details ">
   <h3 class="signature " id="drop_unknown_properties-class_method">
   
-    + (<tt>Object</tt>) <strong>drop_unknown_properties</strong>(hash, schema, drop_readonly = false) 
+    .<strong>drop_unknown_properties</strong>(hash, schema, drop_readonly = false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -658,7 +652,7 @@ client, but are not part of the data model.</p>
       <div class="method_details ">
   <h3 class="signature " id="extract_suberrors-class_method">
   
-    + (<tt>Object</tt>) <strong>extract_suberrors</strong>(errors) 
+    .<strong>extract_suberrors</strong>(errors)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -719,7 +713,7 @@ client, but are not part of the data model.</p>
       <div class="method_details ">
   <h3 class="signature " id="fragment_join-class_method">
   
-    + (<tt>Object</tt>) <strong>fragment_join</strong>(fragment, property = nil) 
+    .<strong>fragment_join</strong>(fragment, property = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -764,7 +758,7 @@ client, but are not part of the data model.</p>
       <div class="method_details ">
   <h3 class="signature " id="is_blank?-class_method">
   
-    + (<tt>Boolean</tt>) <strong>is_blank?</strong>(obj) 
+    .<strong>is_blank?</strong>(obj)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -818,7 +812,7 @@ client, but are not part of the data model.</p>
       <div class="method_details ">
   <h3 class="signature " id="map_hash_with_schema-class_method">
   
-    + (<tt>Object</tt>) <strong>map_hash_with_schema</strong>(record, schema, transformations = []) 
+    .<strong>map_hash_with_schema</strong>(record, schema, transformations = [])  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1005,7 +999,7 @@ the node in the record tree.</p>
       <div class="method_details ">
   <h3 class="signature " id="parse_schema_messages-class_method">
   
-    + (<tt>Object</tt>) <strong>parse_schema_messages</strong>(messages, validator) 
+    .<strong>parse_schema_messages</strong>(messages, validator)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1104,7 +1098,7 @@ them into a structured format like:</p>
       <div class="method_details ">
   <h3 class="signature " id="schema_path_lookup-class_method">
   
-    + (<tt>Object</tt>) <strong>schema_path_lookup</strong>(schema, path) 
+    .<strong>schema_path_lookup</strong>(schema, path)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1168,10 +1162,11 @@ them into a structured format like:</p>
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:58 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:50 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

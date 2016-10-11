@@ -4,7 +4,7 @@ class RepositoryReport < AbstractReport
                     :description => "Report on repository records"
                   })
 
-  def initialize(params)
+  def initialize(params, job)
     super
   end
 

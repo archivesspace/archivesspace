@@ -127,6 +127,9 @@ class JSONModelType
   #
   #  might yield 500
   #
+  # IDs are either positive integers, or importer-provided logical IDs
+  ID_REGEXP = /([0-9]+|import_[a-f0-9-]+)/
+
   def self.id_for(uri, opts = {}, noerror = false)
     if not self.schema['uri']
       if noerror
@@ -139,12 +142,9 @@ class JSONModelType
     pattern = self.schema['uri']
     pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
 
-    # IDs are either positive integers, or importer-provided logical IDs
-    id_regexp = /([0-9]+|import_[a-f0-9-]+)/
-
-    if uri =~ /#{pattern}\/#{id_regexp}(\#.*)?$/
+    if uri =~ /#{pattern}\/#{ID_REGEXP}(\#.*)?$/
       return id_to_int($1)
-    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{id_regexp}\/tree$/
+    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/tree$/
       return id_to_int($1)
     else
       if noerror

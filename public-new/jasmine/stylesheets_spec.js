@@ -59,4 +59,21 @@ describe('stylesheets', function() {
 
   });
 
+
+  describe("record type badges", function() {
+
+    beforeEach(function() {
+      frame.add("<div class='record-type-badge resource'><i class='fi-torso'></i>&#160;Resource</div>");
+    });
+
+    it("gives a 1 px border to record badges", function(done) {
+      badge = frame.get(".record-type-badge");
+      expect(badge.getRawStyle("border-top-width")).toEqual('1px');
+      expect(badge.getRawStyle("font-family")).toEqual('"Roboto Slab",serif');
+
+      done();
+    });
+
+  });
+
 })

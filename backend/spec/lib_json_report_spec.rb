@@ -43,7 +43,10 @@ describe 'JSON Jasper Report model' do
   end
  
   it "should have registered correctly" do
-    report = LocationsReport.new({:repo_id => $repo_id})
+    report = LocationsReport.new({:repo_id => $repo_id},
+                                  Job.create_from_json(build(:json_job),
+                                                       :repo_id => $repo_id,
+                                                       :user => create_nobody_user))
     report.should be_kind_of(JSONReport) 
     report.should be_kind_of(JasperReport) 
   end
@@ -79,7 +82,10 @@ describe 'JSON Jasper Report model' do
     # report
     create(:json_location, :temporary => generate(:temporary_location_type))
 
-    report = LocationsReport.new({:repo_id => $repo_id})
+    report = LocationsReport.new({:repo_id => $repo_id},
+                                  Job.create_from_json(build(:json_job),
+                                                       :repo_id => $repo_id,
+                                                       :user => create_nobody_user))
     json = JSON(  String.from_java_bytes( report.render(:json) )   )
     json["locations"].length.should == 3 
     

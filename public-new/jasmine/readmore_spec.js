@@ -9,7 +9,7 @@ describe('$.fn.readmore', function() {
 
   it("breaks text into less and more", function() {
     $('#emma').readmore(20);
-    expect($('#emma p:nth-child(1) span.less').html()).toEqual('Emma Woodhouse, handsome,');
+    expect($('#emma p:nth-child(1) span.less').html()).toEqual('Emma Woodhouse, handsome,<span class="elipses">...</span>');
     expect($('#emma p:nth-child(1) span.more').html()).toMatch(/^\sclever.*her\.$/);
     expect($('#emma p:nth-child(2)')).toHaveClass('more');
   });
@@ -40,7 +40,7 @@ describe('$.fn.readmore', function() {
     $('#emma').empty().html(text);
     $('#emma').readmore(20);
     console.log($('#emma').html());
-    expect($('#emma span.less').html()).toEqual('Emma Woodhouse, handsome,');
+    expect($('#emma span.less').html()).toEqual('Emma Woodhouse, handsome,<span class="elipses">...</span>');
   });
 
 });

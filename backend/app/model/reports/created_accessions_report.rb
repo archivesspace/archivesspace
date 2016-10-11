@@ -7,7 +7,7 @@ class CreatedAccessionsReport < AbstractReport
                                 ["to", Date, "The start of report range"]]
                   })
 
-  def initialize(params)
+  def initialize(params, job)
     super
     from = params["from"] || Time.now.to_s
     to = params["to"] || Time.now.to_s

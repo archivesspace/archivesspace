@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: digital_object_list
-description: "Displays digital object(s) in list fashion.  Report contains title, digital object identifier, object type dates and creator names."

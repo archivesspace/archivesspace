@@ -1,7 +1,7 @@
 var app = app || {};
 
 
-(function() {
+(function(Bb, _) {
   'use strict';
 
   function parseAdvancedQuery(query, params, depth) {
@@ -32,7 +32,12 @@ var app = app || {};
         label_plural: "Collections"
       },
       archival_object: {
-        key_for_public_urls: "object"
+        key_for_public_urls: "object",
+        label_singular: "Object",
+        label_plural: "Objects"
+      },
+      digital_object: {
+        label_singular: "Digital Object"
       },
       accession: {
         key_for_public_urls: "accession",
@@ -41,6 +46,16 @@ var app = app || {};
       classification: {
         label_singular: "Record Group",
         label_plural: "Record Groups"
+      },
+      agent_person: {
+        key_for_public_urls: "person",
+        label_singular: "Person"
+      },
+      subject: {
+        label_singular: "Subject"
+      },
+      repository: {
+        label_singular: "Repository"
       }
     }
   }
@@ -57,7 +72,6 @@ var app = app || {};
       } else {
         _.forEach(recordLabelMap, function(mapping, asType) {
           if((mapping.key_for_public_urls === type) && mapping.label_singular) {
-
             result = mapping.label_singular;
           }
         });
@@ -68,7 +82,7 @@ var app = app || {};
 
 
     getPublicType: function(asType) {
-      if(_.has(recordLabelMap, asType)) {
+      if(_.has(recordLabelMap, asType) && _.has(recordLabelMap[asType], 'key_for_public_urls')) {
         return recordLabelMap[asType].key_for_public_urls;
       } else {
         return asType;
@@ -76,7 +90,7 @@ var app = app || {};
     },
 
     getPublicTypeLabel: function(asType) {
-      if(_.has(recordLabelMap, asType)) {
+      if(_.has(recordLabelMap, asType) && _.has(recordLabelMap[asType], 'label_singular')) {
         return recordLabelMap[asType].label_singular;
       } else {
         return asType;
@@ -95,10 +109,9 @@ var app = app || {};
       return result;
     },
 
-    // getPublicUrl: function(asUri) {
-
-    //   return asUri;
-    // },
+    getPublicUrl: function(asUri, asType) {
+      return asUri.replace(new RegExp(_.pluralize(asType)), _.pluralize(app.utils.getPublicType(asType)));
+    },
 
     convertAdvancedQuery: function(aq) {
       var params = parseAdvancedQuery(aq.query);
@@ -145,9 +158,17 @@ var app = app || {};
     },
 
     //TODO: cache compiled templates
-    tmpl: function(templateId, data) {
+    // (especially important for search result items)
+
+    tmpl: function(templateId, data, useInnerWrapper) {
       templateId = templateId.replace(/-tmpl$/, '') + '-tmpl';
-      return _.template($('#'+templateId).html())(data);
+      var templateResult = _.template($('#'+templateId).html())(data);
+
+      if(useInnerWrapper) {
+        return "<div class='inner'>"+templateResult+"</div>";
+      } else {
+        return templateResult;
+      }
     },
 
 
@@ -156,7 +177,9 @@ var app = app || {};
       if (date.begin && date.end) {
         string += date.begin+"-"+date.end;
       } else if(date.begin) {
-        string += date.begin
+        string += date.begin;
+      } else if(date.expression) {
+        string += date.expression;
       }
 
       return string;
@@ -168,6 +191,75 @@ var app = app || {};
         subnotes, function(subnote) {
           return _.get(subnote, 'content');
         }))).join('<br />');
+    },
+
+    formatRightsStatement: function(rightsStatement) {
+      var result = [];
+
+      _.forOwn(rightsStatement, function(val, key) {
+        if(!_.includes(['lock_version', 'jsonmodel_type', 'system_mtime', 'create_time', 'last_modified_by', 'user_mtime'], key)) {
+          var label = app.utils.getSchemaLabel('rights_statement', key);
+          result.push("<strong>"+label+"</strong><br />"+val);
+        }
+      });
+
+      return result.join("<br />");
+
+    },
+
+    // Not sure how to do this for real. Probably add
+    // an endpoint in Rails and some caching here?
+    // Depends a bit on end user workflow for customizing labels...
+    getSchemaLabel: function(schema, field) {
+      var field = schema + "_" + field;
+      var result = field;
+
+      switch(field) {
+      case 'rights_statement_ip_status':
+        result = "IP Status";
+        break;
+      default:
+        result = _.map(result.split("_"), function(word) {
+          return _.capitalize(word);
+        }).join(" ");
+
+      }
+
+      return result;
+    },
+
+    parsePublicUrl: function(url) {
+      if(url.match(/repositories\/(\d+)\/([a-z_]+)\/(\d+)$/)) {
+        var parsed = /repositories\/(\d+)\/([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[2]);
+        return {
+          repoId: parsed[1],
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[3]
+        };
+      } else {
+        var parsed = /([a-z_]+)\/(\d+)/.exec(url);
+        var recordTypePath = _.singularize(parsed[1])
+        return {
+          recordTypePath: recordTypePath,
+          asType: app.utils.getASType(recordTypePath),
+          id: parsed[2]
+        };
+      }
+    },
+
+    //drop a modal and raise it when the job
+    // is done
+    working: function(callback) {
+      $('#wait-modal').foundation('open');
+      callback(function() {
+        setTimeout(function() {
+          $('#wait-modal').foundation('close');
+          // reinitalize foundation
+          $("#main-content").foundation();
+        }, 500);
+      });
     }
   }
-})();
+})(Backbone, _);

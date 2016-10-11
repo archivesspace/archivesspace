@@ -102,6 +102,7 @@ module SeleniumFactories
 
       factory :collection_management, class: JSONModel(:collection_management) do
         processing_total_extent "10"
+        processing_status "completed" 
         processing_total_extent_type "cassettes"
         processing_hours_per_foot_estimate "80"
       end
@@ -243,6 +244,23 @@ module SeleniumFactories
         identifier { generate(:alphanumstr) }
         title { generate(:classification_term_title) }
         description { generate(:alphanumstr) }
+      end
+
+      factory :container_profile, class: JSONModel(:container_profile) do
+        name { generate(:alphanumstr) }
+        extent_dimension "width"
+        dimension_units "inches"
+        width "10"
+        height "10"
+        depth "10"
+      end
+
+      factory :location_profile, class: JSONModel(:location_profile) do
+        name { generate(:alphanumstr) }
+        dimension_units "inches"
+        width "100"
+        height "20"
+        depth "20"
       end
     end
 

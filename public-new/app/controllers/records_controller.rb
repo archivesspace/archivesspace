@@ -1,4 +1,6 @@
 class RecordsController < ApplicationController
+  include TreeApis
+
   before_filter :get_repository
 
 
@@ -8,9 +10,9 @@ class RecordsController < ApplicationController
 
     hash = resource.to_hash_with_translated_enums([
                                                    'language_iso639_2',
-                                                   'linked_agent_role'],
+                                                   'linked_agent_role',
+                                                   'linked_agent_archival_record_relators'],
                                                   :publishing)
-
     json = ASUtils.to_json(hash, {:max_nesting => false})
 
     render :json => json
@@ -18,10 +20,12 @@ class RecordsController < ApplicationController
 
 
   def archival_object
-    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents"])
+    archival_object = JSONModel(:archival_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "repository", "repository::agent_representation"])
     raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
-
-    render :json => archival_object.to_json
+    hash = archival_object.to_hash()
+    hash['path'] =  get_path(hash['uri'])
+    json =  ASUtils.to_json(hash, {:max_nesting => false})
+    render :json => json
   end
 
 
@@ -36,10 +40,23 @@ class RecordsController < ApplicationController
 
 
   def digital_object
-    digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents"])
+    digital_object = JSONModel(:digital_object).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_instances", "linked_agents", "repository"])
     raise RecordNotFound.new if (!digital_object || !digital_object.publish)
+    hash = digital_object.to_hash()
+    hash['path'] =  get_path(hash['uri'])
+    json =  ASUtils.to_json(hash, {:max_nesting => false})
 
-    render :json => digital_object.to_json
+    render :json => json
+  end
+
+
+  def subject
+    subject = JSONModel(:subject).find(params[:id], "resolve[]" => [])
+    raise RecordNotFound.new if (!subject || !subject.publish)
+
+    hash = subject.to_hash_with_translated_enums(['subject_source', 'subject_term_type'])
+
+    render :json => ASUtils.to_json(hash)
   end
 
 
@@ -60,14 +77,44 @@ class RecordsController < ApplicationController
 
 
   def agent_person
-    agent_person = JSONModel(:agent_person).find(params[:id], "resolve[]" => [])
+    agent_person = JSONModel(:agent_person).find(params[:id], "resolve[]" => ["related_agents"])
 
-    render :json => agent_person
+    hash = agent_person.to_hash_with_translated_enums(["agent_relationship_parentchild_relator", "agent_relationship_associative_relator",  "agent_relationship_subordinatesuperior_relator", "agent_relationship_earlierlater_relator", "rights_statement_rights_type"])
+
+    json = ASUtils.to_json(hash, {:max_nesting => false})
+
+    render :json => json
   end
 
+  def repository
+    agent_representation = JSONModel(:agent_corporate_entity).find_by_uri(@repository.agent_representation['ref'])
 
+    hash = @repository.to_hash
+
+    hash['agent_representation']['_resolved'] = agent_representation.to_hash
+
+    json = ASUtils.to_json(hash, {:max_nesting => false})
+
+    render :json => json
+  end
 
   def get_repository
     @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
   end
+
+  private
+  def get_path(node_uri)
+    tree = fetch_tree(node_uri) || {}
+    path_to_root = {}
+    if tree['path_to_root']
+      path_to_root = tree['path_to_root'].map {|node|
+        {
+          'crumb' => node['title'] || '',
+          'uri' => node['record_uri'] || ''
+        }
+      }
+    end
+    path_to_root
+  end
+
 end

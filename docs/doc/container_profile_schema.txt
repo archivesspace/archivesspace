@@ -18,6 +18,8 @@ string	width
 
 string	depth
 
+string	stacking_limit
+
 string	display_string
 
 

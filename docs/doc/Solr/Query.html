@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Solr::Query
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "Solr::Query";
   relpath = '../';
-  framesUrl = "../frames.html#!Solr/Query.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="../_index.html">Index (Q)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Solr.html" title="Solr (class)">Solr</a></span></span>
      &raquo; 
     <span class="title">Query</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="../class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="../method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="../file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="../schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="../class_list.html"></iframe>
 
-    <div id="content"><h1>Class: Solr::Query
+      <div id="content"><h1>Class: Solr::Query
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Object</span>
       
         <ul class="fullTree">
@@ -88,35 +81,37 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/solr.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/solr.rb</dd>
+  </dl>
+  
+</div>
 
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="SOLR_CHARS-constant" class="">SOLR_CHARS =
-          
-        </dt>
-        <dd><pre class="code"><span class='string val'>'+-&amp;|!(){}[]^&quot;~*?:\\/'</span>
+  <dl class="constants">
+    
+      <dt id="SOLR_CHARS-constant" class="">SOLR_CHARS =
+        
+      </dt>
+      <dd><pre class="code"><span class='string val'>'+-&amp;|!(){}[]^&quot;~*?:\\/'</span>
 </pre></dd>
-      
-    </dl>
-  
+    
+  </dl>
 
 
 
@@ -127,7 +122,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -135,7 +130,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#construct_advanced_query_string-class_method" title="construct_advanced_query_string (class method)">+ (Object) <strong>construct_advanced_query_string</strong>(advanced_query) </a>
+      <a href="#construct_advanced_query_string-class_method" title="construct_advanced_query_string (class method)">.<strong>construct_advanced_query_string</strong>(advanced_query)  &#x21d2; Object </a>
     
 
     
@@ -158,7 +153,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_advanced_search-class_method" title="create_advanced_search (class method)">+ (Object) <strong>create_advanced_search</strong>(advanced_query_json) </a>
+      <a href="#create_advanced_search-class_method" title="create_advanced_search (class method)">.<strong>create_advanced_search</strong>(advanced_query_json)  &#x21d2; Object </a>
     
 
     
@@ -181,7 +176,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_keyword_search-class_method" title="create_keyword_search (class method)">+ (Object) <strong>create_keyword_search</strong>(query) </a>
+      <a href="#create_keyword_search-class_method" title="create_keyword_search (class method)">.<strong>create_keyword_search</strong>(query)  &#x21d2; Object </a>
     
 
     
@@ -204,7 +199,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_match_all_query-class_method" title="create_match_all_query (class method)">+ (Object) <strong>create_match_all_query</strong> </a>
+      <a href="#create_match_all_query-class_method" title="create_match_all_query (class method)">.<strong>create_match_all_query</strong>  &#x21d2; Object </a>
     
 
     
@@ -227,7 +222,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_term_query-class_method" title="create_term_query (class method)">+ (Object) <strong>create_term_query</strong>(field, term) </a>
+      <a href="#create_term_query-class_method" title="create_term_query (class method)">.<strong>create_term_query</strong>(field, term)  &#x21d2; Object </a>
     
 
     
@@ -250,7 +245,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#solr_escape-class_method" title="solr_escape (class method)">+ (Object) <strong>solr_escape</strong>(s) </a>
+      <a href="#solr_escape-class_method" title="solr_escape (class method)">.<strong>solr_escape</strong>(s)  &#x21d2; Object </a>
     
 
     
@@ -274,7 +269,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -282,7 +277,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_solr_param-instance_method" title="#add_solr_param (instance method)">- (Object) <strong>add_solr_param</strong>(param, value) </a>
+      <a href="#add_solr_param-instance_method" title="#add_solr_param (instance method)">#<strong>add_solr_param</strong>(param, value)  &#x21d2; Object </a>
     
 
     
@@ -305,7 +300,53 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Query) <strong>initialize</strong>(query_string) </a>
+      <a href="#get_writer_type-instance_method" title="#get_writer_type (instance method)">#<strong>get_writer_type</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#highlighting-instance_method" title="#highlighting (instance method)">#<strong>highlighting</strong>(yes_please = true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(query_string, opts = {})  &#x21d2; Query </a>
     
 
     
@@ -330,7 +371,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#page_size-instance_method" title="#page_size (instance method)">- (Object) <strong>page_size</strong> </a>
+      <a href="#page_size-instance_method" title="#page_size (instance method)">#<strong>page_size</strong>  &#x21d2; Object </a>
     
 
     
@@ -353,7 +394,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#pagination-instance_method" title="#pagination (instance method)">- (Object) <strong>pagination</strong>(page, page_size) </a>
+      <a href="#pagination-instance_method" title="#pagination (instance method)">#<strong>pagination</strong>(page, page_size)  &#x21d2; Object </a>
     
 
     
@@ -376,7 +417,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_excluded_ids-instance_method" title="#set_excluded_ids (instance method)">- (Object) <strong>set_excluded_ids</strong>(ids) </a>
+      <a href="#remove_csv_header-instance_method" title="#remove_csv_header (instance method)">#<strong>remove_csv_header</strong>  &#x21d2; Object </a>
     
 
     
@@ -399,7 +440,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_facets-instance_method" title="#set_facets (instance method)">- (Object) <strong>set_facets</strong>(fields) </a>
+      <a href="#set_excluded_ids-instance_method" title="#set_excluded_ids (instance method)">#<strong>set_excluded_ids</strong>(ids)  &#x21d2; Object </a>
     
 
     
@@ -422,7 +463,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_filter_terms-instance_method" title="#set_filter_terms (instance method)">- (Object) <strong>set_filter_terms</strong>(filter_terms) </a>
+      <a href="#set_facets-instance_method" title="#set_facets (instance method)">#<strong>set_facets</strong>(fields)  &#x21d2; Object </a>
     
 
     
@@ -445,7 +486,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_record_types-instance_method" title="#set_record_types (instance method)">- (Object) <strong>set_record_types</strong>(record_types) </a>
+      <a href="#set_filter_terms-instance_method" title="#set_filter_terms (instance method)">#<strong>set_filter_terms</strong>(filter_terms)  &#x21d2; Object </a>
     
 
     
@@ -468,7 +509,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_repo_id-instance_method" title="#set_repo_id (instance method)">- (Object) <strong>set_repo_id</strong>(repo_id) </a>
+      <a href="#set_record_types-instance_method" title="#set_record_types (instance method)">#<strong>set_record_types</strong>(record_types)  &#x21d2; Object </a>
     
 
     
@@ -491,7 +532,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_root_record-instance_method" title="#set_root_record (instance method)">- (Object) <strong>set_root_record</strong>(root_record) </a>
+      <a href="#set_repo_id-instance_method" title="#set_repo_id (instance method)">#<strong>set_repo_id</strong>(repo_id)  &#x21d2; Object </a>
     
 
     
@@ -514,7 +555,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_simple_filters-instance_method" title="#set_simple_filters (instance method)">- (Object) <strong>set_simple_filters</strong>(filter_terms) </a>
+      <a href="#set_root_record-instance_method" title="#set_root_record (instance method)">#<strong>set_root_record</strong>(root_record)  &#x21d2; Object </a>
     
 
     
@@ -537,7 +578,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_solr_url-instance_method" title="#set_solr_url (instance method)">- (Object) <strong>set_solr_url</strong>(solr_url) </a>
+      <a href="#set_simple_filters-instance_method" title="#set_simple_filters (instance method)">#<strong>set_simple_filters</strong>(filter_terms)  &#x21d2; Object </a>
     
 
     
@@ -560,7 +601,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_sort-instance_method" title="#set_sort (instance method)">- (Object) <strong>set_sort</strong>(sort) </a>
+      <a href="#set_solr_url-instance_method" title="#set_solr_url (instance method)">#<strong>set_solr_url</strong>(solr_url)  &#x21d2; Object </a>
     
 
     
@@ -583,7 +624,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_writer_type-instance_method" title="#set_writer_type (instance method)">- (Object) <strong>set_writer_type</strong>(type) </a>
+      <a href="#set_sort-instance_method" title="#set_sort (instance method)">#<strong>set_sort</strong>(sort)  &#x21d2; Object </a>
     
 
     
@@ -606,7 +647,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#show_excluded_docs-instance_method" title="#show_excluded_docs (instance method)">- (Object) <strong>show_excluded_docs</strong>(value) </a>
+      <a href="#set_writer_type-instance_method" title="#set_writer_type (instance method)">#<strong>set_writer_type</strong>(type)  &#x21d2; Object </a>
     
 
     
@@ -629,7 +670,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#show_published_only-instance_method" title="#show_published_only (instance method)">- (Object) <strong>show_published_only</strong>(value) </a>
+      <a href="#show_excluded_docs-instance_method" title="#show_excluded_docs (instance method)">#<strong>show_excluded_docs</strong>(value)  &#x21d2; Object </a>
     
 
     
@@ -652,7 +693,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#show_suppressed-instance_method" title="#show_suppressed (instance method)">- (Object) <strong>show_suppressed</strong>(value) </a>
+      <a href="#show_published_only-instance_method" title="#show_published_only (instance method)">#<strong>show_published_only</strong>(value)  &#x21d2; Object </a>
     
 
     
@@ -675,7 +716,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_solr_url-instance_method" title="#to_solr_url (instance method)">- (Object) <strong>to_solr_url</strong> </a>
+      <a href="#show_suppressed-instance_method" title="#show_suppressed (instance method)">#<strong>show_suppressed</strong>(value)  &#x21d2; Object </a>
     
 
     
@@ -698,7 +739,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#use_standard_query_type-instance_method" title="#use_standard_query_type (instance method)">- (Object) <strong>use_standard_query_type</strong> </a>
+      <a href="#to_solr_url-instance_method" title="#to_solr_url (instance method)">#<strong>to_solr_url</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#use_standard_query_type-instance_method" title="#use_standard_query_type (instance method)">#<strong>use_standard_query_type</strong>  &#x21d2; Object </a>
     
 
     
@@ -727,7 +791,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Solr::Query (class)">Query</a></span></tt>) <strong>initialize</strong>(query_string) 
+    #<strong>initialize</strong>(query_string, opts = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Solr::Query (class)">Query</a></span></tt> 
   
 
   
@@ -749,6 +813,8 @@
       <pre class="lines">
 
 
+80
+81
 82
 83
 84
@@ -761,12 +827,13 @@
 91
 92
 93
-94</pre>
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 80</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_query_string identifier id'>query_string</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_query_string identifier id'>query_string</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@solr_url ivar id'>@solr_url</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@query_string ivar id'>@query_string</span> <span class='assign token'>=</span> <span class='rubyid_query_string identifier id'>query_string</span>
@@ -775,9 +842,12 @@
   <span class='rubyid_@pagination ivar id'>@pagination</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_@solr_params ivar id'>@solr_params</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@facet_fields ivar id'>@facet_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@highlighting ivar id'>@highlighting</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 
   <span class='rubyid_@show_suppressed ivar id'>@show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
   <span class='rubyid_@show_published_only ivar id'>@show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  
+  <span class='rubyid_@csv_header ivar id'>@csv_header</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -795,7 +865,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="construct_advanced_query_string-class_method">
   
-    + (<tt>Object</tt>) <strong>construct_advanced_query_string</strong>(advanced_query) 
+    .<strong>construct_advanced_query_string</strong>(advanced_query)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -807,6 +877,8 @@
       <pre class="lines">
 
 
+42
+43
 44
 45
 46
@@ -832,12 +904,10 @@
 66
 67
 68
-69
-70
-71</pre>
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_construct_advanced_query_string identifier id'>construct_advanced_query_string</span><span class='lparen token'>(</span><span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_advanced_query identifier id'>advanced_query</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'subqueries'</span><span class='rparen token'>)</span>
@@ -876,7 +946,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_advanced_search-class_method">
   
-    + (<tt>Object</tt>) <strong>create_advanced_search</strong>(advanced_query_json) 
+    .<strong>create_advanced_search</strong>(advanced_query_json)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -888,13 +958,13 @@
       <pre class="lines">
 
 
+36
+37
 38
-39
-40
-41</pre>
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_advanced_search identifier id'>create_advanced_search</span><span class='lparen token'>(</span><span class='rubyid_advanced_query_json identifier id'>advanced_query_json</span><span class='rparen token'>)</span>
   <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_construct_advanced_query_string identifier id'>construct_advanced_query_string</span><span class='lparen token'>(</span><span class='rubyid_advanced_query_json identifier id'>advanced_query_json</span><span class='lbrack token'>[</span><span class='string val'>'query'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span>
@@ -909,7 +979,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_keyword_search-class_method">
   
-    + (<tt>Object</tt>) <strong>create_keyword_search</strong>(query) 
+    .<strong>create_keyword_search</strong>(query)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -921,12 +991,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_keyword_search identifier id'>create_keyword_search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
   <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
@@ -940,7 +1010,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_match_all_query-class_method">
   
-    + (<tt>Object</tt>) <strong>create_match_all_query</strong> 
+    .<strong>create_match_all_query</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -952,12 +1022,12 @@
       <pre class="lines">
 
 
-23
-24
-25</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_match_all_query identifier id'>create_match_all_query</span>
   <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;*:*&quot;</span><span class='rparen token'>)</span>
@@ -971,7 +1041,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_term_query-class_method">
   
-    + (<tt>Object</tt>) <strong>create_term_query</strong>(field, term) 
+    .<strong>create_term_query</strong>(field, term)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -983,12 +1053,12 @@
       <pre class="lines">
 
 
-33
-34
-35</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 31</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_term_query identifier id'>create_term_query</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span>
   <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_term_query identifier id'>term_query</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_use_standard_query_type identifier id'>use_standard_query_type</span>
@@ -1002,7 +1072,7 @@
       <div class="method_details ">
   <h3 class="signature " id="solr_escape-class_method">
   
-    + (<tt>Object</tt>) <strong>solr_escape</strong>(s) 
+    .<strong>solr_escape</strong>(s)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1014,13 +1084,13 @@
       <pre class="lines">
 
 
+74
+75
 76
-77
-78
-79</pre>
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 74</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_solr_escape identifier id'>solr_escape</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_Regexp constant id'>Regexp</span><span class='dot token'>.</span><span class='rubyid_quote identifier id'>quote</span><span class='lparen token'>(</span><span class='rubyid_SOLR_CHARS constant id'>SOLR_CHARS</span><span class='rparen token'>)</span>
@@ -1041,7 +1111,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="add_solr_param-instance_method">
   
-    - (<tt>Object</tt>) <strong>add_solr_param</strong>(param, value) 
+    #<strong>add_solr_param</strong>(param, value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1053,13 +1123,13 @@
       <pre class="lines">
 
 
-213
-214
-215
-216</pre>
+223
+224
+225
+226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 213</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='rubyid_param identifier id'>param</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_@solr_params ivar id'>@solr_params</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rbrack token'>]</span>
@@ -1072,9 +1142,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="page_size-instance_method">
+  <h3 class="signature " id="get_writer_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>page_size</strong> 
+    #<strong>get_writer_type</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1086,12 +1156,76 @@
       <pre class="lines">
 
 
-115
-116
-117</pre>
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 233</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_writer_type identifier id'>get_writer_type</span>
+  <span class='rubyid_@writer_type ivar id'>@writer_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="highlighting-instance_method">
+  
+    #<strong>highlighting</strong>(yes_please = true)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 113</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_highlighting identifier id'>highlighting</span><span class='lparen token'>(</span><span class='rubyid_yes_please identifier id'>yes_please</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_@highlighting ivar id'>@highlighting</span> <span class='assign token'>=</span> <span class='rubyid_yes_please identifier id'>yes_please</span>
+  <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="page_size-instance_method">
+  
+    #<strong>page_size</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_page_size identifier id'>page_size</span>
   <span class='rubyid_@pagination ivar id'>@pagination</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span>
@@ -1105,7 +1239,7 @@
       <div class="method_details ">
   <h3 class="signature " id="pagination-instance_method">
   
-    - (<tt>Object</tt>) <strong>pagination</strong>(page, page_size) 
+    #<strong>pagination</strong>(page, page_size)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1117,13 +1251,13 @@
       <pre class="lines">
 
 
-109
-110
-111
-112</pre>
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_pagination identifier id'>pagination</span><span class='lparen token'>(</span><span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rparen token'>)</span>
   <span class='rubyid_@pagination ivar id'>@pagination</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='symbol val'>:page_size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page_size identifier id'>page_size</span><span class='rbrace token'>}</span>
@@ -1136,9 +1270,167 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="remove_csv_header-instance_method">
+  
+    #<strong>remove_csv_header</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_remove_csv_header identifier id'>remove_csv_header</span>
+  <span class='rubyid_@csv_header ivar id'>@csv_header</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="set_excluded_ids-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_excluded_ids</strong>(ids) 
+    #<strong>set_excluded_ids</strong>(ids)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160
+161
+162
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 158</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_excluded_ids identifier id'>set_excluded_ids</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ids identifier id'>ids</span>
+    <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{id}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
+    <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;-id:(#{query})&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_facets-instance_method">
+  
+    #<strong>set_facets</strong>(fields)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 197</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_facets identifier id'>set_facets</span><span class='lparen token'>(</span><span class='rubyid_fields identifier id'>fields</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_fields identifier id'>fields</span>
+    <span class='rubyid_@facet_fields ivar id'>@facet_fields</span> <span class='assign token'>=</span> <span class='rubyid_fields identifier id'>fields</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_filter_terms-instance_method">
+  
+    #<strong>set_filter_terms</strong>(filter_terms)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 168</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_filter_terms identifier id'>set_filter_terms</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_str identifier id'>str</span><span class='bitor op'>|</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_str identifier id'>str</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet identifier id'>facet</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
+        <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_term_query identifier id'>term_query</span><span class='lparen token'>(</span><span class='rubyid_facet identifier id'>facet</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_record_types-instance_method">
+  
+    #<strong>set_record_types</strong>(record_types)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1162,133 +1454,6 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 148</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_excluded_ids identifier id'>set_excluded_ids</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ids identifier id'>ids</span>
-    <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{id}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
-    <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='dstring node'>&quot;-id:(#{query})&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_self self kw'>self</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_facets-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_facets</strong>(fields) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-187
-188
-189
-190
-191
-192
-193</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 187</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_facets identifier id'>set_facets</span><span class='lparen token'>(</span><span class='rubyid_fields identifier id'>fields</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_fields identifier id'>fields</span>
-    <span class='rubyid_@facet_fields ivar id'>@facet_fields</span> <span class='assign token'>=</span> <span class='rubyid_fields identifier id'>fields</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_self self kw'>self</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_filter_terms-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_filter_terms</strong>(filter_terms) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 158</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_filter_terms identifier id'>set_filter_terms</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span>
-  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_str identifier id'>str</span><span class='bitor op'>|</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_str identifier id'>str</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
-      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet identifier id'>facet</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
-        <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_term_query identifier id'>term_query</span><span class='lparen token'>(</span><span class='rubyid_facet identifier id'>facet</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-      <span class='rbrace token'>}</span>
-    <span class='rbrace token'>}</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_self self kw'>self</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_record_types-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_record_types</strong>(record_types) 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-138
-139
-140
-141
-142
-143
-144
-145</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 138</span>
-
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_record_types identifier id'>set_record_types</span><span class='lparen token'>(</span><span class='rubyid_record_types identifier id'>record_types</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record_types identifier id'>record_types</span>
     <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span>  <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_record_types identifier id'>record_types</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;\&quot;#{type}\&quot;&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' OR '</span><span class='rparen token'>)</span>
@@ -1306,7 +1471,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_repo_id-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_repo_id</strong>(repo_id) 
+    #<strong>set_repo_id</strong>(repo_id)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1318,16 +1483,16 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126</pre>
+130
+131
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_repo_id identifier id'>set_repo_id</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo_id identifier id'>repo_id</span>
@@ -1345,7 +1510,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_root_record-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_root_record</strong>(root_record) 
+    #<strong>set_root_record</strong>(root_record)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1357,16 +1522,16 @@
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134
-135</pre>
+139
+140
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 139</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_root_record identifier id'>root_record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_root_record identifier id'>root_record</span>
@@ -1384,7 +1549,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_simple_filters-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_simple_filters</strong>(filter_terms) 
+    #<strong>set_simple_filters</strong>(filter_terms)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1396,18 +1561,18 @@
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176
-177
-178</pre>
+180
+181
+182
+183
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 180</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_simple_filters identifier id'>set_simple_filters</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_filter_terms identifier id'>filter_terms</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1427,7 +1592,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_solr_url-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_solr_url</strong>(solr_url) 
+    #<strong>set_solr_url</strong>(solr_url)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1439,13 +1604,13 @@
       <pre class="lines">
 
 
-97
-98
-99
-100</pre>
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_solr_url identifier id'>set_solr_url</span><span class='lparen token'>(</span><span class='rubyid_solr_url identifier id'>solr_url</span><span class='rparen token'>)</span>
   <span class='rubyid_@solr_url ivar id'>@solr_url</span> <span class='assign token'>=</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
@@ -1460,7 +1625,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_sort-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_sort</strong>(sort) 
+    #<strong>set_sort</strong>(sort)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1472,12 +1637,12 @@
       <pre class="lines">
 
 
-196
-197
-198</pre>
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_sort identifier id'>set_sort</span><span class='lparen token'>(</span><span class='rubyid_sort identifier id'>sort</span><span class='rparen token'>)</span>
   <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:sort</span><span class='comma token'>,</span> <span class='rubyid_sort identifier id'>sort</span><span class='rparen token'>)</span>
@@ -1491,7 +1656,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_writer_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_writer_type</strong>(type) 
+    #<strong>set_writer_type</strong>(type)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1503,12 +1668,12 @@
       <pre class="lines">
 
 
-219
-220
-221</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 229</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_writer_type identifier id'>set_writer_type</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_@writer_type ivar id'>@writer_type</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span>
@@ -1522,7 +1687,7 @@
       <div class="method_details ">
   <h3 class="signature " id="show_excluded_docs-instance_method">
   
-    - (<tt>Object</tt>) <strong>show_excluded_docs</strong>(value) 
+    #<strong>show_excluded_docs</strong>(value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1534,13 +1699,13 @@
       <pre class="lines">
 
 
-201
-202
-203
-204</pre>
+211
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 201</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 211</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show_excluded_docs identifier id'>show_excluded_docs</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_@show_excluded_docs ivar id'>@show_excluded_docs</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
@@ -1555,7 +1720,7 @@
       <div class="method_details ">
   <h3 class="signature " id="show_published_only-instance_method">
   
-    - (<tt>Object</tt>) <strong>show_published_only</strong>(value) 
+    #<strong>show_published_only</strong>(value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1567,13 +1732,13 @@
       <pre class="lines">
 
 
-207
-208
-209
-210</pre>
+217
+218
+219
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 217</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show_published_only identifier id'>show_published_only</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_@show_published_only ivar id'>@show_published_only</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
@@ -1588,7 +1753,7 @@
       <div class="method_details ">
   <h3 class="signature " id="show_suppressed-instance_method">
   
-    - (<tt>Object</tt>) <strong>show_suppressed</strong>(value) 
+    #<strong>show_suppressed</strong>(value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1600,13 +1765,13 @@
       <pre class="lines">
 
 
-181
-182
-183
-184</pre>
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show_suppressed identifier id'>show_suppressed</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_@show_suppressed ivar id'>@show_suppressed</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
@@ -1621,7 +1786,7 @@
       <div class="method_details ">
   <h3 class="signature " id="to_solr_url-instance_method">
   
-    - (<tt>Object</tt>) <strong>to_solr_url</strong> 
+    #<strong>to_solr_url</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1633,19 +1798,6 @@
       <pre class="lines">
 
 
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
 237
 238
 239
@@ -1675,10 +1827,33 @@
 263
 264
 265
-266</pre>
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 237</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_solr_url identifier id'>to_solr_url</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Missing pagination settings&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@pagination ivar id'>@pagination</span>
@@ -1689,6 +1864,14 @@
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@show_published_only ivar id'>@show_published_only</span>
     <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:fq</span><span class='comma token'>,</span> <span class='string val'>&quot;publish:true&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@highlighting ivar id'>@highlighting</span>
+    <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:hl</span><span class='comma token'>,</span> <span class='string val'>&quot;true&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@query_type ivar id'>@query_type</span> <span class='eq op'>==</span> <span class='symbol val'>:standard</span>
+      <span class='rubyid_add_solr_param identifier id'>add_solr_param</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;hl.fl&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;*&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@show_suppressed ivar id'>@show_suppressed</span>
@@ -1716,10 +1899,12 @@
   <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;/select&quot;</span>
   <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_encode_www_form identifier id'>encode_www_form</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='symbol val'>:q</span><span class='comma token'>,</span> <span class='rubyid_@query_string ivar id'>@query_string</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                    <span class='lbrack token'>[</span><span class='symbol val'>:wt</span><span class='comma token'>,</span> <span class='rubyid_@writer_type ivar id'>@writer_type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                   <span class='lbrack token'>[</span><span class='string val'>&quot;csv.escape&quot;</span><span class='comma token'>,</span> <span class='string val'>'\\'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+                                   <span class='lbrack token'>[</span><span class='string val'>&quot;csv.encapsulator&quot;</span><span class='comma token'>,</span> <span class='string val'>'&quot;'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+                                   <span class='lbrack token'>[</span><span class='string val'>&quot;csv.header&quot;</span><span class='comma token'>,</span> <span class='rubyid_@csv_header ivar id'>@csv_header</span> <span class='rbrack token'>]</span><span class='comma token'>,</span>
                                    <span class='lbrack token'>[</span><span class='symbol val'>:start</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_@pagination ivar id'>@pagination</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='mult op'>*</span> <span class='rubyid_@pagination ivar id'>@pagination</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                    <span class='lbrack token'>[</span><span class='symbol val'>:rows</span><span class='comma token'>,</span> <span class='rubyid_@pagination ivar id'>@pagination</span><span class='lbrack token'>[</span><span class='symbol val'>:page_size</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='plus op'>+</span>
                                   <span class='rubyid_@solr_params ivar id'>@solr_params</span><span class='rparen token'>)</span>
-
 
   <span class='rubyid_url identifier id'>url</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1732,7 +1917,7 @@
       <div class="method_details ">
   <h3 class="signature " id="use_standard_query_type-instance_method">
   
-    - (<tt>Object</tt>) <strong>use_standard_query_type</strong> 
+    #<strong>use_standard_query_type</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1744,13 +1929,13 @@
       <pre class="lines">
 
 
-103
-104
-105
-106</pre>
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_use_standard_query_type identifier id'>use_standard_query_type</span>
   <span class='rubyid_@query_type ivar id'>@query_type</span> <span class='assign token'>=</span> <span class='symbol val'>:standard</span>
@@ -1766,10 +1951,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:59 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:52 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

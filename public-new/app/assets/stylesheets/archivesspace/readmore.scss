@@ -1,4 +1,4 @@
-.abstract {
+.readmore {
 
   .more {
     visibility: hidden;
@@ -9,6 +9,11 @@
     .more {
       visibility: visible;
       display: inline;
+    }
+
+    .elipses {
+      visibility: hidden;
+      width: 0;
     }
   }
 

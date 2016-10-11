@@ -70,7 +70,9 @@ html {
 
 
 #main-content {
-  padding-right: rem-calc(20);
+  &.small-8 {
+    padding-right: rem-calc(20);
+  }
 }
 
 #sidebar {
@@ -82,13 +84,15 @@ html {
   }
 }
 
-.record-container {
-  margin-top: rem-calc(20);
-
+.badge-and-identifier {
   .identifier {
     margin-left: rem-calc(10);
     padding: rem-calc(4);
   }
+}
+
+.record-container {
+  margin-top: rem-calc(20);
 
   &.concepts-layout {
 
@@ -138,6 +142,7 @@ html {
   .id-label {
     float: left;
     font-family: $serif-font;
+    font-weight: bold;
   }
 }
 
@@ -175,8 +180,24 @@ html {
   padding: rem-calc(20);
   border: 1px solid $grey;
   margin-bottom: rem-calc(10);
+
+  &.featured {
+    background-color: $lightgrey;
+  }
+
+
   h3 {
     color: $midblue;
+  }
+
+  .recordsummary {
+    clear: both;
+  }
+}
+
+#embedded-search-container {
+  .recordrow:first-child {
+    margin-top: rem-calc(10);
   }
 }
 
@@ -214,6 +235,11 @@ h3 {
   font-family: $sans-font;
   font-size: rem-calc(24);
   font-weight: bold;
+}
+
+h4 {
+  font-size: rem-calc(20);
+  font-family: $serif-font;
 }
 
 .valign-middle {
@@ -320,7 +346,7 @@ li.remove {
 .object {
   color:#de1965;
 }
-.collection {
+.collection, .resource {
   color:#00cf35;
 }
 .subject {

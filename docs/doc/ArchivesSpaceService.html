@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: ArchivesSpaceService
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "ArchivesSpaceService";
   relpath = '';
-  framesUrl = "frames.html#!ArchivesSpaceService.html";
 </script>
 
 
@@ -28,56 +27,50 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (A)</a> &raquo;
     
     
     <span class="title">ArchivesSpaceService</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1>Class: ArchivesSpaceService
+      <div id="content"><h1>Class: ArchivesSpaceService
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Sinatra::Base</span>
       
         <ul class="fullTree">
@@ -90,27 +83,32 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="AuthHelpers.html" title="AuthHelpers (module)">AuthHelpers</a></span>, <span class='object_link'><a href="ComponentTransfer/ResponseHelpers.html" title="ComponentTransfer::ResponseHelpers (module)">ComponentTransfer::ResponseHelpers</a></span>, <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>, <span class='object_link'><a href="Exceptions/ResponseMappings.html" title="Exceptions::ResponseMappings (module)">Exceptions::ResponseMappings</a></span>, <span class='object_link'><a href="ExportHelpers.html" title="ExportHelpers (module)">ExportHelpers</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="RESTHelpers/ResponseHelpers.html" title="RESTHelpers::ResponseHelpers (module)">RESTHelpers::ResponseHelpers</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></dd>
-      
-    
+
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/job.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="AuthHelpers.html" title="AuthHelpers (module)">AuthHelpers</a></span>, <span class='object_link'><a href="ComponentTransfer/ResponseHelpers.html" title="ComponentTransfer::ResponseHelpers (module)">ComponentTransfer::ResponseHelpers</a></span>, <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>, <span class='object_link'><a href="Exceptions/ResponseMappings.html" title="Exceptions::ResponseMappings (module)">Exceptions::ResponseMappings</a></span>, <span class='object_link'><a href="ExportHelpers.html" title="ExportHelpers (module)">ExportHelpers</a></span>, <span class='object_link'><a href="RESTHelpers.html" title="RESTHelpers (module)">RESTHelpers</a></span>, <span class='object_link'><a href="RESTHelpers/ResponseHelpers.html" title="RESTHelpers::ResponseHelpers (module)">RESTHelpers::ResponseHelpers</a></span>, <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/main.rb<span class="defines">,<br />
+  backend/app/controllers/job.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/schema.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/location_profile.rb,<br /> backend/app/controllers/space_calculator.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
+  </dl>
   
-</dl>
-<div class="clear"></div>
+</div>
 
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -126,52 +124,65 @@
 </p>
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="BASE_SEARCH_PARAMS-constant" class="">BASE_SEARCH_PARAMS =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='comma token'>,</span> <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span> <span class='string val'>&quot;A search query string&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the advanced query&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='comma token'>,</span>
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-<span class='string val'>&quot;The record type to search (defaults to all types if not specified)&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;sort&quot;</span><span class='comma token'>,</span>
-<span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
-<span class='string val'>&quot;The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;facet&quot;</span><span class='comma token'>,</span>
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-<span class='string val'>&quot;The list of the fields to produce facets for&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;filter_term&quot;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the term/value pairs to be applied as filters.  Of the form: {\&quot;fieldname\&quot;: \&quot;fieldvalue\&quot;}.&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;simple_filter&quot;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-<span class='lbrack token'>[</span><span class='string val'>&quot;exclude&quot;</span><span class='comma token'>,</span>
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-<span class='string val'>&quot;A list of document IDs that should be excluded from results&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-     <span class='lbrack token'>[</span><span class='string val'>&quot;root_record&quot;</span><span class='comma token'>,</span>
-<span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
-<span class='string val'>&quot;Search within a collection of records (defined by the record at the root of the tree)&quot;</span><span class='comma token'>,</span>
-<span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <dl class="constants">
+    
+      <dt id="BASE_SEARCH_PARAMS-constant" class="">BASE_SEARCH_PARAMS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='comma token'>,</span> <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span> <span class='string val'>&quot;A search query string.  Uses Lucene 4.0 syntax: http://lucene.apache.org/core/4_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html  Search index structure can be found in solr/schema.xml&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the advanced query&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;The record type to search (defaults to all types if not specified)&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;sort&quot;</span><span class='comma token'>,</span>
+    <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;The attribute to sort and the direction e.g. &amp;sort=title desc&amp;...&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;facet&quot;</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;The list of the fields to produce facets for&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;filter_term&quot;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;A json string containing the term/value pairs to be applied as filters.  Of the form: {\&quot;fieldname\&quot;: \&quot;fieldvalue\&quot;}.&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;simple_filter&quot;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span><span class='string val'>&quot;exclude&quot;</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;A list of document IDs that should be excluded from results&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span><span class='string val'>&quot;hl&quot;</span><span class='comma token'>,</span>
+    <span class='rubyid_BooleanParam constant id'>BooleanParam</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;Whether to use highlighting&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='lbrack token'>[</span><span class='string val'>&quot;root_record&quot;</span><span class='comma token'>,</span>
+    <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
+    <span class='string val'>&quot;Search within a collection of records (defined by the record at the root of the tree)&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='lbrack token'>[</span> <span class='string val'>&quot;dt&quot;</span><span class='comma token'>,</span>
+      <span class='rubyid_String constant id'>String</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;Format to return (JSON default)&quot;</span><span class='comma token'>,</span>
+      <span class='symbol val'>:optional</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span> <span class='rbrack token'>]</span>
+<span class='rbrack token'>]</span>
 </pre></dd>
-      
-        <dt id="ALLOWED_PERMISSION_LEVELS-constant" class="">ALLOWED_PERMISSION_LEVELS =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;global&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;all&quot;</span><span class='rbrack token'>]</span>
+    
+      <dt id="ALLOWED_PERMISSION_LEVELS-constant" class="">ALLOWED_PERMISSION_LEVELS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;global&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;all&quot;</span><span class='rbrack token'>]</span>
 </pre></dd>
-      
-    </dl>
-  
+    
+  </dl>
 
 
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
 
 
 
@@ -180,7 +191,7 @@
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -188,7 +199,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_group-class_method" title="create_group (class method)">+ (Object) <strong>create_group</strong>(group_code, description, users_to_add, permissions) </a>
+      <a href="#create_group-class_method" title="create_group (class method)">.<strong>create_group</strong>(group_code, description, users_to_add, permissions)  &#x21d2; Object </a>
     
 
     
@@ -211,7 +222,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_hidden_system_user-class_method" title="create_hidden_system_user (class method)">+ (Object) <strong>create_hidden_system_user</strong>(username, name, password) </a>
+      <a href="#create_hidden_system_user-class_method" title="create_hidden_system_user (class method)">.<strong>create_hidden_system_user</strong>(username, name, password)  &#x21d2; Object </a>
     
 
     
@@ -234,7 +245,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_public_user-class_method" title="create_public_user (class method)">+ (Object) <strong>create_public_user</strong> </a>
+      <a href="#create_public_user-class_method" title="create_public_user (class method)">.<strong>create_public_user</strong>  &#x21d2; Object </a>
     
 
     
@@ -257,7 +268,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_search_user-class_method" title="create_search_user (class method)">+ (Object) <strong>create_search_user</strong> </a>
+      <a href="#create_search_user-class_method" title="create_search_user (class method)">.<strong>create_search_user</strong>  &#x21d2; Object </a>
     
 
     
@@ -280,7 +291,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_staff_user-class_method" title="create_staff_user (class method)">+ (Object) <strong>create_staff_user</strong> </a>
+      <a href="#create_staff_user-class_method" title="create_staff_user (class method)">.<strong>create_staff_user</strong>  &#x21d2; Object </a>
     
 
     
@@ -303,7 +314,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_system_user-class_method" title="create_system_user (class method)">+ (Object) <strong>create_system_user</strong>(username, name, password, hidden = false) </a>
+      <a href="#create_system_user-class_method" title="create_system_user (class method)">.<strong>create_system_user</strong>(username, name, password, hidden = false)  &#x21d2; Object </a>
     
 
     
@@ -326,7 +337,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#loaded_hook-class_method" title="loaded_hook (class method)">+ (Object) <strong>loaded_hook</strong>(&amp;block) </a>
+      <a href="#loaded_hook-class_method" title="loaded_hook (class method)">.<strong>loaded_hook</strong>(&amp;block)  &#x21d2; Object </a>
     
 
     
@@ -349,7 +360,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_up_base_permissions-class_method" title="set_up_base_permissions (class method)">+ (Object) <strong>set_up_base_permissions</strong> </a>
+      <a href="#set_up_base_permissions-class_method" title="set_up_base_permissions (class method)">.<strong>set_up_base_permissions</strong>  &#x21d2; Object </a>
     
 
     
@@ -373,7 +384,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -381,7 +392,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_permissions-instance_method" title="#check_permissions (instance method)">- (Object) <strong>check_permissions</strong>(params) </a>
+      <a href="#check_permissions-instance_method" title="#check_permissions (instance method)">#<strong>check_permissions</strong>(params)  &#x21d2; Object </a>
     
 
     
@@ -404,7 +415,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#current_user-instance_method" title="#current_user (instance method)">- (Object) <strong>current_user</strong> </a>
+      <a href="#current_user-instance_method" title="#current_user (instance method)">#<strong>current_user</strong>  &#x21d2; Object </a>
     
 
     
@@ -427,7 +438,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#high_priority_request%3F-instance_method" title="#high_priority_request? (instance method)">- (Boolean) <strong>high_priority_request?</strong> </a>
+      <a href="#high_priority_request%3F-instance_method" title="#high_priority_request? (instance method)">#<strong>high_priority_request?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -450,7 +461,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#session-instance_method" title="#session (instance method)">- (Object) <strong>session</strong> </a>
+      <a href="#resolve_references_for_space_calculator-instance_method" title="#resolve_references_for_space_calculator (instance method)">#<strong>resolve_references_for_space_calculator</strong>(space_calculator)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#session-instance_method" title="#session (instance method)">#<strong>session</strong>  &#x21d2; Object </a>
     
 
     
@@ -571,7 +605,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="URIResolver.html#ensure_reference_is_valid-class_method" title="URIResolver.ensure_reference_is_valid (method)">ensure_reference_is_valid</a></span>, <span class='object_link'><a href="URIResolver.html#forward_rack_request-class_method" title="URIResolver.forward_rack_request (method)">forward_rack_request</a></span>, <span class='object_link'><a href="URIResolver.html#record_exists%3F-class_method" title="URIResolver.record_exists? (method)">record_exists?</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-class_method" title="URIResolver.resolve_references (method)">resolve_references</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-instance_method" title="URIResolver#resolve_references (method)">#resolve_references</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="URIResolver.html#ensure_reference_is_valid-class_method" title="URIResolver.ensure_reference_is_valid (method)">ensure_reference_is_valid</a></span>, <span class='object_link'><a href="URIResolver.html#register_resolver-class_method" title="URIResolver.register_resolver (method)">register_resolver</a></span>, <span class='object_link'><a href="URIResolver.html#resolve_references-class_method" title="URIResolver.resolve_references (method)">resolve_references</a></span></p>
 
   
 
@@ -582,7 +616,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="create_group-class_method">
   
-    + (<tt>Object</tt>) <strong>create_group</strong>(group_code, description, users_to_add, permissions) 
+    .<strong>create_group</strong>(group_code, description, users_to_add, permissions)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -651,7 +685,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_hidden_system_user-class_method">
   
-    + (<tt>Object</tt>) <strong>create_hidden_system_user</strong>(username, name, password) 
+    .<strong>create_hidden_system_user</strong>(username, name, password)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -682,7 +716,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_public_user-class_method">
   
-    + (<tt>Object</tt>) <strong>create_public_user</strong> 
+    .<strong>create_public_user</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -694,15 +728,15 @@
       <pre class="lines">
 
 
-276
-277
-278
-279
-280
-281</pre>
+285
+286
+287
+288
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 285</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_public_user identifier id'>create_public_user</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_hidden_system_user identifier id'>create_hidden_system_user</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_PUBLIC_USERNAME constant id'>PUBLIC_USERNAME</span><span class='comma token'>,</span> <span class='string val'>&quot;Public Interface Anonymous&quot;</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:search_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -719,7 +753,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_search_user-class_method">
   
-    + (<tt>Object</tt>) <strong>create_search_user</strong> 
+    .<strong>create_search_user</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -731,15 +765,15 @@
       <pre class="lines">
 
 
-268
-269
-270
-271
-272
-273</pre>
+277
+278
+279
+280
+281
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 277</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_search_user identifier id'>create_search_user</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_hidden_system_user identifier id'>create_hidden_system_user</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_SEARCH_USERNAME constant id'>SEARCH_USERNAME</span><span class='comma token'>,</span> <span class='string val'>&quot;Search Indexer&quot;</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:search_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -756,7 +790,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_staff_user-class_method">
   
-    + (<tt>Object</tt>) <strong>create_staff_user</strong> 
+    .<strong>create_staff_user</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -768,15 +802,15 @@
       <pre class="lines">
 
 
-284
-285
-286
-287
-288
-289</pre>
+293
+294
+295
+296
+297
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 293</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_staff_user identifier id'>create_staff_user</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_hidden_system_user identifier id'>create_hidden_system_user</span><span class='lparen token'>(</span><span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_STAFF_USERNAME constant id'>STAFF_USERNAME</span><span class='comma token'>,</span> <span class='string val'>&quot;Staff System User&quot;</span><span class='comma token'>,</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:search_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -793,7 +827,7 @@
       <div class="method_details ">
   <h3 class="signature " id="create_system_user-class_method">
   
-    + (<tt>Object</tt>) <strong>create_system_user</strong>(username, name, password, hidden = false) 
+    .<strong>create_system_user</strong>(username, name, password, hidden = false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -848,7 +882,7 @@
       <div class="method_details ">
   <h3 class="signature " id="loaded_hook-class_method">
   
-    + (<tt>Object</tt>) <strong>loaded_hook</strong>(&amp;block) 
+    .<strong>loaded_hook</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -887,7 +921,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_up_base_permissions-class_method">
   
-    + (<tt>Object</tt>) <strong>set_up_base_permissions</strong> 
+    .<strong>set_up_base_permissions</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1115,7 +1149,16 @@
 262
 263
 264
-265</pre>
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap_access_control.rb', line 49</span>
@@ -1336,6 +1379,15 @@
                 <span class='symbol val'>:implied_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'manage_container_profile_record'</span><span class='comma token'>,</span>
                 <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
 
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create, modify and delete a location profile record&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_Permission constant id'>Permission</span><span class='dot token'>.</span><span class='rubyid_define identifier id'>define</span><span class='lparen token'>(</span><span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span>
+                    <span class='string val'>&quot;The ability to create/update/delete location profile records&quot;</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:implied_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'manage_location_profile_record'</span><span class='comma token'>,</span>
+                    <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;global&quot;</span><span class='rparen token'>)</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1352,7 +1404,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="check_permissions-instance_method">
   
-    - (<tt>Object</tt>) <strong>check_permissions</strong>(params) 
+    #<strong>check_permissions</strong>(params)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1431,7 +1483,7 @@
       <div class="method_details ">
   <h3 class="signature " id="current_user-instance_method">
   
-    - (<tt>Object</tt>) <strong>current_user</strong> 
+    #<strong>current_user</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1443,12 +1495,12 @@
       <pre class="lines">
 
 
-225
-226
-227</pre>
+230
+231
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 230</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -1462,7 +1514,7 @@
       <div class="method_details ">
   <h3 class="signature " id="high_priority_request?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>high_priority_request?</strong> 
+    #<strong>high_priority_request?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1497,12 +1549,12 @@
       <pre class="lines">
 
 
-230
-231
-232</pre>
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 235</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1514,9 +1566,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="session-instance_method">
+  <h3 class="signature " id="resolve_references_for_space_calculator-instance_method">
   
-    - (<tt>Object</tt>) <strong>session</strong> 
+    #<strong>resolve_references_for_space_calculator</strong>(space_calculator)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1528,12 +1580,57 @@
       <pre class="lines">
 
 
-220
-221
-222</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'backend/app/controllers/space_calculator.rb', line 57</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_references_for_space_calculator identifier id'>resolve_references_for_space_calculator</span><span class='lparen token'>(</span><span class='rubyid_space_calculator identifier id'>space_calculator</span><span class='rparen token'>)</span>
+  <span class='rubyid_refs_to_resolve identifier id'>refs_to_resolve</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>'locations_with_space'</span><span class='comma token'>,</span>
+                     <span class='string val'>'locations_with_space::location_profile'</span><span class='comma token'>,</span>
+                     <span class='string val'>'locations_without_space'</span><span class='comma token'>,</span>
+                     <span class='string val'>'locations_without_space::location_profile'</span><span class='comma token'>,</span>
+                     <span class='string val'>'uncalculatable_locations'</span><span class='comma token'>,</span>
+                     <span class='string val'>'uncalculatable_locations::location_profile'</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_space_calculator identifier id'>space_calculator</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span> <span class='rubyid_refs_to_resolve identifier id'>refs_to_resolve</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="session-instance_method">
+  
+    #<strong>session</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 225</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1548,10 +1645,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:58 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:50 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

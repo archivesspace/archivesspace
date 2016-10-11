@@ -1,8 +1,8 @@
 <html>
 <head>
-  <!-- <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-           <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <%= stylesheet_link_tag "application" %>
 </head>
 <body>
@@ -231,11 +231,13 @@
       <div class="row collapse ">
         <div class="columns small-${hasToolbar ? 8 : 12} record-header">
           <h2>${title}</h2>
-          <div class="type-label ${recordType}">
-            <i class="${recordTypeIconClass}"></i>&#160;${recordTypeLabel}
-          </div>
-          <div class="identifier">
-            <span class="id-label">Identifier:</span>&#160;${identifier}
+          <div class="badge-and-identifier">
+            <div class="record-type-badge ${recordType}">
+              <i class="${recordTypeIconClass}"></i>&#160;${recordTypeLabel}
+            </div>
+            <div class="identifier">
+              <span class="id-label">Identifier:</span>&#160;${identifier}
+            </div>
           </div>
         </div>
         { if(hasToolbar) {}
@@ -252,7 +254,13 @@
       { if(hasFullWidthContext) {}
       <div class="row collapse context-row">
         <div class="columns small-12">
-          CONTEXT: | <a href="#">Repository Name</a> | ${title}
+          CONTEXT: | <a href="${repositoryPublicUrl}">${repositoryName}</a> 
+             { if ( present('path')) {}
+	       {_.forEach(path, function(obj) {}
+	         | <a href="${obj.uri}">${obj.crumb}</a>
+               {}); }
+             {}}
+	  | ${title}
         </div>
       </div>
       {}}
@@ -281,6 +289,10 @@
           ${abstract}
           </div>
 
+          { if(present('source')) {}
+          <span class="inline-label">Source:</span> ${source}
+          {}}
+
           { if(present('dates')) {}
           <h3>Dates</h3>
           <ul>
@@ -300,6 +312,7 @@
           <span class="inline-label">Creator</span> ${creator}
           {}}
 
+          <div id="whats-in-repo-container"></div>
 
           <div id="record-accordion-container"></div>
 
@@ -308,7 +321,7 @@
         </div>
 
         { if(hasContentSidebar) {}
-        <div id="sidebar-container" class="columns small-4">
+        <div id="sidebar-container" class="columns small-4 sidebar-container">
           <!-- Sidebar -->
         </div>
         {}}
@@ -354,14 +367,25 @@
 
   <!-- Search result row -->
   <script type="text/template" id="search-result-row-tmpl">
-    <div class="recordrow">
+    <div class="recordrow ${featured ? 'featured' : ''}">
       <h3><a class="record-title" href="${ url }">${ title }</a></h3>
-      <div class="recordtype"><span class="${ recordTypeClass }"><i class="fi-clipboard small"> </i> ${ recordTypeLabel }</span> &nbsp; | &nbsp; <strong>Identifier:</strong> ${ identifier }</div>
+      <div class="badge-and-identifier">
+        <div class="record-type-badge ${recordType}">
+          <i class="${recordTypeIconClass} small"></i>&#160;${ recordTypeLabel }
+        </div>
+        <div class="identifier">
+          <span class="id-label">Identifier:</span>&#160;${ identifier }
+        </div>
+      </div>
       <div class="recordsummary">${ summary }</div>
       {if(dates.length) { }
       <div class="recorddate"><strong>Date(s):</strong> ${ dates.join("; ") }</div>
       {} }
-
+      {if(relatorLabel) { }
+      <div class="relatorlabel">
+        <strong>Agent Role:</strong> ${relatorLabel}
+      </div>
+      {} }
       {if(context) {}
       <div class="recordcontext"><strong>Context:</strong> <a href="#">Repository name</a></div>
       {}}
@@ -409,6 +433,7 @@
 
   <!-- classification term template -->
   <script type="text/template" id="classification-tree-tmpl">
+    <h3>${title}</h3>
     <div class="accordion-table sidebar-tree classification-tree" data-accordion-table>
       { _.forEach(classifications, function(term, i) { }
       <div class="navigation-row" data-header-for="term-${i}">
@@ -457,11 +482,12 @@
 
 
   <script type="text/template" id="record-accordion-tmpl">
+    <div> <h3>Additional Information</h3></div>
     <div class="accordion-table record-metadata" data-accordion-table>
-
       <div class="navigation-row" data-header-for="additional-description">
+
         <div><div class="arrow-right"></div></div>
-        <div>Additional Description</div>
+        <div>Notes</div>
       </div>
       <div id="additional-description" class="content-row">
         <div></div>
@@ -565,6 +591,7 @@
       </div>
 
 
+      {if(recordType != 'archival_object') {}
       <div class="navigation-row" data-header-for="admin-info">
         <div><div class="arrow-right"></div></div>
         <div>Administrative Information</div>
@@ -573,8 +600,7 @@
         <div></div>
         <div>
           <ul>
-            <% %w(finding_aid_author
-                  finding_aid_title
+            <% %w(finding_aid_title
                   finding_aid_subtitle
                   finding_aid_filing_title
                   finding_aid_date
@@ -599,13 +625,141 @@
         </div>
       </div>
     </div>
+    {}}
   </script>
 
   <script type="text/template" id="embedded-search-tmpl">
-    <h2>Related Collections</h2>
+    <h2>${title}</h2>
     <div id="search-editor-container"></div>
     <div class="search-results-container"></div>
   </script>
 
+
+  <script type="text/template" id="more-about-subject-tmpl">
+    <h3>More About Subject</h3>
+    <div class="accordion-table" data-accordion-table>
+      {if(present('terms')) {}
+      <div class="navigation-row" data-header-for="terms-subdivisions">
+        <div><div class="arrow-right" ></div></div>
+        <div>Terms/Subdivisions</div>
+      </div>
+      <div id="terms-subdivisions" class="content-row">
+        <div></div>
+        <div>${terms}
+        </div>
+      </div>
+      {} }
+
+      {if(present('externalDocuments')) {}
+      <div class="navigation-row" data-header-for="external-documents">
+        <div><div class="arrow-right" ></div></div>
+        <div>External Documents</div>
+      </div>
+      <div id="external-documents" class="content-row">
+        <div></div>
+        <div>${externalDocuments}</div>
+      </div>
+      {} }
+
+    </div>
+  </script>
+
+
+  <script type="text/template" id="more-about-name-tmpl">
+    <h3>More About Name</h3>
+    <div class="accordion-table" data-accordion-table>
+      <div class="navigation-row" data-header-for="name-forms">
+        <div><div class="arrow-right" ></div></div>
+        <div>Name Forms</div>
+      </div>
+      <div id="name-forms" class="content-row">
+        <div></div>
+        <div>Also known by the following names:
+          ${nameList}
+        </div>
+      </div>
+
+      <div class="navigation-row" data-header-for="related-agents">
+        <div><div class="arrow-right" ></div></div>
+        <div>Related People and Organizations</div>
+      </div>
+      <div id="related-agents" class="content-row">
+        <div></div>
+        <div>
+          {_.forEach(relatedAgents, function(val, key) { }
+          <strong>${key}</strong><br />
+          ${val.join("<br />")}
+          {}); }
+        </div>
+      </div>
+
+      {if(present('externalDocuments')) {}
+      <div class="navigation-row" data-header-for="external-documents">
+        <div><div class="arrow-right" ></div></div>
+        <div>External Documents</div>
+      </div>
+      <div id="external-documents" class="content-row">
+        <div></div>
+        <div>${externalDocuments}</div>
+      </div>
+      {} }
+
+      {if(present('rightsStatements')) {}
+      <div class="navigation-row" data-header-for="rights-statement">
+        <div><div class="arrow-right" ></div></div>
+        <div>Rights Statements</div>
+      </div>
+      <div id="rights-statement" class="content-row">
+        <div></div>
+        <div>${rightsStatements}</div>
+      </div>
+      {} }
+    </div>
+
+  </script>
+
+  <script type="text/template" id="whats-in-repo-tmpl">
+    <div class="columns small-12">
+      <h3>What's In This Repository?</h3>
+      <div class="large-badge align-center resource"><i class="${resourceIconClass}"></i><br />${resourceCount} ${resourceLabelPlural}
+      </div>
+      <div class="large-badge align-center archival-object"><i class="${archivalObjectIconClass}"></i><br />${archivalObjectCount} ${archivalObjectLabelPlural}
+      </div>
+      <div class="large-badge align-center agent-person"><i class="${agentPersonIconClass}"></i><br />${agentPersonCount} ${agentPersonLabelPlural}
+      </div>
+      <div class="large-badge align-center subject"><i class="${subjectIconClass}"></i><br />${subjectCount} ${subjectLabelPlural}
+      </div>
+      <div class="large-badge align-center classification"><i class="${classificationIconClass}"></i><br />${classificationCount} ${classificationLabelPlural}
+      </div>
+  </script>
+
+  <script type="text/template" id="resource-tree-sidebar-tmpl">
+    <h3>Contents & Arrangements</h3>
+    <div class='search-collection-content'>
+      <h4>Search Collection Content</h4>
+      <div class='search-collection-content-form'>
+        <input type="text" />
+        <button class="button small">Search</button>
+      </div>
+    </div>
+    <br />
+    <div id='tree-container'>
+    </div>
+  </script>
+
+  <script type="text/template" id="resource-tree-node-tmpl">
+    <span class="tree-node-text">
+    { if(_.has(obj, 'component_id')) {}
+    <span class="component-id">${component_id}</span>
+    {} }
+    { if(_.has(obj, 'container_label')) {}
+    <span class="container-label">${container_label}</span>
+    {} }
+    ${obj.title}
+    { if(_.has(obj, 'date')) {}
+    <!-- <br />${date} -->
+    {} }
+    </span>
+  </script>
 </body>
 </html>

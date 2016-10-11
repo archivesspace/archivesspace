@@ -27,7 +27,7 @@ module ASConstants
       else # some servlet containers have a hard time finding the resource...
         # fallback_version variable gets changed in dist ant task . The a is
         # just a cue that we're using this..
-        fallback_version = "v1.4.7-032016-dev.a"
+        fallback_version = "v1.5.1.a"
         @VERSION = fallback_version 
       end
     rescue
@@ -42,7 +42,7 @@ module ASConstants
   def self.SCHEMA_INFO
     return @SCHEMA_INFO if @SCHEMA_INFO
     # this gets changed by dist ant task 
-    @SCHEMA_INFO = 68
+    @SCHEMA_INFO = 74
   end
 
 end

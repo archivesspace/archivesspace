@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["type", String, "The type of object, resource or digital_object"],
             ["format", String, "The format to return the object as"],
             ["id", :id])
-    .permissions([])
+    .permissions([:view_repository])
     .returns([200, "Archival Object"]) \
   do
     handle params[:format], params[:id]
@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["type", String, "The type of object, resource or digital_object"],
             ["format", String, "The format to return the object as"],
             ["id", :id])
-    .permissions([])
+    .permissions([:view_repository])
     .returns([200, "Archival Object"]) \
   do
     handle "#{params[:format]}_pdf", params[:id]

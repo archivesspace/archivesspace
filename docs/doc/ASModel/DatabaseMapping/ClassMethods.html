@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Module: ASModel::DatabaseMapping::ClassMethods
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.0
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "ASModel::DatabaseMapping::ClassMethods";
   relpath = '../../';
-  framesUrl = "../../frames.html#!ASModel/DatabaseMapping/ClassMethods.html";
 </script>
 
 
@@ -28,76 +27,72 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="../../_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../ASModel.html" title="ASModel (module)">ASModel</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../DatabaseMapping.html" title="ASModel::DatabaseMapping (module)">DatabaseMapping</a></span></span>
      &raquo; 
     <span class="title">ClassMethods</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="../../class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="../../method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="../../file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="../../schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="../../class_list.html"></iframe>
 
-    <div id="content"><h1>Module: ASModel::DatabaseMapping::ClassMethods
+      <div id="content"><h1>Module: ASModel::DatabaseMapping::ClassMethods
   
   
   
 </h1>
+<div class="box_info">
+  
 
-<dl class="box">
-  
-  
-    
-  
-    
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/ASModel_database_mapping.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/ASModel_database_mapping.rb</dd>
+  </dl>
+  
+</div>
 
 
   <h2>Constant Summary</h2>
-  
-    <dl class="constants">
-      
-        <dt id="JSON_TO_DB_MAPPINGS-constant" class="">JSON_TO_DB_MAPPINGS =
-          
-        </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <dl class="constants">
+    
+      <dt id="JSON_TO_DB_MAPPINGS-constant" class="">JSON_TO_DB_MAPPINGS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrace token'>{</span>
   <span class='string val'>'boolean'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSON booleans become DB integers&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:json_to_db</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_bool identifier id'>bool</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_bool identifier id'>bool</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -110,9 +105,8 @@
   <span class='rbrace token'>}</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
-      
-    </dl>
-  
+    
+  </dl>
 
 
 
@@ -123,7 +117,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -131,7 +125,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#map_db_types_to_json-instance_method" title="#map_db_types_to_json (instance method)">- (Object) <strong>map_db_types_to_json</strong>(schema, hash) </a>
+      <a href="#map_db_types_to_json-instance_method" title="#map_db_types_to_json (instance method)">#<strong>map_db_types_to_json</strong>(schema, hash)  &#x21d2; Object </a>
     
 
     
@@ -154,7 +148,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#prepare_for_db-instance_method" title="#prepare_for_db (instance method)">- (Object) <strong>prepare_for_db</strong>(jsonmodel_class, hash) </a>
+      <a href="#prepare_for_db-instance_method" title="#prepare_for_db (instance method)">#<strong>prepare_for_db</strong>(jsonmodel_class, hash)  &#x21d2; Object </a>
     
 
     
@@ -186,7 +180,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="map_db_types_to_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>map_db_types_to_json</strong>(schema, hash) 
+    #<strong>map_db_types_to_json</strong>(schema, hash)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -237,7 +231,7 @@
       <div class="method_details ">
   <h3 class="signature " id="prepare_for_db-instance_method">
   
-    - (<tt>Object</tt>) <strong>prepare_for_db</strong>(jsonmodel_class, hash) 
+    #<strong>prepare_for_db</strong>(jsonmodel_class, hash)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -301,10 +295,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:54 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:46 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

@@ -7,9 +7,10 @@ var app = app || {};
     routes: {
       "": "welcome",
       "search?*queryString": "search",
-      "repositories/:repo_id/:type_plural/:id": "showRecord",
+      "repositories/:repo_id/:type_plural/:id": "showArchivalRecord",
       "agents/:type_plural/:id": "showAgentRecord",
-
+      "subjects/:id": "showSubjectRecord",
+      "repositories/:id(?*params)": "showRepoRecord",
       "*path": "defaultPage"
     },
 
@@ -33,10 +34,10 @@ var app = app || {};
     },
 
 
-    showRecord: function(repoId, recordTypePlural, id) {
+    showArchivalRecord: function(repoId, recordTypePathPlural, id) {
       var opts = {
         repoId: repoId,
-        recordType: _.singularize(recordTypePlural),
+        recordTypePath: _.singularize(recordTypePathPlural),
         id: id
       };
 
@@ -47,15 +48,59 @@ var app = app || {};
     },
 
 
-    showAgentRecord: function(recordTypePlural, id) {
+    // load the right container view and navigate
+    // to record url
+    showRecord: function(publicUrl) {
+      this.navigate(publicUrl);
+      var parsed = app.utils.parsePublicUrl(publicUrl);
+
+      if(parsed.asType === 'repository') {
+          new app.RepoContainerView(parsed);
+      } else if(parsed.asType.match(/agent/)) {
+        new app.AgentContainerView(parsed);
+      } else if(parsed.asType === 'subject') {
+        new app.SubjectContainerView(parsed);
+      } else {
+        new app.RecordContainerView(parsed);
+      }
+    },
+
+
+    showRepoRecord: function(id, params) {
       var opts = {
-        recordType: _.singularize(recordTypePlural),
+        id: id
+      };
+
+      if(params)
+        _.merge(opts, app.SearchQuery.prototype.parseQueryString(params));
+
+
+      $(function() {
+        var repoContainerView = new app.RepoContainerView(opts);
+      })
+    },
+
+
+    showAgentRecord: function(publicTypePlural, id) {
+      var opts = {
+        type: _.singularize(publicTypePlural),
         id: id
       };
 
 
       $(function() {
         var agentContainerView = new app.AgentContainerView(opts);
+      })
+    },
+
+
+    showSubjectRecord: function(id) {
+      var opts = {
+        id: id
+      };
+
+      $(function() {
+        var subjectContainerView = new app.SubjectContainerView(opts);
       })
     },
 

@@ -57,7 +57,7 @@ describe "Resource instances and containers" do
     results.find_elements(:css => "tbody tr").length.should eq(5)
 
     # Now sort by indicator
-    @driver.find_element(:css => "th[data-column='4'] div.tablesorter-header-inner").click
+    @driver.find_element(:css => "#bulk_operation_results th:nth-child(5)").click
 
     @driver.wait_for_ajax
 
@@ -100,6 +100,11 @@ describe "Resource instances and containers" do
     # new
     elt = @driver.test_find_element(:id => "resource_instances__0__container_")
     elt.find_element(:css => 'a.dropdown-toggle').click
+    
+    sleep(1) 
+    elt.send_keys(:page_down) 
+    sleep(1) 
+
     elt.find_element(:css => 'a.linker-create-btn').click
     modal = @driver.test_find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
 
@@ -109,6 +114,11 @@ describe "Resource instances and containers" do
     modal.find_element(:css => '.dropdown-toggle.last').click
     sleep(2) 
     @driver.wait_for_ajax
+    
+    sleep(1) 
+    elt.send_keys(:page_down) 
+    sleep(1) 
+    
     modal.find_element(:css, "a.linker-create-btn").click
     
     profile_modal = @driver.test_find_element(:css => '#top_container_container_profile__ref__modal')
@@ -136,6 +146,11 @@ describe "Resource instances and containers" do
     elt.find_element(:css => '.dropdown-toggle.locations').click
     sleep(2) 
     @driver.wait_for_ajax
+    
+    sleep(1) 
+    elt.send_keys(:page_down) 
+    sleep(1) 
+    
     elt.find_element(:css, "a.linker-create-btn").click
 
     sleep(2)
@@ -168,6 +183,11 @@ describe "Resource instances and containers" do
     # new
     elt = @driver.test_find_element(:id => "accession_instances__0__container_")
     elt.find_element(:css => 'a.dropdown-toggle').click
+    
+    sleep(1) 
+    elt.send_keys(:page_down) 
+    sleep(1) 
+    
     elt.find_element(:css => 'a.linker-create-btn').click
     modal = @driver.test_find_element(:css => '#accession_instances__0__sub_container__top_container__ref__modal')
 
@@ -188,6 +208,11 @@ describe "Resource instances and containers" do
     elt.find_element(:css => '.dropdown-toggle.locations').click
     sleep(2) 
     @driver.wait_for_ajax
+    
+    sleep(1) 
+    elt.send_keys(:page_down) 
+    sleep(1) 
+    
     elt.find_element(:css, "a.linker-create-btn").click
 
     sleep(5)

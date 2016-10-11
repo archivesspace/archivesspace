@@ -20,6 +20,7 @@ class Resource < Sequel::Model(:resource)
   include UserDefineds
   include ComponentsAddChildren
   include Classifications
+  include Transferable
   include Events
   include Publishable
   include RevisionStatements

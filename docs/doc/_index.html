@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Documentation by YARD 0.8.7.6
+  Documentation by YARD 0.9.0
   
 </title>
 
@@ -13,9 +13,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = null;
   relpath = '';
-  framesUrl = "frames.html#!_index.html";
 </script>
 
 
@@ -26,42 +25,36 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
-  
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
 
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
+      <iframe id="search_frame" src="class_list.html"></iframe>
 
-    <div id="content"><h1 class="noborder title">Documentation by YARD 0.8.7.6</h1>
+      <div id="content"><h1 class="noborder title">Documentation by YARD 0.9.0</h1>
 <div id="listing">
   <h1 class="alphaindex">Alphabetic Index</h1>
   
@@ -93,70 +86,52 @@
     <li class="r2"><a href="file.UPGRADING_1.1.1.html" title="UPGRADING_1.1.1">UPGRADING_1.1.1</a></li>
     
   
-    <li class="r1"><a href="file.API.html" title="API">API</a></li>
+    <li class="r1"><a href="file.UPGRADING_1.5.0.html" title="UPGRADING_1.5.0">UPGRADING_1.5.0</a></li>
     
   
-    <li class="r2"><a href="file.ARCHITECTURE.html" title="ARCHITECTURE">ARCHITECTURE</a></li>
+    <li class="r2"><a href="file.API.html" title="API">API</a></li>
     
   
-    <li class="r1"><a href="file.UPGRADING.html" title="UPGRADING">UPGRADING</a></li>
+    <li class="r1"><a href="file.ARCHITECTURE.html" title="ARCHITECTURE">ARCHITECTURE</a></li>
     
   
-    <li class="r2"><a href="file.CLUSTERING_README.html" title="CLUSTERING_README">CLUSTERING_README</a></li>
+    <li class="r2"><a href="file.UPGRADING.html" title="UPGRADING">UPGRADING</a></li>
     
   
-    <li class="r1"><a href="file.LOCALES_README.html" title="LOCALES_README">LOCALES_README</a></li>
+    <li class="r1"><a href="file.CLUSTERING_README.html" title="CLUSTERING_README">CLUSTERING_README</a></li>
     
   
-    <li class="r2"><a href="file.CONTRIBUTING_README.html" title="CONTRIBUTING_README">CONTRIBUTING_README</a></li>
+    <li class="r2"><a href="file.LOCALES_README.html" title="LOCALES_README">LOCALES_README</a></li>
     
   
-    <li class="r1"><a href="file.FRONTEND_LOCALES_README.html" title="FRONTEND_LOCALES_README">FRONTEND_LOCALES_README</a></li>
+    <li class="r1"><a href="file.CONTRIBUTING_README.html" title="CONTRIBUTING_README">CONTRIBUTING_README</a></li>
     
   
-    <li class="r2"><a href="file.JMETER_README.html" title="JMETER_README">JMETER_README</a></li>
+    <li class="r2"><a href="file.FRONTEND_LOCALES_README.html" title="FRONTEND_LOCALES_README">FRONTEND_LOCALES_README</a></li>
     
   
-    <li class="r1"><a href="file.REPO_EAD_EXPORT_README.html" title="REPO_EAD_EXPORT_README">REPO_EAD_EXPORT_README</a></li>
+    <li class="r1"><a href="file.JMETER_README.html" title="JMETER_README">JMETER_README</a></li>
     
   
-    <li class="r2"><a href="file.PLUGINS_LOCAL_README.html" title="PLUGINS_LOCAL_README">PLUGINS_LOCAL_README</a></li>
+    <li class="r2"><a href="file.REPO_EAD_EXPORT_README.html" title="REPO_EAD_EXPORT_README">REPO_EAD_EXPORT_README</a></li>
     
   
-    <li class="r1"><a href="file.README_NEWRELIC.html" title="README_NEWRELIC">README_NEWRELIC</a></li>
+    <li class="r1"><a href="file.PLUGINS_LOCAL_README.html" title="PLUGINS_LOCAL_README">PLUGINS_LOCAL_README</a></li>
     
   
-    <li class="r2"><a href="file.PLUGINS_README.html" title="PLUGINS_README">PLUGINS_README</a></li>
+    <li class="r2"><a href="file.README_NEWRELIC.html" title="README_NEWRELIC">README_NEWRELIC</a></li>
     
   
-    <li class="r1"><a href="file.README_HTTPS.html" title="README_HTTPS">README_HTTPS</a></li>
+    <li class="r1"><a href="file.PLUGINS_README.html" title="PLUGINS_README">PLUGINS_README</a></li>
     
   
-    <li class="r2"><a href="file.BUILD_README.html" title="BUILD_README">BUILD_README</a></li>
+    <li class="r2"><a href="file.README_HTTPS.html" title="README_HTTPS">README_HTTPS</a></li>
     
   
-    <li class="r1"><a href="file.FRONTEND_README_BOWER.html" title="FRONTEND_README_BOWER">FRONTEND_README_BOWER</a></li>
+    <li class="r1"><a href="file.BUILD_README.html" title="BUILD_README">BUILD_README</a></li>
     
   
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README.html" title="FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README">FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README.html" title="FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README">FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG.html" title="FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG">FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING">FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_README</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README</a></li>
+    <li class="r2"><a href="file.FRONTEND_README_BOWER.html" title="FRONTEND_README_BOWER">FRONTEND_README_BOWER</a></li>
     
   
     <li class="r1"><a href="file.FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README.html" title="FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README">FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README</a></li>
@@ -165,13 +140,13 @@
     <li class="r2"><a href="file.BACKEND_AUTHENTICATION.html" title="BACKEND_AUTHENTICATION">BACKEND_AUTHENTICATION</a></li>
     
   
-    <li class="r1"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README">BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README</a></li>
-    
-  
-    <li class="r2"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README">BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README</a></li>
-    
-  
     <li class="r1"><a href="file.BACKEND_TESTS_README.html" title="BACKEND_TESTS_README">BACKEND_TESTS_README</a></li>
+    
+  
+    <li class="r2"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README">BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README</a></li>
+    
+  
+    <li class="r1"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README">BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README</a></li>
     
   
     <li class="r2"><a href="file.COMMON_LOCALES_LOCALES_README.html" title="COMMON_LOCALES_LOCALES_README">COMMON_LOCALES_LOCALES_README</a></li>
@@ -213,6 +188,13 @@
             
               <li>
                 <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/ASModelResolver.html" title="URIResolver::ASModelResolver (class)">ASModelResolver</a></span>
+                
+                  <small>(URIResolver)</small>
                 
               </li>
             
@@ -637,16 +619,16 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="Notes/ClassMethods.html" title="Notes::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="Trees/ClassMethods.html" title="Trees::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(Notes)</small>
+                  <small>(Trees)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="Trees/ClassMethods.html" title="Trees::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="Notes/ClassMethods.html" title="Notes::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(Trees)</small>
+                  <small>(Notes)</small>
                 
               </li>
             
@@ -700,16 +682,16 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="AgentNames/ClassMethods.html" title="AgentNames::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="Publishable/ClassMethods.html" title="Publishable::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(AgentNames)</small>
+                  <small>(Publishable)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="Publishable/ClassMethods.html" title="Publishable::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="AgentNames/ClassMethods.html" title="AgentNames::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(Publishable)</small>
+                  <small>(AgentNames)</small>
                 
               </li>
             
@@ -777,6 +759,13 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="RepresentativeImages/ClassMethods.html" title="RepresentativeImages::ClassMethods (module)">ClassMethods</a></span>
+                
+                  <small>(RepresentativeImages)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RecordableCataloging/ClassMethods.html" title="RecordableCataloging::ClassMethods (module)">ClassMethods</a></span>
                 
                   <small>(RecordableCataloging)</small>
@@ -815,13 +804,6 @@
                 <span class='object_link'><a href="DirectionalRelationships/ClassMethods.html" title="DirectionalRelationships::ClassMethods (module)">ClassMethods</a></span>
                 
                   <small>(DirectionalRelationships)</small>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="ConverterExtraContainerValues/ClassMethods.html" title="ConverterExtraContainerValues::ClassMethods (module)">ClassMethods</a></span>
-                
-                  <small>(ConverterExtraContainerValues)</small>
                 
               </li>
             
@@ -939,12 +921,24 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker/Container.html" title="SpaceCalculator::LocationPacker::Container (class)">Container</a></span>
+                
+                  <small>(SpaceCalculator::LocationPacker)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="ContainerConversionRunner.html" title="ContainerConversionRunner (class)">ContainerConversionRunner</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ContainerLocation.html" title="ContainerLocation (class)">ContainerLocation</a></span>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="ContainerManagementMigration.html" title="ContainerManagementMigration (class)">ContainerManagementMigration</a></span>
+                <span class='object_link'><a href="ContainerManagementConversion.html" title="ContainerManagementConversion (class)">ContainerManagementConversion</a></span>
                 
               </li>
             
@@ -967,11 +961,6 @@
             
               <li>
                 <span class='object_link'><a href="Converter.html" title="Converter (class)">Converter</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="ConverterExtraContainerValues.html" title="ConverterExtraContainerValues (module)">ConverterExtraContainerValues</a></span>
                 
               </li>
             
@@ -1122,6 +1111,13 @@
             
               <li>
                 <span class='object_link'><a href="DigitalRecordChildren.html" title="DigitalRecordChildren (class)">DigitalRecordChildren</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/Dimensions.html" title="SpaceCalculator::Dimensions (class)">Dimensions</a></span>
+                
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -1521,6 +1517,16 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="JSONModelPublishing.html" title="JSONModelPublishing (module)">JSONModelPublishing</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="JSONModelTranslatable.html" title="JSONModelTranslatable (module)">JSONModelTranslatable</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="JSONModelType.html" title="JSONModelType (class)">JSONModelType</a></span>
                 
               </li>
@@ -1635,9 +1641,43 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationContainerLookup.html" title="SpaceCalculator::LocationContainerLookup (class)">LocationContainerLookup</a></span>
+                
+                  <small>(SpaceCalculator)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationFunction.html" title="LocationFunction (class)">LocationFunction</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationHoldingsReport.html" title="LocationHoldingsReport (class)">LocationHoldingsReport</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="AspaceJsonToManagedContainerMapper/LocationMismatchException.html" title="AspaceJsonToManagedContainerMapper::LocationMismatchException (class)">LocationMismatchException</a></span>
                 
                   <small>(AspaceJsonToManagedContainerMapper)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker.html" title="SpaceCalculator::LocationPacker (class)">LocationPacker</a></span>
+                
+                  <small>(SpaceCalculator)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationProfile.html" title="LocationProfile (class)">LocationProfile</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationProfilesController.html" title="LocationProfilesController (class)">LocationProfilesController</a></span>
                 
               </li>
             
@@ -1732,9 +1772,16 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ContainerManagementMigration/MigrationMapper.html" title="ContainerManagementMigration::MigrationMapper (class)">MigrationMapper</a></span>
+                <span class='object_link'><a href="ContainerManagementConversion/MigrationMapper.html" title="ContainerManagementConversion::MigrationMapper (class)">MigrationMapper</a></span>
                 
-                  <small>(ContainerManagementMigration)</small>
+                  <small>(ContainerManagementConversion)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/MissingDimensionException.html" title="SpaceCalculator::MissingDimensionException (class)">MissingDimensionException</a></span>
+                
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -1956,6 +2003,13 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker/Pile.html" title="SpaceCalculator::LocationPacker::Pile (class)">Pile</a></span>
+                
+                  <small>(SpaceCalculator::LocationPacker)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="PluginHelper.html" title="PluginHelper (module)">PluginHelper</a></span>
                 
               </li>
@@ -2161,6 +2215,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="RepresentativeImages.html" title="RepresentativeImages (module)">RepresentativeImages</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RequestContext.html" title="RequestContext (class)">RequestContext</a></span>
                 
               </li>
@@ -2189,6 +2248,13 @@
             
               <li>
                 <span class='object_link'><a href="ResolverHelper.html" title="ResolverHelper (module)">ResolverHelper</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/ResolverType.html" title="URIResolver::ResolverType (class)">ResolverType</a></span>
+                
+                  <small>(URIResolver)</small>
                 
               </li>
             
@@ -2411,6 +2477,16 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SpaceCalculator.html" title="SpaceCalculator (class)">SpaceCalculator</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculatorController.html" title="SpaceCalculatorController (class)">SpaceCalculatorController</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="StaticAssetFinder.html" title="StaticAssetFinder (class)">StaticAssetFinder</a></span>
                 
               </li>
@@ -2468,6 +2544,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SystemEvent.html" title="SystemEvent (class)">SystemEvent</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="SystemInfoController.html" title="SystemInfoController (class)">SystemInfoController</a></span>
                 
               </li>
@@ -2487,6 +2568,13 @@
             
               <li>
                 <span class='object_link'><a href="Telephones.html" title="Telephones (module)">Telephones</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="PDFResponse/TempFileStream.html" title="PDFResponse::TempFileStream (class)">TempFileStream</a></span>
+                
+                  <small>(PDFResponse)</small>
                 
               </li>
             
@@ -2541,6 +2629,13 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="URIResolver/TreeResolver.html" title="URIResolver::TreeResolver (class)">TreeResolver</a></span>
+                
+                  <small>(URIResolver)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span>
                 
               </li>
@@ -2554,19 +2649,26 @@
           <ul>
             
               <li>
-                <span class='object_link'><a href="URIResolver/URIResolver.html" title="URIResolver::URIResolver (class)">URIResolver</a></span>
+                <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/URIResolverImplementation.html" title="URIResolver::URIResolverImplementation (class)">URIResolverImplementation</a></span>
                 
                   <small>(URIResolver)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>
+                <span class='object_link'><a href="UnprocessedAccessionsReport.html" title="UnprocessedAccessionsReport (class)">UnprocessedAccessionsReport</a></span>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="UnprocessedAccessionsReport.html" title="UnprocessedAccessionsReport (class)">UnprocessedAccessionsReport</a></span>
+                <span class='object_link'><a href="SpaceCalculator/UnsupportedUnitException.html" title="SpaceCalculator::UnsupportedUnitException (class)">UnsupportedUnitException</a></span>
+                
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -2731,10 +2833,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:47 2015 by
+      <div id="footer">
+  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:32 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.0 (ruby-1.9.3).
 </div>
+    </div>
   </body>
 </html>

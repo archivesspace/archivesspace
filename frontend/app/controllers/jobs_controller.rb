@@ -22,21 +22,24 @@ class JobsController < ApplicationController
 
     job_data = case params['job']['job_type']
                when 'find_and_replace_job'
-                 params['find_and_replace_job'].reject{|k,v| k === '_resolved'}
+                 params['find_and_replace_job']
                when 'print_to_pdf_job'
-                 params['print_to_pdf_job'].reject{|k,v| k === '_resolved'}
-               when 'report_job' 
+                 params['print_to_pdf_job']
+               when 'report_job'
                  params['report_job']
                when 'import_job'
                  params['import_job']
                end
 
+    # Knock out the _resolved parameter because it's often very large.
+    job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
+    job_params = ASUtils.recursive_reject_key(params['job']['job_params']) { |k| k === '_resolved' }
 
     job_data["repo_id"] ||= session[:repo_id]
     begin
       job = Job.new(params['job']['job_type'], job_data, Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]}], 
-                                  params['job']['job_params']
+                                  job_params
                    )
 
     rescue JSONModel::ValidationException => e

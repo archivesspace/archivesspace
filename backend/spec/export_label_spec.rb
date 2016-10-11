@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'spec_helper'
 require_relative 'export_spec_helper'
+require_relative 'container_spec_helper'
 
 
 describe 'Export Labels Mappings ' do
@@ -81,5 +82,26 @@ describe 'Export Labels Mappings ' do
     end
   end
 
+
+  describe "how top containers only get listed once" do
+
+    before(:each) do
+      top_container = create(:json_top_container)
+
+      instances = (0..2).map {|i| build_instance(top_container)}
+
+      resource = create(:json_resource)
+
+      component = create(:json_archival_object, :instances => instances, :resource => {:ref => resource.uri})
+
+      @labels = get_labels(resource)
+    end
+
+    it "only lists a top container once" do
+      # header and single row
+      @labels.chomp.split("\r").length.should eq(2)
+    end
+
+  end
 
 end

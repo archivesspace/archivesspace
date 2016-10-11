@@ -173,17 +173,41 @@ class ContainerManagementConversion
 
     def initialize(json, new_record, resource_top_containers)
       super(json, new_record)
-
       @resource_top_containers = resource_top_containers
     end
 
 
+    # this is used for searching AOs. Important to note this duck patch is
+    # used only in the container mgmn conversion...
     def try_matching_indicator_within_collection(container)
+      
       indicator = container['indicator_1']
-      @resource_top_containers.values.find {|top_container| top_container.indicator == indicator}
+      type = container["type_1"]
+      
+      @resource_top_containers.values.find {|top_container| top_container.indicator == indicator && top_container.type == type}
     end
 
+    def get_or_create_top_container(instance)
+      extent = create_extents_from_container_extents(instance)
+      fields = @json.instance_variable_get("@fields".intern) #yuck 
+      uri = fields["uri"] || nil 
 
+      if extent && uri && uri.length > 0 
+        opts = case @json
+              when JSONModel(:accession)
+                { :accession_id => @json.class.id_for(uri) }
+              when JSONModel(:resource)
+                { :resource_id =>  @json.class.id_for(uri) }
+              when JSONModel(:archival_object)
+                { :archival_object_id  => @json.class.id_for(uri) }
+              end
+
+        Log.info("Creating a new extent record with values #{extent.inspect} #{opts.inspect}")
+        Extent.create_from_json(extent, opts)
+      end
+      super(instance) 
+    
+    end
 
   end
 

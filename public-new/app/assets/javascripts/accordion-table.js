@@ -101,7 +101,7 @@
         $elem.off('click.zf.accordionTable keydown.zf.accordionTable')
           .on('click.zf.accordionTable', function(e){
             // ignore hyperlinks in nav rows
-            if(event.target.tagName.toLowerCase() === 'a')
+            if(e.target.tagName.toLowerCase() === 'a')
               return;
         // $(this).children('a').on('click.zf.accordion', function(e) {
             e.preventDefault();
