@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'nokogiri'
 require 'securerandom'
 require_relative "../lib/serialize_extra_container_values"
@@ -33,11 +34,11 @@ class EADSerializer < ASpaceExport::Serializer
   def xml_errors(content)
     # there are message we want to ignore. annoying that java xml lib doesn't
     # use codes like libxml does...
-    ignore = [ /Namespace prefix .* is not defined/, /The prefix .* is not bound/  ] 
-    ignore = Regexp.union(ignore) 
+    ignore = [ /Namespace prefix .* is not defined/, /The prefix .* is not bound/  ]
+    ignore = Regexp.union(ignore)
     # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
     Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
-  end 
+  end
 
 
   def handle_linebreaks(content)
@@ -50,7 +51,7 @@ class EADSerializer < ASpaceExport::Serializer
     else
       content = "<p>#{content.strip}</p>"
     end
-   
+
     # first lets see if there are any &
     # note if there's a &somewordwithnospace , the error is EntityRef and wont
     # be fixed here...
@@ -59,16 +60,24 @@ class EADSerializer < ASpaceExport::Serializer
     end
 
     # in some cases adding p tags can create invalid markup with mixed content
-    # just return the original content if there's still problems 
-    xml_errors(content).any? ? original_content : content 
+    # just return the original content if there's still problems
+    xml_errors(content).any? ? original_content : content
   end
 
   def strip_p(content)
     content.gsub("<p>", "").gsub("</p>", "").gsub("<p/>", '')
   end
 
+  def remove_smart_quotes(content)
+    content = content.gsub(/\xE2\x80\x9C/, '"').gsub(/\xE2\x80\x9D/, '"').gsub(/\xE2\x80\x98/, "\'").gsub(/\xE2\x80\x99/, "\'")
+  end
+
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
 #    return "" if content.nil?
+
+    # remove smart quotes from text
+    content = remove_smart_quotes(content)
+
     # br's should be self closing
     content = content.gsub("<br>", "<br/>").gsub("</br>", '')
     # lets break the text, if it has linebreaks but no p tags.
