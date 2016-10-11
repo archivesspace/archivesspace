@@ -1,16 +1,21 @@
 <%# displaying chosen facet(s) (if any) and facets %>
 
-
+<% dates = false %>
 <div class="filters">
  <% if !@filters.blank? || !request.query_parameters()['from_year'].blank? ||  !request.query_parameters()['to_year'].blank? %>
-<h3><%= t('search_results.filtered_by')%> </h3> 
- <ul class="list-group">
-   <% if !request.query_parameters()['from_year'].blank? || 
-!request.query_parameters()['to_year'].blank? %>
-   <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= (request.query_parameters()['from_year'].blank? ? '' : request.query_parameters()['from_year']) %>  <%= t('search_results.filter.to').downcase %>
-<%= (request.query_parameters()['to_year'].blank? ? t('search_results.filter.year_now') : request.query_parameters()['to_year']) %>
-       
-</span></li>
+    <h3><%= t('search_results.filtered_by')%> </h3> 
+    <ul class="list-group">
+      <% if !request.query_parameters()['from_year'].blank? || 
+	 !request.query_parameters()['to_year'].blank? %>
+      <% dates = true 
+	 from_year = (request.query_parameters()['from_year'].blank? ? '' : request.query_parameters()['from_year']) 
+	 to_year = (request.query_parameters()['to_year'].blank? ? t('search_results.filter.year_now') : request.query_parameters()['to_year'])
+      %>
+      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= from_year %>  <%= t('search_results.filter.to').downcase %>
+	  <%= to_year  %>
+	  <a href="<%= @page_search.sub("&from_year=#{(from_year==''?'*' :from_year)}&to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
+	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
+      </span></li>
   <% end  %> 
    <% @filters.each do |k,h|  %>
     <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
@@ -21,6 +26,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <% end %>
 </div>
 <h3><%= t('search_results.filter.head') %></h3>
+<% if !dates %>
 <div class="filter_dates">
 <span class="inline-label"><%= t('search_results.filter.years_include') %></span>
  <%= form_tag("#{@base_search}", method: 'get') do %>
@@ -49,6 +55,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
 <% end %>
 
 </div> 
+<% end %>
 
 <% if !@facets.blank? %>
 <h4><%= t('search_results.filter.add')%>: </h4>
