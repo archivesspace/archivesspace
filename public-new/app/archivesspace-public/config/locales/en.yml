@@ -272,6 +272,9 @@ en:
   agent_corporate_entity:
     _singular: Organization
 
+  agent_software:
+    _singular: Software
+
   components:
     expand: Expand
     collapse: Collapse
