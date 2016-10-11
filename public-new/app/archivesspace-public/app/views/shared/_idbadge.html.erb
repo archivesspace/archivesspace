@@ -4,8 +4,8 @@
   <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title'])%></a>
   <% else %>
   <%= strip_mixed_content(result['json']['display_string'] || result['title']) %>
-  <%  if result['_resolved_top_container_uri_u_sstr'].present? && result['_resolved_top_container_uri_u_sstr']['json'].present? &&  !result['_resolved_top_container_uri_u_sstr']['json']['display_string'].strip.blank?
-        badge_label =  result['_resolved_top_container_uri_u_sstr']['json']['display_string'].gsub("Unspecified",'')
+  <%  if !result['json']['container_disp'].blank?
+        badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
       end
 %>
   <% end %>

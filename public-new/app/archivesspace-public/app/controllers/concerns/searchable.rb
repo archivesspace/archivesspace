@@ -110,7 +110,9 @@ module Searchable
     results.each do |result|
       if !result['json'].blank?
         result['json'] = JSON.parse(result['json']) || {}
+#        Pry::ColorPrinter.pp(result['json'])
       end
+      result['json']['container_disp'] = container_display(result)
       result['json']['html'] = {}
       if result['json'].has_key?('notes')
         notes_html =  process_json_notes( result['json']['notes'], req)
@@ -157,6 +159,21 @@ module Searchable
     end
     facet_fields
   end
-
+  def container_display(result)
+    display = ""
+    json = result['json']
+    if !json['instances'].blank? && json['instances'].kind_of?(Array)
+      if json['instances'][0].kind_of?(Hash)
+        if json['instances'][0]['container'].present? && json['instances'][0]['container'].kind_of?(Hash)
+          %w{1 2 3}.each do |i|
+            if !json['instances'][0]['container']["indicator_#{i}"].blank?
+              display += json['instances'][0]['container']["indicator_#{i}"] + " "
+            end
+          end
+        end
+      end
+    end
+    return display
+  end
 
 end
