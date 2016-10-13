@@ -184,8 +184,8 @@ module Searchable
     type = '' 
     if !in_type.blank?
       type = (in_type == 'unspecified' ?'': in_type)
-      type = 'box' if type == 'boxes'
-      type = type.chomp.chop if type.end_with?('s')
+#      type = 'box' if type == 'boxes'
+#      type = type.chomp.chop if type.end_with?('s')
     end
     type
   end
