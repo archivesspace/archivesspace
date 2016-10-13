@@ -159,6 +159,8 @@ module Searchable
     end
     facet_fields
   end
+
+  private
   def container_display(result)
     display = ""
     json = result['json']
@@ -166,14 +168,27 @@ module Searchable
       if json['instances'][0].kind_of?(Hash)
         if json['instances'][0]['container'].present? && json['instances'][0]['container'].kind_of?(Hash)
           %w{1 2 3}.each do |i|
+            type = process_container_type(json['instances'][0]['container']["type_#{i}"]) 
             if !json['instances'][0]['container']["indicator_#{i}"].blank?
-              display += json['instances'][0]['container']["indicator_#{i}"] + " "
+              display += type + ' ' + json['instances'][0]['container']["indicator_#{i}"] + ', '
             end
           end
+          display = display.strip.chop  # remove the final comma
         end
       end
     end
     return display
   end
+  # have to do this because we don't know the types at the moment
+  def process_container_type(in_type)
+    type = '' 
+    if !in_type.blank?
+      type = (in_type == 'unspecified' ?'': in_type)
+      type = 'box' if type == 'boxes'
+      type = type.chomp.chop if type.end_with?('s')
+    end
+    type
+  end
+
 
 end
