@@ -63,9 +63,9 @@ class RepositoriesController < ApplicationController
     resources = {}
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
     counts = get_counts("/repositories/#{params[:id]}")
-    #Pry::ColorPrinter.pp(@counts_results)
+    Pry::ColorPrinter.pp(counts)
     @subj_ct = counts["subject"] || 0
-    @agent_ct = counts["person"] || 0
+    @agent_ct = counts["agent"] || 0
     @rec_ct = counts["record"] || 0
     @resource_ct = counts["collection"] || 0
     @group_ct = counts["record_group"] || 0
@@ -147,7 +147,7 @@ class RepositoriesController < ApplicationController
     if collection_only
       types = ['pui_collection']
     else
-      types = ['pui_collection', 'pui_record', 'pui_record_group', 'pui_person', 'pui_subject']
+      types = ['pui_collection', 'pui_record', 'pui_record_group', 'pui_agent',  'pui_subject']
     end
     # for now, we've got to get the whole enchilada, until we figure out what's wrong
     #  counts = archivesspace.get_types_counts(types, repo_id)
