@@ -31,7 +31,7 @@
 }
 
 .record-type-badge.classification {
-  @include record-type-badge-colored($accent-color);
+  @include record-type-badge-colored($classification-color);
 }
 
 .record-type-badge.digital_object {
