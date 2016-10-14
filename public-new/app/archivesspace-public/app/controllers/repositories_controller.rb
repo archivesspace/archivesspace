@@ -63,7 +63,7 @@ class RepositoriesController < ApplicationController
     resources = {}
     query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
     counts = get_counts("/repositories/#{params[:id]}")
-    Pry::ColorPrinter.pp(counts)
+    # Pry::ColorPrinter.pp(counts)
     @subj_ct = counts["subject"] || 0
     @agent_ct = counts["agent"] || 0
     @rec_ct = counts["record"] || 0
