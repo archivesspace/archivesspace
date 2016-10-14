@@ -102,6 +102,8 @@ class RepositoriesController < ApplicationController
              'agent'
              when 'objects'
              'archival_object'
+             when 'groups'
+              'record_group'
            end
     @criteria = {}
     @criteria['sort'] = "title asc" 
@@ -110,7 +112,7 @@ class RepositoriesController < ApplicationController
     page_size = AppConfig[:search_results_page_size] if page_size == 0
     @criteria[:page_size] = page_size
 
-    if params[:qr].blank? && ( @type == 'resource' || @type == 'archival_object')
+    if params[:qr].blank? # && ( @type == 'resource' || @type == 'archival_object' )
       query = compose_sublist_query(@type, params)
     else
       query = params[:qr]
@@ -121,6 +123,9 @@ class RepositoriesController < ApplicationController
       resolve_arr.push 'resource:id@compact_resource' if @type == 'archival_object'
       @criteria['resolve[]'] = resolve_arr
       @results =  archivesspace.search(query, page, @criteria) || {}
+    elsif @type == 'record_group'
+
+      @results= archivesspace.search(query, page, @criteria) || {}
     else
       @criteria[:page] = page
       @results = archivesspace.get_repos_sublist(@repo_id, @type, @criteria) || {}
@@ -165,9 +170,12 @@ class RepositoriesController < ApplicationController
   # get sublist query if it isn't there
   def compose_sublist_query(type, params)
     type_statement = "types:#{type =='archival_object' ? 'archival_object OR types:digital_object' : type}"
-#    Rails.logger.debug("Type: #{type} statement: #{type_statement}")
-    query =  "(#{type_statement}) "
-    query = "#{query} AND publish:true " if type != 'subject'
+    if type == 'record_group'
+      query = '(types:pui_record_group AND publish:true)'
+    else
+      query =  "(#{type_statement}) "
+      query = "#{query} AND publish:true " if type != 'subject'
+    end
     if type == 'subject' || type == 'agent'
       facets = fetch_only_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
       unless facets.blank?
