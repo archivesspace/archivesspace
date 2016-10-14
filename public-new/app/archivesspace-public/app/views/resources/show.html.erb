@@ -19,7 +19,7 @@
 		</a>
 	      </h4>
 	    </div>
-	    <div id="<%= type %>" class="panel-collapse collapse in">
+	    <div id="<%= type %>" class="panel-collapse collapse note_panel in">
 	      <div class="panel-body">
 		<div class="note"><%= note_struct['note_text'].html_safe %></div>
 	      </div>
@@ -28,7 +28,7 @@
         <% end %>
     <% end %>
     </div>
-<script type="text/javascript" >$(".collapse").collapse({parent: "#res_accordion"}); </script>
+<script type="text/javascript" >$(".note_panel").collapse({parent: "#res_accordion"}); </script>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <div class="search">
