@@ -477,6 +477,10 @@ button.subject {          /* class subject also turns up in finding aid transfor
 .record {
   color: $record-color;
 }
+.classification {
+  color: $repository-color;
+}
+
 .folder {
   color:$folder-color;
 }
