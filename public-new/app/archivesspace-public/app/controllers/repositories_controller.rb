@@ -101,9 +101,9 @@ class RepositoriesController < ApplicationController
              when 'agents'
              'agent'
              when 'objects'
-             'archival_object'
+             'pui_record'
              when 'groups'
-              'record_group'
+              'pui_record_group'
            end
     @criteria = {}
     @criteria['sort'] = "title asc" 
@@ -112,19 +112,18 @@ class RepositoriesController < ApplicationController
     page_size = AppConfig[:search_results_page_size] if page_size == 0
     @criteria[:page_size] = page_size
 
-    if params[:qr].blank? # && ( @type == 'resource' || @type == 'archival_object' )
+    if params[:qr].blank? #  && ( @type == 'resource' || @type == 'pui_record' )
       query = compose_sublist_query(@type, params)
     else
       query = params[:qr]
     end
 # right now, this is special to resources & agents
-    if @type == 'resource' || @type == 'archival_object'
+    if @type == 'resource' || @type == 'pui_record'
       resolve_arr = ['repository:id']
       resolve_arr.push 'resource:id@compact_resource' if @type == 'archival_object'
       @criteria['resolve[]'] = resolve_arr
       @results =  archivesspace.search(query, page, @criteria) || {}
-    elsif @type == 'record_group'
-
+    elsif @type == 'pui_record_group'
       @results= archivesspace.search(query, page, @criteria) || {}
     else
       @criteria[:page] = page
@@ -141,6 +140,7 @@ class RepositoriesController < ApplicationController
         end
       end
     end
+    @type = @type.sub("pui_", "")
     @pager =  Pager.new("/repositories/#{params[:id]}/#{params[:type]}?repo=#{@repo_name}&qr=#{query}", @results['this_page'],@results['last_page'])
     @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{@type}._plural") : I18n.t("#{@type}._singular")) +  " " + I18n.t('listing')
   end
@@ -169,13 +169,9 @@ class RepositoriesController < ApplicationController
 
   # get sublist query if it isn't there
   def compose_sublist_query(type, params)
-    type_statement = "types:#{type =='archival_object' ? 'archival_object OR types:digital_object' : type}"
-    if type == 'record_group'
-      query = '(types:pui_record_group AND publish:true)'
-    else
-      query =  "(#{type_statement}) "
-      query = "#{query} AND publish:true " if type != 'subject'
-    end
+    type_statement = "types:#{type}"
+    query =  "(#{type_statement}) "
+    query = "#{query} AND publish:true " #if type != 'subject'
     if type == 'subject' || type == 'agent'
       facets = fetch_only_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
       unless facets.blank?
