@@ -11,18 +11,26 @@
   <% end %>
 </h3>
 <div class="badge-and-identifier">
-  <div class="record-type-badge <%= result['primary_type'] %>">
+  <div class="record-type-badge <%= (result['primary_type'].start_with?('agent') ? 'agent' : result['primary_type']) %>">
     <i class="fa <%= case  result['primary_type']
 	      when 'repository'
 	      'fa-home'
 	      when  'resource'
 	      'fa-archive'
 	      when 'archival_object' 
-	      'fa-files-o'
+	      'fa-file-o'
 	      when 'digital_object'
               'fa-file-image-o'
 	      when 'subject'
-	      'fa-tags'
+	      'fa-tag'
+	      when  'agent_person'
+	      'fa-user'
+	      when 'agent_corporate_entity'
+	      'fa-university'
+	      when 'agent_family'
+	      'fa-users'
+	      when 'classification'
+	      'fa-share-alt'
 	      else
 	      'fa-cog'
 	      end %>"></i>&#160;<%= badge_label %>
