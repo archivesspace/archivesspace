@@ -1,3 +1,5 @@
+/* colors and icons for your institution */
+
 $black: #000000;
 $darkest: #00171f;
 $white: #ffffff;
@@ -21,12 +23,13 @@ $row-background: $lightgrey;
 $button-background: $lightblue;
 $alt-button-background: $lightgrey;
 $alt-button-color: $darkgrey;
+$light-neutral: $lightgrey;
 
 /* this is for the top horizontal nav bar */
-$nvBgDefault      : $lightgrey;
-$nvBgHighlight    : $lightgrey;
-$nvColDefault     : $midblue;
-$nvColHighlight   : $darkblue;
+$nvBgDefault      : $light-neutral;
+$nvBgHighlight    : $light-neutral;
+$nvColDefault     : $secondary-color;
+$nvColHighlight   : $border-accent;
 
 
 
