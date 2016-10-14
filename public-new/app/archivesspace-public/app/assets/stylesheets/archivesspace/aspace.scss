@@ -467,8 +467,15 @@ ul.no-bullets {
 button.subject {          /* class subject also turns up in finding aid transforms */
   color:$subject-color;
 }
+.agent {
+  color:$agent-color;
+}
+
 .person {
   color: $agent-color;
+}
+.record {
+  color: $record-color;
 }
 .folder {
   color:$folder-color;
