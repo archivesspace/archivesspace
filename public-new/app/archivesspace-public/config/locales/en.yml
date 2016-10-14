@@ -257,8 +257,8 @@ en:
     _plural: Record Groups
 
   agent:
-    _singular: Name
-    _plural: Names
+    _singular: Person or Organization
+    _plural: People & Organizations
     _public:
       section:
         summary: Summary
