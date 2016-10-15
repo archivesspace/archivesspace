@@ -960,10 +960,10 @@ ANEAD
    end
 
     it "should make all the digital, archival objects and resources" do
-      @digital_objects.length.should == 5
-      @archival_objects.length.should == 8
+      @digital_objects.length.should == 8
+      @archival_objects.length.should == 11
       @resources.length.should == 1
-      @file_versions.length.should == 11
+      @file_versions.length.should == 14
     end
 
 
