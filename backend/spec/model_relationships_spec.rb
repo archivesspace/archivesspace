@@ -401,4 +401,36 @@ describe 'Relationships' do
   end
 
 
+  it "updates the mtime of all related records, following nested records back to top-level records as required" do
+    # Ditching our fruit salad metaphor for the moment, since this actually
+    # happens in real life...
+
+    # We have a digital object
+    digital_object = create(:json_digital_object)
+
+    # and an archival object that links to it via instance
+    archival_object_json = create(:json_archival_object,
+                                  :instances => [
+                                    build(:json_instance,
+                                          :digital_object => {
+                                            :ref => digital_object.uri
+                                          })
+                                  ])
+
+    archival_object = ArchivalObject[archival_object_json.id]
+
+    start_time = (archival_object[:system_mtime].to_f * 1000).to_i
+    sleep 0.1
+
+    # Touch the digital object
+    digital_object.refetch
+    digital_object.save
+
+    # We want to see the archival object's mtime updated, since that's the
+    # top-level record that should be reindexed.  The original bug: only the
+    # instance's system_mtime was updated.
+    archival_object.refresh
+    (archival_object.system_mtime.to_f * 1000).to_i.should_not eq(start_time)
+  end
+
 end
