@@ -417,7 +417,29 @@ module ASModel
 
         opts[:is_array] = true if !opts.has_key?(:is_array)
 
+        # Store our association on the nested record's model so we can walk back
+        # the other way.
+        ArchivesSpaceService.loaded_hook do
+          nested_model = Kernel.const_get(opts[:association][:class_name])
+          nested_model.add_enclosing_association(opts[:association])
+        end
+
         nested_records << opts
+      end
+
+
+      # Record the association of the record that encloses this one.  For
+      # example, an Archival Object encloses an Instance record because an
+      # Instance is a nested record of an Archival Object.
+      def add_enclosing_association(association)
+        @enclosing_associations ||= []
+        @enclosing_associations << association
+      end
+
+      # If this is a nested record, return the list of associations that link us
+      # back to our parent(s).  Top-level records just return an empty list.
+      def enclosing_associations
+        @enclosing_associations || []
       end
 
 
