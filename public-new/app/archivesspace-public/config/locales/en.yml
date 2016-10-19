@@ -143,6 +143,10 @@ en:
     search_placeholder: Enter your search terms
     search_all: All Records
 
+  accordion:
+    expand: Expand All
+    collapse: Collapse All
+
   advanced_search:
     operator:
       AND: And
