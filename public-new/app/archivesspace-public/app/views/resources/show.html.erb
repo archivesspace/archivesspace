@@ -6,29 +6,31 @@
   </div>
   <div class="col-sm-9">
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
-    <div class="panel-group" id="res_accordion">
-
-    <% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
-     note_struct = get_note(@result['json'],type) 
-        if !note_struct['note_text'].blank? %>
-          <div class="panel panel-default">
-	    <div class="panel-heading">
-	      <h4 class="panel-title">
-		<a class="accordion-toggle" data-toggle="collapse" data-parent="#res_accordion" href="#<%= type %>">
-		  <%= note_struct['label'] %>
-		</a>
-	      </h4>
+    <div class="acc_holder" >
+      <div class="panel-group" id="res_accordion">
+	<% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
+	   note_struct = get_note(@result['json'],type) 
+           if !note_struct['note_text'].blank? %>
+        <div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h4 class="panel-title">
+	      <a class="accordion-toggle" data-toggle="collapse"  href="#<%= type %>">
+		<%= note_struct['label'] %>
+	      </a>
+	    </h4>
+	  </div>
+	  <div id="<%= type %>" class="panel-collapse collapse note_panel in">
+	    <div class="panel-body">
+	      <div class="note"><%= note_struct['note_text'].html_safe %></div>
 	    </div>
-	    <div id="<%= type %>" class="panel-collapse collapse note_panel in">
-	      <div class="panel-body">
-		<div class="note"><%= note_struct['note_text'].html_safe %></div>
-	      </div>
-	    </div>
-	  </div>        
-        <% end %>
-    <% end %>
+	  </div>
+	</div>
+	<% end %>
+	<% end %>
+      </div>        
     </div>
-<script type="text/javascript" >$(".note_panel").collapse({parent: "#res_accordion"}); </script>
+<script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+</script>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <div class="search">
