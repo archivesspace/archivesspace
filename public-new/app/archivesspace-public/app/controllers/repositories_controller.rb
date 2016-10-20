@@ -117,16 +117,16 @@ class RepositoriesController < ApplicationController
     else
       query = params[:qr]
     end
-# right now, this is special to resources & agents
     if @type == 'resource' || @type == 'pui_record'
       resolve_arr = ['repository:id']
-      resolve_arr.push 'resource:id@compact_resource' if @type == 'archival_object'
+      resolve_arr.push 'resource:id@compact_resource'  if @type == 'archival_object'
       @criteria['resolve[]'] = resolve_arr
       @results =  archivesspace.search(query, page, @criteria) || {}
     elsif @type == 'pui_record_group'
       @results= archivesspace.search(query, page, @criteria) || {}
     else
       @criteria[:page] = page
+      @criteria['facet[]'] = ['primary_type']
       @results = archivesspace.get_repos_sublist(@repo_id, @type, @criteria) || {}
     end
 
@@ -215,14 +215,7 @@ class RepositoriesController < ApplicationController
         ret_h['address'].push(in_h["address_#{i}"]) if in_h["address_#{i}"].present?
       end
     end
-    if in_h['telephones'].present?
-      ret_h['telephones'] = []
-      in_h['telephones'].each do |tel|
-        if tel['number'].present?
-          ret_h['telephones'].push(tel['number'])
-        end
-      end
-    end
+    ret_h['telephones'] = in_h['telephones'] if !in_h['telephones'].blank?
     ret_h
   end
 
