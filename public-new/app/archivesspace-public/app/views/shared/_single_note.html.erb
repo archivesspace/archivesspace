@@ -1,7 +1,7 @@
 <!-- single note -->
 <%  if !note_struct['note_text'].blank? %>
     <div class="<%= type %>" >
-     <span class='inline-label'><%= note_struct['label'] %></span>
+     <h4><%= note_struct['label'] %></h4>
      <%= note_struct['note_text'].html_safe %>
      </div>
 <% end %>
