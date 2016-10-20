@@ -23,12 +23,22 @@
 <br/>
 
 <% if info["telephones"].present? %>
-<span class="telephone"><%= info["telephones"].join(" <br />").html_safe %></span><br />
+   <% info["telephones"].each do |phone| %>
+   <span class="telephone">
+     <% if !phone['number'].blank? %>
+       <% if !phone['number_type'].blank? && phone['number_type'].strip.upcase == 'FAX' %>
+       <i class="fa fa-fax"  aria-hidden="true"></i> <%= phone['number'] %> (<%= t('fax') %>)
+       <% else %>
+       <i class="fa fa-phone"aria-hidden="true"></i> <%= phone['number'] %>
+       <% end %>
+     <% end %>
+   </span></br>
+   <% end %>
 <% end %>
 
 <!-- YEE HAW -->
 <% if info["email"].present? %>
-<span class="email"><i class=" glyphicon glyphicon-envelope"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></span>
+<span class="email"><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></span>
 <br/>
 <% end %>
 </div>
