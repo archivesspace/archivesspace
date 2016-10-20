@@ -19,9 +19,9 @@ module ManipulateNode
     frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
       node_check(el) if el.parent && !el.text?
+      el.content = el.text.gsub("\"", "&quot;") if el.text?
     }
     # replace the inline quotes with &quot;
-    frag.text.gsub("\"", "&quot;") if frag.text
     frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
   end
 
@@ -30,6 +30,7 @@ module ManipulateNode
     frag = Nokogiri::XML.fragment(in_text)
     frag.content
   end
+
   private 
 
   def node_check(el)
@@ -74,8 +75,9 @@ module ManipulateNode
       ttl = node.content
     end
     if !node.name.match(/ptr$/) && node.name != 'extref'
-      node.remove_attribute('href')
-      node.remove_attribute('title')
+      node.remove_attribute('href') if node['href']
+#      node.remove_attribute('xlink:href') if node['xlink:href']
+#      node.remove_attribute('title')
       anchornode.add_child(node.to_xml)
     else
       ttl = ttl || 'link'
