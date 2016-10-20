@@ -12,8 +12,8 @@ class ObjectsController <  ApplicationController
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-#      Pry::ColorPrinter.pp(@result)
-      @page_title = strip_mixed_content(@result['json']['title'])
+      Pry::ColorPrinter.pp(@result)
+      @page_title = strip_mixed_content(@result['json']['display_string'] || @result['json']['title'])
       @tree = fetch_tree(uri)
       @context = get_path(@tree)
       # TODO: This is a monkey patch for digital objects
@@ -21,7 +21,7 @@ class ObjectsController <  ApplicationController
         @context = []
       end
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
-      @context.push({:uri => '', :crumb => @result['json']['title'] })
+      @context.push({:uri => '', :crumb => strip_mixed_content(@result['json']['display_string'] || @result['json']['title']) })
     else
       @page_title = I18n.t 'errors.error_404'
       @uri = uri
