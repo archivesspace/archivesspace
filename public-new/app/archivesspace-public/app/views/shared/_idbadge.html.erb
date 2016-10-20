@@ -1,7 +1,7 @@
 <% badge_label = t("#{result['primary_type']}._singular") %>
 <h3>
   <% if !props.fetch(:full,false) %>
-  <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title'])%></a>
+  <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title']) %></a>
   <% else %>
   <%= strip_mixed_content(result['json']['display_string'] || result['title']) %>
   <%  if !result['json']['container_disp'].blank?
