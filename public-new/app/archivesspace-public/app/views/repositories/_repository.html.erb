@@ -16,7 +16,7 @@
         </div>
 	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
 	  <% if result['parent_institution_name'].present? %>
-	  <div><strong>Parent Institution:</strong> 
+	  <div><strong><%= t('parent_inst') %>:</strong> 
 	    <%= result['parent_institution_name'] %>
 	  </div>
 	  <% end %>
