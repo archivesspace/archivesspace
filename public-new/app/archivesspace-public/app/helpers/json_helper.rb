@@ -1,5 +1,4 @@
 module JsonHelper
-
   #process the entire notes structure.  If req is specified, process and return only the notes that
   #  match the requested type (may be nil)
   def process_json_notes(notes, req = nil)
@@ -8,7 +7,6 @@ module JsonHelper
       if notes.kind_of?(Array)
         notes.each do |note|
           type = note['type']
-#          Rails.logger.debug("type: #{type}, req: #{req}")
           if !req || type == req
             set_up_note(notes_hash, type, note)
           end
@@ -54,14 +52,13 @@ module JsonHelper
 
 
   def handle_note_structure(note, type)
-
     note_struct = {}
     note_text = ''
     if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
       note_struct['label'] = label
 #      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
-      if note['jsonmodel_type'] == 'note_multipart'
+      if note['jsonmodel_type'] == 'note_multipart' || !note['subnotes'].blank?
         note['subnotes'].each do |sub|
           note_text = handle_single_note(sub, note_text)
         end
