@@ -1,31 +1,42 @@
 <div id="main-content" class="row">
-
-  <div class="information col-sm-12">
-    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-    <%= render partial: 'shared/breadcrumbs' %>
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    </div>
+      <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:title =>  strip_mixed_content(@result['json']['display_string'] || @result['title']), :url => request.fullpath } %>
   </div>
+</div>
+<div class="row">
+     <%= render partial: 'shared/breadcrumbs' %>
+</div>
+<div class="row" id="notes_row">
   <div class="col-sm-9">
 
-<br/>
-    <% if !@result['json']['extents'].blank? %>
-    <%   @result['json']['extents'].each do |ext| %>
-    <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
-    <% end %>
-    <br/>
-    <% end %>
-    <% if !@result['json']['dates'].blank? %>
-    <%   @result['json']['dates'].each do |date|  %>
-    <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
-    <% end %>
-    <br/>
-    <% end %>
 
   <% if !@result['json']['component_id'].blank? %>
-    <span class='component'>Component: <%= @result['json']['component_id'] %></span>
+    <span class='component'><%=  t('archival_object._public.header.component') %>: <%= @result['json']['component_id'] %></span>
     <% end %>
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
+<br/>
+    <% if !@result['json']['extents'].blank? %>
+    <h4><%= t('enumerations._note_types.extent') %></h4>
+    <%   @result['json']['extents'].each do |ext| %>
+    <p class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></p>
+    <% end %>
+    <% end %>
+
+    <% if !@result['json']['dates'].blank? %>
+    <h4><%= t('archival_object._public.header.dates') %></h4>
+    <%   @result['json']['dates'].each do |date|  %>
+    <p class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+    <% end %>
+    <br/>
+    <% end %>
+
+
     <%= render partial: 'shared/display_notes' %>
 
     <% if !@result['json']['digital_object_id'].blank? %>

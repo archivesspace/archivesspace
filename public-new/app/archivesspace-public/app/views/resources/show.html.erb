@@ -1,9 +1,16 @@
 <div id="main-content" class="row">
-
-  <div class="information col-sm-12">
-    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => {} } %>
-    <%= render partial: 'shared/breadcrumbs' %>
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => {} } %>
   </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:title =>  strip_mixed_content(@result['json']['display_string'] || @result['title']), :url => request.fullpath } %>
+  </div>
+</div>
+<div class="row">
+    <%= render partial: 'shared/breadcrumbs' %>
+</div>
+<div class="row" id="notes_row">
   <div class="col-sm-9">
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
     <div class="acc_holder" >
