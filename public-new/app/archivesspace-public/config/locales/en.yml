@@ -39,6 +39,17 @@ en:
     hide_advanced_search: Hide Advanced Search
     backup:  Return to the previous page
     backup_abbr: Go back
+    cite: Citation
+    bookmark: Bookmark
+    request: Request
+    print: Print
+    collection_overview: Collection Overview
+    hierarch: Intellectual/hierarchical Arrangement
+    numeric: Numerical Inventory
+    detailed: Detailed Contents
+
+  page_actions: Page Actions    
+
   search-button:
     label: Search
   search-limit: Limit to
