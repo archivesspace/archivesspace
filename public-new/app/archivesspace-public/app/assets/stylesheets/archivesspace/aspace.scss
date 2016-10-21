@@ -485,7 +485,8 @@ a.page_action {
   color: $darkest;
    text-decoration: none;
   line-height: inherit;
-  cursor: pointer; 
+  cursor: pointer;
+  border: 1px solid $light-neutral; 
 }
 a.page_action:hover, a.page_action:focus {
      color: $accent_color;
