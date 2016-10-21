@@ -481,6 +481,17 @@ button.subject {          /* class subject also turns up in finding aid transfor
   color: $repository-color;
 }
 
+a.page_action {
+  color: $darkest;
+   text-decoration: none;
+  line-height: inherit;
+  cursor: pointer; 
+}
+a.page_action:hover, a.page_action:focus {
+     color: $accent_color;
+     background-color: $light-neutral;
+}
+
 .folder {
   color:$folder-color;
 }
