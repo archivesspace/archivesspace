@@ -179,14 +179,22 @@ en:
         summary: Summary
 
   archival_object:
-    _singular: Archival Object
-    _plural: records
+    _singular: Archival Record
+    _plural: Archival Records
     _public:
       section:
         components: Components
         summary: Summary
       messages:
-        no_components: Archival Object has no components
+        no_components: Archival Record has no components
+      header:
+       dates: Dates
+       lang: Language
+       physdesc: Physical Description
+       storage: Physical Storage and Access Information
+       access: Conditions Governing Access
+       use: Conditions Governing Use
+       component: Component
 
   archive:
     _singular: The Archive
@@ -213,7 +221,7 @@ en:
     _plural: Related Collections
 
   digital_object: &digital_object_attributes
-    _singular: Digital Item
+    _singular: Digital Record
     _plural: Digital Material
     _public:
       section:
