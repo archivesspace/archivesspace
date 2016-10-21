@@ -1,15 +1,17 @@
 <% badge_label = t("#{result['primary_type']}._singular") %>
 <h3>
   <% if !props.fetch(:full,false) %>
-  <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title']) %></a>
+    <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title']) %></a>
   <% else %>
-  <%= strip_mixed_content(result['json']['display_string'] || result['title']) %>
-  <%  if !result['json']['container_disp'].blank?
-        badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
-      end
-%>
+    <%= strip_mixed_content(result['json']['display_string'] || result['title']) %>
+    <%  if !result['json']['container_disp'].blank?
+          badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
+        end
+    %>
   <% end %>
+
 </h3>
+
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result['primary_type'].start_with?('agent') ? 'agent' : result['primary_type']) %>">
     <i class="fa <%= case  result['primary_type']
@@ -38,4 +40,5 @@
   <div class="identifier">
     <span class="id-label">Identifier:</span>&#160;<%= (result['json']['id_0'].present? ? result['json']['id_0'] : result['uri']) %>
   </div>
+
 </div>
