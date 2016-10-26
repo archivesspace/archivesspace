@@ -4,17 +4,29 @@ require 'atomic'
 
 require_relative 'lib/periodic_indexer'
 require_relative 'lib/realtime_indexer'
+require_relative 'lib/pui_indexer'
 
 class ArchivesSpaceIndexer < Sinatra::Base
 
   def self.main
     periodic_indexer = PeriodicIndexer.get_indexer
+    pui_indexer = PUIIndexer.get_indexer
 
     threads = []
 
-    puts "Starting periodic indexer"
+    $stderr.puts "Starting periodic indexer"
     threads << Thread.new do
       periodic_indexer.run
+    end
+
+    if AppConfig[:pui_indexer_enabled]
+      $stderr.puts "Starting PUI indexer"
+      threads << Thread.new do
+        # Stagger them to encourage them to run at different times
+        sleep AppConfig[:solr_indexing_frequency_seconds]
+
+        pui_indexer.run
+      end
     end
 
     sleep 5
@@ -34,14 +46,14 @@ class ArchivesSpaceIndexer < Sinatra::Base
           backend_urls.value.each do |url|
             if !realtime_indexers[url] || !realtime_indexers[url].alive?
 
-              puts "Starting realtime indexer for: #{url}"
+              $stderr.puts "Starting realtime indexer for: #{url}"
 
               realtime_indexers[url] = Thread.new do
                 begin
                   indexer = RealtimeIndexer.new(url, proc { backend_urls.value.include?(url) })
                   indexer.run
                 rescue
-                  puts "Realtime indexing error (#{backend_url}): #{$!}"
+                  $stderr.puts "Realtime indexing error (#{backend_url}): #{$!}"
                   sleep 5
                 end
               end

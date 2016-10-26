@@ -20,6 +20,7 @@ build/target
 build/solr
 build/solr_index
 build/indexer_state
+build/indexer_pui_state
 build/archivesspace_demo_db
 build/*.tmp
 build/.gem

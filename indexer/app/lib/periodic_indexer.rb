@@ -17,15 +17,18 @@ java.util.concurrent.TimeUnit::MILLISECONDS
 
 # a place for trees...
 # not totaly sure how i feel about this...
-class ProcessedTrees < java.util.concurrent.ConcurrentHashMap
-  include Singleton
+class ProcessedTrees
+  def self.instance
+    # Temporary workaround for thread sharing.
+    Thread.current[:indexer_tree_store] ||= java.util.concurrent.ConcurrentHashMap.new
+  end
 end
 
 # we store the state of uri's index in the indexer_State directory
 class IndexState
 
-  def initialize
-    @state_dir = File.join(AppConfig[:data_directory], "indexer_state")
+  def initialize(state_dir = nil)
+    @state_dir = state_dir || File.join(AppConfig[:data_directory], "indexer_state")
   end
 
 
@@ -68,11 +71,12 @@ class PeriodicIndexerTask
   
   def initialize(params)
     @params = params 
+    @worker_class = PeriodicIndexerWorker
   end
 
   # how we run the worker
   def call
-    PeriodicIndexerWorker.new(@params).run
+    @worker_class.new(@params).run
   end
 
 end
@@ -202,40 +206,49 @@ class PeriodicIndexerWorker < CommonIndexer
     }
   end
 
+
+  def fetch_records(type, ids, resolve)
+    JSONModel(type).all(:id_set => ids.join(","), 'resolve[]' => resolve)
+  end
+
+
   def run
     begin 
       t_0 = Time.now 
-       
+
       if @session
-         JSONModel::HTTP.current_backend_session = @session
+        JSONModel::HTTP.current_backend_session = @session
       else
         login
       end
-      
+
       JSONModel.set_repository(@repo_id)
-       
-      # Inherit the repo_id and user session from the parent thread
-      records = JSONModel(@record_type).all(:id_set => @id_set.join(","),
-                                                 'resolve[]' => @@resolved_attributes)
-      
-      
-      if records.empty?
-        return false
-      else records.empty?
-          index_records(records.map {|record|
-                              {
-                                'record' => record.to_hash(:trusted),
-                                'uri' => record.uri
-                              }
-                            })
+
+      timing = IndexerTiming.new
+
+      records = timing.time_block(:record_fetch_ms) do
+        fetch_records(@record_type, @id_set, resolved_attributes)
       end
-     
-      t_1 = Time.now 
-      time_ms = (t_1-t_0) * 1000.0   
-      return [ records.length, time_ms, @indexed_count ] 
+
+      return false if records.empty?
+
+      index_records(records.map {|record|
+                      {
+                        'record' => record.to_hash(:trusted),
+                        'uri' => record.uri
+                      }
+                    },
+                   timing)
+
+      t_1 = Time.now
+
+      timing.total = ((t_1 - t_0) * 1000.0)
+
+      return [ records.length, timing, @indexed_count ] 
     
     rescue
-      $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
+      $stderr.puts("Failure in #{self.class} thread: #{$!}")
+      $stderr.puts $!.backtrace
       raise $!
     end
   end
@@ -246,31 +259,35 @@ end
 # ( like indexing repositories ) . 
 class PeriodicIndexer < CommonIndexer
 
-  # A small window to account for the fact that transactions might be committed
-  # after the periodic indexer has checked for updates, but with timestamps from
-  # prior to the check.
-  WINDOW_SECONDS = 30
-
-  THREAD_COUNT = AppConfig[:indexer_thread_count].to_i
-  RECORDS_PER_THREAD = AppConfig[:indexer_records_per_thread].to_i
-
-
-  def initialize(state = nil)
+  def initialize(state = nil, indexer_name)
     super(AppConfig[:backend_url])
+
+    @indexer_name = indexer_name
     @state = state || IndexState.new
+
+    # A small window to account for the fact that transactions might be committed
+    # after the periodic indexer has checked for updates, but with timestamps from
+    # prior to the check.
+    @window_seconds = 30
+
+    @time_to_sleep = AppConfig[:solr_indexing_frequency_seconds].to_i
+    @thread_count = AppConfig[:indexer_thread_count].to_i
+    @records_per_thread = AppConfig[:indexer_records_per_thread].to_i
+
+    @task_class = PeriodicIndexerTask
   end
 
   
   def run_index_round
-    $stderr.puts "#{Time.now}: Running index round"
+    log("Running index round")
 
     login
 
     # Index any repositories that were changed
     start = Time.now
-    repositories = JSONModel(:repository).all('resolve[]' => @@resolved_attributes)
+    repositories = JSONModel(:repository).all('resolve[]' => resolved_attributes)
 
-    modified_since = [@state.get_last_mtime('repositories', 'repositories') - WINDOW_SECONDS, 0].max
+    modified_since = [@state.get_last_mtime('repositories', 'repositories') - @window_seconds, 0].max
     updated_repositories = repositories.reject {|repository| Time.parse(repository['system_mtime']).to_i < modified_since}.
     map {|repository| {
         'record' => repository.to_hash(:raw),
@@ -302,7 +319,7 @@ class PeriodicIndexer < CommonIndexer
         next if @@global_types.include?(type) && i > 0
         start = Time.now
 
-        modified_since = [@state.get_last_mtime(repository.id, type) - WINDOW_SECONDS, 0].max
+        modified_since = [@state.get_last_mtime(repository.id, type) - @window_seconds, 0].max
 
         # we get all the ids of this record type out of the repo
         id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
@@ -312,16 +329,16 @@ class PeriodicIndexer < CommonIndexer
         indexed_count = 0
       
         # this will manage our treaded tasks
-        executor = ThreadPoolExecutor.new(THREAD_COUNT, THREAD_COUNT, 5000, java.util.concurrent.TimeUnit::MILLISECONDS, LinkedBlockingQueue.new)
+        executor = ThreadPoolExecutor.new(@thread_count, @thread_count, 5000, java.util.concurrent.TimeUnit::MILLISECONDS, LinkedBlockingQueue.new)
         tasks = []
         
         begin
           # lets take it one chunk ata time 
-          id_set.each_slice(  RECORDS_PER_THREAD * THREAD_COUNT  ) do |id_subset|  
+          id_set.each_slice(  @records_per_thread * @thread_count  ) do |id_subset|
             
             
             # now we load a task with the number of tasks 
-            id_subset.each_slice(RECORDS_PER_THREAD) do |set|
+            id_subset.each_slice(@records_per_thread) do |set|
               indexed_count += set.length
               task_order = { :repo_id => repository.id, 
                              :session => JSONModel::HTTP.current_backend_session,  
@@ -330,7 +347,7 @@ class PeriodicIndexer < CommonIndexer
                              :state => @state,
                              :indexed_count => indexed_count
                             } 
-              task = FutureTask.new( PeriodicIndexerTask.new( task_order ) )
+              task = FutureTask.new( @task_class.new( task_order ) )
               
               # execute the task..
               executor.execute(task) 
@@ -341,10 +358,10 @@ class PeriodicIndexer < CommonIndexer
             tasks.map! do |t|
               count, time, counter = t.get
               next unless count # if the worker returned false, we move on
-              $stderr.puts "~~~ Indexed #{counter} of #{id_set.length} #{type} records in repository #{repository.id} ( added #{count.to_s} records in  #{time.to_s}ms ) ~~~"
+              log("~~~ Indexed #{counter} of #{id_set.length} #{type} records in repository #{repository.id} (added #{count.to_s} records in #{time.to_s}) ~~~")
               true 
             end
-            
+
             # let's check if we did something, unless of course we alread know
             # we did something
             did_something ||= tasks.any? {|t| t } unless did_something 
@@ -367,20 +384,20 @@ class PeriodicIndexer < CommonIndexer
         # you'd have to start all over again for each repo )
         @state.set_last_mtime(repository.id, type, start)
 
-        $stderr.puts "~" * 100
-        $stderr.puts("~~~ Indexed #{id_set.length} #{type} records in #{Time.now.to_i - start.to_i} seconds ~~~")
-        $stderr.puts "~" * 100
+        log("~" * 100)
+        log("~~~ Indexed #{id_set.length} #{type} records in #{Time.now.to_i - start.to_i} seconds ~~~")
+        log("~" * 100)
       end # done iterating over types
 
       # courtesy flush for the repo 
       send_commit if did_something
 
-    
     end # done iterating over repositories
 
     # now lets delete
     handle_deletes
-  
+
+    log("Index round complete")
   end
 
   def handle_deletes
@@ -390,7 +407,7 @@ class PeriodicIndexer < CommonIndexer
 
     page = 1
     while true
-      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - WINDOW_SECONDS, 0].max, :page => page, :page_size => RECORDS_PER_THREAD)
+      deletes = JSONModel::HTTP.get_json("/delete-feed", :modified_since => [last_mtime - @window_seconds, 0].max, :page => page, :page_size => @records_per_thread)
 
       if !deletes['results'].empty?
         did_something = true
@@ -409,27 +426,27 @@ class PeriodicIndexer < CommonIndexer
     @state.set_last_mtime('_deletes', 'deletes', start)
   end
 
-
-
-
   def run
     while true
       begin
         run_index_round unless paused?
       rescue
         reset_session
-        puts "#{$!.backtrace.join("\n")}"
-        
-        puts "#{$!.inspect}"
+        log($!.backtrace.join("\n"))
+        log($!.inspect)
       end
 
-      sleep AppConfig[:solr_indexing_frequency_seconds].to_i
+      sleep @time_to_sleep
     end
   end
 
+  def log(line)
+    $stderr.puts("#{@indexer_name} [#{Time.now}] #{line}")
+    $stderr.flush
+  end
 
-  def self.get_indexer(state = nil)
-    indexer = self.new(state)
+  def self.get_indexer(state = nil, name = "Staff Indexer")
+    indexer = self.new(state, name)
   end
 
 end

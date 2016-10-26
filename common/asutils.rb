@@ -196,14 +196,28 @@ EOF
     end
   end
 
-  # find a nested key inside a hash
-  def self.search_nested(hash,key)
-    if hash.respond_to?(:key?) && hash.key?(key)
-      hash[key]
-    elsif hash.respond_to?(:each)
-      obj = nil
-      hash.find{ |*a| obj=self.search_nested(a.last,key) }
-      obj 
+  # Recursively find any hash entry whose key is in `keys`.  When we find a
+  # match, call `block` with the key and value as arguments.
+  #
+  # Skips descending into any hash entry whose key is in `ignore_keys` (allowing
+  # us to avoid walking '_resolved' subtrees, for example)
+  def self.search_nested(elt, keys, ignore_keys = [], &block)
+    if elt.respond_to?(:key?)
+      keys.each do |key|
+        if elt.key?(key)
+          block.call(key, elt.fetch(key))
+        end
+      end
+
+      elt.each.each do |next_key, value|
+        unless ignore_keys.include?(next_key)
+          search_nested(value, keys, ignore_keys, &block)
+        end
+      end
+    elsif elt.respond_to?(:each)
+      elt.each do |value|
+        search_nested(value, keys, ignore_keys, &block)
+      end
     end
   end
 
