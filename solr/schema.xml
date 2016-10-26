@@ -47,6 +47,7 @@
 
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+   <field name="uri" type="string" indexed="true" stored="true" required="false" multiValued="false" />
    <field name="parent_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
    <field name="four_part_id" type="text_general" indexed="true" stored="true" multiValued="false"/>
    <field name="title" type="text_general" indexed="true" stored="true" multiValued="false"/>

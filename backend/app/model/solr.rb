@@ -328,7 +328,7 @@ class Solr
         result['total_hits'] = json['response']['numFound']
 
         result['results'] = json['response']['docs'].map {|doc|
-          doc['uri'] = doc['id']
+          doc['uri'] ||= doc['id']
           doc['jsonmodel_type'] = doc['primary_type']
           doc
         }

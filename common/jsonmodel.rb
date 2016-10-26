@@ -197,6 +197,16 @@ module JSONModel
       # All records must indicate their model type
       entry[:schema]["properties"]["jsonmodel_type"] = {"type" => "string", "ifmissing" => "error"}
 
+      # Records may be inherited
+      entry[:schema]["properties"]["inherited"] = {
+        "type" => "object",
+        "required" => false,
+        "properties" => {
+          "ref" => {"type" => ["JSONModel(:resource) uri", "JSONModel(:archival_object) uri"], "ifmissing" => "error"},
+          "level" => {"type" => "string", "required" => false}
+        }
+      }
+
       # All records have audit fields
       entry[:schema]["properties"]["created_by"] = {"type" => "string", "readonly" => true}
       entry[:schema]["properties"]["last_modified_by"] = {"type" => "string", "readonly" => true}
