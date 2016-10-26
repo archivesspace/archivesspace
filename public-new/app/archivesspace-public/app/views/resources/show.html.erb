@@ -10,6 +10,16 @@
 <div class="row">
     <%= render partial: 'shared/breadcrumbs' %>
 </div>
+<div class="row" id="tabs">
+  <div class="col-sm-9 text-center tabbing navbar navbar-default">
+    <ul class="tabbing nav nav-pills">
+      <li><a class="active" href="#"><%= t('actions.collection_overview') %></a></li><li>
+      <a  href="javascript:alert('this does what?');"><%= t('actions.hierarch') %></a></li><li>
+<a href="javascript:alert('Is this for the container stuff?');"><%= t('actions.numeric') %></a></li><li>
+<a href="javascript:alert('Single scroll?');"><%= t('actions.detailed') %></a></li>
+    </ul>
+  </div>
+</div>
 <div class="row" id="notes_row">
   <div class="col-sm-9">
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
