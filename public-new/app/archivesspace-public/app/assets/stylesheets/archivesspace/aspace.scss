@@ -64,6 +64,47 @@ a {
 .readmore .expander .fa {
   font-size: 0.8em; }
 
+/* for the "tabbing" effect */
+.tabbing.navbar-default {
+  background-color: $white;
+  border-color: $white;
+}
+
+
+
+.tabbing.nav-pills > li > a  {
+   margin-bottom: 0;
+   margin-left: -10px;
+   margin-right: 0;
+   background-color: $secondary-color;
+   color: $white;
+   border-radius: 0; 
+}
+.tabbing.nav-pills > li:first-child a {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+.tabbing.nav-pills > li:last-child a {
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.tabbing.nav-pills > li > a.active {
+  background-color: $accent-color;
+  color: $white;
+}
+.tabbing-item li:first-child a{
+   border-bottom-right-radius: 0; 
+   border-top-right-radius: 0;
+   border-bottom-left-radius: 30px;
+   border-top-left-radius: 30px;
+}
+.tabbing-item li:last-child a {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
   for the answer at http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
