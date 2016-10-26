@@ -10,21 +10,23 @@
          <%= result['parent_institution_name'] %>
        </div>
        <% end %>
-       <% if !props.fetch(:no_repo, false) && !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank? %>
-       <div class="repo_name"><strong><%= t('repository._singular') %>: </strong>
-	 <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a>
+       <% unless props.fetch(:no_repo, false) || result['_resolved_repository'].blank? || result['_resolved_repository']['json'].blank? %>
+       <div> <strong><%= t('context') %>: </strong>
+	 <span  class="repo_name">
+	 <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a></span>
+	 <% unless props.fetch(:no_res, false) || result['_resolved_resource'].blank? || result['_resolved_resource']['json'].blank? || !result['_resolved_resource']['json']['publish'] %>
+       / <span class="resource_name">
+	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= process_mixed_content(result['_resolved_resource']['json']['title']).html_safe %></a> 
+	 </span>
+	 <% end %>
        </div>
        <% end %>
+
        <% note_struct = get_note(result['json'], 'abstract')
 	  if !note_struct['note_text'].blank? %>
           <div class="abstract"><span class='inline-label'><%= note_struct['label'] %></span>
 	   <%= note_struct['note_text'].html_safe %></div>
          <% end %>
-       <% if !props.fetch(:no_res, false) && !result['_resolved_resource'].blank? && !result['_resolved_resource']['json'].blank? && result['_resolved_resource']['json']['publish'] %>
-       <div class="resource_name"><strong><%= t('resource._singular') %>: </strong>
-	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= process_mixed_content(result['_resolved_resource']['json']['title']).html_safe %></a>
-       </div>
-       <% end %>
 
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
        <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
