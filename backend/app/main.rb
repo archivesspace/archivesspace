@@ -27,6 +27,7 @@ require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
 
 require 'barcode_check'
+require 'record_inheritance'
 
 require 'uri'
 require 'sinatra/base'

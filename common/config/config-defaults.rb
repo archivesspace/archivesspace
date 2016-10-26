@@ -28,6 +28,12 @@ AppConfig[:indexer_records_per_thread] = 25
 AppConfig[:indexer_thread_count] = 4
 AppConfig[:indexer_solr_timeout_seconds] = 300
 
+# PUI Indexer Settings
+AppConfig[:pui_indexer_enabled] = true
+AppConfig[:pui_indexing_frequency_seconds] = 30
+AppConfig[:pui_indexer_records_per_thread] = 25
+AppConfig[:pui_indexer_thread_count] = 1
+
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
@@ -214,3 +220,101 @@ AppConfig[:show_external_ids] = false
 # you're using that 
 AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024 
 AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024 
+
+# Define the fields for a record type that are inherited from ancestors
+# if they don't have a value in the record itself.
+# This is used in common/record_inheritance.rb and was developed to support
+# the new public UI application.
+# Note - any changes to record_inheritance config will require a reindex of pui
+# records to take affect. To do this remove files from indexer_pui_state
+AppConfig[:record_inheritance] = {
+  :archival_object => {
+    :inherited_fields => [
+                          {
+                            :property => 'title',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'component_id',
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'language',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'dates',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'extents',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'linked_agents',
+                            :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+                            :inherit_directly => false
+                          },
+                         ]
+  }
+}
+
+# To enable composite identifiers - added to the merged record in a property _composite_identifier
+# The values for :include_level and :identifier_delimiter shown here are the defaults
+# If :include_level is set to true then level values (eg Series) will be included in _composite_identifier
+# The :identifier_delimiter is used when joining the four part identifier for resources
+#AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
+#  :include_level => false,
+#  :identifier_delimiter => ' '
+#}
+
+# To configure additional elements to be inherited use this pattern in your config
+#AppConfig[:record_inheritance][:archival_object][:inherited_fields] <<
+#  {
+#    :property => 'linked_agents',
+#    :inherit_if => proc {|json| json.select {|j| j['role'] == 'subject'} },
+#    :inherit_directly => true
+#  }
+# ... or use this pattern to add many new elements at once
+#AppConfig[:record_inheritance][:archival_object][:inherited_fields].concat(
+#  [
+#    {
+#      :property => 'subjects',
+#      :inherit_if => proc {|json| json.select {|j| j['term']['term_type'] == 'topical'} },
+#      :inherit_directly => true
+#    },
+#    {
+#      :property => 'external_documents',
+#      :inherit_directly => false
+#    },
+#    {
+#      :property => 'rights_statements',
+#      :inherit_directly => false
+#    },
+#    {
+#      :property => 'instances',
+#      :inherit_directly => false
+#    },
+#  ])
+
+# If you want to modify any of the default rules, the safest approach is to uncomment
+# the entire default record_inheritance config and make your changes.
+# For example, to stop scopecontent notes from being inherited into file or item records
+# uncomment the entire record_inheritance default config above, and add a skip_if
+# clause to the scopecontent rule, like this:
+#  {
+#    :property => 'notes',
+#    :skip_if => proc {|json| ['file', 'item'].include?(json['level']) },
+#    :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+#    :inherit_directly => false
+#  },
