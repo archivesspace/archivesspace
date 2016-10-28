@@ -11,9 +11,7 @@
         <div class="record-type-badge repository">
           <i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
         </div>
-        <div class="identifier">
-          <span class="id-label">Identifier:</span>&#160;<%= result['uri'] %>
-        </div>
+
 	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
 	  <% if result['parent_institution_name'].present? %>
 	  <div><strong><%= t('parent_inst') %>:</strong> 
