@@ -217,7 +217,7 @@ en:
     _plural: Repositories
     what: What's in this Repository?
 
-  context: Context
+  context: Found in
 
 
   resource:
@@ -1675,7 +1675,7 @@ en:
       langmaterial: Language of Materials
       physdesc: Physical Description
       relatedmaterial: Related Materials
-      abstract: Abstract
+      abstract: Overview
       physloc: Physical Location
       materialspec: Materials Specific Details
       physfacet: Physical Facet
