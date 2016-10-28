@@ -25,7 +25,7 @@
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
     <div class="acc_holder" >
       <div class="panel-group" id="res_accordion">
-	<% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo separatedmaterial}.each do |type| 
+	<% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo relatedmaterial separatedmaterial}.each do |type| 
 	   note_struct = get_note(@result['json'],type) 
            if !note_struct['note_text'].blank? %>
         <div class="panel panel-default">
