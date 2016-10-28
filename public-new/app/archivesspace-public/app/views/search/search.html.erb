@@ -1,21 +1,17 @@
 <div class="row">
   <h2><%= "#{I18n.t('pagination.summary_prefix')} #{I18n.t('pagination.summary_suffix')}" %> <%= @results['offset_first'] %> 
 <%= t('pagination.summary_offset_connector') %> <%= @results['offset_last'] %> <%= t('pagination.summary_total_connector') %> <%= @results['total_hits'] %></h2>
-
-
 </div>
 
 <div class="row">
-<div class="col-sm-3 pull-right">
+  <div class="col-sm-3 pull-right">
   <%= render partial: 'shared/facets' %>
-</div>
-<div class="col-sm-9">
+  </div>
+  <div class="col-sm-9">
+    <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     <% @results['results'].each do |result| %>
-    <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
-
+      <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
     <% end %>
-
-<%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-</div>
-
+    <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+  </div>
 </div>

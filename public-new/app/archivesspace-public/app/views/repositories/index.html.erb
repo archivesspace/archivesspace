@@ -2,6 +2,7 @@
 <div class="col-sm-9">
 <h2><%= @hits %> <%= t('repository._plural')%></h2>
 
+<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
 <% @json.each do |result| %>
 <%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
 
