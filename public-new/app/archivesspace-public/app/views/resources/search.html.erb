@@ -11,6 +11,8 @@
 title="<%= strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) %>"><%= process_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']).html_safe %></a>
 </h4>
 <% end %>
+<%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+
     <% @results['results'].each do |result| %>
     <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
 
