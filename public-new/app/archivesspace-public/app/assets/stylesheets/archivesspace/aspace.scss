@@ -314,7 +314,7 @@ a {
 }
 
 .recordrow {
-  padding: rem-calc(20);
+  padding: rem-calc(10);
   border: 1px solid $border;
   margin-bottom: rem-calc(10);
 
@@ -323,9 +323,10 @@ a {
   }
 
 
-
   h3 {
     color: $darkest;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .recordsummary {
