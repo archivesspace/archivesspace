@@ -639,6 +639,7 @@ span.head {
 
 
 .breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
+.breadcrumb * a {color: $breadcrumb-link;}
 
 .acc_holder {
 	    margin-top: rem-calc(20);
