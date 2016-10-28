@@ -21,10 +21,10 @@
 
 en:
   brand:
-    title: ArchivesSpace Public Interface
+    title: ASpace Public Interface
     title_link_text: Your link text here
     home: Home
-    welcome_head: Welcome to the New Public Interface
+    welcome_head: Welcome to the New Public Interface for ArchivesSpace
     welcome_message: |
                      <p> You can put anything you want in this space, by 
                      editing <strong>brand.welcome_message</strong> in the appropriate <em>config/locales/*yml</em> file</p>
@@ -183,7 +183,7 @@ en:
  
   more_about: More about
   listing: Listing
-  cont_arr: Contents & Arrangements
+  cont_arr: Collection organization
   accession:
    _singular: Unprocessed 
    _public:
