@@ -15,7 +15,7 @@
       <section  id="header">
 	<div class="row">
           <div class="col-sm-9"><h1><a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= t('brand.title') %></a></h1> </div>
-          <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= AppConfig[:branding_img] %>" /></div>
+          <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= AppConfig[:branding_img] %>" alt="" /></div>
 	</div>
       </section>
 
@@ -56,7 +56,7 @@ $(".abstract").each(function(index, element){$(this).readmore(250)});</script>
     <div class="panel-footer">
       <div>
 	<a id="aspace-logo" href="http://www.archivesspace.org" target="aspace" title="ArchivesSpace, the Open Source archives information management application"> 
-	  <img src="/img/Aspace-logo.png" alt=""/ ></a>
+	  <img src="/img/Aspace-logo.png" alt="The ArchivesSpace Logo" /></a>
       </div>
     </div>
   </body>
