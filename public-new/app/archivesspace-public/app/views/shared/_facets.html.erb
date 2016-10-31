@@ -13,7 +13,7 @@
       %>
       <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= from_year %>  <%= t('search_results.filter.to').downcase %>
 	  <%= to_year  %>
-	  <a href="<%= @page_search.sub("&from_year=#{(from_year==''?'*' :from_year)}&to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
+	  <a href="<%= @page_search.sub("&from_year=#{(from_year=='' ? '*' : from_year)}&to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
 	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>
   <% end  %> 
