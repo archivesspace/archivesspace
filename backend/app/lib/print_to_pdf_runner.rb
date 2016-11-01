@@ -33,7 +33,7 @@ class PrintToPDFRunner < JobRunner
         obj = URIResolver.resolve_references(resource,
                                              [ "repository", "linked_agents", "subjects", "tree",  "digital_objects"])
         opts = {
-          :include_unpublished => true,
+          :include_unpublished => false,
           :include_daos => true,
           :use_numbered_c_tags => false 
         }
