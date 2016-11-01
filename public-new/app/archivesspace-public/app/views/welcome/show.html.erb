@@ -8,7 +8,6 @@
     <%= render partial: 'shared/search', locals: {:search_url => "/search",
      :title => t('archive._plural'),
      :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''], 
-            ["#{t('search-limit')} #{t('search-limits.repositories')}",'repository'],
             ["#{t('search-limit')} #{t('search-limits.resources')}",'resource'],
             ["#{t('search-limit')} #{t('search-limits.digital')}",'digital_object']],
   :field_options => [["#{t('search_results.filter.fullrecord')}",''],
