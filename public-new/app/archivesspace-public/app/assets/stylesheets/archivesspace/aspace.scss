@@ -412,6 +412,11 @@ h4 {
 .first-row {
   margin-top: 1em;
 }
+
+.search_row * .form-control {
+   margin-right: .3rem;
+}
+
 .searchterm, .keywordscontext li em {
   font-weight:bold;
   padding: 0 0.2em;
