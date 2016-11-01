@@ -160,6 +160,7 @@ en:
     collapse: Collapse All
 
   advanced_search:
+    operator_label: Search operator
     operator:
       AND: And
       OR: Or
