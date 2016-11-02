@@ -58,6 +58,8 @@ class Solr
           else # advanced_query["comparator"] == "equal"
             value = "[#{advanced_query["value"]}T00:00:00Z TO #{advanced_query["value"]}T00:00:00Z+1DAY-1MILLISECOND]"
           end
+        elsif advanced_query["jsonmodel_type"] == "range_query"
+          value = "[#{advanced_query["from"] || '*'} TO #{advanced_query["to"] || '*'}]"
         elsif advanced_query["jsonmodel_type"] == "field_query" && (use_literal || advanced_query["literal"])
           value = "(\"#{solr_escape(advanced_query['value'])}\")"
         else
