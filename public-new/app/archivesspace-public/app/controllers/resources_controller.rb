@@ -6,13 +6,20 @@ class ResourcesController <  ApplicationController
 
 
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
-
-  DEFAULT_RES_SEARCH_OPTS = {
+  
+  DEFAULT_RES_INDEX_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
+
+  DEFAULT_RES_SEARCH_OPTS = {
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
+    'facet.mincount' => 1
+  }
+
   DEFAULT_RES_TYPES = %w{archival_object digital_object agent subject}
+
   # present a list of resources.  If no repository named, just get all of them.
   def index
     @repo_name = params[:repo] || ""
@@ -25,7 +32,7 @@ class ResourcesController <  ApplicationController
     end
     @base_search += '/resources?'
 
-    set_up_search(['resource'], [],DEFAULT_RES_SEARCH_OPTS, params, query)
+    set_up_search(['resource'], [],DEFAULT_RES_INDEX_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.search(@query, page, @criteria) || {}
     
@@ -68,7 +75,7 @@ class ResourcesController <  ApplicationController
       @result = @results['results'][0]
 #Rails.logger.debug(@result['json'].keys)
       #Rails.logger.debug("REPOSITORY:")
-#      Pry::ColorPrinter.pp(@result)
+      #Pry::ColorPrinter.pp(@result)
       repo = @result['_resolved_repository']['json']
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
