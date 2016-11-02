@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get "repositories/:id/:type" => 'repositories#sublist'
   post "repositories/:id/:type" => 'repositories#sublist'
   get "repositories/:id" => 'repositories#show'
+  post "repositories/:id" => 'repositories#show'
+  
   get '/repositories', to: 'repositories#index'
   get '/search', to: 'search#search'
 end

@@ -16,8 +16,13 @@ class SearchController < ApplicationController
     Rails.logger.debug("base search: #{@base_search}")
     Rails.logger.debug("query: #{@query}")
     @results = archivesspace.search(@query, page, @criteria)
-    process_search_results(@base_search)
-    render
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      redirect_back(fallback_location: @base_search)
+    else
+      process_search_results(@base_search)
+      render
+    end
   end
 
 end
