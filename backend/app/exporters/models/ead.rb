@@ -89,6 +89,11 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  def include_daos?
+    @include_daos
+  end
+
+
   def use_numbered_c_tags?
     @use_numbered_c_tags
   end
