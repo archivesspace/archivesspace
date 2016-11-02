@@ -75,10 +75,10 @@ class AdvancedQueryBuilder
 
   def push_subquery(operator, subquery)
     new_query = {
-      :operator => operator,
-      :type => 'boolean_query',
-      :arg1 => subquery.query,
-      :arg2 => @query,
+      'operator' => operator,
+      'type' => 'boolean_query',
+      'arg1' => subquery.query,
+      'arg2' => @query,
     }
 
     @query = new_query
@@ -86,16 +86,16 @@ class AdvancedQueryBuilder
 
   def push_term(operator, field, value, type = 'text', literal = false, negated = false)
     new_query = {
-      :operator => operator,
-      :type => 'boolean_query',
-      :arg1 => {
-        :field => field,
-        :value => value,
-        :type => type,
-        :negated => negated,
-        :literal => literal,
+      'operator' => operator,
+      'type' => 'boolean_query',
+      'arg1' => {
+        'field' => field,
+        'value' => value,
+        'type' => type,
+        'negated' => negated,
+        'literal' => literal,
       },
-      :arg2 => @query,
+      'arg2' => @query,
     }
 
     @query = new_query
@@ -117,16 +117,20 @@ class AdvancedQueryBuilder
   end
 
   def self.as_field_query(query_data)
+    raise "keys should be strings only" if query_data.any?{ |k,_| k.is_a? Symbol }
+
     if query_data.kind_of?(JSONModelType)
       query_data
-    elsif query_data["type"] == "date"
+    elsif query_data['type'] == "date"
       JSONModel::JSONModel(:date_field_query).from_hash(query_data)
-    elsif query_data["type"] == "boolean"
+    elsif query_data['type'] == "boolean"
       JSONModel::JSONModel(:boolean_field_query).from_hash(query_data)
+    elsif query_data['type'] == "range"
+      JSONModel::JSONModel(:range_query).from_hash(query_data)
     else
       query = JSONModel::JSONModel(:field_query).from_hash(query_data)
 
-      if query_data["type"] == "enum"
+      if query_data['type'] == "enum"
         query.literal = true
       end
 
