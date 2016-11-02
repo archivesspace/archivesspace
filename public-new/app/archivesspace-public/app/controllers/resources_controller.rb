@@ -28,8 +28,14 @@ class ResourcesController <  ApplicationController
     set_up_search(['resource'], [],DEFAULT_RES_SEARCH_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.search(@query, page, @criteria) || {}
-    process_search_results(@base_search)
-    render
+    
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      redirect_back(fallback_location: "/")
+    else
+      process_search_results(@base_search)
+      render
+    end
   end
 
   def search 
@@ -42,9 +48,14 @@ class ResourcesController <  ApplicationController
 
     page = Integer(params.fetch(:page, "1"))
     @results = archivesspace.search(@query,page, @criteria)
-    process_search_results(@base_search)
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}" 
+      redirect_back(fallback_location: @base_search)
+    else
+      process_search_results(@base_search)
 # Pry::ColorPrinter.pp @results['results'][0]['_resolved_resource']['json']
-    render
+      render
+    end
   end
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"

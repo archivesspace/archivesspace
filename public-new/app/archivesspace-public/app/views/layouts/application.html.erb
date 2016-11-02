@@ -18,7 +18,6 @@
           <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= AppConfig[:branding_img] %>" alt="" /></div>
 	</div>
       </section>
-
       <section id="navigation">
 	<nav class="navbar navbar-default" aria-label="top-level navigation">
 	    <div class="navbar-header top-bar">
@@ -46,8 +45,9 @@
 	</nav>
       </section>
 </div>
-      <section id="container-fluid" class="container">
 
+    <section id="container-fluid" class="container">
+      <%= flash_messages %>
       <%= yield %>
       </section>
 <script  type="text/javascript" >
