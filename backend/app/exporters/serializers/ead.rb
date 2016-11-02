@@ -94,6 +94,7 @@ class EADSerializer < ASpaceExport::Serializer
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
+    @include_daos = data.include_daos?
     @use_numbered_c_tags = data.use_numbered_c_tags?
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
@@ -261,7 +262,7 @@ class EADSerializer < ASpaceExport::Serializer
           case
           when inst.has_key?('container') && !inst['container'].nil?
             serialize_container(inst, xml, fragments)
-          when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil?
+          when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil? && @include_daos
             serialize_digital_object(inst['digital_object']['_resolved'], xml, fragments)
           end
         end
