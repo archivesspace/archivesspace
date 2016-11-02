@@ -37,7 +37,12 @@ class PrintToPDFRunner < JobRunner
           :include_daos => true,
           :use_numbered_c_tags => false 
         }
-        
+
+        if !obj['publish']
+          @job.write_output("Error: This resource is not published and cannot be exported to PDF")
+          return
+        end
+
         record = JSONModel(:resource).new(obj) 
         ead = ASpaceExport.model(:ead).from_resource( record, opts)
         xml = "" 
