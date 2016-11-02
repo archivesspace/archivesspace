@@ -204,10 +204,11 @@ en:
        dates: Dates
        lang: Language
        physdesc: Physical Description
-       storage: Physical Storage and Access Information
+       storage: Container Information
        access: Conditions Governing Access
        use: Conditions Governing Use
        component: Component
+       ref_id: Ref. ID
 
   archive:
     _singular: The Archive
@@ -225,6 +226,8 @@ en:
     _singular: Collection
     _plural: Collections
     _public:
+      extent: Extent
+      dates: Dates
       section:
         components: Components
         summary: Summary
