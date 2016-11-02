@@ -26,7 +26,7 @@
 	  </form>
 	</li>
 	<li class="large-badge align-center subject">
-	  <form id="subj_sub" action='<%= @subj_ct > 0 ? "#{@sublist_action}subjects" : "#" %>' method="post">
+	  <form id="subj_sub" action="<%= @sublist_action %>subjects" method="post">
 	    <input type="hidden" name="repo" id="repo_subj" value="<%= @result['name'] %>" />
 	    <input type="hidden" name="qr" id="qr_subj" value="<%= @subj_query %>" />
 	    <button type="submit" class="btn btn-default subject">
@@ -49,7 +49,7 @@
 	  </form>
 	</li>
         <li class="large-badge align-center classification">
-          <form id="group_sub" action='<%= @group_ct > 0 ? "#{@sublist_action}groups" : "#" %>' method="post">
+          <form id="group_sub" action="<%= @sublist_action %>groups"  method="post">
             <input type="hidden" name="repo" id="repo_group" value="<%= @result['name'] %>" />
             <input type="hidden" name="qr" id="qr_group" value="" />
             <button type="submit" class="btn btn-default classification">

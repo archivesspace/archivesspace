@@ -4,7 +4,7 @@ class RepositoriesController < ApplicationController
 
   DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'agents']
   DEFAULT_REPO_SEARCH_OPTS = {
-    'sort' => 'title_sort asc',
+#    'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
@@ -56,7 +56,12 @@ class RepositoriesController < ApplicationController
 #    q = params.require(:q)
     @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
     process_search_results(@base_search)
-    render 
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      redirect_back(fallback_location: @base_search)
+    else
+      render
+    end 
   end
 
   def show
@@ -131,7 +136,11 @@ class RepositoriesController < ApplicationController
     end
 
     Rails.logger.debug("TOTAL HITS: #{@results['total_hits']}, last_page: #{@results['last_page']}")
-    if !@results['results'].blank?
+
+    if @results['total_hits'] == 0
+      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      redirect_back(fallback_location:  @repo_id)
+    else      
       @results['results'].each do |result|
         if !result['json'].blank?
           result['json'] = JSON.parse(result['json']) || {}
@@ -139,10 +148,10 @@ class RepositoriesController < ApplicationController
           result['json'] = {}
         end
       end
+      @type = @type.sub("pui_", "")
+      @pager =  Pager.new("/repositories/#{params[:id]}/#{params[:type]}?repo=#{@repo_name}&qr=#{query}", @results['this_page'],@results['last_page'])
+      @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{@type}._plural") : I18n.t("#{@type}._singular")) +  " " + I18n.t('listing')
     end
-    @type = @type.sub("pui_", "")
-    @pager =  Pager.new("/repositories/#{params[:id]}/#{params[:type]}?repo=#{@repo_name}&qr=#{query}", @results['this_page'],@results['last_page'])
-    @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{@type}._plural") : I18n.t("#{@type}._singular")) +  " " + I18n.t('listing')
   end
 
   private
