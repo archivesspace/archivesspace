@@ -11,9 +11,8 @@ require 'uri'
 class ArchivesSpaceClient
 
   DEFAULT_SEARCH_OPTS = {
-    'page_size' => AppConfig[:search_results_page_size],
-    'sort' => 'title_sort asc'
-  }
+#    'sort' => 'title_sort asc',
+    'page_size' => AppConfig[:search_results_page_size]  }
 
   # FIXME: Ultimately we'll set up a dedicated user for the public application
   # to use (instead of admin).
