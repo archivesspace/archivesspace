@@ -44,6 +44,8 @@ class AppConfig
   end
 
   def self.reload
+    $CONFIG_DEFAULTS_LOADED = false
+
     @@parameters = {}
 
     AppConfig.load_defaults

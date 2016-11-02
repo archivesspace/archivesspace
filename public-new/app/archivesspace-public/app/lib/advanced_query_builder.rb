@@ -2,9 +2,12 @@
 # ArchivesSpace distribution.  If the new public application is error merged
 # with the ArchivesSpace core, then this file can be removed in favour of the
 # ArchivesSpace version.
+
 class AdvancedQueryBuilder
 
   attr_reader :query
+
+  RangeValue = Struct.new(:from, :to)
 
   def initialize
     @query = nil
@@ -13,6 +16,8 @@ class AdvancedQueryBuilder
   def and(field_or_subquery, value = nil, type = 'text', negated = false)
     if field_or_subquery.is_a?(AdvancedQueryBuilder)
       push_subquery('AND', field_or_subquery)
+    elsif value.is_a? RangeValue
+      push_range('AND', field_or_subquery, value, 'range', negated)
     else
       raise "Missing value" unless value
       push_term('AND', field_or_subquery, value, type, negated)
@@ -24,6 +29,8 @@ class AdvancedQueryBuilder
   def or(field_or_subquery, value = nil, type = 'text', negated = false)
     if field_or_subquery.is_a?(AdvancedQueryBuilder)
       push_subquery('OR', field_or_subquery)
+    elsif value.is_a? RangeValue
+      push_range('AND', field_or_subquery, value, 'range', negated)
     else
       raise "Missing value" unless value
       push_term('OR', field_or_subquery, value, type, negated)
@@ -55,10 +62,10 @@ class AdvancedQueryBuilder
 
   def push_subquery(operator, subquery)
     new_query = {
-      :operator => operator,
-      :type => 'boolean_query',
-      :arg1 => subquery.query,
-      :arg2 => @query,
+      'operator' => operator,
+      'type' => 'boolean_query',
+      'arg1' => subquery.query,
+      'arg2' => @query,
     }
 
     @query = new_query
@@ -67,29 +74,47 @@ class AdvancedQueryBuilder
 
   def push_term(operator, field, value, type = 'text', negated = false)
     new_query = {
-      :operator => operator,
-      :type => 'boolean_query',
-      :arg1 => {
-        :field => field,
-        :value => value,
-        :type => type,
-        :negated => negated,
+      'operator' => operator,
+      'type' => 'boolean_query',
+      'arg1' => {
+        'field' => field,
+        'value' => value,
+        'type' => type,
+        'negated' => negated,
       },
-      :arg2 => @query,
+      'arg2' => @query,
+    }
+
+    @query = new_query
+  end
+
+
+  def push_range(operator, field, range, type = 'range', negated = false)
+    new_query = {
+      'operator' => operator,
+      'type' => 'boolean_query',
+      'arg1' => {
+        'field' => field,
+        'from' => range.from,
+        'to' => range.to,
+        'type' => type,
+        'negated' => negated,
+      },
+      'arg2' => @query,
     }
 
     @query = new_query
   end
 
   def build_query(query)
-    if query[:type] == 'boolean_query'
-      subqueries = [query[:arg1], query[:arg2]].compact.map {|subquery|
+    if query['type'] == 'boolean_query'
+      subqueries = [query['arg1'], query['arg2']].compact.map {|subquery|
         build_query(subquery)
       }
 
       {
         'jsonmodel_type' => 'boolean_query',
-        'op' => query[:operator],
+        'op' => query['operator'],
         'subqueries' => subqueries
       }
     else
@@ -105,6 +130,10 @@ class AdvancedQueryBuilder
     elsif query_data["type"] == "boolean"
       query_data.merge({
                          'jsonmodel_type' => 'boolean_field_query'
+                       })
+    elsif query_data["type"] == "range"
+      query_data.merge({
+                         'jsonmodel_type' => 'range_query'
                        })
     else
       query = query_data.merge({
