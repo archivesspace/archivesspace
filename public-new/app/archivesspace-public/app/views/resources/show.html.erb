@@ -22,6 +22,22 @@
 </div>
 <div class="row" id="notes_row">
   <div class="col-sm-9">
+    <% unless @result['json']['extents'].blank? %>
+      <h4><%= t('resource._public.extent') %></h4>
+       <% @result['json']['extents'].each do |ext| %> 
+        <p class="extent"><%= ext['number'] %> <%= (ext['portion'].present? ? ext['portion'] : '') %> <%= ext['extent_type'] %></p>
+      <% end %>
+    <% end %>
+    <% unless @result['json']['dates'].blank? %>
+      <h4><%= t('resource._public.header.dates') %></h4>
+      <% @result['json']['dates'].each do |date|  %>
+       <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="row" id="notes_row">
+  <div class="col-sm-9">
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
     <div class="acc_holder" >
       <div class="panel-group" id="res_accordion">
