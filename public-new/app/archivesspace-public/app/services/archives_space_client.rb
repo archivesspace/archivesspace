@@ -64,9 +64,15 @@ class ArchivesSpaceClient
   end
   # calls the '/search/published_tree' endpoint
   def get_tree(node_uri)
+    tree = {}
     url =  build_url('/search/published_tree', {:node_uri => node_uri})
-    results = do_search(url)
-    tree = JSON.parse(results['tree_json'])
+    begin
+      results = do_search(url)
+      tree = JSON.parse(results['tree_json'])
+    rescue  RequestFailedException => error
+      Rails.logger.error("Tree search failed on #{node_uri} : #{error}")
+    end
+    tree
   end
 
   def get_types_counts(record_type_list, repo_uri = nil)
@@ -95,7 +101,7 @@ class ArchivesSpaceClient
 #    Rails.logger.debug("Search url: #{url}")
     request = Net::HTTP::Get.new(url)
     response = do_http_request(request)
-    if response.code != '200'
+    if response.code != '200' 
       Rails.logger.debug("Code: #{response.code}")
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end

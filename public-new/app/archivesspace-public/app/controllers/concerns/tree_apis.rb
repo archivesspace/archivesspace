@@ -4,9 +4,8 @@ module TreeApis
   # TODO: try/catch for non 200 responses
   def fetch_tree(node_uri)
     tree = archivesspace.get_tree(node_uri)
-#    if !tree.blank?
 #      Pry::ColorPrinter.pp(tree)
-#    end
+#      Pry::ColorPrinter.pp(archivesspace.get_full_tree(node_uri))
     tree
   end
   # create the contents for breadcrumbs
