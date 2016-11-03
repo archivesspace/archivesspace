@@ -111,7 +111,7 @@ class RepositoriesController < ApplicationController
               'pui_record_group'
            end
     @criteria = {}
-    @criteria['sort'] = "title asc" 
+    @criteria['sort'] = "title_sort asc" 
     page  =  params['page'] || 1 if !params.blank?
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
