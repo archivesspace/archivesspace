@@ -363,7 +363,12 @@ module ASModel
       def fire_update(json, sequel_obj)
         if high_priority?
           model = self
+
           uri = sequel_obj.uri
+
+          # We don't index records without URIs, so no point digging them out of the database either.
+          return unless uri
+
           hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
           DB.after_commit do
             RealtimeIndexing.record_update(hash, uri)
