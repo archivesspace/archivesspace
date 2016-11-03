@@ -31,60 +31,60 @@ class EADConverter < Converter
 
   # We override this to skip nodes that are often very deep
   # We can safely assume ead, c, and archdesc will have children,
-  # which greatly helps the performance. 
+  # which greatly helps the performance.
   def is_node_empty?(node)
-    parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }  
-    if  parent_nodes.include?( node.local_name ) 
-      return false 
+    parent_nodes = %w{ ead e archdesc dsc } + (1..12).collect { |n| "c#{ sprintf('%02d', n)}" }
+    if  parent_nodes.include?( node.local_name )
+      return false
     else
-      return  node.inner_xml.strip.empty? 
+      return  node.inner_xml.strip.empty?
     end
   end
-  
+
   # A lot of nodes need tweaking to format the content. Like, people love their p's but they don't
-  # actually want to ever see them. 
+  # actually want to ever see them.
   def format_content(content)
   	return content if content.nil?
-    content.delete!("\n") # first we remove all linebreaks, since they're probably unintentional  
-    content.gsub("<p>","").gsub("</p>","\n\n" ).gsub("<p/>","\n\n")
-  		   .gsub("<lb/>", "\n\n").gsub("<lb>","\n\n").gsub("</lb>","")
-  	     .strip
+    content.delete!("\n") # first we remove all linebreaks, since they're probably unintentional
+    content.gsub(%r{<p(?: [^>/]*)?>},"").gsub(%r{</p>|<p(?:\s+[^>]*)?/>}, "\n\n")
+      .gsub("<lb/>", "\n\n").gsub("<lb>","\n\n").gsub("</lb>","")
+      .strip
   end
-  
+
 
   # alright, wtf.
-  # sometimes notes can have things like  lists jammed in them. we need to break those 
+  # sometimes notes can have things like  lists jammed in them. we need to break those
   # out, but keep the narrative order of the notes.
   def insert_into_subnotes(split_tag = 'list')
-      subnotes =  ancestor(:note_multipart).subnotes 
-      theleftovers = nil 
-     
+      subnotes =  ancestor(:note_multipart).subnotes
+      theleftovers = nil
+
       unless subnotes.nil?
         if subnotes.is_a?(Array)
           sn = subnotes.pop
         else
           sn = subnotes
-        end   
-        
+        end
+
         if sn["content"]
-          # clone the object... 
-          theleftovers = sn.dup 
-          # rip out the list, and put the left overs back in the content 
+          # clone the object...
+          theleftovers = sn.dup
+          # rip out the list, and put the left overs back in the content
           content = sn["content"].gsub("ead:#{split_tag}", split_tag) # just in case..
           sn["content"], trash,  theleftovers["content"] = content.partition(/<#{split_tag}[^>]*>.*?<\/#{split_tag}>/m)
-          # what a hack. ripping out the list might leave some dangling <p>s 
+          # what a hack. ripping out the list might leave some dangling <p>s
           [sn, theleftovers].each do |s|
             next if s["content"].nil?
-            s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,'')).to_xml(:encoding => 'utf-8') 
+            s["content"] = Nokogiri::XML::DocumentFragment.parse(s["content"].strip.gsub(/^<\/p[^>]*>/,'')).to_xml(:encoding => 'utf-8')
           end
         end
-        
+
         # put everything before the list back...
-        unless ( sn["content"].nil? or  sn["content"].length < 1 ) 
-          set ancestor(:note_multipart), :subnotes, sn 
-        end 
-     
-      end 
+        unless ( sn["content"].nil? or  sn["content"].length < 1 )
+          set ancestor(:note_multipart), :subnotes, sn
+        end
+
+      end
         # now return the leftovers to be delt with after the list subnote has
         # been created
         theleftovers
@@ -146,10 +146,10 @@ class EADConverter < Converter
 
     with 'unittitle' do |node|
       ancestor(:note_multipart, :resource, :archival_object) do |obj|
-        unless obj.class.record_type == "note_multipart"   
+        unless obj.class.record_type == "note_multipart"
           title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
-          title.xpath(".//unitdate").remove 
-          obj.title = format_content( title.to_xml(:encoding => 'utf-8') ) 
+          title.xpath(".//unitdate").remove
+          obj.title = format_content( title.to_xml(:encoding => 'utf-8') )
         end
       end
     end
@@ -163,9 +163,9 @@ class EADConverter < Converter
       #  norm_dates[1] = norm_dates[0]
       #end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
-      
+
       make :date, {
-        :date_type => att('type') || 'inclusive', 
+        :date_type => att('type') || 'inclusive',
         :expression => inner_xml,
         :label => 'creation',
         :begin => norm_dates[0],
@@ -222,10 +222,10 @@ class EADConverter < Converter
         set ancestor(:resource, :archival_object), :notes, note
       end
     end
-    
+
     def make_nested_note(note_name, tag)
       content = tag.inner_text
-    
+
       make :note_multipart, {
         :type => note_name,
         :persistent_id => att('id'),
@@ -238,28 +238,28 @@ class EADConverter < Converter
         set ancestor(:resource, :archival_object), :notes, note
       end
     end
-    
+
     with 'physdesc' do
       physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
 
       extent_number_and_type = nil
-    
+
       dimensions = []
       physfacets = []
       container_summaries = []
       other_extent_data = []
-    
+
       container_summary_texts = []
       dimensions_texts = []
       physfacet_texts = []
-    
+
       # If there is already a portion of 'part' specified, use it
       if att('altrender') && att('altrender').downcase == 'part'
         portion = 'part'
       else
         portion = 'whole'
       end
-    
+
       # Special case: if the physdesc is just a plain string with no child elements, treat its contents as a physdesc note
       if physdesc.children.length == 1 && physdesc.children[0].name == 'text'
         container_summaries << physdesc
@@ -276,15 +276,15 @@ class EADConverter < Converter
               container_summaries << child
               container_summary_texts << child.content.strip
             end
-            
+
           elsif child.name == 'physfacet'
             physfacets << child
             physfacet_texts << child.content.strip
-            
+
           elsif child.name == 'dimensions'
             dimensions << child
             dimensions_texts << child.content.strip
-            
+
           elsif child.name != 'text'
             other_extent_data << child
           end
@@ -303,32 +303,33 @@ class EADConverter < Converter
         } do |extent|
           set ancestor(:resource, :archival_object), :extents, extent
         end
-    
+
       # there's no true extent; split up the rest into individual notes
       else
         container_summaries.each do |summary|
           make_single_note("physdesc", summary)
         end
-    
+
         physfacets.each do |physfacet|
           make_single_note("physfacet", physfacet)
         end
-        
+
         dimensions.each do |dimension|
           make_nested_note("dimensions", dimension)
         end
       end
-    
+
       other_extent_data.each do |unknown_tag|
         make_single_note("physdesc", unknown_tag, unknown_tag.name)
       end
-    
+
     end
 
 
     with 'bibliography' do
       make :note_bibliography
       set :persistent_id, att('id')
+      set :publish, att('audience') != 'internal'
       set ancestor(:resource, :archival_object), :notes, proxy
     end
 
@@ -336,6 +337,7 @@ class EADConverter < Converter
     with 'index' do
       make :note_index
       set :persistent_id, att('id')
+      set :publish, att('audience') != 'internal'
       set ancestor(:resource, :archival_object), :notes, proxy
     end
 
@@ -378,7 +380,7 @@ class EADConverter < Converter
       end
     end
 
-    # this is very imperfect. 
+    # this is very imperfect.
     with 'indexentry/ref' do
         make :note_index_item, {
           :type => 'name',
@@ -416,7 +418,7 @@ class EADConverter < Converter
         } do |note|
           set ancestor(:resource, :archival_object), :notes, note
         end
-      end      
+      end
     end
 
 
@@ -443,9 +445,9 @@ class EADConverter < Converter
 
     with 'chronlist' do
       if  ancestor(:note_multipart)
-        left_overs = insert_into_subnotes 
-      else 
-        left_overs = nil 
+        left_overs = insert_into_subnotes
+      else
+        left_overs = nil
         make :note_multipart, {
           :type => node.name,
           :persistent_id => att('id'),
@@ -454,15 +456,17 @@ class EADConverter < Converter
           set ancestor(:resource, :archival_object), :notes, note
         end
       end
-      
-      make :note_chronology do |note|
+
+      make :note_chronology, {
+             :publish => att('audience') != 'internal'
+           } do |note|
         set ancestor(:note_multipart), :subnotes, note
       end
-      
+
       # and finally put the leftovers back in the list of subnotes...
-      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 ) 
-        set ancestor(:note_multipart), :subnotes, left_overs 
-      end 
+      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 )
+        set ancestor(:note_multipart), :subnotes, left_overs
+      end
     end
 
 
@@ -480,11 +484,11 @@ class EADConverter < Converter
 
 
     with 'list' do
-       
+
       if  ancestor(:note_multipart)
-        left_overs = insert_into_subnotes 
-      else 
-        left_overs = nil 
+        left_overs = insert_into_subnotes
+      else
+        left_overs = nil
         make :note_multipart, {
           :type => 'odd',
           :persistent_id => att('id'),
@@ -493,33 +497,36 @@ class EADConverter < Converter
           set ancestor(:resource, :archival_object), :notes, note
         end
       end
-      
-      
-      # now let's make the subnote list 
+
+
+      # now let's make the subnote list
       type = att('type')
       if type == 'deflist' || (type.nil? && inner_xml.match(/<deflist>/))
-        make :note_definedlist do |note|
+        make :note_definedlist, {
+          :publish => att('audience') != 'internal'
+        } do |note|
           set ancestor(:note_multipart), :subnotes, note
         end
       else
         make :note_orderedlist, {
-          :enumeration => att('numeration')
+          :enumeration => att('numeration'),
+          :publish => att('audience') != 'internal'
         } do |note|
           set ancestor(:note_multipart), :subnotes, note
         end
       end
-      
-      
+
+
       # and finally put the leftovers back in the list of subnotes...
-      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 ) 
-        set ancestor(:note_multipart), :subnotes, left_overs 
-      end 
-    
+      if ( !left_overs.nil? && left_overs["content"] && left_overs["content"].length > 0 )
+        set ancestor(:note_multipart), :subnotes, left_overs
+      end
+
     end
 
 
     with 'list/head' do |node|
-      set :title, format_content( inner_xml ) 
+      set :title, format_content( inner_xml )
     end
 
 
@@ -557,7 +564,7 @@ class EADConverter < Converter
 
     with 'head' do
       if context == :note_multipart
-        set :label, format_content( inner_xml ) 
+        set :label, format_content( inner_xml )
       elsif context == :note_chronology
         set :title, format_content( inner_xml )
       end
@@ -576,8 +583,8 @@ class EADConverter < Converter
         else
           # there is not a parent. if there is an id, let's check if there's an
           # instance before we proceed
-          inst = context == :instance ? context_obj : context_obj.instances.last 
-         
+          inst = context == :instance ? context_obj : context_obj.instances.last
+
           # if there are no instances, we need to make a new one.
           # or, if there is an @id ( but no @parent) we can assume its a new
           # top level container that will be referenced later, so we need to
@@ -595,10 +602,10 @@ class EADConverter < Converter
             } do |instance|
               set ancestor(:resource, :archival_object), :instances, instance
             end
-            
+
             inst = context_obj
           end
-        
+
           # now let's check out instance to see if there's a container...
           if inst.container.nil?
             make :container do |cont|
@@ -606,7 +613,7 @@ class EADConverter < Converter
             end
           end
 
-          # and now finally we get the container. 
+          # and now finally we get the container.
           cont =  inst.container || context_obj
           cont['barcode_1'] = barcode.strip if barcode
           cont['container_profile_key'] = att("altrender")
@@ -619,7 +626,7 @@ class EADConverter < Converter
           cont["indicator_#{i}"] = format_content( inner_xml )
           break
         end
-        
+
         #store it here incase we find it has a parent
         @containers[att("id")] = cont if att("id")
 
@@ -672,7 +679,7 @@ class EADConverter < Converter
     end
 
     with 'langusage' do
-      set :finding_aid_language, format_content( inner_xml ) 
+      set :finding_aid_language, format_content( inner_xml )
     end
 
 
@@ -684,7 +691,7 @@ class EADConverter < Converter
     with 'revisiondesc/change/item' do
       set :description, format_content( inner_xml )
     end
-    
+
     with 'revisiondesc/change/date' do
       set :date, format_content( inner_xml )
     end
@@ -745,36 +752,39 @@ class EADConverter < Converter
           set ancestor(:resource, :archival_object), :instances, instance
       end
 
-      
+
       make :digital_object, {
-        :digital_object_id => SecureRandom.uuid,
-        :title => att('title'),
-       } do |obj|
-         obj.file_versions <<  {   
-             :use_statement => att('role'),
-             :file_uri => att('href'),
-             :xlink_actuate_attribute => att('actuate'),
-             :xlink_show_attribute => att('show')
-         }
-         set ancestor(:instance), :digital_object, obj 
+             :digital_object_id => SecureRandom.uuid,
+             :publish => att('audience') != 'internal',
+             :title => att('title')
+           } do |obj|
+        obj.file_versions <<  {
+          :use_statement => att('role'),
+          :file_uri => att('href'),
+          :xlink_actuate_attribute => att('actuate'),
+          :xlink_show_attribute => att('show'),
+          :publish => att('audience') != 'internal'
+        }
+        set ancestor(:instance), :digital_object, obj
       end
 
     end
-    
+
     with 'daodesc' do
-        make :note_digital_object, {
-          :type => 'note',
-          :persistent_id => att('id'),
-          :content => inner_xml.strip
-        } do |note|
-          set ancestor(:digital_object), :notes, note
-        end
+      make :note_digital_object, {
+             :type => 'note',
+             :persistent_id => att('id'),
+             :publish => att('audience') != 'internal',
+             :content => inner_xml.strip
+           } do |note|
+        set ancestor(:digital_object), :notes, note
+      end
     end
-    
+
     with 'daogrp' do
-      title = '' 
-      ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' } 
-      
+      title = ''
+      ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' }
+
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
         :title => title,
@@ -785,26 +795,26 @@ class EADConverter < Converter
       end
 
     end
-  
-  
+
+
    with 'daoloc' do
      ancestor(:digital_object) do |dobj|
       dobj.file_versions << {
        :file_uri => att('href'),
        :xlink_show_attribute => att('show'),
-       :file_format_name => att('role')  
-       } 
+       :file_format_name => att('role')
+       }
      end
    end
-  
+
   end
- 
-  
-  
+
+
+
   # Templates Section
 
   def make_corp_template(opts)
-    return nil if inner_xml.strip.empty? 
+    return nil if inner_xml.strip.empty?
     make :agent_corporate_entity, {
       :agent_type => 'agent_corporate_entity'
     } do |corp|
@@ -814,7 +824,7 @@ class EADConverter < Converter
     make :name_corporate_entity, {
       :primary_name => inner_xml,
       :rules => att('rules'),
-      :authority_id => att('id'), 
+      :authority_id => att('id'),
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_corporate_entity), :names, proxy
@@ -823,7 +833,7 @@ class EADConverter < Converter
 
 
   def make_family_template(opts)
-    return nil if inner_xml.strip.empty? 
+    return nil if inner_xml.strip.empty?
     make :agent_family, {
       :agent_type => 'agent_family',
     } do |family|
@@ -833,7 +843,7 @@ class EADConverter < Converter
     make :name_family, {
       :family_name => inner_xml,
       :rules => att('rules'),
-      :authority_id => att('id'), 
+      :authority_id => att('id'),
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_family), :names, name
@@ -842,7 +852,7 @@ class EADConverter < Converter
 
 
   def make_person_template(opts)
-    return nil if inner_xml.strip.empty? 
+    return nil if inner_xml.strip.empty?
     make :agent_person, {
       :agent_type => 'agent_person',
     } do |person|
@@ -852,7 +862,7 @@ class EADConverter < Converter
     make :name_person, {
       :name_order => 'inverted',
       :primary_name => inner_xml,
-      :authority_id => att('id'), 
+      :authority_id => att('id'),
       :rules => att('rules'),
       :source => att('source') || 'ingest'
     } do |name|
@@ -860,4 +870,3 @@ class EADConverter < Converter
     end
   end
 end
-
