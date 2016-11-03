@@ -1,3 +1,5 @@
+<% non_folder = %w(langmaterial physdesc accessrestrict userestrict) %>
+<% folder = %w(abstract bioghist arrangement odd acqinfo relatedmaterial separatedmaterial processinfo) %>
 <div id="main-content" class="row">
   <div class="row" id="info_row">
     <div class="information col-sm-7">
@@ -22,44 +24,49 @@
 </div>
 <div class="row" id="notes_row">
   <div class="col-sm-9">
+    <% over = get_note(@result['json'], 'scopecontent') %>
+    <% if over.blank?
+       over = get_note(@result['json'], 'abstract') 
+       folder.shift # remove abstract from in-folder notes
+    end %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
+    <% unless @result['json']['dates'].blank? %>
+      <h4><%= t('resource._public.dates') %></h4>
+      <% @result['json']['dates'].each do |date|  %>
+       <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+      <% end %>
+    <% end %>
+    <% non_folder.each do |type| %>
+       <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => get_note(@result['json'], type)}  %>
+    <% end %>
+
     <% unless @result['json']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
        <% @result['json']['extents'].each do |ext| %> 
         <p class="extent"><%= ext['number'] %> <%= (ext['portion'].present? ? ext['portion'] : '') %> <%= ext['extent_type'] %></p>
       <% end %>
     <% end %>
-    <% unless @result['json']['dates'].blank? %>
-      <h4><%= t('resource._public.header.dates') %></h4>
-      <% @result['json']['dates'].each do |date|  %>
-       <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
-      <% end %>
-    <% end %>
   </div>
 </div>
+
 <div class="row" id="notes_row">
   <div class="col-sm-9">
-    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct =>  get_note(@result['json'], 'abstract')} %>
+
     <div class="acc_holder" >
       <div class="panel-group" id="res_accordion">
-	<% %w{scopecontent bioghist physdesc langmaterial accessrestrict prefercite arrangement odd processinfo acqinfo relatedmaterial separatedmaterial}.each do |type| 
-	   note_struct = get_note(@result['json'],type) 
-           if !note_struct['note_text'].blank? %>
-        <div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h4 class="panel-title">
-	      <a class="accordion-toggle" data-toggle="collapse"  href="#<%= type %>">
-		<%= note_struct['label'] %>
-	      </a>
-	    </h4>
-	  </div>
-	  <div id="<%= type %>" class="panel-collapse collapse note_panel in">
-	    <div class="panel-body">
-	      <div class="note"><%= note_struct['note_text'].html_safe %></div>
-	    </div>
-	  </div>
-	</div>
+	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
+	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'), 
+	      :p_id => 'add_desc', :p_body => x } %>
+        <% unless @subjects.blank? %>
+	   <% x= render partial: 'shared/present_list', locals: {:list => @subjects, :list_clss => 'subjects_list'} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
+	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
-	<% end %>
+	<% unless @agents.blank? %>
+	  <% x= render partial: 'shared/present_list', locals: {:list => @agents, :list_clss => 'agents_list'} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
+	     :p_id => 'agent_list', :p_body => x} %>
+        <% end %>
       </div>        
     </div>
 <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
