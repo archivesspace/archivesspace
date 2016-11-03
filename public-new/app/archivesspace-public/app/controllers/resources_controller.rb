@@ -34,6 +34,7 @@ class ResourcesController <  ApplicationController
 
     set_up_search(['resource'], [],DEFAULT_RES_INDEX_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
+#    Rails.logger.debug("Criteria: #{@criteria}")
     @results =  archivesspace.search(@query, page, @criteria) || {}
     
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
@@ -73,10 +74,13 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-#Rails.logger.debug(@result['json'].keys)
-      #Rails.logger.debug("REPOSITORY:")
-      #Pry::ColorPrinter.pp(@result)
+#      Rails.logger.debug("notes keys: #{@result['json']['html'].keys}") unless @result['json']['html'].blank?
+#      Rails.logger.debug("notes scope: #{@result['json']['html']['scopecontent']}") unless @result['json']['html'].blank?
       repo = @result['_resolved_repository']['json']
+      @agents = process_agents(@result['json']['linked_agents'])
+      @subjects = process_subjects(@result['json']['subjects'])
+#      Pry::ColorPrinter.pp(@subjects)
+
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
       @tree = fetch_tree(uri)
@@ -87,4 +91,37 @@ class ResourcesController <  ApplicationController
       render  'shared/not_found'
     end
   end
+
+  private
+  def process_agents(agents_arr)
+    agents_h = {}
+    agents_arr.each do |agent|
+      unless agent['role'].blank? || agent['_resolved'].blank? 
+        role = agent['role']
+        ag = title_and_uri(agent['_resolved'])
+        agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
+      end
+    end
+    agents_h
+  end
+
+  def process_subjects(subjects_arr)
+    return_arr = []
+    subjects_arr.each do |subject|
+      unless subject['_resolved'].blank?
+        sub = title_and_uri(subject['_resolved'])
+        return_arr.push(sub) if sub
+      end
+    end
+    return_arr
+  end
+
+  def title_and_uri(in_h)
+    if in_h['publish']
+      return in_h.slice('uri', 'title')
+    else
+      return nil
+    end
+  end
+
 end

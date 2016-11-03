@@ -228,11 +228,19 @@ en:
     _public:
       extent: Extent
       dates: Dates
+      lang: Language
+      physdesc: Physical Description
+      storage: Container Information
+      access: Conditions Governing Access
+      use: Conditions Governing Use
+      additional: Additional Description
       section:
         components: Components
         summary: Summary
       messages:
         no_components: Resource has no components
+
+
 
   related_resource:
     _singular: Related Collection
@@ -277,7 +285,7 @@ en:
   pui_agent:
     _singular: Person or Organization
     _plural:  People & Organizations
-
+    related: Related People & Organizations
   record:
     _singular: Record
     _plural: Records
