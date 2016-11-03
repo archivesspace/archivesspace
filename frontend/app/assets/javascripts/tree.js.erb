@@ -1379,8 +1379,14 @@ $(function() {
   $tree.bind("refresh_node.jstree", function(event, data) {
     
     if ( desired_children.length == 0 ) { return;  } 
-    happy_family = desired_children.length == data.node.children.length && desired_children.every(function(element, index) {
-        return element === data.node.children[index]; 
+
+    /* For some unknown reason, data.node doesn't reliably have its children
+       populated.  Just use its ID to get back the full node from the jstree
+       instance. */
+    var refreshed_node = data.instance.get_node(data.node.id)
+
+    happy_family = desired_children.length == refreshed_node.children.length && desired_children.every(function(element, index) {
+        return element === refreshed_node.children[index]; 
     }); 
     if ( happy_family === false ) { 
       AS.openQuickModal(AS.renderTemplate("tree_move_ordering_problem_message_template"), desired_children);
