@@ -116,6 +116,10 @@ module SeleniumTest
       # Send it back to the hudmol devserver
       system('curl', '-H', 'Content-Type: application/octet-stream',
              '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
+
+      # Ship the backend log too
+      system('curl', '-H', 'Content-Type: application/octet-stream',
+             '--data-binary', "@#{ENV['INTEGRATION_LOGFILE']}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
     end
   end
 end
