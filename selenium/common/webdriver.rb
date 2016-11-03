@@ -374,9 +374,9 @@ module Selenium
 
       def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
         Selenium::Config.retries.times do |try|
-          begin
-            matches = self.find_elements(:xpath => xpath)
+          matches = self.find_elements(:xpath => xpath)
 
+          begin
             matches.each do | match |
               return match if match.text =~ pattern
             end
@@ -388,7 +388,7 @@ module Selenium
             return nil
           end
 
-          $sleep_time += 0.1
+          $sleep_time += 0.5
           sleep 0.5
           puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 10) == 0
         end
