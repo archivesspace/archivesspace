@@ -115,7 +115,7 @@ module SeleniumTest
     if ENV['TRAVIS']
       # Send it back to the hudmol devserver
       system('curl', '-H', 'Content-Type: application/octet-stream',
-             +           '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
+             '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
     end
- end
+  end
 end
