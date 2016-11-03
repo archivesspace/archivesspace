@@ -5,7 +5,7 @@ describe "Users and authentication" do
 
   before(:all) do
     @user = build(:user)
-    @driver = Driver.new
+    @driver = Driver.get
   end
 
   after(:all) do

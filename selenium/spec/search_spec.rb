@@ -15,7 +15,7 @@ describe "Search" do
 
     @manager_user = create_user(@repo => ['repository-managers'])
 
-    @driver = Driver.new.login_to_repo(@manager_user, @repo)
+    @driver = Driver.get.login_to_repo(@manager_user, @repo)
 
     run_index_round
   end
@@ -82,7 +82,7 @@ describe "Advanced Search" do
 
     run_index_round
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
   end
 
 

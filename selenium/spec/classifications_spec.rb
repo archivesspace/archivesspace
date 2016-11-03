@@ -10,7 +10,7 @@ describe "Classifications" do
     @classification_agent = create(:agent_person)
     @agent_sort_name = @classification_agent.names.first['sort_name']
 
-    @driver = Driver.new.login($admin)
+    @driver = Driver.get.login($admin)
 
     run_index_round
     @driver.select_repo(@repo.repo_code)

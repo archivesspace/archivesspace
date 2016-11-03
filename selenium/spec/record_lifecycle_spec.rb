@@ -10,7 +10,7 @@ describe "Record Lifecycle" do
     @archivist_user = create_user(@repo => ['repository-archivists'])
 
 
-    @driver = Driver.new.login_to_repo(@manager_user, @repo)
+    @driver = Driver.get.login_to_repo(@manager_user, @repo)
 
     @do = create(:digital_object)
 

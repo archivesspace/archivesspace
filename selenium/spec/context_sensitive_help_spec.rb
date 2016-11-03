@@ -7,7 +7,7 @@ describe "Context Sensitive Help" do
     set_repo @repo
 
     @manager = create_user(@repo => ['repository-managers'])
-    @driver = Driver.new.login_to_repo(@manager, @repo)
+    @driver = Driver.get.login_to_repo(@manager, @repo)
   end
 
 

@@ -15,7 +15,7 @@ describe "User management" do
       :department => "dept",
       :additional_contact => "ac_#{Time.now.to_i}"}
 
-    @driver = Driver.new
+    @driver = Driver.get
   end
 
   after(:each) do

@@ -7,7 +7,7 @@ describe "System Information" do
     set_repo(@repo)
 
     @archivist_user = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new
+    @driver = Driver.get
   end
 
 

@@ -8,7 +8,7 @@ describe "Repositories" do
     @test_repo_code_2 = "test2#{Time.now.to_i}_#{$$}"
     @test_repo_name_2 = "test repository 2 - #{Time.now.utc}"
 
-    @driver = Driver.new.login($admin)
+    @driver = Driver.get.login($admin)
   end
 
   after(:all) do

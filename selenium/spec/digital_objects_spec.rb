@@ -14,7 +14,7 @@ describe "Digital Objects" do
     @do2 = create(:digital_object)
 
     user = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new.login_to_repo(user, @repo)
+    @driver = Driver.get.login_to_repo(user, @repo)
   end
 
 

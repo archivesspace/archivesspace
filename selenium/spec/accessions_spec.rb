@@ -27,7 +27,7 @@ describe "Accessions" do
 
     run_all_indexers
 
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
   end
 
 

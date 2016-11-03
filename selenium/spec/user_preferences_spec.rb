@@ -10,7 +10,7 @@ describe "User Preferences" do
 
     run_all_indexers
 
-    @driver = Driver.new
+    @driver = Driver.get
     @driver.login_to_repo($admin, @repo)
   end
 

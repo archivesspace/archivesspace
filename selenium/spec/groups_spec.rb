@@ -9,7 +9,7 @@ describe "Groups" do
     @user = create_user
 
     # wait for notification to fire (which can take up to 5 seconds)
-    @driver = Driver.new.login($admin)    
+    @driver = Driver.get.login($admin)    
   end
 
 

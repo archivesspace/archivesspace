@@ -7,7 +7,7 @@ describe "Permissions" do
     set_repo @repo
 
     @archivist = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
   end
 
 

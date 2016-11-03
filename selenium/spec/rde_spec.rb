@@ -8,7 +8,7 @@ describe "RDE" do
 
     @archivist_user = create_user(@repo => ['repository-archivists'])
 
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
 
     @resource = create(:resource)
     run_index_round
@@ -273,7 +273,7 @@ describe "Digital Object RDE" do
     @archivist_user = create_user(@repo => ['repository-archivists'])
 
     @digital_object = create(:digital_object)
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
     run_index_round
   end
 

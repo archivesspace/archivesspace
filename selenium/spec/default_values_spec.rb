@@ -9,7 +9,7 @@ describe "Default Form Values" do
 
     @archivist_user = create_user(@repo => ['repository-archivists'])
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
 
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.find_element(:link, "My Repository Preferences").click

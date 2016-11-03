@@ -5,7 +5,7 @@ describe "Enumeration Management" do
     @repo = create(:repo, :repo_code => "enum_test_#{Time.now.to_i}")
     set_repo @repo
 
-    @driver = Driver.new.login($admin)
+    @driver = Driver.get.login($admin)
   end
 
 

@@ -8,7 +8,7 @@ describe "Collection Management" do
 
     @archivist = create_user(@repo => ['repository-archivists'])
 
-    @driver = Driver.new.login_to_repo(@archivist, @repo)
+    @driver = Driver.get.login_to_repo(@archivist, @repo)
   end
 
   after(:all) do

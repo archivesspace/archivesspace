@@ -9,7 +9,7 @@ describe "Notes" do
     @resource = create(:resource)
     archivist_user = create_user(@repo => ['repository-archivists'])
 
-    @driver = Driver.new
+    @driver = Driver.get
     @driver.login_to_repo(archivist_user, @repo)
 
     @driver.get_edit_page(@resource)

@@ -12,5 +12,5 @@ $indexer = RealtimeIndexer.new($backend, nil)
 $period = PeriodicIndexer.new
 
 $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
-$driver = Driver.new
+$driver = Driver.get
 

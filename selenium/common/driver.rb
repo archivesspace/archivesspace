@@ -2,6 +2,20 @@ require_relative 'webdriver'
 
 class Driver
 
+  def self.get(frontend = $frontend)
+    instance = Driver.new(frontend)
+
+    @current_instance = instance
+
+    instance
+  end
+
+  def self.current_instance
+    # A bit gross to do this, but we want to be able to access the last instance
+    # for the sake of taking screenshots when things fail.
+    @current_instance
+  end
+
   def initialize(frontend = $frontend)
     @frontend = frontend
     profile = Selenium::WebDriver::Firefox::Profile.new

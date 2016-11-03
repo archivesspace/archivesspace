@@ -76,6 +76,16 @@ RSpec.configure do |config|
     end
   end
 
+  # Run each example, saving a screenshot on any sort of failure
+  config.around(:each) do |example|
+    example.run
+    if example.exception || example.execution_result.status == :failed
+      if ENV['SCREENSHOT_ON_ERROR']
+        SeleniumTest.save_screenshot(Driver.current_instance)
+      end
+    end
+  end
+
   if ENV['ASPACE_TEST_WITH_PRY']
     require 'pry'
     config.around(:each) do |example|

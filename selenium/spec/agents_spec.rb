@@ -5,7 +5,7 @@ describe "Agents" do
   before(:all) do
     @repo = create(:repo, :repo_code => "agents_test_#{Time.now.to_i}")
     user = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new.login_to_repo(user, @repo)
+    @driver = Driver.get.login_to_repo(user, @repo)
 
     @hendrix = "Hendrix von #{Time.now.to_i}"
 

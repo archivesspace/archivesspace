@@ -8,7 +8,7 @@ describe "Tree UI" do
 
     @viewer_user = create_user(@repo => ['repository-viewers'])
 
-    @driver = Driver.new
+    @driver = Driver.get
     @driver.login_to_repo($admin, @repo)
   end
 

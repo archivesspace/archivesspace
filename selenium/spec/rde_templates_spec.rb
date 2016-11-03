@@ -7,7 +7,7 @@ describe "RDE Templates" do
     set_repo(@repo)
 
     @r = create(:resource)
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
   end
 
   before(:each) do

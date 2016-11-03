@@ -169,11 +169,6 @@ module Selenium
 
             else
               puts "Failed to find #{selectors}"
-
-              if ENV['SCREENSHOT_ON_ERROR']
-                SeleniumTest.save_screenshot(self)
-              end
-
               raise e
             end
           end
@@ -401,10 +396,6 @@ module Selenium
 
         return nil if noError
 
-        if ENV['SCREENSHOT_ON_ERROR']
-          SeleniumTest.save_screenshot(self)
-        end
-
         raise Selenium::WebDriver::Error::NoSuchElementError.new("Could not find element for xpath: #{xpath} pattern: #{pattern}")
       end
 
@@ -430,10 +421,6 @@ module Selenium
 
             else
               puts "Failed to find #{selectors}"
-
-              if ENV['SCREENSHOT_ON_ERROR']
-                SeleniumTest.save_screenshot(self)
-              end
 
               raise e
             end

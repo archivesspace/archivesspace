@@ -9,7 +9,7 @@ describe "Jobs" do
     @resource1 = create(:resource)
     @resource2 = create(:resource)
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
   end
 
   # avoid the dreaded StaleElementReferenceError

@@ -8,7 +8,7 @@ describe "Merging and transfering resources" do
 
     @target_repo = create(:repo, :repo_code => "transfer_test_target_#{Time.now.to_i}")
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
 
     @resource = create(:resource)
     @resource2 = create(:resource)

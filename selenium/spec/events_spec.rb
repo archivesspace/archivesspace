@@ -21,7 +21,7 @@ describe "Events" do
 
     run_index_round
 
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
   end
 
 

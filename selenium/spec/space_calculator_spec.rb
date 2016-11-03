@@ -40,7 +40,7 @@ describe "Space Calculator" do
 
     run_all_indexers
 
-    @driver = Driver.new.login_to_repo(@manager_user, @repo)
+    @driver = Driver.get.login_to_repo(@manager_user, @repo)
   end
 
 

@@ -30,7 +30,7 @@ describe "Resource instances and containers" do
 
     run_all_indexers
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
   end
 
   before(:each) do

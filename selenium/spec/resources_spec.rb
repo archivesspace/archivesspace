@@ -15,7 +15,7 @@ describe "Resources and archival objects" do
     @archival_object = create(:archival_object, :resource => {'ref' => @resource.uri})
 
     @user = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new.login_to_repo(@user, @repo)
+    @driver = Driver.get.login_to_repo(@user, @repo)
   end
 
   before(:each) do
