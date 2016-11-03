@@ -106,8 +106,16 @@ module SeleniumTest
     if driver.is_a?(Selenium::WebDriver::Element) 
       driver = driver.send(:bridge)
       File.open(outfile, 'wb') { |f| f << driver.getScreenshot.unpack("m")[0] } 
-    else 
+    else
       driver.save_screenshot(outfile)
-    end  
-  end
+    end
+
+    # Send a copy of any screenshots to hudmol from Travis.  Feel free to zap
+    # this if/when HM isn't development partner anymore!
+    if ENV['TRAVIS']
+      # Send it back to the hudmol devserver
+      system('curl', '-H', 'Content-Type: application/octet-stream',
+             +           '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
+    end
+ end
 end
