@@ -9,6 +9,7 @@ env:
   - DISPLAY=:99.0
   - SCREENSHOT_ON_ERROR=1
   matrix:
+  - fast_finish: true
   - DB=mysql TASK=travis:test
   - DB=derby TASK=travis:test
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
