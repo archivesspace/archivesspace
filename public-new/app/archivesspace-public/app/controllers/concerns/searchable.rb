@@ -104,7 +104,7 @@ module Searchable
 
     @criteria = default_search_opts
 
-    @base_search += "limit=#{limit}&" if !limit.blank?
+    @base_search += "&limit=#{limit}" if !limit.blank?
 
     @facet_filter = FacetFilter.new(default_facets, params.fetch(:filter_fields,[]), params.fetch(:filter_values,[]))
     # building the query for the facetting
@@ -113,7 +113,8 @@ module Searchable
       b.or('types', type)
     }
 
-    @criteria['filter'] = advanced_query_builder.and(@facet_filter.get_filter_query.and(type_query_builder)).build.to_json
+    @criteria['aq'] = advanced_query_builder.build.to_json
+    @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
     @criteria['page_size'] = params.fetch(:page_size, AppConfig[:search_results_page_size])
   end
