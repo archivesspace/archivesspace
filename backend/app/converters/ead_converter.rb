@@ -792,6 +792,7 @@ class EADConverter < Converter
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
         :title => title,
+        :publish => att('audience') != 'internal'
        } do |obj|
          ancestor(:resource, :archival_object) do |ao|
           ao.instances.push({'instance_type' => 'digital_object', 'digital_object' => {'ref' => obj.uri}})
@@ -823,6 +824,7 @@ class EADConverter < Converter
            # attrs on <daoloc>
            fv_attrs[:file_uri] = daoloc['xlink:href'] if daoloc['xlink:href']
            fv_attrs[:use_statement] = daoloc['xlink:role'] if daoloc['xlink:role']
+           fv_attrs[:publish] = daoloc['audience'] != 'internal'
 
            obj.file_versions << fv_attrs
          end
