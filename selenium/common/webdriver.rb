@@ -130,7 +130,7 @@ module Selenium
               try += 1
               sleep 0.5
               self.navigate.to(start_page)
-              puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+              puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
             else
               raise Selenium::WebDriver::Error::NoSuchElementError.new(selectors.inspect)
             end
@@ -165,7 +165,7 @@ module Selenium
               try += 1
               $sleep_time += 0.5
               sleep 0.5
-              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
 
             else
               puts "Failed to find #{selectors}"
@@ -393,7 +393,7 @@ module Selenium
 
           $sleep_time += 0.5
           sleep 0.5
-          puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try % 10) == 0
+          puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try > 0) && (try % 10) == 0
         end
 
         return nil if noError
@@ -419,7 +419,7 @@ module Selenium
               try += 1
               $sleep_time += 0.1
               sleep 0.5
-              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
+              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
 
             else
               puts "Failed to find #{selectors}"
