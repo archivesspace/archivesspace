@@ -374,7 +374,7 @@ module Selenium
 
       def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
         Selenium::Config.retries.times do |try|
-          matches = self.find_elements(:xpath => xpath)
+          matches = assert(10) { self.find_elements(:xpath => xpath) }
 
           begin
             matches.each do | match |

@@ -171,7 +171,6 @@ describe "Digital Objects" do
     source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
     target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{@do.title}/)
     @driver.action.drag_and_drop(source, target).perform
-    @driver.wait_for_spinner
     @driver.wait_for_ajax
 
     target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
