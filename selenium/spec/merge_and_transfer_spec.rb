@@ -28,7 +28,7 @@ describe "Merging and transfering resources" do
   end
 
 
-  it "can transfer a resource to another repository and open it for editing", :retry => 2, :retry_wait => 10 do
+  it "can transfer a resource to another repository and open it for editing" do
     @driver.get_edit_page(@resource)
     @driver.find_element(:link, "Transfer").click
     @driver.find_element(:id, "transfer_ref_").select_option_with_text(@target_repo.repo_code)
@@ -49,7 +49,7 @@ describe "Merging and transfering resources" do
 
 
 
-  it "can merge a resource into a resource", :retry => 3, :retry_wait => 20 do
+  it "can merge a resource into a resource" do
     @driver.select_repo(@repo)
 
     @driver.get_edit_page(@resource2)
@@ -59,16 +59,12 @@ describe "Merging and transfering resources" do
     # spaces in the search string seem to through off the token search, so:
     search_string = @resource3.title.sub(/-\s.*/, "").strip
     @driver.clear_and_send_keys([:id, "token-input-merge_ref_"], search_string )
-    sleep(1)
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css, "button.merge-button").click
 
-    @driver.wait_for_ajax
-
     @driver.find_element_with_text("//h3", /Merge into this record\?/)
     @driver.find_element(:css, "button#confirmButton").click
-    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource\(s\) Merged/)
 
     (@aoset2 + @aoset3).each do |ao|
       assert(5) {
@@ -77,7 +73,7 @@ describe "Merging and transfering resources" do
     end
   end
   
-  it "can merge an archival objects into a resource", :retry => 3, :retry_wait => 20 do
+  it "can merge an archival objects into a resource" do
     @driver.select_repo(@repo)
 
     @driver.get_edit_page(@aoset2.first)
@@ -105,7 +101,7 @@ describe "Merging and transfering resources" do
   end
 
 
-  it "can merge a digital object into a digital object", :retry => 3, :retry_wait => 20 do
+  it "can merge a digital object into a digital object" do
     # get a new pair each time in case the test fails
     # after the target is merged
     merger = @digital_objects.shift
