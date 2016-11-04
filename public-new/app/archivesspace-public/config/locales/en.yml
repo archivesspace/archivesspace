@@ -239,8 +239,20 @@ en:
         summary: Summary
       messages:
         no_components: Resource has no components
-
-
+      finding_aid:
+        head: Finding Aid & Administrative Information
+        title: Title
+        subtitle: Subtitle
+        status: Status
+        author: Author
+        date:  Date
+        description_rules: Description rules
+        language: Language of description
+        sponsor: Sponsor
+        edition_statement: Edition statement
+        series_statement: Series statement
+        note: Note
+        revision: Revision Statements
 
   related_resource:
     _singular: Related Collection

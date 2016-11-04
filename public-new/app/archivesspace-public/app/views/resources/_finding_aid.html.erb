@@ -1,0 +1,22 @@
+<% order = %w(title subtitle status author date description_rules language sponsor edition_statement series statement) %>
+
+<% unless @finding_aid.blank? %>
+  <% if @finding_aid.size > 1 || @finding_aid['revisions'].blank? %>
+    <dl class="dl-horizontal">
+      <% order.each do |item| %>
+        <% unless @finding_aid[item].blank? %>
+          <dt><%= t("resource._public.finding_aid.#{item}") %></dt>
+	  <dd><%= @finding_aid[item] %></dd>
+        <% end %>
+      <% end %>
+    </dl>
+  <% end %>
+  <% unless @finding_aid['revision'].blank? %>
+    <h4><%= t('resource._public.finding_aid.revision') %> </h4>
+    <ul>
+    <% @finding_aid['revision'].each do |rev| %>
+      <li><em><%= rev['date']%>:</em> <%= rev['desc'] %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
