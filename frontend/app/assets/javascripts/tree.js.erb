@@ -1111,7 +1111,17 @@ $(function() {
           case "rename_node":
             return AS.tree_data.moveable;
           case "move_node":
-            return AS.tree_data.moveable;
+            if (AS.tree_data.moveable) {
+              // only allow drop on root node as child
+              // this will disable the move/drop to a sibling of the root node
+              if (node_parent.parent == null) {
+                return false;
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           case "delete_node":
             return node.id === "new"
           default:
