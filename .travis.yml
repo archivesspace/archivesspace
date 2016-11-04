@@ -33,7 +33,7 @@ before_install:
   --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24
 - export DISPLAY=:99.0
 before_script:
-- firefox --version
+- (cd /tmp; wget 'https://ftp.mozilla.org/pub/firefox/releases/47.0.1/firefox-47.0.1.linux-x86_64.sdk.tar.bz2'; tar xvjf firefox-47.0.1.linux-x86_64.sdk.tar.bz2)
 - sleep 3
 - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar );
   fi
@@ -42,6 +42,8 @@ before_script:
 - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
   character set utf8;"; fi
 - 'export JAVA_OPTS="-Xmx1G $JAVA_OPTS"'
+- 'export PATH="/tmp/firefox:$PATH"'
+- firefox --version
 branches:
   except:
   - gh-pages
