@@ -136,6 +136,11 @@ class Driver
     self
   end
 
+  def wait_for_spinner
+    # This will take 50ms to turn up then linger for 1 second, so we should see it.
+    find_element(:css, ".spinner")
+    wait_until_gone(:css, ".spinner")
+  end
 
   def generate_4part_id
     Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1]

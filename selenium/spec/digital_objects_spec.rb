@@ -131,11 +131,10 @@ describe "Digital Objects" do
 
   end
 
-  it "can drag and drop reorder a Digital Object", :retry => 2, :retry_wait => 10 do
-    
+  it "can drag and drop reorder a Digital Object" do
+
     @driver.get("#{$frontend}#{@do.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::digital_object_component_#{@do_child1.id}")
     @driver.wait_for_ajax
-    @driver.wait_until_gone(:css, ".spinner")
 
     # create grand child
     10.times do 
@@ -150,7 +149,7 @@ describe "Digital Objects" do
 
     @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
     @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
-    
+
     10.times do
       begin
         @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")

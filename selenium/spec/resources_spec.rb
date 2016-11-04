@@ -461,7 +461,6 @@ describe "Resources and archival objects" do
     # let's open all all the too-manys and make sure everything is still
     # there.. 
     @driver.find_elements(:css => ".alert-too-many").each { |c| c.click }
-    @driver.wait_until_gone(:css, ".spinner") 
    
     [ subjects, accessions, classifications, dos ].each do |klass|
       klass.each do |a|
