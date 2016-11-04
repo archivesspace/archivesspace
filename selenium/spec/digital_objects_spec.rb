@@ -161,11 +161,9 @@ describe "Digital Objects" do
       end
     end
 
-    # first resize the tree pane (do it incrementally so it doesn't flip out...)
-    pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
-    10.times {
-      @driver.action.drag_and_drop_by(pane_resize_handle, 0, 10).perform
-    }
+    # Resize the tree panel to show our tree
+    @driver.execute_script('$(".archives-tree-container").height(500)')
+    @driver.execute_script('$(".archives-tree").height(500)')
 
     #drag to become sibling of parent
     source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
