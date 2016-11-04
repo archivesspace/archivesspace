@@ -1,4 +1,6 @@
 class ResourcesController <  ApplicationController
+  include RepoInfo
+  helper_method :process_repo_info
 
   include TreeApis
 
@@ -74,17 +76,16 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-#      @results['results'][0].each do |k, v|
-#        unless k == 'json'
-#          Rails.logger.debug("RESULT KEY: #{k}\n")
-#           Pry::ColorPrinter.pp v
-#        end
-#      end
-#      Pry::ColorPrinter.pp @results['results'][0]
-
-#      Rails.logger.debug("notes keys: #{@result['json']['html'].keys}") unless @result['json']['html'].blank?
-#      Rails.logger.debug("notes scope: #{@result['json']['html']['scopecontent']}") unless @result['json']['html'].blank?
       repo = @result['_resolved_repository']['json']
+      @repo_info = {}
+      unless repo['agent_representation']['_resolved'].blank? || repo['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
+        @repo_info = process_repo_info(repo['agent_representation']['_resolved']['agent_contacts'][0])
+        @repo_info['top'] = {}
+        %w(name url parent_institution_name image_url).each do | item |
+          @repo_info['top'][item] = repo[item] unless repo[item].blank?
+        end
+      end
+
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
       @finding_aid = process_finding_aid(@result['json'])
