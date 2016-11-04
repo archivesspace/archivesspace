@@ -360,7 +360,7 @@ describe "Resources and archival objects" do
     response = @driver.find_element(:link, "Download EAD").click
     @driver.wait_for_ajax
     assert(5) { Dir.glob(File.join( Dir.tmpdir,"*_ead.xml" )).length.should eq(1) }
-    system("rm #{File.join(Dir.tmpdir, '*_ead.xml')}")
+    system("rm -f #{File.join(Dir.tmpdir, '*_ead.xml')}")
   end
 
   # # this is a pretty weak test, but pdf functionality has been move down to

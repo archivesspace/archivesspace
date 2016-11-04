@@ -81,7 +81,7 @@ describe "Jobs" do
   end
   
   it "can create a report job" do
-    system("rm #{File.join(Dir.tmpdir, '*.csv')}")
+    system("rm -f #{File.join(Dir.tmpdir, '*.csv')}")
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
@@ -103,8 +103,15 @@ describe "Jobs" do
      sleep(5)
      @driver.find_element(:link, "Download Report").click
      sleep(1)
-     assert(5) { Dir.glob(File.join( Dir.tmpdir,"*.csv" )).length.should eq(1) } 
-     assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)  }  
+
+     assert(30) {
+      glob = Dir.glob(File.join( Dir.tmpdir,"*.csv" ))
+      raise "Retry assert as CSV file not found" if glob.empty?
+
+      glob.length.should eq(1)
+     }
+
+     IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)
   end
 
 end
