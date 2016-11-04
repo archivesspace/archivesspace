@@ -67,6 +67,11 @@
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
 	     :p_id => 'fa', :p_body => x} %>
 	<% end %>
+	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
+           <% x= render partial: 'repositories/repository_details' %>
+	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
+	    :p_id => 'repo_deets', :p_body => x} %>
+        <% end %>
       </div>        
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
