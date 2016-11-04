@@ -218,7 +218,9 @@ en:
     _singular: Repository
     _plural: Repositories
     what: What's in this Repository?
-
+    details: Repository Details
+    part: Part of the
+   
   context: Found in
 
 
