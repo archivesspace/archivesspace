@@ -138,8 +138,12 @@ class Driver
 
   def wait_for_spinner
     # This will take 50ms to turn up then linger for 1 second, so we should see it.
-    find_element(:css, ".spinner")
-    wait_until_gone(:css, ".spinner")
+    begin
+      find_element(:css, ".spinner")
+      wait_until_gone(:css, ".spinner")
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      # Assume we just missed it...
+    end
   end
 
   def generate_4part_id
