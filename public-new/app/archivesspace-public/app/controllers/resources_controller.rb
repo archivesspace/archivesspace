@@ -74,12 +74,20 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
+#      @results['results'][0].each do |k, v|
+#        unless k == 'json'
+#          Rails.logger.debug("RESULT KEY: #{k}\n")
+#           Pry::ColorPrinter.pp v
+#        end
+#      end
+#      Pry::ColorPrinter.pp @results['results'][0]
+
 #      Rails.logger.debug("notes keys: #{@result['json']['html'].keys}") unless @result['json']['html'].blank?
 #      Rails.logger.debug("notes scope: #{@result['json']['html']['scopecontent']}") unless @result['json']['html'].blank?
       repo = @result['_resolved_repository']['json']
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
-#      Pry::ColorPrinter.pp(@subjects)
+      @finding_aid = process_finding_aid(@result['json'])
 
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
@@ -104,6 +112,30 @@ class ResourcesController <  ApplicationController
     end
     agents_h
   end
+
+  def process_finding_aid(json)
+    fa = {}
+    json.keys.each do |k|
+      if k.start_with? 'finding_aid'
+        fa[k.sub("finding_aid_","")] = strip_mixed_content(json[k])
+      elsif k == 'revision_statements'
+        revision = []
+        v = json[k]
+        if v.kind_of? Array
+          v.each do |rev|
+            revision.push({'date' => rev['date'] || '', 'desc' => rev['description'] || ''})
+          end
+        else
+          if v.kind_of? Hash
+            revision.push({'date' => v['date'] || '', 'desc' => v['description'] || ''})
+          end
+        end
+        fa['revision'] = revision
+      end
+    end
+    fa
+  end
+
 
   def process_subjects(subjects_arr)
     return_arr = []
