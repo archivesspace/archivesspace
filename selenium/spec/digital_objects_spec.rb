@@ -147,6 +147,9 @@ describe "Digital Objects" do
       end
     end
 
+    @driver.wait_for_ajax
+    @driver.find_element(:id, "digital_object_component_title_")
+
     @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
     @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 

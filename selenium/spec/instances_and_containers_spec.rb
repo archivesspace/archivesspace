@@ -97,36 +97,26 @@ describe "Resource instances and containers" do
     @driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     @driver.find_element(:css => '#resource_instances__0__instance_type_').select_option('text')
 
-    # new
-    elt = @driver.test_find_element(:id => "resource_instances__0__container_")
+    elt = @driver.find_element(:id => "resource_instances__0__container_")
+
+    # Create a top container
     elt.find_element(:css => 'a.dropdown-toggle').click
-    
-    sleep(1) 
-    elt.send_keys(:page_down) 
-    sleep(1) 
-
     elt.find_element(:css => 'a.linker-create-btn').click
-    modal = @driver.test_find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
+    modal = @driver.find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
 
-    modal.find_element(:css => '#top_container_indicator_').send_keys("foo")
-    modal.find_element(:css => '#top_container_barcode_').send_keys("1234567")
+    modal.clear_and_send_keys([:css, '#top_container_indicator_'], "foo")
+    modal.clear_and_send_keys([:css, '#top_container_barcode_'], "1234567")
 
+    # Create a top container within the top container
     modal.find_element(:css => '.dropdown-toggle.last').click
-    sleep(2) 
-    @driver.wait_for_ajax
-    
-    sleep(1) 
-    elt.send_keys(:page_down) 
-    sleep(1) 
-    
     modal.find_element(:css, "a.linker-create-btn").click
-    
-    profile_modal = @driver.test_find_element(:css => '#top_container_container_profile__ref__modal')
 
-    profile_modal.find_element(:css => "#container_profile_name_").send_keys("my profile")
-    profile_modal.find_element(:css => "#container_profile_depth_").send_keys(".1")
-    profile_modal.find_element(:css => "#container_profile_height_").send_keys("0")
-    profile_modal.find_element(:css => "#container_profile_width_").send_keys("6.6")
+    profile_modal = @driver.find_element(:css => '#top_container_container_profile__ref__modal')
+
+    profile_modal.clear_and_send_keys([:css, "#container_profile_name_"], "my profile")
+    profile_modal.clear_and_send_keys([:css, "#container_profile_depth_"], ".1")
+    profile_modal.clear_and_send_keys([:css, "#container_profile_height_"], "0")
+    profile_modal.clear_and_send_keys([:css, "#container_profile_width_"], "6.6")
     profile_modal.click_and_wait_until_gone(:css => "#createAndLinkButton")
 
     # re-find our original modal
@@ -144,16 +134,9 @@ describe "Resource instances and containers" do
     }
 
     elt.find_element(:css => '.dropdown-toggle.locations').click
-    sleep(2) 
     @driver.wait_for_ajax
-    
-    sleep(1) 
-    elt.send_keys(:page_down) 
-    sleep(1) 
-    
     elt.find_element(:css, "a.linker-create-btn").click
 
-    sleep(2)
     loc_modal = @driver.find_element(:id => 'top_container_container_locations__0__ref__modal')
 
     loc_modal.clear_and_send_keys([:id, "location_building_"], "1129 W. 81st St")
