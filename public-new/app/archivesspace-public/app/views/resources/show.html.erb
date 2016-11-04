@@ -1,5 +1,5 @@
 <% non_folder = %w(langmaterial physdesc accessrestrict userestrict) %>
-<% folder = %w(abstract bioghist arrangement odd acqinfo relatedmaterial separatedmaterial processinfo) %>
+<% folder = %w(abstract bioghist arrangement physloc custodhist odd acqinfo relatedmaterial separatedmaterial processinfo) %>
 <div id="main-content" class="row">
   <div class="row" id="info_row">
     <div class="information col-sm-7">
@@ -62,6 +62,11 @@
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
+	<% unless @finding_aid.blank? %>
+	  <% x= render partial: 'resources/finding_aid' %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
+	     :p_id => 'fa', :p_body => x} %>
+	<% end %>
       </div>        
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
