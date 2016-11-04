@@ -163,7 +163,7 @@ module Selenium
           rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
             if try < Selenium::Config.retries
               try += 1
-              $sleep_time += 0.1
+              $sleep_time += 0.5
               sleep 0.5
               puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try % 5) == 0
 
@@ -247,6 +247,9 @@ module Selenium
         rescue Selenium::WebDriver::Error::StaleElementReferenceError
           if tries < Selenium::Config.retries
             tries += 1
+            $sleep_time += 0.5
+            sleep 0.5
+
             retry
           end
         end
@@ -374,7 +377,7 @@ module Selenium
 
       def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
         Selenium::Config.retries.times do |try|
-          matches = assert(10) { self.find_elements(:xpath => xpath) }
+          matches = self.find_elements(:xpath => xpath)
 
           begin
             matches.each do | match |
