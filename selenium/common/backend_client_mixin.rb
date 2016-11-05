@@ -65,9 +65,17 @@ module BackendClientMethods
       request = Net::HTTP::Post.new(url.request_uri)
       request.content_length = 0
 
-      response = do_http_request(url, request)
+      tries = 5
 
-      response.code
+      begin
+        response = do_http_request(url, request)
+
+        response.code
+      rescue Timeout::Error
+        tries -= 1
+        retry if tries > 0
+      end
+
     else
       $period.run_index_round
     end
