@@ -28,23 +28,20 @@ class ObjectsController <  ApplicationController
       end
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => strip_mixed_content(@result['json']['display_string'] || @result['json']['title']) })
-      @prefer_cite = ''
+      @cite = ''
       cite = get_note(@result['json'], 'prefercite')
       unless cite.blank?
-        @prefer_cite = strip_mixed_content(cite['note_text'])
+        @cite = strip_mixed_content(cite['note_text'])
       else
-        @prefer_cite = "#{@result['json']['title']}." 
+        @cite = "#{@result['json']['title']}." 
         unless @result['_resolved_resource'].blank? || @result['_resolved_resource']['json'].blank?
-          @prefer_cite += " #{strip_mixed_content(@result['_resolved_resource']['json']['title'])}."
+          @cite += " #{strip_mixed_content(@result['_resolved_resource']['json']['title'])}."
         end
          unless @repo_info['top']['name'].blank?
-           @prefer_cite += " #{ @repo_info['top']['name']}."
+           @cite += " #{ @repo_info['top']['name']}."
         end
       end
-      @prefer_cite += "   #{archivesspace.get_full_url(uri)}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-      Rails.logger.debug("cite: #{@prefer_cite}")
-
-
+      @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
     else
       @page_title = I18n.t 'errors.error_404'
       @uri = uri
