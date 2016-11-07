@@ -48,6 +48,7 @@ en:
     numeric: Container Inventory
     detailed: Detailed Contents
     record_details: Record Details
+    clipboard: Copy to clipboard
 
   page_actions: Page Actions    
 
@@ -182,9 +183,12 @@ en:
   # I don't have a place for this, so I'm putting it here
   scope_note : Scope Note
  
+
   more_about: More about
   listing: Listing
   cont_arr: Collection organization
+  accessed: Accessed
+
   accession:
    _singular: Unprocessed 
    _public:

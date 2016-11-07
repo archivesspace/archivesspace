@@ -38,7 +38,6 @@ class ResourcesController <  ApplicationController
     page = Integer(params.fetch(:page, "1"))
 #    Rails.logger.debug("Criteria: #{@criteria}")
     @results =  archivesspace.search(@query, page, @criteria) || {}
-    
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
       redirect_back(fallback_location: "/")
@@ -76,22 +75,26 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      repo = @result['_resolved_repository']['json']
-      @repo_info = {}
-      unless repo['agent_representation']['_resolved'].blank? || repo['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
-        @repo_info = process_repo_info(repo['agent_representation']['_resolved']['agent_contacts'][0])
-        @repo_info['top'] = {}
-        %w(name url parent_institution_name image_url).each do | item |
-          @repo_info['top'][item] = repo[item] unless repo[item].blank?
+      repo = {}
+      @repo_info = process_repo_info(@result)
+      @prefer_cite = ''
+      cite = get_note(@result['json'], 'prefercite')
+      unless cite.blank?
+        @prefer_cite = strip_mixed_content(cite['note_text'])
+      else
+        @prefer_cite = "#{@result['json']['title']}."
+        unless @repo_info['top']['name'].blank?
+          @prefer_cite += " #{ @repo_info['top']['name']}."
         end
       end
-
+      @prefer_cite += "   #{archivesspace.get_full_url(uri)}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
+Rails.logger.debug(@prefer_cite)
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
       @finding_aid = process_finding_aid(@result['json'])
 
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
-      @context = [{:uri => repo['uri'], :crumb => repo['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
       @tree = fetch_tree(uri)
     else
       @page_title = "#{I18n.t('resource._singular')} {I18n.t('errors.error_404')} NOT FOUND"
