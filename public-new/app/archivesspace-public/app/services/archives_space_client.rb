@@ -43,7 +43,7 @@ class ArchivesSpaceClient
 #    Rails.logger.debug("input opts #{search_opts}")
 #    query = "#{query}#{process_filters(search_opts)}"
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-#    Rails.logger.debug("merged opts: #{search_opts}")
+    Rails.logger.debug("merged opts: #{search_opts}")
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
 #    Rails.logger.debug("SEARCH URL: #{url}")
     results = do_search(url)
@@ -87,6 +87,10 @@ class ArchivesSpaceClient
     search_opts = search_opts.merge({"q" => "(used_within_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
     url = build_url("/search", search_opts)
     results = do_search(url)
+  end
+
+  def get_full_url(path)
+    "#{@url}#{path}"
   end
 
   private
