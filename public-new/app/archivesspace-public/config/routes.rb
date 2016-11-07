@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   get '/', to: 'welcome#show' #'index#index'
   get '/welcome', to: 'welcome#show'
-
+  post '/cite', to: 'cite#show'
   get "subjects/:id" => 'subjects#show'
   get "agents/:eid/:id" => 'agents#show'
   get 'repositories/resources' => 'resources#index'

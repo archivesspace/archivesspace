@@ -36,7 +36,6 @@ class ResourcesController <  ApplicationController
 
     set_up_search(['resource'], [],DEFAULT_RES_INDEX_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
-#    Rails.logger.debug("Criteria: #{@criteria}")
     @results =  archivesspace.search(@query, page, @criteria) || {}
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
@@ -77,18 +76,17 @@ class ResourcesController <  ApplicationController
       @result = @results['results'][0]
       repo = {}
       @repo_info = process_repo_info(@result)
-      @prefer_cite = ''
+      @cite = ''
       cite = get_note(@result['json'], 'prefercite')
       unless cite.blank?
-        @prefer_cite = strip_mixed_content(cite['note_text'])
+        @cite = strip_mixed_content(cite['note_text'])
       else
-        @prefer_cite = "#{@result['json']['title']}."
+        @cite = "#{@result['json']['title']}."
         unless @repo_info['top']['name'].blank?
-          @prefer_cite += " #{ @repo_info['top']['name']}."
+          @cite += " #{ @repo_info['top']['name']}."
         end
       end
-      @prefer_cite += "   #{archivesspace.get_full_url(uri)}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-Rails.logger.debug(@prefer_cite)
+      @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
       @finding_aid = process_finding_aid(@result['json'])
