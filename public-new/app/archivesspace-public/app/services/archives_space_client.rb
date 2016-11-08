@@ -43,7 +43,7 @@ class ArchivesSpaceClient
 #    Rails.logger.debug("input opts #{search_opts}")
 #    query = "#{query}#{process_filters(search_opts)}"
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    Rails.logger.debug("merged opts: #{search_opts}")
+#    Rails.logger.debug("merged opts: #{search_opts}")
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
 #    Rails.logger.debug("SEARCH URL: #{url}")
     results = do_search(url)
