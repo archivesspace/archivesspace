@@ -82,7 +82,7 @@ class ResourcesController <  ApplicationController
       unless cite.blank?
         @cite = strip_mixed_content(cite['note_text'])
       else
-        @cite = "#{@result['json']['title']}."
+        @cite =  strip_mixed_content(@result['json']['title']) + '.'
         unless @repo_info['top']['name'].blank?
           @cite += " #{ @repo_info['top']['name']}."
         end

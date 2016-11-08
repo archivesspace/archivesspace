@@ -14,31 +14,12 @@
 <div class="row" id="notes_row">
   <div class="col-sm-9">
 
-
   <% if !@result['json']['component_id'].blank? %>
     <span class='component'><%=  t('archival_object._public.header.component') %>: <%= @result['json']['component_id'] %></span>
     <% end %>
     <% if !@result['json']['ref_id'].blank? %>
     <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-<br/>
-    <% if !@result['json']['extents'].blank? %>
-    <h4><%= t('enumerations._note_types.extent') %></h4>
-    <%   @result['json']['extents'].each do |ext| %>
-    <p class="extent"><%= ext['number'] %> <%= (ext['portion'].present? ? ext['portion'] : '') %> <%= ext['extent_type'] %></p>
-    <% end %>
-    <% end %>
-
-    <% if !@result['json']['dates'].blank? %>
-    <h4><%= t('archival_object._public.header.dates') %></h4>
-    <%   @result['json']['dates'].each do |date|  %>
-    <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
-    <% end %>
-    <br/>
-    <% end %>
-
-
-    <%= render partial: 'shared/display_notes' %>
 
     <% if !@result['json']['digital_object_id'].blank? %>
     <p> Assume link-out if there's a digital object id?</p>
@@ -58,6 +39,8 @@
      <% end %>
      </ul>
    <% end %>
+   <%= render partial: 'shared/record_innards' %>
+
   </div>
     <% if !@tree['direct_children'].blank? %>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
@@ -70,3 +53,4 @@
   <div class="col-sm-3"></div>
     <% end %>
 </div>
+<%= render partial: 'shared/modal_actions' %>

@@ -1,0 +1,7 @@
+<%# using clipboard.js: https://clipboardjs.com/ %>
+<%# shared modal(s) %>
+<%= render partial: 'shared/modal', locals: {:modal_id => 'cite_modal', :title => t('actions.cite'), 
+                    :modal_body => @cite} %>
+<%# using clipboard.js: https://clipboardjs.com/ %>
+<script type ="text/javascript" >setupCite("cite_modal", "<%= t('actions.clipboard') %>")</script>
+
