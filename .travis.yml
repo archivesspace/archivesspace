@@ -12,21 +12,13 @@ env:
   - SCREENSHOT_ON_ERROR=1
   matrix:
   - DB=mysql TASK=travis:test
-  - DB=derby TASK=travis:test
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
-  - DB=derby TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
   - DB=mysql TASK=travis:selenium:public
-  - DB=derby TASK=travis:selenium:public
   - TASK=dist
 before_install:
 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
