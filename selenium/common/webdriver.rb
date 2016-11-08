@@ -146,6 +146,31 @@ module Selenium
       end
 
 
+      def scroll_into_view(elt)
+        self.execute_script("arguments[0].scrollIntoView(true);", elt)
+
+        # Wait for the element to appear in our viewport
+        Selenium::Config.retries.times do |try|
+          in_viewport = self.execute_script("
+var rect = arguments[0].getBoundingClientRect();
+return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+", elt)
+          break if in_viewport
+          sleep 0.1
+        end
+
+        # If it's still not in the viewport we're optimistically charging ahead
+        # here and assuming that the calling test will fail if it really
+        # matters...
+        elt
+      end
+
+
       alias :find_element_orig :find_element
       def find_element(*selectors)
         wait_for_ajax
