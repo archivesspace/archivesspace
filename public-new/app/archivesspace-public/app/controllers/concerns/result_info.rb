@@ -60,7 +60,26 @@ module ResultInfo
     end
   end
 
-
-
-
+# digital object processing
+  def process_digital(json)
+    dig = {}
+      unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
+        dig['out'] = json['digital_object_id']
+      end
+      unless json['file_versions'].blank?
+        json['file_versions'].each do |version|
+        if version['file_uri'].start_with?('http')
+          if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
+            dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
+            unless json['html'].blank? || json['html']['note'].blank?
+              dig['caption'] =  json['html']['note']['note_text']
+            end
+          elsif (version['xlink_show_attribute']||'') == 'new'
+            dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')
+          end
+        end
+      end
+      end
+    dig
+  end
 end
