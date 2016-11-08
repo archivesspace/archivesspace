@@ -46,6 +46,7 @@ GEM
       sass (>= 3.3.4)
     bower-rails (0.10.0)
     builder (3.2.2)
+    clipboard-rails (1.5.15)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -167,6 +168,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   bower-rails
+  clipboard-rails
   coffee-rails (~> 4.2)
   font-awesome-sass
   jbuilder (~> 2.5)
@@ -182,4 +184,4 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

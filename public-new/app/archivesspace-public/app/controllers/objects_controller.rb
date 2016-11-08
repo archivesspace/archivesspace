@@ -34,7 +34,7 @@ class ObjectsController <  ApplicationController
       unless cite.blank?
         @cite = strip_mixed_content(cite['note_text'])
       else
-        @cite = "#{@result['json']['title']}." 
+        @cite = strip_mixed_content(@result['json']['title']) + "."
         unless @result['_resolved_resource'].blank? || @result['_resolved_resource']['json'].blank?
           @cite += " #{strip_mixed_content(@result['_resolved_resource']['json']['title'])}."
         end
