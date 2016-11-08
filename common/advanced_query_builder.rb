@@ -102,14 +102,14 @@ class AdvancedQueryBuilder
   end
 
   def build_query(query)
-    if query[:type] == 'boolean_query'
-      subqueries = [query[:arg1], query[:arg2]].compact.map {|subquery|
+    if query['type'] == 'boolean_query'
+      subqueries = [query['arg1'], query['arg2']].compact.map {|subquery|
         build_query(subquery)
       }
 
       JSONModel::JSONModel(:boolean_query).from_hash({
-                                            :op => query[:operator],
-                                            :subqueries => subqueries
+                                            'op' => query['operator'],
+                                            'subqueries' => subqueries
                                           })
     else
       self.class.as_field_query(query)
