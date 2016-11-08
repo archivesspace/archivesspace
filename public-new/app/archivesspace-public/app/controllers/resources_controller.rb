@@ -1,6 +1,8 @@
 class ResourcesController <  ApplicationController
-  include RepoInfo
+  include ResultInfo
   helper_method :process_repo_info
+  helper_method :process_subjects
+  helper_method :process_agents
 
   include TreeApis
 
@@ -74,7 +76,6 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      repo = {}
       @repo_info = process_repo_info(@result)
       @cite = ''
       cite = get_note(@result['json'], 'prefercite')
@@ -103,18 +104,6 @@ class ResourcesController <  ApplicationController
   end
 
   private
-  def process_agents(agents_arr)
-    agents_h = {}
-    agents_arr.each do |agent|
-      unless agent['role'].blank? || agent['_resolved'].blank? 
-        role = agent['role']
-        ag = title_and_uri(agent['_resolved'])
-        agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
-      end
-    end
-    agents_h
-  end
-
   def process_finding_aid(json)
     fa = {}
     json.keys.each do |k|
@@ -137,25 +126,4 @@ class ResourcesController <  ApplicationController
     end
     fa
   end
-
-
-  def process_subjects(subjects_arr)
-    return_arr = []
-    subjects_arr.each do |subject|
-      unless subject['_resolved'].blank?
-        sub = title_and_uri(subject['_resolved'])
-        return_arr.push(sub) if sub
-      end
-    end
-    return_arr
-  end
-
-  def title_and_uri(in_h)
-    if in_h['publish']
-      return in_h.slice('uri', 'title')
-    else
-      return nil
-    end
-  end
-
 end

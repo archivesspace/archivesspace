@@ -1,5 +1,5 @@
 class RepositoriesController < ApplicationController
-  include RepoInfo
+  include ResultInfo
   helper_method :process_repo_info
   skip_before_filter  :verify_authenticity_token  
 

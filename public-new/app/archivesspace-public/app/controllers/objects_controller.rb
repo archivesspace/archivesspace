@@ -1,8 +1,9 @@
 class ObjectsController <  ApplicationController
   include TreeApis
-  include RepoInfo
+  include ResultInfo
   helper_method :process_repo_info
-
+  helper_method :process_subjects
+  helper_method :process_agents
 
   skip_before_filter  :verify_authenticity_token
 
@@ -42,7 +43,9 @@ class ObjectsController <  ApplicationController
         end
       end
       @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-    else
+      @agents = process_agents(@result['json']['linked_agents'])
+      @subjects = process_subjects(@result['json']['subjects'])
+     else
       @page_title = I18n.t 'errors.error_404'
       @uri = uri
       @back_url = request.referer || ''

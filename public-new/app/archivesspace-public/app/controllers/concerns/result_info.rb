@@ -1,4 +1,4 @@
-module RepoInfo
+module ResultInfo
   extend ActiveSupport::Concern
 
   # extract the repository agent info
@@ -26,4 +26,41 @@ module RepoInfo
     end
    info
   end
+# create a usable agent hash
+  def process_agents(agents_arr)
+    agents_h = {}
+    agents_arr.each do |agent|
+      unless agent['role'].blank? || agent['_resolved'].blank? 
+        role = agent['role']
+        ag = title_and_uri(agent['_resolved'])
+        agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
+      end
+    end
+    agents_h
+  end
+
+# create a usable subjects array
+  def process_subjects(subjects_arr)
+    return_arr = []
+    subjects_arr.each do |subject|
+      unless subject['_resolved'].blank?
+        sub = title_and_uri(subject['_resolved'])
+        return_arr.push(sub) if sub
+      end
+    end
+    return_arr
+  end
+
+# return a title/uri hash if publish == true
+  def title_and_uri(in_h)
+    if in_h['publish']
+      return in_h.slice('uri', 'title')
+    else
+      return nil
+    end
+  end
+
+
+
+
 end
