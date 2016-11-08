@@ -14,32 +14,15 @@
 <div class="row" id="notes_row">
   <div class="col-sm-9">
 
-  <% if !@result['json']['component_id'].blank? %>
-    <span class='component'><%=  t('archival_object._public.header.component') %>: <%= @result['json']['component_id'] %></span>
+    <% unless@result['json']['component_id'].blank? %>
+      <span class='component'><%=  t('archival_object._public.header.component') %>: <%= @result['json']['component_id'] %></span>
     <% end %>
     <% if !@result['json']['ref_id'].blank? %>
-    <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
+      <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
 
-    <% if !@result['json']['digital_object_id'].blank? %>
-    <p> Assume link-out if there's a digital object id?</p>
-    <a href="<%= @result['json']['digital_object_id'] %>" target="out" title="see this"><%= process_mixed_content( @result['json']['title']).html_safe %></a>
-    <% end %>
-    <% if !@result['json']['file_versions'].blank? && @result['json']['file_versions'].kind_of?(Array) %>
-    <h4>Just a place holder for now for file versions!</h4>
-    <ul>
-    <% @result['json']['file_versions'].each do |version| %>
-     <li>
-       <% if version['xlink_show_attribute'] == "embed" %>
-          <img src="<%= version['file_uri'] %>" title="you should see something here!" />
-       <% else %>
-          <a href="<%= version['file_uri'] %>" target="elsewhere" title="this should be a link">Link out</a>
-       <% end %>
-     </li>
-     <% end %>
-     </ul>
-   <% end %>
-   <%= render partial: 'shared/record_innards' %>
+    <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
+    <%= render partial: 'shared/record_innards' %>
 
   </div>
     <% if !@tree['direct_children'].blank? %>
