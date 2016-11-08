@@ -1,0 +1,56 @@
+<% non_folder = %w(langmaterial physdesc accessrestrict userestrict) %>
+<% folder = %w(abstract bioghist arrangement physloc custodhist odd acqinfo relatedmaterial separatedmaterial processinfo) %>
+    <% over = get_note(@result['json'], 'scopecontent') %>
+    <% if over.blank?
+       over = get_note(@result['json'], 'abstract') 
+       folder.shift # remove abstract from in-folder notes
+    end %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
+    <% unless @result['json']['dates'].blank? %>
+      <h4><%= t('resource._public.dates') %></h4>
+      <% @result['json']['dates'].each do |date|  %>
+       <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
+      <% end %>
+    <% end %>
+    <% non_folder.each do |type| %>
+       <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => get_note(@result['json'], type)}  %>
+    <% end %>
+
+    <% unless @result['json']['extents'].blank? %>
+      <h4><%= t('resource._public.extent') %></h4>
+       <% @result['json']['extents'].each do |ext| %> 
+        <p class="extent"><%= ext['number'] %> <%= (ext['portion'].present? ? ext['portion'] : '') %> <%= ext['extent_type'] %></p>
+      <% end %>
+    <% end %>
+
+    <div class="acc_holder" >
+      <div class="panel-group" id="res_accordion">
+	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
+	<% unless x.blank? %>
+	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'), 
+	      :p_id => 'add_desc', :p_body => x } %>
+	<% end %>
+        <% unless @subjects.blank? %>
+	   <% x= render partial: 'shared/present_list', locals: {:list => @subjects, :list_clss => 'subjects_list'} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
+	      :p_id => 'subj_list', :p_body => x} %>
+	<% end %>
+	<% unless @agents.blank? %>
+	  <% x= render partial: 'shared/present_list', locals: {:list => @agents, :list_clss => 'agents_list'} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
+	     :p_id => 'agent_list', :p_body => x} %>
+        <% end %>
+	<% unless @finding_aid.blank? %>
+	  <% x= render partial: 'resources/finding_aid' %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
+	     :p_id => 'fa', :p_body => x} %>
+	<% end %>
+	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
+           <% x= render partial: 'repositories/repository_details' %>
+	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
+	    :p_id => 'repo_deets', :p_body => x} %>
+        <% end %>
+      </div>        
+    <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+    </script>
+
