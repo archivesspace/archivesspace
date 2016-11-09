@@ -5,7 +5,7 @@
  <% if !dig['out'].blank? %>
 
     <% if dig['thumb'].blank? %>
-      <form id="larger" action="<%= dig['out'] %>" method="get" target="new">
+      <form id="larger" action="<%= dig['out'] %>" method="post" target="new">
        <button type="submit"  class="btn btn-default record-type-badge digital_object" >
           <i class="fa fa-file-image-o fa-4x"></i><br/>
             <%= t('digital_object._public.link') %>
