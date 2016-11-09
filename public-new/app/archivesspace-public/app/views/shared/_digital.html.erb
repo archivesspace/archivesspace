@@ -1,32 +1,43 @@
 <%# expects 'dig' as a hash %>
 <% unless dig.blank? %>
-<div class="row">
-<div class="col-sm-3">
- <% if !dig['out'].blank? %>
 
+
+ <% if !dig['out'].blank? %>
     <% if dig['thumb'].blank? %>
+ <div class="objectimage">
       <form id="larger" action="<%= dig['out'] %>" method="post" target="new">
-       <button type="submit"  class="btn btn-default record-type-badge digital_object" >
+       <button type="submit"  class="btn btn-default record-type-badge digital_object" title="<%= t('digital_object._public.link') %>" >
           <i class="fa fa-file-image-o fa-4x"></i><br/>
-            <%= t('digital_object._public.link') %>
+            <%= t('enumerations.instance_instance_type.digital_object') %>
         </button>
       </form>
+</div>
+
     <% else %>
-        <a class="thumbnail" href="<%= dig['out'] %>" target="new">
-          <img src="<%= dig['thumb'][0] %>" alt="<%= strip_mixed_content(dig['caption'] || t('instance_instance_type.digital_object')) %>" />
-	  <%= (dig['caption'].html_safe || t('instance_instance_type.digital_object')) %>
+ <div class="objectimage">
+
+   <div class="panel panel-default">
+
+        <a class="thumbnail" href="<%= dig['out'] %>" target="new" 
+	   title="<%= t('digital_object._public.link')%>">
+          <img src="<%= dig['thumb'][0] %>" alt="<%= strip_mixed_content(dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
         </a>
-    <% end %>
+
+	  <div class="panel-heading">
+	    <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>
+	  </div>
    </div>
+</div>
+    <% end %>
  <% elsif !dig['thumb'].blank? %>
+ <div class="objectimage">
     <% dig['thumb'].each do |thumb| %>
        <a class="thumbnail" href="javascript:void(0);">
          <img src="<%= thumb %>" alt="<%=  strip_mixed_content(dig['caption'] || t('digital_object._public.thumbnail')) %>" />
-	  <%= (dig['caption'].html_safe || t('instance_instance_type.digital_object')) %>
+	  <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>
        </a>
     <% end %>
 </div>
  <% end %>
-</div>
 <% end %>
 

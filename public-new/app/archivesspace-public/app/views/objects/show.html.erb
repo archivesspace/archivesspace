@@ -20,8 +20,8 @@
     <% if !@result['json']['ref_id'].blank? %>
       <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
-
     <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
+
     <%= render partial: 'shared/record_innards' %>
 
   </div>
@@ -33,7 +33,7 @@
 
   </div>
   <% else %>
-  <div class="col-sm-3"></div>
+  <div class="col-sm-3">&nbsp;</div>
     <% end %>
 </div>
 <%= render partial: 'shared/modal_actions' %>
