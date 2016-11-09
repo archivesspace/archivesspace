@@ -97,7 +97,13 @@ class AccessionsController < ApplicationController
   end
 
   def transfer
-    handle_transfer(Accession)
+    begin
+      handle_transfer(Accession)
+    rescue ArchivesSpace::TransferConflictException => e
+      @transfer_errors = e.errors
+      show
+      render :action => :show
+    end
   end
 
 

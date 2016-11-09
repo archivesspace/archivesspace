@@ -59,6 +59,10 @@ class TransferConstraintError < StandardError
   def add_conflict(uri, property)
     @conflicts[uri] = property
   end
+
+  def to_s
+    "#<#{self.class}: #{@conflicts.inspect}>"
+  end
 end
 
 

@@ -4,9 +4,67 @@ module Transferable
     events_to_clone = []
     containers_to_clone = {}
 
+    graph = self.object_graph
+
+    ## Digital object instances will trigger their linked digital objects to
+    ## transfer too, as long as those digital objects aren't linked to by other
+    ## records.
+
+    # We skip over tree nodes because the root record will take care of
+    # transferring their linked digital objects.
+    unless self.class.included_modules.include?(TreeNodes)
+      do_instance_relationship = Instance.find_relationship(:instance_do_link)
+
+      # The list of instance record IDs connected to our transferee
+      instance_ids = graph.ids_for(Instance)
+
+      # The list of digital objects our transferee links to
+      linked_digital_objects = do_instance_relationship
+                               .filter(:id => graph.ids_for(do_instance_relationship))
+                               .select(:digital_object_id)
+                               .map {|row| row[:digital_object_id]}
+
+      # The list of instance IDs that link to those digital objects (which may or
+      # may not be connected to our transferee)
+      instances_referencing_digital_objects = do_instance_relationship
+                                              .find_by_participant_ids(DigitalObject, linked_digital_objects)
+                                              .map {|r| r.instance_id}
+
+
+      linked_instances_outside_transfer_set = (instances_referencing_digital_objects - instance_ids)
+
+      if linked_instances_outside_transfer_set.empty?
+        # Our record to be transferred is the only thing referencing the digital
+        # objects it links to.  We can safely migrate them as well.
+
+        DigitalObject.any_repo.filter(:id => linked_digital_objects).each do |digital_object|
+          digital_object.transfer_to_repository(repository, transfer_group + [self])
+        end
+      else
+        # Abort the transfer and provide the list of top-level records that are
+        # preventing it from completing.
+        exception = TransferConstraintError.new
+
+        ASModel.all_models.each do |model|
+          next unless model.associations.include?(:instance)
+
+          model
+            .eager_graph(:instance)
+            .filter(:instance__id => linked_instances_outside_transfer_set)
+            .select(Sequel.qualify(model.table_name, :id))
+            .each do |row|
+            exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
+                                   {:json_property => 'instances',
+                                    :message => "DIGITAL_OBJECT_IN_USE"})
+          end
+        end
+
+        raise exception
+      end
+    end
+
     ## Event records will be transferred if they only link to records that are
     ## being transferred too.  Otherwise, we clone the event.
-
     Event.find_relationship(:event_link).who_participates_with(self).each do |event|
       linked_records = event.related_records(:event_link)
 
@@ -29,7 +87,7 @@ module Transferable
     # the relationship between SC and TCs
     topcon_rlshp = SubContainer.find_relationship(:top_container_link)
     # now we get  all the relationships in this graph
-    all_ids = self.object_graph.ids_for(topcon_rlshp)
+    all_ids = graph.ids_for(topcon_rlshp)
 
     all_ids.each do |rel_id|
       DB.open do |db|
@@ -54,7 +112,7 @@ module Transferable
       end
     end
 
-    ## Continue with the transfer
+    ## Transfer the current record
     super
 
     ## Clone the top containers that we marked for cloning

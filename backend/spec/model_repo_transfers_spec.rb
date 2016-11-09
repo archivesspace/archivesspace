@@ -129,75 +129,6 @@ describe 'Record transfers' do
     }.should be(true)
   end
 
-  # 
-  it "transfers container instances but not DO instances (when the container only links to the record being transferred)" do
-    box1 = create(:json_top_container)
-    box2 = create(:json_top_container)
-    
-    digital_object = create(:json_digital_object)
-    do_instance =   build(  :json_instance,
-                            :instance_type => 'digital_object',
-                            :digital_object => {'ref' => digital_object.uri})
-                                 
-    acc = create(:json_accession, {
-                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
-                            })
-    
-    acc.save 
-
-    Accession.to_jsonmodel(acc.id)["instances"].length.should eq(3)
-   
-    
-    Accession[acc.id].transfer_to_repository(@target_repo)
-
-    RequestContext.open(:repo_id => @target_repo.id) do
-      # we should only have our container instances and we should be able to be 
-      # resolved ( if the link pointed back to the old repo record would error
-      # when requested)
-      Accession.to_jsonmodel(acc.id)["instances"].length.should eq(2)
-    end
-  end
-
-
-  it "clones container instances that reference other records besides the one being transferred" do
-    box1 = create(:json_top_container)
-    box2 = create(:json_top_container)
-    
-    digital_object = create(:json_digital_object)
-    do_instance =   build(  :json_instance,
-                            :instance_type => 'digital_object',
-                            :digital_object => {'ref' => digital_object.uri})
-                                 
-    acc = create(:json_accession, {
-                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
-                            })
-    
-    unrelated_resource = create( :json_resource, {
-                              "instances" => [build_instance(box1), build_instance(box2), do_instance ]
-                            })
-    
-    
-    acc.save 
-    unrelated_resource.save
-
-    Accession.to_jsonmodel(acc.id)["instances"].length.should eq(3)
-    Resource.to_jsonmodel(unrelated_resource.id)["instances"].length.should eq(3)
-   
-    
-    Accession[acc.id].transfer_to_repository(@target_repo)
-   
-    # Unlreted should not have changed...
-    Resource.to_jsonmodel(unrelated_resource.id)["instances"].length.should eq(3)
-    RequestContext.open(:repo_id => @target_repo.id) do
-      # we should only have our container instances and we should be able to be 
-      # resolved ( if the link pointed back to the old repo record would error
-      # when requested)
-      Accession.to_jsonmodel(acc.id)["instances"].length.should eq(2)
-    end
-
-  end
-
-
 
   it "allows a resource to be transferred from one repository to another" do
     resource = create(:json_resource)
@@ -307,17 +238,68 @@ describe 'Record transfers' do
     end
   end
 
-    # digital_object = create(:json_digital_object)
-    # do_instance =   build(  :json_instance,
-    #                         :instance_type => 'digital_object',
-    #                         :digital_object => {'ref' => digital_object.uri})
+  it "moves linked digital objects as a part of a transfer" do
+    digital_object = create(:json_digital_object)
+    do_instance = build(:json_instance,
+                        :instance_type => 'digital_object',
+                        :digital_object => {'ref' => digital_object.uri})
 
 
-  it "detects when a top container can't be moved as a part of a transfer"
+    resource = create(:json_resource,
+                      :instances => [do_instance])
+    ao = create(:json_archival_object,
+                :title => "hello again",
+                :instances => [do_instance],
+                :resource => {'ref' => resource.uri})
 
-  it "moves linked digital objects as a part of a transfer"
+    # We won't assert on this, but let's just ensure that instances sharing a
+    # digital object doesn't cause a problem.
+    create(:json_archival_object,
+           :title => "and another",
+           :instances => [do_instance],
+           :resource => {'ref' => resource.uri})
 
-  it "detects when a digital object can't be moved as a part of a transfer"
+    Resource[resource.id].transfer_to_repository(@target_repo)
+
+    RequestContext.open(:repo_id => @target_repo.id) do
+      moved_digital_object = DigitalObject.this_repo[digital_object.id]
+
+      instances = ArchivalObject.to_jsonmodel(ao.id)["instances"]
+      instances.length.should eq(1)
+
+      instances[0]['digital_object']['ref'].should eq moved_digital_object.uri
+    end
+  end
+
+  it "detects when a digital object can't be moved as a part of a transfer" do
+    digital_object = create(:json_digital_object)
+    do_instance = build(:json_instance,
+                        :instance_type => 'digital_object',
+                        :digital_object => {'ref' => digital_object.uri})
+
+
+    resource = create(:json_resource,
+                      :instances => [do_instance])
+
+    ao = create(:json_archival_object,
+                :title => "hello again",
+                :instances => [do_instance],
+                :resource => {'ref' => resource.uri})
+
+    unrelated_accession = create(:json_accession,
+                                 :instances => [do_instance])
+
+    error = nil
+
+    begin
+      Resource[resource.id].transfer_to_repository(@target_repo)
+    rescue TransferConstraintError
+      error = $!
+    end
+
+    error.should_not be(nil)
+    error.conflicts[unrelated_accession.uri][:message].should eq('DIGITAL_OBJECT_IN_USE')
+  end
 
   it "allows a digital object to be transferred from one repository to another" do
     digital_object = create(:json_digital_object)

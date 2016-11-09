@@ -52,6 +52,7 @@ en:
     transfer_confirm_message: "The record '%{target}' will be transferred to the repository you selected"
     transfer_successful: Transfer Successful.  Records may take a moment to appear in the target repository while re-indexing takes place.
     transfer_failed: Transfer Failed
+    transfer_failed_records_using_digital_objects: "The following records link to digital objects that would be transferred, but doing so would break their instance links"
     unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?

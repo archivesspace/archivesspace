@@ -103,7 +103,13 @@ class ResourcesController < ApplicationController
 
 
   def transfer
-    handle_transfer(Resource)
+    begin
+      handle_transfer(Resource)
+    rescue ArchivesSpace::TransferConflictException => e
+      @transfer_errors = e.errors
+      show
+      render :action => :show
+    end
   end
 
 

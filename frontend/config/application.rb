@@ -127,6 +127,14 @@ module ArchivesSpace
   class SessionExpired < StandardError
   end
 
+  class TransferConflictException < StandardError
+    attr_reader :errors
+
+    def initialize(errors)
+      @errors = errors
+    end
+  end
+
 end
 
 

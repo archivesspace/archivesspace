@@ -42,7 +42,13 @@ class DigitalObjectsController < ApplicationController
 
 
   def transfer
-    handle_transfer(JSONModel(:digital_object))
+    begin
+      handle_transfer(JSONModel(:digital_object))
+    rescue ArchivesSpace::TransferConflictException => e
+      @transfer_errors = e.errors
+      show
+      render :action => :show
+    end
   end
 
 
