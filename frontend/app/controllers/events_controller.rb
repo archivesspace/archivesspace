@@ -77,17 +77,17 @@ class EventsController < ApplicationController
                   flash[:success] = I18n.t("event._frontend.messages.created")
                   return redirect_to :controller => :events, :action => :new if params.has_key?(:plus_one)
 
-                  if params.has_key?(:redirect_record)
-                    ref = JSONModel.parse_reference(params[:redirect_record])
-                    redirect_action = :show
-                    if !params[:redirect_action].blank?
+                  # we parse the reference as a simple sanity check here...
+                  if params.has_key?(:redirect_record) && JSONModel.parse_reference(params[:redirect_record])
+                    if params[:redirect_action].blank?
+                      redirect_action = :show
+                    else
                       redirect_action = params[:redirect_action].intern
                     end
-                    if ref[:type].include?('agent_')
-                      redirect_to :controller => "agents", :action => redirect_action, :id => ref[:id], :agent_type => ref[:type]
-                    else
-                      redirect_to :controller => ref[:type].pluralize, :action => redirect_action, :id => ref[:id]
-                    end
+
+                    redirect_to(:controller => :resolver,
+                                :action => (redirect_action == :edit) ? :resolve_edit : :resolve_readonly,
+                                :uri => params[:redirect_record])
                   else
                     redirect_to :controller => :events, :action => :edit, :id => id
                   end
