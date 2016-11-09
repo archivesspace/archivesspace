@@ -17,7 +17,7 @@ describe "Search" do
 
     @driver = Driver.get.login_to_repo(@manager_user, @repo)
 
-    run_index_round
+    run_all_indexers
   end
 
 

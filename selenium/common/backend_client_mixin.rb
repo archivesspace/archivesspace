@@ -43,14 +43,16 @@ module BackendClientMethods
       tries = 5
 
       begin
-
         response = do_http_request(url, request)
-
-        response.code
+        $stderr.puts("Indexer responded with status #{response.code}")
+        return response.code
       rescue Timeout::Error
         tries -= 1
+        $stderr.puts("#{Time.now}: Warning: Retrying index round - #{tries} tries remaining")
         retry if tries > 0
       end
+
+      $stderr.puts("#{Time.now}: Warning: Indexing round looks to have failed due to timeout")
 
     else
       $last_sequence ||= 0
