@@ -95,6 +95,7 @@ module ResultInfo
             dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
             unless json['html'].blank? || json['html']['note'].blank?
               dig['caption'] =  json['html']['note']['note_text']
+              dig['caption'] = dig['caption'].html_safe if dig['caption']
             end
           elsif (version['xlink_show_attribute']||'') == 'new'
             dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')
