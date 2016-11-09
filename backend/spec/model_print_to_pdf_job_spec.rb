@@ -43,7 +43,7 @@ describe "Print to PDF job model" do
     job.job_files.length.should eq(1)
   end
 
-  it "will not create a pdf from an unpublished resource" do
+  it "will create a pdf from an unpublished resource" do
     opts = {:title => generate(:generic_title), :publish => false}
     resource = create_resource(opts)
 
@@ -55,7 +55,7 @@ describe "Print to PDF job model" do
     jr.run
 
     job.refresh
-    job.job_files.should be_empty
+    job.job_files.length.should eq(1)
   end
 
 end
