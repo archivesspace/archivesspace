@@ -60,6 +60,28 @@ module ResultInfo
     end
   end
 
+# look for a representative instance
+
+  def get_rep_image(instances)
+    rep = {}
+    if instances && instances.kind_of?(Array)
+      instances.each do |instance|
+        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank? 
+          it =  instance['digital_object']['_resolved']
+          unless !it['publish'] || it['file_versions'].blank?
+            it['file_versions'].each do |ver|
+              if ver['is_representative'] && ver['xlink_show_attribute'] == 'embed' && ver['publish']
+                rep['title'] = strip_mixed_content(it['title'])
+                rep['uri'] = ver['file_uri']
+              end
+            end
+          end
+        end
+      end
+    end
+    rep
+  end
+
 # digital object processing
   def process_digital(json)
     dig = {}

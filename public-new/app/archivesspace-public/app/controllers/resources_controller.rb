@@ -94,6 +94,7 @@ class ResourcesController <  ApplicationController
 
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
+      @rep_image = get_rep_image(@result['json']['instances'])
       @tree = fetch_tree(uri)
     else
       @page_title = "#{I18n.t('resource._singular')} {I18n.t('errors.error_404')} NOT FOUND"
