@@ -110,9 +110,17 @@ class EADSerializer < ASpaceExport::Serializer
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       begin
 
-      xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
-                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink') {
+      ead_attributes = {
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
+        'xmlns:xlink' => 'http://www.w3.org/1999/xlink'
+      }
+
+      if data.publish === false
+        ead_attributes['audience'] = 'internal'
+      end
+
+      xml.ead( ead_attributes ) {
 
         xml.text (
           @stream_handler.buffer { |xml, new_fragments|
@@ -120,20 +128,9 @@ class EADSerializer < ASpaceExport::Serializer
           })
 
         atts = {:level => data.level, :otherlevel => data.other_level}
-
-        if data.publish === false
-          if @include_unpublished
-            atts[:audience] = 'internal'
-          else
-            return
-          end
-        end
-
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
-
-
 
           xml.did {
 
