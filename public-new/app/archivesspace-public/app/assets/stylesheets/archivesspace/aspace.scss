@@ -618,6 +618,11 @@ i.giant {
     width: 50%;
     float:right;
     margin: 0 0 1em 1em;
+  
+}
+.objectimage * img {
+   margin: 0 auto;
+   display:block;
 }
 
 .keywordscontext {
