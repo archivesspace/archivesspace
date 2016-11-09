@@ -2,12 +2,12 @@ module JsonHelper
   #process the entire notes structure.  If req is specified, process and return only the notes that
   #  match the requested type (may be nil)
   def process_json_notes(notes, req = nil)
-    notes_hash = {}
+   notes_hash = {}
     if !notes.blank?
       if notes.kind_of?(Array)
         notes.each do |note|
           type = note['type']
-          if !req || type == req
+          if (!req || type == req) && note['publish']
             set_up_note(notes_hash, type, note)
           end
         end
