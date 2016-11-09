@@ -22,6 +22,15 @@
 </div>
 <div class="row" id="notes_row">
   <div class="col-sm-9">
+    <% unless @rep_image.blank? %>
+      <div class="objectimage">
+	<div class="panel panel-default">
+	  <img src="<%= @rep_image['uri'] %>" alt="<%= (@rep_image['title']? @rep_image['title'] : t('digital_object_level.image')) %>" />
+	  <div class="panel-heading"><%= (@rep_image['title']? @rep_image['title'] : t('digital_object_level.image')) %>
+	  </div>
+	</div>
+      </div>
+    <% end %>
     <%= render partial: 'shared/record_innards' %>
   </div>
 </div>
