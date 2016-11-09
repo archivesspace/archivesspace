@@ -537,6 +537,9 @@ class ApplicationController < ActionController::Base
 
     if response.code == '200'
       flash[:success] = I18n.t("actions.transfer_successful")
+    elsif response.code == '409'
+    # Transfer failed for a known reason
+      raise ArchivesSpace::TransferConflictException.new(ASUtils.json_parse(response.body).fetch('error'))
     else
       flash[:error] = I18n.t("actions.transfer_failed") + ": " + response.body
     end

@@ -1,5 +1,7 @@
 <%= setup_context :object => @digital_object %>
 
+<%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
+
 <div class="row">
   <div class="col-md-12">
     <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @digital_object, :read_only => true} %>
