@@ -1,7 +1,5 @@
 <%# expects 'dig' as a hash %>
 <% unless dig.blank? %>
-
-
  <% if !dig['out'].blank? %>
     <% if dig['thumb'].blank? %>
  <div class="objectimage">
@@ -15,17 +13,14 @@
 
     <% else %>
  <div class="objectimage">
-
    <div class="panel panel-default">
-
         <a class="thumbnail" href="<%= dig['out'] %>" target="new" 
 	   title="<%= t('digital_object._public.link')%>">
           <img src="<%= dig['thumb'][0] %>" alt="<%= strip_mixed_content(dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
         </a>
-
-	  <div class="panel-heading">
+	<div class="panel-heading">
 	    <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>
-	  </div>
+	</div>
    </div>
 </div>
     <% end %>
@@ -36,8 +31,8 @@
          <img src="<%= thumb %>" alt="<%=  strip_mixed_content(dig['caption'] || t('digital_object._public.thumbnail')) %>" />
 	  <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>
        </a>
+ </div>
     <% end %>
-</div>
  <% end %>
 <% end %>
 
