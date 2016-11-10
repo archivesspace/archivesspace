@@ -82,15 +82,36 @@ module ResultInfo
     rep
   end
 
-# digital object processing
+# digital object processing 
   def process_digital(json)
     dig = {}
-      unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
-        dig['out'] = json['digital_object_id']
+    unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
+      dig['out'] = json['digital_object_id']
+    end
+    dig = process_file_versions(json, dig)
+  end
+
+# representative digital object for an archival object
+  def process_digital_instance(instances)
+    dig = {}
+    if instances && instances.kind_of?(Array)
+      instances.each do |instance|
+        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank?
+          it =  instance['digital_object']['_resolved']
+           unless !it['publish'] || it['file_versions'].blank?
+             dig = process_file_versions(it, dig)
+           end
+        end
+        break if !dig.blank?
       end
-      unless json['file_versions'].blank?
-        json['file_versions'].each do |version|
-        if version['file_uri'].start_with?('http')
+    end
+    dig
+  end
+
+  def process_file_versions(json, dig)
+    unless json['file_versions'].blank?
+      json['file_versions'].each do |version|
+        if version['publish'] && version['file_uri'].start_with?('http')
           if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
             dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
             unless json['html'].blank? || json['html']['note'].blank?
@@ -102,7 +123,7 @@ module ResultInfo
           end
         end
       end
-      end
+    end
     dig
   end
 end
