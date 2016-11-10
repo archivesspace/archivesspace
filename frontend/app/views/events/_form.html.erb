@@ -87,7 +87,9 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 <% end %>
 
+<% if !form.readonly? || @event.external_documents.length > 0 %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+<% end %>
 
 <% if !form.readonly? %>
   <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
