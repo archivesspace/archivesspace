@@ -16,9 +16,9 @@
         <% define_template "top_container", jsonmodel_definition(:top_container) do |form| %>
 
           <% if @top_container.container_profile %>
-            <div class="control-group token-list">
-                <label class="control-label"><%= I18n.t("container_profile._singular") %></label>
-                <div class="controls">
+            <div class="form-group token-list">
+                <label class="control-label col-sm-2"><%= I18n.t("container_profile._singular") %></label>
+                <div class="controls col-sm-8">
                     <%= render_token :object => @top_container["container_profile"]["_resolved"],
                     :label => @top_container["container_profile"]["_resolved"]["name"],
                     :type => "container_profile",
