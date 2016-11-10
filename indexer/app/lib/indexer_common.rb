@@ -181,7 +181,10 @@ class CommonIndexer
       record['record']['dates'].each do |date|
         doc['years'] += CommonIndexer.generate_years_for_date_range(date['begin'], date['end'])
       end
-      doc['years'].sort.uniq
+      unless doc['years'].empty?
+        doc['years'].sort.uniq
+        doc['year_sort'] = doc['years'].first.rjust(4, '0') + doc['years'].last.rjust(4, '0')
+      end
     end
   end
 
