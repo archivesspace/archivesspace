@@ -182,7 +182,7 @@ class CommonIndexer
         doc['years'] += CommonIndexer.generate_years_for_date_range(date['begin'], date['end'])
       end
       unless doc['years'].empty?
-        doc['years'].sort.uniq
+        doc['years'] = doc['years'].sort.uniq
         doc['year_sort'] = doc['years'].first.rjust(4, '0') + doc['years'].last.rjust(4, '0')
       end
     end
