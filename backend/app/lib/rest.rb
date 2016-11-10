@@ -471,7 +471,19 @@ module RESTHelpers
           end
 
           errors[:bad_type].each do |bad|
-            result[bad[:name]] = ["Wanted type #{bad[:type]} but got '#{params[bad[:name]]}'"]
+            provided_value = params[bad[:name]]
+            msg = "Wanted type #{bad[:type]} but got '#{provided_value}'"
+
+
+            if bad[:type].is_a?(Array) &&
+               !provided_value.is_a?(Array) &&
+               provided_value.is_a?(bad[:type][0])
+              # The caller got the right type but didn't wrap it in an array.
+              # Provide a more useful error message.
+              msg << ".  Perhaps you meant to specify an array like: #{bad[:name]}[]=#{URI.escape(provided_value)}"
+            end
+
+            result[bad[:name]] = [msg]
           end
 
           errors[:failed_validation].each do |failed|
