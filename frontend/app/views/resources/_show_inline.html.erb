@@ -100,7 +100,7 @@
           <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @resource.collection_management, :context => readonly, :section_id => "resource_collection_management_" } %>
         <% end %>
 
-        <% if @resource.classifications %>
+        <% if @resource.classifications && !@resource.classifications.empty? %>
           <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @resource.classifications, :context => readonly, :section_id => "resource_classifications_" } %>
         <% end %>
 
