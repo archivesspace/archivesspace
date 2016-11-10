@@ -16,6 +16,9 @@ class JobsController < ApplicationController
     @job_types = job_types
     @import_types = import_types
     @report_data = JSONModel::HTTP::get_json("/reports")
+
+    # handle any options passed through via parameters
+    @job_type = params['job_type']
   end
 
   def create
@@ -31,23 +34,25 @@ class JobsController < ApplicationController
                  params['import_job']
                end
 
-    # Knock out the _resolved parameter because it's often very large.
+    # Knock out the _resolved parameter because it's often very large
+    # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
+    job_data = cleanup_params_for_schema(job_data, JSONModel(params['job']['job_type'].intern).schema)
     job_params = ASUtils.recursive_reject_key(params['job']['job_params']) { |k| k === '_resolved' }
 
     job_data["repo_id"] ||= session[:repo_id]
     begin
       job = Job.new(params['job']['job_type'], job_data, Hash[Array(params['files']).reject(&:blank?).map {|file|
-                                  [file.original_filename, file.tempfile]}], 
+                                  [file.original_filename, file.tempfile]}],
                                   job_params
                    )
 
     rescue JSONModel::ValidationException => e
-
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
       @job_types = job_types
       @import_types = import_types
+      @job_type = params['job']['job_type']
 
       if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
         return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400

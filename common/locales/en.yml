@@ -1958,6 +1958,9 @@ en:
     record_type: Record or subrecord type
     property: Target property
 
+  print_to_pdf_job:
+    include_unpublished: Include Unpublished
+
   advanced_search:
     type:
       text: Text

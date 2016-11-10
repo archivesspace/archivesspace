@@ -75,7 +75,8 @@ describe "EAD export mappings" do
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
                       :finding_aid_filing_title => "this is a filing title",
-                      :finding_aid_series_statement => "here is the series statement"
+                      :finding_aid_series_statement => "here is the series statement",
+                      :publish => true,
                       )
 
     @resource = JSONModel(:resource).find(resource.id)
@@ -89,7 +90,8 @@ describe "EAD export mappings" do
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
                  :instances => [build(:json_instance_digital), build(:json_instance)],
-                 :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle
+                 :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle,
+                 :publish => true,
                  )
 
       a = JSONModel(:archival_object).find(a.id)
@@ -1059,5 +1061,63 @@ describe "EAD export mappings" do
       serializer.remove_smart_quotes(note_with_smart_quotes).should eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
 
+  end
+
+
+  describe "Test unpublished record EAD exports" do
+
+    def get_xml_doc(include_unpublished = false)
+      as_test_user("admin") do
+        DB.open(true) do
+          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true", true)
+
+          doc_nsless_for_unpublished_resource = Nokogiri::XML::Document.parse(doc_for_unpublished_resource)
+          doc_nsless_for_unpublished_resource.remove_namespaces!
+
+          return doc_nsless_for_unpublished_resource
+        end
+      end
+    end
+
+    before(:all) {
+      unpublished_resource = create(:json_resource,
+                                    :publish => false)
+
+      @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
+
+      @published_archival_object = create(:json_archival_object_normal,
+                                          :resource => {:ref => @unpublished_resource_jsonmodel.uri},
+                                          :publish => true)
+
+      @unpublished_archival_object = create(:json_archival_object_normal,
+                                            :resource => {:ref => @unpublished_resource_jsonmodel.uri},
+                                            :publish => false)
+
+      @xml_including_unpublished = get_xml_doc(include_unpublished = true)
+      @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+    }
+
+    it "does not set <ead> attribute audience 'internal' when resource is published" do
+      @doc_nsless.at_xpath('//ead').should_not have_attribute('audience', 'internal')
+    end
+
+    it "sets <ead> attribute audience 'internal' when resource is not published" do
+      @xml_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
+      @xml_not_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
+    end
+
+    it "includes unpublished items when include_unpublished option is false" do
+      @xml_including_unpublished.xpath('//c').length.should eq(2)
+      @xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length.should eq(1)
+      @xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length.should eq(1)
+    end
+
+    it "does not include unpublished items when include_unpublished option is false" do
+      items = @xml_not_including_unpublished.xpath('//c')
+      items.length.should eq(1)
+
+      item = items.first
+      item.should_not have_attribute('audience', 'internal') 
+    end
   end
 end
