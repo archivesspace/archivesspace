@@ -136,7 +136,7 @@ class JobsController < ApplicationController
   end
 
   def import_types
-    Job.available_import_types.map {|e| [I18n.t("import_job.import_type_#{e['name']}"), e['name']]}
+    Job.available_import_types.map {|e| [I18n.t("import_job.import_type_#{e['name']}", default: e['name'] ), e['name']]}
   end
 
 
