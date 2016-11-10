@@ -5,6 +5,7 @@ class ObjectsController <  ApplicationController
   helper_method :process_subjects
   helper_method :process_agents
   helper_method :process_digital
+  helper_method :process_digital_instance
 
   skip_before_filter  :verify_authenticity_token
 
@@ -47,6 +48,7 @@ class ObjectsController <  ApplicationController
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
       @dig = process_digital(@result['json'])
+      @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
      else
       @page_title = I18n.t 'errors.error_404'
       @uri = uri
