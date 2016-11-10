@@ -125,7 +125,7 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    var index = $("input[id^='v']", $advancedSearchRowContainer).length;
+    var index = $(":input[id^='v']", $advancedSearchRowContainer).length;
 
     var adding_as_first_row = false;
     if (index == 0) {
