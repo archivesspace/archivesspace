@@ -89,11 +89,11 @@
            <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
 
-        <% if @accession.classifications %>
-          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
-        <% end %>
+         <% if @accession.classifications && !@accession.classifications.empty? %>
+             <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
+         <% end %>
 
-        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
+         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
 
          <% if @accession.user_defined %>
            <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
