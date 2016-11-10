@@ -86,8 +86,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Return a set of records by URI")
     .params(["uri",
              [String],
-             "The list of record URIs to fetch",
-             :optional => true],
+             "The list of record URIs to fetch"],
             ["resolve",
              [String],
              "The list of result fields to resolve (if any)",
