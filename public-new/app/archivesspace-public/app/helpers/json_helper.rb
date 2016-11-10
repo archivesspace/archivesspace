@@ -89,7 +89,7 @@ module JsonHelper
   end
 
   def add_contents(contents, final_text)
-     final_text = "#{final_text} <p>#{ process_mixed_content(contents)}</p>"
+     final_text = "#{final_text} #{ process_mixed_content(contents)}"
   end
 
 end
