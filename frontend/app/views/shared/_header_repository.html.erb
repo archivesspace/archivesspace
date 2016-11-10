@@ -110,11 +110,18 @@
               <div class="btn-group">
                 <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                 <ul class="dropdown-menu pull-right">
+                  <% found_an_item = false %>
                   <% if user_can?('manage_repository') %>
+                    <% found_an_item = true %>
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
                     <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                     <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+                  <% end %>
+                  <% if user_can?('manage_container_record') %>
+                    <% found_an_item = true %>
                     <li><%= link_to I18n.t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
+                  <% end %>
+                  <% if found_an_item %>
                     <li class="divider"></li>
                   <% end %>
                   <% if user_can?('transfer_repository') && @repositories.length > 1 %>
