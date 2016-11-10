@@ -114,14 +114,12 @@ $(function() {
 
 
     $("#job_job_type_", $form).change(function() {
+      $("#job_form_messages", $form).empty()
 
       if ($(this).val() === "") {
-        $("#job_form_messages", $form)
-          .empty()
         //
       } else if ($(this).val() === "report_job") {
         $("#job_form_messages", $form)
-          .empty()
           .html(AS.renderTemplate("template_report_instructions"));
         // we disable to form...
         $('.form-actions .btn-primary').addClass('disabled'); 
@@ -145,9 +143,6 @@ $(function() {
       
         initLocationReportSubForm();
       } else if ($(this).val() === "print_to_pdf_job") {
-
-        $("#job_form_messages", $form)
-          .empty()
         $("#noImportTypeSelected", $form).hide();
         $("#job_type_fields", $form)
           .empty()
@@ -157,7 +152,6 @@ $(function() {
       } else if ($(this).val() === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_form_messages", $form)
-          .empty()
           .html(AS.renderTemplate("template_find_and_replace_warning"));
         $("#job_type_fields", $form)
           .empty()
