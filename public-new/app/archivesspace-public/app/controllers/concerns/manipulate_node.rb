@@ -12,26 +12,40 @@ module ManipulateNode
   def process_mixed_content(in_txt)
     return if !in_txt
     txt = in_txt.strip
+    txt = txt.gsub("chronlist>", "ul>")
+      .gsub("chronitem>", "li>")
     txt = txt.gsub("list>", "ul>")
       .gsub("item>", "li>")
       .gsub(/\n\n/,"<br /><br />")
-    frag = Nokogiri::XML.fragment(txt)
-    frag.traverse { |el| 
+    txt = txt.gsub("xlink\:type=\"simple\"", "")
+    @frag = Nokogiri::XML.fragment(txt)
+    move_list_heads
+    @frag.traverse { |el| 
       # we don't do anything at the top level of the fragment or if it's text
       node_check(el) if el.parent && !el.text?
       el.content = el.text.gsub("\"", "&quot;") if el.text?
     }
     # replace the inline quotes with &quot;
-    frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
+    @frag.to_xml.to_s.gsub("&amp;quot;", "&quot;")
   end
 
   # strips all xml markup; used for things like titles.
   def strip_mixed_content(in_text)
-    frag = Nokogiri::XML.fragment(in_text)
-    frag.content
+    @frag = Nokogiri::XML.fragment(in_text)
+    @frag.content
   end
 
   private 
+
+# because ead lists have heads; gotta deal with them
+  def move_list_heads
+    @frag.xpath('//ul/head').each do |head|
+      h5 = head
+      h5.name = 'h5'
+      parent = h5.parent
+      parent.add_previous_sibling(h5)
+    end
+  end
 
   def node_check(el)
     newnode = el.clone
@@ -44,9 +58,17 @@ module ManipulateNode
     elsif newnode.name == 'lb'
       newnode.name = 'br'
     else
-      if !newnode.name.match(/p|ul|li|br/)
+      if !newnode.name.match(/^(p|ul|li|br|h5)$/)
+        if newnode.name == 'date'
+          newnode.remove_attribute('calendar')
+          newnode.remove_attribute('era')
+        end
         clss = newnode['class'] || ''
-        newnode['class']  = "#{newnode.name} #{clss}".strip 
+        role = newnode['role'] ||''
+        unless role.blank?
+          newnode.remove_attribute('role')
+        end
+        newnode['class']  = "#{newnode.name} #{clss} #{role}".strip 
         newnode.name = newnode.name == 'accession' ? 'div' : 'span'
       end
     end
@@ -54,7 +76,6 @@ module ManipulateNode
     el.replace(newnode)
   end
 
-  
   def process_anchor(node)
     href = node['href']  
     href.strip! if href
