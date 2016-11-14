@@ -54,13 +54,15 @@ en:
 
   search-button:
     label: Search
-  search-limit: Limit to
+  search-limit: "Limit to %{what}"
+  search-limiting: "limited to %{what}"
   search-limits:
     all: all record types
     repositories: repositories
     resources: collections
     digital: digital materials
   search-field: Search field
+  searched-field: "searching %{what}"
 
   pagination:
     first: First
@@ -121,6 +123,9 @@ en:
       to: To
       years_include: Years to include
       year_now: now
+      year_begin: the beginning
+      from_to: "from %{begin} to %{end}"
+
   search_sorting:
     sort_by: "Sort by:"
     and: "and:"
@@ -156,6 +161,7 @@ en:
     search_placeholder: Enter your search terms
     search_all: All Records
     error_no_term: No search term(s) entered.
+    search_terms_results: "Your search for {{search_terms}} yielded {{number}} results"
 
   accordion:
     expand: Expand All

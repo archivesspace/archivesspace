@@ -28,6 +28,8 @@ class SearchController < ApplicationController
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
+      @search_terms = search_terms(params)
+      Rails.logger.debug("Search terms: #{@search_terms}")
       render
     end
   end
