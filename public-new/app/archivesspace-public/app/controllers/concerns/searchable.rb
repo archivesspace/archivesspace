@@ -228,6 +228,38 @@ module Searchable
     facet_fields
   end
 
+
+  def search_terms(params)
+    terms = ''
+    queries = params.fetch(:q, nil)
+    ops = params.fetch(:op, [])
+    field = params.fetch(:field, [])
+    from_year = params.fetch(:from_year, [])
+    to_year = params.fetch(:to_year, [])
+    limit = params.fetch(:limit, '')
+     queries.each_with_index do |query, i|
+      if i == 0
+        terms = query
+        unless limit.blank?
+          limit_term = limit == 'resource'? 'resources' : 'digital'
+          terms += ' ' + I18n.t('search-limiting', :what =>  I18n.t("search-limits.#{limit_term}"))
+        end
+      else
+        terms += ' ' + ops[i] + ' ' + query
+      end
+      unless field[i].blank?
+        field_term = (field[i] == 'creators_text'? I18n.t('search_results.filter.creators') : I18n.t("search_results.filter.#{field[i]}"))
+        terms += ' ' + I18n.t('searched-field', :what => field_term)
+      end
+      unless from_year[i].blank? && to_year[i].blank?
+        terms += ' ' + I18n.t('search_results.filter.from_to', 
+                       :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]), 
+                       :end => (to_year[i].blank? || to_year[i] == '*' ? I18n.t('search_results.filter.year_now') : to_year[i]) )
+      end
+    end
+    terms
+  end
+
   private
   def container_display(result)
     display = ""
