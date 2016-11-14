@@ -65,9 +65,8 @@ module Searchable
     end
 
     queries = params.fetch(:q, nil)
-
-    raise "No query?" if queries.nil?
-
+    raise I18n.t('navbar.error_no_term') if queries.nil?
+    have_query = false
     ops = params.fetch(:op, [])
     fields = params.fetch(:field, [])
     from_years = params.fetch(:from_year, [])
@@ -76,32 +75,38 @@ module Searchable
     advanced_query_builder = AdvancedQueryBuilder.new
 
     queries.each_with_index { |query, i|
-      op = ops[i]
-      field = fields[i].blank? ? 'keyword' : fields[i]
-      from = from_years[i]
-      to = to_years[i]
+      unless query.blank?
+        have_query = true
+        op = ops[i]
+        field = fields[i].blank? ? 'keyword' : fields[i]
+        from = from_years[i]
+        to = to_years[i]
 
-      @base_search += '&' if @base_search.last != '?'
-      @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
+        @base_search += '&' if @base_search.last != '?'
+        @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
 
-      builder = AdvancedQueryBuilder.new
+        builder = AdvancedQueryBuilder.new
 
       # add field part of the row
-      builder.and(field, query, 'text', op == 'NOT')
+        builder.and(field, query, 'text', op == 'NOT')
 
       # add year range part of the row
-      unless from.blank? && to.blank?
-        builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', op == 'NOT')
-      end
-
-      # add to the builder based on the op
-      if op == 'OR'
-        advanced_query_builder.or(builder)
-      else
-        advanced_query_builder.and(builder)
+        unless from.blank? && to.blank?
+          builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', op == 'NOT')
+        end
+        
+        # add to the builder based on the op
+        if op == 'OR'
+          advanced_query_builder.or(builder)
+        else
+          advanced_query_builder.and(builder)
+        end
       end
     }
-
+    if !have_query
+      raise I18n.t('navbar.error_no_term')
+    end
+      
     @criteria = default_search_opts
 
     @base_search += "&limit=#{limit}" if !limit.blank?

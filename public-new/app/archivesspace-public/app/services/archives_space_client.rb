@@ -49,6 +49,12 @@ class ArchivesSpaceClient
     results = do_search(url)
   end
 
+  # handles multi-line searching
+  def advanced_search(base, page = 1, search_opts = {})
+    search_opts =  DEFAULT_SEARCH_OPTS.merge(search_opts)
+    url = build_url(base,  search_opts.merge(:page => page))
+    results = do_search(url)
+  end
   # calls the '/search/records' endpoint
   def search_records(record_list, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
