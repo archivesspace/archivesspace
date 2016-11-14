@@ -155,6 +155,7 @@ en:
   navbar:
     search_placeholder: Enter your search terms
     search_all: All Records
+    error_no_term: No search term(s) entered.
 
   accordion:
     expand: Expand All
