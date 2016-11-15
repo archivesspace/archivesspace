@@ -4,7 +4,7 @@
   <div class="row search_row" id="search_row_0">
     <div class="col-sm-1 bool form-group form-inline">
       <%= label_tag('op0', t('advanced_search.operator_label'), :class => 'sr-only') %>
-      <%= select_tag('op[]', options_for_select([['AND', 'AND'], ['OR','OR'], ['NOT', 'NOT']]),
+      <%= select_tag('op[]', options_for_select(select_opts),
 	  disabled:true, :id => 'op0',:class=> 'form-control hidden') %>
       <%= hidden_field_tag('op[]','', :id => 'op_') %>
       </div>
