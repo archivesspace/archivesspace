@@ -54,15 +54,15 @@ en:
 
   search-button:
     label: Search
-  search-limit: "Limit to %{what}"
-  search-limiting: "limited to %{what}"
+  search-limit: "Limit to %{limit}"
+  search-limiting: "limited to %{limit}"
   search-limits:
     all: all record types
     repositories: repositories
     resources: collections
     digital: digital materials
   search-field: Search field
-  searched-field: "searching %{what}"
+  searched-field: "searching %{field}"
 
   pagination:
     first: First
