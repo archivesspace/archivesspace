@@ -242,14 +242,14 @@ module Searchable
         terms = query
         unless limit.blank?
           limit_term = limit == 'resource'? 'resources' : 'digital'
-          terms += ' ' + I18n.t('search-limiting', :what =>  I18n.t("search-limits.#{limit_term}"))
+          terms += ' ' + I18n.t('search-limiting', :limit =>  I18n.t("search-limits.#{limit_term}"))
         end
       else
         terms += ' ' + ops[i] + ' ' + query
       end
       unless field[i].blank?
         field_term = (field[i] == 'creators_text'? I18n.t('search_results.filter.creators') : I18n.t("search_results.filter.#{field[i]}"))
-        terms += ' ' + I18n.t('searched-field', :what => field_term)
+        terms += ' ' + I18n.t('searched-field', :field => field_term)
       end
       unless from_year[i].blank? && to_year[i].blank?
         terms += ' ' + I18n.t('search_results.filter.from_to', 
