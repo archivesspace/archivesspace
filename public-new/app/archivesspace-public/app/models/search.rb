@@ -11,15 +11,27 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     @@BooleanOpts
   end
 
+  # We create one empty row if params is nil, in order to drive the search form creation
   def initialize(params)
     %w(q op field from_year to_year filter_fields filter_values ).each do |f|
-      self[f.to_sym] = params.fetch(f.to_sym,[])
+      if params.nil?
+         self[f.to_sym] = [""]
+      else
+        self[f.to_sym] = params.fetch(f.to_sym,[])
+      end
     end
     %w(limit filter_from_year filter_to_year).each do |f|
-      self[f.to_sym] = params.fetch(f.to_sym, '')
+      if params.nil?
+        self[f.to_sym] = ''
+      else
+        self[f.to_sym] = params.fetch(f.to_sym, '')
+      end
     end
     self[:dates_searched] =  have_contents?(from_year) || have_contents?(to_year)
-    self[:q] = nil unless have_contents?(q)
+  end
+ 
+  def has_query?
+    have_contents?(q)
   end
   
   def have_contents?(year_array)
