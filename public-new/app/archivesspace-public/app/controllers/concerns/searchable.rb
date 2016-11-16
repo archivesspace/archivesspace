@@ -3,6 +3,7 @@ module Searchable
 # also sets up searches, handles search results.  
 # TODO: refactor processing
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
+    @search = Search.new(params)
     limit = params.fetch(:limit,'')
     field = params.fetch(:field, nil)
     if !limit.blank?
@@ -41,7 +42,7 @@ module Searchable
     years = get_years(params)
     if !years.blank?
       @query = "#{@query} AND years:[#{years['from_year']} TO #{years['to_year']}]"
-      @base_search = "#{@base_search}&from_year=#{years['from_year']}&to_year=#{years['to_year']}"
+      @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
     end
     @base_search += "&limit=#{limit}" if !limit.blank?
 #    Rails.logger.debug("SEARCHABLE BASE: #{@base_search}")
@@ -140,8 +141,8 @@ module Searchable
 
   def get_years(params)
     years = {}
-    from = params.fetch(:from_year,'').strip
-    to = params.fetch(:to_year,'').strip
+    from = params.fetch(:filter_from_year,'').strip
+    to = params.fetch(:filter_to_year,'').strip
     if !from.blank? || !to.blank?
       years['from_year'] = from.blank? ? '*' : from
       years['to_year'] = to.blank? ? '*' : to
@@ -245,29 +246,31 @@ module Searchable
   def search_terms(params)
     terms = ''
     queries = params.fetch(:q, nil)
-    ops = params.fetch(:op, [])
-    field = params.fetch(:field, [])
-    from_year = params.fetch(:from_year, [])
-    to_year = params.fetch(:to_year, [])
-    limit = params.fetch(:limit, '')
-     queries.each_with_index do |query, i|
-      if i == 0
-        terms = query
-        unless limit.blank?
-          limit_term = limit == 'resource'? 'resources' : 'digital'
-          terms += ' ' + I18n.t('search-limiting', :limit =>  I18n.t("search-limits.#{limit_term}"))
+    if queries
+      ops = params.fetch(:op, [])
+      field = params.fetch(:field, [])
+      from_year = params.fetch(:from_year, [])
+      to_year = params.fetch(:to_year, [])
+      limit = params.fetch(:limit, '')
+      queries.each_with_index do |query, i|
+        if i == 0
+          terms = query
+          unless limit.blank?
+            limit_term = limit == 'resource'? 'resources' : 'digital'
+            terms += ' ' + I18n.t('search-limiting', :limit =>  I18n.t("search-limits.#{limit_term}"))
+          end
+        else
+          terms += ' ' + ops[i] + ' ' + query
         end
-      else
-        terms += ' ' + ops[i] + ' ' + query
-      end
-      unless field[i].blank?
-        field_term = (field[i] == 'creators_text'? I18n.t('search_results.filter.creators') : I18n.t("search_results.filter.#{field[i]}"))
-        terms += ' ' + I18n.t('searched-field', :field => field_term)
-      end
-      unless from_year[i].blank? && to_year[i].blank?
-        terms += ' ' + I18n.t('search_results.filter.from_to', 
-                       :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]), 
-                       :end => (to_year[i].blank? || to_year[i] == '*' ? I18n.t('search_results.filter.year_now') : to_year[i]) )
+        unless field[i].blank?
+          field_term = (field[i] == 'creators_text'? I18n.t('search_results.filter.creators') : I18n.t("search_results.filter.#{field[i]}"))
+          terms += ' ' + I18n.t('searched-field', :field => field_term)
+        end
+        unless from_year[i].blank? && to_year[i].blank?
+          terms += ' ' + I18n.t('search_results.filter.from_to', 
+                                :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]), 
+                                :end => (to_year[i].blank? || to_year[i] == '*' ? I18n.t('search_results.filter.year_now') : to_year[i]) )
+        end
       end
     end
     terms
