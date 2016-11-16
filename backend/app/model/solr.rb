@@ -41,9 +41,17 @@ class Solr
 
     def self.construct_advanced_query_string(advanced_query, use_literal = false)
       if advanced_query.has_key?('subqueries')
-        subqueries = advanced_query['subqueries'].map {|subq|
+        clauses = advanced_query['subqueries'].map {|subq|
           construct_advanced_query_string(subq, use_literal)
-        }.join(" #{advanced_query['op']} ")
+        }
+
+        # Solr doesn't allow purely negative expression groups, so we add a
+        # match all query to compensate when we hit one of these.
+        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
+          clauses << '*:*'
+        end
+
+        subqueries = clauses.join(" #{advanced_query['op']} ")
 
         "(#{subqueries})"
       else

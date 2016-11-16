@@ -57,7 +57,7 @@ describe 'Solr model' do
     query = Solr::Query.create_keyword_search("hello world").
                         pagination(1, 10).
                         set_repo_id(@repo_id).
-      									set_excluded_ids(%w(alpha omega)).
+                        set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
                         highlighting
 
@@ -79,6 +79,37 @@ describe 'Solr model' do
     response['this_page'].should eq(1)
     response['last_page'].should eq(1)
     response['results'][0]['title'].should eq("A Resource")
+  end
+
+  describe 'Query parsing' do
+
+    let (:canned_query) {
+      {"jsonmodel_type"=>"boolean_query",
+       "op"=>"AND",
+       "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
+                       "op"=>"AND",
+                       "subqueries"=>[{"field"=>"title",
+                                       "value"=>"Hornstein",
+                                       "negated"=>true,
+                                       "jsonmodel_type"=>"field_query",
+                                       "literal"=>false}]},
+                      {"jsonmodel_type"=>"boolean_query",
+                       "op"=>"AND",
+                       "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
+                                       "op"=>"AND",
+                                       "subqueries"=>[{"field"=>"keyword",
+                                                       "value"=>"*",
+                                                       "negated"=>false,
+                                                       "jsonmodel_type"=>"field_query",
+                                                       "literal"=>false}]}]}]}
+    }
+
+    it "compensates for purely negative expressions by adding a match-all clause" do
+      query_string = Solr::Query.construct_advanced_query_string(canned_query)
+
+      query_string.should eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
+    end
+
   end
 
 end
