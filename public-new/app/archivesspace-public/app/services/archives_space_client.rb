@@ -62,10 +62,10 @@ class ArchivesSpaceClient
     results = do_search(url)
   end
 
-  def search_repository( query, repo_id, page = 1, search_opts = {})
+  def search_repository( base, repo_id, page = 1, search_opts = {})
 #    query = "#{query}#{process_filters(search_opts)}"
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    url = build_url("/repositories/#{repo_id}/search",search_opts.merge(:q => query, :page => page))
+    url = build_url(base,search_opts.merge(:page => page))
     results = do_search(url)
   end
   # calls the '/search/published_tree' endpoint
@@ -115,7 +115,9 @@ class ArchivesSpaceClient
       Rails.logger.debug("Code: #{response.code}")
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end
-    JSON.parse(response.body)
+    results = JSON.parse(response.body)
+ #    binding.pry
+    results
   end
   
 
