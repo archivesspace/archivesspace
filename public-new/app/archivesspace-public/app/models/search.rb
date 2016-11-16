@@ -1,4 +1,4 @@
-class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_from_year, :filter_to_year, :dates_searched)
+class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched)
 
 @@BooleanOpts = []
 
@@ -13,7 +13,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
 
   # We create one empty row if params is nil, in order to drive the search form creation
   def initialize(params)
-    %w(q op field from_year to_year filter_fields filter_values ).each do |f|
+    %w(q op field from_year to_year filter_fields filter_values recordtypes ).each do |f|
       if params.nil?
          self[f.to_sym] = [""]
       else
@@ -43,5 +43,16 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     end
     have
   end
-
+ 
+ def allow_dates?
+   allow = true
+     # yeah, I know there must be a better way to do this
+   recordtypes.each do |type|
+     if allow &&  %w(subject agent_person agent_family_agent_corporate_entity).include?(type)
+       allow = false
+     end
+   end
+   allow
+ end
+ 
 end
