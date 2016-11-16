@@ -16,7 +16,7 @@ class SearchController < ApplicationController
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
-      redirect_back(fallback_location: '\\' ) and return
+      redirect_back(fallback_location: '/' ) and return
     end
     page = Integer(params.fetch(:page, "1"))
     Rails.logger.debug("base search: #{@base_search}")
