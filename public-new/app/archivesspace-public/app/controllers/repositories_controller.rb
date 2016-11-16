@@ -52,15 +52,23 @@ class RepositoriesController < ApplicationController
   def search
     repo_id = params.require(:rid)
     @base_search = "/repositories/#{repo_id}/search?"
-    set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
+    begin
+      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
+#NOTE the redirect back here on error!
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: "/repositories/#{repo_id}/" ) and return
+    end
     page = Integer(params.fetch(:page, "1"))
 #    q = params.require(:q)
-    @results = archivesspace.search_repository(@query,repo_id, page, @criteria)
-    process_search_results(@base_search)
+    @results = archivesspace.search_repository(@base_search, repo_id, page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
       redirect_back(fallback_location: @base_search)
     else
+      process_search_results(@base_search)
+     @search_terms = search_terms(params)
+      Rails.logger.debug("Search terms: #{@search_terms}")
       render
     end 
   end
