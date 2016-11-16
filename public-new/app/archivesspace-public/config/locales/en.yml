@@ -61,6 +61,7 @@ en:
     repositories: repositories
     resources: collections
     digital: digital materials
+    objects: archival or digital records
   search-field: Search field
   searched-field: "searching %{field}"
 

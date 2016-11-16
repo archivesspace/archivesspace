@@ -62,10 +62,10 @@ module Searchable
     @search = Search.new(params)
 
     unless @search[:limit].blank?
-      default_types = [@search[:limit]]
+      default_types = @search[:limit].split(",")
     end
 
-    raise I18n.t('navbar.error_no_term') if @search[:q].nil?
+    raise I18n.t('navbar.error_no_term') unless @search.has_query?
     queries = @search[:q]
     have_query = false
     ops = params.fetch(:op, [])

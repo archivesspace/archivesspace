@@ -1,13 +1,7 @@
 <div class="search" role="search">
   <h3><%=  t('actions.search') %>  <%= title %> </h3>
+  <% @search = Search.new(nil) unless defined?(@search) %>
   <%= form_tag("#{search_url}", method: 'get', :id => 'advanced_search') do %>
-  <% if defined?(filters) %>
-  <% filters.each_with_index do |filter, i| %>
-    <%= hidden_field_tag('filter_fields[]', filter[:field], :id => "ffield_#{i}") %>
-    <%= hidden_field_tag('filter_values[]', filter[:value], :id => "ffval_#{i}") %>
-    <% end %>
-  <% end %>
-
   <div class="row search_row" id="search_row_0">
     <div class="col-sm-1 bool form-group form-inline">
       <%= label_tag('op0', t('advanced_search.operator_label'), :class => 'sr-only') %>
@@ -17,25 +11,25 @@
       </div>
     <div class="col-sm-3 form-group form-inline">
       <%= label_tag(:q0, t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
-      <%= text_field_tag('q[]', nil, :placeholder =>  t('navbar.search_placeholder'), :id => 'q0', 
+      <%= text_field_tag('q[]', @search[:q][0], :placeholder =>  t('navbar.search_placeholder'), :id => 'q0', 
             :class=> 'form-control repeats') %>
     </div>
     <div class="col-sm-3 form-group form-inline norepeat">
       <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
-      <%= select_tag(:limit, options_for_select(limit_options), :class=> 'form-control') %>
+      <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control') %>
     </div>
     <div class="col-sm-5 form-group form-inline">
       <%= label_tag(:field0, t('search-field'),:class => 'sr-only repeats') %>
-      <%= select_tag('field[]', options_for_select(field_options), :id=> 'field0', :class=> 'form-control repeats') %>
+      <%= select_tag('field[]', options_for_select(field_options, @search[:field][0]), :id=> 'field0', :class=> 'form-control repeats') %>
  
       <span class="inline-label repeats"><%= t('search_results.filter.years') %>:</span>
       <%= label_tag(:from_year0, "#{t('search_results.filter.from_year')}", :class => 'sr-only repeats') %>
-      <%= text_field_tag('from_year[]', nil, :size => 4,:maxlength => 4, :id=>'from_year0',
+      <%= text_field_tag('from_year[]', @search[:from_year][0], :size => 4,:maxlength => 4, :id=>'from_year0',
            :placeholder => t('search_results.filter.from'),:class=>'form-control repeats') %>
 
       <span class="inline-label repeats"><%= t('search_results.filter.to') %></span>
       <%= label_tag(:to_year0, "#{t('search_results.filter.to_year')}", :class=> 'sr-only repeats') %>
-      <%= text_field_tag('to_year[]', nil, :size => 4, :maxlength => 4, :id => 'to_year0', 
+      <%= text_field_tag('to_year[]', @search[:to_year][0], :size => 4, :maxlength => 4, :id => 'to_year0', 
                :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
     <span class="plusminus"></span>
 
