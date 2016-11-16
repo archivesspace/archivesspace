@@ -5,18 +5,13 @@
       <div><%= t('brand.welcome_message').html_safe %> </div>
   </div>
 </div>
-<% select_opts = []  %>
- <%   %w(AND OR NOT).each do |opt|   %>
-<%     select_opts.push([ I18n.t("advanced_search.operator.#{opt}"), opt]) %>
- <%   end  %>
 
     <%= render partial: 'shared/search', locals: {:search_url => "/search",
      :title => t('archive._plural'),
-     :select_opts => select_opts,
      :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''], 
             [t('search-limit', :limit => t('search-limits.resources')),'resource'],
             [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],
-  :field_options => [["#{t('search_results.filter.fullrecord')}",''],
+     :field_options => [["#{t('search_results.filter.fullrecord')}",''],
             ["#{t('search_results.filter.title')}",'title'],
             ["#{t('search_results.filter.creators')}",'creators_text'],
            ["#{t('search_results.filter.notes')}", 'notes'] ] } %>
