@@ -25,7 +25,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <% end %>
 </div>
 <h3><%= t('search_results.filter.head') %></h3>
-<% unless dates || @search[:dates_searched] %>
+<% unless dates || @search[:dates_searched] || !@search.allow_dates? %>
 <div class="filter_dates">
   <span class="inline-label"><%= t('search_results.filter.years_include') %></span>
   <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>

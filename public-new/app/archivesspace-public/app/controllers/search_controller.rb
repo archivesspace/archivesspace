@@ -11,8 +11,14 @@ class SearchController < ApplicationController
 
   def search
     @base_search = "/search?"
+    simple_search = false
     begin
-      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
+      if params.fetch(:recordtypes,nil)
+        set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
+        simple_search = true
+      else
+        set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
+      end
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
