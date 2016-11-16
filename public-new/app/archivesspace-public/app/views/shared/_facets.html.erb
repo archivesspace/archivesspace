@@ -2,18 +2,17 @@
 
 <% dates = false %>
 <div class="filters">
- <% if !@filters.blank? || !request.query_parameters()['from_year'].blank? ||  !request.query_parameters()['to_year'].blank? %>
+ <% unless @filters.blank? && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
     <h3><%= t('search_results.filtered_by')%> </h3> 
     <ul class="list-group">
-      <% if !request.query_parameters()['from_year'].blank? || 
-	 !request.query_parameters()['to_year'].blank? %>
+      <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <% dates = true 
-	 from_year = (request.query_parameters()['from_year'].blank? ? '' : request.query_parameters()['from_year']) 
-	 to_year = (request.query_parameters()['to_year'].blank? ? t('search_results.filter.year_now') : request.query_parameters()['to_year'])
+	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
+	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
       <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= from_year %>  <%= t('search_results.filter.to').downcase %>
 	  <%= to_year  %>
-	  <a href="<%= @page_search.sub("&from_year=#{(from_year=='' ? '*' : from_year)}&to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
+	  <a href="<%= @page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
 	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>
   <% end  %> 
@@ -26,12 +25,12 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <% end %>
 </div>
 <h3><%= t('search_results.filter.head') %></h3>
-<% if !dates %>
+<% unless dates || @search[:dates_searched] %>
 <div class="filter_dates">
   <span class="inline-label"><%= t('search_results.filter.years_include') %></span>
   <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>
   <% request.query_parameters.each do |p, v| %>
-  <%  if !%w{commit utf8 from_year to_year}.include?(p) %>
+  <%  if !%w{commit utf8 filter_from_year filter_to_year}.include?(p) %>
   <%    if v.is_a? Array  %>
   <%      v.each do |val| %>
   <%= hidden_field_tag("#{p}[]".to_sym, val) %>
@@ -42,12 +41,12 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
   <% end %>
   <% end %>
   <div class="form-group">
-    <%= label_tag(:from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-    <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+    <%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+    <%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
     :class=>"form-control") %> 
     <span class="inline-label">--</span> 
-    <%= label_tag(:to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-    <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+    <%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+    <%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
     :placeholder => t('search_results.filter.to')) %>
 
   </div>

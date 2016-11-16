@@ -59,13 +59,14 @@ module Searchable
 
 
   def set_up_advanced_search(default_types = [],default_facets=[],default_search_opts={}, params={})
-    limit = params.fetch(:limit,'')
-    if !limit.blank?
-      default_types = [limit]
+    @search = Search.new(params)
+
+    unless @search[:limit].blank?
+      default_types = [@search[:limit]]
     end
 
-    queries = params.fetch(:q, nil)
-    raise I18n.t('navbar.error_no_term') if queries.nil?
+    raise I18n.t('navbar.error_no_term') if @search[:q].nil?
+    queries = @search[:q]
     have_query = false
     ops = params.fetch(:op, [])
     fields = params.fetch(:field, [])
@@ -74,13 +75,13 @@ module Searchable
 
     advanced_query_builder = AdvancedQueryBuilder.new
 
-    queries.each_with_index { |query, i|
+    @search[:q].each_with_index { |query, i|
       unless query.blank?
         have_query = true
-        op = ops[i]
-        field = fields[i].blank? ? 'keyword' : fields[i]
-        from = from_years[i]
-        to = to_years[i]
+        op = @search[:op][i]
+        field = @search[:field][i].blank? ? 'keyword' :  @search[:field][i]
+        from = @search[:from_year][i]
+        to = @search[:to_year][i]
 
         @base_search += '&' if @base_search.last != '?'
         @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
@@ -103,15 +104,27 @@ module Searchable
         end
       end
     }
-    if !have_query
-      raise I18n.t('navbar.error_no_term')
+    raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
+
+    # we have to add filtered dates, if they exist
+    unless @search[:dates_searched] || (@search[:filter_to_year].blank? && @search[:filter_from_year].blank?)
+      from =  @search[:filter_from_year]
+      to = @search[:filter_to_year]
+      builder = AdvancedQueryBuilder.new
+      builder.and('keyword','*', 'text', false)
+      builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', false)
+      advanced_query_builder.and(builder)
+#      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
     end
+
+
       
     @criteria = default_search_opts
 
-    @base_search += "&limit=#{limit}" if !limit.blank?
+    @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
-    @facet_filter = FacetFilter.new(default_facets, params.fetch(:filter_fields,[]), params.fetch(:filter_values,[]))
+    @facet_filter = FacetFilter.new(default_facets, @search[:filter_fields],  @search[:filter_values])
+
     # building the query for the facetting
     type_query_builder = AdvancedQueryBuilder.new
     default_types.reduce(type_query_builder) {|b, type|
