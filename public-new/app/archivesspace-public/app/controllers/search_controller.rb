@@ -13,12 +13,12 @@ class SearchController < ApplicationController
     @base_search = "/search?"
     simple_search = false
     begin
-      if params.fetch(:recordtypes,nil)
-        set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
-        simple_search = true
-      else
+#      if params.fetch(:recordtypes,nil)
+#        set_up_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
+#        simple_search = true
+#      else
         set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
-      end
+#      end
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
@@ -34,8 +34,8 @@ class SearchController < ApplicationController
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
-      @search_terms = search_terms(params)
-      Rails.logger.debug("Search terms: #{@search_terms}")
+#      @search_terms = search_terms(params)
+#      Rails.logger.debug("Search terms: #{@search_terms}")
       render
     end
   end

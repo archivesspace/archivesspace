@@ -58,6 +58,16 @@ module Searchable
     @criteria['page_size'] = params.fetch(:page_size, AppConfig[:search_results_page_size])
   end
 
+  def set_up_and_run_search(default_types = [],default_facets=[],default_search_opts={}, params={})
+    set_up_advanced_search(default_types, default_facets, default_search_opts, params)
+    page = Integer(params.fetch(:page, "1"))
+    @results =  archivesspace.advanced_search('/search', page, @criteria)
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      raise  "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+    else
+      process_search_results(@base_search)
+    end
+  end
 
   def set_up_advanced_search(default_types = [],default_facets=[],default_search_opts={}, params={})
     @search = Search.new(params)
@@ -69,20 +79,14 @@ module Searchable
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
     queries = @search[:q]
     have_query = false
-    ops = params.fetch(:op, [])
-    fields = params.fetch(:field, [])
-    from_years = params.fetch(:from_year, [])
-    to_years = params.fetch(:to_year, [])
-
     advanced_query_builder = AdvancedQueryBuilder.new
-
     @search[:q].each_with_index { |query, i|
       unless query.blank?
         have_query = true
         op = @search[:op][i]
         field = @search[:field][i].blank? ? 'keyword' :  @search[:field][i]
-        from = @search[:from_year][i]
-        to = @search[:to_year][i]
+        from = @search[:from_year][i] || ''
+        to = @search[:to_year][i] || ''
 
         @base_search += '&' if @base_search.last != '?'
         @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
@@ -117,8 +121,6 @@ module Searchable
       advanced_query_builder.and(builder)
 #      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
     end
-
-
       
     @criteria = default_search_opts
 
@@ -131,7 +133,6 @@ module Searchable
     default_types.reduce(type_query_builder) {|b, type|
       b.or('types', type)
     }
-
     @criteria['aq'] = advanced_query_builder.build.to_json
     @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
