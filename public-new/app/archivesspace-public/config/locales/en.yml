@@ -78,9 +78,12 @@ en:
     page_connector: of
 
   search_results:
+    results_head: "Showing %{type}: %{start} - %{end} of %{total}"
+    results: Results
     head_prefix: Found
     head_suffix: Results
     searching: Searching
+    search_for: "Search %{type} for %{term}"
     title: All Records
     no_results: No Records
     no_results_prefix: There were no search results for
