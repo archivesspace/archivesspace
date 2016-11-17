@@ -11,18 +11,19 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     @@BooleanOpts
   end
 
-  # We create one empty row if params is nil, in order to drive the search form creation
-  def initialize(params)
+  # We take params either as a Hash or ActionController::Parameters object
+  def initialize(params = {})
+#    Rails.logger.debug("Initializing: #{params}")
     %w(q op field from_year to_year filter_fields filter_values recordtypes ).each do |f|
-      if params.nil?
-         self[f.to_sym] = [""]
+      if params.kind_of?(Hash)
+         self[f.to_sym] = params[f.to_sym] || []
       else
         self[f.to_sym] = params.fetch(f.to_sym,[])
       end
     end
     %w(limit filter_from_year filter_to_year).each do |f|
-      if params.nil?
-        self[f.to_sym] = ''
+      if params.kind_of?(Hash)
+        self[f.to_sym] = params[f.to_sym] || ''
       else
         self[f.to_sym] = params.fetch(f.to_sym, '')
       end
@@ -46,11 +47,9 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
  
  def allow_dates?
    allow = true
-     # yeah, I know there must be a better way to do this
-   recordtypes.each do |type|
-     if allow &&  %w(subject agent_person agent_family_agent_corporate_entity).include?(type)
-       allow = false
-     end
+   limit.split(",").each do |type|
+     allow = false if type == 'subject'
+     allow = false if type.start_with?('agent')
    end
    allow
  end

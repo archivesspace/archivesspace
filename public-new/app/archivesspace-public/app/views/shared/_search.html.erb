@@ -1,6 +1,6 @@
 <div class="search" role="search">
   <h3><%=  t('actions.search') %>  <%= title %> </h3>
-  <% @search = Search.new(nil) unless defined?(@search) %>
+  <% @search = Search.new unless defined?(@search) %>
   <%= form_tag("#{search_url}", method: 'get', :id => 'advanced_search') do %>
   <div class="row search_row" id="search_row_0">
     <div class="col-sm-1 bool form-group form-inline">
