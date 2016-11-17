@@ -11,6 +11,48 @@ class AgentsController <  ApplicationController
     'facet.mincount' => 1
   }
 
+  def index
+#    repo_id = params.fetch(:repo_id, nil)
+    if params.fetch(:q, nil)
+        pass_params = params
+    else
+      pass_params = {}
+      pass_params[:q] = ['*']
+      pass_params[:recordtypes] = %w(agent_person agent_family agent_corporate_entity)
+      pass_params[:limit] = pass_params[:recordtypes].join(",")
+      pass_params[:op] = ['OR']
+      pass_params[:field] = ['title']
+    end
+    @base_search  =  '/agents?'
+    page = Integer(params.fetch(:page, "1"))
+    begin
+      set_up_and_run_search( DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES,  DEFAULT_AG_SEARCH_OPTS, pass_params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/agents') and return
+    end
+    @page_title = I18n.t('agent._plural')
+    @results_type = @page_title
+    render 'search/search_results'
+  end
+
+  def search
+    # need at least q[]=WHATEVER&op[]=OR&field[]=title&from_year[]=&to_year[]=&limit=agent_person,agent_family,agent_corporate_entity
+    @base_search = '/agents/search?'
+    page = Integer(params.fetch(:page, "1"))
+    begin
+      set_up_and_run_search( DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES,  DEFAULT_AG_SEARCH_OPTS, params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/agents') and return
+    end
+    @page_title = I18n.t('agent._plural')
+    @results_type = @page_title
+    @search_title = I18n.t('search_results.search_for', {:type => I18n.t('agent._plural'), :term => params.fetch(:q)[0]})
+     render 'search/search_results'
+  end
+
+
   def show
     uri = "/agents/#{params[:eid]}/#{params[:id]}"
     @criteria = {}

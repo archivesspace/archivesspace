@@ -7,6 +7,48 @@ class SubjectsController <  ApplicationController
     'sort' => 'title_sort asc',
     'facet.mincount' => 1
    }
+
+  def index
+#    repo_id = params.fetch(:repo_id, nil)
+    if params.fetch(:q, nil) 
+        pass_params = params
+    else
+      pass_params = {}
+      pass_params[:q] = ['*']
+      pass_params[:recordtypes] = ['subject']
+      pass_params[:limit] = 'subject'
+      pass_params[:field] = ['title']
+      pass_params[:op] = ['OR']
+    end
+    @base_search  =  "/subjects?" # we need to handle repository, but lets hold off on that
+    page = Integer(params.fetch(:page, "1"))
+    begin
+      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, pass_params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/subjects' ) and return
+    end
+    @page_title = I18n.t('subject._plural')
+    @results_type = @page_title
+    render 'search/search_results'
+  end
+
+  def search
+  # need at least q[]=WHATEVER&op[]=OR&field[]=title&from_year[]=&to_year[]=&limit=subject
+     @base_search  =  "/subjects/search?"
+    page = Integer(params.fetch(:page, "1"))
+    begin
+      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/subjects' ) and return
+    end
+    @page_title = I18n.t('subject._plural')
+    @results_type = @page_title
+    @search_title = I18n.t('search_results.search_for', {:type => I18n.t('subject._plural'), :term => params.fetch(:q)[0]})
+    render 'search/search_results'
+  end
+
   def show
     sid = params.require(:id)
     uri = "/subjects/#{sid}"
