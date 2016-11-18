@@ -75,7 +75,6 @@ module Searchable
     unless @search[:limit].blank?
       default_types = @search[:limit].split(",")
     end
-
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
     queries = @search[:q]
     have_query = false
@@ -123,6 +122,14 @@ module Searchable
     end
       
     @criteria = default_search_opts
+    # if there's an fq passed along...
+    unless @criteria['fq'].blank?
+      @criteria['fq'].each do |fq |
+        f,v = fq.split(":")
+        advanced_query_builder.and(f, v, "text", false)
+      end
+    end
+        
 
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 

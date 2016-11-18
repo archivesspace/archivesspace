@@ -53,22 +53,23 @@ class RepositoriesController < ApplicationController
     repo_id = params.require(:rid)
     @base_search = "/repositories/#{repo_id}/search?"
     begin
-      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_REPO_SEARCH_OPTS, params)
+      # this is temporary unless & until the search respositories endpoint is fixed on the backend
+      new_search_opts =  DEFAULT_REPO_SEARCH_OPTS 
+      new_search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""]
+     
+      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, new_search_opts, params)
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: "/repositories/#{repo_id}/" ) and return
     end
     page = Integer(params.fetch(:page, "1"))
-#    q = params.require(:q)
-    @results = archivesspace.search_repository(@base_search, repo_id, page, @criteria)
+    @results = archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
-     @search_terms = search_terms(params)
-      Rails.logger.debug("Search terms: #{@search_terms}")
       render
     end 
   end
