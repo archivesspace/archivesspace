@@ -8,7 +8,50 @@ class ObjectsController <  ApplicationController
   helper_method :process_digital_instance
 
   skip_before_filter  :verify_authenticity_token
+  
+  DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects agents)
+  DEFAULT_OBJ_SEARCH_OPTS = {
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'facet.mincount' => 1
+  }
+  
+  def index
+    if !params.fetch(:q,nil)
+      params[:q] = ['*']
+      params[:limit] = 'digital_object,archival_object' unless params.fetch(:limit,nil)
+      params[:op] = ['OR']
+    end
+    @base_search = 'objects?'
+    page = Integer(params.fetch(:page, "1"))
+    search_opts = DEFAULT_OBJ_SEARCH_OPTS
+    search_opts['sort'] = 'title_sort asc'
+    begin
+      set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts,params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/') and return
+    end
+    @page_title = I18n.t('record._plural')
+    @results_type = @page_title
+    render 'search/search_results'
+  end
 
+  def search
+    @base_search  =  "/subjects/search?"
+    page = Integer(params.fetch(:page, "1"))
+    begin
+      set_up_and_run_search(%w(digital_object archival_object),DEFAULT_OBJ_FACET_TYPES,DEFAULT_OBJ_SEARCH_OPTS, params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/objects' ) and return
+    end
+    @page_title = I18n.t('record._plural')
+    @results_type = @page_title
+    @search_title = I18n.t('search_results.search_for', {:type => I18n.t('record._plural'), :term => params.fetch(:q)[0]})
+    render 'search/search_results'
+  end
+
+ 
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     @criteria = {}

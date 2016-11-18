@@ -34,11 +34,11 @@
 		  <%# TODO: if only one repository, don't show this one %>
 		  <li><a href="/repositories"><%= t('repository._plural') %></a></li>
 		  <li><a href="/repositories/resources"><%= t('resource._plural') %></a></li>
-		  <li><a href="/search?recordtypes[]=digital_object"><%= t('digital_object._plural') %></a></li>
-		  <li><a href="/search?recordtypes[]=accession"><%= t('unprocessed') %></a></li>
+		  <li><a href="/objects?limit=digital_object"><%= t('digital_object._plural') %></a></li>
+		  <li><a href="/accessions"><%= t('unprocessed') %></a></li>
 		  <li><a href="/subjects"><%= t('subject._plural') %></a></li>
 		  <li><a href="/agents"><%= t('pui_agent._plural') %></a></li>
-		  <li><a href="/search?recordtypes[]=classification"><%= t('record_group._plural') %></a></li>
+		  <li><a href="/classifications"><%= t('classification._plural') %></a></li>
 		</ul>
 	      </div>
 	    </div>

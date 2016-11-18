@@ -1,32 +1,33 @@
 class SubjectsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
-  DEFAULT_SUBJ_TYPES = %w{repository resource archival_object digital_object}
-  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents}
+  DEFAULT_SUBJ_TYPES = ['subject']
+  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents used_within_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'facet.mincount' => 1
    }
+  DEFAULT_SUBJ_SEARCH_PARAMS = {
+    :q => ['*'],
+    :limit => 'subject',
+    :op => ['OR'],
+    :field => ['title']
+  }
 
   def index
 #    repo_id = params.fetch(:repo_id, nil)
-    if params.fetch(:q, nil) 
-        pass_params = params
-    else
-      pass_params = {}
-      pass_params[:q] = ['*']
-      pass_params[:recordtypes] = ['subject']
-      pass_params[:limit] = 'subject'
-      pass_params[:field] = ['title']
-      pass_params[:op] = ['OR']
+    if !params.fetch(:q, nil) 
+      DEFAULT_SUBJ_SEARCH_PARAMS.each do |k, v|
+        params[k] = v
+      end
     end
     @base_search  =  "/subjects?" # we need to handle repository, but lets hold off on that
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, pass_params)
+      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
     rescue Exception => error
       flash[:error] = error
-      redirect_back(fallback_location: '/subjects' ) and return
+      redirect_back(fallback_location: '/' ) and return
     end
     @page_title = I18n.t('subject._plural')
     @results_type = @page_title
