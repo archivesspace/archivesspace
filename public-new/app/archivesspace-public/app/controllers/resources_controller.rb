@@ -19,7 +19,7 @@ class ResourcesController <  ApplicationController
 
   DEFAULT_RES_SEARCH_OPTS = {
     'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
-    'facet.mincount' => 1
+    'facet.mincount' => 1,
   }
 
   DEFAULT_RES_TYPES = %w{archival_object digital_object agent subject}
@@ -35,7 +35,7 @@ class ResourcesController <  ApplicationController
       @base_search += "/#{params.fetch(:rid)}"
     end
     @base_search += '/resources?'
-
+    
     set_up_search(['resource'], [],DEFAULT_RES_INDEX_OPTS, params, query)
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.search(@query, page, @criteria) || {}
@@ -51,13 +51,23 @@ class ResourcesController <  ApplicationController
   def search 
     repo_id = params.require(:repo_id)
     res_id = "/repositories/#{repo_id}/resources/#{params.require(:id)}"
+    search_opts = DEFAULT_RES_SEARCH_OPTS
+    search_opts['fq'] = ["resource:\"#{res_id}\""]
     params[:res_id] = res_id
-    q = params.fetch(:q,'')
+#    q = params.fetch(:q,'')
+    if params.fetch(:q,nil)
+      params[:q] = ['*']
+    end
     @base_search = "#{res_id}/search?"
-    set_up_search(DEFAULT_RES_TYPES, DEFAULT_RES_FACET_TYPES, DEFAULT_RES_SEARCH_OPTS, params,q)
+    begin
+      set_up_advanced_search(DEFAULT_RES_TYPES, DEFAULT_RES_FACET_TYPES, search_opts, params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: res_id ) and return
+    end
 
     page = Integer(params.fetch(:page, "1"))
-    @results = archivesspace.search(@query,page, @criteria)
+    @results = archivesspace.advanced_search('/search',page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}" 
       redirect_back(fallback_location: @base_search)
