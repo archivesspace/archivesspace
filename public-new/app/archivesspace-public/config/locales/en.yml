@@ -117,8 +117,8 @@ en:
       scope: Scope
       notes: Notes
       source: Source
-      agents: People & Organizations
-      agents_text: People & Organizations
+      agents: Content Creators
+      agents_text: Content Creators
       classification_uri: Classification
       linked_agent_roles: Role
       from_year: From year
@@ -313,14 +313,14 @@ en:
     _singular: Record Group
     _plural: Record Groups
 
-  all_agents: People & Organizations
+  all_agents: Content Creators
   
-  an_agent: People or Organization
+  an_agent: Content Creator
 
   pui_agent:
-    _singular: Person or Organization
-    _plural:  People & Organizations
-    related: Related People & Organizations
+    _singular: Content Creator
+    _plural:  Content Creators
+    related: Related Content Creator
   record:
     _singular: Record
     _plural: Records
@@ -330,8 +330,8 @@ en:
     _plural: Record Groups
 
   agent:
-    _singular: Person or Organization
-    _plural: People & Organizations
+    _singular: Content Creator
+    _plural: Content Creators
     _public:
       section:
         summary: Summary
