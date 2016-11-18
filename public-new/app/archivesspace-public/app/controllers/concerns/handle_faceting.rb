@@ -35,7 +35,7 @@ module HandleFaceting
     pv = strip_mixed_content(v)
     if k == 'primary_type'
       pv = I18n.t("#{v}._singular")
-    elsif k == 'repository'
+    elsif %w(repository used_within_repository).include?(k)
       repos = Repository.get_repos
       if repos[v].nil?
         pv = v
