@@ -37,15 +37,19 @@
     <div class="search">
 	<%= form_tag("#{@result['uri']}/search", method: 'get', :class=> "form-inline") do %>
 	<div class="form-group">
-	  <% label_tag(:q,  "#{t('actions.search')} #{t('resource._singular')}", :class => 'sr-only') %>
-          <%= text_field_tag(:q, nil, :placeholder =>  "#{t('actions.search')} #{t('resource._singular')}", :class=> "form-control") %>
+	  <% label_tag(:q0,  "#{t('actions.search')} #{t('resource._singular')}", :class => 'sr-only') %>
+          <%= text_field_tag('q[]', nil,:id => 'q0', :placeholder =>  "#{t('actions.search')} #{t('resource._singular')}", :class=> "form-control") %>
 	</div>
 	<div class="form-group">
+	  <%= hidden_field_tag('op[]','') %>
+	  <%= hidden_field_tag('field[]','') %>
+	  <%= hidden_field_tag('limit','') %>
+
 	  <span class="inline-label"><%= t('search_results.filter.years') %>:</span>
-	   <%= label_tag(:from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-	   <%= text_field_tag(:from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
-            :class=>"form-control") %> <span class="inline-label"><%= t('to') %></span> <%= label_tag(:to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-	   <%= text_field_tag(:to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+	   <%= label_tag(:from_year0, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+	   <%= text_field_tag('from_year[]', nil, :id=>'from_year0', :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+            :class=>"form-control") %> <span class="inline-label"><%= t('search_results.filter.to') %></span> <%= label_tag(:to_year0, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+	   <%= text_field_tag('to_year[]', nil, :size => 4, :maxlength => 4, :class=> "form-control", :id => 'to_year0',
            :placeholder => t('search_results.filter.to')) %>
 	</div>
         <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary btn-sm') %>
