@@ -2,7 +2,7 @@ class SubjectsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
   DEFAULT_SUBJ_TYPES = ['subject']
-  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents used_within_repository}
+  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type  used_within_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'facet.mincount' => 1
@@ -13,24 +13,31 @@ class SubjectsController <  ApplicationController
     :op => ['OR'],
     :field => ['title']
   }
-
   def index
-#    repo_id = params.fetch(:repo_id, nil)
+    repo_id = params.fetch(:rid, nil)
     if !params.fetch(:q, nil) 
       DEFAULT_SUBJ_SEARCH_PARAMS.each do |k, v|
-        params[k] = v
+        params[k] = v unless params.fetch(k,nil)
       end
     end
-    @base_search  =  "/subjects?" # we need to handle repository, but lets hold off on that
+    search_opts = DEFAULT_SUBJ_SEARCH_OPTS
+    search_opts['fq'] = ["used_within_repository:\"/repositories/#{repo_id}\""] if repo_id
+    @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
+      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
     end
     @page_title = I18n.t('subject._plural')
     @results_type = @page_title
+    all_sorts = Search.get_sort_opts
+    @sort_opts = []
+    %w(title_sort_asc title_sort_desc).each do |type|
+      @sort_opts.push(all_sorts[type])
+    end
+
     render 'search/search_results'
   end
 
@@ -47,6 +54,11 @@ class SubjectsController <  ApplicationController
     @page_title = I18n.t('subject._plural')
     @results_type = @page_title
     @search_title = I18n.t('search_results.search_for', {:type => I18n.t('subject._plural'), :term => params.fetch(:q)[0]})
+    @sort_opts = []
+    %w(relevance title_sort_asc title_sort_desc).each do |type|
+      @sort_opts.push(all_sorts[type])
+    end
+
     render 'search/search_results'
   end
 
@@ -59,7 +71,7 @@ class SubjectsController <  ApplicationController
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
       @result = results['results'][0]
-#      Pry::ColorPrinter.pp(@result)
+      Pry::ColorPrinter.pp(@result)
       @results = fetch_subject_results(@result['title'],uri, params)
       if !@results.blank?
         @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page']) 
@@ -93,4 +105,5 @@ class SubjectsController <  ApplicationController
     end
     @results
   end
+
 end
