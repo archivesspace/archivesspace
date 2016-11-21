@@ -562,7 +562,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :default_advanced_search_queries
   def default_advanced_search_queries
-    [{"i" => 0, "type" => "text"}]
+    [{"i" => 0, "type" => "text", "comparator" => "contains"}]
   end
 
 
@@ -570,7 +570,7 @@ class ApplicationController < ActionController::Base
   def advanced_search_queries
     return default_advanced_search_queries if !params["advanced"]
 
-    indexes = params.keys.collect{|k| k[/^v(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
+    indexes = params.keys.collect{|k| k[/^f(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
 
     return default_advanced_search_queries if indexes.empty?
 
@@ -583,6 +583,11 @@ class ApplicationController < ActionController::Base
         "type" => params["t#{i}"]
       }
 
+      if query["type"] == "text"
+        query["comparator"] = params["top#{i}"]
+        query["empty"] = query["comparator"] == "empty" 
+      end
+
       if query["op"] === "NOT"
         query["op"] = "AND"
         query["negated"] = true
@@ -590,10 +595,16 @@ class ApplicationController < ActionController::Base
 
       if query["type"] == "date"
         query["comparator"] = params["dop#{i}"]
+        query["empty"] = query["comparator"] == "empty"
       end
 
       if query["type"] == "boolean"
-        query["value"] = query["value"] == "true"
+        query["value"] = query["value"] == "empty" ? "empty" : query["value"] == "true"
+        query["empty"] = query["value"] == "empty" 
+      end
+
+      if query["type"] == "enum"
+        query["empty"] = query["value"].blank?
       end
 
       query

@@ -128,6 +128,10 @@ class AdvancedQueryBuilder
     elsif query_data['type'] == "range"
       JSONModel::JSONModel(:range_query).from_hash(query_data)
     else
+      if query_data["type"] == "enum" && query_data["value"].blank?
+        query_data["comparator"] = "empty"
+      end
+
       query = JSONModel::JSONModel(:field_query).from_hash(query_data)
 
       if query_data['type'] == "enum"

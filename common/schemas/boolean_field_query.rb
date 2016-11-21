@@ -6,7 +6,9 @@
     "properties" => {
 
       "field" => {"type" => "string", "ifmissing" => "error"},
-      "value" => {"type" => "boolean", "ifmissing" => "error", "default" => true},
+      "value" => {"type" => [{ "type" => "boolean" },
+                             { "type" => "string", "enum" => ["empty"]}],
+                  "ifmissing" => "error", "default" => true},
       "negated" => {"type" => "boolean", "default" => false},
 
     },
