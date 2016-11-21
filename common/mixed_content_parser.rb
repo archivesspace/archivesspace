@@ -12,6 +12,9 @@ module MixedContentParser
     # (seems like the API falls down when we do this directly...)
     d = org.jsoup.Jsoup.parse("")
     d.outputSettings.prettyPrint(opts[:pretty_print])
+   
+    # archon does things differently.....
+    content.gsub!("\n\t", "\n\n") 
 
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
     content = content.split("\n\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]

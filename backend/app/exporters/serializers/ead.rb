@@ -42,6 +42,8 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def handle_linebreaks(content)
+    # 4archon... 
+    content.gsub!("\n\t", "\n\n")  
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
