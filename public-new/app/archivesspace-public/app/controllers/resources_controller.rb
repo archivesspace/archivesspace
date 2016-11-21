@@ -12,16 +12,21 @@ class ResourcesController <  ApplicationController
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
   
   DEFAULT_RES_INDEX_OPTS = {
-    'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
 
   DEFAULT_RES_SEARCH_OPTS = {
     'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
-    'facet.mincount' => 1,
+    'facet.mincount' => 1
   }
 
+  DEFAULT_RES_SEARCH_PARAMS = {
+    :q => ['*'],
+    :limit => 'resource',
+    :op => ['OR'],
+    :field => ['title']
+  }
   DEFAULT_RES_TYPES = %w{archival_object digital_object agent subject}
 
   # present a list of resources.  If no repository named, just get all of them.
@@ -35,17 +40,19 @@ class ResourcesController <  ApplicationController
       @base_search += "/#{params.fetch(:rid)}"
     end
     @base_search += '/resources?'
-    
-    set_up_search(['resource'], [],DEFAULT_RES_INDEX_OPTS, params, query)
-    page = Integer(params.fetch(:page, "1"))
-    @results =  archivesspace.search(@query, page, @criteria) || {}
-    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
-      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
-      redirect_back(fallback_location: "/")
-    else
-      process_search_results(@base_search)
-      render
+    criteria = DEFAULT_RES_INDEX_OPTS
+    criteria[:sort] = params.fetch('sort', 'title_sort asc')
+    DEFAULT_RES_SEARCH_PARAMS.each do |k,v|
+      params[k] = v unless params.fetch(k, nil)
     end
+    begin
+      set_up_and_run_search(['resource'], [],criteria, params)
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/' ) and return
+    end
+    @page_title = I18n.t('resource._plural')
+    render
   end
 
   def search 
