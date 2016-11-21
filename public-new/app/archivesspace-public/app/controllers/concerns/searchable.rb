@@ -71,7 +71,6 @@ module Searchable
 
   def set_up_advanced_search(default_types = [],default_facets=[],default_search_opts={}, params={})
     @search = Search.new(params)
-
     unless @search[:limit].blank?
       default_types = @search[:limit].split(",")
     end
@@ -120,8 +119,11 @@ module Searchable
       advanced_query_builder.and(builder)
 #      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
     end
-      
     @criteria = default_search_opts
+      
+    @criteria[:sort] = @search[:sort] if @search[:sort]  # sort can be passed as default or via params
+    # we have to pass the sort along in the URL
+    @sort =  @criteria[:sort]
     # if there's an fq passed along...
     unless @criteria['fq'].blank?
       @criteria['fq'].each do |fq |
@@ -179,6 +181,9 @@ module Searchable
     end
 #    q = params.require(:q)
     @page_search = "#{base}#{@facet_filter.get_filter_url_params}"
+    
+    @page_search += "&sort=#{@sort}" if defined?(@sort) && @sort
+
     @filters = @facet_filter.get_filter_hash
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
