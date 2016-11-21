@@ -306,6 +306,7 @@ en:
   subject:
     _singular: Subject
     _plural: Subjects
+    used_within: Used within
 
   component:
     _singular: Component

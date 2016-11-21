@@ -8,12 +8,14 @@
 
 
 <br/>
-    <% if !@result['json']['extents'].blank? %>
-    <%   @result['json']['extents'].each do |ext| %>
-    <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
-    <% end %>
-    <br/>
-    <% end %>
+<% unless @result['json']['used_within_repositories'].blank? %>
+   <span class='repository inline-label'><%= t('subject.used_within') %>:</span>
+   <ul>
+   <%  @result['json']['used_within_repositories'].each do |r| %>
+      <li><a href="<%= r %>"><%= get_pretty_facet_value('used_within_repository', r) %></a></li>
+     <% end %>
+</ul>
+<% end %>
     <% if !@result['json']['dates'].blank? %>
     <%   @result['json']['dates'].each do |date|  %>
     <span class="dates"><%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
@@ -31,7 +33,7 @@
       <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
     <% end %>
     <%= render partial: 'shared/display_notes' %>
-  <% if !@results.blank? && @results['total_hits'] > 0 %>
+  <% unless @results.blank? || @results['total_hits'] == 0 %>
      <h3><%= t('found') %> <%= @results['total_hits'] %> <%= (@results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')) %>:</h3>
          <% @results['results'].each do |result| %>
            <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
@@ -53,6 +55,8 @@
        <% end %>
        </dl>
    <% end %>
-   <%= render partial: 'shared/facets' %>
+    <% unless @results.blank? || @results['total_hits'] == 0 %>
+     <%= render partial: 'shared/facets' %>
+    <% end %>
   </div>
 </div>
