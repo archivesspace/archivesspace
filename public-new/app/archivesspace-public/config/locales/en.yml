@@ -133,9 +133,10 @@ en:
 
   search_sorting:
     sort_by: "Sort by:"
+    sort: Sort
     and: "and:"
-    asc: Ascending
-    desc: Descending
+    asc: Asc.
+    desc: Desc.
     relevance: Relevance
     title_sort: Title
     user_mtime: Modified
@@ -151,6 +152,9 @@ en:
     event_type: Type
     identifier: Identifier
     select: Select
+    year_sort: Year
+    sorting: "%{type} %{direction}"
+    
 
   errors:
     error_404: Record Not Found
