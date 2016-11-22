@@ -52,6 +52,11 @@ class EADModel < ASpaceExport::ExportModel
         nil
       end
     end
+
+
+    def creators_and_sources
+      self.linked_agents.select{|link| ['creator', 'source'].include?(link['role']) }
+    end
   end
 
 

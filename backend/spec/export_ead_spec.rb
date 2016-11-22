@@ -701,6 +701,26 @@ describe "EAD export mappings" do
       end
 
 
+      # AR-1459
+      it "maps linked agents with role 'creator' to {desc_path}/did/origination/NODE" do
+        object.linked_agents.each do |link|
+          link_role = link[:role] || link['role']
+          next unless link_role == 'creator'
+
+          ref = link[:ref] || link['ref']
+          agent = @agents[ref]
+          node_name = case agent.agent_type
+                      when 'agent_person'; 'persname'
+                      when 'agent_family'; 'famname'
+                      when 'agent_corporate_entity'; 'corpname'
+                      end
+
+          path = "#{desc_path}/did/origination/#{node_name}[contains(text(), '#{agent.names[0]['sort_name']}')]"
+          doc.should have_node(path)
+        end
+      end
+
+
       it "maps linked subjects to {desc_path}/controlaccess/NODE" do
         object.subjects.each do |link|
           ref = link[:ref] || link['ref']
