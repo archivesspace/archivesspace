@@ -1,0 +1,11 @@
+<% params.each do |p, v| %>
+  <%  if !%w{commit utf8 filter_from_year filter_to_year controller page sort}.include?(p) %>
+  <%    if v.is_a? Array  %>
+  <%      v.each_with_index do |val,i| %>
+  <%= hidden_field_tag("#{p}[]".to_sym, val, :id => "#{p}_#{i}") %>
+  <%      end %>
+  <% else %>
+  <%= hidden_field_tag(p.to_sym, v) %>
+  <% end %>
+  <% end %>
+  <% end %>
