@@ -19,10 +19,21 @@
           <div class="abstract"><span class='inline-label'><%= note_struct['label'] %></span>
 	   <%= note_struct['note_text'].html_safe %></div>
          <% end %>
-       <% unless props.fetch(:no_repo, false) || result['_resolved_repository'].blank? || result['_resolved_repository']['json'].blank? %>
+       <% unless props.fetch(:no_repo, false) %>
+       <% r_uri = nil
+	  r_name = nil
+	  if result['json']['repository'] && result['json']['repository']['_resolved'] && (!result['json']['repository']['ref'].blank? || !result['json']['repository']['_resolved']['name'].blank?)
+	    r_uri = result['json']['repository']['ref'] || ''
+	    r_name = result['json']['repository']['_resolved']['name'] || ''
+	  elsif result['_resolved_repository'] && result['_resolved_repository']['json']
+	   r_uri =  result['_resolved_repository']['json']['uri'] || ''
+            r_name = result['_resolved_repository']['json']['name'] || ''
+	  end
+       %>
+       <% unless !r_uri && !r_name %>
        <div> <strong><%= t('context') %>: </strong>
 	 <span  class="repo_name">
-	 <a href="<%= result['_resolved_repository']['json']['uri']%>"><%= result['_resolved_repository']['json']['name']%></a></span>
+	 <a href="<%= r_uri%>"><%= r_name%></a></span>
 	 <% unless props.fetch(:no_res, false) || result['_resolved_resource'].blank? || result['_resolved_resource']['json'].blank? || !result['_resolved_resource']['json']['publish'] %>
        / <span class="resource_name">
 	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= process_mixed_content(result['_resolved_resource']['json']['title']).html_safe %></a> 
@@ -30,6 +41,7 @@
 	 <% end %>
        </div>
        <% end %>
+      <% end %>
 
 
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
