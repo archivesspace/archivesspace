@@ -1,11 +1,14 @@
 <% results_type = (defined?(@results_type) ? @results_type : t('search_results.results')) %>
 <div class="row">
+     <%= render partial: 'shared/breadcrumbs' %>
   <% if defined?(@search_title) %>
   <h1><%= @search_title %></h1>
   <% end %>
   <h2><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
          :end => @results['offset_last'], :total => @results['total_hits'] })  %></h2>
+
 </div>
+
 
 <div class="row">
   <div class="col-sm-3 pull-right">

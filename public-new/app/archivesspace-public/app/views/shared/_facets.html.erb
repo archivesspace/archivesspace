@@ -2,9 +2,17 @@
 
 <% dates = false %>
 <div class="filters">
- <% unless @filters.blank? && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
+ <% unless @filters.blank? && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? && 
+     params[:q].size == 1  %>
     <h3><%= t('search_results.filtered_by')%> </h3> 
-    <ul class="list-group">
+        <% params[:q].each_with_index do |q, i| %>  <%# TODO: replace this with code in the controller!! %>
+          <% if q != '*'  && q != '' && i > 0%>
+	  <%  url = @page_search.sub("q[]=#{q.gsub('*','%2A')+'&'}", "").sub("field[]=&", "").sub("op[]=AND&","") %>
+	  <%  url = url.sub(/&sort=$/, '').sub("sort=&",'') if  params[:q].size == 2 %>
+	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= q %> 
+	       <a href="<%= url %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></li>
+	  <% end %>
+     <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <% dates = true 
 	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
@@ -24,35 +32,39 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  </ul>
  <% end %>
 </div>
+
+<% do_dates = dates && @search[:dates_searched] && !@search.allow_dates? %>
+<!-- dates: <%=dates %> dates_searched: <%=@search[:dates_searched] %> allow: <%= !@search.allow_dates? %>  do_dates: <%= do_dates %>-->
+<% if @search[:dates_within] || @search[:text_within] %>
 <h3><%= t('search_results.filter.head') %></h3>
-<% unless dates || @search[:dates_searched] || !@search.allow_dates? %>
-<div class="filter_dates">
-  <span class="inline-label"><%= t('search_results.filter.years_include') %></span>
-  <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>
-  <% request.query_parameters.each do |p, v| %>
-  <%  if !%w{commit utf8 filter_from_year filter_to_year}.include?(p) %>
-  <%    if v.is_a? Array  %>
-  <%      v.each do |val| %>
-  <%= hidden_field_tag("#{p}[]".to_sym, val) %>
-  <%      end %>
-  <% else %>
-  <%= hidden_field_tag(p.to_sym, v) %>
-  <% end %>
-  <% end %>
-  <% end %>
-  <div class="form-group">
-    <%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-    <%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
-    :class=>"form-control") %> 
-    <span class="inline-label">--</span> 
-    <%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-    <%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
-    :placeholder => t('search_results.filter.to')) %>
+ <div class="filter_more">
+   <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>
+    <%= render partial: 'shared/hidden_params' %>
+    <% if @search[:text_within] %>
+      <div class="form-group">
+       <%= hidden_field_tag('field[]',"") %>
+       <%= hidden_field_tag('op[]','AND') %>
+       <%= hidden_field_tag('sort', "") %>
+        <%= label_tag(:q1, t('actions.search_within'), :class => 'sr-only') %>
+ <%= text_field_tag('q[]', nil,:id => 'q1', :placeholder =>  t('actions.search_within'), :class=> "form-control") %>
+ 
+      </div>
+    <% end %>
+    <% if @search[:dates_within] %>
+      <div class="form-group">
+	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+	:class=>"form-control") %>
+	<span class="inline-label">--</span>
+	<%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+	<%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+	:placeholder => t('search_results.filter.to')) %>
+      </div>
+    <% end %>
 
-  </div>
-  <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
+   <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
   <% end %>
-</div> 
+ </div>
+
 <% end %>
-
 <%= render partial: 'shared/only_facets' %>
