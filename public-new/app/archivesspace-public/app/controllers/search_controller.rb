@@ -10,9 +10,12 @@ class SearchController < ApplicationController
 
 
   def search
-    @base_search = "/search?"
-    simple_search = false
+    repo_id = params.fetch(:rid, nil)
+    repo_url = "/repositories/#{repo_id}"
+    @base_search =  repo_id ? "#{repo_url}/search?" : '/search?'
+
     search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
+    search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_repository::\"#{repo_url}\""] if repo_id
     begin
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
 #NOTE the redirect back here on error!
