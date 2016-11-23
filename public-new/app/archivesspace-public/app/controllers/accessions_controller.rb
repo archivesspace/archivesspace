@@ -24,13 +24,23 @@ class AccessionsController <  ApplicationController
     end
     @base_search = '/accessions?'
     page = Integer(params.fetch(:page, "1"))
-
+    search_opts = default_search_opts( DEFAULT_AC_SEARCH_OPTS)
     begin
-      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  DEFAULT_AC_SEARCH_OPTS, params)
+      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
+#    @context = repo_context(repo_id, 'accession')
+    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+    @search[:text_within] = @pager.last_page > 1
+    @sort_opts = []
+    all_sorts = Search.get_sort_opts
+    all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
+    all_sorts.keys.each do |type|
+       @sort_opts.push(all_sorts[type])
+    end
+
     @page_title = I18n.t('accession._plural')
     @results_type = @page_title
     render 'search/search_results'

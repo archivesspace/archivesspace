@@ -23,17 +23,25 @@ class ClassificationsController <  ApplicationController
         params[k] = v
       end
     end
+    search_opts = default_search_opts( DEFAULT_CL_SEARCH_OPTS)
     @base_search = '/classifications?'
     page = Integer(params.fetch(:page, "1"))
 
     begin
-      set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  DEFAULT_CL_SEARCH_OPTS, params)
+      set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
-    @page_title = I18n.t('classification._plural')
-    @results_type = @page_title
+    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+    @search[:text_within] = @pager.last_page > 1
+    @sort_opts = []
+    all_sorts = Search.get_sort_opts
+    all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
+    all_sorts.keys.each do |type|
+       @sort_opts.push(all_sorts[type])
+    end
+
     @page_title = I18n.t('classification._plural')
     @results_type = @page_title
     render 'search/search_results'

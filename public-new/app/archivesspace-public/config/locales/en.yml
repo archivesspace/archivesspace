@@ -34,6 +34,7 @@ en:
 
   actions:
     search: Search
+    search_within: Search within results
     browse: Browse
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
@@ -84,6 +85,7 @@ en:
     head_suffix: Results
     searching: Searching
     search_for: "Search %{type} for %{term}"
+    search_term: Search term
     title: All Records
     no_results: No Records
     no_results_prefix: There were no search results for

@@ -1,4 +1,4 @@
-class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched, :sort)
+class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched, :sort, :dates_within, :text_within)
 
   @@BooleanOpts = []
 
@@ -48,6 +48,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     end
     self[:sort] = params.fetch('sort',nil)
     self[:dates_searched] =  have_contents?(from_year) || have_contents?(to_year)
+    self[:dates_within] = self[:text_within] = false
   end
  
   def has_query?
