@@ -3,6 +3,16 @@
   <div class="information col-sm-12">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     <%= render partial: 'shared/breadcrumbs' %>
+    <div class="clear">
+    <% unless @result['json']['used_within_repositories'].blank? %>
+      <span class='repository inline-label'><%= t('subject.used_within') %>:</span>
+      <ul>
+	<%  @result['json']['used_within_repositories'].each do |r| %>
+	<li><a href="<%= r %>"><%= get_pretty_facet_value('used_within_repository', r) %></a></li>
+	<% end %>
+      </ul>
+    <% end %>
+    <div>
   </div>
 </div>
 <div class="row">
