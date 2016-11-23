@@ -120,11 +120,11 @@ module Searchable
 #      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
     end
     @criteria = default_search_opts
-      
-    @criteria[:sort] = @search[:sort] if @search[:sort]  # sort can be passed as default or via params
+    @criteria['sort'] = @search[:sort] if @search[:sort]  # sort can be passed as default or via params
     # we have to pass the sort along in the URL
-    @sort =  @criteria[:sort]
-    # if there's an fq passed along...
+    @sort =  @criteria['sort']
+   Rails.logger.debug("SORT: #{@sort}")
+   # if there's an fq passed along...
     unless @criteria['fq'].blank?
       @criteria['fq'].each do |fq |
         f,v = fq.split(":")
@@ -289,6 +289,22 @@ module Searchable
     terms
   end
 
+  def default_search_opts(default = {})
+    opts = {}
+    default.each do |k,v|
+      opts[k] = v
+    end
+    opts
+  end
+
+  def repo_context(repo_id, type)
+    cont = []
+    if repo_id
+      cont.push({:uri => "/repositories/#{repo_id}", :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id\
+}")})
+      cont.push({:uri => '', :crumb =>  I18n.t("#{type}._plural")})
+    end
+  end
   private
   def container_display(result)
     display = ""

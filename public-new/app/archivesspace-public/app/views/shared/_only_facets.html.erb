@@ -1,4 +1,4 @@
-<% if !@facets.blank? %>
+<% unless @facets.blank? %>
 <h4><%= t('search_results.filter.add')%>: </h4>
 <dl id="facets">
   <%  @facets.each do |type, h| %>

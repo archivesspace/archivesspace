@@ -12,8 +12,9 @@ class SearchController < ApplicationController
   def search
     @base_search = "/search?"
     simple_search = false
+    search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     begin
-      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, DEFAULT_SEARCH_OPTS, params)
+      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
@@ -29,9 +30,16 @@ class SearchController < ApplicationController
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
+      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:text_within] = @pager.last_page > 1
+      @sort_opts = []
+      all_sorts = Search.get_sort_opts
+      all_sorts.keys.each do |type|
+        @sort_opts.push(all_sorts[type])
+      end
 #      @search_terms = search_terms(params)
 #      Rails.logger.debug("Search terms: #{@search_terms}")
-      render
+      render 'search/search_results'
     end
   end
 

@@ -12,32 +12,45 @@ class ObjectsController <  ApplicationController
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
-    'facet.mincount' => 1
+    'facet.mincount' => 1,
+    'sort' =>  'title_sort asc'
   }
   
   def index
-    if !params.fetch(:q,nil)
+    repo_id = params.fetch(:rid, nil)
+     if !params.fetch(:q,nil)
       params[:q] = ['*']
       params[:limit] = 'digital_object,archival_object' unless params.fetch(:limit,nil)
       params[:op] = ['OR']
     end
-    @base_search = 'objects?'
     page = Integer(params.fetch(:page, "1"))
-    search_opts = DEFAULT_OBJ_SEARCH_OPTS
-    search_opts['sort'] = 'title_sort asc'
+    search_opts = default_search_opts(DEFAULT_OBJ_SEARCH_OPTS)
+    search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""] if repo_id
+    @base_search = repo_id ? "/repositories/#{repo_id}/objects?" : '/objects?'
+
     begin
       set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts,params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
+    @context = repo_context(repo_id, 'record')
+    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+    @search[:text_within] = @pager.last_page > 1
+    @sort_opts = []
+    all_sorts = Search.get_sort_opts
+    all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
+    all_sorts.keys.each do |type|
+       @sort_opts.push(all_sorts[type])
+    end
+
     @page_title = I18n.t('record._plural')
     @results_type = @page_title
     render 'search/search_results'
   end
 
   def search
-    @base_search  =  "/subjects/search?"
+    @base_search  =  "/objects/search?"
     page = Integer(params.fetch(:page, "1"))
     begin
       set_up_and_run_search(%w(digital_object archival_object),DEFAULT_OBJ_FACET_TYPES,DEFAULT_OBJ_SEARCH_OPTS, params)
