@@ -228,8 +228,9 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     objects_by_id = objs.group_by {|obj| obj.id}
 
+
     reference_columns.each do |col|
-      self.filter(col => objects_by_id.keys).all.each do |relationship|
+      self.eager(self.associations).filter(col => objects_by_id.keys).all.each do |relationship|
         obj = objects_by_id[relationship[col]].first
         result[obj] ||= []
         result[obj] << relationship
@@ -619,8 +620,10 @@ module Relationships
     # cache its relationships.  This is an optimisation: avoids the need for one
     # SELECT for every relationship lookup by pulling back all relationships at
     # once.
-    def eager_load_relationships(objects)
-      relationships.each do |relationship_defn|
+    def eager_load_relationships(objects, relationships_to_load = nil)
+      relationships_to_load = relationships unless relationships_to_load
+
+      relationships_to_load.each do |relationship_defn|
         # For each defined relationship
         relationships_map = relationship_defn.find_by_participants(objects)
 
@@ -643,7 +646,7 @@ module Relationships
 
       return jsons if opts[:skip_relationships]
 
-      eager_load_relationships(objs)
+      eager_load_relationships(objs, relationships.select {|relationship_defn| relationship_defn.json_property})
 
       jsons.zip(objs).each do |json, obj|
         relationships.each do |relationship_defn|

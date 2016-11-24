@@ -95,11 +95,6 @@ module URIResolver
     def resolve_references(value)
       return value if @properties_to_resolve.empty?
 
-      # If we're handed a JSONModel, convert to a vanilla hash.
-      if value.is_a?(JSONModelType)
-        value = value.to_hash(:trusted)
-      end
-
       # Make sure we have an array, even if there's just one record to resolve
       was_wrapped = false
       if value.is_a?(Array)
@@ -108,6 +103,15 @@ module URIResolver
         records = ASUtils.wrap(value)
         was_wrapped = true
       end
+
+      # Any JSONModels can become vanilla hashes
+      records = records.map {|value|
+        if value.is_a?(JSONModelType)
+          value.to_hash(:trusted)
+        else
+          value
+        end
+      }
 
       # We'll work through our records breadth-first, first resolving non-nested
       # properties, then those that are nested two-levels deep, then

@@ -18,6 +18,21 @@ class Notifications
 
 
   def self.notify(code, params = {}, immediate = true)
+    if DB.in_transaction?
+      # Don't bother emitting a notification if we already have an identical one
+      # queued one up for this database transaction anyway.  Prevents floods of
+      # identical notifications during large imports.
+      DB.session_storage[:emitted_notifications] ||= []
+      notification = {:code => code, :params => params.to_json}
+
+      if DB.session_storage[:emitted_notifications].include?(notification)
+        # Already got this one
+        return
+      else
+        DB.session_storage[:emitted_notifications] << notification
+      end
+    end
+
     DB.after_commit do
       DB.open do |db|
         db[:notification].insert(:code => code, :params => DB.blobify(params.to_json),

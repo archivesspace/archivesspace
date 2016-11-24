@@ -179,43 +179,43 @@ class ArchivesSpaceService < Sinatra::Base
 
       ANONYMOUS_USER = AnonymousUser.new
 
-      require_relative "lib/bootstrap_access_control"
 
-      Preference.init
+      DB.open do
+        require_relative "lib/bootstrap_access_control"
+        Preference.init
 
-      @loaded_hooks.each do |hook|
-        hook.call
-      end
-      @archivesspace_loaded = true
+        @loaded_hooks.each do |hook|
+          hook.call
+        end
+        @archivesspace_loaded = true
 
 
-      # Load plugin init.rb files (if present)
-      ASUtils.find_local_directories('backend').each do |dir|
-        init_file = File.join(dir, "plugin_init.rb")
-        if File.exists?(init_file)
-          load init_file
+        # Load plugin init.rb files (if present)
+        ASUtils.find_local_directories('backend').each do |dir|
+          init_file = File.join(dir, "plugin_init.rb")
+          if File.exists?(init_file)
+            load init_file
+          end
+        end
+
+        BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
+
+        Notifications.notify("BACKEND_STARTED")
+        Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
+        Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
+
+        # this checks the system_event table to see if we've already run the CMM
+        # for the upgrade from =< v1.4.2
+        unless ContainerManagementConversion.already_run? 
+          Log.info("\n") 
+          Log.info("*" * 100 )
+          Log.info("Migrating existing containers to the new container model...")
+          ContainerManagementConversion.new.run
+          Log.info("Completed: existing containers have been migrated to the new container model.")
+          Log.info("*" * 100 )
+          Log.info("\n") 
         end
       end
-
-      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
-
-      Notifications.notify("BACKEND_STARTED")
-      Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
-      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
-     
-     
-      # this checks the system_event table to see if we've already run the CMM
-      # for the upgrade from =< v1.4.2
-      unless ContainerManagementConversion.already_run? 
-        Log.info("\n") 
-        Log.info("*" * 100 )
-        Log.info("Migrating existing containers to the new container model...")
-        ContainerManagementConversion.new.run
-        Log.info("Completed: existing containers have been migrated to the new container model.")
-        Log.info("*" * 100 )
-        Log.info("\n") 
-      end
-
     rescue
       ASUtils.dump_diagnostics($!)
     end

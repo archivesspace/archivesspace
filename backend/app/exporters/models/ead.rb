@@ -31,19 +31,28 @@ class EADModel < ASpaceExport::ExportModel
     include ASpaceExport::ArchivalObjectDescriptionHelpers
     include ASpaceExport::LazyChildEnumerations
 
+    def self.prefetch(tree_nodes, repo_id)
+      RequestContext.open(:repo_id => repo_id) do
+        objs = ArchivalObject.sequel_to_jsonmodel(ArchivalObject.filter(:id => tree_nodes.map {|tree| tree['id']}).all)
+        URIResolver.resolve_references(objs, ['subjects', 'linked_agents', 'digital_object'])
+      end
+    end
 
-    def initialize(tree, repo_id)
+    def self.from_prefetched(tree, rec, repo_id)
+      new(tree, repo_id, rec)
+    end
+
+    def initialize(tree, repo_id, prefetched_rec = nil)
       @repo_id = repo_id
       # @tree = tree
       @children = tree ? tree['children'] : []
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'])
+        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'])
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end
-
 
     def method_missing(meth, *args)
       if @json.respond_to?(meth)

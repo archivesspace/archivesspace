@@ -160,10 +160,28 @@ module ASpaceExport
       end
     end
 
+    # If we're asked for child 0, grab records 0..PREFETCH_SIZE from the DB
+    PREFETCH_SIZE = 20
+
+    def ensure_prefetched(index)
+      unless @prefetched_ids && @prefetched_ids.cover?(index)
+        new_start = (index / PREFETCH_SIZE) * PREFETCH_SIZE
+        new_end = [new_start + PREFETCH_SIZE,
+                   @children.count].min
+
+        @prefetched_ids = Range.new(new_start, new_end, true)
+        @prefetched_records = @child_class.prefetch(@prefetched_ids.map {|index| @children[index]}, @repo_id)
+      end
+    end
 
     def get_child(index)
-      subtree = @children[index]
-      @child_class.new(subtree, @repo_id)
+      if @child_class.respond_to?(:prefetch)
+        ensure_prefetched(index)
+        rec = @prefetched_records[index % PREFETCH_SIZE]
+        @child_class.from_prefetched(@children[index], rec, @repo_id)
+      else
+        @child_class.new(@children[index], @repo_id)
+      end
     end
   end
 
