@@ -131,7 +131,18 @@ module Searchable
         advanced_query_builder.and(f, v, "text", false)
       end
     end
-        
+
+    unless @criteria['repo_id'].blank?
+      repo_uri = "/repositories/" + @criteria['repo_id']
+
+      # Add a filter to limit to this repository (or things that link to it)
+      this_repo = AdvancedQueryBuilder.new
+      this_repo
+        .and('repository', repo_uri, 'uri')
+        .or('used_within_repository', repo_uri, 'uri')
+
+      advanced_query_builder.and(this_repo)
+    end
 
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
@@ -142,6 +153,7 @@ module Searchable
     default_types.reduce(type_query_builder) {|b, type|
       b.or('types', type)
     }
+
     @criteria['aq'] = advanced_query_builder.build.to_json
     @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
