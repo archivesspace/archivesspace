@@ -148,7 +148,7 @@ class ArchivesSpaceClient
 
       results.concat(hits['results'])
 
-      if hits['last_page'] == page
+      if hits['last_page'] == page || hits['last_page'] == 0
         break
       else
         page += 1
