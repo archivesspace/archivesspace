@@ -6,7 +6,6 @@
 module ASConstants
 
   @VERSION
-  @SCHEMA_INFO
 
   module Repository
 
@@ -33,16 +32,6 @@ module ASConstants
     rescue
       @VERSION = "NO VERSION"
     end
-  end
-
-  # Schema Info is a number set by the migration process. We need to store what
-  # this value is supposed to be and check it against the value that's stored
-  # in the db post-migration. Backend will not start if this value is off. 
-  #
-  def self.SCHEMA_INFO
-    return @SCHEMA_INFO if @SCHEMA_INFO
-    # this gets changed by dist ant task 
-    @SCHEMA_INFO = 74
   end
 
 end
