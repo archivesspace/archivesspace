@@ -140,7 +140,7 @@ class AdvancedQueryBuilder
                                  'jsonmodel_type' => 'field_query'
                                })
 
-      if query_data["type"] == "enum"
+      if ['enum', 'uri'].include?(query_data["type"])
         query['literal'] = true
       end
 
