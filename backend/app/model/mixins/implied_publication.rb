@@ -46,6 +46,7 @@ module ImpliedPublication
               relationship_class.join(related_class, :id => referrer_column).
                 filter(:publish => 1).
                 filter(reference_column => obj_ids).
+                select(reference_column).
                 each do |published|
                 result[published[reference_column]] = true
               end
