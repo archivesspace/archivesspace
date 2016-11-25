@@ -53,10 +53,9 @@ class RepositoriesController < ApplicationController
     repo_id = params.require(:rid)
     @base_search = "/repositories/#{repo_id}/search?"
     begin
-      # this is temporary unless & until the search respositories endpoint is fixed on the backend
       new_search_opts =  DEFAULT_REPO_SEARCH_OPTS 
-      new_search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""]
-     
+      new_search_opts['repo_id'] = repo_id
+
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, new_search_opts, params)
 #NOTE the redirect back here on error!
     rescue Exception => error
