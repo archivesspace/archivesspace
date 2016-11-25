@@ -592,9 +592,6 @@
         <include name="*_*.rb" />
       </fileset>
     </resourcecount>
-    <!-- now add that value to asconstants -->
-    <replaceregexp byline='true' flags='g' file="../common/asconstants.rb" match='@SCHEMA_INFO = (.\d+)' replace="@SCHEMA_INFO = ${schema_info}" />
-
 
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" excludes="lib/*" />

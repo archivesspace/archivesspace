@@ -225,4 +225,18 @@ EOF
     return false
   end
 
+  def self.latest_migration_number(db)
+    migration_numbers = Dir.entries(MIGRATIONS_DIR).map {|e|
+      if e =~ Sequel::Migrator::MIGRATION_FILE_PATTERN
+        # $1 is the migration number (e.g. '075')
+        Integer($1, 10)
+      end
+    }.compact
+
+    if migration_numbers.empty?
+      0
+    else
+      migration_numbers.max
+    end
+  end
 end

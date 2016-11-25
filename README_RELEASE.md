@@ -110,11 +110,9 @@ a zip file.
 
 ## Commit and Tag the release
 
-The scripts/build_release script updates the [SCHEMA_INFO
-number](https://github.com/archivesspace/archivesspace/blob/master/common/asconstants.rb#L45) that blocks the
-application from starting if the migrations have not completed. So, after
-you've run the build_release.sh script, you'll need to commit the
-asconstants.rb file, then tag the release in git.
+The release process adds the version number to
+`common/asconstants.rb`.  After you've run the `build_release.sh`
+script, you'll need to commit that file then tag the release in git.
 
 ```
 $ git add common/asconstants.rb
@@ -123,7 +121,7 @@ $ git tag vX.X.X
 $ git push --tags
 ```
 
-##Build the release announcement
+## Build the release announcement
 
 The release announcement needs to have all the tickets that make up the
 changelog for the replease. In the past, this list has been written into
