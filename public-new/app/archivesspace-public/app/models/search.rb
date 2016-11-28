@@ -46,6 +46,9 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
         self[f.to_sym] = params.fetch(f.to_sym, '')
       end
     end
+    self[:q].each_with_index do | q,i|
+      self[:q][i] = '*' if q.blank?
+    end
     self[:sort] = params.fetch('sort',nil)
     self[:dates_searched] =  have_contents?(from_year) || have_contents?(to_year)
     self[:dates_within] = self[:text_within] = false
