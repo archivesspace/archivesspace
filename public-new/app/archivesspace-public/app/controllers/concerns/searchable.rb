@@ -79,27 +79,26 @@ module Searchable
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
-      unless query.blank?
-        have_query = true
-        op = @search[:op][i]
-        field = @search[:field][i].blank? ? 'keyword' :  @search[:field][i]
-        from = @search[:from_year][i] || ''
-        to = @search[:to_year][i] || ''
-        @base_search += '&' if @base_search.last != '?'
-        @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
-        builder = AdvancedQueryBuilder.new
+      query = '*' if query.blank?
+      have_query = true
+      op = @search[:op][i]
+      field = @search[:field][i].blank? ? 'keyword' :  @search[:field][i]
+      from = @search[:from_year][i] || ''
+      to = @search[:to_year][i] || ''
+      @base_search += '&' if @base_search.last != '?'
+      @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
+      builder = AdvancedQueryBuilder.new
       # add field part of the row
-        builder.and(field, query, 'text', op == 'NOT')
+      builder.and(field, query, 'text', op == 'NOT')
       # add year range part of the row
-        unless from.blank? && to.blank?
-          builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', op == 'NOT')
-        end
-        # add to the builder based on the op
-        if op == 'OR'
-          advanced_query_builder.or(builder)
-        else
-          advanced_query_builder.and(builder)
-        end
+      unless from.blank? && to.blank?
+        builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', op == 'NOT')
+      end
+      # add to the builder based on the op
+      if op == 'OR'
+        advanced_query_builder.or(builder)
+      else
+        advanced_query_builder.and(builder)
       end
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
