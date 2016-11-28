@@ -85,20 +85,15 @@ module Searchable
         field = @search[:field][i].blank? ? 'keyword' :  @search[:field][i]
         from = @search[:from_year][i] || ''
         to = @search[:to_year][i] || ''
-
         @base_search += '&' if @base_search.last != '?'
         @base_search += "q[]=#{CGI.escape(query)}&op[]=#{CGI.escape(op)}&field[]=#{CGI.escape(field)}&from_year[]=#{CGI.escape(from)}&to_year[]=#{CGI.escape(to)}"
-
         builder = AdvancedQueryBuilder.new
-
       # add field part of the row
         builder.and(field, query, 'text', op == 'NOT')
-
       # add year range part of the row
         unless from.blank? && to.blank?
           builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', op == 'NOT')
         end
-        
         # add to the builder based on the op
         if op == 'OR'
           advanced_query_builder.or(builder)
@@ -108,6 +103,11 @@ module Searchable
       end
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
+
+   # any search with results?
+    @search[:filter_q].each do |v|
+      advanced_query_builder.and('keyword', v, 'text', false)
+    end
 
     # we have to add filtered dates, if they exist
     unless @search[:dates_searched] || (@search[:filter_to_year].blank? && @search[:filter_from_year].blank?)
@@ -192,11 +192,12 @@ module Searchable
       @repo = @results['results'][0]['_resolved_repository']['json'] || {}
     end
 #    q = params.require(:q)
-    @page_search = "#{base}#{@facet_filter.get_filter_url_params}"
+    @page_search = "#{base}#{@facet_filter.get_filter_url_params}#{@search.get_filter_q_params}"
     
     @page_search += "&sort=#{@sort}" if defined?(@sort) && @sort
 
-    @filters = @facet_filter.get_filter_hash
+    @filters = @facet_filter.get_filter_hash(@page_search)
+
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
   end
