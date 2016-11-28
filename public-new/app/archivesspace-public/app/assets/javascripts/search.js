@@ -31,6 +31,13 @@ function initialize_search() {
     $template.find(".hidden").each(function() {$(this).removeClass("hidden"); });
     $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
     $template.find("#op_").remove(); 
+    $first.find("#q0").keypress(function (e) {
+	    var key = e.which;
+	    if (key == 13) {
+		$("#submit_search").click();
+		return false;
+	    }
+	});
     return true;
 }       
 
