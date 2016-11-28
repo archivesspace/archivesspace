@@ -32,12 +32,13 @@ class FacetFilter < Struct.new( :default_types, :fields, :values, :facet_types, 
 
   # returns a hash of a hash of the filters, with filter field as key, pt as the printable field label
   # pv as the printable value, v as the value of the filter
-  def get_filter_hash
+  def get_filter_hash(url = nil)
     fh = {}
     self.fields.zip(self.values) do |k, v|
       pt = I18n.t("search_results.filter.#{k}")
       pv = get_pretty_facet_value(k, v.sub(/"(.*)"/,'\1'))
-      fh[k] = {'v' => v, 'pv' => pv, 'pt' => pt }
+      uri = (url)? url.sub("&filter_fields[]=#{k}&filter_values[]=#{CGI.escape(v)}","") : ''
+      fh[k] = {'v' => v, 'pv' => pv, 'pt' => pt, 'uri' => uri }
     end
     fh
   end
