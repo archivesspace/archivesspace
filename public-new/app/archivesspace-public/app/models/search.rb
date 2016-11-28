@@ -92,7 +92,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
      uri = (url)? url.sub("&filter_q[]=#{CGI.escape(v)}", "") : ''
      fqa.push({'v' => v, 'uri' => uri})
    end
-Pry::ColorPrinter.pp fqa
    fqa
  end
+
 end
