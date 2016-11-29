@@ -74,6 +74,7 @@ module Searchable
     unless @search[:limit].blank?
       default_types = @search[:limit].split(",")
     end
+    set_search_statement
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
     queries = @search[:q]
     have_query = false
@@ -105,15 +106,16 @@ module Searchable
 
    # any search with results?
     @search[:filter_q].each do |v|
-      advanced_query_builder.and('keyword', v, 'text', false)
+      value = v == '' ? '*' : v
+      advanced_query_builder.and('keyword', value, 'text', false)
     end
-
-    # we have to add filtered dates, if they exist
+     # we have to add filtered dates, if they exist
     unless @search[:dates_searched] || (@search[:filter_to_year].blank? && @search[:filter_from_year].blank?)
+
       from =  @search[:filter_from_year]
       to = @search[:filter_to_year]
       builder = AdvancedQueryBuilder.new
-      builder.and('keyword','*', 'text', false)
+#      builder.and('keyword','*', 'text', false)
       builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', false)
       advanced_query_builder.and(builder)
 #      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
@@ -317,7 +319,38 @@ module Searchable
       cont.push({:uri => '', :crumb =>  I18n.t("#{type}._plural")})
     end
   end
+
+  
   private
+  
+  # creates the html-ized search statement
+  def set_search_statement
+    rid = defined?(@repo_id) ? @repo_id : nil
+    Pry::ColorPrinter.pp @search
+    l = @search[:limit].blank? ? 'all' : @search[:limit]
+    type = "<strong> #{I18n.t("search-limits.#{l}")}</strong>"
+    type += I18n.t('search_results.in_repository', :name =>  CGI::escapeHTML(get_pretty_facet_value('repository', "/repositories/#{rid}"))) if rid
+    
+    Rails.logger.debug("TYPE: #{type}")
+    condition = " "
+    @search[:q].each_with_index do |q,i|
+      condition += '<li>' 
+      condition += I18n.t("search_results.op.#{@search[:op][i]}").downcase unless i == 0
+      f = @search[:field][i].blank? ? 'keyword' : @search[:field][i]
+      condition += ' ' + I18n.t("search_results.#{f}_contain", :kw =>  CGI::escapeHTML((q == '*' ? I18n.t('search_results.anything') : q)) )
+      unless @search[:from_year][i].blank? &&  @search[:to_year][i].blank?
+         from_year = @search[:from_year][i].blank? ? I18n.t('search_results.filter.year_begin') : @search[:from_year][i]
+         to_year =  @search[:to_year][i].blank? ? I18n.t('search_results.filter.year_now') : @search[:to_year][i]
+        condition += ' ' + I18n.t('search_results.filter.from_to', :begin => "<strong>#{from_year}</strong>", :end => "<strong>#{to_year}</strong>")
+      end
+      condition += '</li>'
+      Rails.logger.debug("Condition: #{condition}")
+    end
+    @search[:search_statement] = I18n.t('search_results.search_for', :type => type, 
+                                        :conditions => "<ul class='no-bullets'>#{condition}</ul>")
+  end
+
+
   def container_display(result)
     display = ""
     json = result['json']
