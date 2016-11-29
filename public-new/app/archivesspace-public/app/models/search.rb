@@ -1,4 +1,4 @@
-class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_q, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched, :sort, :dates_within, :text_within)
+class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_q, :filter_from_year, :filter_to_year,:recordtypes, :dates_searched, :sort, :dates_within, :text_within, :search_statement)
 
   @@BooleanOpts = []
 
