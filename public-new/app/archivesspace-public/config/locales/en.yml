@@ -59,9 +59,12 @@ en:
   search-limiting: "limited to %{limit}"
   search-limits:
     all: all record types
+    repository: repositories
     repositories: repositories
+    resource: collections
     resources: collections
     digital: digital materials
+    digital_object: digital materials
     objects: archival or digital records
   search-field: Search field
   searched-field: "searching %{field}"
@@ -84,7 +87,14 @@ en:
     head_prefix: Found
     head_suffix: Results
     searching: Searching
-    search_for: "Search %{type} for %{term}"
+    search_for: "Search  %{type} where %{conditions}"
+    keyword_contain: "<strong>keyword(s)</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: "the <strong>title</strong> contains  <span class='searchterm'>%{kw}</span>"
+    notes_contain: "the <strong>note</strong> contains  <span class='searchterm'>%{kw}</span>"
+    creators_text_contain: "the <strong>creator</strong> contains <span class='searchterm'>%{kw}</span>"
+    in_repository: " in <strong>%{name}</strong>"
+    year_range: " from <strong>%{from_year}</strong> to <strong>%{to_year}</strong>"
+    anything: anything
     search_term: Search term
     title: All Records
     no_results: No Records
@@ -101,6 +111,10 @@ en:
     created: Created
     modified: Modified
     component_switch: Include Components
+    op:
+      AND: and
+      OR:  or
+      NOT:  and not
     filter:
       head: Filter Results
       add: Additional filters
