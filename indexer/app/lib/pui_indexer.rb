@@ -94,6 +94,9 @@ class PUIIndexer < PeriodicIndexer
 
     super(index_state, name)
 
+    # Set up our JSON schemas now that we know the JSONModels have been loaded
+    RecordInheritance.prepare_schemas
+
     @time_to_sleep = AppConfig[:pui_indexing_frequency_seconds].to_i
     @thread_count = AppConfig[:pui_indexer_thread_count].to_i
     @records_per_thread = AppConfig[:pui_indexer_records_per_thread].to_i
