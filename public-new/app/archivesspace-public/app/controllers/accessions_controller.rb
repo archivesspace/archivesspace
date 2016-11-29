@@ -43,6 +43,7 @@ class AccessionsController <  ApplicationController
 
     @page_title = I18n.t('accession._plural')
     @results_type = @page_title
+    @no_statement = true
     render 'search/search_results'
 
   end
