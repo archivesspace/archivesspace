@@ -45,6 +45,7 @@ class SubjectsController <  ApplicationController
     if params[:q].size > 1 || params[:q][0] != '*'
       @sort_opts.unshift(all_sorts['relevance'])
     end
+    @no_statement = true
     render 'search/search_results'
   end
 
@@ -66,7 +67,7 @@ Rails.logger.debug("we hit search!")
     %w(relevance title_sort_asc title_sort_desc).each do |type|
       @sort_opts.push(all_sorts[type])
     end
-
+    @no_statement = true
     render 'search/search_results'
   end
 

@@ -50,6 +50,7 @@ class AgentsController <  ApplicationController
     if params[:q].size > 1 || params[:q][0] != '*'
       @sort_opts.unshift(all_sorts['relevance'])
     end
+    @no_statement = true
     render 'search/search_results'
   end
 
