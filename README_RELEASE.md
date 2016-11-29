@@ -23,10 +23,17 @@ Review the various README docs and update them as necessary. In particular the
 `UPGRADING.md` instructions should be updated to reference the current and new 
 release version numbers.
 
-## Optional recommended step
+## Clone the git repository
 
-If you're building locally start with a fresh clone and bootstrap of ArchivesSpace 
-to minimize the risk of older dependencies creeping into the distribution.
+When building a release it is important to start from a clean repository. The safest
+way of ensuring this is to clone the repo:
+
+    git clone https://github.com/archivesspace/archivesspace.git
+
+This assumes you will be building a release from master. To build from a tag you will
+need to additionally check out the tag, like this:
+
+    got checkout [tag-name]
 
 ## Build the ArchivesSpace technical documentation
 
