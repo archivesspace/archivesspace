@@ -16,7 +16,7 @@
 	    note_struct = get_note(result['json'], 'scopecontent')
           end
 	  if !note_struct['note_text'].blank? %>
-          <div class="abstract"><span class='inline-label'><%= note_struct['label'] %></span>
+          <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>
 	   <%= note_struct['note_text'].html_safe %></div>
          <% end %>
        <% unless props.fetch(:no_repo, false) %>
