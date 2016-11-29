@@ -99,6 +99,9 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "model/ASModel"
 
+      # Set up our JSON schemas now that we know the JSONModels have been loaded
+      RecordInheritance.prepare_schemas
+
       # let's check that our migrations have passed and we're on the right
       # schema_info version
       unless AppConfig[:ignore_schema_info_check]

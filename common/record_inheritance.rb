@@ -1,4 +1,3 @@
-
 class RecordInheritance
 
   def self.merge(json, opts = {})
@@ -11,8 +10,90 @@ class RecordInheritance
   end
 
 
+  # Add our inheritance-specific definitions to relevant JSONModel schemas
+  def self.prepare_schemas
+    get_config.each do |record_type, config|
+      config[:inherited_fields].map {|fld| fld[:property]}.uniq.each do |property|
+        schema_def = {
+          'type' => 'object',
+          'subtype' => 'ref',
+          'properties' => {
+            # Not a great type for a ref, but in this context we don't really
+            # know for sure what type the ancestor might be.  Might need to
+            # think harder about this if it causes problems.
+            'ref' => {'type' => 'string'},
+            'level' => {'type' => 'string'},
+            'direct' => {'type' => 'boolean'},
+          }
+        }
+
+        properties = JSONModel::JSONModel(record_type).schema['properties']
+        if properties[property]['type'].include?('object')
+          add_inline_inheritance_field(properties[property], schema_def)
+
+        elsif properties[property]['type'] == 'array'
+          extract_referenced_types(properties[property]['items']).each do |item_type|
+            if item_type['type'].include?('object')
+              add_inline_inheritance_field(item_type, schema_def)
+            else
+              $stderr.puts("Inheritence metadata for string arrays is not currently supported (record type: #{record_type}; property: #{property}).  Please file a bug if you need this!")
+            end
+          end
+        else
+          # We add a new property alongside
+          properties["#{property}_inherited"] = schema_def
+        end
+      end
+    end
+  end
+
+
+  # Extract a list elements like {'type' => 'mytype'} from the various forms
+  # JSON schemas allow types to be in.  For example:
+  #
+  # {"type" => "JSONModel(:resource) uri"}
+  #
+  # {"type" => [{"type" => "JSONModel(:resource) uri"},
+  #             {"type" => "JSONModel(:archival_object) uri"}]}
+  #
+  def self.extract_referenced_types(typedef)
+    if typedef.is_a?(Array)
+      typedef.map {|elt| extract_referenced_types(elt)}.flatten
+    elsif typedef.is_a?(Hash)
+      if typedef['type'].is_a?(String)
+        [typedef]
+      else
+        extract_referenced_types(typedef['type'])
+      end
+    else
+      $stderr.puts("Unrecognized type: #{typedef.inspect}")
+      []
+    end
+  end
+
+  def self.add_inline_inheritance_field(target, schema_def)
+    schema = nil
+
+    if target.has_key?('properties')
+      schema = target['properties']
+    elsif target['type'] =~ /JSONModel\(:(.*?)\) object/
+      referenced_jsonmodel = $1.intern
+      schema = JSONModel::JSONModel(referenced_jsonmodel).schema['properties']
+    end
+
+    if schema
+      schema['_inherited'] = schema_def
+    else
+      $stderr.puts("Inheritence metadata for string arrays is not currently supported (property was: #{property}).  Please file a bug if you need this!")
+    end
+  end
+
+  def self.get_config
+    (AppConfig.has_key?(:record_inheritance) ? AppConfig[:record_inheritance] : {})
+  end
+
   def initialize(config = nil)
-    @config = config || (AppConfig.has_key?(:record_inheritance) ? AppConfig[:record_inheritance] : {})
+    @config = config || self.class.get_config
   end
 
 
