@@ -234,7 +234,7 @@ class PeriodicIndexerWorker < CommonIndexer
 
       index_records(records.map {|record|
                       {
-                        'record' => record.to_hash(:trusted),
+                        'record' => record.to_hash(:raw),
                         'uri' => record.uri
                       }
                     },
