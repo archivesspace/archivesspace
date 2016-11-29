@@ -52,10 +52,9 @@ class RecordInheritance
               ancestor_val = fld.has_key?(:inherit_if) ? fld[:inherit_if].call(ancestor['_resolved'][fld[:property]])
                                                        : ancestor['_resolved'][fld[:property]]
               unless ancestor_val.empty?
-                json = apply_inheritance_properties(json, ancestor_val, ancestor, fld)
-
                 json[fld[:property]] << ancestor_val
                 json[fld[:property]].flatten!
+                json = apply_inheritance_properties(json, ancestor_val, ancestor, fld)
                 break
               end
             }
@@ -65,8 +64,8 @@ class RecordInheritance
             json['ancestors'].map {|ancestor|
               ancestor_val = ancestor['_resolved'][fld[:property]]
               if ancestor_val
-                json = apply_inheritance_properties(json, ancestor_val, ancestor, fld)
                 json[fld[:property]] = ancestor_val
+                json = apply_inheritance_properties(json, ancestor_val, ancestor, fld)
                 break
               end
             }
@@ -109,12 +108,13 @@ class RecordInheritance
 
   
   def apply_inheritance_properties(json, vals, ancestor, field_config)
+    props = {
+      'ref' => ancestor['ref'],
+      'level' => translate_level(ancestor['level']),
+      'direct' => field_config[:inherit_directly]
+    }
+
     ASUtils.wrap(vals).each do |val|
-      props = {
-        'ref' => ancestor['ref'],
-        'level' => translate_level(ancestor['level']),
-        'direct' => field_config[:inherit_directly]
-      }
       if val.is_a?(Hash)
         val['_inherited'] = props
       else
