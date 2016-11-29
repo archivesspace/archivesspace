@@ -4,7 +4,7 @@
   <%  @facets.each do |type, h| %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
     <% h.each do |v, ct| %>
-      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></dd>
+      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></span></dd>
     <% end %>
   <% end %>
 </dl>
