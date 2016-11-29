@@ -5,9 +5,10 @@
  <% unless @filters.blank? && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? && @search.filter_q.blank?
      params[:q].size == 1  %>
     <h3><%= t('search_results.filtered_by')%> </h3> 
+       <ul>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
 	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %> 
-	       <a href="<%= f_q['uri'] %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></li>
+	       <a href="<%= f_q['uri'] %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <% dates = true 
@@ -19,6 +20,7 @@
 	  <a href="<%= @page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
 	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>
+      </ul>
   <% end  %> 
    <% @filters.each do |k,h|  %>
     <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
