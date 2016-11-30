@@ -61,15 +61,21 @@ class ObjectsController <  ApplicationController
     @page_title = I18n.t('record._plural')
     @results_type = @page_title
     @search_title = I18n.t('search_results.search_for', {:type => I18n.t('record._plural'), :term => params.fetch(:q)[0]})
+    @no_statement = true
     render 'search/search_results'
   end
 
  
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
+    url = uri
+    if params[:obj_type] == 'archival_objects'
+      url = uri += '#pui' if !uri.ends_with?('#pui')
+    end
+    uri = uri.sub("\#pui",'')
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
-    @results =  archivesspace.search_records([uri],1,@criteria)
+    @results =  archivesspace.search_records([url],1,@criteria)
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
