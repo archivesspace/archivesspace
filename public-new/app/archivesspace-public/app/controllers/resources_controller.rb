@@ -24,29 +24,33 @@ class ResourcesController <  ApplicationController
   DEFAULT_RES_SEARCH_PARAMS = {
     :q => ['*'],
     :limit => 'resource',
-    :op => ['OR'],
+    :op => [''],
     :field => ['title']
   }
-  DEFAULT_RES_TYPES = %w{archival_object digital_object agent subject}
+  DEFAULT_RES_TYPES = %w{pui_archival_object pui_digital_object agent subject}
 
   # present a list of resources.  If no repository named, just get all of them.
   def index
     @repo_name = params[:repo] || ""
-    query = 'publish:true'
-    @base_search = '/repositories'
-    if !params.fetch(:rid,'').blank?
-      @repo_id = "/repositories/#{params[:rid]}"
-      query = "repository:\"#{@repo_id}\" AND #{query}"
-      @base_search += "/#{params.fetch(:rid)}"
+    @repo_id = params.fetch(:rid, nil)
+     if !params.fetch(:q, nil)
+      DEFAULT_RES_SEARCH_PARAMS.each do |k, v|
+        params[k] = v unless params.fetch(k,nil)
+      end
     end
-    @base_search += '/resources?'
-    criteria = DEFAULT_RES_INDEX_OPTS
-    criteria[:sort] = params.fetch('sort', 'title_sort asc')
+    if @repo_id
+      @base_search =  "/repositories/#{@repo_id}/resources?"
+    else
+      @base_search = "/repositories/resources?"
+    end
+    search_opts = default_search_opts( DEFAULT_RES_INDEX_OPTS)
+    search_opts['fq'] = ["repository:\"/repositories/#{@repo_id}\""] if @repo_id
     DEFAULT_RES_SEARCH_PARAMS.each do |k,v|
       params[k] = v unless params.fetch(k, nil)
     end
+    page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['resource'], [],criteria, params)
+      set_up_and_run_search(['resource'], [],search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
@@ -88,7 +92,7 @@ class ResourcesController <  ApplicationController
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     record_list = [uri]
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
     @results =  archivesspace.search_records(record_list,1, @criteria) || {}
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
