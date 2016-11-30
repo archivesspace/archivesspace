@@ -44,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
   ]
 
 
-  Endpoint.get('/repositories/:repo_id/search')
+  Endpoint.get_or_post('/repositories/:repo_id/search')
     .description("Search this repository")
     .params(["repo_id", :repo_id],
             *BASE_SEARCH_PARAMS)
@@ -60,7 +60,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search')
+  Endpoint.get_or_post('/search')
     .description("Search this archive")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([:view_all_records])
@@ -71,7 +71,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/repositories')
+  Endpoint.get_or_post('/search/repositories')
     .description("Search across repositories")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
@@ -82,7 +82,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/records')
+  Endpoint.get_or_post('/search/records')
     .description("Return a set of records by URI")
     .params(["uri",
              [String],
@@ -103,7 +103,7 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(records)
   end
 
-  Endpoint.get('/search/record_types_by_repository')
+  Endpoint.get_or_post('/search/record_types_by_repository')
     .description("Return the counts of record types of interest by repository")
     .params(["record_types", [String], "The list of record types to tally"],
             ["repo_uri",
@@ -120,7 +120,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/subjects')
+  Endpoint.get_or_post('/search/subjects')
     .description("Search across subjects")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
