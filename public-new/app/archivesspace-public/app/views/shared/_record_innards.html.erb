@@ -19,7 +19,7 @@
     <% unless @result['json']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
        <% @result['json']['extents'].each do |ext| %> 
-        <p class="extent"><%= ext['number'] %> <%= (ext['portion'].present? ? ext['portion'] : '') %> <%= ext['extent_type'] %></p>
+        <p class="extent"><%= ext['number'] %>  <%= ext['extent_type'] %></p>
       <% end %>
     <% end %>
 
