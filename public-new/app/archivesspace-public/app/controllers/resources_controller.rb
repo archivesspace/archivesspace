@@ -13,6 +13,7 @@ class ResourcesController <  ApplicationController
   
   DEFAULT_RES_INDEX_OPTS = {
     'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
+    'sort' => 'title_sort asc',
     'facet.mincount' => 1
   }
 
@@ -33,11 +34,6 @@ class ResourcesController <  ApplicationController
   def index
     @repo_name = params[:repo] || ""
     @repo_id = params.fetch(:rid, nil)
-     if !params.fetch(:q, nil)
-      DEFAULT_RES_SEARCH_PARAMS.each do |k, v|
-        params[k] = v unless params.fetch(k,nil)
-      end
-    end
     if @repo_id
       @base_search =  "/repositories/#{@repo_id}/resources?"
     else
