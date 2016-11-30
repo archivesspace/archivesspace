@@ -52,7 +52,8 @@ class ResourcesController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @page_title = I18n.t('resource._plural')
-    render
+    @no_statement = true
+    render 'search/search_results'
   end
 
   def search 
