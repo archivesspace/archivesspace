@@ -31,4 +31,18 @@ describe 'Search controller' do
 
   end
 
+
+  describe "Endpoints" do
+
+    it "responds to GET requests" do
+      get '/search'
+      last_response.status.should_not eq(404)
+    end
+
+    it "responds to POST requests" do
+      post '/search'
+      last_response.status.should_not eq(404)
+    end
+
+  end
 end
