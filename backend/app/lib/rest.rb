@@ -70,7 +70,7 @@ module RESTHelpers
     }
 
     def initialize(method)
-      @method = method
+      @methods = ASUtils.wrap(method)
       @uri = ""
       @description = "-- No description provided --"
       @permissions = []
@@ -95,7 +95,7 @@ module RESTHelpers
           {
             :uri => @uri,
             :description => @description,
-            :method => @method,
+            :method => @methods,
             :params => @required_params,
             :paginated => @paginated,
             :returns => @returns
@@ -108,6 +108,7 @@ module RESTHelpers
     def self.get(uri); self.method(:get).uri(uri); end
     def self.post(uri); self.method(:post).uri(uri); end
     def self.delete(uri); self.method(:delete).uri(uri); end
+    def self.get_or_post(uri); self.method([:get, :post]).uri(uri); end
     def self.method(method); Endpoint.new(method); end
 
     # Helpers
@@ -175,7 +176,7 @@ module RESTHelpers
 
 
     def returns(*returns, &block)
-      raise "No .permissions declaration for endpoint #{@method.to_s.upcase} #{@uri}" if !@has_permissions
+      raise "No .permissions declaration for endpoint #{@methods.map{|m|m.to_s.upcase}.join('|')} #{@uri}" if !@has_permissions
 
       @returns = returns.map { |r| r[1] = @@return_types[r[1]] || r[1]; r }
 
@@ -186,7 +187,7 @@ module RESTHelpers
       paginated = @paginated
       use_transaction = @use_transaction
       uri = @uri
-      method = @method
+      methods = @methods
       request_context = @request_context_keyvals
 
       if ArchivesSpaceService.development?
@@ -195,50 +196,54 @@ module RESTHelpers
         ArchivesSpaceService.instance_eval {
           new_route = compile(uri)
 
-          if @routes[method.to_s.upcase]
-            @routes[method.to_s.upcase].reject! do |route|
-              route[0..1] == new_route
+          methods.each do |method|
+            if @routes[method.to_s.upcase]
+              @routes[method.to_s.upcase].reject! do |route|
+                route[0..1] == new_route
+              end
             end
           end
         }
       end
 
-      ArchivesSpaceService.send(@method, @uri, {}) do
-        RequestContext.open(request_context) do
-          DB.open do |db|
-            ensure_params(rp, paginated)
-          end
-
-          Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
-
-          RequestContext.put(:repo_id, params[:repo_id])
-          RequestContext.put(:is_high_priority, high_priority_request?)
-
-          if Endpoint.is_toplevel_request?(env) || Endpoint.is_potentially_destructive_request?(env)
-            unless preconditions.all? { |precondition| self.instance_eval &precondition }
-              raise AccessDeniedException.new("Access denied")
+      methods.each do |method|
+        ArchivesSpaceService.send(method, @uri, {}) do
+          RequestContext.open(request_context) do
+            DB.open do |db|
+              ensure_params(rp, paginated)
             end
-          end
-
-          DB.open((use_transaction == :unspecified) ? true : use_transaction) do
-            RequestContext.put(:current_username, current_user.username)
-
-            # If the current user is a manager, show them suppressed records
-            # too.
-            if RequestContext.get(:repo_id)
-              if current_user.can?(:index_system)
-                # Don't mess with the search user
-                RequestContext.put(:enforce_suppression, false)
-              else
-                RequestContext.put(:enforce_suppression,
-                                   !((current_user.can?(:manage_repository) ||
-                                      current_user.can?(:view_suppressed) ||
-                                      current_user.can?(:suppress_archival_record)) &&
-                                     Preference.defaults['show_suppressed']))
+  
+            Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+  
+            RequestContext.put(:repo_id, params[:repo_id])
+            RequestContext.put(:is_high_priority, high_priority_request?)
+  
+            if Endpoint.is_toplevel_request?(env) || Endpoint.is_potentially_destructive_request?(env)
+              unless preconditions.all? { |precondition| self.instance_eval &precondition }
+                raise AccessDeniedException.new("Access denied")
               end
             end
-
-            self.instance_eval &block
+  
+            DB.open((use_transaction == :unspecified) ? true : use_transaction) do
+              RequestContext.put(:current_username, current_user.username)
+  
+              # If the current user is a manager, show them suppressed records
+              # too.
+              if RequestContext.get(:repo_id)
+                if current_user.can?(:index_system)
+                  # Don't mess with the search user
+                  RequestContext.put(:enforce_suppression, false)
+                else
+                  RequestContext.put(:enforce_suppression,
+                                     !((current_user.can?(:manage_repository) ||
+                                        current_user.can?(:view_suppressed) ||
+                                        current_user.can?(:suppress_archival_record)) &&
+                                       Preference.defaults['show_suppressed']))
+                end
+              end
+  
+              self.instance_eval &block
+            end
           end
         end
       end
