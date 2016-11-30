@@ -21,22 +21,14 @@ module PUIIndexerMixin
     super
 
     add_document_prepare_hook {|doc, record|
-      doc['id'] = "#{doc['id']}#pui"
-    }
 
-    add_document_prepare_hook {|doc, record|
-      doc['types'] = []
-      doc['types'] << 'pui_record' if ['archival_object',
-                                       'accession',
-                                       'digital_object',
-                                       'digital_object_component'].include?(doc['primary_type'])
-      doc['types'] << 'pui_collection' if ['resource'].include?(doc['primary_type'])
-      doc['types'] << 'pui_record_group' if ['classification'].include?(doc['primary_type'])
-      doc['types'] << 'pui_person' if ['agent_person'].include?(doc['primary_type'])
-      doc['types'] << 'pui_agent' if ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
-      doc['types'] << 'pui_subject' if ['subject'].include?(doc['primary_type'])
+      if doc['primary_type'] == 'archival_object'
+        doc['id'] = "#{doc['id']}#pui"
+        doc['types'] ||= []
+        doc['types'] << 'pui'
+        doc['types'] << 'pui_archival_object'
+      end
     }
-
 
     # this runs after the hooks in indexer_common, so we can overwrite with confidence
     add_document_prepare_hook {|doc, record|
@@ -52,7 +44,6 @@ module PUIIndexerMixin
         doc['title'] = merged['title'] if merged['title']
       end
     }
-    
   end
 
   def skip_index_record?(record)
