@@ -14,7 +14,7 @@
 <div class="row" id="notes_row">
   <div class="col-sm-9">
 
-    <% unless@result['json']['component_id'].blank? %>
+    <% unless @result['json']['component_id'].blank? %>
       <span class='component'><%=  t('archival_object._public.header.component') %>: <%= @result['json']['component_id'] %></span>
     <% end %>
     <% if !@result['json']['ref_id'].blank? %>
