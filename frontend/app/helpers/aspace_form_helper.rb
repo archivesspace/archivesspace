@@ -507,7 +507,6 @@ module AspaceFormHelper
       opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
-      Rails.logger.debug(value)
       value =  @parent.preserve_newlines(value) if opts[:clean] == true
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
