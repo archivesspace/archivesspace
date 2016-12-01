@@ -46,12 +46,27 @@ class ResourcesController <  ApplicationController
     end
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['resource'], [],search_opts, params)
+      set_up_and_run_search(['resource'], (!@repo_id ? ['repository'] : []),search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
     end
+    @context = repo_context(@repo_id, 'resource')
+    @search[:dates_within] = true
+    @search[:text_within] = @pager.last_page > 1
     @page_title = I18n.t('resource._plural')
+    @results_type = @page_title
+    @sort_opts = []
+    all_sorts = Search.get_sort_opts
+    all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
+    all_sorts.keys.each do |type|
+       @sort_opts.push(all_sorts[type])
+    end
+
+    if params[:q].size > 1 || params[:q][0] != '*'
+      @sort_opts.unshift(all_sorts['relevance'])
+    end
+
     @no_statement = true
     render 'search/search_results'
   end

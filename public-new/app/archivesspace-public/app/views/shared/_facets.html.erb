@@ -6,8 +6,10 @@
     <h3><%= t('search_results.filtered_by')%> </h3> 
        <ul>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
+	  <% unless f_q['v'].blank? %>
 	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %> 
 	       <a href="<%= f_q['uri'] %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
+          <% end %>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <% dates = true 
@@ -44,7 +46,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <%= text_field_tag('filter_q[]', nil,:id => 'filter_q1', :placeholder =>  t('actions.search_within'), :class=> "form-control") %>
       </div>
     <% end %>
-    <% if @search[:dates_within] && !@search[:dates_searched] %>
+    <% if @search[:dates_within] && !@search[:dates_searched] && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <div class="form-group">
 	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
 	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
