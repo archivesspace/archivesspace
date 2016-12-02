@@ -345,4 +345,29 @@ describe 'Record transfers' do
     }.to_not raise_error
   end
 
+  it "reports an error if a barcode conflict would stop a top container from being transferred" do
+    box = create(:json_top_container, :barcode => "unique_barcode")
+
+    resource = create(:json_resource, "title" => "transferred resource")
+    ao1 = create(:json_archival_object,
+                 :title => "hello",
+                 :instances => [build_instance(box)],
+                 :resource => {'ref' => resource.uri})
+
+    ao2 = create(:json_archival_object,
+                 :title => "world",
+                 :resource => {'ref' => resource.uri},
+                 :parent => {'ref' => ao1.uri})
+
+
+    JSONModel.with_repository(@target_repo.id) do
+      # The same barcode!
+      create(:json_top_container, :barcode => "unique_barcode")
+    end
+
+    expect {
+      Resource[resource.id].transfer_to_repository(@target_repo)
+    }.to raise_error(TransferConstraintError)
+  end
+
 end

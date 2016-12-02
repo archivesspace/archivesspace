@@ -110,6 +110,13 @@ module Transferable
           top_container = TopContainer.this_repo.filter[tc_rel[:top_container_id]]
 
           if top_container
+            if top_container.barcode && TopContainer.any_repo[:barcode => top_container.barcode, :repo_id => repository.id]
+              # There's already a top container with our barcode in the target
+              # repository.  Not sure if merging them is the right strategy or
+              # not, so throwing an error for now
+              raise TransferConstraintError.new(top_container.uri => "Top Container barcode '#{top_container.barcode}' already in use in target repository")
+            end
+
             top_container.transfer_to_repository(repository, transfer_group + [self]) # i guess we always add self just in case. dups are uniqed out.
           else
             # Already transferred
