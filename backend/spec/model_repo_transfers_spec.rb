@@ -324,4 +324,25 @@ describe 'Record transfers' do
     end
   end
 
+  it "copes when top containers are linked in multiple places within a tree" do
+    box = create(:json_top_container, :barcode => "box_barcode")
+
+    resource = create(:json_resource)
+    ao1 = create(:json_archival_object,
+                 :title => "hello",
+                 :instances => [build_instance(box)],
+                 :resource => {'ref' => resource.uri})
+
+    ao2 = create(:json_archival_object,
+                 :title => "world",
+                 :instances => [build_instance(box)],
+                 :resource => {'ref' => resource.uri},
+                 :parent => {'ref' => ao1.uri})
+
+    # Would previously raise NotFoundException: TopContainer not found
+    expect {
+      Resource[resource.id].transfer_to_repository(@target_repo)
+    }.to_not raise_error
+  end
+
 end
