@@ -393,11 +393,11 @@ class EADConverter < Converter
     end
 
 
-    %w(accessrestrict accessrestrict/legalstatus \
-       accruals acqinfo altformavail appraisal arrangement \
-       bioghist custodhist \
-       fileplan odd otherfindaid originalsloc phystech \
-       prefercite processinfo relatedmaterial scopecontent \
+    %w(accessrestrict accessrestrict/legalstatus
+       accruals acqinfo altformavail appraisal arrangement
+       bioghist custodhist
+       fileplan odd otherfindaid originalsloc phystech
+       prefercite processinfo relatedmaterial scopecontent
        separatedmaterial userestrict ).each do |note|
       with note do |node|
         content = inner_xml.tap {|xml|
