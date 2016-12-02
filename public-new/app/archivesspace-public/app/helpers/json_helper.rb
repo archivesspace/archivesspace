@@ -58,6 +58,8 @@ module JsonHelper
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
       note_struct['label'] = label
 #      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
+      inherit = inheritance(note['_inherited'])
+#binding.pry
       if note['jsonmodel_type'] == 'note_multipart' || !note['subnotes'].blank?
         note['subnotes'].each do |sub|
           note_text = handle_single_note(sub, note_text)
@@ -66,7 +68,7 @@ module JsonHelper
         note_text = handle_single_note(note, note_text)
       end
     end
-    note_struct['note_text'] = note_text
+    note_struct['note_text'] = inherit + note_text
     note_struct
   end
   

@@ -170,7 +170,12 @@ en:
     select: Select
     year_sort: Year
     sorting: "%{type} %{direction}"
-    
+
+  inherit:
+    inherited: "{This is TBD inheritance text from the %{level} level}"
+    collection: Collection
+    series: Series
+    sub-series: Sub-Series
 
   errors:
     error_404: Record Not Found
