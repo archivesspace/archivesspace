@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include ManipulateNode
   helper_method :process_mixed_content
   helper_method :strip_mixed_content
+  helper_method :inheritance
 
   include HandleFaceting
   helper_method :get_pretty_facet_value

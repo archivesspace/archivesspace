@@ -35,6 +35,16 @@ module ManipulateNode
     @frag.content
   end
 
+  # provides inheritance information, with markup!
+  def inheritance(struct = nil)
+    text = ''
+    unless struct.blank? || struct['level'].blank?
+      level = I18n.t("inherit.#{struct['level'].downcase}")
+      text = '<span class="inherit">' + I18n.t('inherit.inherited', :level => level) + '</span>'
+    end
+    text
+  end
+
   private 
 
 # because ead lists have heads; gotta deal with them
