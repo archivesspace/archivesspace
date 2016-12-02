@@ -10,7 +10,7 @@ $darkgrey: #888888;
 $grey: #cccccc;
 $lightgrey: #eeeeee;
 $highlight: #f7d309;
-
+$blue_against_grey: #004f6f;  /* for contrast against lightgrey */
 /* this is where you can change colors for your institution */
 
 $primary-color: $lightblue;
@@ -29,7 +29,7 @@ $breadcrumb-link: $darkblue;
 /* this is for the top horizontal nav bar */
 $nvBgDefault      : $light-neutral;
 $nvBgHighlight    : $light-neutral;
-$nvColDefault     : $secondary-color;
+$nvColDefault     : $blue_against_grey;
 $nvColHighlight   : $border-accent;
 
 
@@ -43,7 +43,7 @@ $repository-color: #7608b5;
 $classification-color: #015189;
 $accession-color: $collection-color;
 $digital-object-color: $collection-color;
-$archival-object-color: #14af26;
+$archival-object-color: #457141;
 $folder-color: #009fcf;
 
 
