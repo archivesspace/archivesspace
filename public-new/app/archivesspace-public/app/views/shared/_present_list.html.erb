@@ -4,6 +4,9 @@
    <ul class="<%= list_clss %>">
    <% v.each do |item | %>
      <li>
+     <% unless item['inherit'].blank? %>
+	<%= item['inherit'].html_safe %>
+     <% end %>
      <% unless item['uri'].blank? %>
      <a href="<%= item['uri'] %>">
      <% end %>

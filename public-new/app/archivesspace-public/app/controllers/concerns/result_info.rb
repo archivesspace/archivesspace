@@ -32,7 +32,7 @@ module ResultInfo
     agents_arr.each do |agent|
       unless agent['role'].blank? || agent['_resolved'].blank? 
         role = agent['role']
-        ag = title_and_uri(agent['_resolved'])
+        ag = title_and_uri(agent['_resolved'], agent['_inherited'])
         agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
       end
     end
@@ -44,7 +44,7 @@ module ResultInfo
     return_arr = []
     subjects_arr.each do |subject|
       unless subject['_resolved'].blank?
-        sub = title_and_uri(subject['_resolved'])
+        sub = title_and_uri(subject['_resolved'], subject['_inherited'])
         return_arr.push(sub) if sub
       end
     end
@@ -52,9 +52,12 @@ module ResultInfo
   end
 
 # return a title/uri hash if publish == true
-  def title_and_uri(in_h)
+  def title_and_uri(in_h, inh_struct = nil)
     if in_h['publish']
-      return in_h.slice('uri', 'title')
+      ret_val = in_h.slice('uri', 'title')
+      ret_val['inherit'] = inheritance(inh_struct)
+      Rails.logger.debug(ret_val)
+      return ret_val
     else
       return nil
     end
