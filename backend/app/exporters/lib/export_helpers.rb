@@ -126,7 +126,6 @@ module ASpaceExport
             normal_suffix = (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
             normal += normal_suffix ? normal_suffix : ""
           end
-          # type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
           type = ( date['date_type'] == 'inclusive' ) ? 'inclusive' :  ( ( date['date_type'] == 'single') ? nil : 'bulk')
           content = if date['expression']
                     date['expression']
