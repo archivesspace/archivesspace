@@ -45,12 +45,12 @@ module MapToAspaceContainer
 
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
-      
 
       jsons.zip(objs).each do |record_json, record_obj|
-        Array(record_json['instances']).zip(record_obj.instance).each do |instance_json, instance_obj|
-          next unless instance_json['sub_container']
+        non_do_json_instances = Array(record_json['instances']).select {|instance| instance['instance_type'] != 'digital_object'}
+        non_do_obj_instances = record_obj.instance.select {|instance| instance.instance_type != 'digital_object'}
 
+        non_do_json_instances.zip(non_do_obj_instances).each do |instance_json, instance_obj|
           instance_json['container'] = map_managed_container_to_aspace_json(instance_json, instance_obj)
         end
       end

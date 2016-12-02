@@ -101,4 +101,14 @@ describe 'Instance model' do
     expect { obj.update_from_json(archival_object) }.to_not raise_error
   end
 
+
+  it "throws an error if you supply a digital object URI for a non-digital object type" do
+    expect {
+    JSONModel(:instance)
+      .from_hash(:digital_object => {:ref => '/repositories/#{$repo_id}/digital_objects/123'},
+                 :instance_type => 'text')
+      .validate
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
 end

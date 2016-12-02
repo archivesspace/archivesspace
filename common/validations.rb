@@ -262,6 +262,9 @@ module JSONModel::Validations
     if hash["instance_type"] == "digital_object"
       errors << ["digital_object", "Can't be empty"] if hash["digital_object"].nil?
 
+    elsif hash["digital_object"] && hash["instance_type"] != "digital_object"
+      errors << ["instance_type", "An instance with a digital object reference must be of type 'digital_object'"]
+
     elsif hash["instance_type"]
       errors << ["container", "Can't be empty"] if hash["container"].nil?
     end
