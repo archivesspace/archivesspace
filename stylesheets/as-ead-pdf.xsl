@@ -1574,6 +1574,8 @@
                     <xsl:if test="@type"> [<xsl:value-of select="@type"/>]</xsl:if>
                 </xsl:otherwise>
             </xsl:choose></fo:inline>: <xsl:apply-templates/>
+            <!-- Test for certainty attribute used by unitdate -->
+            <xsl:if test="@certainty" > <fo:inline font-style="italic"> (<xsl:value-of select="@certainty"/>)</fo:inline></xsl:if>
         </fo:block>
         </xsl:if>
     </xsl:template>
