@@ -165,7 +165,7 @@ class EADConverter < Converter
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
 
       make :date, {
-        :date_type => att('type') || 'inclusive',
+        :date_type => att('type') || ( norm_dates[1] ? 'inclusive' : 'single' ),
         :expression => inner_xml,
         :label => 'creation',
         :begin => norm_dates[0],
