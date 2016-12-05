@@ -442,4 +442,29 @@ describe 'Managed Container compatibility' do
     }.to_not raise_error
   end
 
+
+  it "does not blow up if a digital object instance is missing its ref" do
+    digital_object = create(:json_digital_object)
+
+    resource = create(:json_resource,
+           :instances => [
+             build(:json_instance_digital, :digital_object => {:ref => digital_object.uri}),
+             build(:json_instance),
+           ])
+
+    # Currently this leaves the instance but removes its digital object linkage.
+    # In reality we should probably be wiping out the invalidated instance too,
+    # but one bug at a time...
+    DigitalObject[digital_object.id].delete
+
+    # Putting this here to cause this test to fix when the above bug is
+    # addressed.  Feel free to delete this test when that happens!
+    Resource[resource.id].instance.length.should eq(2)
+
+    expect {
+      Resource.to_jsonmodel(resource.id)
+    }.to_not raise_error
+  end
+
+
 end

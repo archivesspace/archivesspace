@@ -29,7 +29,9 @@ describe "EAD export mappings" do
 
     instances = []
     @digital_objects.keys.each do |ref|
-      instances << build(:json_instance, :digital_object => {:ref => ref})
+      instances << build(:json_instance,
+                         :instance_type => 'digital_object',
+                         :digital_object => {:ref => ref})
     end
 
     #throw in a couple non-digital instances
