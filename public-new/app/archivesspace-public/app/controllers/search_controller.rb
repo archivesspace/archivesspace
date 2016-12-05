@@ -33,15 +33,15 @@ class SearchController < ApplicationController
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
-      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
-      @search[:text_within] = @pager.last_page > 1
+      unless @pager.one_page?
+        @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+        @search[:text_within] = true
+      end
       @sort_opts = []
       all_sorts = Search.get_sort_opts
       all_sorts.keys.each do |type|
         @sort_opts.push(all_sorts[type])
       end
-#      @search_terms = search_terms(params)
-#      Rails.logger.debug("Search terms: #{@search_terms}")
       render 'search/search_results'
     end
   end

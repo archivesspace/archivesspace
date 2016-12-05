@@ -35,8 +35,10 @@ class ObjectsController <  ApplicationController
       redirect_back(fallback_location: '/') and return
     end
     @context = repo_context(repo_id, 'record')
-    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
-    @search[:text_within] = @pager.last_page > 1
+    unless @pager.one_page?
+      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:text_within] = true
+    end
     @sort_opts = []
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
@@ -65,7 +67,7 @@ class ObjectsController <  ApplicationController
     render 'search/search_results'
   end
 
- 
+  #TODO: look for linked_instances to point to an archival object if the digital object is being shown
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     url = uri
