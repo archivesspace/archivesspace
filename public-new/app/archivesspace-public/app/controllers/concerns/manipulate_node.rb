@@ -38,7 +38,7 @@ module ManipulateNode
   # provides inheritance information, with markup!
   def inheritance(struct = nil)
     text = ''
-    unless struct.blank? || struct['level'].blank?
+    unless struct.blank? || struct['level'].blank? || struct['direct']
       level = I18n.t("inherit.#{struct['level'].downcase}")
       text = '<span class="inherit">' + I18n.t('inherit.inherited', :level => level) + '</span>'
     end

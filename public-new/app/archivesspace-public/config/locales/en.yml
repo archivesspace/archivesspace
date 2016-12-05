@@ -172,7 +172,7 @@ en:
     sorting: "%{type} %{direction}"
 
   inherit:
-    inherited: "{This is TBD inheritance text from the %{level} level}"
+    inherited: "From the %{level}:"
     collection: Collection
     series: Series
     sub-series: Sub-Series
