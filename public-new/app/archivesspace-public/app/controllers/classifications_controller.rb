@@ -33,15 +33,16 @@ class ClassificationsController <  ApplicationController
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
-    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
-    @search[:text_within] = @pager.last_page > 1
+    unless @pager.one_page?
+      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:text_within] = true
+    end
     @sort_opts = []
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
        @sort_opts.push(all_sorts[type])
     end
-
     @page_title = I18n.t('classification._plural')
     @results_type = @page_title
     @no_statement = true
