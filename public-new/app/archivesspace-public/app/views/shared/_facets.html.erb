@@ -1,8 +1,7 @@
 <%# displaying chosen facet(s) (if any) and facets %>
 
-<% dates = false %>
 <div class="filters">
- <% unless @filters.blank? && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? && @search.filter_q.blank?  %>
+ <% unless @filters.blank? && @search.filters_blank? %>
     <h3><%= t('search_results.filtered_by')%> </h3> 
        <ul>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
@@ -12,7 +11,7 @@
           <% end %>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
-      <% dates = true 
+      <% 
 	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
 	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
@@ -32,8 +31,6 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <% end %>
 </div>
 
-<% do_dates = dates && @search[:dates_searched] && !@search.allow_dates? %>
-<!-- dates: <%=dates %> dates_searched: <%=@search[:dates_searched] %> allow: <%= !@search.allow_dates? %>  do_dates: <%= do_dates %>-->
 <% if @search[:dates_within] || @search[:text_within] %>
 <h3><%= t('search_results.filter.head') %></h3>
  <div class="filter_more">
@@ -46,7 +43,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
  <%= text_field_tag('filter_q[]', nil,:id => 'filter_q1', :placeholder =>  t('actions.search_within'), :class=> "form-control") %>
       </div>
     <% end %>
-    <% if @search[:dates_within] && !@search[:dates_searched] && @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
+    <% if @search.search_dates_within? %>
       <div class="form-group">
 	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
 	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
