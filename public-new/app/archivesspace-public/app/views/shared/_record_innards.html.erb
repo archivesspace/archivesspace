@@ -11,9 +11,8 @@
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
     <% unless @result['json']['dates'].blank? %>
       <h4><%= t('resource._public.dates') %></h4>
-      <% @result['json']['dates'].each do |date|  %>
-       <span class="dates"><%= inheritance(date['_inherited']).html_safe %> <%= (!date['label'].blank? ? "#{date['label'].titlecase}: " : '') %><%= date['expression'] %></span>
-      <% end %>
+      <%= render partial: 'shared/dates', locals: {:dates => @result['json']['dates']} %>
+
     <% end %>
     <% non_folder.each do |type| %>
        <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => get_note(@result['json'], type)}  %>
