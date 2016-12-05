@@ -1,0 +1,21 @@
+en:
+  plugins:
+    digitization_work_order:
+      form_title: Work Order Form
+      toolbar_button: Work Order Report
+      loading: Loading...
+      show_work_order_modal_button: Download Work Order ...
+      download_report_button: Download Report
+      cancel_button: Cancel
+      resource: Resource
+      records_selected: Records selected
+      additional_options: Additional options
+      series_title: Series title
+      subseries_title: Subseries title
+      barcode: Barcode
+      dates: Date(s)
+      modal:
+        title: Confirm Work Order Download
+        message: Creating a work order will auto-create and assign Component Unique IDs (CUIDs) to archival objects in the work order that don't currently have CUIDs
+        warning: Records may be updated.
+        download_button: Download Work Order
