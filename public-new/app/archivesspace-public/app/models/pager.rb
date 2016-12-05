@@ -14,6 +14,9 @@ class Pager < Struct.new( :link, :page, :last_page, :pages, :need_next, :next, :
     self.next = self.page + 1 
     self.pages = Range.new(lower_page, upper_page, true)
   end
+  def one_page?
+    last_page < 2
+  end
   def to_s
     "Link: #{self.link} Page #{self.page} Last Page #{self.last_page} Need Prev? #{self.need_prev} Need Next: #{self.need_next}"
   end

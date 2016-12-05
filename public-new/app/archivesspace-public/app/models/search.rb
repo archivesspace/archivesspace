@@ -11,7 +11,6 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     @@BooleanOpts
   end
 
-
   # we create all the possible sort options here, then refine them according to what's being sorted
   @@SortOpts = {}
 
@@ -53,6 +52,10 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     self[:dates_searched] =  have_contents?(from_year) || have_contents?(to_year)
     self[:dates_within] = self[:text_within] = false
   end
+
+  def filters_blank?
+    filter_from_year.blank? && filter_to_year.blank? && filter_q.blank?
+  end
  
   def has_query?
     have_contents?(q)
@@ -76,6 +79,11 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
    end
    allow
  end
+
+ def search_dates_within?
+   dates_within && !dates_searched && filter_from_year.empty? && filter_to_year.empty?
+ end
+
  
  def get_filter_q_params
    params = ''
