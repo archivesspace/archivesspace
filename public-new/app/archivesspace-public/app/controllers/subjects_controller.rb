@@ -31,8 +31,10 @@ class SubjectsController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(repo_id, 'subject')
-    @search[:dates_within] = false
-    @search[:text_within] = @pager.last_page > 1
+    unless @pager.one_page?
+      @search[:dates_within] = false
+      @search[:text_within] = true
+    end
 
     @page_title = I18n.t('subject._plural')
     @results_type = @page_title
@@ -102,9 +104,12 @@ Rails.logger.debug("we hit search!")
     @results = []
     qry = "subjects:\"#{title}\""
     @base_search = "#{uri}?"
-    set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, DEFAULT_SUBJ_SEARCH_OPTS, params, qry)
+    search_opts = DEFAULT_SUBJ_SEARCH_OPTS
+    search_opts['fq']=[qry]
+    set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, search_opts, params, qry)
+   # we do this to compensate for the way @base_search gets munged in the setup
+    @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
-#    Rails.logger.debug("subject results query: #{@query}")
     @results =  archivesspace.search(@query,page, @criteria)
     if @results['total_hits'] > 0
       process_search_results(@base_search)

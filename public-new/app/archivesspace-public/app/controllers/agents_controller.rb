@@ -107,6 +107,8 @@ class AgentsController <  ApplicationController
     qry = "agents:\"#{title}\""
     @base_search = "#{uri}?"
     set_up_search(DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES, DEFAULT_AG_SEARCH_OPTS, params,qry)
+  # we do this to compensate for the way @base_search gets munged in the setup
+    @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.search(qry,page, @criteria)
     if @results['total_hits'] > 0
