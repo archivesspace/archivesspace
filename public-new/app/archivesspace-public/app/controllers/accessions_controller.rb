@@ -32,8 +32,10 @@ class AccessionsController <  ApplicationController
       redirect_back(fallback_location: '/') and return
     end
 #    @context = repo_context(repo_id, 'accession')
-    @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
-    @search[:text_within] = @pager.last_page > 1
+    unless @pager.one_page?
+      @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+      @search[:text_within] = true
+    end
     @sort_opts = []
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
