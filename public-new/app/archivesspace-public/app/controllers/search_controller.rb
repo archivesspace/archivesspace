@@ -12,7 +12,7 @@ class SearchController < ApplicationController
   def search
     @repo_id = params.fetch(:rid, nil)
     repo_url = "/repositories/#{@repo_id}"
-    @base_search =  @repo_id ? "#{@repo_url}/search?" : '/search?'
+    @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
 
     search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_repository::\"#{repo_url}\""] if @repo_id
