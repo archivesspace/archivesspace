@@ -13,7 +13,7 @@ class AgentsController <  ApplicationController
 
   DEFAULT_AG_SEARCH_PARAMS = {
     :q => ['*'],
-    :limit => 'pui_agent',
+    :limit => 'agent',
     :op => ['OR'],
     :field => ['title']
   }
@@ -37,8 +37,10 @@ class AgentsController <  ApplicationController
     end
 
     @context = repo_context(repo_id, 'agent')
-    @search[:dates_within] = false
-    @search[:text_within] = @pager.last_page > 1
+    unless @pager.one_page?
+      @search[:dates_within] = false
+      @search[:text_within] = true
+    end
 
     @page_title = I18n.t('agent._plural')
     @results_type = @page_title
