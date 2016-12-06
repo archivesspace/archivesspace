@@ -45,8 +45,10 @@ class ResourcesController <  ApplicationController
       params[k] = v unless params.fetch(k, nil)
     end
     page = Integer(params.fetch(:page, "1"))
+    facet_types = DEFAULT_RES_FACET_TYPES
+    facet_types.unshift('repository') if !@repo_id
     begin
-      set_up_and_run_search(['resource'], (!@repo_id ? ['repository'] : []),search_opts, params)
+      set_up_and_run_search(['resource'], facet_types,search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
