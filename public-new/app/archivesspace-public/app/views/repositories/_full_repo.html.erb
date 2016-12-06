@@ -29,7 +29,7 @@
        <% if !phone['number_type'].blank? && phone['number_type'].strip.upcase == 'FAX' %>
        <i class="fa fa-fax"  aria-hidden="true"></i> <%= phone['number'] %> (<%= t('fax') %>)
        <% else %>
-       <i class="fa fa-phone"aria-hidden="true"></i> <%= phone['number'] %>
+       <i class="fa fa-phone" aria-hidden="true"></i> <%= phone['number'] %>
        <% end %>
      <% end %>
    </span></br>
