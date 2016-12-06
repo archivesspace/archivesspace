@@ -19,7 +19,7 @@
           <img src="<%= dig['thumb'][0] %>" alt="<%= strip_mixed_content(dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
         </a>
 	<div class="panel-heading">
-	    <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')) %>
+	    <%= (dig['caption'] || t('enumerations.instance_instance_type.digital_object')).html_safe %>
 	</div>
    </div>
 </div>

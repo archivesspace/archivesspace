@@ -92,6 +92,8 @@ module ResultInfo
       dig['out'] = json['digital_object_id']
     end
     dig = process_file_versions(json, dig)
+    dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank?
+    dig
   end
 
 # representative digital object for an archival object
@@ -101,8 +103,10 @@ module ResultInfo
       instances.each do |instance|
         unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank?
           it =  instance['digital_object']['_resolved']
-           unless !it['publish'] || it['file_versions'].blank?
+           unless it['file_versions'].blank?
+             title = strip_mixed_content(it['title'])
              dig = process_file_versions(it, dig)
+             dig['caption'] = CGI::escapeHTML(title) if dig['caption'].blank?
            end
         end
         break if !dig.blank?
@@ -117,13 +121,17 @@ module ResultInfo
         if version['publish'] && version['file_uri'].start_with?('http')
           if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
             dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
+            dig['represent'] = 'embed' if version['is_representative']
             unless json['html'].blank? || json['html']['note'].blank?
               dig['caption'] =  json['html']['note']['note_text']
-              dig['caption'] = dig['caption'].html_safe if dig['caption']
+              dig['caption'] = CGI::escapeHTML(dig['caption']) if dig['caption']
             end
           elsif (version['xlink_show_attribute']||'') == 'new'
+             dig['represent'] = 'new'  if version['is_representative']
             dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')
           end
+        elsif !version['file_uri'].start_with?('http')
+          Rails.logger.debug("****BAD URI? #{version['file_uri']}")
         end
       end
     end
