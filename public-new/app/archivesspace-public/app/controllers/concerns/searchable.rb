@@ -104,7 +104,7 @@ module Searchable
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
 
-   # any search with results?
+   # any search within results?
     @search[:filter_q].each do |v|
       value = v == '' ? '*' : v
       advanced_query_builder.and('keyword', value, 'text', false)
@@ -229,6 +229,20 @@ module Searchable
           result['json']['html'][type] = html
         end
       end
+      # handle dates
+      if result['json'].has_key?('dates')
+        result['json']['dates'].each do |date|
+          label = date['label'].blank? ? '' : "#{date['label'].titlecase}: " 
+          label = '' if label == 'Creation: '
+          exp =  date['expression']
+          if date['date_type'] == 'bulk'
+            exp = exp.sub('bulk','').sub('()', '').strip
+            exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
+                                                  I18n.t('bulk._plural', :dates => exp)
+          end
+          date['expression'] = label + exp
+        end
+      end
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
         rr = result['_resolved_repository'].shift
@@ -246,6 +260,7 @@ module Searchable
       end
       # and yet another kind of convolution
       if result['_resolved_top_container_uri_u_sstr'].kind_of?(Hash)
+#Pry::ColorPrinter.pp result['_resolved_top_container_uri_u_sstr']
         rr = result['_resolved_top_container_uri_u_sstr'].shift
         if !rr[1][0]['json'].blank?
           result['_resolved_top_container_uri_u_sstr']['json'] = JSON.parse( rr[1][0]['json'])
