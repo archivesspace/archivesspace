@@ -1,7 +1,8 @@
     <ul>
     <%   dates.each do |date|  %>
     <li class="dates"><%= inheritance(date['_inherited']).html_safe %> 
-      <%= (date['label'].blank? || date['label'] == 'creation' ? '' : "#{date['label'].titlecase}: ") %><%= date['expression'] %></li>
+      <%= date['expression'] %> 
+    </li>
     <% end %>
     </ul>
 
