@@ -48,6 +48,7 @@ class ObjectsController <  ApplicationController
 
     @page_title = I18n.t('record._plural')
     @results_type = @page_title
+    @no_statement = true
     render 'search/search_results'
   end
 
