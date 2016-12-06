@@ -264,7 +264,9 @@ en:
     part: Part of the
    
   context: Found in
-
+  bulk:
+     _singular: "Majority of material found in %{dates}" 
+     _plural: "Majority of material found within %{dates}"
 
   resource:
     _singular: Collection
