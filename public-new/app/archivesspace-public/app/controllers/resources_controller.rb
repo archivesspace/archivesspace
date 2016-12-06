@@ -123,6 +123,7 @@ class ResourcesController <  ApplicationController
         end
       end
       @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
+      @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
       @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
       @finding_aid = process_finding_aid(@result['json'])
