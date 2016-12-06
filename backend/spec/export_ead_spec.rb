@@ -528,7 +528,8 @@ describe "EAD export mappings" do
         path = "#{desc_path}/did/unitdate[#{count}]"
         normal = "#{date['begin']}/"
         normal += (date['date_type'] == 'single' || date['end'].nil? || date['end'] == date['begin']) ? date['begin'] : date['end']
-        type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
+        type = ( date['date_type'] == 'inclusive' ) ? 'inclusive' :  ( ( date['date_type'] == 'single') ? nil : 'bulk')
+        # type = %w(single inclusive).include?(date['date_type']) ? 'inclusive' : 'bulk'
         value = if date['expression']
                   date['expression']
                 elsif date['date_type'] == 'bulk'
