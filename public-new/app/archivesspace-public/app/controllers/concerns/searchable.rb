@@ -234,7 +234,7 @@ module Searchable
         result['json']['dates'].each do |date|
           label = date['label'].blank? ? '' : "#{date['label'].titlecase}: " 
           label = '' if label == 'Creation: '
-          exp =  date['expression']
+          exp =  date['expression'] || ''
           if date['date_type'] == 'bulk'
             exp = exp.sub('bulk','').sub('()', '').strip
             exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
@@ -329,13 +329,11 @@ module Searchable
   def repo_context(repo_id, type)
     cont = []
     if repo_id
-      cont.push({:uri => "/repositories/#{repo_id}", :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id\
-}")})
+      cont.push({:uri => "/repositories/#{repo_id}", :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}")})
       cont.push({:uri => '', :crumb =>  I18n.t("#{type}._plural")})
     end
   end
 
-  
   private
   
   # creates the html-ized search statement
