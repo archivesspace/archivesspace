@@ -54,8 +54,10 @@ class ResourcesController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(@repo_id, 'resource')
-    @search[:dates_within] = true
-    @search[:text_within] = @pager.last_page > 1
+     unless @pager.one_page?
+        @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+        @search[:text_within] = true
+      end
     @page_title = I18n.t('resource._plural')
     @results_type = @page_title
     @sort_opts = []
@@ -68,9 +70,13 @@ class ResourcesController <  ApplicationController
     if params[:q].size > 1 || params[:q][0] != '*'
       @sort_opts.unshift(all_sorts['relevance'])
     end
-
     @no_statement = true
-    render 'search/search_results'
+#    if @results['results'].length == 1
+#      @result =  @results['results'][0]
+#      render 'resources/show'
+#    else
+      render 'search/search_results'
+#    end
   end
 
   def search 
@@ -80,7 +86,7 @@ class ResourcesController <  ApplicationController
     search_opts['fq'] = ["resource:\"#{res_id}\""]
     params[:res_id] = res_id
 #    q = params.fetch(:q,'')
-    if params.fetch(:q,nil)
+    unless params.fetch(:q,nil)
       params[:q] = ['*']
     end
     @base_search = "#{res_id}/search?"
@@ -98,8 +104,29 @@ class ResourcesController <  ApplicationController
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
+      title = ''
+      title =  strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) if @results['results'][0] &&  @results['results'][0].dig('_resolved_resource', 'json')
+       
+      @context = []
+      @context.push({:uri => "/repositories/#{repo_id}", 
+                      :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}")})
+      unless title.blank?
+        @context.push({:uri => "#{res_id}", :crumb => title})
+      end
+     unless @pager.one_page?
+        @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+        @search[:text_within] = true
+      end
+      @page_title = I18n.t('actions.search_in', :type => (title.blank? ? I18n.t('resource._singular') : "\"#{title}\""))
+      @sort_opts = []
+      all_sorts = Search.get_sort_opts
+      all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
+      all_sorts.keys.each do |type|
+        @sort_opts.push(all_sorts[type])
+      end
+      @no_statement = true
 # Pry::ColorPrinter.pp @results['results'][0]['_resolved_resource']['json']
-      render
+      render 'search/search_results'
     end
   end
   def show
