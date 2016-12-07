@@ -84,7 +84,7 @@ class RepositoriesController < ApplicationController
     @rec_ct = counts["record"] || 0
     @resource_ct = counts["collection"] || 0
     @group_ct = counts["record_group"] || 0
-    sublist_query_base = "publish:true"
+
     @criteria = {}
     @criteria[:page_size] = 1
     @data =  archivesspace.search(query, 1, @criteria) || {}
@@ -102,67 +102,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  
-  # get the collections, records, subjects or agents of a repository
-  # TODO: somehow refactor to use Searchable
-  def sublist
-    @repo_name = params[:repo] || ''
-    @repo_id = "/repositories/#{params[:id]}"
-    @type = case params[:type]
-             when 'resources'
-             'resource'
-             when 'subjects'
-             'subject'
-             when 'agents'
-             'agent'
-             when 'objects'
-             'pui_record'
-             when 'groups'
-              'pui_record_group'
-           end
-    @criteria = {}
-    @criteria['sort'] = "title_sort asc" 
-    page  =  params['page'] || 1 if !params.blank?
-    page_size =  params['page_size'].to_i if !params.blank?
-    page_size = AppConfig[:search_results_page_size] if page_size == 0
-    @criteria[:page_size] = page_size
-
-    if params[:qr].blank? #  && ( @type == 'resource' || @type == 'pui_record' )
-      query = compose_sublist_query(@type, params)
-    else
-      query = params[:qr]
-    end
-    if @type == 'resource' || @type == 'pui_record'
-      resolve_arr = ['repository:id']
-      resolve_arr.push 'resource:id@compact_resource'  if @type == 'archival_object'
-      @criteria['resolve[]'] = resolve_arr
-      @results =  archivesspace.search(query, page, @criteria) || {}
-    elsif @type == 'pui_record_group'
-      @results= archivesspace.search(query, page, @criteria) || {}
-    else
-      @criteria[:page] = page
-      @criteria['facet[]'] = ['primary_type']
-      @results = archivesspace.get_repos_sublist(@repo_id, @type, @criteria) || {}
-    end
-
-    Rails.logger.debug("TOTAL HITS: #{@results['total_hits']}, last_page: #{@results['last_page']}")
-
-    if @results['total_hits'] == 0
-      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
-      redirect_back(fallback_location:  @repo_id)
-    else      
-      @results['results'].each do |result|
-        if !result['json'].blank?
-          result['json'] = JSON.parse(result['json']) || {}
-        else
-          result['json'] = {}
-        end
-      end
-      @type = @type.sub("pui_", "")
-      @pager =  Pager.new("/repositories/#{params[:id]}/#{params[:type]}?repo=#{@repo_name}&qr=#{query}", @results['this_page'],@results['last_page'])
-      @page_title = (@repo_name != '' ? "#{@repo_name}: " : '') +(@results['results'].length > 1 ? I18n.t("#{@type}._plural") : I18n.t("#{@type}._singular")) +  " " + I18n.t('listing')
-    end
-  end
 
   private
 
@@ -183,25 +122,6 @@ class RepositoriesController < ApplicationController
       end
     end
     final_counts
-  end
-
-
-  # get sublist query if it isn't there
-  def compose_sublist_query(type, params)
-    type_statement = "types:#{type}"
-    query =  "(#{type_statement}) "
-    query = "#{query} AND publish:true " #if type != 'subject'
-    if type == 'subject' || type == 'agent'
-      facets = fetch_only_facets("(-primary_type:tree_view AND repository:\"/repositories/#{params[:id]}\")", ["#{type}s"], false)
-      unless facets.blank?
-        types = strip_facets(facets["#{type}s"], 1)
-        query = "#{query} AND #{compose_title_list(types)}"
-        Rails.logger.debug("subject or agent  query: #{query}")
-      end
-    else
-      query = "#{query} AND repository:\"/repositories/#{params[:id]}\""
-    end
-    "( #{query} )"
   end
 
   def find_resource_facet
