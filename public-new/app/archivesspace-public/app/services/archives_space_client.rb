@@ -12,6 +12,7 @@ class ArchivesSpaceClient
 
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
+    'publish' => true,
     'page_size' => AppConfig[:search_results_page_size]  }
 
   # FIXME: Ultimately we'll set up a dedicated user for the public application
