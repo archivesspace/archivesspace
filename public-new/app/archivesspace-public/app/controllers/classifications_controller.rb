@@ -4,7 +4,7 @@ class ClassificationsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
 
-  DEFAULT_CL_TYPES = %w{classification}
+  DEFAULT_CL_TYPES = %w{pui_record_group}
   DEFAULT_CL_FACET_TYPES = %w{primary_type subjects agents repository resource}
   DEFAULT_CL_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
@@ -13,18 +13,21 @@ class ClassificationsController <  ApplicationController
   }
   DEFAULT_CL_SEARCH_PARAMS = {
     :q => ['*'],
-    :limit => 'classification',
+    :limit => 'pui_record_group',
     :op => ['OR'],
     :field => ['title']
   }
   def index
+     repo_id = params.fetch(:rid, nil)
     if !params.fetch(:q, nil)
       DEFAULT_CL_SEARCH_PARAMS.each do |k,v|
         params[k] = v
       end
     end
     search_opts = default_search_opts( DEFAULT_CL_SEARCH_OPTS)
-    @base_search = '/classifications?'
+    search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""] if repo_id
+
+    @base_search = repo_id ? "repositories/#{repo_id}/classifications?" : '/classifications?'
     page = Integer(params.fetch(:page, "1"))
 
     begin

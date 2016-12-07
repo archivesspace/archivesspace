@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'
+  get  "repositories/:rid/classifications/" => 'classifications#index'
+  post  "repositories/:rid/classifications/" => 'classifications#index'
   get "repositories/:rid/resources" => 'resources#index'
   post "repositories/:rid/resources" => 'resources#index' 
   get  "repositories/:rid/search" => 'search#search'
@@ -42,8 +44,6 @@ Rails.application.routes.draw do
   post "repositories/:rid/subjects" => 'subjects#index'
   get "repositories/:rid/objects" => 'objects#index'
   post "repositories/:rid/objects" => 'objects#index'
-  get "repositories/:id/:type" => 'repositories#sublist'
-  post "repositories/:id/:type" => 'repositories#sublist'
   get "repositories/:id" => 'repositories#show'
   post "repositories/:id" => 'repositories#show'
   
