@@ -35,6 +35,7 @@ en:
   actions:
     search: Search
     search_within: Search within results
+    search_in: "Search %{type}"
     browse: Browse
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
