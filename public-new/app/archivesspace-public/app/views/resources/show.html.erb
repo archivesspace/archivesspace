@@ -1,6 +1,10 @@
 
 <div id="main-content" class="row">
   <div class="row" id="info_row">
+  <% unless defined?(@no_statement) || !defined?(@search) %>
+  <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
+  <% end %>
+
     <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => {} } %>
   </div>
@@ -22,30 +26,26 @@
 </div>
 <div class="row" id="notes_row">
   <div class="col-sm-9">
-    <% unless @rep_image.blank? %>
-      <div class="objectimage">
-	<div class="panel panel-default">
-	  <img src="<%= @rep_image['uri'] %>" alt="<%= (@rep_image['title']? @rep_image['title'] : t('digital_object_level.image')) %>" />
-	  <div class="panel-heading"><%= (@rep_image['title']? @rep_image['title'] : t('digital_object_level.image')) %>
-	  </div>
-	</div>
-      </div>
-    <% end %>
     <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <% if defined?(@filters) && defined?(@search) %>
+    <%= render partial: 'shared/facets' %>
+   <% end %>
+
     <div class="search">
 	<%= form_tag("#{@result['uri']}/search", method: 'get', :class=> "form-inline") do %>
 	<div class="form-group">
-	  <%= label_tag(:q0,  "#{t('actions.search')} #{t('resource._singular')}", :class => 'sr-only') %>
+	  <%= label_tag(:filter_q0,  "#{t('actions.search_in', :type=> t('resource._singular'))}", :class => 'sr-only') %>
 
-          <%= text_field_tag('q[]', nil,:id => 'q0', :placeholder =>  "#{t('actions.search')} #{t('resource._singular')}", :class=> "form-control") %>
+          <%= text_field_tag('filter_q[]', nil,:id => 'filter_q0', :placeholder =>  "#{t('actions.search_in', :type => t('resource._singular'))}", :class=> "form-control") %>
 	</div>
 	<div class="form-group">
 	  <%= hidden_field_tag('op[]','') %>
 	  <%= hidden_field_tag('field[]','') %>
 	  <%= hidden_field_tag('limit','') %>
+	  <%= hidden_field_tag('q[]','*') %>
 
 	  <span class="inline-label"><%= t('search_results.filter.years') %>:</span>
 	   <%= label_tag(:from_year0, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
@@ -59,7 +59,9 @@
     </div>
 
     <h4><%= t('cont_arr') %></h4>
+    <% unless !defined?(@tree) %>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
+    <% end %>
   </div>
 </div>
 
