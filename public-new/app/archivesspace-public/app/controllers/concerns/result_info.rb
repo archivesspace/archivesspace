@@ -124,7 +124,6 @@ module ResultInfo
             dig['represent'] = 'embed' if version['is_representative']
             unless json['html'].blank? || json['html']['note'].blank?
               dig['caption'] =  json['html']['note']['note_text']
-              dig['caption'] = CGI::escapeHTML(dig['caption']) if dig['caption']
             end
           elsif (version['xlink_show_attribute']||'') == 'new'
              dig['represent'] = 'new'  if version['is_representative']
