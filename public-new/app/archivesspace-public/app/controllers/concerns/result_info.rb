@@ -34,9 +34,9 @@ module ResultInfo
         role = agent['role']
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
         if role == 'subject'
-          subjects_arr.push(ag)
-        else
-          agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
+         subjects_arr.push(ag) if ag 
+        elsif ag
+          agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
         end
       end
     end
