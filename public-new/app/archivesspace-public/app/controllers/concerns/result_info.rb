@@ -95,9 +95,11 @@ module ResultInfo
     dig = {}
     unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
       dig['out'] = json['digital_object_id']
+      dig['material'] = ''
+      dig['material'] << '(' << json['digital_object_type'] << ')' if json['digital_object_type'] 
     end
     dig = process_file_versions(json, dig)
-    dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank?
+    dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
     dig
   end
 
@@ -124,12 +126,12 @@ module ResultInfo
     unless json['file_versions'].blank?
       json['file_versions'].each do |version|
         if version['publish'] && version['file_uri'].start_with?('http')
+          unless json['html'].blank? || json['html']['note'].blank?
+            dig['caption'] =  json['html']['note']['note_text']
+          end
           if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
             dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
             dig['represent'] = 'embed' if version['is_representative']
-            unless json['html'].blank? || json['html']['note'].blank?
-              dig['caption'] =  json['html']['note']['note_text']
-            end
           elsif (version['xlink_show_attribute']||'') == 'new'
              dig['represent'] = 'new'  if version['is_representative']
             dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')

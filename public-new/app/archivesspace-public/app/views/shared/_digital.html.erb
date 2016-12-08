@@ -6,7 +6,7 @@
       <form id="larger" action="<%= dig['out'] %>" method="post" target="new">
        <button type="submit"  class="btn btn-default record-type-badge digital_object" title="<%= t('digital_object._public.link') %>" >
           <i class="fa fa-file-image-o fa-4x"></i><br/>
-            <%= t('enumerations.instance_instance_type.digital_object') %>
+            <%= dig['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{dig['material']}" : dig['caption'].html_safe %>
         </button>
       </form>
 </div>
