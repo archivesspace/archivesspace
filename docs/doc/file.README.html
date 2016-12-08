@@ -66,9 +66,10 @@
 <ul>
   <li><a href="http://archivesspace.org">archivesspace.org</a></li>
   <li><a href="https://docs.archivesspace.org/">User Documentation</a></li>
-  <li><a href="http://archivesspace.github.io/archivesspace/">Documentation</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/">Technical Documentation</a></li>
   <li><a href="http://archivesspace.github.io/archivesspace/api">API</a></li>
-  <li><a href="https://archivesspace.atlassian.net">Wiki and Issue Tracker</a></li>
+  <li><a href="http://wiki.archivesspace.org">Wiki</a></li>
+  <li><a href="http://development.archivesspace.org">Issue Tracker</a></li>
   <li>IRC: #archivesspace ( chat.freenode.net )</li>
 </ul>
 
@@ -102,10 +103,12 @@ You can check your Java version by running the command:</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
 </code></pre>
 
-<p>Currently, if you want to use Java 1.8, you will need to remove the
+<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
+Currently, if you want to use Java 1.8, you will need to remove the
 jdt-compiler jar library from the java classpath ( lib directory of
 your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).</p>
+reports ( but not regular reports).  
+--->
 
 <p>When you extract the <code>.zip</code> file, it will create a directory called
 <code>archivesspace</code>.  To run the system, just execute the appropriate
@@ -568,7 +571,7 @@ appropriate and specify the <code>encryption</code> option:</p>
 
 <h1 id="plug-ins-and-local-customizations">Plug-ins and local customizations</h1>
 
-<p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md"> Plug-ins and locat customizations readme</a></p>
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md"> Plug-ins and local customizations readme</a></p>
 
 <h1 id="running-archivesspace-with-an-external-solr-instance">Running ArchivesSpace with an external Solr instance</h1>
 
@@ -589,7 +592,7 @@ appropriate and specify the <code>encryption</code> option:</p>
 <h1 id="further-documentation">Further documentation</h1>
 
 <p>Additional documentation can be found on the ArchivesSpace
-wiki at <a href="https://archivesspace.atlassian.net/wiki/display/ADC">https://archivesspace.atlassian.net/wiki/display/ADC</a>.</p>
+wiki at <a href="http://wiki.archivesspace.org">http://wiki.archivesspace.org</a>.</p>
 
 <p>A document describing the architecture of ArchivesSpace is published
 at <a href="https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md">https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md</a>.</p>
@@ -600,7 +603,7 @@ architecture notes, is published at
 
 <h1 id="contributing">Contributing</h1>
 
-<p>Contributors are welcome! Please read about our <a href="https://github.com/archivesspace/archivesspace/tree/master/contributing">Contributor License Agreement</a> for more information.</p>
+<p>Contributors are welcome! Please read about our <a href="https://github.com/archivesspace/archivesspace/tree/master/contributing">Contributor License Agreements</a> for more information.</p>
 
 <h1 id="license">License</h1>
 
@@ -610,7 +613,7 @@ version 2.0</a>. See the
 
 <h1 id="credits">Credits</h1>
 
-<p>ArchivesSpace 1.0 has been developed by <a href="http://www.hudsonmolonglo.com">Hudson Molonglo</a>
+<p>ArchivesSpace 1.0 was developed by <a href="http://www.hudsonmolonglo.com">Hudson Molonglo</a>
 in partnership with the New York University Libraries, UC San Diego
 Libraries, and University of Illinois Urbana-Champaign Library and with
 funding from the Andrew W. Mellon Foundation, organizational support from
@@ -618,7 +621,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:33 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:24 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

@@ -609,12 +609,12 @@
       <pre class="lines">
 
 
-237
-238
-239</pre>
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 243</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_accept_children identifier id'>accept_children</span>
   <span class='rubyid_handle_accept_children identifier id'>handle_accept_children</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -640,12 +640,6 @@
       <pre class="lines">
 
 
-180
-181
-182
-183
-184
-185
 186
 187
 188
@@ -679,10 +673,16 @@
 216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 186</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_children identifier id'>add_children</span>
   <span class='rubyid_@parent ivar id'>@parent</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -745,12 +745,6 @@
       <pre class="lines">
 
 
-128
-129
-130
-131
-132
-133
 134
 135
 136
@@ -760,10 +754,16 @@
 140
 141
 142
-143</pre>
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_keep identifier id'>keep</span><span class='lparen token'>(</span><span class='symbol val'>:spawned_from_accession</span><span class='rparen token'>)</span>
@@ -851,16 +851,16 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166</pre>
+166
+167
+168
+169
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 166</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -890,12 +890,6 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
 116
 117
 118
@@ -905,10 +899,16 @@
 122
 123
 124
-125</pre>
+125
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_keep identifier id'>keep</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='comment val'># keep the notices so they display on the subsequent ajax call</span>
@@ -998,14 +998,14 @@
       <pre class="lines">
 
 
-242
-243
-244
-245
-246</pre>
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -1033,17 +1033,17 @@
       <pre class="lines">
 
 
-272
-273
-274
-275
-276
-277
 278
-279</pre>
+279
+280
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 272</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 278</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_models_in_graph identifier id'>models_in_graph</span>
   <span class='rubyid_list_uri identifier id'>list_uri</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;/models_in_graph&quot;</span>
@@ -1147,22 +1147,22 @@
       <pre class="lines">
 
 
-222
-223
-224
-225
-226
-227
 228
 229
 230
 231
 232
 233
-234</pre>
+234
+235
+236
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_publish identifier id'>publish</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1198,18 +1198,18 @@
       <pre class="lines">
 
 
-169
-170
-171
-172
-173
-174
 175
 176
-177</pre>
+177
+178
+179
+180
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rde identifier id'>rde</span>
   <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_clear identifier id'>clear</span>
@@ -1290,16 +1290,16 @@
       <pre class="lines">
 
 
-254
-255
-256
-257
-258
-259
-260</pre>
+260
+261
+262
+263
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 260</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1331,13 +1331,25 @@
 
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer identifier id'>transfer</span>
-  <span class='rubyid_handle_transfer identifier id'>handle_transfer</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_handle_transfer identifier id'>handle_transfer</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span><span class='colon2 op'>::</span><span class='rubyid_TransferConflictException constant id'>TransferConflictException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_@transfer_errors ivar id'>@transfer_errors</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span>
+    <span class='rubyid_show identifier id'>show</span>
+    <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:show</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1360,12 +1372,12 @@
       <pre class="lines">
 
 
-249
-250
-251</pre>
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 255</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree identifier id'>tree</span>
   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_fetch_tree identifier id'>fetch_tree</span>
@@ -1391,16 +1403,16 @@
       <pre class="lines">
 
 
-263
-264
-265
-266
-267
-268
-269</pre>
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 263</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 269</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1430,21 +1442,21 @@
       <pre class="lines">
 
 
-146
-147
-148
-149
-150
-151
 152
 153
 154
 155
 156
-157</pre>
+157
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:resource</span><span class='comma token'>,</span>
@@ -1536,7 +1548,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:05:08 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

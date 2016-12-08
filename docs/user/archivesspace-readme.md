@@ -10,8 +10,9 @@ permalink: /user/archivesspace-readme/
 
 * [archivesspace.org](http://archivesspace.org)
 * [User Documentation](https://docs.archivesspace.org/)
-* [Documentation](http://archivesspace.github.io/archivesspace/)
+* [Technical Documentation](http://archivesspace.github.io/archivesspace/)
 * [API](http://archivesspace.github.io/archivesspace/api)
-* [Wiki and Issue Tracker](https://archivesspace.atlassian.net)
+* [Wiki](http://wiki.archivesspace.org)
+* [Issue Tracker](http://development.archivesspace.org)
 * IRC: #archivesspace ( chat.freenode.net )
 

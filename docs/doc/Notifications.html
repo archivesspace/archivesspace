@@ -301,12 +301,12 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blocking_since identifier id'>blocking_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_blocking_updates_since identifier id'>blocking_updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -332,14 +332,14 @@
       <pre class="lines">
 
 
-46
-47
-48
-49
-50</pre>
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_old_notifications identifier id'>expire_old_notifications</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
@@ -419,12 +419,42 @@
 30
 31
 32
-33</pre>
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_immediate identifier id'>immediate</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_in_transaction? fid id'>in_transaction?</span>
+    <span class='comment val'># Don't bother emitting a notification if we already have an identical one</span>
+    <span class='comment val'># queued one up for this database transaction anyway.  Prevents floods of</span>
+    <span class='comment val'># identical notifications during large imports.</span>
+    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_session_storage identifier id'>session_storage</span><span class='lbrack token'>[</span><span class='symbol val'>:emitted_notifications</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_notification identifier id'>notification</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rbrace token'>}</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_session_storage identifier id'>session_storage</span><span class='lbrack token'>[</span><span class='symbol val'>:emitted_notifications</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_notification identifier id'>notification</span><span class='rparen token'>)</span>
+      <span class='comment val'># Already got this one</span>
+      <span class='rubyid_return return kw'>return</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_session_storage identifier id'>session_storage</span><span class='lbrack token'>[</span><span class='symbol val'>:emitted_notifications</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_notification identifier id'>notification</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_after_commit identifier id'>after_commit</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
       <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:notification</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_insert identifier id'>insert</span><span class='lparen token'>(</span><span class='symbol val'>:code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_code identifier id'>code</span><span class='comma token'>,</span> <span class='symbol val'>:params</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_blobify identifier id'>blobify</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -490,12 +520,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_since identifier id'>since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
   <span class='rubyid_@longpolling ivar id'>@longpolling</span><span class='dot token'>.</span><span class='rubyid_updates_since identifier id'>updates_since</span><span class='lparen token'>(</span><span class='rubyid_seq identifier id'>seq</span><span class='rparen token'>)</span>
@@ -521,30 +551,30 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
 71
 72
-73</pre>
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/notifications.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_background_thread identifier id'>start_background_thread</span>
   <span class='rubyid_frequency identifier id'>frequency</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:notifications_poll_frequency_ms</span><span class='rbrack token'>]</span> <span class='div op'>/</span> <span class='float val'>1000.0</span>
@@ -578,7 +608,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:55 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:45 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

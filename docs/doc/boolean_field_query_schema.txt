@@ -6,6 +6,8 @@ string	field
 
 boolean	value
 
+boolean	negated
+
 
 
 

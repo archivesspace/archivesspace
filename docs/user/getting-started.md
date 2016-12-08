@@ -14,10 +14,12 @@ You can check your Java version by running the command:
 
      java -version
 
+<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
 Currently, if you want to use Java 1.8, you will need to remove the
 jdt-compiler jar library from the java classpath ( lib directory of
 your ArchivesSpace directory). This will disable the use of Jasper
 reports ( but not regular reports).  
+--->
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
