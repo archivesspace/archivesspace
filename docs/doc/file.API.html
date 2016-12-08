@@ -230,7 +230,7 @@ endpoint, with :user_name and :password parameters being supplied.</p>
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.</p>
 
 <h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2016-07-28 18:03:59 -0700 the following REST endpoints exist in the master branch of the development repository:</p>
+<p>As of 2016-12-08 10:15:54 -0800 the following REST endpoints exist in the master branch of the development repository:</p>
 
 <h2 id="get-agentscorporateentities">GET /agents/corporate_entities</h2>
 
@@ -289,110 +289,63 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_corporate_entity&#8221;,
 &#8220;agent_contacts&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;agent_contact&#8221;,
 &#8220;telephones&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;telephone&#8221;,
-&#8220;number_type&#8221;:&#8221;cell&#8221;,
-&#8220;number&#8221;:&#8221;35701 66003 560&#8221;}],
-&#8220;name&#8221;:&#8221;Name Number 504&#8221;,
-&#8220;address_2&#8221;:&#8221;BWRL168&#8221;,
-&#8220;region&#8221;:&#8221;KV528SY&#8221;,
-&#8220;country&#8221;:&#8221;561692G952E&#8221;,
-&#8220;fax&#8221;:&#8221;JUGUR&#8221;,
-&#8220;email&#8221;:&#8221;R145386VP&#8221;,
-&#8220;email_signature&#8221;:&#8221;PJ61909Q&#8221;,
-&#8220;note&#8221;:&#8221;V524PLT&#8221;}],
+&#8220;number_type&#8221;:&#8221;fax&#8221;,
+&#8220;number&#8221;:&#8221;8113 2464 4305&#8221;}],
+&#8220;name&#8221;:&#8221;Name Number 505&#8221;,
+&#8220;address_3&#8221;:&#8221;GHB4293&#8221;,
+&#8220;region&#8221;:&#8221;IE730I531&#8221;,
+&#8220;post_code&#8221;:&#8221;AY831R606&#8221;,
+&#8220;fax&#8221;:&#8221;U898189H722&#8221;,
+&#8220;note&#8221;:&#8221;868HAH585&#8221;}],
 &#8220;linked_agent_roles&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-12-13&#8221;,
-&#8220;end&#8221;:&#8221;2004-12-13&#8221;,
-&#8220;expression&#8221;:&#8221;SNKS661&#8221;}],
+&#8220;begin&#8221;:&#8221;2005-02-15&#8221;,
+&#8220;end&#8221;:&#8221;2005-02-15&#8221;,
+&#8220;expression&#8221;:&#8221;KG439D700&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_corporate_entity&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
 &#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 503&#8221;,
-&#8220;subordinate_name_1&#8221;:&#8221;GVH6878&#8221;,
-&#8220;subordinate_name_2&#8221;:&#8221;531347HTH&#8221;,
-&#8220;number&#8221;:&#8221;J141TT789&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT l - 422&#8221;,
-&#8220;dates&#8221;:&#8221;490O394585F&#8221;,
-&#8220;qualifier&#8221;:&#8221;D498A775L&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 504&#8221;,
+&#8220;subordinate_name_1&#8221;:&#8221;902YJ24K&#8221;,
+&#8220;subordinate_name_2&#8221;:&#8221;WT578DX&#8221;,
+&#8220;number&#8221;:&#8221;369IUP491&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT b - 422&#8221;,
+&#8220;dates&#8221;:&#8221;183D740YO&#8221;,
+&#8220;qualifier&#8221;:&#8221;988185QJF&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-468.com&#8221;,
-&#8220;source&#8221;:&#8221;naf&#8221;}],
+&#8220;source&#8221;:&#8221;nad&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_corporate_entity&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/corporate_entities&#8221;</p>
 
 <p>```</p>
 
-<h2 id="post-agentscorporateentitiesid">POST /agents/corporate_entities/:id</h2>
+<h2 id="delete-agentscorporateentitiesid">DELETE /agents/corporate_entities/:id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Update a corporate entity agent</p>
+<p>Delete a corporate entity agent</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-
-<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_corporate_entity</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_record identifier id'>record</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_corporate identifier id'>corporate</span> <span class='rubyid_entity identifier id'>entity</span> <span class='rubyid_agent identifier id'>agent</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
 </code></pre>
 
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_corporate_entity&#8221;,
-&#8220;agent_contacts&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;agent_contact&#8221;,
-&#8220;telephones&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;telephone&#8221;,
-&#8220;number_type&#8221;:&#8221;cell&#8221;,
-&#8220;number&#8221;:&#8221;35701 66003 560&#8221;}],
-&#8220;name&#8221;:&#8221;Name Number 504&#8221;,
-&#8220;address_2&#8221;:&#8221;BWRL168&#8221;,
-&#8220;region&#8221;:&#8221;KV528SY&#8221;,
-&#8220;country&#8221;:&#8221;561692G952E&#8221;,
-&#8220;fax&#8221;:&#8221;JUGUR&#8221;,
-&#8220;email&#8221;:&#8221;R145386VP&#8221;,
-&#8220;email_signature&#8221;:&#8221;PJ61909Q&#8221;,
-&#8220;note&#8221;:&#8221;V524PLT&#8221;}],
-&#8220;linked_agent_roles&#8221;:[],
-&#8220;external_documents&#8221;:[],
-&#8220;rights_statements&#8221;:[],
-&#8220;notes&#8221;:[],
-&#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
-&#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-12-13&#8221;,
-&#8220;end&#8221;:&#8221;2004-12-13&#8221;,
-&#8220;expression&#8221;:&#8221;SNKS661&#8221;}],
-&#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_corporate_entity&#8221;,
-&#8220;use_dates&#8221;:[],
-&#8220;authorized&#8221;:false,
-&#8220;is_display_name&#8221;:false,
-&#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 503&#8221;,
-&#8220;subordinate_name_1&#8221;:&#8221;GVH6878&#8221;,
-&#8220;subordinate_name_2&#8221;:&#8221;531347HTH&#8221;,
-&#8220;number&#8221;:&#8221;J141TT789&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT l - 422&#8221;,
-&#8220;dates&#8221;:&#8221;490O394585F&#8221;,
-&#8220;qualifier&#8221;:&#8221;D498A775L&#8221;,
-&#8220;authority_id&#8221;:&#8221;http://www.example-468.com&#8221;,
-&#8220;source&#8221;:&#8221;naf&#8221;}],
-&#8220;related_agents&#8221;:[],
-&#8220;agent_type&#8221;:&#8221;agent_corporate_entity&#8221;}&#8217; \
-  &#8220;http://localhost:8089//agents/corporate_entities/1&#8221;</p>
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//agents/corporate_entities/1&#8221;</p>
 
 <p>```</p>
 
@@ -421,75 +374,67 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="delete-agentscorporateentitiesid">DELETE /agents/corporate_entities/:id</h2>
+<h2 id="post-agentscorporateentitiesid">POST /agents/corporate_entities/:id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Delete a corporate entity agent</p>
+<p>Update a corporate entity agent</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_corporate identifier id'>corporate</span> <span class='rubyid_entity identifier id'>entity</span> <span class='rubyid_agent identifier id'>agent</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_corporate_entity</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_record identifier id'>record</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
-</code></pre>
-
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//agents/corporate_entities/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="post-agentsfamilies">POST /agents/families</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a family agent</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_family&#8221;,
-&#8220;agent_contacts&#8221;:[],
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_corporate_entity&#8221;,
+&#8220;agent_contacts&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;agent_contact&#8221;,
+&#8220;telephones&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;telephone&#8221;,
+&#8220;number_type&#8221;:&#8221;fax&#8221;,
+&#8220;number&#8221;:&#8221;8113 2464 4305&#8221;}],
+&#8220;name&#8221;:&#8221;Name Number 505&#8221;,
+&#8220;address_3&#8221;:&#8221;GHB4293&#8221;,
+&#8220;region&#8221;:&#8221;IE730I531&#8221;,
+&#8220;post_code&#8221;:&#8221;AY831R606&#8221;,
+&#8220;fax&#8221;:&#8221;U898189H722&#8221;,
+&#8220;note&#8221;:&#8221;868HAH585&#8221;}],
 &#8220;linked_agent_roles&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-07-14&#8221;,
-&#8220;end&#8221;:&#8221;2004-07-14&#8221;,
-&#8220;expression&#8221;:&#8221;BJ973LA&#8221;}],
-&#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_family&#8221;,
+&#8220;begin&#8221;:&#8221;2005-02-15&#8221;,
+&#8220;end&#8221;:&#8221;2005-02-15&#8221;,
+&#8220;expression&#8221;:&#8221;KG439D700&#8221;}],
+&#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_corporate_entity&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
 &#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;family_name&#8221;:&#8221;Name Number 505&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT l - 423&#8221;,
-&#8220;dates&#8221;:&#8221;G809KQO&#8221;,
-&#8220;qualifier&#8221;:&#8221;180V889813129&#8221;,
-&#8220;prefix&#8221;:&#8221;DC12294191&#8221;,
-&#8220;authority_id&#8221;:&#8221;http://www.example-469.com&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 504&#8221;,
+&#8220;subordinate_name_1&#8221;:&#8221;902YJ24K&#8221;,
+&#8220;subordinate_name_2&#8221;:&#8221;WT578DX&#8221;,
+&#8220;number&#8221;:&#8221;369IUP491&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT b - 422&#8221;,
+&#8220;dates&#8221;:&#8221;183D740YO&#8221;,
+&#8220;qualifier&#8221;:&#8221;988185QJF&#8221;,
+&#8220;authority_id&#8221;:&#8221;http://www.example-468.com&#8221;,
 &#8220;source&#8221;:&#8221;nad&#8221;}],
 &#8220;related_agents&#8221;:[],
-&#8220;agent_type&#8221;:&#8221;agent_family&#8221;}&#8217; \
-  &#8220;http://localhost:8089//agents/families&#8221;</p>
+&#8220;agent_type&#8221;:&#8221;agent_corporate_entity&#8221;}&#8217; \
+  &#8220;http://localhost:8089//agents/corporate_entities/1&#8221;</p>
 
 <p>```</p>
 
@@ -527,28 +472,54 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="get-agentsfamiliesid">GET /agents/families/:id</h2>
+<h2 id="post-agentsfamilies">POST /agents/families</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get a family by ID</p>
+<p>Create a family agent</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_family identifier id'>family</span> <span class='rubyid_agent identifier id'>agent</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <p>```shell</p>
 
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/families/1&#8221;</p>
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_family&#8221;,
+&#8220;agent_contacts&#8221;:[],
+&#8220;linked_agent_roles&#8221;:[],
+&#8220;external_documents&#8221;:[],
+&#8220;rights_statements&#8221;:[],
+&#8220;notes&#8221;:[],
+&#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
+&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;label&#8221;:&#8221;existence&#8221;,
+&#8220;begin&#8221;:&#8221;2000-07-15&#8221;,
+&#8220;end&#8221;:&#8221;2000-07-15&#8221;,
+&#8220;expression&#8221;:&#8221;SL933A296&#8221;}],
+&#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_family&#8221;,
+&#8220;use_dates&#8221;:[],
+&#8220;authorized&#8221;:false,
+&#8220;is_display_name&#8221;:false,
+&#8220;sort_name_auto_generate&#8221;:true,
+&#8220;rules&#8221;:&#8221;dacs&#8221;,
+&#8220;family_name&#8221;:&#8221;Name Number 506&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT d - 423&#8221;,
+&#8220;dates&#8221;:&#8221;PMC541155&#8221;,
+&#8220;qualifier&#8221;:&#8221;F670HG102&#8221;,
+&#8220;prefix&#8221;:&#8221;96BBCU&#8221;,
+&#8220;authority_id&#8221;:&#8221;http://www.example-469.com&#8221;,
+&#8220;source&#8221;:&#8221;ulan&#8221;}],
+&#8220;related_agents&#8221;:[],
+&#8220;agent_type&#8221;:&#8221;agent_family&#8221;}&#8217; \
+  &#8220;http://localhost:8089//agents/families&#8221;</p>
 
 <p>```</p>
 
@@ -583,22 +554,22 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
 &#8220;date_type&#8221;:&#8221;single&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-07-14&#8221;,
-&#8220;end&#8221;:&#8221;2004-07-14&#8221;,
-&#8220;expression&#8221;:&#8221;BJ973LA&#8221;}],
+&#8220;begin&#8221;:&#8221;2000-07-15&#8221;,
+&#8220;end&#8221;:&#8221;2000-07-15&#8221;,
+&#8220;expression&#8221;:&#8221;SL933A296&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_family&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;family_name&#8221;:&#8221;Name Number 505&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT l - 423&#8221;,
-&#8220;dates&#8221;:&#8221;G809KQO&#8221;,
-&#8220;qualifier&#8221;:&#8221;180V889813129&#8221;,
-&#8220;prefix&#8221;:&#8221;DC12294191&#8221;,
+&#8220;rules&#8221;:&#8221;dacs&#8221;,
+&#8220;family_name&#8221;:&#8221;Name Number 506&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT d - 423&#8221;,
+&#8220;dates&#8221;:&#8221;PMC541155&#8221;,
+&#8220;qualifier&#8221;:&#8221;F670HG102&#8221;,
+&#8220;prefix&#8221;:&#8221;96BBCU&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-469.com&#8221;,
-&#8220;source&#8221;:&#8221;nad&#8221;}],
+&#8220;source&#8221;:&#8221;ulan&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_family&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/families/1&#8221;</p>
@@ -623,6 +594,31 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```shell 
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//agents/families/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-agentsfamiliesid">GET /agents/families/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a family by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_family identifier id'>family</span> <span class='rubyid_agent identifier id'>agent</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/families/1&#8221;</p>
 
 <p>```</p>
 
@@ -653,26 +649,27 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-09-01&#8221;,
-&#8220;end&#8221;:&#8221;2004-09-01&#8221;,
-&#8220;expression&#8221;:&#8221;411736923K256&#8221;}],
+&#8220;begin&#8221;:&#8221;1993-11-22&#8221;,
+&#8220;end&#8221;:&#8221;1993-11-22&#8221;,
+&#8220;expression&#8221;:&#8221;EC43LK&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_person&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;local&#8221;,
-&#8220;source&#8221;:&#8221;local&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 506&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT e - 424&#8221;,
+&#8220;rules&#8221;:&#8221;aacr&#8221;,
+&#8220;source&#8221;:&#8221;naf&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 507&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT t - 424&#8221;,
 &#8220;name_order&#8221;:&#8221;inverted&#8221;,
-&#8220;number&#8221;:&#8221;H665AVK&#8221;,
-&#8220;dates&#8221;:&#8221;WR680KX&#8221;,
-&#8220;qualifier&#8221;:&#8221;EL289K563&#8221;,
-&#8220;fuller_form&#8221;:&#8221;162FJFD&#8221;,
-&#8220;prefix&#8221;:&#8221;CCES103&#8221;,
+&#8220;number&#8221;:&#8221;WB567118P&#8221;,
+&#8220;dates&#8221;:&#8221;GN355S371&#8221;,
+&#8220;qualifier&#8221;:&#8221;MPJIE&#8221;,
+&#8220;fuller_form&#8221;:&#8221;557VIT93&#8221;,
+&#8220;prefix&#8221;:&#8221;536SAWR&#8221;,
+&#8220;title&#8221;:&#8221;VLQ661D&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-470.com&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_person&#8221;}&#8217; \
@@ -735,6 +732,31 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="get-agentspeopleid">GET /agents/people/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a person by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_person identifier id'>person</span> <span class='rubyid_agent identifier id'>agent</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/people/1&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-agentspeopleid">POST /agents/people/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -764,55 +786,31 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2004-09-01&#8221;,
-&#8220;end&#8221;:&#8221;2004-09-01&#8221;,
-&#8220;expression&#8221;:&#8221;411736923K256&#8221;}],
+&#8220;begin&#8221;:&#8221;1993-11-22&#8221;,
+&#8220;end&#8221;:&#8221;1993-11-22&#8221;,
+&#8220;expression&#8221;:&#8221;EC43LK&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_person&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;local&#8221;,
-&#8220;source&#8221;:&#8221;local&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 506&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT e - 424&#8221;,
+&#8220;rules&#8221;:&#8221;aacr&#8221;,
+&#8220;source&#8221;:&#8221;naf&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 507&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT t - 424&#8221;,
 &#8220;name_order&#8221;:&#8221;inverted&#8221;,
-&#8220;number&#8221;:&#8221;H665AVK&#8221;,
-&#8220;dates&#8221;:&#8221;WR680KX&#8221;,
-&#8220;qualifier&#8221;:&#8221;EL289K563&#8221;,
-&#8220;fuller_form&#8221;:&#8221;162FJFD&#8221;,
-&#8220;prefix&#8221;:&#8221;CCES103&#8221;,
+&#8220;number&#8221;:&#8221;WB567118P&#8221;,
+&#8220;dates&#8221;:&#8221;GN355S371&#8221;,
+&#8220;qualifier&#8221;:&#8221;MPJIE&#8221;,
+&#8220;fuller_form&#8221;:&#8221;557VIT93&#8221;,
+&#8220;prefix&#8221;:&#8221;536SAWR&#8221;,
+&#8220;title&#8221;:&#8221;VLQ661D&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-470.com&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_person&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/people/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-agentspeopleid">GET /agents/people/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a person by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_person identifier id'>person</span> <span class='rubyid_agent identifier id'>agent</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/people/1&#8221;</p>
 
 <p>```</p>
 
@@ -877,21 +875,67 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2012-03-22&#8221;,
-&#8220;end&#8221;:&#8221;2012-03-22&#8221;,
-&#8220;expression&#8221;:&#8221;HBI274Q&#8221;}],
+&#8220;begin&#8221;:&#8221;2010-06-06&#8221;,
+&#8220;end&#8221;:&#8221;2010-06-06&#8221;,
+&#8220;expression&#8221;:&#8221;D197YC722&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_software&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;local&#8221;,
-&#8220;software_name&#8221;:&#8221;Name Number 507&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT m - 425&#8221;}],
+&#8220;rules&#8221;:&#8221;rda&#8221;,
+&#8220;software_name&#8221;:&#8221;Name Number 508&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT i - 425&#8221;}],
 &#8220;agent_type&#8221;:&#8221;agent_software&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/software&#8221;</p>
+
+<p>```</p>
+
+<h2 id="delete-agentssoftwareid">DELETE /agents/software/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a software agent</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_software identifier id'>software</span> <span class='rubyid_agent identifier id'>agent</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+</code></pre>
+
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//agents/software/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-agentssoftwareid">GET /agents/software/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a software agent by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_software identifier id'>software</span> <span class='rubyid_agent identifier id'>agent</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/software/1&#8221;</p>
 
 <p>```</p>
 
@@ -924,67 +968,21 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2012-03-22&#8221;,
-&#8220;end&#8221;:&#8221;2012-03-22&#8221;,
-&#8220;expression&#8221;:&#8221;HBI274Q&#8221;}],
+&#8220;begin&#8221;:&#8221;2010-06-06&#8221;,
+&#8220;end&#8221;:&#8221;2010-06-06&#8221;,
+&#8220;expression&#8221;:&#8221;D197YC722&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_software&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;local&#8221;,
-&#8220;software_name&#8221;:&#8221;Name Number 507&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT m - 425&#8221;}],
+&#8220;rules&#8221;:&#8221;rda&#8221;,
+&#8220;software_name&#8221;:&#8221;Name Number 508&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT i - 425&#8221;}],
 &#8220;agent_type&#8221;:&#8221;agent_software&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/software/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-agentssoftwareid">GET /agents/software/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a software agent by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_software identifier id'>software</span> <span class='rubyid_agent identifier id'>agent</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:agent</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/agents/software/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="delete-agentssoftwareid">DELETE /agents/software/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Delete a software agent</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_software identifier id'>software</span> <span class='rubyid_agent identifier id'>agent</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
-</code></pre>
-
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//agents/software/1&#8221;</p>
 
 <p>```</p>
 
@@ -1007,7 +1005,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;TRRD720&#8221;&#8217; \
+  -d &#8216;&#8220;74474483379B&#8221;&#8217; \
   &#8220;http://localhost:8089//batch_delete&#8221;</p>
 
 <p>```</p>
@@ -1197,28 +1195,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
-<h2 id="get-configenumerationsenumid">GET /config/enumerations/:enum_id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get an Enumeration</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_enum_id identifier id'>enum_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_enumeration identifier id'>enumeration</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_retrieve identifier id'>retrieve</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/config/enumerations/:enum_id&#8221;</p>
-
-<p>```</p>
-
 <h2 id="post-configenumerationsenumid">POST /config/enumerations/:enum_id</h2>
 
 <p><strong>Description</strong></p>
@@ -1247,6 +1223,28 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;[&#8220;Example Missing&#8221;]&#8217; \
   &#8220;http://localhost:8089//config/enumerations/:enum_id&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-configenumerationsenumid">GET /config/enumerations/:enum_id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Enumeration</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_enum_id identifier id'>enum_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_enumeration identifier id'>enumeration</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_retrieve identifier id'>retrieve</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/config/enumerations/:enum_id&#8221;</p>
 
 <p>```</p>
 
@@ -1295,13 +1293,13 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;container_profile&#8221;,
-&#8220;name&#8221;:&#8221;708141SQF&#8221;,
-&#8220;url&#8221;:&#8221;XQNVP&#8221;,
-&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
-&#8220;extent_dimension&#8221;:&#8221;height&#8221;,
-&#8220;depth&#8221;:&#8221;24&#8221;,
-&#8220;height&#8221;:&#8221;27&#8221;,
-&#8220;width&#8221;:&#8221;65&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;N411554H575&#8221;,
+&#8220;url&#8221;:&#8221;W117YX605&#8221;,
+&#8220;dimension_units&#8221;:&#8221;centimeters&#8221;,
+&#8220;extent_dimension&#8221;:&#8221;depth&#8221;,
+&#8220;depth&#8221;:&#8221;91&#8221;,
+&#8220;height&#8221;:&#8221;54&#8221;,
+&#8220;width&#8221;:&#8221;20&#8221;}&#8217; \
   &#8220;http://localhost:8089//container_profiles&#8221;</p>
 
 <p>```</p>
@@ -1340,27 +1338,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="delete-containerprofilesid">DELETE /container_profiles/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Delete an Container Profile</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
-</code></pre>
-
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//container_profiles/1&#8221;</p>
-
-<p>```</p>
-
 <h2 id="post-containerprofilesid">POST /container_profiles/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -1383,14 +1360,35 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;container_profile&#8221;,
-&#8220;name&#8221;:&#8221;708141SQF&#8221;,
-&#8220;url&#8221;:&#8221;XQNVP&#8221;,
-&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
-&#8220;extent_dimension&#8221;:&#8221;height&#8221;,
-&#8220;depth&#8221;:&#8221;24&#8221;,
-&#8220;height&#8221;:&#8221;27&#8221;,
-&#8220;width&#8221;:&#8221;65&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;N411554H575&#8221;,
+&#8220;url&#8221;:&#8221;W117YX605&#8221;,
+&#8220;dimension_units&#8221;:&#8221;centimeters&#8221;,
+&#8220;extent_dimension&#8221;:&#8221;depth&#8221;,
+&#8220;depth&#8221;:&#8221;91&#8221;,
+&#8220;height&#8221;:&#8221;54&#8221;,
+&#8220;width&#8221;:&#8221;20&#8221;}&#8217; \
   &#8220;http://localhost:8089//container_profiles/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="delete-containerprofilesid">DELETE /container_profiles/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete an Container Profile</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+</code></pre>
+
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//container_profiles/1&#8221;</p>
 
 <p>```</p>
 
@@ -1515,11 +1513,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location_profile&#8221;,
-&#8220;name&#8221;:&#8221;G707L816515&#8221;,
-&#8220;dimension_units&#8221;:&#8221;millimeters&#8221;,
-&#8220;depth&#8221;:&#8221;39&#8221;,
-&#8220;height&#8221;:&#8221;21&#8221;,
-&#8220;width&#8221;:&#8221;92&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;JOV707W&#8221;,
+&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
+&#8220;depth&#8221;:&#8221;55&#8221;,
+&#8220;height&#8221;:&#8221;58&#8221;,
+&#8220;width&#8221;:&#8221;76&#8221;}&#8217; \
   &#8220;http://localhost:8089//location_profiles&#8221;</p>
 
 <p>```</p>
@@ -1580,11 +1578,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location_profile&#8221;,
-&#8220;name&#8221;:&#8221;G707L816515&#8221;,
-&#8220;dimension_units&#8221;:&#8221;millimeters&#8221;,
-&#8220;depth&#8221;:&#8221;39&#8221;,
-&#8220;height&#8221;:&#8221;21&#8221;,
-&#8220;width&#8221;:&#8221;92&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;JOV707W&#8221;,
+&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
+&#8220;depth&#8221;:&#8221;55&#8221;,
+&#8220;height&#8221;:&#8221;58&#8221;,
+&#8220;width&#8221;:&#8221;76&#8221;}&#8217; \
   &#8220;http://localhost:8089//location_profiles/1&#8221;</p>
 
 <p>```</p>
@@ -1634,6 +1632,38 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="post-locations">POST /locations</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Location</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
+&#8220;external_ids&#8221;:[],
+&#8220;functions&#8221;:[],
+&#8220;building&#8221;:&#8221;11 E 9th Street&#8221;,
+&#8220;floor&#8221;:&#8221;10&#8221;,
+&#8220;room&#8221;:&#8221;5&#8221;,
+&#8220;area&#8221;:&#8221;Back&#8221;,
+&#8220;barcode&#8221;:&#8221;01101010000000000000&#8221;,
+&#8220;temporary&#8221;:&#8221;loan&#8221;}&#8217; \
+  &#8220;http://localhost:8089//locations&#8221;</p>
+
+<p>```</p>
+
 <h2 id="get-locations">GET /locations</h2>
 
 <p><strong>Description</strong></p>
@@ -1668,69 +1698,24 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="post-locations">POST /locations</h2>
+<h2 id="delete-locationsid">DELETE /locations/:id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Create a Location</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
-&#8220;external_ids&#8221;:[],
-&#8220;functions&#8221;:[],
-&#8220;building&#8221;:&#8221;114 W 7th Street&#8221;,
-&#8220;floor&#8221;:&#8221;11&#8221;,
-&#8220;room&#8221;:&#8221;16&#8221;,
-&#8220;area&#8221;:&#8221;Front&#8221;,
-&#8220;barcode&#8221;:&#8221;11110100000110111001&#8221;,
-&#8220;temporary&#8221;:&#8221;conservation&#8221;}&#8217; \
-  &#8220;http://localhost:8089//locations&#8221;</p>
-
-<p>```</p>
-
-<h2 id="post-locationsid">POST /locations/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Update a Location</p>
+<p>Delete a Location</p>
 
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-
-<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_record identifier id'>record</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
 </code></pre>
 
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
-&#8220;external_ids&#8221;:[],
-&#8220;functions&#8221;:[],
-&#8220;building&#8221;:&#8221;114 W 7th Street&#8221;,
-&#8220;floor&#8221;:&#8221;11&#8221;,
-&#8220;room&#8221;:&#8221;16&#8221;,
-&#8220;area&#8221;:&#8221;Front&#8221;,
-&#8220;barcode&#8221;:&#8221;11110100000110111001&#8221;,
-&#8220;temporary&#8221;:&#8221;conservation&#8221;}&#8217; \
-  &#8220;http://localhost:8089//locations/1&#8221;</p>
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//locations/1&#8221;</p>
 
 <p>```</p>
 
@@ -1758,24 +1743,37 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="delete-locationsid">DELETE /locations/:id</h2>
+<h2 id="post-locationsid">POST /locations/:id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Delete a Location</p>
+<p>Update a Location</p>
 
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_record identifier id'>record</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Updated&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_updated identifier id'>updated</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//locations/1&#8221;</p>
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
+&#8220;external_ids&#8221;:[],
+&#8220;functions&#8221;:[],
+&#8220;building&#8221;:&#8221;11 E 9th Street&#8221;,
+&#8220;floor&#8221;:&#8221;10&#8221;,
+&#8220;room&#8221;:&#8221;5&#8221;,
+&#8220;area&#8221;:&#8221;Back&#8221;,
+&#8220;barcode&#8221;:&#8221;01101010000000000000&#8221;,
+&#8220;temporary&#8221;:&#8221;loan&#8221;}&#8217; \
+  &#8220;http://localhost:8089//locations/1&#8221;</p>
 
 <p>```</p>
 
@@ -2158,43 +2156,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
-<h2 id="get-repositoriesrepoidaccessions">GET /repositories/:repo_id/accessions</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a list of Accessions for a Repository</p>
-
-<p><strong>Parameters</strong></p>
-
-<aside class="notice">
-This endpoint is paginated. :page, :id_set, or :all_ids is required
-<ul>
-  <li>Integer page &ndash; The page set to be returned</li>
-  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
-  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
-  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
-</ul>  
-</aside>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-</code></pre>
-
-<p>```shell</p>
-
-<h1 id="return-first-10-records-8">return first 10 records</h1>
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?page=1&amp;page_size=10&#8221;
-# return first 5 records in the Fibonacci sequence
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?id_set=1,2,3,5,8&#8221;
-# return an array of all the ids 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?all_ids=true&#8221;</p>
-
-<p>```</p>
-
 <h2 id="post-repositoriesrepoidaccessions">POST /repositories/:repo_id/accessions</h2>
 
 <p><strong>Description</strong></p>
@@ -2233,14 +2194,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;use_restrictions&#8221;:false,
 &#8220;linked_agents&#8221;:[],
 &#8220;instances&#8221;:[],
-&#8220;id_0&#8221;:&#8221;ISJEC&#8221;,
-&#8220;id_1&#8221;:&#8221;X518364L911&#8221;,
-&#8220;id_2&#8221;:&#8221;AOR943J&#8221;,
-&#8220;id_3&#8221;:&#8221;429YJYT&#8221;,
+&#8220;id_0&#8221;:&#8221;V950JSU&#8221;,
+&#8220;id_1&#8221;:&#8221;W653645O179&#8221;,
+&#8220;id_2&#8221;:&#8221;QRDXE&#8221;,
+&#8220;id_3&#8221;:&#8221;810418V292S&#8221;,
 &#8220;title&#8221;:&#8221;Accession Title: 348&#8221;,
-&#8220;content_description&#8221;:&#8221;Description: 259&#8221;,
-&#8220;condition_description&#8221;:&#8221;Description: 260&#8221;,
-&#8220;accession_date&#8221;:&#8221;1992-12-06&#8221;}&#8217; \
+&#8220;content_description&#8221;:&#8221;Description: 260&#8221;,
+&#8220;condition_description&#8221;:&#8221;Description: 261&#8221;,
+&#8220;accession_date&#8221;:&#8221;1978-09-19&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2249,26 +2210,66 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="delete-repositoriesrepoidaccessionsid">DELETE /repositories/:repo_id/accessions/:id</h2>
+<h2 id="get-repositoriesrepoidaccessions">GET /repositories/:repo_id/accessions</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Delete an Accession</p>
+<p>Get a list of Accessions for a Repository</p>
+
+<p><strong>Parameters</strong></p>
+
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>  
+</aside>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>```shell</p>
+
+<h1 id="return-first-10-records-8">return first 10 records</h1>
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?page=1&amp;page_size=10&#8221;
+# return first 5 records in the Fibonacci sequence
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?id_set=1,2,3,5,8&#8221;
+# return an array of all the ids 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions?all_ids=true&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-repositoriesrepoidaccessionsid">GET /repositories/:repo_id/accessions/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Accession by ID</p>
 
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span>
 </code></pre>
 
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//repositories/:repo_id/accessions/1&#8221;</p>
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions/1&#8221;</p>
 
 <p>```</p>
 
@@ -2312,14 +2313,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;use_restrictions&#8221;:false,
 &#8220;linked_agents&#8221;:[],
 &#8220;instances&#8221;:[],
-&#8220;id_0&#8221;:&#8221;ISJEC&#8221;,
-&#8220;id_1&#8221;:&#8221;X518364L911&#8221;,
-&#8220;id_2&#8221;:&#8221;AOR943J&#8221;,
-&#8220;id_3&#8221;:&#8221;429YJYT&#8221;,
+&#8220;id_0&#8221;:&#8221;V950JSU&#8221;,
+&#8220;id_1&#8221;:&#8221;W653645O179&#8221;,
+&#8220;id_2&#8221;:&#8221;QRDXE&#8221;,
+&#8220;id_3&#8221;:&#8221;810418V292S&#8221;,
 &#8220;title&#8221;:&#8221;Accession Title: 348&#8221;,
-&#8220;content_description&#8221;:&#8221;Description: 259&#8221;,
-&#8220;condition_description&#8221;:&#8221;Description: 260&#8221;,
-&#8220;accession_date&#8221;:&#8221;1992-12-06&#8221;}&#8217; \
+&#8220;content_description&#8221;:&#8221;Description: 260&#8221;,
+&#8220;condition_description&#8221;:&#8221;Description: 261&#8221;,
+&#8220;accession_date&#8221;:&#8221;1978-09-19&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2328,29 +2329,26 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
-<h2 id="get-repositoriesrepoidaccessionsid">GET /repositories/:repo_id/accessions/:id</h2>
+<h2 id="delete-repositoriesrepoidaccessionsid">DELETE /repositories/:repo_id/accessions/:id</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get an Accession by ID</p>
+<p>Delete an Accession</p>
 
 <p><strong>Parameters</strong></p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
 </code></pre>
 
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/accessions/1&#8221;</p>
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//repositories/:repo_id/accessions/1&#8221;</p>
 
 <p>```</p>
 
@@ -2409,7 +2407,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;HN808806M&#8221;&#8217; \
+  -d &#8216;&#8220;NWP964M&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2610,6 +2608,51 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create an Archival Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;archival_object&#8221;,
+&#8220;external_ids&#8221;:[],
+&#8220;subjects&#8221;:[],
+&#8220;linked_events&#8221;:[],
+&#8220;extents&#8221;:[],
+&#8220;dates&#8221;:[],
+&#8220;external_documents&#8221;:[],
+&#8220;rights_statements&#8221;:[],
+&#8220;linked_agents&#8221;:[],
+&#8220;restrictions_apply&#8221;:false,
+&#8220;instances&#8221;:[],
+&#8220;notes&#8221;:[],
+&#8220;ref_id&#8221;:&#8221;GFKOE&#8221;,
+&#8220;level&#8221;:&#8221;item&#8221;,
+&#8220;title&#8221;:&#8221;Archival Object Title: 349&#8221;}&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/archival_objects&#8221;</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;&#8220;1&#8221;&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/archival_objects&#8221;</p>
+
+<p>```</p>
+
 <h2 id="get-repositoriesrepoidarchivalobjects">GET /repositories/:repo_id/archival_objects</h2>
 
 <p><strong>Description</strong></p>
@@ -2647,51 +2690,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="post-repositoriesrepoidarchivalobjects">POST /repositories/:repo_id/archival_objects</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create an Archival Object</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;archival_object&#8221;,
-&#8220;external_ids&#8221;:[],
-&#8220;subjects&#8221;:[],
-&#8220;linked_events&#8221;:[],
-&#8220;extents&#8221;:[],
-&#8220;dates&#8221;:[],
-&#8220;external_documents&#8221;:[],
-&#8220;rights_statements&#8221;:[],
-&#8220;linked_agents&#8221;:[],
-&#8220;restrictions_apply&#8221;:false,
-&#8220;instances&#8221;:[],
-&#8220;notes&#8221;:[],
-&#8220;ref_id&#8221;:&#8221;265709295NS&#8221;,
-&#8220;level&#8221;:&#8221;item&#8221;,
-&#8220;title&#8221;:&#8221;Archival Object Title: 349&#8221;}&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/archival_objects&#8221;</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;1&#8221;&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/archival_objects&#8221;</p>
-
-<p>```</p>
-
 <h2 id="delete-repositoriesrepoidarchivalobjectsid">DELETE /repositories/:repo_id/archival_objects/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -2712,6 +2710,33 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```shell 
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-repositoriesrepoidarchivalobjectsid">GET /repositories/:repo_id/archival_objects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get an Archival Object by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/archival_objects/1&#8221;</p>
 
 <p>```</p>
 
@@ -2751,7 +2776,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;restrictions_apply&#8221;:false,
 &#8220;instances&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;ref_id&#8221;:&#8221;265709295NS&#8221;,
+&#8220;ref_id&#8221;:&#8221;GFKOE&#8221;,
 &#8220;level&#8221;:&#8221;item&#8221;,
 &#8220;title&#8221;:&#8221;Archival Object Title: 349&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1&#8221;</p>
@@ -2759,33 +2784,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;&#8220;1&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-repositoriesrepoidarchivalobjectsid">GET /repositories/:repo_id/archival_objects/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get an Archival Object by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/archival_objects/1&#8221;</p>
 
 <p>```</p>
 
@@ -2816,7 +2814,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;B815167RI&#8221;&#8217; \
+  -d &#8216;&#8220;GVKJL&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2971,8 +2969,10 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
 
-<span class='rubyid_String constant id'>String</span> <span class='rubyid_migration identifier id'>migration</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_param identifier id'>param</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_indicate identifier id'>indicate</span> <span class='rubyid_we identifier id'>we</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_using identifier id'>using</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_migrator identifier id'>migrator</span>
-</code></pre>
+<span class='rubyid_String constant id'>String</span> <span class='rubyid_migration identifier id'>migration</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Param constant id'>Param</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_indicate identifier id'>indicate</span> <span class='rubyid_we identifier id'>we</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_using identifier id'>using</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_migrator identifier id'>migrator</span>
+
+<span class='rubyid_RESTHelpers constant id'>RESTHelpers</span><span class='colon2 op'>::</span><span class='rubyid_BooleanParam constant id'>BooleanParam</span> <span class='rubyid_skip_results identifier id'>skip_results</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_If constant id'>If</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_don identifier id'>don</span><span class='string val'>'t return the list of created record URIs
+</span></code></pre>
 
 <p><strong>Returns</strong></p>
 
@@ -2992,39 +2992,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/batch_imports&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;NVXGM&#8221;&#8217; \
+  -d &#8216;&#8220;MRDYK&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/batch_imports&#8221;</p>
 
-<p>```</p>
-
-<h2 id="post-repositoriesrepoidclassificationterms">POST /repositories/:repo_id/classification_terms</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Classification Term</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;[&#8220;Example Missing&#8221;]&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/classification_terms&#8221;</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;1&#8221;&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/classification_terms&#8221;</p>
+  -d &#8216;&#8220;BooleanParam&#8221;&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/batch_imports&#8221;</p>
 
 <p>```</p>
 
@@ -3065,30 +3038,34 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="get-repositoriesrepoidclassificationtermsid">GET /repositories/:repo_id/classification_terms/:id</h2>
+<h2 id="post-repositoriesrepoidclassificationterms">POST /repositories/:repo_id/classification_terms</h2>
 
 <p><strong>Description</strong></p>
 
-<p>Get a Classification Term by ID</p>
+<p>Create a Classification Term</p>
 
 <p><strong>Parameters</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
 
 <span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
 </code></pre>
 
 <p><strong>Returns</strong></p>
 
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 </code></pre>
 
 <p>```shell</p>
 
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/classification_terms/1&#8221;</p>
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;[&#8220;Example Missing&#8221;]&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/classification_terms&#8221;</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;&#8220;1&#8221;&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/classification_terms&#8221;</p>
 
 <p>```</p>
 
@@ -3148,6 +3125,33 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="get-repositoriesrepoidclassificationtermsid">GET /repositories/:repo_id/classification_terms/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Classification Term by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/classification_terms/1&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-repositoriesrepoidclassificationtermsidacceptchildren">POST /repositories/:repo_id/classification_terms/:id/accept_children</h2>
 
 <p><strong>Description</strong></p>
@@ -3175,7 +3179,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;KW316NT&#8221;&#8217; \
+  -d &#8216;&#8220;379633SU819&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classification_terms/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3278,9 +3282,9 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;publish&#8221;:true,
 &#8220;path_from_root&#8221;:[],
 &#8220;linked_records&#8221;:[],
-&#8220;identifier&#8221;:&#8221;LD654HS&#8221;,
+&#8220;identifier&#8221;:&#8221;19164F576830&#8221;,
 &#8220;title&#8221;:&#8221;Classification Title: 350&#8221;,
-&#8220;description&#8221;:&#8221;Description: 261&#8221;}&#8217; \
+&#8220;description&#8221;:&#8221;Description: 262&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3349,6 +3353,32 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="get-repositoriesrepoidclassificationsid">GET /repositories/:repo_id/classifications/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Classification</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:classification</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/classifications/1&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-repositoriesrepoidclassificationsid">POST /repositories/:repo_id/classifications/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -3377,40 +3407,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;publish&#8221;:true,
 &#8220;path_from_root&#8221;:[],
 &#8220;linked_records&#8221;:[],
-&#8220;identifier&#8221;:&#8221;LD654HS&#8221;,
+&#8220;identifier&#8221;:&#8221;19164F576830&#8221;,
 &#8220;title&#8221;:&#8221;Classification Title: 350&#8221;,
-&#8220;description&#8221;:&#8221;Description: 261&#8221;}&#8217; \
+&#8220;description&#8221;:&#8221;Description: 262&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;&#8220;1&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-repositoriesrepoidclassificationsid">GET /repositories/:repo_id/classifications/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Classification</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:classification</span><span class='rparen token'>)</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/classifications/1&#8221;</p>
 
 <p>```</p>
 
@@ -3441,7 +3445,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;P416V505O&#8221;&#8217; \
+  -d &#8216;&#8220;RP748B822&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3503,11 +3507,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;WC86N247&#8221;&#8217; \
+  -d &#8216;&#8220;WFHVM&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/component_transfers&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;SGD415O&#8221;&#8217; \
+  -d &#8216;&#8220;740LU15622&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/component_transfers&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3595,7 +3599,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/default_values/:record_type&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;Q417466T139&#8221;&#8217; \
+  -d &#8216;&#8220;HW817730H&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/default_values/:record_type&#8221;</p>
 
 <p>```</p>
@@ -3633,7 +3637,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;component_id&#8221;:&#8221;262RHU487&#8221;,
+&#8220;component_id&#8221;:&#8221;110JPNR&#8221;,
 &#8220;title&#8221;:&#8221;Digital Object Component Title: 353&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components&#8221;</p>
 
@@ -3715,7 +3719,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;component_id&#8221;:&#8221;262RHU487&#8221;,
+&#8220;component_id&#8221;:&#8221;110JPNR&#8221;,
 &#8220;title&#8221;:&#8221;Digital Object Component Title: 353&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components/1&#8221;</p>
 
@@ -3802,7 +3806,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;YKTA330&#8221;&#8217; \
+  -d &#8216;&#8220;CLEA288&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3945,6 +3949,98 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="post-repositoriesrepoiddigitalobjects">POST /repositories/:repo_id/digital_objects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Digital Object</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;digital_object&#8221;,
+&#8220;external_ids&#8221;:[],
+&#8220;subjects&#8221;:[],
+&#8220;linked_events&#8221;:[],
+&#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
+&#8220;portion&#8221;:&#8221;whole&#8221;,
+&#8220;number&#8221;:&#8221;15&#8221;,
+&#8220;extent_type&#8221;:&#8221;volumes&#8221;}],
+&#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;label&#8221;:&#8221;creation&#8221;,
+&#8220;begin&#8221;:&#8221;1991-11-11&#8221;,
+&#8220;end&#8221;:&#8221;1991-11-11&#8221;,
+&#8220;expression&#8221;:&#8221;QIIRR&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
+&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;label&#8221;:&#8221;creation&#8221;,
+&#8220;begin&#8221;:&#8221;2007-08-08&#8221;,
+&#8220;end&#8221;:&#8221;2007-08-08&#8221;,
+&#8220;expression&#8221;:&#8221;IGFCP&#8221;}],
+&#8220;external_documents&#8221;:[],
+&#8220;rights_statements&#8221;:[],
+&#8220;linked_agents&#8221;:[],
+&#8220;file_versions&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;79RMLG&#8221;,
+&#8220;use_statement&#8221;:&#8221;audio-clip&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;other&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;new&#8221;,
+&#8220;file_format_name&#8221;:&#8221;txt&#8221;,
+&#8220;file_format_version&#8221;:&#8221;XG396PJ&#8221;,
+&#8220;file_size_bytes&#8221;:97,
+&#8220;checksum&#8221;:&#8221;483962DA836&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-512&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;313394CLO&#8221;,
+&#8220;use_statement&#8221;:&#8221;application-pdf&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onLoad&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;new&#8221;,
+&#8220;file_format_name&#8221;:&#8221;tiff&#8221;,
+&#8220;file_format_version&#8221;:&#8221;203375URK&#8221;,
+&#8220;file_size_bytes&#8221;:71,
+&#8220;checksum&#8221;:&#8221;GYYXU&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-1&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;ANTHY&#8221;,
+&#8220;use_statement&#8221;:&#8221;application-pdf&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onRequest&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;embed&#8221;,
+&#8220;file_format_name&#8221;:&#8221;avi&#8221;,
+&#8220;file_format_version&#8221;:&#8221;11455896743524&#8221;,
+&#8220;file_size_bytes&#8221;:94,
+&#8220;checksum&#8221;:&#8221;UUDBB&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-1&#8221;}],
+&#8220;restrictions&#8221;:false,
+&#8220;notes&#8221;:[],
+&#8220;linked_instances&#8221;:[],
+&#8220;title&#8221;:&#8221;Digital Object Title: 352&#8221;,
+&#8220;language&#8221;:&#8221;nah&#8221;,
+&#8220;digital_object_id&#8221;:&#8221;PSMKV&#8221;}&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/digital_objects&#8221;</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;&#8220;1&#8221;&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/digital_objects&#8221;</p>
+
+<p>```</p>
+
 <h2 id="get-repositoriesrepoiddigitalobjects">GET /repositories/:repo_id/digital_objects</h2>
 
 <p><strong>Description</strong></p>
@@ -3979,55 +4075,6 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/digital_objects?id_set=1,2,3,5,8&#8221;
 # return an array of all the ids 
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/digital_objects?all_ids=true&#8221;</p>
-
-<p>```</p>
-
-<h2 id="post-repositoriesrepoiddigitalobjects">POST /repositories/:repo_id/digital_objects</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Digital Object</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-<span class='integer val'>400</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_description identifier id'>description</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_error identifier id'>error</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;digital_object&#8221;,
-&#8220;external_ids&#8221;:[],
-&#8220;subjects&#8221;:[],
-&#8220;linked_events&#8221;:[],
-&#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
-&#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;46&#8221;,
-&#8220;extent_type&#8221;:&#8221;cubic_feet&#8221;}],
-&#8220;dates&#8221;:[],
-&#8220;external_documents&#8221;:[],
-&#8220;rights_statements&#8221;:[],
-&#8220;linked_agents&#8221;:[],
-&#8220;file_versions&#8221;:[],
-&#8220;restrictions&#8221;:false,
-&#8220;notes&#8221;:[],
-&#8220;linked_instances&#8221;:[],
-&#8220;title&#8221;:&#8221;Digital Object Title: 352&#8221;,
-&#8220;language&#8221;:&#8221;bik&#8221;,
-&#8220;digital_object_id&#8221;:&#8221;FO903M889&#8221;}&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/digital_objects&#8221;</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;1&#8221;&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/digital_objects&#8221;</p>
 
 <p>```</p>
 
@@ -4083,20 +4130,63 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;subjects&#8221;:[],
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
-&#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;46&#8221;,
-&#8220;extent_type&#8221;:&#8221;cubic_feet&#8221;}],
-&#8220;dates&#8221;:[],
+&#8220;portion&#8221;:&#8221;whole&#8221;,
+&#8220;number&#8221;:&#8221;15&#8221;,
+&#8220;extent_type&#8221;:&#8221;volumes&#8221;}],
+&#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;label&#8221;:&#8221;creation&#8221;,
+&#8220;begin&#8221;:&#8221;1991-11-11&#8221;,
+&#8220;end&#8221;:&#8221;1991-11-11&#8221;,
+&#8220;expression&#8221;:&#8221;QIIRR&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
+&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;label&#8221;:&#8221;creation&#8221;,
+&#8220;begin&#8221;:&#8221;2007-08-08&#8221;,
+&#8220;end&#8221;:&#8221;2007-08-08&#8221;,
+&#8220;expression&#8221;:&#8221;IGFCP&#8221;}],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
-&#8220;file_versions&#8221;:[],
+&#8220;file_versions&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;79RMLG&#8221;,
+&#8220;use_statement&#8221;:&#8221;audio-clip&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;other&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;new&#8221;,
+&#8220;file_format_name&#8221;:&#8221;txt&#8221;,
+&#8220;file_format_version&#8221;:&#8221;XG396PJ&#8221;,
+&#8220;file_size_bytes&#8221;:97,
+&#8220;checksum&#8221;:&#8221;483962DA836&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-512&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;313394CLO&#8221;,
+&#8220;use_statement&#8221;:&#8221;application-pdf&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onLoad&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;new&#8221;,
+&#8220;file_format_name&#8221;:&#8221;tiff&#8221;,
+&#8220;file_format_version&#8221;:&#8221;203375URK&#8221;,
+&#8220;file_size_bytes&#8221;:71,
+&#8220;checksum&#8221;:&#8221;GYYXU&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-1&#8221;},
+{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
+&#8220;is_representative&#8221;:false,
+&#8220;file_uri&#8221;:&#8221;ANTHY&#8221;,
+&#8220;use_statement&#8221;:&#8221;application-pdf&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onRequest&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;embed&#8221;,
+&#8220;file_format_name&#8221;:&#8221;avi&#8221;,
+&#8220;file_format_version&#8221;:&#8221;11455896743524&#8221;,
+&#8220;file_size_bytes&#8221;:94,
+&#8220;checksum&#8221;:&#8221;UUDBB&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-1&#8221;}],
 &#8220;restrictions&#8221;:false,
 &#8220;notes&#8221;:[],
 &#8220;linked_instances&#8221;:[],
 &#8220;title&#8221;:&#8221;Digital Object Title: 352&#8221;,
-&#8220;language&#8221;:&#8221;bik&#8221;,
-&#8220;digital_object_id&#8221;:&#8221;FO903M889&#8221;}&#8217; \
+&#8220;language&#8221;:&#8221;nah&#8221;,
+&#8220;digital_object_id&#8221;:&#8221;PSMKV&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4158,7 +4248,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;Y693O939Q&#8221;&#8217; \
+  -d &#8216;&#8220;NOH717E&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4287,7 +4377,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;YMTYA&#8221;&#8217; \
+  -d &#8216;&#8220;SM719106D&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4489,17 +4579,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;event&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;external_documents&#8221;:[],
-&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/271&#8221;,
-&#8220;role&#8221;:&#8221;implementer&#8221;}],
-&#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/98&#8221;,
-&#8220;role&#8221;:&#8221;source&#8221;}],
+&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/272&#8221;,
+&#8220;role&#8221;:&#8221;recipient&#8221;}],
+&#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/97&#8221;,
+&#8220;role&#8221;:&#8221;outcome&#8221;}],
 &#8220;date&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1979-10-22&#8221;,
-&#8220;end&#8221;:&#8221;1979-10-22&#8221;,
-&#8220;expression&#8221;:&#8221;U231XY529&#8221;},
-&#8220;event_type&#8221;:&#8221;processing_completed&#8221;}&#8217; \
+&#8220;begin&#8221;:&#8221;1988-02-29&#8221;,
+&#8220;end&#8221;:&#8221;1988-02-29&#8221;,
+&#8220;expression&#8221;:&#8221;201OPQ895&#8221;},
+&#8220;event_type&#8221;:&#8221;contribution&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/events&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4621,17 +4711,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;event&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;external_documents&#8221;:[],
-&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/271&#8221;,
-&#8220;role&#8221;:&#8221;implementer&#8221;}],
-&#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/98&#8221;,
-&#8220;role&#8221;:&#8221;source&#8221;}],
+&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/272&#8221;,
+&#8220;role&#8221;:&#8221;recipient&#8221;}],
+&#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/97&#8221;,
+&#8220;role&#8221;:&#8221;outcome&#8221;}],
 &#8220;date&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;inclusive&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1979-10-22&#8221;,
-&#8220;end&#8221;:&#8221;1979-10-22&#8221;,
-&#8220;expression&#8221;:&#8221;U231XY529&#8221;},
-&#8220;event_type&#8221;:&#8221;processing_completed&#8221;}&#8217; \
+&#8220;begin&#8221;:&#8221;1988-02-29&#8221;,
+&#8220;end&#8221;:&#8221;1988-02-29&#8221;,
+&#8220;expression&#8221;:&#8221;201OPQ895&#8221;},
+&#8220;event_type&#8221;:&#8221;contribution&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/events/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4774,10 +4864,10 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;group&#8221;,
-&#8220;description&#8221;:&#8221;Description: 266&#8221;,
+&#8220;description&#8221;:&#8221;Description: 267&#8221;,
 &#8220;member_usernames&#8221;:[],
 &#8220;grants_permissions&#8221;:[],
-&#8220;group_code&#8221;:&#8221;FN516XA&#8221;}&#8217; \
+&#8220;group_code&#8221;:&#8221;28193477694O&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/groups&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4841,10 +4931,10 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;group&#8221;,
-&#8220;description&#8221;:&#8221;Description: 266&#8221;,
+&#8220;description&#8221;:&#8221;Description: 267&#8221;,
 &#8220;member_usernames&#8221;:[],
 &#8220;grants_permissions&#8221;:[],
-&#8220;group_code&#8221;:&#8221;FN516XA&#8221;}&#8217; \
+&#8220;group_code&#8221;:&#8221;28193477694O&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/groups/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -5696,55 +5786,53 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;subjects&#8221;:[],
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
-&#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;36&#8221;,
-&#8220;extent_type&#8221;:&#8221;gigabytes&#8221;}],
+&#8220;portion&#8221;:&#8221;whole&#8221;,
+&#8220;number&#8221;:&#8221;81&#8221;,
+&#8220;extent_type&#8221;:&#8221;linear_feet&#8221;}],
 &#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1974-01-25&#8221;,
-&#8220;end&#8221;:&#8221;1974-01-25&#8221;,
-&#8220;expression&#8221;:&#8221;308GN86F&#8221;}],
+&#8220;begin&#8221;:&#8221;1974-08-11&#8221;,
+&#8220;end&#8221;:&#8221;1974-08-11&#8221;,
+&#8220;expression&#8221;:&#8221;K722YK791&#8221;}],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;restrictions&#8221;:false,
 &#8220;revision_statements&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;revision_statement&#8221;,
-&#8220;date&#8221;:&#8221;CK496OB&#8221;,
-&#8220;description&#8221;:&#8221;LG16089A&#8221;}],
+&#8220;date&#8221;:&#8221;821OG877M&#8221;,
+&#8220;description&#8221;:&#8221;128156W795F&#8221;}],
 &#8220;instances&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;text&#8221;,
+&#8220;instance_type&#8221;:&#8221;accession&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;object&#8221;,
-&#8220;indicator_1&#8221;:&#8221;8023-33&#8221;,
-&#8220;barcode_1&#8221;:&#8221;10111001000000010010&#8221;,
-&#8220;container_extent&#8221;:&#8221;28&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;gigabytes&#8221;}},
+&#8220;type_1&#8221;:&#8221;carton&#8221;,
+&#8220;indicator_1&#8221;:&#8221;6527-231-451-8578&#8221;,
+&#8220;barcode_1&#8221;:&#8221;00101110101110101011&#8221;,
+&#8220;container_extent&#8221;:&#8221;32&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;linear_feet&#8221;}},
 { &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;microform&#8221;,
+&#8220;instance_type&#8221;:&#8221;graphic_materials&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;object&#8221;,
-&#8220;indicator_1&#8221;:&#8221;74-02-2634-788&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11100111110011010101&#8221;,
-&#8220;container_extent&#8221;:&#8221;51&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;sheets&#8221;}}],
+&#8220;type_1&#8221;:&#8221;carton&#8221;,
+&#8220;indicator_1&#8221;:&#8221;5245-702&#8221;,
+&#8220;barcode_1&#8221;:&#8221;00110100001111010011&#8221;,
+&#8220;container_extent&#8221;:&#8221;41&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;photographic_slides&#8221;}}],
 &#8220;deaccessions&#8221;:[],
 &#8220;related_accessions&#8221;:[],
 &#8220;classifications&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">88</emph>&#8221;,
-&#8220;id_0&#8221;:&#8221;WTVS195&#8221;,
-&#8220;level&#8221;:&#8221;recordgrp&#8221;,
-&#8220;language&#8221;:&#8221;snk&#8221;,
-&#8220;finding_aid_description_rules&#8221;:&#8221;rad&#8221;,
-&#8220;ead_id&#8221;:&#8221;OJJQ499&#8221;,
-&#8220;finding_aid_date&#8221;:&#8221;510R98X581&#8221;,
-&#8220;finding_aid_language&#8221;:&#8221;167GCN612&#8221;,
-&#8220;ead_location&#8221;:&#8221;VR224S814&#8221;}&#8217; \
+&#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">94</emph>&#8221;,
+&#8220;id_0&#8221;:&#8221;969V197O129&#8221;,
+&#8220;level&#8221;:&#8221;collection&#8221;,
+&#8220;language&#8221;:&#8221;nog&#8221;,
+&#8220;finding_aid_date&#8221;:&#8221;VPAQ364&#8221;,
+&#8220;finding_aid_language&#8221;:&#8221;WP124H620&#8221;,
+&#8220;ead_location&#8221;:&#8221;767160JLU&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -5787,32 +5875,6 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/resources?id_set=1,2,3,5,8&#8221;
 # return an array of all the ids 
 curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/resources?all_ids=true&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-repositoriesrepoidresourcesid">GET /repositories/:repo_id/resources/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Resource</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-
-<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/resources/1&#8221;</p>
 
 <p>```</p>
 
@@ -5868,60 +5930,84 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;subjects&#8221;:[],
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
-&#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;36&#8221;,
-&#8220;extent_type&#8221;:&#8221;gigabytes&#8221;}],
+&#8220;portion&#8221;:&#8221;whole&#8221;,
+&#8220;number&#8221;:&#8221;81&#8221;,
+&#8220;extent_type&#8221;:&#8221;linear_feet&#8221;}],
 &#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1974-01-25&#8221;,
-&#8220;end&#8221;:&#8221;1974-01-25&#8221;,
-&#8220;expression&#8221;:&#8221;308GN86F&#8221;}],
+&#8220;begin&#8221;:&#8221;1974-08-11&#8221;,
+&#8220;end&#8221;:&#8221;1974-08-11&#8221;,
+&#8220;expression&#8221;:&#8221;K722YK791&#8221;}],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;restrictions&#8221;:false,
 &#8220;revision_statements&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;revision_statement&#8221;,
-&#8220;date&#8221;:&#8221;CK496OB&#8221;,
-&#8220;description&#8221;:&#8221;LG16089A&#8221;}],
+&#8220;date&#8221;:&#8221;821OG877M&#8221;,
+&#8220;description&#8221;:&#8221;128156W795F&#8221;}],
 &#8220;instances&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;text&#8221;,
+&#8220;instance_type&#8221;:&#8221;accession&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;object&#8221;,
-&#8220;indicator_1&#8221;:&#8221;8023-33&#8221;,
-&#8220;barcode_1&#8221;:&#8221;10111001000000010010&#8221;,
-&#8220;container_extent&#8221;:&#8221;28&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;gigabytes&#8221;}},
+&#8220;type_1&#8221;:&#8221;carton&#8221;,
+&#8220;indicator_1&#8221;:&#8221;6527-231-451-8578&#8221;,
+&#8220;barcode_1&#8221;:&#8221;00101110101110101011&#8221;,
+&#8220;container_extent&#8221;:&#8221;32&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;linear_feet&#8221;}},
 { &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;microform&#8221;,
+&#8220;instance_type&#8221;:&#8221;graphic_materials&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;object&#8221;,
-&#8220;indicator_1&#8221;:&#8221;74-02-2634-788&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11100111110011010101&#8221;,
-&#8220;container_extent&#8221;:&#8221;51&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;sheets&#8221;}}],
+&#8220;type_1&#8221;:&#8221;carton&#8221;,
+&#8220;indicator_1&#8221;:&#8221;5245-702&#8221;,
+&#8220;barcode_1&#8221;:&#8221;00110100001111010011&#8221;,
+&#8220;container_extent&#8221;:&#8221;41&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;photographic_slides&#8221;}}],
 &#8220;deaccessions&#8221;:[],
 &#8220;related_accessions&#8221;:[],
 &#8220;classifications&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">88</emph>&#8221;,
-&#8220;id_0&#8221;:&#8221;WTVS195&#8221;,
-&#8220;level&#8221;:&#8221;recordgrp&#8221;,
-&#8220;language&#8221;:&#8221;snk&#8221;,
-&#8220;finding_aid_description_rules&#8221;:&#8221;rad&#8221;,
-&#8220;ead_id&#8221;:&#8221;OJJQ499&#8221;,
-&#8220;finding_aid_date&#8221;:&#8221;510R98X581&#8221;,
-&#8220;finding_aid_language&#8221;:&#8221;167GCN612&#8221;,
-&#8220;ead_location&#8221;:&#8221;VR224S814&#8221;}&#8217; \
+&#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">94</emph>&#8221;,
+&#8220;id_0&#8221;:&#8221;969V197O129&#8221;,
+&#8220;level&#8221;:&#8221;collection&#8221;,
+&#8220;language&#8221;:&#8221;nog&#8221;,
+&#8220;finding_aid_date&#8221;:&#8221;VPAQ364&#8221;,
+&#8220;finding_aid_language&#8221;:&#8221;WP124H620&#8221;,
+&#8220;ead_location&#8221;:&#8221;767160JLU&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;&#8220;1&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-repositoriesrepoidresourcesid">GET /repositories/:repo_id/resources/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Resource</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+
+<span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='rbrack token'>]</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_A constant id'>A</span> <span class='rubyid_list identifier id'>list</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_references identifier id'>references</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_embed identifier id'>embed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_response identifier id'>response</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/:repo_id/resources/1&#8221;</p>
 
 <p>```</p>
 
@@ -5952,7 +6038,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;EQCLV&#8221;&#8217; \
+  -d &#8216;&#8220;B52T455659&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6105,7 +6191,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;YFVT95&#8221;&#8217; \
+  -d &#8216;&#8220;TRJ793Y&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6247,46 +6333,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="post-repositoriesrepoidtopcontainers">POST /repositories/:repo_id/top_containers</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a top container</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-
-<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;top_container&#8221;,
-&#8220;active_restrictions&#8221;:[],
-&#8220;container_locations&#8221;:[],
-&#8220;series&#8221;:[],
-&#8220;collection&#8221;:[],
-&#8220;indicator&#8221;:&#8221;RPL925W&#8221;,
-&#8220;type&#8221;:&#8221;object&#8221;,
-&#8220;barcode&#8221;:&#8221;JD599&#8221;,
-&#8220;ils_holding_id&#8221;:&#8221;UAAVE&#8221;,
-&#8220;ils_item_id&#8221;:&#8221;HCA154J&#8221;,
-&#8220;exported_to_ils&#8221;:&#8221;2016-07-28T17:45:36-07:00&#8221;}&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/top_containers&#8221;</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;1&#8221;&#8217; \
-  &#8220;http://localhost:8089//repositories/:repo_id/top_containers&#8221;</p>
-
-<p>```</p>
-
 <h2 id="get-repositoriesrepoidtopcontainers">GET /repositories/:repo_id/top_containers</h2>
 
 <p><strong>Description</strong></p>
@@ -6324,6 +6370,46 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
+<h2 id="post-repositoriesrepoidtopcontainers">POST /repositories/:repo_id/top_containers</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a top container</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+
+<span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_ID constant id'>ID</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_must identifier id'>must</span> <span class='rubyid_exist identifier id'>exist</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;top_container&#8221;,
+&#8220;active_restrictions&#8221;:[],
+&#8220;container_locations&#8221;:[],
+&#8220;series&#8221;:[],
+&#8220;collection&#8221;:[],
+&#8220;indicator&#8221;:&#8221;21331572XA&#8221;,
+&#8220;type&#8221;:&#8221;object&#8221;,
+&#8220;barcode&#8221;:&#8221;517RM&#8221;,
+&#8220;ils_holding_id&#8221;:&#8221;D30E791E&#8221;,
+&#8220;ils_item_id&#8221;:&#8221;EJ510LX&#8221;,
+&#8220;exported_to_ils&#8221;:&#8221;2016-12-08T10:07:12-08:00&#8221;}&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/top_containers&#8221;</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;&#8220;1&#8221;&#8217; \
+  &#8220;http://localhost:8089//repositories/:repo_id/top_containers&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-repositoriesrepoidtopcontainersid">POST /repositories/:repo_id/top_containers/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -6352,12 +6438,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;container_locations&#8221;:[],
 &#8220;series&#8221;:[],
 &#8220;collection&#8221;:[],
-&#8220;indicator&#8221;:&#8221;RPL925W&#8221;,
+&#8220;indicator&#8221;:&#8221;21331572XA&#8221;,
 &#8220;type&#8221;:&#8221;object&#8221;,
-&#8220;barcode&#8221;:&#8221;JD599&#8221;,
-&#8220;ils_holding_id&#8221;:&#8221;UAAVE&#8221;,
-&#8220;ils_item_id&#8221;:&#8221;HCA154J&#8221;,
-&#8220;exported_to_ils&#8221;:&#8221;2016-07-28T17:45:36-07:00&#8221;}&#8217; \
+&#8220;barcode&#8221;:&#8221;517RM&#8221;,
+&#8220;ils_holding_id&#8221;:&#8221;D30E791E&#8221;,
+&#8220;ils_item_id&#8221;:&#8221;EJ510LX&#8221;,
+&#8220;exported_to_ils&#8221;:&#8221;2016-12-08T10:07:12-08:00&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6442,7 +6528,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/container_profile&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;JJMAA&#8221;&#8217; \
+  -d &#8216;&#8220;INS146H&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/container_profile&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6478,7 +6564,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/ils_holding_id&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;DK352HM&#8221;&#8217; \
+  -d &#8216;&#8220;UNBSH&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/ils_holding_id&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6514,7 +6600,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/location&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;OTD603K&#8221;&#8217; \
+  -d &#8216;&#8220;LW499G659&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/location&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6544,7 +6630,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;MFSP416&#8221;&#8217; \
+  -d &#8216;&#8220;YFE423525&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/bulk/barcodes&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6574,7 +6660,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;778SBV947&#8221;&#8217; \
+  -d &#8216;&#8220;WLERN&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/bulk/locations&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6648,7 +6734,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;CD15LL&#8221;&#8217; \
+  -d &#8216;&#8220;BC32U401&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6707,6 +6793,29 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>```</p>
 
+<h2 id="get-repositorieswithagentid">GET /repositories/with_agent/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Repository by ID, including its agent representation</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:repository_with_agent</span><span class='rparen token'>)</span>
+<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/with_agent/1&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-repositorieswithagentid">POST /repositories/with_agent/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -6730,29 +6839,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;[&#8220;Example Missing&#8221;]&#8217; \
   &#8220;http://localhost:8089//repositories/with_agent/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-repositorieswithagentid">GET /repositories/with_agent/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Repository by ID, including its agent representation</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:repository_with_agent</span><span class='rparen token'>)</span>
-<span class='integer val'>404</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_Not constant id'>Not</span> <span class='rubyid_found identifier id'>found</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/repositories/with_agent/1&#8221;</p>
 
 <p>```</p>
 
@@ -7122,41 +7208,6 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
-<h2 id="post-subjects">POST /subjects</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Create a Subject</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;subject&#8221;,
-&#8220;external_ids&#8221;:[],
-&#8220;publish&#8221;:true,
-&#8220;terms&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;term&#8221;,
-&#8220;term&#8221;:&#8221;Term 132&#8221;,
-&#8220;term_type&#8221;:&#8221;temporal&#8221;,
-&#8220;vocabulary&#8221;:&#8221;/vocabularies/156&#8221;}],
-&#8220;external_documents&#8221;:[],
-&#8220;vocabulary&#8221;:&#8221;/vocabularies/157&#8221;,
-&#8220;authority_id&#8221;:&#8221;http://www.example-476.com&#8221;,
-&#8220;scope_note&#8221;:&#8221;944855YRX&#8221;,
-&#8220;source&#8221;:&#8221;gmgpc&#8221;}&#8217; \
-  &#8220;http://localhost:8089//subjects&#8221;</p>
-
-<p>```</p>
-
 <h2 id="get-subjects">GET /subjects</h2>
 
 <p><strong>Description</strong></p>
@@ -7191,6 +7242,84 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>```</p>
 
+<h2 id="post-subjects">POST /subjects</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Create a Subject</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span> <span class='lt op'>&lt;</span><span class='rubyid_request identifier id'>request</span> <span class='rubyid_body identifier id'>body</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_create identifier id'>create</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_created identifier id'>created</span> <span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='lparen token'>(</span><span class='rubyid_warnings identifier id'>warnings</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
+  -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;subject&#8221;,
+&#8220;external_ids&#8221;:[],
+&#8220;publish&#8221;:true,
+&#8220;terms&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;term&#8221;,
+&#8220;term&#8221;:&#8221;Term 132&#8221;,
+&#8220;term_type&#8221;:&#8221;temporal&#8221;,
+&#8220;vocabulary&#8221;:&#8221;/vocabularies/156&#8221;}],
+&#8220;external_documents&#8221;:[],
+&#8220;vocabulary&#8221;:&#8221;/vocabularies/157&#8221;,
+&#8220;authority_id&#8221;:&#8221;http://www.example-476.com&#8221;,
+&#8220;scope_note&#8221;:&#8221;QYQ915B&#8221;,
+&#8220;source&#8221;:&#8221;rbgenr&#8221;}&#8217; \
+  &#8220;http://localhost:8089//subjects&#8221;</p>
+
+<p>```</p>
+
+<h2 id="get-subjectsid">GET /subjects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Get a Subject by ID</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>```shell</p>
+
+<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/subjects/1&#8221;</p>
+
+<p>```</p>
+
+<h2 id="delete-subjectsid">DELETE /subjects/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a Subject</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+</code></pre>
+
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//subjects/1&#8221;</p>
+
+<p>```</p>
+
 <h2 id="post-subjectsid">POST /subjects/:id</h2>
 
 <p><strong>Description</strong></p>
@@ -7222,52 +7351,9 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;external_documents&#8221;:[],
 &#8220;vocabulary&#8221;:&#8221;/vocabularies/157&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-476.com&#8221;,
-&#8220;scope_note&#8221;:&#8221;944855YRX&#8221;,
-&#8220;source&#8221;:&#8221;gmgpc&#8221;}&#8217; \
+&#8220;scope_note&#8221;:&#8221;QYQ915B&#8221;,
+&#8220;source&#8221;:&#8221;rbgenr&#8221;}&#8217; \
   &#8220;http://localhost:8089//subjects/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="delete-subjectsid">DELETE /subjects/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Delete a Subject</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
-</code></pre>
-
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//subjects/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="get-subjectsid">GET /subjects/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Get a Subject by ID</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_ID constant id'>ID</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_record identifier id'>record</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='lparen token'>(</span><span class='symbol val'>:subject</span><span class='rparen token'>)</span>
-</code></pre>
-
-<p>```shell</p>
-
-<p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:8089/subjects/1&#8221;</p>
 
 <p>```</p>
 
@@ -7399,11 +7485,11 @@ JSONModel(:user) &lt;request body&gt; -- The record to create
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;649HPQ85&#8221;&#8217; \
+  -d &#8216;&#8220;U606YNB&#8221;&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;KXX832Q&#8221;&#8217; \
+  -d &#8216;&#8220;761KRYH&#8221;&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7411,8 +7497,29 @@ JSONModel(:user) &lt;request body&gt; -- The record to create
 &#8220;groups&#8221;:[],
 &#8220;is_admin&#8221;:false,
 &#8220;username&#8221;:&#8221;username_21&#8221;,
-&#8220;name&#8221;:&#8221;Name Number 513&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;Name Number 514&#8221;}&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
+
+<p>```</p>
+
+<h2 id="delete-usersid">DELETE /users/:id</h2>
+
+<p><strong>Description</strong></p>
+
+<p>Delete a user</p>
+
+<p><strong>Parameters</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_user identifier id'>user</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_delete identifier id'>delete</span>
+</code></pre>
+
+<p><strong>Returns</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
+</code></pre>
+
+<p>```shell 
+curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>```</p>
 
@@ -7468,11 +7575,11 @@ JSONModel(:user) &lt;request body&gt; -- The updated record
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;582401W340O&#8221;&#8217; \
+  -d &#8216;&#8220;90OM439I&#8221;&#8217; \
   &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;SFCI269&#8221;&#8217; \
+  -d &#8216;&#8220;CDIH692&#8221;&#8217; \
   &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7488,29 +7595,8 @@ JSONModel(:user) &lt;request body&gt; -- The updated record
 &#8220;groups&#8221;:[],
 &#8220;is_admin&#8221;:false,
 &#8220;username&#8221;:&#8221;username_21&#8221;,
-&#8220;name&#8221;:&#8221;Name Number 513&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;Name Number 514&#8221;}&#8217; \
   &#8220;http://localhost:8089//users/1&#8221;</p>
-
-<p>```</p>
-
-<h2 id="delete-usersid">DELETE /users/:id</h2>
-
-<p><strong>Description</strong></p>
-
-<p>Delete a user</p>
-
-<p><strong>Parameters</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_Integer constant id'>Integer</span> <span class='rubyid_id identifier id'>id</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_user identifier id'>user</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_delete identifier id'>delete</span>
-</code></pre>
-
-<p><strong>Returns</strong></p>
-
-<pre class="code ruby"><code class="ruby"><span class='integer val'>200</span> <span class='minus op'>-</span><span class='minus op'>-</span> <span class='rubyid_deleted identifier id'>deleted</span>
-</code></pre>
-
-<p>```shell 
-curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>```</p>
 
@@ -7567,7 +7653,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//users/:username/login&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;NSNBT&#8221;&#8217; \
+  -d &#8216;&#8220;N391367O415&#8221;&#8217; \
   &#8220;http://localhost:8089//users/:username/login&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7755,7 +7841,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:39 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:29 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

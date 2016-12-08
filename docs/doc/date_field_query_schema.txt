@@ -8,6 +8,8 @@ string	field
 
 date	value
 
+boolean	negated
+
 
 
 

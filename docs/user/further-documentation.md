@@ -5,7 +5,7 @@ permalink: /user/further-documentation/
 ---
 
 Additional documentation can be found on the ArchivesSpace
-wiki at [https://archivesspace.atlassian.net/wiki/display/ADC](https://archivesspace.atlassian.net/wiki/display/ADC).
+wiki at [http://wiki.archivesspace.org](http://wiki.archivesspace.org).
 
 A document describing the architecture of ArchivesSpace is published
 at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).

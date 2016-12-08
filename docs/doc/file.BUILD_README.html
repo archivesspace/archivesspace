@@ -89,8 +89,13 @@ dependencies&#8211;JRuby, Gems, Solr, etc..</p>
 </code></pre>
 
 <p>These should be run in different terminal sessions and do not need to be run
-in a specific order or are all required.
-You can also clear your database and search indexes with:</p>
+in a specific order or are all required.</p>
+
+<p>For added convenience see: supervisord/README.md for a simpler way of running 
+the development servers with output for all servers sent to a single terminal 
+window.</p>
+
+<p>You can also clear your database and search indexes with:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
 </code></pre>
@@ -136,24 +141,15 @@ directory in your ArchivesSpace project directory.</p>
 
 <h2 id="building-a-distribution">Building a distribution</h2>
 
-<p>To build an ArchivesSpace release, use the <code>build_release</code> script from
-your project directory:</p>
-
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_build_release identifier id'>build_release</span>
-</code></pre>
+<p>See: README_RELEASE.md for information on building a distribution.</p>
 
 <h2 id="generating-api-documentation">Generating API documentation</h2>
 
-<p>To generate documentation for backend endpoints:</p>
-
-<pre class="code ruby"><code class="ruby"><span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>doc:</span><span class='rubyid_yard identifier id'>yard</span>
-</code></pre>
-
-<p>The generated HTML will be placed in the <code>doc</code> directory in your archivesspace root.</p>
+<p>See: README_RELEASE.md for information on building the documentation.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:39 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:29 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

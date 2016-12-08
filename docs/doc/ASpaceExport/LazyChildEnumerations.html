@@ -91,6 +91,27 @@
 </div>
 
 
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="PREFETCH_SIZE-constant" class="">PREFETCH_SIZE =
+        <div class="docstring">
+  <div class="discussion">
+    <p>If we&#8217;re asked for child 0, grab records 0..PREFETCH_SIZE from the DB</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+      </dt>
+      <dd><pre class="code"><span class='integer val'>20</span>
+</pre></dd>
+    
+  </dl>
+
 
 
 
@@ -109,6 +130,29 @@
   <span class="summary_signature">
     
       <a href="#children_indexes-instance_method" title="#children_indexes (instance method)">#<strong>children_indexes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ensure_prefetched-instance_method" title="#ensure_prefetched (instance method)">#<strong>ensure_prefetched</strong>(index)  &#x21d2; Object </a>
     
 
     
@@ -200,6 +244,51 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="ensure_prefetched-instance_method">
+  
+    #<strong>ensure_prefetched</strong>(index)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 166</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_prefetched identifier id'>ensure_prefetched</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span><span class='dot token'>.</span><span class='rubyid_cover? fid id'>cover?</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
+    <span class='rubyid_new_start identifier id'>new_start</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span> <span class='div op'>/</span> <span class='rubyid_PREFETCH_SIZE constant id'>PREFETCH_SIZE</span><span class='rparen token'>)</span> <span class='mult op'>*</span> <span class='rubyid_PREFETCH_SIZE constant id'>PREFETCH_SIZE</span>
+    <span class='rubyid_new_end identifier id'>new_end</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_new_start identifier id'>new_start</span> <span class='plus op'>+</span> <span class='rubyid_PREFETCH_SIZE constant id'>PREFETCH_SIZE</span><span class='comma token'>,</span>
+               <span class='rubyid_@children ivar id'>@children</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
+
+    <span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span> <span class='assign token'>=</span> <span class='rubyid_Range constant id'>Range</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_new_start identifier id'>new_start</span><span class='comma token'>,</span> <span class='rubyid_new_end identifier id'>new_end</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+    <span class='rubyid_@prefetched_records ivar id'>@prefetched_records</span> <span class='assign token'>=</span> <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_prefetch identifier id'>prefetch</span><span class='lparen token'>(</span><span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_index identifier id'>index</span><span class='bitor op'>|</span> <span class='rubyid_@children ivar id'>@children</span><span class='lbrack token'>[</span><span class='rubyid_index identifier id'>index</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="get_child-instance_method">
   
     #<strong>get_child</strong>(index)  &#x21d2; <tt>Object</tt> 
@@ -214,17 +303,27 @@
       <pre class="lines">
 
 
-164
-165
-166
-167</pre>
+177
+178
+179
+180
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 177</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_child identifier id'>get_child</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
-  <span class='rubyid_subtree identifier id'>subtree</span> <span class='assign token'>=</span> <span class='rubyid_@children ivar id'>@children</span><span class='lbrack token'>[</span><span class='rubyid_index identifier id'>index</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_subtree identifier id'>subtree</span><span class='comma token'>,</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:prefetch</span><span class='rparen token'>)</span>
+    <span class='rubyid_ensure_prefetched identifier id'>ensure_prefetched</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
+    <span class='rubyid_rec identifier id'>rec</span> <span class='assign token'>=</span> <span class='rubyid_@prefetched_records ivar id'>@prefetched_records</span><span class='lbrack token'>[</span><span class='rubyid_index identifier id'>index</span> <span class='mod op'>%</span> <span class='rubyid_PREFETCH_SIZE constant id'>PREFETCH_SIZE</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_from_prefetched identifier id'>from_prefetched</span><span class='lparen token'>(</span><span class='rubyid_@children ivar id'>@children</span><span class='lbrack token'>[</span><span class='rubyid_index identifier id'>index</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_rec identifier id'>rec</span><span class='comma token'>,</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@children ivar id'>@children</span><span class='lbrack token'>[</span><span class='rubyid_index identifier id'>index</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -237,7 +336,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:46 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:36 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

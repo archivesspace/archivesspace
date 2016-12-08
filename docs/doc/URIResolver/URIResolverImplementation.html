@@ -511,18 +511,17 @@
 135
 136
 137
-138</pre>
+138
+139
+140
+141
+142</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/uri_resolver.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_value identifier id'>value</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@properties_to_resolve ivar id'>@properties_to_resolve</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-
-  <span class='comment val'># If we're handed a JSONModel, convert to a vanilla hash.</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_JSONModelType constant id'>JSONModelType</span><span class='rparen token'>)</span>
-    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># Make sure we have an array, even if there's just one record to resolve</span>
   <span class='rubyid_was_wrapped identifier id'>was_wrapped</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -532,6 +531,15 @@
     <span class='rubyid_records identifier id'>records</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
     <span class='rubyid_was_wrapped identifier id'>was_wrapped</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Any JSONModels can become vanilla hashes</span>
+  <span class='rubyid_records identifier id'>records</span> <span class='assign token'>=</span> <span class='rubyid_records identifier id'>records</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_JSONModelType constant id'>JSONModelType</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_value identifier id'>value</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rbrace token'>}</span>
 
   <span class='comment val'># We'll work through our records breadth-first, first resolving non-nested</span>
   <span class='comment val'># properties, then those that are nested two-levels deep, then</span>
@@ -571,7 +579,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:55 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:44 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
