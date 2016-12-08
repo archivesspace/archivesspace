@@ -27,15 +27,20 @@ module ResultInfo
    info
   end
 # create a usable agent hash
-  def process_agents(agents_arr)
+  def process_agents(agents_arr, subjects_arr = [])
     agents_h = {}
     agents_arr.each do |agent|
       unless agent['role'].blank? || agent['_resolved'].blank? 
         role = agent['role']
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
-        agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
+        if role == 'subject'
+          subjects_arr.push(ag)
+        else
+          agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag) if ag
+        end
       end
     end
+    subjects_arr.sort_by! { |hsh| hsh['title'] }
     agents_h
   end
 
