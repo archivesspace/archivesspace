@@ -423,13 +423,6 @@
       <pre class="lines">
 
 
-231
-232
-233
-234
-235
-236
-237
 238
 239
 240
@@ -460,10 +453,17 @@
 265
 266
 267
-268</pre>
+268
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 238</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -524,15 +524,15 @@
       <pre class="lines">
 
 
-271
-272
-273
-274
-275
-276</pre>
+278
+279
+280
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 278</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -561,9 +561,6 @@
       <pre class="lines">
 
 
-135
-136
-137
 138
 139
 140
@@ -574,10 +571,13 @@
 145
 146
 147
-148</pre>
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 138</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_combine_unauthorized_names identifier id'>combine_unauthorized_names</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -614,23 +614,23 @@
       <pre class="lines">
 
 
-202
-203
-204
-205
-206
-207
-208
 209
 210
 211
 212
 213
 214
-215</pre>
+215
+216
+217
+218
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 209</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -667,14 +667,14 @@
       <pre class="lines">
 
 
-118
-119
-120
 121
-122</pre>
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'authorized'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -702,17 +702,17 @@
       <pre class="lines">
 
 
-125
-126
-127
 128
 129
 130
 131
-132</pre>
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 128</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_display_name identifier id'>ensure_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'is_display_name'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -743,9 +743,6 @@
       <pre class="lines">
 
 
-151
-152
-153
 154
 155
 156
@@ -786,10 +783,17 @@
 191
 192
 193
-194</pre>
+194
+195
+196
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
@@ -817,8 +821,13 @@
                 <span class='dot token'>.</span><span class='rubyid_and identifier id'>and</span><span class='lparen token'>(</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span> <span class='rubyid_name_type identifier id'>name_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:authorized</span><span class='rparen token'>)</span>  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select_all identifier id'>select_all</span><span class='lparen token'>(</span><span class='rubyid_agent_type identifier id'>agent_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
                 
 
-    <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='rubyid_AGENT_MUST_BE_UNIQUE constant id'>AGENT_MUST_BE_UNIQUE</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='match op'>=~</span> <span class='rubyid_AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT constant id'>AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT</span>
+      <span class='comment val'># If the agent already exists, find and reuse them</span>
       <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_else else kw'>else</span>
+      <span class='comment val'># If anything else went wrong, report it</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_agent identifier id'>agent</span>
@@ -832,7 +841,6 @@
 
     
     <span class='rubyid_agent identifier id'>agent</span>
-  
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -856,12 +864,12 @@
       <pre class="lines">
 
 
-197
-198
-199</pre>
+204
+205
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 204</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:agent_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -887,21 +895,21 @@
       <pre class="lines">
 
 
-218
-219
-220
-221
-222
-223
-224
 225
 226
 227
 228
-229</pre>
+229
+230
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 225</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_hash_chunk identifier id'>hash_chunk</span><span class='lparen token'>(</span><span class='rubyid_rec identifier id'>rec</span><span class='comma token'>,</span> <span class='rubyid_field_array identifier id'>field_array</span><span class='rparen token'>)</span>
   <span class='rubyid_field_array identifier id'>field_array</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='bitor op'>|</span>
@@ -936,12 +944,12 @@
       <pre class="lines">
 
 
-309
-310
-311</pre>
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 316</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -967,12 +975,12 @@
       <pre class="lines">
 
 
-113
-114
-115</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_populate_display_name identifier id'>populate_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_display_name identifier id'>display_name</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'names'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>'is_display_name'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -998,13 +1006,6 @@
       <pre class="lines">
 
 
-279
-280
-281
-282
-283
-284
-285
 286
 287
 288
@@ -1025,10 +1026,17 @@
 303
 304
 305
-306</pre>
+306
+307
+308
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 279</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 286</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -1079,22 +1087,22 @@
       <pre class="lines">
 
 
-314
-315
-316
-317
-318
-319
-320
 321
 322
 323
 324
 325
-326</pre>
+326
+327
+328
+329
+330
+331
+332
+333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 314</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1120,7 +1128,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:45 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:35 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

@@ -142,6 +142,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#latest_migration_number-class_method" title="latest_migration_number (class method)">.<strong>latest_migration_number</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#needs_updating%3F-class_method" title="needs_updating? (class method)">.<strong>needs_updating?</strong>(db)  &#x21d2; Boolean </a>
     
 
@@ -218,7 +241,60 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="needs_updating?-class_method">
+  <h3 class="signature first" id="latest_migration_number-class_method">
+  
+    .<strong>latest_migration_number</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 229</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_migration_number identifier id'>latest_migration_number</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_migration_numbers identifier id'>migration_numbers</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lparen token'>(</span><span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span> <span class='match op'>=~</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='colon2 op'>::</span><span class='rubyid_MIGRATION_FILE_PATTERN constant id'>MIGRATION_FILE_PATTERN</span>
+      <span class='comment val'># $1 is the migration number (e.g. '075')</span>
+      <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_migration_numbers identifier id'>migration_numbers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='integer val'>0</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_migration_numbers identifier id'>migration_numbers</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="needs_updating?-class_method">
   
     .<strong>needs_updating?</strong>(db)  &#x21d2; <tt>Boolean</tt> 
   
@@ -370,7 +446,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:05:11 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:17:00 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

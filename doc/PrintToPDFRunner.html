@@ -321,7 +321,14 @@
 56
 57
 58
-59</pre>
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/print_to_pdf_runner.rb', line 19</span>
@@ -339,22 +346,29 @@
       
 
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Generating PDF for #{resource[&quot;title&quot;]}  &quot;</span><span class='rparen token'>)</span>
-      
+
       <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_URIResolver constant id'>URIResolver</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span>
                                            <span class='lbrack token'>[</span> <span class='string val'>&quot;repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;tree&quot;</span><span class='comma token'>,</span>  <span class='string val'>&quot;digital_objects&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-        <span class='symbol val'>:include_unpublished</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+        <span class='symbol val'>:include_unpublished</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;include_unpublished&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
         <span class='symbol val'>:include_daos</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
         <span class='symbol val'>:use_numbered_c_tags</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span> 
       <span class='rbrace token'>}</span>
-      
-      <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span> 
+
+      <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span>
+        <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span><span class='rparen token'>)</span>
+        <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='string val'>&quot;Warning: this resource has not been published&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span> <span class='mult op'>*</span> <span class='integer val'>50</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='rubyid_ead identifier id'>ead</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span> <span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
       <span class='rubyid_xml identifier id'>xml</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span> 
       <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='rubyid_ead identifier id'>ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_x identifier id'>x</span><span class='bitor op'>|</span> <span class='rubyid_xml identifier id'>xml</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_x identifier id'>x</span> <span class='rbrace token'>}</span>
       <span class='rubyid_pdf identifier id'>pdf</span> <span class='assign token'>=</span> <span class='rubyid_ASFop constant id'>ASFop</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>  
       <span class='rubyid_job_file identifier id'>job_file</span> <span class='assign token'>=</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_add_file identifier id'>add_file</span><span class='lparen token'>(</span> <span class='rubyid_pdf identifier id'>pdf</span> <span class='rparen token'>)</span>
-      <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;File generated at #{job_file['file_path'].inspect} &quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;File generated at #{job_file[:file_path].inspect} &quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_pdf identifier id'>pdf</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span>
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_record_modified_uris identifier id'>record_modified_uris</span><span class='lparen token'>(</span> <span class='lbrack token'>[</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span> 
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='string val'>&quot;All done. Please click refresh to view your download link.&quot;</span><span class='rparen token'>)</span>
@@ -378,7 +392,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:05:00 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:49 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

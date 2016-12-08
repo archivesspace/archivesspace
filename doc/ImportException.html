@@ -304,13 +304,13 @@
       <pre class="lines">
 
 
-80
-81
-82
-83</pre>
+84
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 84</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:invalid_object</span><span class='rbrack token'>]</span>
@@ -354,12 +354,12 @@
       <pre class="lines">
 
 
-78
-79
-80</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_error identifier id'>error</span>
   <span class='rubyid_@error ivar id'>@error</span>
@@ -397,12 +397,12 @@
       <pre class="lines">
 
 
-76
-77
-78</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_invalid_object identifier id'>invalid_object</span>
   <span class='rubyid_@invalid_object ivar id'>@invalid_object</span>
@@ -440,12 +440,12 @@
       <pre class="lines">
 
 
-77
-78
-79</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_message identifier id'>message</span>
   <span class='rubyid_@message ivar id'>@message</span>
@@ -478,10 +478,6 @@
       <pre class="lines">
 
 
-85
-86
-87
-88
 89
 90
 91
@@ -489,10 +485,14 @@
 93
 94
 95
-96</pre>
+96
+97
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_hash identifier id'>to_hash</span>
   <span class='rubyid_hsh identifier id'>hsh</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'record_title'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='string val'>'record_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='string val'>'error_class'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='string val'>'errors'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -527,12 +527,12 @@
       <pre class="lines">
 
 
-98
-99
-100</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#&lt;:ImportException: #{{:invalid_object =&gt; @invalid_object, :error =&gt; @error}.inspect}&gt;&quot;</span>
@@ -548,7 +548,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:54 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:44 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

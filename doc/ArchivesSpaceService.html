@@ -104,7 +104,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/job.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/schema.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/location_profile.rb,<br /> backend/app/controllers/space_calculator.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/controllers/job.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/schema.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/space_calculator.rb,<br /> backend/app/controllers/location_profile.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
 </dd>
   </dl>
   
@@ -1495,12 +1495,12 @@
       <pre class="lines">
 
 
-230
-231
-232</pre>
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 234</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_user</span><span class='rbrack token'>]</span>
@@ -1549,12 +1549,12 @@
       <pre class="lines">
 
 
-235
-236
-237</pre>
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 239</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority_request? fid id'>high_priority_request?</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&quot;HTTP_X_ARCHIVESSPACE_PRIORITY&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span> <span class='eq op'>==</span> <span class='string val'>&quot;high&quot;</span><span class='rparen token'>)</span>
@@ -1625,12 +1625,12 @@
       <pre class="lines">
 
 
-225
-226
-227</pre>
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 229</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_session identifier id'>session</span>
   <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='symbol val'>:aspace_session</span><span class='rbrack token'>]</span>
@@ -1646,7 +1646,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:50 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:40 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

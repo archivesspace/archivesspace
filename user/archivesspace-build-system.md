@@ -34,6 +34,11 @@ To run a development instance of all ArchivesSpace components:
 
 These should be run in different terminal sessions and do not need to be run
 in a specific order or are all required.
+
+For added convenience see: supervisord/README.md for a simpler way of running 
+the development servers with output for all servers sent to a single terminal 
+window.
+
 You can also clear your database and search indexes with:
 
      build/run db:nuke
@@ -77,15 +82,8 @@ directory in your ArchivesSpace project directory.
 
 ## Building a distribution
 
-To build an ArchivesSpace release, use the `build_release` script from
-your project directory:
-
-     scripts/build_release
+See: README_RELEASE.md for information on building a distribution.
 
 ## Generating API documentation
 
-To generate documentation for backend endpoints:
-
-    build/run doc:yard
-
-The generated HTML will be placed in the `doc` directory in your archivesspace root.
+See: README_RELEASE.md for information on building the documentation.

@@ -149,6 +149,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#associations_to_eagerly_load-instance_method" title="#associations_to_eagerly_load (instance method)">#<strong>associations_to_eagerly_load</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#calculate_object_graph-instance_method" title="#calculate_object_graph (instance method)">#<strong>calculate_object_graph</strong>(object_graph, opts = {})  &#x21d2; Object </a>
     
 
@@ -239,19 +262,19 @@
       <pre class="lines">
 
 
-51
-52
-53
-54
 55
 56
 57
 58
 59
-60</pre>
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_authority_id identifier id'>apply_authority_id</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_name_authority_id_dataset identifier id'>name_authority_id_dataset</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -284,10 +307,6 @@
       <pre class="lines">
 
 
-82
-83
-84
-85
 86
 87
 88
@@ -316,10 +335,14 @@
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -353,6 +376,37 @@
 
   <span class='rubyid_hash_fields identifier id'>hash_fields</span>
 
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="associations_to_eagerly_load-instance_method">
+  
+    #<strong>associations_to_eagerly_load</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 51</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_associations_to_eagerly_load identifier id'>associations_to_eagerly_load</span>
+  <span class='rubyid_super super kw'>super</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='symbol val'>:name_authority_id</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -422,13 +476,13 @@
       <pre class="lines">
 
 
-63
-64
-65
-66</pre>
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -455,20 +509,20 @@
       <pre class="lines">
 
 
-69
-70
-71
-72
 73
 74
 75
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_names.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -492,7 +546,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 20160724-1252 Documentation Generated on Thu Jul 28 18:04:45 2016 by
+  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:35 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
