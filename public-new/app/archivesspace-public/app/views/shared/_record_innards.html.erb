@@ -21,7 +21,9 @@
     <% unless @result['json']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
        <% @result['json']['extents'].each do |ext| %> 
-        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> <%= ext['number'] %>  <%= ext['extent_type'] %></p>
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
+	  
+<%= ext['number'] %>  <%= ext['extent_type'] %> <%= ext['container_summary'].blank? ? '' : "[#{ext['container_summary']}]" %></p>
       <% end %>
     <% end %>
 
