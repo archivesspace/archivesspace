@@ -110,8 +110,8 @@ class ObjectsController <  ApplicationController
         end
       end
       @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-      @agents = process_agents(@result['json']['linked_agents'])
       @subjects = process_subjects(@result['json']['subjects'])
+      @agents = process_agents(@result['json']['linked_agents'], @subjects)
       @dig = process_digital(@result['json'])
       @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
      else
