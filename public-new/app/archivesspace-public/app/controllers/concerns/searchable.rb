@@ -235,6 +235,13 @@ module Searchable
           label = date['label'].blank? ? '' : "#{date['label'].titlecase}: " 
           label = '' if label == 'Creation: '
           exp =  date['expression'] || ''
+          if exp.blank?
+            exp = date['begin'] unless date['begin'].blank?
+            unless date['end'].blank?
+              exp = (exp.blank? ? '' : exp + '-') + date['end']
+            end
+            Rails.logger.debug("**** NO DATE EXP: #{date}, final exp: #{exp}")
+          end
           if date['date_type'] == 'bulk'
             exp = exp.sub('bulk','').sub('()', '').strip
             exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
