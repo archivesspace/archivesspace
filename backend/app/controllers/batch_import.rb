@@ -87,6 +87,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       if last_error
+        Log.exception(last_error)
         results[:errors] = ["Server error: #{last_error}"]
       end
 

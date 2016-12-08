@@ -7,6 +7,7 @@ require 'set'
 module AgentManager
 
   AGENT_MUST_BE_UNIQUE = "Agent must be unique"
+  AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT = /Duplicate entry .* for key 'sha1_agent_person'/
 
   @@registered_agents ||= {}
 
@@ -176,7 +177,7 @@ module AgentManager
                       .and( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
                       
 
-          elsif exception.message.end_with?(AGENT_MUST_BE_UNIQUE)
+          elsif exception.message.end_with?(AGENT_MUST_BE_UNIQUE) || exception.message =~ AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT
             # If the agent already exists, find and reuse them
             agent = find_matching(json)
 
