@@ -1,0 +1,139 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "properties": {
+    "rights_type": {
+      "type": "string",
+      "minLength": 1,
+      "ifmissing": "error",
+      "dynamic_enum": "rights_statement_rights_type"
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 1,
+      "required": false
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "materials": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "ip_status": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "rights_statement_ip_status"
+    },
+    "ip_expiration_date": {
+      "type": "date",
+      "required": false
+    },
+    "license_identifier_terms": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "statute_citation": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "jurisdiction": {
+      "type": "string",
+      "required": false,
+      "dynamic_enum": "country_iso_3166"
+    },
+    "type_note": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "permissions": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "restrictions": {
+      "type": "string",
+      "maxLength": 65000,
+      "required": false
+    },
+    "restriction_start_date": {
+      "type": "date",
+      "required": false
+    },
+    "restriction_end_date": {
+      "type": "date",
+      "required": false
+    },
+    "granted_note": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false
+    },
+    "external_documents": {
+      "type": "array",
+      "items": {
+        "type": "JSONModel(:external_document) object"
+      }
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  },
+  "validations": [
+    [
+      "error",
+      "check_rights_statement"
+    ]
+  ]
+}

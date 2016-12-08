@@ -1,10 +1,8 @@
 require 'fileutils'
 
 outdir = "./docs/user/"
-
-FileUtils.cp("API.md", "./docs/slate/source/index.md")
-
 FileUtils::mkdir_p outdir
+FileUtils.cp("API.md", "./docs/slate/source/index.md")
 
 
 
@@ -40,4 +38,11 @@ EOF
     end
 end
 
-
+$stderr.puts "*" * 100
+$stderr.puts "You're documentation is almost ready. Now you must build slate and jekyll."
+$stderr.puts "For Slate:"
+$stderr.puts "$ rm -r docs/api && cd docs/slate && ./bin/middleman build && mv build ../api && cd -"
+$stderr.puts "And then Jekyll:"
+$stderr.puts "$ cd docs && ./bin/jekyll build && cd -"
+$stderr.puts "Then push it to GH and profit!"
+$stderr.puts "*" * 100

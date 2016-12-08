@@ -61,7 +61,7 @@ html, body {
   transition: left 0.3s ease-in-out;
 
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: scroll;
   position: fixed;
   z-index: 30;
   top: 0;
@@ -150,9 +150,7 @@ html, body {
   .tocify-item>a, .toc-footer li {
     padding: 0 $nav-padding 0 $nav-padding;
     display: block;
-    overflow-x: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   // The Table of Contents is composed of multiple nested
@@ -162,10 +160,12 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 28px;
   }
+ 
+  ul { line-height: 28px; }
 
   li {
+    line-height: 18px;
     color: $nav-text;
     transition-property: background;
     transition-timing-function: linear;
@@ -187,7 +187,7 @@ html, body {
     font-weight: 500;
     .tocify-item>a {
       padding-left: $nav-padding + $nav-indent;
-      font-size: 12px;
+      font-size: 10px;
     }
 
     // for embossed look:

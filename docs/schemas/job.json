@@ -1,0 +1,119 @@
+{
+  "$schema": "http://www.archivesspace.org/archivesspace.json",
+  "version": 1,
+  "type": "object",
+  "uri": "/repositories/:repo_id/jobs",
+  "properties": {
+    "uri": {
+      "type": "string",
+      "required": false
+    },
+    "job_type": {
+      "type": "string",
+      "ifmissing": "error",
+      "minLength": 1,
+      "dynamic_enum": "job_type"
+    },
+    "job": {
+      "type": [
+        {
+          "type": "JSONModel(:import_job) object"
+        },
+        {
+          "type": "JSONModel(:find_and_replace_job) object"
+        },
+        {
+          "type": "JSONModel(:print_to_pdf_job) object"
+        },
+        {
+          "type": "JSONModel(:report_job) object"
+        },
+        {
+          "type": "JSONModel(:container_conversion_job) object"
+        }
+      ]
+    },
+    "job_params": {
+      "type": "string"
+    },
+    "time_submitted": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "time_started": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "time_finished": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "owner": {
+      "type": "string",
+      "readonly": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "canceled",
+        "queued",
+        "failed"
+      ],
+      "default": "queued",
+      "readonly": true
+    },
+    "queue_position": {
+      "type": "number",
+      "readonly": true
+    },
+    "lock_version": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "required": false
+    },
+    "jsonmodel_type": {
+      "type": "string",
+      "ifmissing": "error"
+    },
+    "created_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "last_modified_by": {
+      "type": "string",
+      "readonly": true
+    },
+    "user_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "system_mtime": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "create_time": {
+      "type": "date-time",
+      "readonly": true
+    },
+    "repository": {
+      "type": "object",
+      "subtype": "ref",
+      "readonly": "true",
+      "properties": {
+        "ref": {
+          "type": "JSONModel(:repository) uri",
+          "ifmissing": "error",
+          "readonly": "true"
+        },
+        "_resolved": {
+          "type": "object",
+          "readonly": "true"
+        }
+      }
+    }
+  }
+}

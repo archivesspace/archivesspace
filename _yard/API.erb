@@ -1,6 +1,5 @@
----
-title: API Reference
-
+--- 
+title: API Reference 
 language_tabs:
   - shell
 
@@ -193,9 +192,17 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   opts = (param[3] or {})
   vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
 <% if opts[:body] %>
-	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
+  <% if param[1].respond_to? :record_type %> 
+    <%= "<a href='#jsonmodel-#{ param[1].record_type }'>#{param[1]}</a> -- request body -- #{param[2]}#{vs}" %>
+  <% else %>
+    <%= "#{param[1]} -- request body -- #{param[2]}#{vs}" %>
+  <% end %>  
 <% else %>
-	<%= "#{param[1]} #{param[0]} -- #{param[2]}#{vs}" %>
+  <% if param[1].respond_to? :record_type %> 
+    <%= "<a href='#jsonmodel-#{ param[1].record_type }'>#{param[1]}</a> #{param[0]} -- #{param[2]}#{vs}" %>
+  <% else %>
+    <%= "#{param[1]} #{param[0]} -- #{param[2]}#{vs}" %>
+  <% end %>  
 <% end %>
 <% end %>
 
@@ -243,4 +250,32 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 
 <% end %>
 
+# Schemata
 
+<%  @schemata.each do |key,schema| %>
+
+##<%= schema.to_s %>
+```json
+
+<%= JSON.pretty_generate(schema.schema) %>
+
+```
+<% theaders = ["title"] + schema.schema["properties"].values.map { |z| z.keys }.flatten.uniq.reject { |k| k == "properties" } %>
+<% trows = [] %> 
+<% schema.schema["properties"].map { |k,v| %>
+  <% cells = theaders.map { |h| v[h] || "" }; %>
+  <%  cells[0] = k; %> 
+  <%  trows << cells.join(' | '); %>
+<% } %>
+
+<%= " #{theaders.join(' | ') } " %> 
+<%= " #{theaders.inject('') { |m,h|  m << ( "-" * h.length ) + " | "; m; }} " %>
+
+<% trows.each do |trow|  %>
+<%= " #{trow} " %>
+
+<% end %>
+
+
+
+<% end %>
