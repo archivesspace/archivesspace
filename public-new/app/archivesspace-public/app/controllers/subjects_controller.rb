@@ -25,7 +25,7 @@ class SubjectsController <  ApplicationController
     @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,search_opts, params)
+      set_up_and_run_search(['subject'],['used_within_repository'],search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
