@@ -4,11 +4,12 @@
     <a class="record-title" href="<%= result['uri'] %>">  <%= strip_mixed_content(result['json']['display_string'] || result['title']) %></a>
   <% else %>
     <%= strip_mixed_content(result['json']['display_string'] || result['title']) %>
-    <%  if !result['json']['container_disp'].blank?
-          badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
-        end
-    %>
   <% end %>
+  <%  unless result['json']['container_disp'].blank?
+        badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
+      end
+      %>
+
 
 </h3>
 
@@ -37,10 +38,10 @@
 	      'fa-cog'
 	      end %>"></i>&#160;<%= badge_label %>
   </div>
-  <div class="identifier">
-    <% if result['json']['id_0'].present? %>
-    <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<%= result['json']['id_0'] %>
+    <% comp_id = result['json'].dig('_composite_identifier') || result['json'].dig('component_id') ||  result['json'].dig('id_0')
+       if comp_id %>
+    <div class="identifier">
+      <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
+    </div>
     <% end %>
-  </div>
-
 </div>
