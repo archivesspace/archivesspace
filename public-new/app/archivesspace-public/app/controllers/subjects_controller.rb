@@ -102,10 +102,11 @@ Rails.logger.debug("we hit search!")
   
   def fetch_subject_results(title, uri, params)
     @results = []
-    qry = "subjects:\"#{title}\""
+    qry = "subjects:\"#{title}\" AND types:pui"
     @base_search = "#{uri}?"
     search_opts = DEFAULT_SUBJ_SEARCH_OPTS
     search_opts['fq']=[qry]
+    search_opts['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, search_opts, params, qry)
    # we do this to compensate for the way @base_search gets munged in the setup
     @base_search= @base_search.sub("q=#{qry}", '')
