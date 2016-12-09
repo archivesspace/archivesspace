@@ -13,12 +13,7 @@
 
 <div class="row" id="notes_row">
   <div class="col-sm-9">
-    <% comp_id = @result['json']['_composite_identifier'] || @result['json']['component_id'] %>
-       
-    <% unless comp_id.blank? %>
-      <span class='component'><%=  t('archival_object._public.header.component') %>: <%= comp_id %></span>
-    <% end %>
-    <% if  comp_id.blank? && !@result['json']['ref_id'].blank? %>
+    <% if  defined?(comp_id) && !comp_id && !@result['json']['ref_id'].blank? %>
       <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
     <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
