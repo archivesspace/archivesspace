@@ -1,7 +1,8 @@
 <% if !full %>
    <div class="recordrow">
 <% end %>
-      <h3><a class="record-title" href="<%= result['uri'] %>">  <%= result['display_string']%></a>
+<!-- <%= result.pretty_inspect.html_safe %> -->
+      <h3><a class="record-title" href="<%= result['uri'] %>">  <%= result['name']%></a>
 	<% if result.has_key?('image_url') %>
 	<img src="<%=result['image_url'] %>" alt='' />
 	<% end %>
