@@ -1,7 +1,7 @@
 
 <div class="row">
 <div class="col-sm-9">
-<h2><%= !@repo['display_string'].blank? ? "#{@repo['display_string']}: " : '' %>
+<h2><%= !@repo['name'].blank? ? "#{@repo['name']}: " : '' %>
 <%= "#{I18n.t('pagination.summary_prefix')} #{I18n.t('pagination.summary_suffix')}" %> <%= @results['offset_first'] %> 
 <%= t('pagination.summary_offset_connector') %> <%= @results['offset_last'] %> <%= t('pagination.summary_total_connector') %> <%= @results['total_hits'] %>
 </h2>
