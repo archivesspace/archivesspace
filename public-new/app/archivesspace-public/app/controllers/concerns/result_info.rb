@@ -95,8 +95,11 @@ module ResultInfo
     dig = {}
     unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
       dig['out'] = json['digital_object_id']
+    end
+    if json['digital_object_type'].blank?
       dig['material'] = ''
-      dig['material'] << '(' << json['digital_object_type'] << ')' if json['digital_object_type'] 
+    else
+      dig['material'] << '(' << json['digital_object_type'] << ')' 
     end
     dig = process_file_versions(json, dig)
     dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
