@@ -104,7 +104,7 @@ module Searchable
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
 
-   # any search within results?
+   # any  search within results? 
     @search[:filter_q].each do |v|
       value = v == '' ? '*' : v
       advanced_query_builder.and('keyword', value, 'text', false)
@@ -144,7 +144,8 @@ module Searchable
 
       advanced_query_builder.and(this_repo)
     end
-
+    advanced_query_builder.and('types', 'pui')
+    advanced_query_builder.and('publish', true)
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
     @facet_filter = FacetFilter.new(default_facets, @search[:filter_fields],  @search[:filter_values])
@@ -346,7 +347,7 @@ module Searchable
   # creates the html-ized search statement
   def set_search_statement
     rid = defined?(@repo_id) ? @repo_id : nil
-    Pry::ColorPrinter.pp @search
+#    Pry::ColorPrinter.pp @search
     l = @search[:limit].blank? ? 'all' : @search[:limit]
     type = "<strong> #{I18n.t("search-limits.#{l}")}</strong>"
     type += I18n.t('search_results.in_repository', :name =>  CGI::escapeHTML(get_pretty_facet_value('repository', "/repositories/#{rid}"))) if rid
