@@ -569,7 +569,7 @@ class CommonIndexer
 
     # PUI type rules
     add_document_prepare_hook {|doc, record|
-      object_record_types = ['archival_object', 'accession', 'digital_object', 'digital_object_component']
+      object_record_types = ['accession', 'digital_object', 'digital_object_component']
 
       if object_record_types.include?(doc['primary_type'])
         doc['types'] << 'pui_record'
