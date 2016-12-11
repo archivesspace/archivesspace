@@ -27,6 +27,7 @@ module PUIIndexerMixin
         doc['types'] ||= []
         doc['types'] << 'pui'
         doc['types'] << 'pui_archival_object'
+        doc['types'] << 'pui_record'
       end
     }
 
