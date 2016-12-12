@@ -135,7 +135,7 @@ module ResultInfo
           if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
             dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
             dig['represent'] = 'embed' if version['is_representative']
-          elsif (version['xlink_show_attribute']||'') == 'new'
+          elsif !version['publish'].blank? && version['publish']
              dig['represent'] = 'new'  if version['is_representative']
             dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')
           end
