@@ -3,19 +3,13 @@ require 'securerandom'
 
 describe 'DigitalObjectComponent model' do
 
-  def create_digital_object_component
-    DigitalObjectComponent.create_from_json(JSONModel(:digital_object_component).
-                                            from_hash("ref_id" => SecureRandom.hex,
-                                                      "component_id" => SecureRandom.hex,
-                                                      "title" => "A new digital object component"),
-                                            :repo_id => $repo_id)
-  end
-
-
   it "Allows digital object components to be created" do
-    doc = create_digital_object_component
+    doc = create(:json_digital_object_component,
+                 {
+                   :title => "A new digital object component"
+                 })
 
-    DigitalObjectComponent[doc[:id]].title.should eq("A new digital object component")
+    DigitalObjectComponent[doc.id].title.should eq("A new digital object component")
   end
   
   it "you can resequence children" do

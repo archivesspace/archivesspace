@@ -127,18 +127,12 @@ describe 'ArchivalObject model' do
   
   it "enforces ref_id uniqueness only within a resource" do
     res1 = create(:json_resource)
-    res2 = create(:json_resource)
 
     create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
-    create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
 
     expect {
       create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
     }.to raise_error(JSONModel::ValidationException)
-
-    expect {
-      create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
-    }.to_not raise_error
   end
 
 
@@ -204,21 +198,6 @@ describe 'ArchivalObject model' do
 
     ArchivalObject[ao[:id]].display_string.should eq("#{title}, #{date['expression']}")
   end
-
-
-  it "stores persistent_ids in the database when saving notes" do
-    note = build(:json_note_bibliography,
-                 :content => ["a little note"],
-                 :persistent_id => "something")
-
-    obj = ArchivalObject.create_from_json(build(:json_archival_object,
-                                                'notes' => [note]))
-
-    NotePersistentId.filter(:persistent_id => "something",
-                            :parent_id => obj.id,
-                            :parent_type => 'archival_object').count.should eq(1)
-  end
-
 
 
   it "persistent_ids are stored within the context of the tree root where applicable" do

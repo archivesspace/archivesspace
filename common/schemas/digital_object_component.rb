@@ -35,7 +35,8 @@
             "type" => "object",
             "readonly" => "true"
           }
-        }
+        },
+        "ifmissing" => "error"
       },
 
       "position" => {"type" => "integer", "required" => false},

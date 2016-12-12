@@ -31,7 +31,8 @@
             "type" => "object",
             "readonly" => "true"
           },
-        }
+        },
+        "ifmissing" => "error"
       }
     },
   },
