@@ -222,6 +222,7 @@ module Searchable
         result['json'] = JSON.parse(result['json']) || {}
 #        Pry::ColorPrinter.pp(result['json'])
       end
+      result['json']['display_string'] = full_title(result['json'])
       result['json']['container_disp'] = container_display(result)
       result['json']['html'] = {}
       if result['json'].has_key?('notes')
@@ -390,6 +391,16 @@ module Searchable
     end
     return display
   end
+
+  # if there's an inherited title, pre-pend it
+  def full_title(json)
+    ft =  strip_mixed_content(json['display_string'] || json['title'])
+    unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
+      ft = I18n.t('inherited', :title => strip_mixed_content(json['title']), :display => ft)
+    end
+    ft
+  end
+
   # have to do this because we don't know the types at the moment
   def process_container_type(in_type)
     type = '' 
