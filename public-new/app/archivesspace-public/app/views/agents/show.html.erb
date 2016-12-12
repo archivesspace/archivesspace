@@ -3,6 +3,7 @@
   <div class="information col-sm-12">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     <%= render partial: 'shared/breadcrumbs' %>
+<!-- <%= @result.pretty_inspect.html_safe %> -->
     <div class="clear">
     <% unless @result['json']['used_within_repositories'].blank? %>
       <span class='repository inline-label'><%= t('subject.used_within') %>:</span>
