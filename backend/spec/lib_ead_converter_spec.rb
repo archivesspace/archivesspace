@@ -13,6 +13,19 @@ describe 'EAD converter' do
 
   let (:test_doc_1) {
     src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>一般行政文件 [2]</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+<dsc>
 <c id="1" level="file">
   <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
   <container id="cid1" type="Box" label="Text (B@RC0D3  )">1</container>
@@ -23,6 +36,8 @@ describe 'EAD converter' do
     <controlaccess><persname rules="dacs" source='local' id='thesame'>Art, Makah</persname></controlaccess>
   </c>
 </c>
+</dsc>
+</ead>
 ANEAD
 
     get_tempfile_path(src)
@@ -35,7 +50,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(3)
+    parsed.length.should eq(4)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
   end
 
@@ -54,7 +69,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(3)
+    parsed.length.should eq(4)
     parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
     parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
 
@@ -1017,6 +1032,19 @@ ANEAD
   describe "Mapping physdesc tags" do
     def test_doc
       src = <<ANEAD
+<ead>
+  <archdesc level="collection" audience="internal">
+    <did>
+      <unittitle>一般行政文件 [2]</unittitle>
+      <unitid>Resource.ID.AT</unitid>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <physdesc>
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+  </archdesc>
+<dsc>
 <c>
  <did>
  <unittitle>DIMENSIONS test </unittitle>
@@ -1027,6 +1055,8 @@ ANEAD
  </physdesc>
  </did>
 </c>
+</dsc>
+</ead>
 ANEAD
 
       get_tempfile_path(src)
