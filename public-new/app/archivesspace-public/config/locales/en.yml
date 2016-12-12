@@ -220,7 +220,8 @@ en:
  
   # I don't have a place for this, so I'm putting it here
   scope_note : Scope Note
- 
+  # adding the inherited title to the display string
+  inherited: "%{title}, %{display}"
 
   more_about: More about
   listing: Listing
