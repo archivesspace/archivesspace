@@ -198,6 +198,7 @@ FactoryGirl.define do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
     title { "Archival Object #{generate(:generic_title)}" }
+    resource { {'ref' => create(:json_resource).uri} }
   end
 
   factory :json_archival_object_normal, class: JSONModel(:archival_object) do
@@ -206,6 +207,7 @@ FactoryGirl.define do
     title { "Archival Object #{generate(:generic_title)}" }
     extents { few_or_none(:json_extent) }
     dates { few_or_none(:json_date) }
+    resource { {'ref' => create(:json_resource).uri} }
   end
 
   factory :json_classification, class: JSONModel(:classification) do
@@ -218,6 +220,7 @@ FactoryGirl.define do
     identifier { generate(:alphanumstr) }
     title { "Classification #{generate(:generic_title)}" }
     description { generate(:generic_description) }
+    classification { {'ref' => create(:json_classification).uri} }
   end
 
   factory :json_note_index, class: JSONModel(:note_index) do
@@ -359,6 +362,7 @@ FactoryGirl.define do
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
   end
 
   factory :json_event, class: JSONModel(:event) do
