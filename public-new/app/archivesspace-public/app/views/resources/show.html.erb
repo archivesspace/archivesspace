@@ -9,7 +9,7 @@
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => {} } %>
   </div>
   <div class="page_actions col-sm-5 right">
-    <%= render partial: 'shared/page_actions', locals: {:title =>  strip_mixed_content(@result['json']['display_string'] || @result['title']), :url => request.fullpath, :cite => @cite } %>
+    <%= render partial: 'shared/page_actions', locals: {:title =>  @result['json']['display_string'], :url => request.fullpath, :cite => @cite } %>
   </div>
 </div>
 <div class="row">

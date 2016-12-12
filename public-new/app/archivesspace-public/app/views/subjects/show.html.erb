@@ -41,7 +41,7 @@
 
    </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <h4><%= t('more_about') %> '<%= strip_mixed_content(@result['json']['display_string'] || @result['title'])%>'</h4>
+   <h4><%= t('more_about') %> '<%= @result['json']['display_string']%>'</h4>
    <% if !@result['json']['terms'].blank? %>
 
       <h5><%= t('subject_term_type') %> </h5>
