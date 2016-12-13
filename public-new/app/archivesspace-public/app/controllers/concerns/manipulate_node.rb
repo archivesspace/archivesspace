@@ -17,6 +17,7 @@ module ManipulateNode
     txt = txt.gsub("list>", "ul>")
       .gsub("item>", "li>")
       .gsub(/\n\n/,"<br /><br />")
+      .gsub(/\r\n\r\n/,"<br /><br />")
     txt = txt.gsub("xlink\:type=\"simple\"", "")
     @frag = Nokogiri::XML.fragment(txt)
     move_list_heads
