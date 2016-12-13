@@ -99,7 +99,7 @@ module ResultInfo
     if json['digital_object_type'].blank?
       dig['material'] = ''
     else
-      dig['material'] << '(' << json['digital_object_type'] << ')' 
+      dig['material'] =  '(' << json['digital_object_type'] << ')' 
     end
     dig = process_file_versions(json, dig)
     dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
