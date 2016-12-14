@@ -209,26 +209,6 @@ def run_tests(opts)
   ao_id = r[:body]["id"] or fail("Archival Object creation", r)
 
 
-  puts "Create a standalone archival object"
-  r = do_post({
-                :ref_id => "test#{$me}",
-                :title => "integration test archival object #{$$} - standalone",
-                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
-                :level => "item"
-              }.to_json,
-              url("/repositories/#{repo_id}/archival_objects"))
-
-  standalone_ao_id = r[:body]["id"] or fail("Standalone Archival Object creation", r)
-
-
-  puts "Retrieve the archival object with subjects resolved"
-  r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["_resolved"]["terms"][0]["term"] == "Some term #{$me}" or
-    fail("Archival object fetch", r)
-
-
-
-
   puts "Catch reference errors in batch imports"
   r = do_post([{
                 :jsonmodel_type => "resource",
