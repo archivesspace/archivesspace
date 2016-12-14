@@ -111,7 +111,7 @@ module ASModel
             filter = model.columns.include?(:repo_id) ? {:repo_id => model.active_repository} : {}
 
             if model.suppressible? && model.enforce_suppression?
-              filter[:suppressed] = 0
+              filter[Sequel.qualify(model.table_name, :suppressed)] = 0
             end
 
             orig_ds.filter(filter)
@@ -121,7 +121,7 @@ module ASModel
           # And another that will return records from any repository
           def_dataset_method(:any_repo) do
             if model.suppressible? && model.enforce_suppression?
-              orig_ds.filter(:suppressed => 0)
+              orig_ds.filter(Sequel.qualify(model.table_name, :suppressed) => 0)
             else
               orig_ds
             end
