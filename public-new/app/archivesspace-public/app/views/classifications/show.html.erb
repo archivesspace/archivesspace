@@ -5,6 +5,7 @@
     <%= render partial: 'shared/breadcrumbs' %>
   </div>
   <div class="col-sm-9">
+<!-- <%= @result.pretty_inspect.html_safe %> -->
 
 <br/>
     <% if @result['json']['linked_records'].present? %>
@@ -17,7 +18,9 @@
     <% end %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+   <% unless !defined?(@tree) || @tree.blank? %> 
     <h4><%= t('cont_arr') %></h4>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
+   <% end %>
   </div>
 </div>

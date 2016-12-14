@@ -25,6 +25,7 @@
   </div>
 </div>
 <div class="row" id="notes_row">
+<!-- <%= @result.pretty_inspect.html_safe %> -->
   <div class="col-sm-9">
     <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
     <%= render partial: 'shared/record_innards' %>
