@@ -2,6 +2,9 @@
 
   <div class="information col-sm-9">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+
+<!-- <%= @result.pretty_inspect.html_safe %> -->
+
     <div class="clear">
     <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %> 
     </div>
