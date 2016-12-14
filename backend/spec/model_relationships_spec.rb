@@ -412,6 +412,7 @@ describe 'Relationships' do
     archival_object_json = create(:json_archival_object,
                                   :instances => [
                                     build(:json_instance,
+                                          :instance_type => 'digital_object',
                                           :digital_object => {
                                             :ref => digital_object.uri
                                           })
@@ -444,6 +445,7 @@ describe 'Relationships' do
     archival_object_json = create(:json_archival_object,
                                   :instances => [
                                     build(:json_instance,
+                                          :instance_type => 'digital_object',
                                           :digital_object => {
                                             :ref => digital_object.uri
                                           })
