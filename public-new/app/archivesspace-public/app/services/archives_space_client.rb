@@ -74,7 +74,7 @@ class ArchivesSpaceClient
     tree = {}
     url =  build_url('/search/published_tree', {:node_uri => node_uri})
     begin
-      results = do_search(url)
+      results = do_search(url, true)
       tree = JSON.parse(results['tree_json'])
     rescue  RequestFailedException => error
       Rails.logger.error("Tree search failed on #{node_uri} : #{error}")
@@ -108,9 +108,14 @@ class ArchivesSpaceClient
 
   # perform the actual search, returning json-ized results, 
   # or raising an error
-  def do_search(url)
-    Rails.logger.debug("Search url: #{url}")
-    request = Net::HTTP::Get.new(url)
+  def do_search(url, use_get = false)
+    if use_get
+      request = Net::HTTP::Get.new(url)
+    Rails.logger.debug("GET Search url: #{url}")
+    else
+      request = Net::HTTP::Post.new(url)
+      Rails.logger.debug("POST Search url: #{url} ")
+    end
     response = do_http_request(request)
     if response.code != '200' 
       Rails.logger.debug("Code: #{response.code}")
