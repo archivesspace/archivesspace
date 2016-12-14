@@ -308,5 +308,7 @@
         <% if !first_row %><button class="btn remove-row btn-default"><span class="glyphicon glyphicon-remove"></span></button><% end %>
       </div>
     </td>
+
+    <%= form.hidden_input "resource[ref]", @resource_uri %>
   </tr>
 <% end %>

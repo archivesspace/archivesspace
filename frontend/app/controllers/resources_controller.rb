@@ -176,6 +176,7 @@ class ResourcesController < ApplicationController
     flash.clear
 
     @parent = Resource.find(params[:id])
+    @resource_uri = @parent.uri
     @children = ResourceChildren.new
     @exceptions = []
 
@@ -185,6 +186,7 @@ class ResourcesController < ApplicationController
 
   def add_children
     @parent = Resource.find(params[:id])
+    @resource_uri = @parent.uri
 
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 

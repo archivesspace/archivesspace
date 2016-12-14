@@ -172,6 +172,7 @@ class ArchivalObjectsController < ApplicationController
 
   def rde
     @parent = JSONModel(:archival_object).find(params[:id])
+    @resource_uri = @parent['resource']['ref']
     @children = ArchivalObjectChildren.new
     @exceptions = []
 
