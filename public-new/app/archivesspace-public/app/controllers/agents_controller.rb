@@ -76,7 +76,7 @@ class AgentsController <  ApplicationController
   def show
     uri = "/agents/#{params[:eid]}/#{params[:id]}"
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource','related_agent_uris:id' ]
     results =  archivesspace.search_records([uri],1,@criteria)
     results =  handle_results(results)
     if !results['results'].blank? && results['results'].length > 0
