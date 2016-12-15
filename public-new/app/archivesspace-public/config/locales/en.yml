@@ -54,6 +54,12 @@ en:
 
   page_actions: Page Actions    
 
+  request:
+    user_name: Your name
+    user_email: Your email address
+    date: Anticipated arrival date
+    note: Note to the staff 
+
   search-button:
     label: Search
   search-limit: "Limit to %{limit}"
@@ -177,7 +183,15 @@ en:
     collection: Collection
     series: Series
     sub-series: Sub-Series
-
+    class: Class
+    file: File
+    fonds: Fonds
+    item: Item
+    otherlevel: Other Level
+    recordgrp: Record Group
+    subfonds: Sub-Fonds
+    subgrp: Sub-Group
+ 
   errors:
     error_404: Record Not Found
     error_404_message: "The record you've tried to access does not exist or may have been removed."
