@@ -6,7 +6,7 @@ module JsonHelper
     if !notes.blank?
       if notes.kind_of?(Array)
         notes.each do |note|
-          type = note['type']
+          type = note_type(note)
           if (!req || type == req) && note['publish']
             set_up_note(notes_hash, type, note)
           end
@@ -27,12 +27,19 @@ module JsonHelper
     note_struct = {}
     if json['html'].present? && json['html'].has_key?(type)
       note_struct = json['html'][type]
+#binding.pry
     end
 # Pry::ColorPrinter.pp note_struct
     note_struct
   end
 
   private
+  # handle the vagaries of note type (may not be present; get jsonmodel_type instead)
+  def note_type(note)
+    type = note['type'] || note['jsonmodel_type']
+    type = type.sub("note_",'')
+  end
+
   # handle possible multiple notes of same kind
   def set_up_note(notes_hash, type, note)
     note_struct = handle_note_structure(note, type)
