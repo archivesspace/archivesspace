@@ -2,6 +2,10 @@
 <%# shared modal(s) %>
 <%= render partial: 'shared/modal', locals: {:modal_id => 'cite_modal', :title => t('actions.cite'), 
                     :modal_body => @cite} %>
+<% req = render partial: 'shared/request_form' %>
+<%= render partial: 'shared/modal', locals: {:modal_id => 'request_modal', :title => t('actions.request'),
+  :modal_body => req } %>
+
 <%# using clipboard.js: https://clipboardjs.com/ %>
 <script type ="text/javascript" >setupCite("cite_modal", "<%= t('actions.clipboard') %>")</script>
-
+<script type ="text/javascript" >setupRequest("request_modal")</script>

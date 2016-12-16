@@ -59,6 +59,11 @@ en:
     user_email: Your email address
     date: Anticipated arrival date
     note: Note to the staff 
+    visit: "Submit a request to visit %{repo_name} to view <strong>%{archival_object}</strong>"
+    submit: Submit Request
+    errors:
+      name: Please enter your name
+      email: Please enter a valid email address
 
   search-button:
     label: Search
