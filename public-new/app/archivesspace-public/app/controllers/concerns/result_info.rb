@@ -7,7 +7,7 @@ module ResultInfo
     info['top'] = {}
     unless result['_resolved_repository'].blank? ||  result['_resolved_repository']['json'].blank?
       repo =  result['_resolved_repository']['json']
-      %w(name uri url parent_institution_name image_url).each do | item |
+      %w(name uri url parent_institution_name image_url repo_code).each do | item |
         info['top'][item] = repo[item] unless repo[item].blank?
       end
       unless repo['agent_representation'].blank? || repo['agent_representation']['_resolved'].blank? || repo['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
@@ -25,6 +25,22 @@ module ResultInfo
       end
     end
    info
+  end
+
+  # create the breadcrumbs
+  def breadcrumb_info
+    context = get_path(@tree)
+    # TODO: This is a monkey patch for digital objects
+    if context.blank?
+      context = []
+      unless !@result.dig('_resolved_resource','json')
+        context.unshift({:uri => @result['_resolved_resource']['json']['uri'],
+                          :crumb => strip_mixed_content(@result['_resolved_resource']['json']['title'])})
+      end
+    end
+    context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
+    context.push({:uri => '', :crumb => strip_mixed_content(@result['json']['display_string'] || @result['json']['title']) })
+    context
   end
 # create a usable agent hash
   def process_agents(agents_arr, subjects_arr = [])
@@ -58,18 +74,105 @@ module ResultInfo
 
 # return a title/uri hash if publish == true
   def title_and_uri(in_h, inh_struct = nil)
+    ret_val = nil
     if in_h['publish']
       ret_val = in_h.slice('uri', 'title')
       ret_val['inherit'] = inheritance(inh_struct)
       Rails.logger.debug(ret_val)
-      return ret_val
-    else
-      return nil
     end
+    ret_val
+  end
+
+
+# cite
+  def fill_cite
+    @cite = ''
+    cite = get_note(@result['json'], 'prefercite')
+    unless cite.blank?
+      @cite = strip_mixed_content(cite['note_text'])
+    else
+      @cite = strip_mixed_content(@result['json']['title']) + "."
+      ttl = @result.dig('_resolved_resource', 'json', 'title')
+      @cite += " #{strip_mixed_content(ttl)}." unless !ttl
+      @cite += " #{ @repo_info['top']['name']}." unless @repo_info['top']['name'].blank?
+    end
+    @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
+  end
+
+  def fill_request_info
+    @request = nil
+    @request = RequestItem.new(container_info)
+    #TODO: add logic for not continuing if customized no
+    @request[:request_uri] = @result['uri']
+    @request[:repo_name] = @repo_info['top']['name']
+    @request[:cite] = @cite
+    @request[:identifier] = @result.dig('json', '_composite_identifier')
+    @request[:title] = @page_title
+    hier = ''
+    @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
+    @request[:hier] = hier.strip
+    note = get_note(@result['json'], 'accessrestrict')
+    @request[:restrict] = note['note_text'] unless note.blank? 
+    @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
+    @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title')
+  end
+
+# process container information
+  def container_info
+    info = {}
+    %i(top_container_url top_container_name location_title location_url machine barcode).each  {|sym| info[sym] = [] }
+    unless @result['json']['instances'].blank?
+      @result['json']['instances'].each do |instance|
+        hsh = container_instance(instance)
+        hsh.keys.each {|sym| info[sym].push(hsh[sym] || '')}  if hsh
+      end
+    end
+    disp = @result['json'].dig('container_disp')
+    info[:top_container_name] = [disp] if info[:top_container_name].empty? && disp
+    info[:top_container_url] = [@result.dig('top_container_uri_u_sstr') || ''] if  info[:top_container_url].empty?
+    restricts = @result.dig('_resolved_top_container_uri_u_sstr','json','active_restrictions')
+    if restricts
+      restricts.each do |r|
+        lar = r.dig('local_access_restriction_type')
+        info[:machine].push(lar) if lar
+      end
+    end
+    info
+  end
+
+ # returns a hash
+  def container_instance(instance)
+    tc = instance.dig('sub_container', 'top_container', 'ref')
+    c = instance.dig('container')
+    ret_hash = nil
+    if tc || c
+      name = ''
+      title = nil
+      url = nil
+      barcode = nil
+      if c
+        (1..3).each do |i|
+          type = c.dig("type_#{i}") || ''
+          name << type << ' '  if type.downcase != 'unspecified'
+          ind = c.dig("indicator_#{i}") || ''
+          name << ind << ' '
+          barcode = c.dig("barcode_#{i}")
+          name << barcode << ' ' if barcode
+        end
+        name.strip!
+        locs = c.dig('container_locations')
+        if locs && !locs[0].blank?
+          title = locs[0].dig('_resolved', 'title') || ''
+          uri = locs[0].dig('_resolved', 'uri') || ''
+        end
+      end
+      ret_hash =  {:top_container_name => (name.blank? ? nil : name),
+        :top_container_url => tc, :location_title => title, :location_url => uri, :barcode => barcode}
+    end
+    ret_hash
   end
 
 # look for a representative instance
-
   def get_rep_image(instances)
     rep = {}
     if instances && instances.kind_of?(Array)

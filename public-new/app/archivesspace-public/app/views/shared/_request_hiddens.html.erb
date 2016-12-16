@@ -1,0 +1,14 @@
+<%# yield all the "hidden" fields for a request, so it can be used in two placed %>
+ <% unless @back_url.blank? %>
+ <input type='hidden' name='back_url' value='<%= @back_url %>' />
+ <% end %>
+ <% %i(repo_name request_uri title resource_id resource_name identifier cite hier restrict).each do |s| %>
+ <input type='hidden' name='<%= s.to_s %>' value='<%= @request[s] %>' />
+ <% end %>
+    <% %i(top_container_url top_container_name barcode location_title location_url).each do |s| %>
+       <% if @request[s] %>
+          <% @request[s].each do |v| %>
+	  <input type='hidden' name='<%= "#{s.to_s}[]" %>' value='<%= v %>' />
+          <% end %>
+       <% end %>
+     <% end %>
