@@ -68,9 +68,11 @@ module JsonHelper
       inherit = inheritance(note['_inherited'])
 #binding.pry
       if note['jsonmodel_type'] == 'note_multipart' || !note['subnotes'].blank?
+        notes = []
         note['subnotes'].each do |sub|
-          note_text = handle_single_note(sub, note_text)
+          notes.push(handle_single_note(sub, note_text))
         end
+        note_text = notes.join("<br/>")
       else
         note_text = handle_single_note(note, note_text)
       end
