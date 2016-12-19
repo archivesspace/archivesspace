@@ -3,6 +3,28 @@ require 'active_model'
 class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :repo_name, :resource_id,
                            :request_uri, :title, :resource_name, :identifier, :cite, :restrict, :machine, 
                            :top_container_url, :top_container_name,  :barcode, :location_title, :location_url)
+
+  def RequestItem.allow_nontops(repo_id)
+    has_repo_allow = false
+    allow = false
+    repo_allow = false
+    begin
+      repo_allow = AppConfig[:repos].dig(repo_id.downcase, :allow_nontops)
+      has_repo_allow = true
+    rescue Exception => err
+      raise err unless err.message.start_with?("No value set for config parameter")
+    end
+    unless has_repo_allow
+      begin
+        allow = AppConfig[:allow_nontops]
+      rescue Exception => err
+        raise err unless err.message.start_with?("No value set for config parameter")
+      end
+    end
+    Rails.logger.debug("allow? #{repo_allow || allow}")
+    repo_allow || allow
+  end
+
   def initialize(hash)
     self.members.each do |sym|
       self[sym] = hash.fetch(sym,nil)

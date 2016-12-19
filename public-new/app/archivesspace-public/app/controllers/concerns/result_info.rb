@@ -100,21 +100,22 @@ module ResultInfo
   end
 
   def fill_request_info
-    @request = nil
-    @request = RequestItem.new(container_info)
-    #TODO: add logic for not continuing if customized no
-    @request[:request_uri] = @result['uri']
-    @request[:repo_name] = @repo_info['top']['name']
-    @request[:cite] = @cite
-    @request[:identifier] = @result.dig('json', '_composite_identifier')
-    @request[:title] = @page_title
-    hier = ''
-    @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
-    @request[:hier] = hier.strip
-    note = get_note(@result['json'], 'accessrestrict')
-    @request[:restrict] = note['note_text'] unless note.blank? 
-    @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
-    @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title')
+    container = container_info
+    unless (container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code'])
+      @request = RequestItem.new(container)
+      @request[:request_uri] = @result['uri']
+      @request[:repo_name] = @repo_info['top']['name']
+      @request[:cite] = @cite
+      @request[:identifier] = @result.dig('json', '_composite_identifier')
+      @request[:title] = @page_title
+      hier = ''
+      @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
+      @request[:hier] = hier.strip
+      note = get_note(@result['json'], 'accessrestrict')
+      @request[:restrict] = note['note_text'] unless note.blank? 
+      @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
+      @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title')
+    end
   end
 
 # process container information
