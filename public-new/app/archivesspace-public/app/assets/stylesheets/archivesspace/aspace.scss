@@ -642,6 +642,11 @@ span.component {
    font-weight: bold;
 }
 
+span.title {
+  font-style: italic;
+  font-variant: small-caps;
+}
+
 .keywordscontext {
   .content {
     padding-left: rem-calc(20);
