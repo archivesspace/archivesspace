@@ -11,11 +11,17 @@
 
    <li class="large-badge  align-center"><a class="btn page_action" href="javascript:alert('this will handle the bookmark for <%= title %>');" title="<%= t('actions.bookmark') %>"><i class="fa fa-bookmark fa-3x"></i><br/><%= t('actions.bookmark') %></a></li>
    <li class="large-badge align-center">
+    <% if defined?(@request) %>
      <form id="request_sub" action="<%= @request[:request_uri]%>/request" method="post">
         <%= render partial: 'shared/request_hiddens' %>
 	<button type="submit" class="btn page_action request  btn-default" title="<%= t('actions.request') %>">
 	  <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
     </form>
+    <% else %>
+         <button class="btn page_action request  btn-default" disabled="true">
+          <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
+
+    <% end %>
    </li>
    <li class="large-badge align-center"><a class="btn page_action" href="javascript:alert('this will print? <%= title %>');" title="<%= t('actions.print') %>"><i class="fa fa-file-pdf-o fa-3x"></i><br/><%= t('actions.print') %></a></li>
  </ul>
