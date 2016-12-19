@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get 'repositories/resources' => 'resources#index'
   get  "repositories/:rid/accessions/:id" => 'accessions#show'
   post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get  "repositories/:rid/classifications/:id" => 'classifications#show'
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
