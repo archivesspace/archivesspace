@@ -3,12 +3,6 @@ require 'active_model'
 class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :repo_name, :resource_id,
                            :request_uri, :title, :resource_name, :identifier, :cite, :restrict, :machine, 
                            :top_container_url, :top_container_name,  :barcode, :location_title, :location_url)
-  include ::ActiveModel::Validations
- 
-  validates_format_of :user_email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: 'Please enter a valid email address'
-   validates_presence_of :user_name, 'Please enter your name'
-  
-
   def initialize(hash)
     self.members.each do |sym|
       self[sym] = hash.fetch(sym,nil)
