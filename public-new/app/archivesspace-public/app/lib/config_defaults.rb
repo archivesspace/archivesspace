@@ -22,6 +22,14 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:hide_agent_tab] = false
   AppConfig[:hide_classification_tab] = false
 
+# the following determine when the request button gets greyed out/disabled
+  AppConfig[:allow_nontops] = false # disable if there is no top container
+
+# the beginning of repository-specific customization.  The repo_id should be downcased
+  AppConfig[:repos] = {}
+  #AppConfig[:repos][{repo_code}] = {}
+  #AppConfig[:repos][{repo_code}][:allow_nontops] = true # for a particular repository , DON'T disable
+  #AppConfig[:repos][{repo_code}][:request_email] = {email address} # if it's a specific email address
 
   $CONFIG_DEFAULTS_LOADED = true
 end
