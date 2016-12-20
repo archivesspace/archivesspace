@@ -2,10 +2,10 @@
 
   
  <div class="warning col-sm-12">
-   <h4><%= t('errors.error_404_message') %></h4>
+   <h4><%= t('errors.error_404_message', :type => @type) %></h4>
    <p><b><%= @uri %></b></p>
-   <% if @back_url.present? %>
-   <a href="<%= @back_url %>" title="<%= t('actions.backup_abbr')%>"><%= t('actions.backup') %></a>
+   <% unless @back_url.blank? %>
+   <p><a href="<%= @back_url %>" title="<%= t('actions.backup_abbr')%>"><%= t('actions.backup') %></a></p>
    <% end %>
  </div>
 </div>
