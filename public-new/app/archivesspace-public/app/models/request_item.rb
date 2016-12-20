@@ -46,7 +46,7 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :re
 
   def to_text_array(skip_empty = false)
     arr = []
-    %i(user_name user_email date note title identifier request_uri resource_name resource_id repo_name hier restrict machine).each do |sym|
+    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hier restrict machine).each do |sym|
       arr.push("#{sym.to_s}: #{self[sym]}") unless skip_empty && self[sym].blank?
     end
     if !self[:top_container_name].blank? &&  !self[:top_container_name].empty?
