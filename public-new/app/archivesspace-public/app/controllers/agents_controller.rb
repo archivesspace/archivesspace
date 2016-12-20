@@ -94,7 +94,8 @@ class AgentsController <  ApplicationController
       Rails.logger.debug("Agent title: #{@page_title}")
       @context = []
     else
-      @page_title =  "#{I18n.t('an_agent')} #{I18n.t('errors.error_404')}"
+      @type = I18n.t('pui_agent._singular')
+      @page_title =  I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
