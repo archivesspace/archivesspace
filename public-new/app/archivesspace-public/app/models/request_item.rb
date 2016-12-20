@@ -4,25 +4,17 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :re
                            :request_uri, :title, :resource_name, :identifier, :cite, :restrict, :machine, 
                            :top_container_url, :top_container_name,  :barcode, :location_title, :location_url)
 
-  def RequestItem.allow_nontops(repo_id)
-    has_repo_allow = false
-    allow = false
-    repo_allow = false
+  def RequestItem.allow_nontops(repo_code)
+    allow = nil
     begin
-      repo_allow = AppConfig[:repos].dig(repo_id.downcase, :allow_nontops)
-      has_repo_allow = true
+      rep_allow  = AppConfig[:repos].dig(repo_code.downcase,:requests_permitted_for_containers_only)
+      allow = !rep_allow unless rep_allow.nil?
     rescue Exception => err
       raise err unless err.message.start_with?("No value set for config parameter")
     end
-    unless has_repo_allow
-      begin
-        allow = AppConfig[:allow_nontops]
-      rescue Exception => err
-        raise err unless err.message.start_with?("No value set for config parameter")
-      end
-    end
-    Rails.logger.debug("allow? #{repo_allow || allow}")
-    repo_allow || allow
+    allow = !AppConfig[:requests_permitted_for_containers_only] if allow.nil?
+    Rails.logger.debug("allow? #{ allow}")
+    allow
   end
 
   def initialize(hash)

@@ -23,12 +23,12 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:hide_classification_tab] = false
 
 # the following determine when the request button gets greyed out/disabled
-  AppConfig[:allow_nontops] = false # disable if there is no top container
+  AppConfig[:requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
-# the beginning of repository-specific customization.  The repo_id should be downcased
+# the beginning of repository-specific customization.  The repo_code should be downcased
   AppConfig[:repos] = {}
   #AppConfig[:repos][{repo_code}] = {}
-  #AppConfig[:repos][{repo_code}][:allow_nontops] = true # for a particular repository , DON'T disable
+  #AppConfig[:repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
   #AppConfig[:repos][{repo_code}][:request_email] = {email address} # if it's a specific email address
 
   $CONFIG_DEFAULTS_LOADED = true
