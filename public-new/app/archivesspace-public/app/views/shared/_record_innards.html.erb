@@ -8,14 +8,19 @@
        folder.shift # remove abstract from in-folder notes
 
     end %>
-    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
+    <% unless over.blank? %>
+      <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
+    <% end %>
     <% unless @result['json']['dates'].blank? %>
       <h4><%= t('resource._public.dates') %></h4>
       <%= render partial: 'shared/dates', locals: {:dates => @result['json']['dates']} %>
 
     <% end %>
     <% non_folder.each do |type| %>
-       <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => get_note(@result['json'], type)}  %>
+       <% note_struct =  get_note(@result['json'], type) %>
+       <% unless note_struct['note_text'].blank? %>
+        <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
+       <% end %>
     <% end %>
 
     <% unless @result['json']['extents'].blank? %>
