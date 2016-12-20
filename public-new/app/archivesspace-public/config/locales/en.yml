@@ -198,8 +198,8 @@ en:
     subgrp: Sub-Group
  
   errors:
-    error_404: Record Not Found
-    error_404_message: "The record you've tried to access does not exist or may have been removed."
+    error_404: "%{type} Record Not Found"
+    error_404_message: "The %{type} record you've tried to access does not exist or may have been removed."
     backend_down: Unable to Connect to Database
     backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
 

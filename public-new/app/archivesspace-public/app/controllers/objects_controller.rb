@@ -99,7 +99,8 @@ class ObjectsController <  ApplicationController
       @dig = process_digital(@result['json'])
       @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
      else
-      @page_title = I18n.t 'errors.error_404'
+      @type = I18n.t("#{(params[:obj_type] == 'archival_objects'? 'archival' : 'digital')}_object._singular")
+      @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'

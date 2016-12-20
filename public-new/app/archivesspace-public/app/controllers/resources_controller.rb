@@ -160,7 +160,8 @@ class ResourcesController <  ApplicationController
       @rep_image = get_rep_image(@result['json']['instances'])
       @tree = fetch_tree(uri)
     else
-      @page_title = "#{I18n.t('resource._singular')} {I18n.t('errors.error_404')} NOT FOUND"
+      @type = I18n.t('resource._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'

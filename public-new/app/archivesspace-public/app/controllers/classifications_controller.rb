@@ -89,7 +89,8 @@ class ClassificationsController <  ApplicationController
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => process_mixed_content(@result['json']['title']) })
     else
-      @page_title = "#{I18n.t('classification._singular')} #{I18n.t('errors.error_404')}"
+      @type =  I18n.t('classification._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'

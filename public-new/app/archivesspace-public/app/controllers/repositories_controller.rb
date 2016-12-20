@@ -75,8 +75,9 @@ class RepositoriesController < ApplicationController
   end
 
   def show
+    uri = "/repositories/#{params[:id]}"
     resources = {}
-    query = "(id:\"/repositories/#{params[:id]}\" AND publish:true)"
+    query = "(id:\"#{uri}\" AND publish:true)"
     counts = get_counts("/repositories/#{params[:id]}")
     # Pry::ColorPrinter.pp(counts)
     @subj_ct = counts["subject"] || 0
@@ -89,7 +90,7 @@ class RepositoriesController < ApplicationController
     @criteria[:page_size] = 1
     @data =  archivesspace.search(query, 1, @criteria) || {}
     @result
-    unless @data['results'].blank?
+    if !@data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
       # make the repository details easier to get at in the view
       if @result['agent_representation']['_resolved'] && @result['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
@@ -98,7 +99,14 @@ class RepositoriesController < ApplicationController
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = strip_mixed_content(@result['name'])
-      render 
+      render
+    else
+      @type = I18n.t('repository._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
+
     end
   end
 
@@ -110,7 +118,7 @@ class RepositoriesController < ApplicationController
     if collection_only
       types = ['pui_collection']
     else
-      types = ['pui_collection', 'pui_record', 'pui_record_group', 'pui_agent',  'pui_subject']
+      types = %w(pui_collection pui_record pui_record_group pui_agent  pui_subject)
     end
     # for now, we've got to get the whole enchilada, until we figure out what's wrong
     #  counts = archivesspace.get_types_counts(types, repo_id)
