@@ -200,13 +200,11 @@ module ResultInfo
     unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
       dig['out'] = json['digital_object_id']
     end
-    if json['digital_object_type'].blank?
-      dig['material'] = ''
-    else
-      dig['material'] =  '(' << json['digital_object_type'] << ')' 
-    end
     dig = process_file_versions(json, dig)
-    dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
+    unless dig.blank?
+      dig['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
+      dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
+    end
     dig
   end
 
@@ -215,7 +213,7 @@ module ResultInfo
     dig = {}
     if instances && instances.kind_of?(Array)
       instances.each do |instance|
-        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank?
+        unless !instance.dig('digital_object','_resolved')
           it =  instance['digital_object']['_resolved']
            unless it['file_versions'].blank?
              title = strip_mixed_content(it['title'])
