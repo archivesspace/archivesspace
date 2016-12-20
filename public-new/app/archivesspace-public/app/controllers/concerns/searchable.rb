@@ -216,6 +216,8 @@ module Searchable
     results['results'] = process_results(results['results'], req)
     results
   end
+
+  # processes the json portion of the results
   def process_results(results, req = nil)
     results.each do |result|
       if !result['json'].blank?
@@ -224,34 +226,9 @@ module Searchable
       end
       result['json']['display_string'] = full_title(result['json'])
       result['json']['container_disp'] = container_display(result)
-      result['json']['html'] = {}
-      if result['json'].has_key?('notes')
-        notes_html =  process_json_notes( result['json']['notes'], req)
-        notes_html.each do |type, html|
-          result['json']['html'][type] = html
-        end
-      end
+      html_notes(result['json'], req)
       # handle dates
-      if result['json'].has_key?('dates')
-        result['json']['dates'].each do |date|
-          label = date['label'].blank? ? '' : "#{date['label'].titlecase}: " 
-          label = '' if label == 'Creation: '
-          exp =  date['expression'] || ''
-          if exp.blank?
-            exp = date['begin'] unless date['begin'].blank?
-            unless date['end'].blank?
-              exp = (exp.blank? ? '' : exp + '-') + date['end']
-            end
-            Rails.logger.debug("**** NO DATE EXP: #{date}, final exp: #{exp}")
-          end
-          if date['date_type'] == 'bulk'
-            exp = exp.sub('bulk','').sub('()', '').strip
-            exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
-                                                  I18n.t('bulk._plural', :dates => exp)
-          end
-          date['expression'] = label + exp
-        end
-      end
+      handle_dates( result['json']['dates']) if result['json'].has_key?('dates')
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
         rr = result['_resolved_repository'].shift
@@ -277,6 +254,39 @@ module Searchable
       end
     end
     results
+  end
+
+  # handle dates
+  def handle_dates(dates)
+    dates.each do |date|
+      label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
+      label = '' if label == 'Creation: '
+      exp =  date['expression'] || ''
+      if exp.blank?
+        exp = date['begin'] unless date['begin'].blank?
+        unless date['end'].blank?
+          exp = (exp.blank? ? '' : exp + '-') + date['end']
+        end
+        Rails.logger.debug("**** NO DATE EXP: #{date}, final exp: #{exp}")
+      end
+      if date['date_type'] == 'bulk'
+        exp = exp.sub('bulk','').sub('()', '').strip
+        exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
+          I18n.t('bulk._plural', :dates => exp)
+      end
+      date['final_expression'] = label + exp
+    end
+  end
+
+  # process notes
+  def html_notes(json, req = nil)
+    json['html'] = {}
+    if json.has_key?('notes')
+      notes_html =  process_json_notes(json['notes'], req)
+      notes_html.each do |type, html|
+        json['html'][type] = html
+      end
+    end
   end
 
 # we don't want any 'ead/' or 'archdesc/' stuff
