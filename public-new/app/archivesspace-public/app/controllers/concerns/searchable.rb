@@ -2,6 +2,8 @@ module Searchable
   extend ActiveSupport::Concern
 # also sets up searches, handles search results.  
 # TODO: refactor processing
+  ABSTRACT = %w(abstract scopecontent)
+
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
     @search = Search.new(params)
     limit = params.fetch(:limit,'')
@@ -188,7 +190,7 @@ module Searchable
         end
       end
     end
-    @results = handle_results(@results)
+    @results = handle_results(@results, false)
     @repo = {}
     if @results['results'].length > 0 && @results['results'][0]['_resolved_repository'].present?
       @repo = @results['results'][0]['_resolved_repository']['json'] || {}
@@ -207,18 +209,18 @@ module Searchable
 
 
 # process search results in one place, including stripping 0-value facets, and JSON-izing any expected JSON
-# if req is not nil, process notes for the type matching the value in req, storing the returned html string in
+# if full is false, only process notes for 'abstract' and 'scopecontent', don't process dates or extents
   #  results['json'}['html'][type]
-  def handle_results(results, req = nil, no_zero = true)
-    if no_zero && !results['facets'].blank? && !results['facets']['facet_fields'].blank?
+  def handle_results(results, full = true)
+    unless  results['facets'].blank? || results['facets']['facet_fields'].blank?
       results['facets']['facet_fields'] = strip_facet_fields(results['facets']['facet_fields'])
     end
-    results['results'] = process_results(results['results'], req)
+    results['results'] = process_results(results['results'], full)
     results
   end
 
-  # processes the json portion of the results
-  def process_results(results, req = nil)
+  # processes the json portion of the results; if !full, only get  notes for 'abstract' and 'scopecontent', don't process dates or extents
+  def process_results(results, full)
     results.each do |result|
       if !result['json'].blank?
         result['json'] = JSON.parse(result['json']) || {}
@@ -226,9 +228,9 @@ module Searchable
       end
       result['json']['display_string'] = full_title(result['json'])
       result['json']['container_disp'] = container_display(result)
-      html_notes(result['json'], req)
+      html_notes(result['json'], full)
       # handle dates
-      handle_dates( result['json']['dates']) if result['json'].has_key?('dates')
+      handle_dates( result['json']['dates']) if result['json'].has_key?('dates') if full
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
         rr = result['_resolved_repository'].shift
@@ -279,10 +281,10 @@ module Searchable
   end
 
   # process notes
-  def html_notes(json, req = nil)
+  def html_notes(json, full)
     json['html'] = {}
     if json.has_key?('notes')
-      notes_html =  process_json_notes(json['notes'], req)
+      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
       notes_html.each do |type, html|
         json['html'][type] = html
       end
