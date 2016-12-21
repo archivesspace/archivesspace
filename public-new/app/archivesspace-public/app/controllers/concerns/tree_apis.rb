@@ -10,7 +10,7 @@ module TreeApis
   end
   # create the contents for breadcrumbs
   def get_path(tree)
-    path_to_root = {}
+    path_to_root = []
     Rails.logger.debug("PATH_TO_ROUTE: #{tree['path_to_root']}")
     if !tree['path_to_root'].blank?
       path_to_root = tree['path_to_root'].map {|node|
