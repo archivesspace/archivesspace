@@ -6,8 +6,9 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :re
 
   def RequestItem.allow_nontops(repo_code)
     allow = nil
+    rep_allow = nil
     begin
-      rep_allow  = AppConfig[:repos].dig(repo_code.downcase,:requests_permitted_for_containers_only)
+      rep_allow  = AppConfig[:repos].dig(repo_code.downcase,:requests_permitted_for_containers_only) if repo_code
       allow = !rep_allow unless rep_allow.nil?
     rescue Exception => err
       raise err unless err.message.start_with?("No value set for config parameter")
