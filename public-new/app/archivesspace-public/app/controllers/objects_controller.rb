@@ -74,7 +74,6 @@ class ObjectsController <  ApplicationController
     @back_url =  request.referer || ''
   end
 
-  #TODO: look for linked_instances to point to an archival object if the digital object is being shown
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     url = uri
@@ -84,21 +83,26 @@ class ObjectsController <  ApplicationController
     uri = uri.sub("\#pui",'')
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
-    @results =  archivesspace.search_records([url],1,@criteria)
-    @results =  handle_results(@results)
-    if !@results['results'].blank? && @results['results'].length > 0
-      @result = @results['results'][0]
-      @repo_info =  process_repo_info(@result)
-      @page_title = strip_mixed_content(@result['json']['display_string'] || @result['json']['title'])
-      @tree = fetch_tree(uri)
-      @context = breadcrumb_info
-      @cite = fill_cite
-      fill_request_info
-      @subjects = process_subjects(@result['json']['subjects'])
-      @agents = process_agents(@result['json']['linked_agents'], @subjects)
-      @dig = process_digital(@result['json'])
-      @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
-     else
+    @result = object_result(url, @criteria)
+    if !@result.empty?
+      begin
+        @repo_info =  process_repo_info(@result)
+        @page_title = strip_mixed_content(@result['json']['display_string'] || @result['json']['title'])
+        @tree = fetch_tree(uri)
+        digital_archival_info(@result['json']) if @result['primary_type'] == 'digital_object'
+        @context = breadcrumb_info
+        @cite = fill_cite
+        @subjects = process_subjects(@result['json']['subjects'])
+        @agents = process_agents(@result['json']['linked_agents'], @subjects)
+        @dig = process_digital(@result['json'])
+        @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
+        fill_request_info unless @result['primary_type'] == 'digital_object'
+      rescue Exception => error
+        Pry::ColorPrinter.pp error.backtrace
+        throw error
+      end
+      render
+    else
       @type = I18n.t("#{(params[:obj_type] == 'archival_objects'? 'archival' : 'digital')}_object._singular")
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
@@ -106,4 +110,33 @@ class ObjectsController <  ApplicationController
       render  'shared/not_found'
     end
   end
+
+  private
+  # return a single processed archival or digital object
+  def object_result(url, criteria)
+    result = {}
+    results =  archivesspace.search_records([url],1,criteria)
+    results = handle_results(results)
+    unless results['results'].blank? || results['results'].empty?
+      result = results['results'][0]
+    end
+    result
+  end
+  
+  # get archival info
+  def digital_archival_info(dig_json)
+    Rails.logger.debug("****\tdigital_archival_info: #{dig_json['linked_instances']}")
+    unless dig_json['linked_instances'].empty? || !dig_json['linked_instances'][0].dig('ref')
+      uri = dig_json['linked_instances'][0].dig('ref')
+      uri << '#pui' unless uri.end_with?('#pui')
+      arch = object_result(uri, @criteria)
+      unless arch.blank?
+        arch['json']['html'].keys.each do |type|
+          dig_json['html'][type] = arch['json']['html'][type] if dig_json.dig('html', type).blank?
+        end
+        @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
+      end
+    end
+  end
+
 end
