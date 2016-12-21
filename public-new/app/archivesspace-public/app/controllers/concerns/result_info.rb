@@ -5,7 +5,7 @@ module ResultInfo
   def process_repo_info(result)
     info = {}
     info['top'] = {}
-    unless result['_resolved_repository'].blank? ||  result['_resolved_repository']['json'].blank?
+    if !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank?
       repo =  result['_resolved_repository']['json']
       %w(name uri url parent_institution_name image_url repo_code).each do | item |
         info['top'][item] = repo[item] unless repo[item].blank?
@@ -23,22 +23,29 @@ module ResultInfo
         end
         info['telephones'] = in_h['telephones'] if !in_h['telephones'].blank?
       end
+    else
+      repo = result.dig('json','repository','_resolved')
+      unless repo.blank?
+        %w(name uri url parent_institution_name image_url repo_code).each do | item |
+          info['top'][item] = repo[item] unless repo[item].blank?
+        end
+        info['country'] = repo['country'] unless repo['country'].blank?
+      end
     end
-   info
+    info
   end
 
   # create the breadcrumbs
   def breadcrumb_info
     context = get_path(@tree)
-    # TODO: This is a monkey patch for digital objects
-    if context.blank?
-      context = []
-      unless !@result.dig('_resolved_resource','json')
-        context.unshift({:uri => @result['_resolved_resource']['json']['uri'],
-                          :crumb => strip_mixed_content(@result['_resolved_resource']['json']['title'])})
+    path = @tree.dig('path_to_root')
+    unless !path || !path.kind_of?(Array) || path.size == 0
+      type = path[0].dig('node_type')
+      unless type == 'repository' || !@repo_info.dig('top','uri')
+        context.unshift({:uri => @repo_info['top']['uri'],
+                          :crumb => strip_mixed_content(@repo_info['top']['name'])})
       end
     end
-    context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
     context.push({:uri => '', :crumb => strip_mixed_content(@result['json']['display_string'] || @result['json']['title']) })
     context
   end
@@ -94,7 +101,7 @@ module ResultInfo
       @cite = strip_mixed_content(@result['json']['title']) + "."
       ttl = @result.dig('_resolved_resource', 'json', 'title')
       @cite += " #{strip_mixed_content(ttl)}." unless !ttl
-      @cite += " #{ @repo_info['top']['name']}." unless @repo_info['top']['name'].blank?
+      @cite += " #{ @repo_info['top']['name']}." unless !@repo_info.dig('top','name')
     end
     @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
   end
@@ -104,7 +111,7 @@ module ResultInfo
     unless (container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code'])
       @request = RequestItem.new(container)
       @request[:request_uri] = @result['uri']
-      @request[:repo_name] = @repo_info['top']['name']
+      @request[:repo_name] = @repo_info['top']['name'] || '[unknown!]'
       @request[:cite] = @cite
       @request[:identifier] = @result.dig('json', '_composite_identifier')
       @request[:title] = @page_title
@@ -114,7 +121,7 @@ module ResultInfo
       note = get_note(@result['json'], 'accessrestrict')
       @request[:restrict] = note['note_text'] unless note.blank? 
       @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
-      @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title')
+      @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title') || ['unknown']
     end
   end
 
