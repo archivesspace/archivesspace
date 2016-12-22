@@ -6,21 +6,26 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:public_url] = '/'
   AppConfig[:branding_img] = '/img/Aspace-logo.png'
 
-# The following determine whether the various "badges" appear on the Repository page
-  AppConfig[:hide_resource_badge] = false
-  AppConfig[:hide_record_badge] = false
-  AppConfig[:hide_subject_badge] = false
-  AppConfig[:hide_agent_badge] = false
-  AppConfig[:hide_classification_badge] = false
-
 # The following determine which 'tabs' are on the main horizontal menu
-  AppConfig[:hide_repository_tab] = false
-  AppConfig[:hide_resource_tab] = false
-  AppConfig[:hide_digital_object_tab] = false
-  AppConfig[:hide_unprocessed_tab] = false
-  AppConfig[:hide_subject_tab] = false
-  AppConfig[:hide_agent_tab] = false
-  AppConfig[:hide_classification_tab] = false
+  AppConfig[:hide] = {}
+  AppConfig[:hide][:repositories] = false
+  AppConfig[:hide][:resources] = false
+  AppConfig[:hide][:digital_objects] = false
+  AppConfig[:hide][:accessions] = false
+  AppConfig[:hide][:subjects] = false
+  AppConfig[:hide][:agents] = false
+  AppConfig[:hide][:classifications] = false
+
+
+# The following determine globally whether the various "badges" appear on the Repository page
+  # can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
+  AppConfig[:hide][:resource_badge] = false
+  AppConfig[:hide][:record_badge] = false
+  AppConfig[:hide][:subject_badge] = false
+  AppConfig[:hide][:agent_badge] = false
+  AppConfig[:hide][:classification_badge] = false
+  AppConfig[:hide][:counts] = false
+
 
 # the following determine when the request button gets greyed out/disabled
   AppConfig[:requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
@@ -30,6 +35,10 @@ unless $CONFIG_DEFAULTS_LOADED
   #AppConfig[:repos][{repo_code}] = {}
   #AppConfig[:repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
   #AppConfig[:repos][{repo_code}][:request_email] = {email address} # if it's a specific email address
+
+  #AppConfig[:repos][{repo_code}][:hide] = {}
+  #AppConfig[:repos][{repo_code}][:hide][:counts] = true
+
 
   $CONFIG_DEFAULTS_LOADED = true
 end
