@@ -203,56 +203,58 @@ module ResultInfo
 
 # digital object processing 
   def process_digital(json)
-    dig = {}
+    dig_obj = {}
     unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
-      dig['out'] = json['digital_object_id']
+      dig_obj['out'] = json['digital_object_id']
     end
-    dig = process_file_versions(json, dig)
-    unless dig.blank?
-      dig['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
-      dig['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig['caption'].blank? && !dig['thumb'].blank?
+    dig_obj = process_file_versions(json)
+    unless dig_obj.blank?
+      dig_obj['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
+      dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
     end
-    dig
+    dig_obj.blank? ? [] : [dig_obj] 
   end
 
 # representative digital object for an archival object
   def process_digital_instance(instances)
-    dig = {}
+    dig_objs = []
     if instances && instances.kind_of?(Array)
       instances.each do |instance|
         unless !instance.dig('digital_object','_resolved')
+          dig_f = {}
           it =  instance['digital_object']['_resolved']
            unless it['file_versions'].blank?
              title = strip_mixed_content(it['title'])
-             dig = process_file_versions(it, dig)
-             dig['caption'] = CGI::escapeHTML(title) if dig['caption'].blank?
+             dig_f = process_file_versions(it)
+             dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
            end
         end
-        break if !dig.blank?
+        dig_objs.push(dig_f) unless dig_f.blank?
       end
     end
-    dig
+    dig_objs
   end
-
-  def process_file_versions(json, dig)
+  # get links (including thumbnail, caption) for *one* digital object
+  def process_file_versions(json)
+    dig_f = {}
     unless json['file_versions'].blank?
       json['file_versions'].each do |version|
-        if version['publish'] && version['file_uri'].start_with?('http')
-          unless json['html'].blank? || json['html']['note'].blank?
-            dig['caption'] =  json['html']['note']['note_text']
+        if version.dig('publish') != false && version['file_uri'].start_with?('http')
+          unless !json.dig('html','note','note_text')
+            dig_f['caption'] =  json['html']['note']['note_text']
           end
-          if !version['xlink_show_attribute'].blank? && (version['xlink_show_attribute']||'') == 'embed'
-            dig['thumb'] = (dig['thumb']? dig['thumb'].push(version['file_uri']) : [version['file_uri']])
-            dig['represent'] = 'embed' if version['is_representative']
-          elsif !version['publish'].blank? && version['publish']
-             dig['represent'] = 'new'  if version['is_representative']
-            dig['out'] = version['file_uri'] if version['file_uri'] != (dig['out'] || '')
+          if version.dig('xlink_show_attribute') == 'embed'
+            dig_f['thumb'] = version['file_uri']
+            dig_f['represent'] = 'embed' if version['is_representative']
+          else
+            dig_f['represent'] = 'new'  if version['is_representative']
+            dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
           end
         elsif !version['file_uri'].start_with?('http')
           Rails.logger.debug("****BAD URI? #{version['file_uri']}")
         end
       end
     end
-    dig
+    dig_f
   end
 end

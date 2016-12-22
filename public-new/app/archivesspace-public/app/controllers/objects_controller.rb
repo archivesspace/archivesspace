@@ -94,9 +94,12 @@ class ObjectsController <  ApplicationController
         @cite = fill_cite
         @subjects = process_subjects(@result['json']['subjects'])
         @agents = process_agents(@result['json']['linked_agents'], @subjects)
-        @dig = process_digital(@result['json'])
-        @dig = process_digital_instance(@result['json']['instances']) if @dig.blank?
-        fill_request_info unless @result['primary_type'] == 'digital_object'
+        if @result['primary_type'] == 'digital_object'
+          @dig = process_digital(@result['json'])
+        else
+          @dig = process_digital_instance(@result['json']['instances']) 
+          fill_request_info 
+        end
       rescue Exception => error
         Pry::ColorPrinter.pp error.backtrace
         throw error
@@ -114,6 +117,7 @@ class ObjectsController <  ApplicationController
   private
   # return a single processed archival or digital object
   def object_result(url, criteria)
+    Rails.logger.debug("\t*** object_result url: #{url}")
     result = {}
     results =  archivesspace.search_records([url],1,criteria)
     results = handle_results(results)
