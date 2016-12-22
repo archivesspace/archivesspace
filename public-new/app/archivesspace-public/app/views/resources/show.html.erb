@@ -27,7 +27,7 @@
 <div class="row" id="notes_row">
 <!-- <%= @result.pretty_inspect.html_safe %> -->
   <div class="col-sm-9">
-    <%= render partial: 'shared/digital', locals: {:dig => @dig} %>
+    <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
