@@ -41,7 +41,7 @@ install.
 To see the full list of available options, see the file
 [`app/archivesspace-public/app/lib/config_defaults.rb`](app/archivesspace-public/app/lib/config_defaults.rb)
 
-See the [`config/config/config.rb.example`](config/config/config.rb.example) file for implementation examples.
+See the [`config/config.rb.example`](config/config.rb.example) file for implementation examples.
 
 ### Main Navigation Menu
 
