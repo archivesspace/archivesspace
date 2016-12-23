@@ -11,6 +11,19 @@ class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :paren
   def Repository.set_repos(repos)
     @@AllRepos = repos
   end
+
+  # determine which badges to display
+  def Repository.badge_list(repo_code)
+    list = []
+    %i(resource record subject agent classification).each do |sym|
+      badge = "#{sym}_badge".to_sym
+      unless AppConfig[:repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:hide][badge] :  AppConfig[:repos][repo_code][:hide][badge]
+        list.push(sym.to_s)
+      end
+    end
+    list
+  end
+
   def initialize(code, name, uri, display_name, parent, parent_url = '')
     self.code = code
     self.name = name
