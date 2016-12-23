@@ -1,0 +1,17 @@
+# 
+AppConfig[:search_results_page_size] = 10
+# (global override:) don't display the accession ("unprocessed material") link on the main navigation menu
+ AppConfig[:hide][:accessions] = true
+# (global override:)don't display the classification ("record groups") "badge"  on a Repository page
+AppConfig[:hide_classification_badge] = true
+# (global override:) only activate the request button when there's a top container associated with an archival object
+AppConfig[:requests_permitted_for_containers_only] =true
+
+# Repository-specific examples.  We are using the imaginary repository code of 'foo'.  Note the lower-case
+
+AppConfig[:repos]['foo'] = {}
+AppConfig[:repos]['foo'][:hide] = {}
+AppConfig[:repos]['foo'][:hide][:record_badge] = true  # hide the "records" badge on the Repository page 
+AppConfig[:repos]['foo'][:hide][:counts] = true  # don't display the count of the resources, subjects, etc., on the Repository badges
+AppConfig[:repos]['foo'][:requests_permitted_for_containers_only] = false # override the global value to allow request button 
+                                                                          # for any archival object
