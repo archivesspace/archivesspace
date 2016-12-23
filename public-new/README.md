@@ -41,6 +41,24 @@ install.
 To see the full list of available options, see the file
 [`app/archivesspace-public/app/lib/config_defaults.rb`](app/archivesspace-public/app/lib/config_defaults.rb)
 
+See the [`config/config/config.rb.example`](config/config/config.rb.example) file for implementation examples.
+
+### Main Navigation Menu
+
+You can choose not to display one or more of the links on the main (horizontal) navigation menu, 
+either globally or by repository, if you have more than one repository.  
+
+### Display of "badges" on the Repository page
+
+You can configure which badges appear on the Repository page, both globally or by repository.
+
+### Activation of the "Request" button on archival object pages
+
+You can configure, both globally or by repository, whether the "Request" button is active on 
+archival object pages for objects that don't have an associated Top Container.
+
+
+
 ## License
 
 ArchivesSpace is released under the [Educational Community License,
