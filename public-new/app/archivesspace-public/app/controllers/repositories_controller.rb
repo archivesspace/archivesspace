@@ -5,7 +5,7 @@ class RepositoriesController < ApplicationController
 
   DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'agents']
   DEFAULT_REPO_SEARCH_OPTS = {
-#    'sort' => 'title_sort asc',
+     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
     'facet.mincount' => 1
   }
@@ -16,11 +16,8 @@ class RepositoriesController < ApplicationController
   def index
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
-
-    
-    # let's not include any 0-colection repositories unless specified
+    # let's not include any 0-collection repositories unless specified
     # include_zero = (!params.blank? && params['include_empty']) 
-
     # ok, page sizing is kind of complicated if not including zero counts
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:search_results_page_size] if page_size == 0
@@ -42,9 +39,9 @@ class RepositoriesController < ApplicationController
           @json.push(hash)
         end
       end
-#      Rails.logger.debug("First hash: #{@json[0]}")
+      Rails.logger.debug("First hash: #{@json[0]}")
     end
-#    @json.sort_by!{|h| h['display_string'].upcase}
+    @json.sort_by!{|h| h['display_string'].upcase}
     @page_title = (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular')) +  " " + I18n.t('listing') 
     render 
   end
@@ -55,9 +52,9 @@ class RepositoriesController < ApplicationController
     begin
       new_search_opts =  DEFAULT_REPO_SEARCH_OPTS 
       new_search_opts['repo_id'] = @repo_id
-
+      
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, new_search_opts, params)
-#NOTE the redirect back here on error!
+#   NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: "/repositories/#{@repo_id}/" ) and return
@@ -73,25 +70,23 @@ class RepositoriesController < ApplicationController
       render
     end 
   end
-
+  
   def show
     uri = "/repositories/#{params[:id]}"
     resources = {}
     query = "(id:\"#{uri}\" AND publish:true)"
-    counts = get_counts("/repositories/#{params[:id]}")
-    # Pry::ColorPrinter.pp(counts)
-    @subj_ct = counts["subject"] || 0
-    @agent_ct = counts["agent"] || 0
-    @rec_ct = counts["record"] || 0
-    @resource_ct = counts["collection"] || 0
-    @group_ct = counts["record_group"] || 0
-
+    @counts = get_counts("/repositories/#{params[:id]}")
+    @counts['resource'] = @counts['collection']
+    @counts['classification'] = @counts['record_group']
+    #  Pry::ColorPrinter.pp(counts)
     @criteria = {}
     @criteria[:page_size] = 1
     @data =  archivesspace.search(query, 1, @criteria) || {}
     @result
     if !@data['results'].blank?
       @result = JSON.parse(@data['results'][0]['json'])
+      @badges = Repository.badge_list(@result['repo_code'].downcase)
+      # Pry::ColorPrinter.pp @badges
       # make the repository details easier to get at in the view
       if @result['agent_representation']['_resolved'] && @result['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
         @result['repo_info'] = process_repo_info(@result['agent_representation']['_resolved']['agent_contacts'][0])
@@ -106,13 +101,10 @@ class RepositoriesController < ApplicationController
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
-
     end
   end
-
-
+  
   private
-
   # get counts for repository
   def get_counts(repo_id = nil, collection_only = false)
     if collection_only
@@ -131,7 +123,7 @@ class RepositoriesController < ApplicationController
     end
     final_counts
   end
-
+  
   def find_resource_facet
     counts = archivesspace.get_types_counts(['pui_collection'])
     facets = {}
@@ -140,7 +132,7 @@ class RepositoriesController < ApplicationController
     end
     facets
   end
-
+  
   # compose a string of 'OR'd titles for a query
   def compose_title_list(pairs)
     query = ''
@@ -149,6 +141,4 @@ class RepositoriesController < ApplicationController
     end
     "(#{query})"
   end
- 
-
 end

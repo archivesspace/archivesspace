@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   post "repositories/:rid/subjects" => 'subjects#index'
   get "repositories/:rid/objects" => 'objects#index'
   post "repositories/:rid/objects" => 'objects#index'
+  post "repositories/:rid/records" => 'objects#index'
   get "repositories/:id" => 'repositories#show'
   post "repositories/:id" => 'repositories#show'
   
