@@ -183,7 +183,6 @@
     <select name="v${index}" id="v${index}" class="form-control">
       <option value="true" {if query.value <% if bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.true_value") %></option>
       <option value="false" {if query.value == false <% if !bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.false_value") %></option>
-      <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.boolean_field.empty") %></option>
     </select>
   </div>
 --></div>

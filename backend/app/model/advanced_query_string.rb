@@ -39,7 +39,7 @@ class AdvancedQueryString
     if @query["jsonmodel_type"] == "date_field_query"
       @query["comparator"] == "empty"
     elsif @query["jsonmodel_type"] == "boolean_field_query"
-      @query["value"] == "empty"  
+      false
     elsif @query["jsonmodel_type"] == "field_query"
       @query["comparator"] == "empty"  
     else

@@ -231,7 +231,6 @@ en:
     boolean_field:
       true_value: "True"
       false_value: "False"
-      empty: Unassigned
     button_text: Search
     reset: Clear
     nav_switcher:
