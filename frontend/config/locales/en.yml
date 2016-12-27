@@ -243,7 +243,7 @@ en:
       contains: contains
       empty: is empty
     enum_field:
-      empty: Unassigned
+      empty: unassigned
 
   become-user:
     become-user: Become User
