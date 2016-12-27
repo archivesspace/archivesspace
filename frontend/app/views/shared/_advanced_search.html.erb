@@ -14,7 +14,8 @@
 
   options_for_enums = Hash[values_for[:enum].map {|op|
     options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
-    [op.field, options << [I18n.t("advanced_search.enum_field.empty"), '']]
+    options << [I18n.t("advanced_search.enum_field.empty"), '']
+    [op.field, options]
   }]
 
   def emit_option(op)
@@ -47,6 +48,14 @@
               option.attr('selected', 'selected');
           } else if(value == '' && existing_selection == null) {
               option.attr('selected', 'selected');
+          }
+
+          // enter a separator before the empty "unassigned" option
+          if (value == '') {
+            var separator = $('<option>');
+            separator.prop('disabled', true);
+            separator.text("\u2500\u2500\u2500\u2500\u2500");
+            value_select.append(separator);
           }
 
           value_select.append(option);
