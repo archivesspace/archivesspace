@@ -68,7 +68,21 @@
           input.prop("disabled", false);
         }
         input.trigger('change');
-      }
+      };
+
+      function handleTextFieldChange($field, $operator) {
+        if ($field.val() == "keyword") {
+          $operator.find("option:selected").prop("selected", false);
+          $operator.find("option[value='contains']").prop("selected", true);
+          $operator.find("option[value='empty']").prop("disabled", true);
+          $operator.find("option[value='empty']").hide();
+        } else {
+          $operator.find("option[value='empty']").prop("disabled", false);
+          $operator.find("option[value='empty']").show();
+        }
+
+        $operator.trigger("change");
+      };
 
       if (field_data.type == 'enum') {
           var field_select = row.find('#f' + field_data.index);
@@ -86,6 +100,13 @@
         operator.on("change", function() {
           handleEmptyValueOption($(":selected", operator).val());
         });
+
+        var field_select = row.find('#f' + field_data.index);
+        field_select.on("change", function(event) {
+          handleTextFieldChange(field_select, operator);
+        });
+        handleTextFieldChange(field_select, operator);
+
       } else if (field_data.type == 'date') {
         var operator = row.find('#dop' + field_data.index);
         handleEmptyValueOption($(":selected", operator).val());
