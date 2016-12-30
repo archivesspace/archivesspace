@@ -179,14 +179,27 @@ $(function() {
           return;
         }
 
-        var value = $(this).val();
-        var asDate = moment(value).format("YYYY-MM-DD");
-        if (asDate == "Invalid date") {
+        function isValidDate(dateString) {
+          var dateRegex = /^\d\d\d\d\-\d\d-\d\d$/;
+          var isValidDateString = dateRegex.test(dateString);
+
+          if (!isValidDateString) {
+            return false;
+          }
+
+          var asDate = moment(dateString).format("YYYY-MM-DD");
+          if (asDate == "Invalid date") {
+            return false;
+          }
+
+          return true;
+        };
+
+        if (isValidDate($(this).val())) {
+          enableAdvancedSearch();
+        } else {
           $(this).closest(".input-group").addClass("has-error");
           disableAdvancedSearch();
-        } else {
-          enableAdvancedSearch();
-          $(this).val(asDate);
         }
       });
     }
