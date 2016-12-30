@@ -4,15 +4,27 @@ class AdvancedQueryString
   end
 
   def to_solr_s
-    return "(*:* NOT #{field}:*)" if empty_search?
-    
+    return empty_solr_s if empty_search?
+
     "#{prefix}#{field}:#{value}"
   end
 
   private
 
+  def empty_solr_s
+    if negated?
+      if date?
+        "#{field}:[* TO *]"
+      else
+        "#{field}:['' TO *]"
+      end
+    else
+      "(*:* NOT #{field}:*)"
+    end
+  end
+
   def prefix
-    @query['negated'] ? "-" : ""
+    negated? ? "-" : ""
   end
 
   def field
@@ -20,7 +32,7 @@ class AdvancedQueryString
   end
 
   def value
-    if @query["jsonmodel_type"] == "date_field_query"
+    if date?
       if @query["comparator"] == "lesser_than"
         "[* TO #{@query["value"]}T00:00:00Z-1MILLISECOND]"
       elsif @query["comparator"] == "greater_than"
@@ -45,6 +57,14 @@ class AdvancedQueryString
     else
       raise "Unknown field query type: #{@query["jsonmodel_type"]}" 
     end
+  end
+
+  def negated?
+    @query['negated']
+  end
+
+  def date?
+    @query["jsonmodel_type"] == "date_field_query"
   end
 
 
