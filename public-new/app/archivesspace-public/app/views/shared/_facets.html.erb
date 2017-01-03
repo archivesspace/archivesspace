@@ -15,8 +15,7 @@
 	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
 	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
-      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.years')%>: <%= from_year %>  <%= t('search_results.filter.to').downcase %>
-	  <%= to_year  %>
+      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.from_to', {:begin=> from_year, :end => to_year  })%>
 	  <a href="<%= @page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
 	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>

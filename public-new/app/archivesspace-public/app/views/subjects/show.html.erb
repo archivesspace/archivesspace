@@ -34,7 +34,7 @@
     <% end %>
     <%= render partial: 'shared/display_notes' %>
   <% unless @results.blank? || @results['total_hits'] == 0 %>
-     <h3><%= t('found') %> <%= @results['total_hits'] %> <%= (@results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')) %>:</h3>
+     <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
          <% @results['results'].each do |result| %>
            <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
          <% end %>

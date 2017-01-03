@@ -42,7 +42,7 @@ class RepositoriesController < ApplicationController
       Rails.logger.debug("First hash: #{@json[0]}")
     end
     @json.sort_by!{|h| h['display_string'].upcase}
-    @page_title = (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular')) +  " " + I18n.t('listing') 
+    @page_title = I18n.t('list', {:type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular'))})
     render 
   end
 
@@ -62,7 +62,7 @@ class RepositoriesController < ApplicationController
     page = Integer(params.fetch(:page, "1"))
     @results = archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
-      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      flash[:notice] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)

@@ -100,7 +100,7 @@ class ResourcesController <  ApplicationController
     page = Integer(params.fetch(:page, "1"))
     @results = archivesspace.advanced_search('/search',page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
-      flash[:notice] = "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}" 
+      flash[:notice] = I18n.t('search_results.no_results')
       redirect_back(fallback_location: @base_search)
     else
       process_search_results(@base_search)
