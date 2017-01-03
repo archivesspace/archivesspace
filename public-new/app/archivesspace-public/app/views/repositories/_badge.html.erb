@@ -1,0 +1,30 @@
+<%# the "badges" for resources, records, etc.  Expects one local: type[ of badge]. @sublist_action, @counts, and @result carry through %>
+
+<li class="large-badge align-center <%= type %>">
+  <form id="coll_sub" action="<%= @sublist_action %><%= type %>s" method="post">
+    <input type="hidden" name="repo" id="repo_res" value="<%= @result['name'] %>" />
+    <button type="submit" class="btn btn-default <%= type %>" <%= @counts[type] == 0 ? 'disabled="disabled"' : '' %>  >
+     <% case type %>
+     <% when 'resource' %>
+     <i class="fa fa-archive fa-4x"></i> 
+     <% when 'record' %>
+      <i class="fa fa-files-o fa-4x"></i>
+     <% when 'subject' %>
+      <i class="fa fa-tags fa-4x"></i> 
+     <% when 'agent' %>
+     <span class="fa-stack fa-2x">
+       <i class="fa fa-institution fa-stack-2x"></i>
+       <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+     </span>
+    <% when 'classification' %>
+    <i class="fa fa-share-alt fa-4x"></i>
+    <% end %>
+    <br />
+    <% if AppConfig[:repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:hide][:counts] :  AppConfig[:repos][@result['repo_code'].downcase][:hide][:counts] %>
+      <%= t("#{type}._plural") %>
+    <% else %>
+      <%= @counts[type] %> <%= (@counts['type'] != 1 ? t("#{type}._plural") : t("#{type}._singular")) %>
+    <% end %>
+     </button>
+  </form>
+</li>
