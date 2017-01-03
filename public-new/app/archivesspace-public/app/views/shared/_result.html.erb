@@ -45,7 +45,7 @@
 
 
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
-       <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
+       <div><strong>t('number_of', { :type => t('resource._plural') })</strong> <%= result['count'] %></div>
        <% end %>
      </div>					  
 

@@ -65,7 +65,7 @@ module Searchable
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
-      raise  "#{I18n.t('search_results.no_results')} #{I18n.t('search_results.head_prefix')}"
+      raise  I18n.t('search_results.no_results')
     else
       process_search_results(@base_search)
     end
@@ -203,7 +203,7 @@ module Searchable
     @filters = @facet_filter.get_filter_hash(@page_search)
 
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
-    @page_title = "#{I18n.t('search_results.head_prefix')} #{@results['total_hits']} #{I18n.t('search_results.head_suffix')}"
+    @page_title = I18n.t('search_results.page_title', :count => @results['total_hits'])
   end
 
 

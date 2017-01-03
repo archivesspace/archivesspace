@@ -94,6 +94,7 @@ en:
     page_connector: of
 
   search_results:
+    page_title: "Found %{count} Results"
     results_head: "Showing %{type}: %{start} - %{end} of %{total}"
     results: Results
     head_prefix: Found
@@ -109,7 +110,7 @@ en:
     anything: anything
     search_term: Search term
     title: All Records
-    no_results: No Records
+    no_results: No Records Found
     no_results_prefix: There were no search results for
     result_type: Record Type
     result_title: Title
@@ -157,7 +158,7 @@ en:
       years_include: Years to include
       year_now: now
       year_begin: the beginning
-      from_to: "from %{begin} to %{end}"
+      from_to: "Years: %{begin} to %{end}"
 
   search_sorting:
     sort_by: "Sort by:"
@@ -232,7 +233,7 @@ en:
       show: Show Advanced Search
       hide: Hide Advanced Search
 
-  found: Found in
+  found: "Found in %{count} %{type}"
   coll_obj: 
     _singular: Collection or Record
     _plural: Collections and/or Records
@@ -244,6 +245,7 @@ en:
 
   more_about: More about
   listing: Listing
+  list: "%{type} List"
   cont_arr: Collection organization
   accessed: Accessed
 
@@ -415,7 +417,7 @@ en:
 
   hours: Hours
 
-  number_of: Number of
+  number_of: "Number of %{type}:"
 
   parent_inst: Parent Institution
 
