@@ -1,3 +1,5 @@
+require 'time'
+
 class AdvancedQueryString
   def initialize(query)
     @query = query
@@ -33,12 +35,14 @@ class AdvancedQueryString
 
   def value
     if date?
+      base_time = Time.parse(@query["value"]).utc.iso8601
+
       if @query["comparator"] == "lesser_than"
-        "[* TO #{@query["value"]}T00:00:00Z-1MILLISECOND]"
+        "[* TO #{base_time}-1MILLISECOND]"
       elsif @query["comparator"] == "greater_than"
-        "[#{@query["value"]}T00:00:00Z+1DAY TO *]"
+        "[#{base_time}+1DAY TO *]"
       else # @query["comparator"] == "equal"
-        "[#{@query["value"]}T00:00:00Z TO #{@query["value"]}T00:00:00Z+1DAY-1MILLISECOND]"
+        "[#{base_time} TO #{base_time}+1DAY-1MILLISECOND]"
       end
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
