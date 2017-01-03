@@ -8,21 +8,7 @@
     <div>
       <ul class="list-inline">
 	<% @badges.each do |type| %>
-	<li class="large-badge align-center <%= type %>">
-	  <form id="coll_sub" action="<%= @sublist_action %><%= type %>s" method="post">
-	    <input type="hidden" name="repo" id="repo_res" value="<%= @result['name'] %>" />
-	    <button type="submit" class="btn btn-default <%= type %>">
-	      <%= render partial:"shared/badge_#{type}" %>
-	      <br/>
-	      <% if AppConfig[:repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:hide][:counts] :  AppConfig[:repos][@result['repo_code'].downcase][:hide][:counts] %>
-	         <%= t("#{type}._plural") %>
-	      <% else %>
-	       <%= @counts[type] %> <%= (@counts['type'] != 1 ? t("#{type}._plural") : t("#{type}._singular")) %>
-              <% end %>
-
-	    </button>
-	  </form>
-	</li>
+	<%= render partial: 'repositories/badge', locals: {:type => type} %>
 	<% end %>
       </ul>
     </div>
