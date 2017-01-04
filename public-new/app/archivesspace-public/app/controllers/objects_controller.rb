@@ -86,7 +86,7 @@ class ObjectsController <  ApplicationController
     @result = object_result(url, @criteria)
     if !@result.empty?
       begin
-        @repo_info =  process_repo_info(@result)
+        @repo_info =  process_repo_info(@result.dig('_resolved_repository','json'))
         @page_title = strip_mixed_content(@result['json']['display_string'] || @result['json']['title'])
         @tree = fetch_tree(uri)
         digital_archival_info(@result['json']) if @result['primary_type'] == 'digital_object'
