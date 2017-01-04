@@ -138,7 +138,7 @@ class ResourcesController <  ApplicationController
     @results = handle_results(@results)  # this should process all notes
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
-      @repo_info = process_repo_info(@result)
+      @repo_info = process_repo_info(@result.dig('_resolved_repository','json'))
       @cite = ''
       cite = get_note(@result['json'], 'prefercite')
       unless cite.blank?
