@@ -89,7 +89,7 @@ class RepositoriesController < ApplicationController
       # Pry::ColorPrinter.pp @badges
       # make the repository details easier to get at in the view
       if @result['agent_representation']['_resolved'] && @result['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
-        @result['repo_info'] = process_repo_info(@result['agent_representation']['_resolved']['agent_contacts'][0])
+        @result['repo_info'] = process_repo_info(@result)
       end
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources

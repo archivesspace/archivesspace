@@ -2,11 +2,10 @@ module ResultInfo
   extend ActiveSupport::Concern
 
   # extract the repository agent info
-  def process_repo_info(result)
+  def process_repo_info(repo)
     info = {}
     info['top'] = {}
-    if !result['_resolved_repository'].blank? && !result['_resolved_repository']['json'].blank?
-      repo =  result['_resolved_repository']['json']
+    unless repo.nil?
       %w(name uri url parent_institution_name image_url repo_code).each do | item |
         info['top'][item] = repo[item] unless repo[item].blank?
       end
@@ -22,14 +21,6 @@ module ResultInfo
           end
         end
         info['telephones'] = in_h['telephones'] if !in_h['telephones'].blank?
-      end
-    else
-      repo = result.dig('json','repository','_resolved')
-      unless repo.blank?
-        %w(name uri url parent_institution_name image_url repo_code).each do | item |
-          info['top'][item] = repo[item] unless repo[item].blank?
-        end
-        info['country'] = repo['country'] unless repo['country'].blank?
       end
     end
     info
