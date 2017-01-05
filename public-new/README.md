@@ -31,7 +31,7 @@ devserver.  As long as you run `build/run devserver` once, you can run
 `build/devserver.sh` thereafter to have a more normal console
 experience.
 
-# Configuration and Text Customization.
+# Configuration and Text Customization
 
 At the top-level of this project, there is a configuration file called
 `config/config.rb` whose format matches that of ArchivesSpace.  Here
@@ -74,7 +74,7 @@ en:
 ```
 
 
-# Activation of the "Request" button on archival object pages
+## Activation of the "Request" button on archival object pages
 
 You can configure, both globally or by repository, whether the "Request" button is active on 
 archival object pages for objects that don't have an associated Top Container.
