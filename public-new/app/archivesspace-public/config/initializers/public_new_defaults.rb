@@ -3,6 +3,8 @@
 module PublicNewDefaults
 #  pp "initializing resources"
   Repository.set_repos(ArchivesSpaceClient.new.list_repositories)
+
+# determining the main menu
   $MAIN_MENU = []
   AppConfig[:hide].keys.each do |k|
     unless AppConfig[:hide][k]
@@ -24,6 +26,7 @@ module PublicNewDefaults
       end
     end
   end
+
 #  Pry::ColorPrinter.pp $MAIN_MENU
 #  MemoryLeak::Resources.define(:repository, proc { ArchivesSpaceClient.new.list_repositories }, 60)
 #pp MemoryLeak::Resources.get(:repository)
