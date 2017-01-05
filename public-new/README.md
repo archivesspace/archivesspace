@@ -31,7 +31,7 @@ devserver.  As long as you run `build/run devserver` once, you can run
 `build/devserver.sh` thereafter to have a more normal console
 experience.
 
-## Configuration
+# Configuration and Text Customization.
 
 At the top-level of this project, there is a configuration file called
 `config/config.rb` whose format matches that of ArchivesSpace.  Here
@@ -43,20 +43,42 @@ To see the full list of available options, see the file
 
 See the [`config/config.rb.example`](config/config.rb.example) file for implementation examples.
 
-### Main Navigation Menu
+In addition, you can override some default text values found in [`app/archivesspace-public/config/locales`](app/archivesspace-public/config/locales) -- for example, the site title -- by creating an 
+`app/archivesspace-public/config/custom/locales` directory, and placing the appropriate `.yml` files[s] there.  
+
+
+## Main Navigation Menu
 
 You can choose not to display one or more of the links on the main (horizontal) navigation menu, 
-either globally or by repository, if you have more than one repository.  
+either globally or by repository, if you have more than one repository.  You manage this through the
+`config/config.rb` file; [`config/config.rb.example`](config/config.rb.example) shows examples of these.
+
+## Repository Customization
 
 ### Display of "badges" on the Repository page
 
-You can configure which badges appear on the Repository page, both globally or by repository.
+You can configure which badges appear on the Repository page, both globally or by repository.  Again,
+[`config/config.rb.example`](config/config.rb.example) shows examples.
 
-### Activation of the "Request" button on archival object pages
+### Addition of a "lead paragraph"
+ 
+You can also use the custom `.yml` files, described above, to add a custom "lead paragraph" (including html markup) for one or more of your repositories, keyed to the repository's code.  
+
+For example, if your repository, `My Wonderful Repository` has a code of `MWR`, this is what you might see in the
+custom `en.yml`:
+```
+en:
+  repos:
+    mwr:
+      lead_graph: This <strong>amazing</strong> repository has so much to offer you!
+```
+
+
+# Activation of the "Request" button on archival object pages
 
 You can configure, both globally or by repository, whether the "Request" button is active on 
 archival object pages for objects that don't have an associated Top Container.
-
+See [`config/config.rb.example`](config/config.rb.example) for examples.
 
 
 ## License

@@ -22,5 +22,9 @@ module ArchivesspacePublic
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # we require the app_config module in order to access the directory value from the :custom key
+    require "#{Rails.root}/app/lib/app_config.rb"
+    config.i18n.load_path += Dir[File.join(Rails.root, AppConfig[:custom], 'locales', '**' , '*.{rb,yml}')]
   end
 end
