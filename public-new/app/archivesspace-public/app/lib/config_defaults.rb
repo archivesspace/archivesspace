@@ -5,6 +5,7 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:search_results_page_size] = 10
   AppConfig[:public_url] = '/'
   AppConfig[:branding_img] = '/img/Aspace-logo.png'
+  AppConfig[:custom] = '/config/custom' # custom directory containing locales, etc.
 
 # The following determine which 'tabs' are on the main horizontal menu
   AppConfig[:hide] = {}
@@ -29,6 +30,8 @@ unless $CONFIG_DEFAULTS_LOADED
 
 # the following determine when the request button gets greyed out/disabled
   AppConfig[:requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
+
+
 
 # the beginning of repository-specific customization.  The repo_code should be downcased
   AppConfig[:repos] = {}

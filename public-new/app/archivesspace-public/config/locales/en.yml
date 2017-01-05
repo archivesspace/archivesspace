@@ -27,7 +27,7 @@ en:
     welcome_head: Welcome to the New Public Interface for ArchivesSpace
     welcome_message: |
                      <p> You can put anything you want in this space, by 
-                     editing <strong>brand.welcome_message</strong> in the appropriate <em>config/locales/*yml</em> file</p>
+                     editing <strong>brand.welcome_message</strong> in the appropriate <em>config/custom/locales/*yml</em> file</p>
 
     welcome_search_label: "Find what you're looking for:"
     welcome_page_title: Welcome! A New Day Dawns!
