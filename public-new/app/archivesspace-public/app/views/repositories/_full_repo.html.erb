@@ -4,7 +4,12 @@
 </div>
 <% end %>
 
-<% if info.present?  %>
+<% unless info.blank?  %>
+<% lead =  t("repos.#{info['top']['repo_code'].downcase}.lead_graph", default: '') %>
+<% unless lead.blank? %>
+<div id="lead_graph" class="clear"><%= lead.html_safe %></div>
+<% end %>
+
 <div class='contact_info'>
   <strong><%= t('contact') %>:</strong> <br/>
 <% if info["address"].present? %>
