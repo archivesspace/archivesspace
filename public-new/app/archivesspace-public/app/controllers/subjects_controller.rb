@@ -105,7 +105,7 @@ Rails.logger.debug("we hit search!")
     @results = []
     qry = "subjects:\"#{title}\" AND types:pui"
     @base_search = "#{uri}?"
-    search_opts = DEFAULT_SUBJ_SEARCH_OPTS
+    search_opts =  default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
     search_opts['fq']=[qry]
     search_opts['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, search_opts, params, qry)
