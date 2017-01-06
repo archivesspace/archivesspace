@@ -9,6 +9,6 @@
    <% req = render partial: 'shared/request_form' %>
   <%= render partial: 'shared/modal', locals: {:modal_id => 'request_modal', :title => t('actions.request'),
       :modal_body => req } %>
-<script type ="text/javascript" >setupRequest("request_modal")</script>
+<script type ="text/javascript" >setupRequest("request_modal",  "<%= t('actions.request') %>")</script>
 <% end %>
 
