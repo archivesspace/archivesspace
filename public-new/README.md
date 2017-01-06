@@ -46,6 +46,11 @@ See the [`config/config.rb.example`](config/config.rb.example) file for implemen
 In addition, you can override some default text values found in [`app/archivesspace-public/config/locales`](app/archivesspace-public/config/locales) -- for example, the site title -- by creating an 
 `app/archivesspace-public/config/custom/locales` directory, and placing the appropriate `.yml` files[s] there.  
 
+## Preserving Patron Privacy
+
+The **:block_referrer** key in the configuration file (default: **true**) determines whether the full referring URL is 
+transmitted when the user clicks a link to a website outside the web domain of your instance of ArchivesSpace.  This 
+protects your patrons from tracking by that site.
 
 ## Main Navigation Menu
 
