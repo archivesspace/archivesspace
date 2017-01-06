@@ -374,6 +374,10 @@ h1, .h1 {
   color: $primary-color;
 }
 
+h1 {
+   font-size: rem-calc(24);
+}
+
 /* we want to shrink the font size of h1 in smaller sizes */
 
 @media (max-width: $screen-xs-max) {

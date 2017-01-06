@@ -1,5 +1,5 @@
 <% badge_label = t("#{result['primary_type']}._singular") %>
-<h3>
+<%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
     <a class="record-title" href="<%= result['uri'] %>">  <%= result['json']['display_string'] %></a>
   <% else %>
@@ -9,9 +9,8 @@
         badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
       end
       %>
+<%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
-
-</h3>
 
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result['primary_type'].start_with?('agent') ? 'agent' : result['primary_type']) %>">

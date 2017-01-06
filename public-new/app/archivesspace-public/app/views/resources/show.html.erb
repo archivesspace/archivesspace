@@ -6,7 +6,7 @@
   <% end %>
 
     <div class="information col-sm-7">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => {} } %>
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
   </div>
   <div class="page_actions col-sm-5 right">
     <%= render partial: 'shared/page_actions', locals: {:title =>  @result['json']['display_string'], :url => request.fullpath, :cite => @cite } %>
