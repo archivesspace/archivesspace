@@ -17,7 +17,8 @@
     <div class="container-fluid no-pad">
       <section  id="header">
 	<div class="row">
-          <div class="col-sm-9"><h1><a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"> <%= t('brand.title') %></a></h1> </div>
+          <div class="col-sm-9 h1"><% unless request.original_fullpath == '/' %>
+<a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"><% end %> <%= t('brand.title') %><% unless request.original_fullpath == '/' %></a><% end %> </div>
           <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= AppConfig[:branding_img] %>" alt="" /></div>
 	</div>
       </section>
