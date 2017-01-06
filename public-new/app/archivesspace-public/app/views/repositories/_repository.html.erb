@@ -2,12 +2,14 @@
    <div class="recordrow">
 <% end %>
 <!-- <%= result.pretty_inspect.html_safe %> -->
-      <h3><a class="record-title" href="<%= result['uri'] %>">  <%= result['name']%></a>
+<%= (full ? '<h1>' : '<h3>').html_safe %>
+<% if !full %><a class="record-title" href="<%= result['uri'] %>"><% end %><%= result['name']%>
+<% if !full %></a><% end %>
 	<% if result.has_key?('image_url') %>
 	<img src="<%=result['image_url'] %>" alt='' />
 	<% end %>
+<%= (full ? '</h1>' : '</h3>').html_safe %>
 
-      </h3>
       <div class="badge-and-identifier">
         <div class="record-type-badge repository">
           <i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>

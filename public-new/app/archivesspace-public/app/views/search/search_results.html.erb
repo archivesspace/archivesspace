@@ -9,8 +9,8 @@
   <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
   <% end %>
 
-  <h3><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
-         :end => @results['offset_last'], :total => @results['total_hits'] })  %></h3>
+  <h2><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
+         :end => @results['offset_last'], :total => @results['total_hits'] })  %></h2>
 
 </div>
 
