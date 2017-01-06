@@ -6,6 +6,7 @@ unless $CONFIG_DEFAULTS_LOADED
   AppConfig[:public_url] = '/'
   AppConfig[:branding_img] = '/img/Aspace-logo.png'
   AppConfig[:custom] = '/config/custom' # custom directory containing locales, etc.
+  AppConfig[:block_referrer] = true  # patron privacy; blocks full 'referer' when going outside the domain
 
 # The following determine which 'tabs' are on the main horizontal menu
   AppConfig[:hide] = {}
