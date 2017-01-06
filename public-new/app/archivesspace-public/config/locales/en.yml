@@ -78,6 +78,9 @@ en:
     digital: digital materials
     digital_object: digital materials
     objects: archival or digital records
+    subject: subject
+    agent: content creator
+    agents: content creators
   search-field: Search field
   searched-field: "searching %{field}"
 
