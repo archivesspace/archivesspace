@@ -87,7 +87,11 @@ class NestedRecordResolver
         # All loaded separately.  No need to redo it.
         objs
       else
-        model.any_repo.eager(graph).filter(:id => objs.map(&:id)).all
+        loaded = model.any_repo.eager(graph).filter(:id => objs.map(&:id)).all
+
+        # return the objects in the same order in which we received them
+        # some callers care about the order!
+        loaded.sort_by { |loaded_obj| objs.index {|obj| obj.id == loaded_obj.id} }
       end
     end
   end
