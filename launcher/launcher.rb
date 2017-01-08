@@ -96,7 +96,7 @@ end
 def generate_secret_for(secret)
   file = File.join(AppConfig[:data_directory], "#{secret}_cookie_secret.dat")
 
-  if !File.exists?(file)
+  if !File.exist?(file)
     File.write(file, SecureRandom.hex)
 
     puts "****"
@@ -212,7 +212,7 @@ def stop
     stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
     stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
     pid_file = File.join(AppConfig[:data_directory], ".archivesspace.pid" ) 
-    FileUtils.rm(pid_file) if File.exists?(pid_file)
+    FileUtils.rm(pid_file) if File.exist?(pid_file)
     java.lang.System.exit(0)
   else
     puts "****"
@@ -227,7 +227,7 @@ end
 
 launcher_rc = File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"), "launcher_rc.rb")
 
-if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exists?(launcher_rc)
+if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exist?(launcher_rc)
   load File.absolute_path(launcher_rc)
 end
 

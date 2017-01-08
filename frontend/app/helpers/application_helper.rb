@@ -5,22 +5,22 @@ module ApplicationHelper
   def include_controller_js
     scripts = ""
 
-    scripts += javascript_include_tag "#{controller.controller_name}" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
 
-    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
 
     if ["new", "create", "edit", "update"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
     if ["batch_create"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
 
     if ["defaults", "update_defaults"].include?(controller.action_name)
       ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
 
-      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
     end
 
 

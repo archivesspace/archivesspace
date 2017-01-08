@@ -1,6 +1,6 @@
 <% if @transfer_errors %>
     <%# Pull in the relevant javascript for the 'show' view to make sure trees are loaded %>
-    <%= javascript_include_tag "#{controller.controller_name}.show" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js.erb") %>
+    <%= javascript_include_tag "#{controller.controller_name}.show" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js.erb") %>
 
     <div class="alert alert-danger">
         <h3><%= I18n.t('actions.transfer_failed') %></h3>

@@ -323,7 +323,7 @@ eof
 
     victims.each do |backup_dir|
       # Proudly paranoid
-      if File.exists?(File.join(backup_dir, "archivesspace_demo_db", "BACKUP.HISTORY"))
+      if File.exist?(File.join(backup_dir, "archivesspace_demo_db", "BACKUP.HISTORY"))
         Log.info("Expiring old backup: #{backup_dir}")
         FileUtils.rm_rf(backup_dir)
       else

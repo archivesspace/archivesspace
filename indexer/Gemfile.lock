@@ -3,14 +3,14 @@ GEM
   specs:
     atomic (1.0.1-java)
     json (1.8.0-java)
-    rack (1.4.7)
+    rack (1.6.5)
     rack-protection (1.5.3)
       rack
-    sinatra (1.3.6)
-      rack (~> 1.4)
-      rack-protection (~> 1.3)
-      tilt (~> 1.3, >= 1.3.3)
-    tilt (1.4.1)
+    sinatra (1.4.7)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    tilt (2.0.5)
 
 PLATFORMS
   java
@@ -18,8 +18,7 @@ PLATFORMS
 DEPENDENCIES
   atomic (= 1.0.1)
   json (= 1.8.0)
-  rack (= 1.4.7)
-  sinatra (= 1.3.6)
+  sinatra (= 1.4.7)
 
 BUNDLED WITH
    1.12.5

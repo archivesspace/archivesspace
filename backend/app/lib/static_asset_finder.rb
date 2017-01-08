@@ -4,7 +4,7 @@ class StaticAssetFinder
     static_dir = File.join(ASUtils.find_base_directory, base)
 
     @valid_paths = Dir[File.join(static_dir, "**", "*")].
-                            select {|path| File.exists?(path) && File.file?(path)}
+                            select {|path| File.exist?(path) && File.file?(path)}
   end
 
 

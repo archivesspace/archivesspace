@@ -64,7 +64,7 @@ class AppConfig
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif java.lang.System.getProperty("ASPACE_LAUNCHER_BASE") &&
-        File.exists?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
+        File.exist?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
       File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
     elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
@@ -85,7 +85,7 @@ class AppConfig
                          ]
 
     possible_locations.each do |config|
-      if config and File.exists?(config)
+      if config and File.exist?(config)
         return config
       end
     end

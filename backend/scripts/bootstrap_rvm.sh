@@ -6,7 +6,7 @@ rvm install jruby
 
 case "$GEM_HOME" in
   *jruby*)
-    JRUBY_OPTS="--1.9" ; export JRUBY_OPTS
+    JRUBY_OPTS="" ; export JRUBY_OPTS
   ;;
 esac
 

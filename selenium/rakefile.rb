@@ -63,9 +63,9 @@ namespace :servers do
   task :start do
     if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
       puts "Running tests against a server already started"
-    elsif File.exists? '/tmp/backend_test_server.pid'
+    elsif File.exist? '/tmp/backend_test_server.pid'
       puts "Backend Process already exists"
-    elsif File.exists? '/tmp/frontend_test_server.pid'
+    elsif File.exist? '/tmp/frontend_test_server.pid'
       puts "Frontend Process already exists"
     else
       backend_port = TestUtils::free_port_from(3636)
@@ -169,14 +169,14 @@ namespace :servers do
   end
 
   task :stop do
-    if File.exists? '/tmp/backend_test_server.pid'
+    if File.exist? '/tmp/backend_test_server.pid'
       pid = IO.read('/tmp/backend_test_server.pid').strip.to_i
       puts "kill #{pid}"
       TestUtils.kill(pid)
       File.delete '/tmp/backend_test_server.pid'
     end
 
-    if File.exists? '/tmp/frontend_test_server.pid'
+    if File.exist? '/tmp/frontend_test_server.pid'
       pid = IO.read('/tmp/frontend_test_server.pid').strip.to_i
       puts "kill #{pid}"
       TestUtils.kill(pid)

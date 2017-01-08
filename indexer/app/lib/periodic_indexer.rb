@@ -38,26 +38,9 @@ class IndexState
   def set_last_mtime(repository_id, record_type, time)
     path = path_for(repository_id, record_type)
 
-    # We use the Java interfaces here to work around the fact that JRuby 1.7.22
-    # punted on throwing write error exceptions.  RubyIO.java contained this:
-    #
-    #   public IRubyObject close_write(ThreadContext context) {
-    #       [...]
-    #       } catch (IOException ioe) {
-    #           // hmmmm
-    #       }
-    #
-    # Newer versions of JRuby fix that issue, so we could switch back to the
-    # original implementation once JRuby is upgraded.  For reference, here's the
-    # original:
-    #
-    #   File.open("#{path}.tmp", "w") do |fh|
-    #     fh.puts(time.to_i)
-    #   end
-    #
-    writer = java.io.PrintWriter.new("#{path}.tmp")
-    writer.println(time.to_i)
-    writer.close
+    File.open("#{path}.tmp", "w") do |fh|
+      fh.puts(time.to_i)
+    end
 
     File.rename("#{path}.tmp", "#{path}.dat")
   end
@@ -195,7 +178,7 @@ class PeriodicIndexerWorker < CommonIndexer
       }.compact.uniq
 
       # Don't reprocess trees we've already covered during previous batches
-      records -= ProcessedTrees.instance.keySet
+      records -= ProcessedTrees.instance.keySet.to_a
 
       ## Each record needs its tree indexed
 

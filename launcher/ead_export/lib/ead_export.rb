@@ -41,7 +41,7 @@ def main
   if ids.any?
     zip_filename = "#{AppConfig[:data_directory]}/export-repo-#{repository_id}.zip"
     # for now at least blow away any existing zip file
-    File.delete zip_filename if File.exists? zip_filename
+    File.delete zip_filename if File.exist? zip_filename
     zip = Zip::File.new(zip_filename, Zip::File::CREATE)
 
     ids.each do |id|

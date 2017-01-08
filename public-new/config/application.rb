@@ -48,7 +48,7 @@ module ArchivesSpacePublic
     config.i18n.default_locale = AppConfig[:locale]
 
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
@@ -57,7 +57,7 @@ module ArchivesSpacePublic
 
     # Allow overriding of the i18n locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
         config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end

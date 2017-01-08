@@ -1,17 +1,16 @@
 source "https://rubygems.org"
 
 gem "atomic", '= 1.0.1'
-gem "sinatra", "1.3.6", :require => false
-gem 'rack', '= 1.4.7'
-gem "sinatra-reloader", :require => false
+gem "sinatra", "1.4.7", :require => false
+gem "sinatra-contrib", "1.4.7", :require => false
 gem "sequel", "~> 4.20.0"
 gem "rack-session-sequel", "0.0.1"
 gem "jdbc-mysql", "5.1.13", :group => :development
-gem "jdbc-derby", "10.6.2.1"
+gem "jdbc-derby", "10.12.1.1"
 gem "bcrypt", "3.1.7"
-gem 'json', "1.8.0"
+gem 'json', "1.8.3"
 gem "json-schema", "1.0.10"
-gem "jruby-jars", "= 1.7.21"
+gem "jruby-jars", "= 9.1.6.0"
 gem "nokogiri",  '~> 1.6.1'
 gem "saxerator", "~> 0.9.2"
 gem 'saxon-xslt'
@@ -24,7 +23,7 @@ gem "i18n", ">= 0.6.4"
 
 gem "axlsx", "2.0.1"
 
-gem "warbler", "1.4.9", :group => :build
+gem "warbler", "2.0.4", :group => :build
 
 
 group :test do
