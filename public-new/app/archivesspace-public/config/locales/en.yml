@@ -241,8 +241,9 @@ en:
     _singular: Collection or Record
     _plural: Collections and/or Records
  
-  # I don't have a place for this, so I'm putting it here
+  # I don't have a place for these, so I'm putting them here
   scope_note : Scope Note
+  multiple_containers: Multiple Containers
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
 
@@ -251,6 +252,7 @@ en:
   list: "%{type} List"
   cont_arr: Collection organization
   accessed: Accessed
+  containers: Container List
 
   accession:
    _singular: Unprocessed 

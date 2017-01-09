@@ -22,12 +22,16 @@
   <ul class="<%= list_clss %>">
     <% list.each do |item| %>
      <li>
-       <% unless item['uri'].blank? %>
-       <a href="<%= item['uri'] %>">
-       <% end %>
-       <%= item['title'] %>
-       <% unless item['uri'].blank? %>
-       </a>
+       <% if item.kind_of? Hash %>
+        <% unless item['uri'].blank? %>
+         <a href="<%= item['uri'] %>">
+        <% end %>
+        <%= item['title'] %>
+        <% unless item['uri'].blank? %>
+         </a>
+        <% end %>
+       <% else %>
+         <%= item %>
        <% end %>
      </li>
     <% end %>
