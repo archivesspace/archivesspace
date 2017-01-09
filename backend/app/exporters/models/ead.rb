@@ -33,7 +33,7 @@ class EADModel < ASpaceExport::ExportModel
 
     def self.prefetch(tree_nodes, repo_id)
       RequestContext.open(:repo_id => repo_id) do
-        objs = ArchivalObject.sequel_to_jsonmodel(ArchivalObject.filter(:id => tree_nodes.map {|tree| tree['id']}).all)
+        objs = ArchivalObject.sequel_to_jsonmodel(ArchivalObject.filter(:id => tree_nodes.map {|tree| tree['id']}).order(:position).all)
         URIResolver.resolve_references(objs, ['subjects', 'linked_agents', 'digital_object'])
       end
     end
