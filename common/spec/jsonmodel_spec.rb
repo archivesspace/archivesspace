@@ -102,21 +102,19 @@ describe JSONModel do
     }'
 
 
+    AppConfig[:plugins] = []
+
+    allow(JSONModel).to receive(:schema_src).and_return(schema)
+    allow(JSONModel).to receive(:schema_src).with("stub").and_return(schema)
+    allow(JSONModel).to receive(:schema_src).with("child_stub").and_return(child_schema)
+
+    allow(Net::HTTP::Persistent).to receive(:new).and_return( StubHTTP.new )
+
     JSONModel::init(:client_mode => true,
                     :url => "http://example.com",
                     :strict_mode => true,
                     :allow_other_unmapped => true)
 
-    AppConfig[:plugins] = []
-
-    # main schema
-    allow(Dir).to receive(:glob).and_return(['stub', 'child_stub'])
-
-    allow(File).to receive(:open).with(/stub\.rb/).and_return( StringIO.new(schema) )
-    allow(File).to receive(:open).with(/child_stub\.rb/).and_return( StringIO.new(child_schema) )
-    allow(File).to receive(:exists?).with(/stub\.rb/).and_return true
-
-    allow(Net::HTTP::Persistent).to receive(:new).and_return( StubHTTP.new )
 
     @klass = Klass.new
   end
