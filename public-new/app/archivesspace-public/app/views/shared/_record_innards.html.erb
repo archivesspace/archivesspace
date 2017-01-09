@@ -54,6 +54,11 @@
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
 	     :p_id => 'fa', :p_body => x} %>
 	<% end %>
+	<% unless @result['json']['container_disp'].blank? ||  @result['json']['container_disp'].size <2 %>
+	   <% x = render partial: 'shared/present_list', locals: {:list =>  @result['json']['container_disp'], :list_clss => 'top_containers'} %>
+	 <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
+	 :p_body => x} %>
+        <% end %>
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
            <% x= render partial: 'repositories/repository_details' %>
 	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
