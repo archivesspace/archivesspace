@@ -6,9 +6,12 @@
     <%= result['json']['display_string'] %>
   <% end %>
   <%  unless result['json']['container_disp'].blank?
-        badge_label =  result['json']['container_disp'].gsub("Unspecified",'')
-      end
-      %>
+        if  result['json']['container_disp'].size == 1 
+          badge_label =  result['json']['container_disp'][0]
+        else
+          badge_label = t('multiple_containers')
+        end
+      end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
 

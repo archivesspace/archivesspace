@@ -386,22 +386,24 @@ module Searchable
 
 
   def container_display(result)
-    display = ""
+    containers = []
     json = result['json']
     if !json['instances'].blank? && json['instances'].kind_of?(Array)
-      if json['instances'][0].kind_of?(Hash)
-        if json['instances'][0]['container'].present? && json['instances'][0]['container'].kind_of?(Hash)
+      json['instances'].each do |inst|
+        if inst.kind_of?(Hash) && inst['container'].present? && inst['container'].kind_of?(Hash)
+          display = []
           %w{1 2 3}.each do |i|
-            type = process_container_type(json['instances'][0]['container']["type_#{i}"]) 
-            if !json['instances'][0]['container']["indicator_#{i}"].blank?
-              display += type + ' ' + json['instances'][0]['container']["indicator_#{i}"] + ', '
+            type = process_container_type(inst['container']["type_#{i}"]) 
+            if !inst['container']["indicator_#{i}"].blank?
+              display.push("#{type} #{inst['container']["indicator_#{i}"]}".gsub("Unspecified", ''))
+
             end
           end
-          display = display.strip.chop  # remove the final comma
+          containers.push(display.join(", ")) unless display.empty?
         end
       end
     end
-    return display
+    return containers
   end
 
   # if there's an inherited title, pre-pend it
