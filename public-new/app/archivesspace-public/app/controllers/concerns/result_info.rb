@@ -133,7 +133,7 @@ module ResultInfo
     if restricts
       restricts.each do |r|
         lar = r.dig('local_access_restriction_type')
-        info[:machine].push(lar) if lar
+        info[:machine] += lar if lar
       end
     end
     info
@@ -156,7 +156,6 @@ module ResultInfo
           ind = c.dig("indicator_#{i}") || ''
           name << ind << ' '
           barcode = c.dig("barcode_#{i}")
-          name << barcode << ' ' if barcode
         end
         name.strip!
         locs = c.dig('container_locations')
