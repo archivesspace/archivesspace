@@ -97,9 +97,9 @@ module ResultInfo
     @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
   end
 
-  def fill_request_info
+  def fill_request_info(resource = false)
     container = container_info
-    unless (container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code'])
+    unless !resource && (( container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code']))
       @request = RequestItem.new(container)
       @request[:request_uri] = @result['uri']
       @request[:repo_name] = @repo_info['top']['name'] || '[unknown!]'
