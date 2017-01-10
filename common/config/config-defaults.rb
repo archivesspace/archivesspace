@@ -290,7 +290,11 @@ AppConfig[:record_inheritance] = {
 #  [
 #    {
 #      :property => 'subjects',
-#      :inherit_if => proc {|json| json.select {|j| j['term']['term_type'] == 'topical'} },
+#      :inherit_if => proc {|json|
+#        json.select {|j|
+#          ! j['_resolved']['terms'].select { |t| t['term_type'] == 'topical'}.empty?
+#        }
+#      },
 #      :inherit_directly => true
 #    },
 #    {
