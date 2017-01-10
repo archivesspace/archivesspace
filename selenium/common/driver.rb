@@ -136,15 +136,23 @@ class Driver
     self
   end
 
-  def wait_for_spinner
-    # This will take 50ms to turn up then linger for 1 second, so we should see it.
-    begin
-      puts "Awaiting spinner... (#{caller.take(3).join("; ")})"
+  SPINNER_RETRIES = 10
 
-      find_element(:css, ".spinner")
-      wait_until_gone(:css, ".spinner")
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      # Assume we just missed it...
+  def wait_for_spinner
+    puts "    Awaiting spinner... (#{caller[0]})"
+
+    # The spinner's height is 100 when shown
+    SPINNER_RETRIES.times do
+      height = self.execute_script("return $('#archives_tree_overlay').height()")
+      break if height != 0
+      sleep 0.2
+    end
+
+    # and zero when hidden
+    SPINNER_RETRIES.times do
+      height = self.execute_script("return $('#archives_tree_overlay').height()")
+      break if height == 0
+      sleep 0.2
     end
   end
 
