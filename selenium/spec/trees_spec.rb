@@ -356,9 +356,8 @@ describe "Tree UI" do
       @driver.find_element(:id, js_node(@r).li_id).click
       
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
-      @driver.find_element(:css, "a.refresh-tree").click
-      @driver.wait_for_ajax
-       
+      @driver.click_and_wait_until_gone(:css, "a.refresh-tree")
+
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       @driver.wait_for_ajax
       @driver.find_element_with_text("//button", /Add Note/).click
