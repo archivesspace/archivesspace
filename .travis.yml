@@ -55,6 +55,5 @@ addons:
     - $( ls /var/log/mysql/* | tr "\n" ":" )
     - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
 sudo: false
-after_failure:
-- free -m -t
-- dmesg
+after_script:
+- if [[ -e "/tmp/firefox_console" ]]; then cat /tmp/firefox_console; fi

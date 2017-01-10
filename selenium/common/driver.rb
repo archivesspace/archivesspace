@@ -19,6 +19,10 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
     profile = Selenium::WebDriver::Firefox::Profile.new
+    profile["webdriver.log.file"] = "/tmp/firefox_console"
+
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    profile["webdriver.log.level"] = "ALL"
     profile["browser.download.dir"] = Dir.tmpdir
     profile["browser.download.folderList"] = 2
     profile["browser.helperApps.alwaysAsk.force"] = false
