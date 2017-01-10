@@ -49,10 +49,6 @@ namespace :integration do
       if standalone
         Rake::Task["servers:stop"].invoke
       end
-
-      if indexer_thread
-        indexer_thread.kill
-      end
     end
 
   end
