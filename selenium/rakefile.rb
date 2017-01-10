@@ -120,8 +120,8 @@ namespace :servers do
       $period = PeriodicIndexer.new
 
       indexer = Sinatra.new {
-
         set :port, args[:port]
+        disable :traps
 
         def run_index_round
           $indexer.reset_session
