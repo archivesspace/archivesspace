@@ -19,6 +19,7 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
     profile = Selenium::WebDriver::Firefox::Profile.new
+    FileUtils.rm("/tmp/firefox_console", :force => true)
     profile["webdriver.log.file"] = "/tmp/firefox_console"
 
     # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
