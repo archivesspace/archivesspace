@@ -90,17 +90,21 @@ module Selenium
       include DriverMixin
 
       def wait_for_ajax
+        max_ajax_sleep_seconds = 20
+        ajax_sleep_duration = 0.05
+
+        max_tries = max_ajax_sleep_seconds / ajax_sleep_duration
+
         try = 0
         while (self.execute_script("return document.readyState") != "complete" or
                not self.execute_script("return window.$ == undefined || $.active == 0"))
-          if (try > Selenium::Config.retries)
+          if (try > max_tries)
             puts "Retry limit hit on wait_for_ajax.  Going ahead anyway."
             break
           end
 
-          puts "    Waiting 500ms for AJAX..."
-
-          sleep(0.5)
+          $sleep_time += ajax_sleep_duration
+          sleep(ajax_sleep_duration)
           try += 1
         end
 
