@@ -98,6 +98,8 @@ module Selenium
             break
           end
 
+          puts "    Waiting 500ms for AJAX..."
+
           sleep(0.5)
           try += 1
         end
