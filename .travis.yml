@@ -56,5 +56,5 @@ addons:
     - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
 sudo: false
 after_failure:
-- sudo free -m -t
-- sudo dmesg
+- free -m -t
+- dmesg
