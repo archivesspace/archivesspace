@@ -33,15 +33,12 @@ describe "Tree UI" do
 
     @driver.find_elements(:css => "li.jstree-node").length.should eq(4)
 
-    @driver.find_element(:id, js_node(@a3).a_id).click
-    @driver.wait_for_ajax
+    jstree_click(js_node(@a3).a_id)
 
     @driver.click_and_wait_until_gone(:link, "Add Sibling")
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "Sibling")
     @driver.find_element(:id, "archival_object_level_").select_option("item")
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
-
-    @driver.wait_for_ajax
 
     @driver.find_elements(:css => "li.jstree-node").length.should eq(5)
 
@@ -67,9 +64,7 @@ describe "Tree UI" do
     y_off = target.location[:y] - source.location[:y]
 
     @driver.action.drag_and_drop_by(source, 0, y_off).perform
-    @driver.wait_for_ajax
     @driver.wait_for_spinner
-
 
     target = @driver.find_element(:id, js_node(@a2).li_id)
     # now open the target
@@ -77,10 +72,8 @@ describe "Tree UI" do
       begin
         target.find_element(:css => "i.jstree-icon").click
         target.find_element_orig(:css => "ul.jstree-children")
-        break 
+        break
       rescue
-        $stderr.puts "hmm...lets try and reopen the node"
-        sleep(2)
         next
       end
     end
@@ -90,18 +83,18 @@ describe "Tree UI" do
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
 
-
     # same check again
     @driver.find_element(:id, js_node(@a2).li_id)
       .find_element(:css => "i.jstree-icon").click
     # but this time wait for lazy loading and re-find the parent node
     @driver.wait_for_ajax
+
+
     target = @driver.find_element(:id, js_node(@a2).li_id)
     target.find_element(:id, js_node(@a1).li_id)
 
   end
 
-  # TODO: review this test when things quiet down?
   it "can not reorder the tree while editing a node" do
 
     pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
@@ -109,8 +102,7 @@ describe "Tree UI" do
       @driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
     }
 
-    @driver.find_element(:id, js_node(@a3).a_id).click
-    @driver.wait_for_ajax
+    jstree_click(js_node(@a3).a_id)
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], @a3.title.sub(/Archival Object/, "Resource Component"))
 
@@ -119,17 +111,14 @@ describe "Tree UI" do
 
     # now do a drag and drop
     @driver.action.drag_and_drop(moving, target).perform
-    @driver.wait_for_ajax
+    @driver.wait_for_spinner
 
     # save the item
     @driver.click_and_wait_until_gone(:css => "form#archival_object_form button[type='submit']")
-    @driver.wait_for_ajax
 
     # open the node (maybe this should happen by default?)
     @driver.find_element(:id => js_node(@a2).li_id)
       .find_element(:css => "i.jstree-icon").click
-
-    sleep(5)
 
     # we expect the move to have been rebuffed
     expect {
@@ -146,33 +135,27 @@ describe "Tree UI" do
 
   end
 
-  it "can move tree nodes into and out of each other", :retry => 2, :retry_wait => 10 do
+  it "can move tree nodes into and out of each other" do
 
     # move siblings 2 and 3 into 1
     [@a2, @a3].each do |sibling|
-      @driver.find_element(:id => js_node(sibling).a_id).click
-      @driver.wait_for_ajax
+      jstree_click(js_node(sibling).a_id)
 
       @driver.find_element(:link, "Move").click
-      
+
       el = @driver.find_element_with_text("//a", /Down Into/)
       @driver.mouse.move_to el
-
-      @driver.wait_for_ajax
 
       @driver.find_element(:css => "div.move-node-menu")
         .find_element(:xpath => ".//a[@data-target-node-id='#{js_node(@a1).li_id}']")
         .click
 
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
-      sleep(2)
     end
 
     2.times {|i|
-      @driver.find_element(:id => js_node(@a1).a_id).click
-      @driver.wait_for_ajax
-      # @driver.wait_for_spinner
+      jstree_click(js_node(@a1).a_id)
+
       [@a2, @a3].each do |child|
         @driver.find_element(:id => js_node(@a1).li_id)
           .find_element(:id => js_node(child).li_id)
@@ -183,16 +166,12 @@ describe "Tree UI" do
 
     # now move them back
     [@a2, @a3].each do |child|
-      @driver.find_element(:id => js_node(child).a_id).click
-      @driver.wait_for_ajax
+      jstree_click(js_node(child).a_id)
 
       @driver.find_element(:link, "Move").click
       @driver.find_element_with_text("//a", /Up a Level/).click
 
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
-
-      sleep(2)
     end
 
 
@@ -210,7 +189,7 @@ describe "Tree UI" do
 
   it "can delete a node and return to its parent" do
     @driver.find_element(:id => js_node(@a1).a_id).click
-    @driver.wait_for_ajax
+    @driver.find_element(:id, js_node(@a1).a_id).click
 
     @driver.find_element(:css, ".delete-record.btn").click
     @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
@@ -266,8 +245,7 @@ describe "Tree UI" do
     # open the tree a little
     dragger = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s" )
     @driver.action.drag_and_drop_by(dragger, 0, 300).perform
-    @driver.wait_for_ajax
-
+    @driver.wait_for_spinner
 
     # now lets move and delete some nodes
     ["Ham", "Coca-cola bears"].each do |ao|
@@ -277,26 +255,21 @@ describe "Tree UI" do
      
       @driver.action.drag_and_drop_by(source, 0, y_off - 10).perform
       @driver.wait_for_spinner
-      @driver.wait_for_ajax
 
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       @driver.find_element(:link, "Move").click
       @driver.find_element(:link, "Up").click
       @driver.wait_for_spinner
-      @driver.wait_for_ajax
       
       @driver.find_element_with_text("//div", /Please click to load records/).click
       
-      @driver.find_element(:css, ".alert-info").click
-      @driver.wait_for_ajax
+      @driver.click_and_wait_until_gone(:css, ".alert-info")
       
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{ao}/).click
       @driver.wait_for_ajax
      
       @driver.find_element(:css, ".delete-record.btn").click
-      @driver.wait_for_ajax
-      sleep(2) 
 
       @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
       @driver.click_and_wait_until_gone(:link, "Edit")
@@ -313,14 +286,10 @@ describe "Tree UI" do
 
     # now lets add some more and move them around
     [ "Santa Crap", "Japanese KFC", "Kalle Anka"].each do |ao|
-      @driver.wait_for_ajax
-      @driver.find_element(:id, js_node(@r).li_id).click
-      
-      @driver.wait_for_ajax
+      jstree_click(js_node(@r).a_id)
+
       @driver.find_element_with_text("//div[@id='archives_tree']//a", /Gifts/).click
       @driver.wait_for_ajax
-      sleep(2)    
-
 
       @driver.click_and_wait_until_gone(:link, "Add Sibling")
       @driver.clear_and_send_keys([:id, "archival_object_title_"], ao)
@@ -332,16 +301,12 @@ describe "Tree UI" do
 
       y_off = target.location[:y] - source.location[:y]
       @driver.action.drag_and_drop_by(source, 0, y_off).perform
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
     end
    
     wait = Selenium::WebDriver::Wait.new(:timeout => 40)
     @driver.find_element(:id, js_node(@r).li_id).click
     @driver.click_and_wait_until_gone(:link, 'Close Record')
-    @driver.wait_for_ajax
-    sleep(2) 
-    
     
     # now lets add some notes
     [ "Japanese KFC", "Kalle Anka", "Santa Crap"].each do |ao|
