@@ -411,7 +411,6 @@ describe "Tree UI" do
       @driver.action.key_up(:shift).perform
       @driver.action.drag_and_drop_by(a.call, 0, offset).perform
 
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
     end
 
@@ -436,7 +435,6 @@ describe "Tree UI" do
       @driver.action.key_up(:shift).perform
       @driver.action.drag_and_drop_by(a.call, 0, offset).perform
 
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
     end
 
@@ -460,7 +458,6 @@ describe "Tree UI" do
       @driver.action.key_up(:shift).perform
       @driver.action.drag_and_drop_by(a.call, 0, offset).perform
 
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
     end
 
@@ -479,7 +476,6 @@ describe "Tree UI" do
 
     offset = ( ( target.location[:y] - a.location[:y] ) - 9 )
     @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform #fails here
-    @driver.wait_for_ajax
     @driver.wait_for_spinner
 
     # heres the new order of our AOs. all on one level
@@ -501,7 +497,6 @@ describe "Tree UI" do
                  :xpath => "//li[a/@title='#{@r.title}']/ul/li").first
       offset = ( ( target.location[:y] - a.location[:y] ) - 9 )
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
       new_order.each_with_index do |v, i|
         assert(5) {
@@ -520,7 +515,6 @@ describe "Tree UI" do
                  :xpath => "//li[a/@title='#{@r.title}']/ul/li").last
       offset = ( ( target.location[:y] - a.location[:y] ) + 9 )
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
       new_order.each_with_index do |v, i|
         assert(5) {
@@ -540,7 +534,6 @@ describe "Tree UI" do
                  :xpath => "//li[a/@title='#{@r.title}']/ul/li")[5]
       offset = ( ( target.location[:y] - a.location[:y] ) + 7 )
       @driver.action.click(a).key_down(:shift).click(b).key_up(:shift).drag_and_drop_by(a, 0, offset).perform
-      @driver.wait_for_ajax
       @driver.wait_for_spinner
       new_order.each_with_index do |v, i|
         assert(5) {

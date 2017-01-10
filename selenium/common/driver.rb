@@ -139,6 +139,8 @@ class Driver
   def wait_for_spinner
     # This will take 50ms to turn up then linger for 1 second, so we should see it.
     begin
+      puts "Awaiting spinner... (#{caller.take(3).join("; ")})"
+
       find_element(:css, ".spinner")
       wait_until_gone(:css, ".spinner")
     rescue Selenium::WebDriver::Error::NoSuchElementError
