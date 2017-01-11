@@ -250,6 +250,7 @@ en:
   extent_phys_details: ": %{deets}"
   extent_dims: ": %{dimensions}"
 
+  external_docs: External Documents
   more_about: More about
   listing: Listing
   list: "%{type} List"
