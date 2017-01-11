@@ -81,6 +81,9 @@ class AccessionsController <  ApplicationController
       @context = []
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => @result['json']['title'] })
+      @subjects = process_subjects(@result['json']['subjects'])
+      @agents = process_agents(@result['json']['linked_agents'], @subjects)
+      process_extents
     else
       @type = I18n.t('accession._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)

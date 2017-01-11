@@ -1,12 +1,14 @@
 
-  <% if !rec['extents'].blank? %>
-<!--  NUMBER OF EXTENTS: <%= rec['extents'].length %> -->
-    <%   rec['extents'].each do |ext| %>
-    <span class="extent"><%= ext['container_summary'].present? ? "#{ext['container_summary']}: " : ''%><%= inheritance(ext['_inherited']).html_safe %>  <%= ext['physical_details'] || '' %> <%= ext['number'] %> <%= ext['extent_type'] %></span> <br />
-    <% end %>
-  <% end %>
-   <%= render partial: 'shared/dates', locals: {:dates => rec['dates']} if !rec['dates'].blank? %>
 
+   <%= render partial: 'shared/dates', locals: {:dates => rec['dates']} if !rec['dates'].blank? %>
+    <% unless @result['json']['extents'].blank? %>
+      <h4><%= t('resource._public.extent') %></h4>
+       <% @result['json']['extents'].each do |ext| %> 
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
+	  <%= ext['display']%>
+	</p>
+      <% end %>
+    <% end %>
 
 <% %w{ inventory disposition content_description provenance access_date access_restrictions_note use_restrictions_note}.each do  |k| %>
 
