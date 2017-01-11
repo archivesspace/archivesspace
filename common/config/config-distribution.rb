@@ -70,11 +70,15 @@ class AppConfig
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.base"), "conf", "config.rb")
     elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
-      File.join(File.dirname(__FILE__), "config.rb")
+      File.join(get_devserver_base, "config", "config.rb")
     else
       File.join(Dir.home, ".aspace_config.rb")
     end
 
+  end
+
+  def self.get_devserver_base
+    File.dirname(__dir__.gsub(/uri:classloader:.*/, ''))
   end
 
   def self.find_user_config
