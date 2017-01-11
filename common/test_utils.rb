@@ -45,7 +45,7 @@ module TestUtils
 
 
   def self.build_config_string(config)
-    java_opts = ""
+    java_opts = ENV.fetch('JAVA_OPTS', '')
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
