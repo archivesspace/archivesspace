@@ -157,7 +157,7 @@ class ResourcesController <  ApplicationController
 
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
-      @rep_image = get_rep_image(@result['json']['instances'])
+#      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info(true)
       process_extents
       @tree = fetch_tree(uri)
