@@ -246,6 +246,9 @@ en:
   multiple_containers: Multiple Containers
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
+  extent_number_type: "%{number} %{type}"
+  extent_phys_details: ": %{deets}"
+  extent_dims: ": %{dimensions}"
 
   more_about: More about
   listing: Listing
