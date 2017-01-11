@@ -4,8 +4,8 @@
   <% unless defined?(@no_statement) || !defined?(@search) %>
   <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
   <% end %>
-
-    <div class="information col-sm-7">
+  </div>
+  <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
   </div>
   <div class="page_actions col-sm-5 right">
