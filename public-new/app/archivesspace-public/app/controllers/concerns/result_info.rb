@@ -170,6 +170,23 @@ module ResultInfo
     ret_hash
   end
 
+# process extents for display; format per Mark Custer
+  def process_extents
+    unless  @result['json']['extents'].blank?
+      @result['json']['extents'].each_with_index do |ext, i|
+        display = ''
+        type = I18n.t("enumerations.extent_extent_type.#{ext['extent_type']}", default: ext['extent_type'])
+        display = I18n.t('extent_number_type', :number => ext['number'], :type => type)
+        summ = ext['container_summary']
+        summ = "(#{summ})" unless summ.start_with?('(') && summ.end_with?(')') # yeah, I coulda done this with rexep.
+        display << ' ' << summ
+        display << I18n.t('extent_phys_details',:deets => ext['physical_details']) unless  ext['physical_details'].blank?
+        display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless  ext['dimensions'].blank?
+        @result['json']['extents'][i]['display'] = display
+      end
+    end
+  end
+
 # look for a representative instance
   def get_rep_image(instances)
     rep = {}
