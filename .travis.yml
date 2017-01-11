@@ -58,3 +58,4 @@ addons:
 sudo: false
 after_failure:
 - if [[ -e "/tmp/firefox_console" ]]; then cat /tmp/firefox_console; fi
+- dmesg | tail -500
