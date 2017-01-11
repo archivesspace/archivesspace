@@ -60,7 +60,7 @@ module TestUtils
       end
     end
 
-    java_opts
+    " " + java_opts
   end
 
 
