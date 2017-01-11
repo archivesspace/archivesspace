@@ -3,16 +3,16 @@
     <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-      <div class="page_actions col-sm-5 right">
+    <div class="page_actions col-sm-5 right">
     <%= render partial: 'shared/page_actions', locals: {:title => @result['json']['display_string'], :url => request.fullpath, :cite => @cite } %>
+    </div>
   </div>
-</div>
-<div class="row">
+  <div class="row">
      <%= render partial: 'shared/breadcrumbs' %>
-</div>
+  </div>
 
-<div class="row" id="notes_row">
-  <div class="col-sm-9">
+  <div class="row" id="notes_row">
+   <div class="col-sm-9">
     <% if  defined?(comp_id) && !comp_id && !@result['json']['ref_id'].blank? %>
       <span class='ref_id'>[<%=  t('archival_object._public.header.ref_id') %>: <%= @result['json']['ref_id'] %>]</span>
     <% end %>
@@ -20,16 +20,14 @@
 
     <%= render partial: 'shared/record_innards' %>
 
-  </div>
-    <% if !@tree['direct_children'].blank? %>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-
+   </div>
+   <% if !@tree['direct_children'].blank? %>
+   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <h4><%= t('cont_arr') %></h4>
-    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
-
+   </div>
+   <% else %>
+   <div class="col-sm-3">&nbsp;</div>
+   <% end %>
   </div>
-  <% else %>
-  <div class="col-sm-3">&nbsp;</div>
-    <% end %>
+ <%= render partial: 'shared/modal_actions' %>
 </div>
-<%= render partial: 'shared/modal_actions' %>
