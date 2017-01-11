@@ -1,5 +1,5 @@
 class AgentsController <  ApplicationController
-
+  include ResultInfo
   include TreeApis
 
   skip_before_filter  :verify_authenticity_token

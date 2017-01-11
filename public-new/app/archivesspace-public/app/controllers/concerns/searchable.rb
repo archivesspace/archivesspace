@@ -231,6 +231,7 @@ module Searchable
       html_notes(result['json'], full)
       # handle dates
       handle_dates( result['json']['dates']) if result['json'].has_key?('dates') if full
+      handle_external_docs(result) if full
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
         rr = result['_resolved_repository'].shift
@@ -258,27 +259,6 @@ module Searchable
     results
   end
 
-  # handle dates
-  def handle_dates(dates)
-    dates.each do |date|
-      label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
-      label = '' if label == 'Creation: '
-      exp =  date['expression'] || ''
-      if exp.blank?
-        exp = date['begin'] unless date['begin'].blank?
-        unless date['end'].blank?
-          exp = (exp.blank? ? '' : exp + '-') + date['end']
-        end
-        Rails.logger.debug("**** NO DATE EXP: #{date}, final exp: #{exp}")
-      end
-      if date['date_type'] == 'bulk'
-        exp = exp.sub('bulk','').sub('()', '').strip
-        exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
-          I18n.t('bulk._plural', :dates => exp)
-      end
-      date['final_expression'] = label + exp
-    end
-  end
 
   # process notes
   def html_notes(json, full)
