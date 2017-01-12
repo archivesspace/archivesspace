@@ -1,0 +1,13 @@
+<table>
+    <tr>
+        <th>Term</th>
+        <th>Type</th>
+        <th>Source</th>
+        <% @report.each do |subject| %>
+            <tr>
+                <td><%= subject.fetch('subjectTerm') %></td>
+                <td><%= subject.fetch('subjectTermType') %></td>
+                <td><%= subject.fetch('subjectSource') %></td>
+            </tr>
+        <% end %>
+</table>
