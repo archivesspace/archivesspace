@@ -22,7 +22,7 @@
         <td colspan="12" style="border-top: 1px dashed black"></td>
       </tr>
       <tr>
-        <td colspan="9"><h3 style="margin: 0"><strong><%= record['title'] %></strong></h3></td>
+        <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
         <td colspan="3"><strong><%= record['accessionNumber'] %></strong></td>
       </tr>
       <tr>
@@ -61,7 +61,7 @@
         <td colspan="12"><strong>Rights:</strong></td>
       </tr>
       <tr>
-        <td colspan="12"><%= record['rightsTransferredNote'] %></td>
+        <td colspan="12"><%= transform_text(record['rightsTransferredNote']) %></td>
       </tr>
       <tr>
         <td colspan="12">
@@ -77,7 +77,7 @@
           <td colspan="12"><strong>Use Restrictions Note:</strong></td>
         </tr>
         <tr>
-          <td colspan="12"><%= record['useRestrictionsNote'] %></td>
+          <td colspan="12"><%= transform_text(record['useRestrictionsNote']) %></td>
         </tr>
       <% end %>
       <% if record['accessRestrictionsNote'] %>
@@ -85,7 +85,7 @@
           <td colspan="12"><strong>Access Restrictions Note:</strong></td>
         </tr>
         <tr>
-          <td colspan="12"><%= record['accessRestrictionsNote'] %></td>
+          <td colspan="12"><%= transform_text(record['accessRestrictionsNote']) %></td>
         </tr>
       <% end %>
     <% end %>

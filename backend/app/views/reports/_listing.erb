@@ -1,8 +1,8 @@
-<table class="@report-listing">
+<table class="report-listing">
   <thead>
   <tr>
     <% @report.headers.each do |heading| %>
-      <th><%= transform_text.call(heading) %></th>
+      <th><%= transform_text(heading) %></th>
     <% end %>
   </tr>
   </thead>
@@ -11,7 +11,7 @@
     <tr>
       <% @report.headers.each do |heading| %>
         <td>
-          <%= transform_text.call(record[heading].to_s) %>
+          <%= transform_text(record[heading].to_s) %>
         </td>
       <% end %>
     </tr>
