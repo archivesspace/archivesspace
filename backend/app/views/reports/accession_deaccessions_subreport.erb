@@ -1,0 +1,15 @@
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Extent</th>
+        <th>Date</th>
+        <th>Notification Sent</th>
+        <% @report.each do |deaccession| %>
+            <tr>
+                <td><%= deaccession.fetch('description') %></td>
+                <td><%= format_number(deaccession.fetch('extentNumber')) %> <%= deaccession.fetch('extentType') %></td>
+                <td><%= format_date(deaccession.fetch('deaccessionDate')) %></td>
+                <td><%= format_boolean(deaccession.fetch('notification')) %></td>
+            </tr>
+        <% end %>
+</table>

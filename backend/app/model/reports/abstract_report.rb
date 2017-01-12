@@ -7,6 +7,7 @@ class AbstractReport
   attr_accessor :format
   attr_accessor :params
   attr_accessor :db
+  attr_reader :job
 
   def initialize(params, job, db)
     # sanity check, please. 
@@ -28,6 +29,10 @@ class AbstractReport
 
   def report
     self
+  end
+
+  def headers
+    query.columns.map(&:to_s)
   end
 
   def template
@@ -53,6 +58,9 @@ class AbstractReport
   def each(db = @db)
     dataset = query
     dataset.where(:repo_id => @repo_id) if @repo_id
+
+    p dataset.sql
+
 
     dataset.each do |row|
       yield(Hash[(headers + processor.keys).uniq.map { |h|

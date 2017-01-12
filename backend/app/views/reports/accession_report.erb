@@ -1,0 +1,44 @@
+<div class="titlepage">
+
+    <div class="title">Accession Records</div>
+
+    <div class="summary">
+        <div class="summary-item">
+            <label>Number of accessions</label>
+            <div class="summary-value"><%= @report.accession_count %></div>
+        </div>
+    </div>
+
+</div>
+
+<% @report.each do |accession| %>
+
+    <div class="section">
+        <div class="identifier"><%= format_4part(accession.fetch('accessionNumber')) %></div>
+        <div class="record-title"><%= accession.fetch('title') %></div>
+
+        <div class="summary">
+            <div class="summary-item">
+                <label>Accession</label>
+                <div class="summary-value"><%= format_date(accession.fetch('accessionDate')) %></div>
+            </div>
+            <div class="summary-item">
+                <label>Extent</label>
+                <div class="summary-value"><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Container</h3>
+            <%= accession.fetch('containerSummary') %>
+        </div>
+
+        <div class="section">
+            <h3>Deaccessions</h3>
+
+            <%= insert_subreport('AccessionDeaccessionsSubreport', accession) %>
+        </div>
+
+    </div>
+
+<% end %>
