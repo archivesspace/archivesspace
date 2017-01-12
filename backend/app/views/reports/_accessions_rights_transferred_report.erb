@@ -1,0 +1,97 @@
+<% numberTransferred = @report.extra_queries['Accessions with Rights Transferred'].call %>
+
+<table style="margin-bottom: 30px">
+  <tr>
+    <td>Number of Records:</td>
+    <td><%= @report.extra_queries['Number of Records Reviewed'].call %></td>
+  </tr>
+  <tr>
+    <td>Accessions with Rights Transferred:</td>
+    <td><%= numberTransferred %></td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<% if numberTransferred > 0 %>
+  <table style="width: 100%;">
+    <tbody>
+    <% @report.each do |record| %>
+      <% next if record['rightsTransferred'] == 0 %>
+      <tr>
+        <td colspan="12" style="border-top: 1px dashed black"></td>
+      </tr>
+      <tr>
+        <td colspan="9"><h3 style="margin: 0"><strong><%= record['title'] %></strong></h3></td>
+        <td colspan="3"><strong><%= record['accessionNumber'] %></strong></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>Accession Date:</strong></td>
+        <td colspan="3"><strong>Date Processed:</strong></td>
+        <td colspan="3"><strong>Extent:</strong></td>
+        <td colspan="3"><strong>Cataloged:</strong></td>
+      </tr>
+      <tr>
+        <td colspan="3"><%= record['accessionDate'] %></td>
+        <td colspan="3"><%= record['accessionProcessedDate'] %></td>
+        <td colspan="3">
+          <% if record['extentNumber'] != '0.0' && !record['containerSummary'].nil? %>
+            <%= record['extentNumber'] %> <%= record['extentType'] %>
+          <% end %>
+        </td>
+        <td colspan="3">
+          <% if record['cataloged'] == 1 %>
+            true
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="12"><strong>Rights & Restrictions:</strong></td>
+      </tr>
+      <tr>
+        <td colspan="12">
+          <% if record['restrictionsApply'] == 1 %>
+            <span style="color: red">Restrictions apply.</span>
+          <% else %>
+            No restrictions.
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="12"><strong>Rights:</strong></td>
+      </tr>
+      <tr>
+        <td colspan="12"><%= record['rightsTransferredNote'] %></td>
+      </tr>
+      <tr>
+        <td colspan="12">
+          <% if record['rightsTransferred'] == 1 %>
+            Rights Transferred
+          <% else %>
+            Not transferred
+          <% end %>
+        </td>
+      </tr>
+      <% if record['useRestrictionsNote'] %>
+        <tr>
+          <td colspan="12"><strong>Use Restrictions Note:</strong></td>
+        </tr>
+        <tr>
+          <td colspan="12"><%= record['useRestrictionsNote'] %></td>
+        </tr>
+      <% end %>
+      <% if record['accessRestrictionsNote'] %>
+        <tr>
+          <td colspan="12"><strong>Access Restrictions Note:</strong></td>
+        </tr>
+        <tr>
+          <td colspan="12"><%= record['accessRestrictionsNote'] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+<br/>
+<br/>
+<br/>
