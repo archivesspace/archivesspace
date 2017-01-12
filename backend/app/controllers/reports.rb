@@ -28,5 +28,18 @@ class ArchivesSpaceService < Sinatra::Base
     send_file(StaticAssetFinder.new(File.join("reports", "static")).find(params[:splat][0]))
   end
 
+  Endpoint.get('/reports/run_report_please')
+  .description('For dev only')
+  .params(["report", String, "Report to run"])
+  .permissions([])
+  .returns([200, "HTML report"]) \
+  do
+    # NOTE: Terrible idea for security
+    report_model = Kernel.const_get(params[:report])
+
+    DB.open do |db|
+      p ReportResponse.new(report_model.new({:format => 'html'}, :job, db)).generate
+    end
+  end
 
 end
