@@ -1,19 +1,17 @@
-<% numberTransferred = @report.extra_queries['Accessions with Rights Transferred'].call %>
-
 <table style="margin-bottom: 30px">
   <tr>
     <td>Number of Records:</td>
-    <td><%= @report.extra_queries['Number of Records Reviewed'].call %></td>
+    <td><%= @report.total_count %></td>
   </tr>
   <tr>
     <td>Accessions with Rights Transferred:</td>
-    <td><%= numberTransferred %></td>
+    <td><%= @report.total_transferred %></td>
   </tr>
 </table>
 
 <div class="page-break"></div>
 
-<% if numberTransferred > 0 %>
+<% if @report.total_transferred > 0 %>
   <table style="width: 100%;">
     <tbody>
     <% @report.each do |record| %>

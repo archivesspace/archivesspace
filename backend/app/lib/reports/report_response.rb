@@ -46,6 +46,8 @@ class ReportErbRenderer
   end
 
   def transform_text(s)
+    return '' if s.nil?
+
     # The HTML to PDF library doesn't currently support the "break-word" CSS
     # property that would let us force a linebreak for long strings and URIs.
     # Without that, we end up having our tables chopped off, which makes them

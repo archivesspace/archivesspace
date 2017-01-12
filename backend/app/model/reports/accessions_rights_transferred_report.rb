@@ -43,45 +43,35 @@ class AccessionsRightsTransferredReport < AbstractReport
   end
 
   def query
-    db[sql]
+    db[:accession].
+      select(Sequel.as(:id, :accessionId),
+             Sequel.as(:repo_id, :repo_id),
+             Sequel.as(:identifier, :accessionNumber),
+             Sequel.as(:title, :title),
+             Sequel.as(:accession_date, :accessionDate),
+             Sequel.as(:restrictions_apply, :restrictionsApply),
+             Sequel.as(:access_restrictions, :accessRestrictions),
+             Sequel.as(:access_restrictions_note, :accessRestrictionsNote),
+             Sequel.as(:use_restrictions, :useRestrictions),
+             Sequel.as(:use_restrictions_note, :useRestrictionsNote),
+             Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :containerSummary),
+             Sequel.as(Sequel.lit('GetAccessionProcessed(id)'), :accessionProcessed),
+             Sequel.as(Sequel.lit('GetAccessionProcessedDate(id)'), :accessionProcessedDate),
+             Sequel.as(Sequel.lit('GetAccessionCataloged(id)'), :cataloged),
+             Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
+             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType),
+             Sequel.as(Sequel.lit('GetAccessionRightsTransferred(id)'), :rightsTransferred),
+             Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote))
   end
 
-
-  def extra_queries
-    {
-      'Number of Records Reviewed' => proc { self.query.count },
-      'Accessions with Rights Transferred' => proc {
-        db["select count(*) as count from (#{sql}) as data where rightsTransferred = 1"].first[:count]
-      }
-    }
+  # Number of Records Reviewed
+  def total_count
+    @total_count ||= self.query.count
   end
 
-
-  private
-
-  def sql
-    <<EOS
-SELECT
-    accession.id AS accessionId,
-    accession.repo_id AS repo_id,
-    accession.identifier AS accessionNumber,
-    accession.title AS title,
-    accession.accession_date AS accessionDate,
-    accession.restrictions_apply AS restrictionsApply,
-    accession.access_restrictions AS accessRestrictions,
-    accession.access_restrictions_note AS accessRestrictionsNote,
-    accession.use_restrictions AS useRestrictions,
-    accession.use_restrictions_note AS useRestrictionsNote,
-    GetAccessionContainerSummary(accession.id) AS containerSummary,
-    GetAccessionProcessedDate(accession.id) AS accessionProcessedDate,
-    GetAccessionCataloged(accession.id) AS cataloged,
-    GetAccessionExtent(accession.id) AS extentNumber,
-    GetAccessionExtentType(accession.id) AS extentType,
-    GetAccessionRightsTransferred(accession.id) AS rightsTransferred,
-    GetAccessionRightsTransferredNote(accession.id) AS rightsTransferredNote
-FROM
-    accession accession
-EOS
+  # Accessions with Rights Transferred
+  def total_transferred
+    @total_transferred ||= db.from(self.query).where(:rightsTransferred => 1).count
   end
 
 end
