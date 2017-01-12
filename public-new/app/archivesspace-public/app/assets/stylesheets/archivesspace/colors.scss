@@ -6,30 +6,30 @@ $white: #ffffff;
 $darkblue: #05538a;
 $midblue: #007eaf;
 $lightblue: #34b6e4;
-$darkgrey: #888888;
-$grey: #cccccc;
-$lightgrey: #eeeeee;
+$darkshade: #888888;
+$shade: #cccccc;
+$lightshade: #eeeeee;
 $highlight: #f7d309;
-$blue_against_grey: #004f6f;  /* for contrast against lightgrey */
+$dark_against_shade: #004f6f;  /* for contrast against lightshade */
 /* this is where you can change colors for your institution */
 
 $primary-color: $lightblue;
 $secondary-color: $midblue;
 $accent-color: $darkblue;
 $border-accent: $darkblue;
-$border: $grey;
-$image-background: $grey;
-$row-background: $lightgrey;
+$border: $shade;
+$image-background: $shade;
+$row-background: $lightshade;
 $button-background: $lightblue;
-$alt-button-background: $lightgrey;
-$alt-button-color: $darkgrey;
-$light-neutral: $lightgrey;
+$alt-button-background: $lightshade;
+$alt-button-color: $darkshade;
+$light-neutral: $lightshade;
 $breadcrumb-link: $darkblue;
 
 /* this is for the top horizontal nav bar */
 $nvBgDefault      : $light-neutral;
 $nvBgHighlight    : $light-neutral;
-$nvColDefault     : $blue_against_grey;
+$nvColDefault     : $dark_against_shade;
 $nvColHighlight   : $border-accent;
 
 
