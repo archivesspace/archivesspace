@@ -80,8 +80,10 @@ class JasperReport
   end
 
   def self.report
-    StaticAssetFinder.new(report_base).find_all( self.name + ".jasper").find do |f|  
-      File.basename(f, '.jasper') == self.name 
+    chopped_name = self.name.gsub(/^Jasper/, '')
+
+    StaticAssetFinder.new(report_base).find_all( chopped_name + ".jasper").find do |f|  
+      File.basename(f, '.jasper') == chopped_name
     end
   end
   
