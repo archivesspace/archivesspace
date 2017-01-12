@@ -42,9 +42,11 @@ module ResultInfo
       @request[:title] = @page_title
       hier = ''
       @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
-      @request[:hier] = hier.strip
+      @request[:hierarchy] = hier.strip
       note = get_note(@result['json'], 'accessrestrict')
-      @request[:restrict] = note['note_text'] unless note.blank? 
+      unless note.blank? 
+        @request[:restrict] = note['note_text'] 
+      end
       @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
       @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title') || ['unknown']
     end
@@ -52,7 +54,7 @@ module ResultInfo
 # process container information
   def container_info
     info = {}
-    %i(top_container_url top_container_name location_title location_url machine barcode).each  {|sym| info[sym] = [] }
+    %i(top_container_url container location_title location_url machine  barcode).each  {|sym| info[sym] = [] }
     unless @result['json']['instances'].blank?
       @result['json']['instances'].each do |instance|
         hsh = container_instance(instance)
@@ -60,13 +62,18 @@ module ResultInfo
       end
     end
     disp = @result['json'].dig('container_disp')
-    info[:top_container_name] = [disp] if info[:top_container_name].empty? && disp
+    info[:container] = [disp] if info[:container].empty? && !disp.blank?
     info[:top_container_url] = [@result.dig('top_container_uri_u_sstr') || ''] if  info[:top_container_url].empty?
     restricts = @result.dig('_resolved_top_container_uri_u_sstr','json','active_restrictions')
     if restricts
+      ends = ''
       restricts.each do |r|
         lar = r.dig('local_access_restriction_type')
         info[:machine] += lar if lar
+        ends << ' ' << r.dig('end') || ''
+      end
+      unless ends == ''
+        info[:restriction_ends] = ends
       end
     end
     info
@@ -97,7 +104,7 @@ module ResultInfo
           uri = locs[0].dig('_resolved', 'uri') || ''
         end
       end
-      ret_hash =  {:top_container_name => (name.blank? ? nil : name),
+      ret_hash =  {:container => (name.blank? ? nil : name),
         :top_container_url => tc, :location_title => title, :location_url => uri, :barcode => barcode}
     end
     ret_hash
