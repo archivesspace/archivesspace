@@ -125,7 +125,7 @@ module ResultInfo
   end
 
   def handle_external_docs(result)
-    unless !result['json'].key('external_documents') || result['json']['external_documents'].blank?
+    unless !result['json'].has_key?('external_documents') || result['json']['external_documents'].blank?
       result['json']['external_documents'].each do |doc|
         doc['uri'] = doc['location'].start_with?('http') ? doc['location'] :  ''
       end
