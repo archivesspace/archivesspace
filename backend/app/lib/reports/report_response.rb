@@ -37,6 +37,9 @@ class ReportResponse
 end
 
 class ReportErbRenderer
+
+  include ERB::Util
+
   def initialize(report, params)
     @report = report
     @params = params
@@ -54,6 +57,18 @@ class ReportErbRenderer
     unless s.nil?
       ASUtils.json_parse(s).compact.join('.')
     end
+  end
+
+  def text_section(title, value)
+    # Sick of typing these out...
+    template = <<EOS
+        <div class="section">
+            <h3>%s</h3>
+            %s
+        </div>
+EOS
+
+    template % [h(title), h(value)]
   end
 
   def format_date(date)
