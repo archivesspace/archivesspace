@@ -55,6 +55,7 @@ en:
   page_actions: Page Actions    
 
   request:
+    required: (required)
     user_name: Your name
     user_email: Your email address
     date: Anticipated arrival date
@@ -134,6 +135,7 @@ en:
     filter:
       head: Filter Results
       add: Additional filters
+      form: Searching within results
       show_fewer: Show fewer
       show_more: Show more
       query: Text

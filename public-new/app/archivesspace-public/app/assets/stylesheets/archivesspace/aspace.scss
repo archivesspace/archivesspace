@@ -662,6 +662,11 @@ span.title {
   font-variant: small-caps;
 }
 
+span.required {
+  font-variant: small-caps;
+  color: $alert-warning-text;
+  background-color: $alert-warning-bg;
+}
 .keywordscontext {
   .content {
     padding-left: rem-calc(20);
