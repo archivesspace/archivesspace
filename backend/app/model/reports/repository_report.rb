@@ -1,3 +1,4 @@
+# FIXME add db and review scope_by_repo_id
 class RepositoryReport < AbstractReport
   register_report({
                     :uri_suffix => "repository_report",

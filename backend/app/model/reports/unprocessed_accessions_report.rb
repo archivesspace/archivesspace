@@ -24,7 +24,7 @@ class UnprocessedAccessionsReport < AbstractReport
     dataset
   end
 
-  def query(db)
+  def query
     dataset = db[:accession].
       left_outer_join(:collection_management, :accession_id => :id).
       join(:enumeration,

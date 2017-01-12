@@ -25,7 +25,7 @@ class ReportResponse
       String.from_java_bytes( @report.render(format.to_sym, @params) ) 
     else
       file = File.join( File.dirname(__FILE__), "../../views/reports/report.erb")
-      @params[:html_report] ||= proc {  ERB.new( IO.read( file )).result(@report.get_binding) }
+      @params[:html_report] ||= proc { ReportErbRenderer.new(@report).render(file) }
     
       format = @report.format
 
@@ -34,4 +34,14 @@ class ReportResponse
     end
   end
 
+end
+
+class ReportErbRenderer
+  def initialize(report)
+    @report = report
+  end
+
+  def render(file)
+    ERB.new( File.read(file) ).result(binding)
+  end
 end
