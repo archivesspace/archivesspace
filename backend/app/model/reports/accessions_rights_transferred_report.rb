@@ -1,5 +1,4 @@
-# FIXME remove '2' when we remove the jasper reports
-class AccessionsRightsTransferredReport2 < AbstractReport
+class AccessionsRightsTransferredReport < AbstractReport
 
   register_report({
                     :uri_suffix => "accessions_rights_transferred_report",
@@ -84,18 +83,5 @@ FROM
     accession accession
 EOS
   end
-
-  #  <variable name="TEST_RIGHTS" class="java.lang.String">
-  #  <variableExpression><![CDATA[("" + $F{rightsTransferred})]]></variableExpression>
-  # </variable>
-  #  <variable name="RIGHTS_COUNT" class="java.lang.Integer" calculation="Sum">
-  #  <variableExpression><![CDATA[("" + $F{rightsTransferred}).equals("true") ? Integer.valueOf(1) : Integer.valueOf(0)]]></variableExpression>
-  # </variable>
-  #  <variable name="RIGHTS_TEST" class="java.lang.Integer" calculation="Sum">
-  #  <variableExpression><![CDATA[("" + $F{rightsTransferred}).equals("false") ? Integer.valueOf(1) : Integer.valueOf(0)]]></variableExpression>
-  # </variable>
-  #  <variable name="TEST_RESTRICTIONS" class="java.lang.String">
-  #  <variableExpression><![CDATA[("" + $F{restrictionsApply})]]></variableExpression>
-  # </variable>
 
 end
