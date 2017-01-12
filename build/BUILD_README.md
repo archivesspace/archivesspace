@@ -39,6 +39,18 @@ You can also clear your database and search indexes with:
 
      build/run db:nuke
 
+To override configuration defaults create the file `common/config/config.rb`
+and set values as needed (restart the development servers). To use MySQL
+for development you can set the `db_url` in `common/config/config.rb` or set
+the `aspace.config.db_url` property of `JAVA_OPTS`:
+
+```
+export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+```
+
+See the [setup instructions](https://github.com/archivesspace/archivesspace/#running-archivesspace-against-mysql) for initializing the database.
+The MySQL connector should be downloaded to `common/lib`. If you restore a
+database to use in development it may not play well with the tests.
 
 ## Running the tests
 
