@@ -46,11 +46,11 @@ class AbstractReport
     @job.owner
   end
 
-  def query
+  def query(db = @db)
     raise "Please specify a query to return your reportable results"
   end
 
-  def each
+  def each(db = @db)
     dataset = query
     dataset.where(:repo_id => @repo_id) if @repo_id
 
