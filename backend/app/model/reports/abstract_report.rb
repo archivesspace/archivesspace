@@ -29,7 +29,7 @@ class AbstractReport
   end
 
   def template
-    :'reports/_listing'
+    '_listing.erb'
   end
 
   def layout
