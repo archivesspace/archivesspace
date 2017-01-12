@@ -7,7 +7,7 @@ class CreatedAccessionsReport < AbstractReport
                                 ["to", Date, "The start of report range"]]
                   })
 
-  def initialize(params, job)
+  def initialize(params, job, db)
     super
     from = params["from"] || Time.now.to_s
     to = params["to"] || Time.now.to_s
@@ -33,7 +33,7 @@ class CreatedAccessionsReport < AbstractReport
     }
   end
 
-  def query(db)
+  def query
     db[:accession].where(:create_time => (@from..@to)).order(Sequel.asc(:create_time))
   end
 

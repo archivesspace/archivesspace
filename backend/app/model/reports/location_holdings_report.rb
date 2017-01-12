@@ -1,3 +1,4 @@
+# FIXME add db!
 class LocationHoldingsReport < AbstractReport
 
   register_report({

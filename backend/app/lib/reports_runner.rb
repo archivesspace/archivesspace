@@ -37,16 +37,18 @@ class ReportRunner < JobRunner
       params[:repo_id] = @json.repo_id
 
       report = ReportRunner.reports[job_data['report_type']]                                                                                                                         
-      report_model = report[:model] 
+      report_model = report[:model]
 
+      output = DB.open do |db|
+        ReportResponse.new(report_model.new(params, @job, db)).generate
+      end
 
-      output = ReportResponse.new(report_model.new(params, @job)).generate
       if output.respond_to? :string
         file.write(output.string)
       elsif output.respond_to? :each
-	output.each do |chunk|
-	  file.write(chunk)
-	end
+        output.each do |chunk|
+          file.write(chunk)
+        end
       else
         file.write(output)
       end

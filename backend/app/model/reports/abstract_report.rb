@@ -6,14 +6,16 @@ class AbstractReport
   attr_accessor :repo_id
   attr_accessor :format
   attr_accessor :params
+  attr_accessor :db
 
-  def initialize(params, job)
+  def initialize(params, job, db)
     # sanity check, please. 
     params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
     @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
     @params = params 
     @job = job
+    @db = db
   end
 
   def get_binding
@@ -44,24 +46,19 @@ class AbstractReport
     @job.owner
   end
 
-  def query(db)
+  def query
     raise "Please specify a query to return your reportable results"
   end
 
-  def scope_by_repo_id(dataset)
-    dataset.where(:repo_id => @repo_id)
-  end
-
   def each
-    DB.open do |db|
-      dataset = query(db)
-      dataset = scope_by_repo_id(dataset) if @repo_id
-      dataset.each do |row|
-        yield(Hash[headers.map { |h|
-          val = (processor.has_key?(h))?processor[h].call(row):row[h.intern]
-          [h, val]
-        }])
-      end
+    dataset = query
+    dataset.where(:repo_id => @repo_id) if @repo_id
+
+    dataset.each do |row|
+      yield(Hash[(headers + processor.keys).uniq.map { |h|
+        val = (processor.has_key?(h))?processor[h].call(row):row[h.intern]
+        [h, val]
+      }])
     end
   end
 end

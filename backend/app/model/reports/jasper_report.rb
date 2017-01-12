@@ -33,7 +33,7 @@ class JasperReport
   attr_accessor :data_source
   attr_accessor :format
 
-  def initialize(params, job)
+  def initialize(params, job, db)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
     @base_path = File.dirname(self.class.report)
     @format = params[:format] if params.has_key?(:format) && params[:format] != "" 

@@ -3,9 +3,9 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <style media="screen,print">
-        /* ArchivesSpace Reporting Stylesheet */
-      <% if report.format.to_sym === :pdf %>
-        <% AppConfig[:report_pdf_font_paths].each do |font_path| %>
+        /* ArchivesSpace @reporting Stylesheet */
+      <% if @report.format.to_sym === :pdf %>
+        <% AppConfig[:@report_pdf_font_paths].each do |font_path| %>
           @font-face {
             src: url('<%= font_path %>');
             -fs-pdf-font-embed: embed;
@@ -14,7 +14,7 @@
         <% end %>
 
         body {
-          font-family: <%= AppConfig[:report_pdf_font_family] %>;
+          font-family: <%= AppConfig[:@report_pdf_font_family] %>;
         }
       <% else %>
         body {
@@ -28,11 +28,10 @@
 
       .header h1 {
         margin-top: 1em;
-        float: left;
         font-size: 1.8em;
       }
 
-      .report-listing {
+      .@report-listing {
         border: 1px solid #AAA;
         border-collapse: collapse;
         table-layout: fixed;
@@ -40,24 +39,24 @@
         clear: both;
       }
 
-      .report-listing th,
-      .report-listing td {
+      .@report-listing th,
+      .@report-listing td {
         border: 1px solid #AAA;
         padding: 4px;
         vertical-align: top;
         word-break: break-all;
       }
 
-      .report-listing th {
+      .@report-listing th {
         background-color: #F1F1F1;
       }
 
-      .report-listing tr:nth-child(2n-1) td {
+      .@report-listing tr:nth-child(2n-1) td {
         background-color: #FaFaFa;
       }
 
       @page {
-        size: <%= report.layout %>;
+        size: <%= @report.layout %>;
         -fs-flow-bottom: "footer";
       }
 
@@ -68,6 +67,10 @@
         -fs-table-paginate: paginate;
         border-collapse: separate;
         border-spacing: 0px;
+      }
+
+      .page-break {
+        page-break-after: always;
       }
 
       @page {
@@ -123,7 +126,7 @@
     # So, we wrap runs of characters in their own span tags to give the renderer
     # a hint on where to place the line breaks.  Pretty terrible, but it works.
     #
-    if report.format === 'pdf'
+    if @report.format === 'pdf'
       transform_text = proc {|s|
         escaped = CGI.escapeHTML(s)
 
@@ -150,20 +153,20 @@
     end
   %>
 
-  <body class="<%= report.format %>">
+  <body class="<%= @report.format %>">
     <div class="header">
-      <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
-      <h1><%= report.title %></h1>
+      <img class="logo" src="<%= @base_url || '/' %>@reports/static/images/archivesspace.small.png"/>
+      <h1><%= @report.title %></h1>
     </div>
 
-    <%= ERB.new(File.new(File.join('app', 'views', 'reports', report.template)).read).result(binding) %>
+    <%= render(File.join('app', 'views', 'reports', @report.template)) %>
 
-    <% if report.format === 'html' or report.format === 'pdf' %>
+    <% if @report.format === 'html' or @report.format === 'pdf' %>
       <% time = DateTime.now %>
       <div id="footer" class="footer" style="position: running(footer);">
         <div class="timestamp">
-          <% if report.repo_id %>Scoped for Repository: <%= report.repo_id %><br/><% end %>
-          Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
+          <% if @report.repo_id %>Scoped for Repository: <%= @report.repo_id %><br/><% end %>
+          @report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
         </div>
 
         <div class="pdf-page-count">Page <span class="page-number"/> of <span class="page-count"/></div>
