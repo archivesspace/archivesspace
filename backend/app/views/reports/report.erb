@@ -156,26 +156,7 @@
       <h1><%= report.title %></h1>
     </div>
 
-    <table class="report-listing">
-      <thead>
-        <tr>
-          <% report.headers.each do |heading| %>
-            <th><%= transform_text.call(heading) %></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% report.each do |record| %>
-          <tr>
-            <% report.headers.each do |heading| %>
-              <td>
-                <%= transform_text.call(record[heading].to_s) %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= ERB.new(File.new(File.join('app', 'views', 'reports', report.template)).read).result(binding) %>
 
     <% if report.format === 'html' or report.format === 'pdf' %>
       <% time = DateTime.now %>
