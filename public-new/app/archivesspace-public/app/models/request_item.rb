@@ -1,8 +1,10 @@
 require 'active_model'
 
-class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :repo_name, :resource_id,
-                           :request_uri, :title, :resource_name, :identifier, :cite, :restrict, :machine, 
-                           :top_container_url, :top_container_name,  :barcode, :location_title, :location_url)
+class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hierarchy, :repo_name, :resource_id,
+                               :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
+                               :restriction_ends,  :machine, 
+                               :top_container_url, :container,  :barcode, :location_title, 
+                               :location_url)
 
   def RequestItem.allow_nontops(repo_code)
     allow = nil
@@ -37,19 +39,19 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hier, :re
 
   def to_text_array(skip_empty = false)
     arr = []
-    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hier restrict).each do |sym|
+    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hierarchy restrict restriction_ends).each do |sym|
       arr.push("#{sym.to_s}: #{self[sym]}") unless skip_empty && self[sym].blank?
     end
     arr.push("machine: #{self[:machine].blank? ? '' : self[:machine].join(', ')}")
-    if !self[:top_container_name].blank? &&  !self[:top_container_name].empty?
-       self[:top_container_name].each_with_index do |v, i|
-        arr.push("#{:top_container_name.to_s}: #{v}")
-        %i(top_container_url barcode location_title location_url).each do |sym|
+    if !self[:container].blank? &&  !self[:container].empty?
+       self[:container].each_with_index do |v, i|
+#        arr.push("#{:container.to_s}: #{v}")
+        %i(container top_container_url barcode location_title location_url).each do |sym|
           arr.push("#{sym.to_s}: #{defined?(self[sym][i]) ? self[sym][i] : ''}")
         end
       end
     elsif !skip_empty
-      %i(top_container_name top_container_url barcode location_title location_url).each {|sym| arr.push("#{sym.to_s}:") }
+      %i(container top_container_url barcode location_title location_url).each {|sym| arr.push("#{sym.to_s}:") }
     end
 
     arr
