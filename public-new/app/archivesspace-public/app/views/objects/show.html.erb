@@ -21,9 +21,11 @@
     <%= render partial: 'shared/record_innards' %>
 
    </div>
-   <% if !@tree['direct_children'].blank? %>
+   <% unless @tree['direct_children'].blank? %>
    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <h4><%= t('cont_arr') %></h4>
+    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
+ 
    </div>
    <% else %>
    <div class="col-sm-3">&nbsp;</div>
