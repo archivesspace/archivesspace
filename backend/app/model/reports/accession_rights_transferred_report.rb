@@ -13,28 +13,6 @@ class AccessionRightsTransferredReport < AbstractReport
     'accession_rights_transferred_report.erb'
   end
 
-  def processor
-    {
-      'accessionId' => proc {|record| record[:accessionId]},
-      'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record| record[:accessionNumber]},
-      'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate]},
-      'restrictionsApply' => proc {|record| record[:restrictionsApply]},
-      'accessRestrictions' => proc {|record| record[:accessRestrictions]},
-      'accessRestrictionsNote' => proc {|record| record[:accessRestrictionsNote]},
-      'useRestrictions' => proc {|record| record[:useRestrictions]},
-      'useRestrictionsNote' => proc {|record| record[:useRestrictionsNote]},
-      'containerSummary' => proc {|record| record[:containerSummary]},
-      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate]}, 
-      'cataloged' => proc {|record| record[:cataloged]},
-      'extentNumber' => proc {|record| record[:extentNumber]},
-      'extentType' => proc {|record| record[:extentType]},
-      'rightsTransferred' => proc {|record| record[:rightsTransferred]},
-      'rightsTransferredNote' => proc {|record| record[:rightsTransferredNote]},
-    }
-  end
-
   def query
     db[:accession].
       select(Sequel.as(:id, :accessionId),

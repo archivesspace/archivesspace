@@ -7,7 +7,7 @@
   <thead>
   <tr>
     <% @report.headers.each do |heading| %>
-      <th><%= transform_text(heading) %></th>
+      <th><%= transform_text(heading.to_s) %></th>
     <% end %>
   </tr>
   </thead>

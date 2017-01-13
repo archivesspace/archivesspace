@@ -1,13 +1,8 @@
-#noinspection ALL
 class UnprocessedAccessionsReport < AbstractReport
   register_report({
                     :uri_suffix => "unprocessed_accessions",
                     :description => "Report on all unprocessed accessions",
                   })
-
-  def initialize(params, job)
-    super
-  end
 
   def headers
     ['id', 'identifier', 'title', "processing_priority", "processing_status", "processors"]
@@ -17,11 +12,6 @@ class UnprocessedAccessionsReport < AbstractReport
     {
       'identifier' => proc {|record| ASUtils.json_parse(record[:identifier] || "[]").compact.join("-")}
     }
-  end
-
-  def scope_by_repo_id(dataset)
-    # repo scope is applied in the query below
-    dataset
   end
 
   def query

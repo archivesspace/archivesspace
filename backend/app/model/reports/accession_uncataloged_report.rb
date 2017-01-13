@@ -13,23 +13,6 @@ class AccessionUncatalogedReport < AbstractReport
     'accession_uncataloged_report.erb'
   end
 
-  def processor
-    {
-      'accessionId' => proc {|record| record[:accessionId]},
-      'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record|record[:accessionNumber]},
-      'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate]},
-      'accessionProcessed' => proc {|record| record[:accessionProcessed]},
-      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate]},
-      'cataloged' => proc {|record| record[:cataloged]},
-      'catalogedDate' => proc {|record| record[:catalogedDate]},
-      'extentNumber' => proc {|record| record[:extentNumber]},
-      'extentType' => proc {|record| record[:extentType]},
-    }
-  end
-
-
   def query
     db[:accession].
       select(Sequel.as(:id, :accessionId), 

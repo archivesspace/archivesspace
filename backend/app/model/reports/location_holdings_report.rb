@@ -1,4 +1,3 @@
-# FIXME add db!
 class LocationHoldingsReport < AbstractReport
 
   register_report({
@@ -11,7 +10,7 @@ class LocationHoldingsReport < AbstractReport
 
   attr_reader :building, :repository_uri, :start_location, :end_location
 
-  def initialize(params, job)
+  def initialize(params, job, db)
     super
 
     if ASUtils.present?(params['building'])
@@ -55,15 +54,15 @@ class LocationHoldingsReport < AbstractReport
     }
   end
 
-  def query(db)
+  def query
     dataset = if building
-		building_query(db)
+		building_query
               elsif repository_uri
-                repository_query(db)
+                repository_query
 	      elsif start_location && end_location
-		range_query(db)
+		range_query
 	      else
-		single_query(db)
+		single_query
 	      end
 
     # Join location to top containers, repository and (optionally) location and container profiles
@@ -132,11 +131,11 @@ class LocationHoldingsReport < AbstractReport
     dataset
 end
 
-  def building_query(db)
+  def building_query
     db[:location].filter(:location__building => building)
   end
 
-  def repository_query(db)
+  def repository_query
     repo_id = JSONModel.parse_reference(repository_uri)[:id]
 
     location_ids = db[:location]
@@ -155,11 +154,11 @@ end
     ds.filter(:top_container__repo_id => repo_id)
   end
 
-  def single_query(db)
+  def single_query
     db[:location].filter(:location__id => start_location.id)
   end
 
-  def range_query(db)
+  def range_query
     # Find the most specific mismatch between the two locations: building -> floor -> room -> area -> c1 -> c2 -> c3
     properties_to_compare = [:building, :floor, :room, :area]
 
@@ -224,8 +223,7 @@ end
     collection_identifier_fields = [:resource_identifier, :resource_via_ao_identifier, :accession_identifier]
     collection_title_fields = [:resource_title, :resource_via_ao_title, :accession_title]
 
-    DB.open do |db|
-      dataset = query(db)
+      dataset = query
 
       current_entry = nil
       enum = dataset.to_enum
@@ -267,7 +265,6 @@ end
 	  current_entry[:_top_container_id] = row[:top_container_id]
 	end
       end
-    end
   end
 
   private

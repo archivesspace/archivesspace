@@ -36,7 +36,7 @@ class AbstractReport
   end
 
   def template
-    '_listing.erb'
+    'generic_listing.erb'
   end
 
   def layout
@@ -60,7 +60,6 @@ class AbstractReport
     dataset.where(:repo_id => @repo_id) if @repo_id
 
     p dataset.sql
-
 
     dataset.each do |row|
       yield(Hash[(headers + processor.keys).uniq.map { |h|
