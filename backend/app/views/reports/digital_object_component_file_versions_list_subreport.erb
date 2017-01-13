@@ -1,0 +1,19 @@
+<% @report.each do |digital_object_component| %>
+    <% file_versions = @report.file_versions_for(digital_object_component.fetch('digitalObjectComponentId')) %>
+    <% if file_versions.length > 0 %>
+        <tr>
+            <td><%= digital_object_component.fetch('digitalObjectComponentIdentifier') %></td>
+            <td><%= transform_text(digital_object_component.fetch('digitalObjectComponentTitle')) %></td>
+            <td><%= file_versions.first.fetch(:uri) %></td>
+            <td><%= file_versions.first.fetch(:useStatement) %></td>
+        </tr>
+        <% file_versions[1..file_versions.length].each do |file_version| %>
+            <tr>
+                <td colspan="2"></td>
+                <td><%= file_version.fetch(:uri) %></td>
+                <td><%= file_version.fetch(:useStatement) %></td>
+            </tr>
+        <% end %>
+    <% end %>
+    <%= insert_subreport('DigitalObjectComponentFileVersionsListSubreport', digital_object_component) %>
+<% end %>

@@ -1,0 +1,34 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+  </dl>
+</div>
+
+<% @report.each do |digital_object| %>
+  <div class="report-record">
+    <div class="identifier">Digital Object <%= digital_object.fetch('identifier') %></div>
+    <div class="record-title"><%= digital_object.fetch('title') %></div>
+
+    <%= subreport_section("File Version(s)", 'DigitalObjectFileVersionsListSubreport', digital_object) %>
+
+    <section>
+      <h3>Component(s)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Component Identifier</th>
+            <th>Component Title</th>
+            <th>URI</th>
+            <th>Use Statement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= insert_subreport('DigitalObjectComponentFileVersionsListSubreport', digital_object) %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+<% end %>
