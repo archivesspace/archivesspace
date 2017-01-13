@@ -1,0 +1,51 @@
+<table style="margin-bottom: 30px">
+  <tr>
+    <td>Number of Records:</td>
+    <td><%= @report.total_count %></td>
+  </tr>
+  <tr>
+    <td>Accessioned Between:</td>
+    <td><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></td>
+  </tr>
+  <tr>
+    <td>Total Extent of Accessions:</td>
+    <td><%= format_number(@report.total_extent) %></td>
+  </tr>
+  <tr>
+    <td>Total Extent of Deaccessions</td>
+    <td><%= format_number(@report.total_extent_of_deaccessions) %></td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<table style="width: 100%;">
+  <tbody>
+  <% @report.each do |record| %>
+    <% next if record['rightsTransferred'] == 0 %>
+    <tr>
+      <td colspan="12" style="border-top: 1px dashed black"></td>
+    </tr>
+    <tr>
+      <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
+      <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
+    </tr>
+    <tr>
+      <td colspan="6">
+        <strong>Accession Date:</strong> <%= format_date(record['accessionDate']) %>
+      </td>
+      <td colspan="6">
+        <strong>Extent:</strong> <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="12">
+        <%= insert_subreport('AccessionDeaccessionsSubreport', record) %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br/>
+<br/>
+<br/>

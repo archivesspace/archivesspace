@@ -72,7 +72,7 @@ class ReportErbRenderer
 
   def format_number(number)
     unless number.nil?
-      number.to_s('.2F')
+      sprintf('%.2f', number)
     end
   end
 
