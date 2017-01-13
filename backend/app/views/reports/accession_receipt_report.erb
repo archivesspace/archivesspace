@@ -1,0 +1,26 @@
+<% @report.each do |accession| %>
+  <div class="titlepage">
+    <div class="title"><%= @report.title %></div>
+
+    <dl>
+      <dt>Accession title</dt>
+      <dd><%= accession.fetch('title') %></dd>
+
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+
+      <dt>Repository</dt>
+      <dd><%= accession.fetch('repositoryName') %></dd>
+
+
+      <dt>Added to repository on</dt>
+      <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
+
+      <dt>Accession number</dt>
+      <dd><%= format_4part(accession.fetch('accessionNumber')) %></dd>
+
+    </dl>
+  </div>
+<% end %>
