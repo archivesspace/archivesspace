@@ -1,3 +1,4 @@
+<a name="main" title="<%= t('internal_links.main') %>"></a>
 <div id="main-content" class="row">
   <div class="row" id="info_row">
     <div class="information col-sm-7">
@@ -22,6 +23,7 @@
 
    </div>
    <% unless @tree['direct_children'].blank? %>
+   <a name="organization" title="<%= t('internal_links.collection') %>"></a>
    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <h4><%= t('cont_arr') %></h4>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
