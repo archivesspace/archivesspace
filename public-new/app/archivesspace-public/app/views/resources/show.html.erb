@@ -1,4 +1,4 @@
-
+<a name="main" title="<%= t('internal_links.main') %>"></a>
 <div id="main-content" class="row">
   <div class="row" id="info_row">
   <% unless defined?(@no_statement) || !defined?(@search) %>
@@ -35,7 +35,9 @@
     <%= render partial: 'shared/facets' %>
    <% end %>
 
+   <a name="search" title="<%= t('internal_links.search_collection') %>"></a>
     <div class="search">
+
 	<%= form_tag("#{@result['uri']}/search", method: 'get', :class=> "form-inline") do %>
 	<div class="form-group">
 	  <%= label_tag(:filter_q0,  "#{t('actions.search_in', :type=> t('resource._singular'))}", :class => 'sr-only') %>
@@ -61,6 +63,7 @@
 
     <h4><%= t('cont_arr') %></h4>
     <% unless !defined?(@tree) %>
+    <a name="organization" title="<%= t('internal_links.collection') %>"></a>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
     <% end %>
   </div>

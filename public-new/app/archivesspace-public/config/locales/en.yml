@@ -219,6 +219,12 @@ en:
     error_no_term: No search term(s) entered.
     search_terms_results: "Your search for {{search_terms}} yielded {{number}} results"
 
+  internal_links:
+    main: Main Content
+    filter: Filter Results
+    collection: Collection Organization
+    search_collection: Search within collection
+
   accordion:
     expand: Expand All
     collapse: Collapse All
