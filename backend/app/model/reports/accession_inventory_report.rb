@@ -13,25 +13,6 @@ class AccessionInventoryReport < AbstractReport
     'accession_inventory_report.erb'
   end
 
-  def processor
-    {
-      'accessionId' => proc {|record| record[:accessionId]},
-      'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record| record[:accessionNumber]},
-      'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate]},
-      'inventory' => proc {|record| record[:inventory]},
-      'dateExpression' => proc {|record| record[:dateExpression]},
-      'dateBegin' => proc {|record| record[:dateBegin]},
-      'dateEnd' => proc {|record| record[:dateEnd]},
-      'bulkDateBegin' => proc {|record| record[:bulkDateBegin]},
-      'bulkDateEnd' => proc {|record| record[:bulkDateEnd]},
-      'containerSummary' => proc {|record| record[:containerSummary]},
-      'extentNumber' => proc {|record| record[:extentNumber]},
-      'extentType' => proc {|record| record[:extentType]},
-    }
-  end
-
   def query
     db[:accession].
       select(Sequel.as(:id, :accessionId),

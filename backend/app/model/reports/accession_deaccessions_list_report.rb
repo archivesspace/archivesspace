@@ -13,19 +13,6 @@ class AccessionDeaccessionsListReport < AbstractReport
     'accession_deaccessions_list_report.erb'
   end
 
-  def processor
-    {
-      'accessionId' => proc {|record| record[:accessionId]},
-      'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record| record[:accessionNumber]},
-      'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate]},
-      'containerSummary' => proc {|record| record[:containerSummary]},
-      'extentNumber' => proc {|record| record[:extentNumber]},
-      'extentType' => proc {|record| record[:extentType]},
-    }
-  end
-
   def query
     db[:accession].
       select(Sequel.as(:id, :accessionId),
