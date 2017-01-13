@@ -4,6 +4,7 @@ require_relative 'xlsx_response'
 require_relative 'pdf_response'
 require_relative 'html_response'
 require 'erb'
+require 'nokogiri'
 
 # this is a generic wrapper for reports reponses. JasperReports do not 
 # need a reponse wrapper and can return reports on formats using the to_FORMAT
@@ -50,7 +51,7 @@ class ReportErbRenderer
   end
 
   def render(file)
-    ERB.new( File.read(file) ).result(binding)
+    HTMLCleaner.new.clean(ERB.new( File.read(file) ).result(binding))
   end
 
   def format_4part(s)
@@ -76,10 +77,11 @@ EOS
     template = <<EOS
         <section>
             <h3>%s</h3>
+             %s
         </section>
 EOS
 
-    template % [h(title)] + insert_subreport(subreport, *subreport_args)
+    template % [h(title), insert_subreport(subreport, *subreport_args)]
   end
 
   def format_date(date)
@@ -150,6 +152,47 @@ EOS
 
   def preserve_newlines(s)
     transform_text(s).gsub(/(?:\r\n)+/,"<br>");
+  end
+
+  class HTMLCleaner
+
+    def clean(s)
+      doc = Nokogiri::HTML(s)
+
+      # Remove empty dt/dd pairs
+      doc.css("dl").each do |definition|
+        definition.css('dt, dd').each_slice(2) do |dt, dd|
+          if dd.text().strip.empty?
+            dt.remove
+            dd.remove
+          end
+        end
+      end
+
+      # Remove empty dls
+      doc.css("dl").each do |dl|
+        if dl.text().strip.empty?
+          dl.remove
+        end
+      end
+
+      # Remove empty tables
+      doc.css("table").each do |table|
+        if table.css("td").empty?
+          table.remove
+        end
+      end
+
+      # Remove empty sections
+      doc.css("section").each do |section|
+        if section.children.all? {|elt| elt.is_a?(Nokogiri::XML::Comment) || elt.text.strip.empty? || elt.name == 'h3'}
+          section.remove
+        end
+      end
+
+      doc.to_html
+    end
+
   end
 
 end
