@@ -375,6 +375,10 @@ en:
     _singular: Record Group
     _plural: Record Groups
 
+  classification_term:
+   _singular: Record Group Term
+   _plural: Record Group Terms
+
   all_agents: Content Creators
   
   an_agent: Content Creator

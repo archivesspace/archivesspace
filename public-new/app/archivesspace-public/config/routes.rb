@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get  "repositories/:rid/classifications/:id" => 'classifications#show'
+  get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'

@@ -1,9 +1,10 @@
-<!-- LINKED: <%= rec.pretty_inspect.html_safe %> -->
 
-
-   <%= render partial: 'shared/dates', locals: {:dates => rec['html']['dates']} if !rec['html']['dates'].blank? %>
+   <% unless rec['html']['dates'].blank? %>
+    <h5><%= t('resource._public.dates') %></h5>
+    <%= render partial: 'shared/dates', locals: {:dates => rec['html']['dates']} %>
+   <% end %>
     <% unless rec['html']['extents'].blank? %>
-      <h4><%= t('resource._public.extent') %></h4>
+      <h5><%= t('resource._public.extent') %></h5>
        <% rec['html']['extents'].each do |ext| %> 
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
 	  <%= ext['display']%>
