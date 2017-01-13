@@ -13,39 +13,17 @@ class AccessionsCatalogedReport < AbstractReport
     'accessions_cataloged_report.erb'
   end
 
-
-  # <field name="accessionId" class="java.lang.Integer"/>
-  # <field name="repo_id" class="java.lang.Integer">
-  # <fieldDescription><![CDATA[]]></fieldDescription>
-  # </field>
-  # <field name="accessionNumber" class="java.lang.String"/>
-  # <field name="title" class="java.lang.String">
-  # <fieldDescription><![CDATA[]]></fieldDescription>
-  # </field>
-  # <field name="accessionDate" class="java.sql.Date"/>
-  # <field name="accessionProcessed" class="java.lang.Boolean"/>
-  # <field name="accessionProcessedDate" class="java.util.Date"/>
-  # <field name="cataloged" class="java.lang.Boolean"/>
-  # <field name="catalogedDate" class="java.util.Date"/>
-  # <field name="extentNumber" class="java.math.BigDecimal"/>
-  # <field name="extentType" class="java.lang.String"/>
-  def headers
-    ['accessionId', 'repo_id', 'accessionNumber', 'title', 'accessionDate',
-     'accessionProcessed', 'accessionProcessedDate', 'cataloged', 'catalogedDate',
-     'extentNumber', 'extentType']
-  end
-
   def processor
     {
       'accessionId' => proc {|record| record[:accessionId]},
       'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record| ASUtils.json_parse(record[:accessionNumber]).compact.join('.')},
+      'accessionNumber' => proc {|record|record[:accessionNumber]},
       'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate].nil? ? '' : record[:accessionDate].strftime("%Y-%m-%d")},
+      'accessionDate' => proc {|record| record[:accessionDate]},
       'accessionProcessed' => proc {|record| record[:accessionProcessed]},
-      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate].nil? ? '' : record[:accessionProcessedDate].strftime("%Y-%m-%d")},
+      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate]},
       'cataloged' => proc {|record| record[:cataloged]},
-      'catalogedDate' => proc {|record| record[:catalogedDate].nil? ? '' : record[:catalogedDate].strftime("%Y-%m-%d")},
+      'catalogedDate' => proc {|record| record[:catalogedDate]},
       'extentNumber' => proc {|record| record[:extentNumber]},
       'extentType' => proc {|record| record[:extentType]},
     }

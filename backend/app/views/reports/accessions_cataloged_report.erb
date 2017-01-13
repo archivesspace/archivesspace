@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>Total Extent of Cataloged Accessions:</td>
-    <td><%= @report.total_extent %></td>
+    <td><%= format_number(@report.total_extent) %></td>
   </tr>
 </table>
 
@@ -24,8 +24,8 @@
         <td colspan="12" style="border-top: 1px dashed black"></td>
       </tr>
       <tr>
-        <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
-        <td colspan="3"><strong><%= record['accessionNumber'] %></strong></td>
+        <td colspan="9"><h2><strong><%= transform_text(record['title']) %></strong></h2></td>
+        <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
       </tr>
       <tr>
         <td colspan="4"><strong>Extent:</strong></td>
@@ -33,18 +33,23 @@
         <td colspan="4"><strong>Cataloged:</strong></td>
       </tr>
       <tr>
-        <td colspan="3">
+        <td colspan="4">
           <% if record['extentNumber'] %>
-            <%= record['extentNumber'] %> <%= record['extentType'] %>
+            <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
           <% end %>
         </td>
-        <td colspan="3"><%= record['accessionProcessedDate'] %></td>
-        <td colspan="3">
+        <td colspan="4"><%= format_date(record['accessionProcessedDate']) %></td>
+        <td colspan="4">
           <% if record['catalogedDate'].nil? || record['catalogedDate'].empty? %>
             [Date not recorded]
           <% else %>
-            <%= record['catalogedDate'] %>
+            <%= format_date(record['catalogedDate']) %>
           <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="12">
+          <%= insert_subreport('AccessionResourcesSubreport', record) %>
         </td>
       </tr>
     <% end %>
