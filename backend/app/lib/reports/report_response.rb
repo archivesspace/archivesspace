@@ -136,4 +136,9 @@ EOS
       CGI.escapeHTML(s)
     end
   end
+
+  def preserve_newlines(s)
+    transform_text(s).gsub(/(?:\r\n)+/,"<br>");
+  end
+
 end
