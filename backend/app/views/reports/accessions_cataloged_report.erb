@@ -1,0 +1,56 @@
+<table style="margin-bottom: 30px">
+  <tr>
+    <td>	Number of Records Reviewed:</td>
+    <td><%= @report.total_count %></td>
+  </tr>
+  <tr>
+    <td>Cataloged Accessions:</td>
+    <td><%= @report.cataloged_count %></td>
+  </tr>
+  <tr>
+    <td>Total Extent of Cataloged Accessions:</td>
+    <td><%= @report.total_extent %></td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<% if @report.cataloged_count > 0 %>
+  <table style="width: 100%;">
+    <tbody>
+    <% @report.each do |record| %>
+      <% next if record['cataloged'] == 0 %>
+      <tr>
+        <td colspan="12" style="border-top: 1px dashed black"></td>
+      </tr>
+      <tr>
+        <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
+        <td colspan="3"><strong><%= record['accessionNumber'] %></strong></td>
+      </tr>
+      <tr>
+        <td colspan="4"><strong>Extent:</strong></td>
+        <td colspan="4"><strong>Date Processed:</strong></td>
+        <td colspan="4"><strong>Cataloged:</strong></td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <% if record['extentNumber'] %>
+            <%= record['extentNumber'] %> <%= record['extentType'] %>
+          <% end %>
+        </td>
+        <td colspan="3"><%= record['accessionProcessedDate'] %></td>
+        <td colspan="3">
+          <% if record['catalogedDate'].nil? || record['catalogedDate'].empty? %>
+            [Date not recorded]
+          <% else %>
+            <%= record['catalogedDate'] %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+<br/>
+<br/>
+<br/>
