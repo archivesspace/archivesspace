@@ -1,7 +1,7 @@
-class AccessionsRightsTransferredReport < AbstractReport
+class AccessionRightsTransferredReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_rights_transferred_report",
+                    :uri_suffix => "accession_rights_transferred_report",
                     :description => "Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred.",
                   })
 
@@ -10,7 +10,7 @@ class AccessionsRightsTransferredReport < AbstractReport
   end
 
   def template
-    'accessions_rights_transferred_report.erb'
+    'accession_rights_transferred_report.erb'
   end
 
   def processor

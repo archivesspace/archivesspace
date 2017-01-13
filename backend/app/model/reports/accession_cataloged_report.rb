@@ -1,7 +1,7 @@
-class AccessionsCatalogedReport < AbstractReport
+class AccessionCatalogedReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_cataloged_report",
+                    :uri_suffix => "accession_cataloged_report",
                     :description => "Displays only those accessions that have been cataloged. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected that are checked as cataloged, and the total extent number for those records cataloged.",
                   })
 
@@ -10,7 +10,7 @@ class AccessionsCatalogedReport < AbstractReport
   end
 
   def template
-    'accessions_cataloged_report.erb'
+    'accession_cataloged_report.erb'
   end
 
   def processor
