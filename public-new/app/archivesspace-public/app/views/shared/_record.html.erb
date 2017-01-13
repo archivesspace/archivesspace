@@ -1,9 +1,10 @@
+<!-- LINKED: <%= rec.pretty_inspect.html_safe %> -->
 
 
    <%= render partial: 'shared/dates', locals: {:dates => rec['html']['dates']} if !rec['html']['dates'].blank? %>
-    <% unless @result['json']['html']['extents'].blank? %>
+    <% unless rec['html']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
-       <% @result['json']['html']['extents'].each do |ext| %> 
+       <% rec['html']['extents'].each do |ext| %> 
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
 	  <%= ext['display']%>
 	</p>
