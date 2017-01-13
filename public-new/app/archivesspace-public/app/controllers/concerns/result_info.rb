@@ -133,10 +133,17 @@ module ResultInfo
     end
   end
 
-  def handle_external_docs(result)
-    unless !result['json'].has_key?('external_documents') || result['json']['external_documents'].blank?
-      result['json']['external_documents'].each do |doc|
-        doc['uri'] = doc['location'].start_with?('http') ? doc['location'] :  ''
+  def handle_external_docs(json)
+    unless !json.has_key?('external_documents') || json['external_documents'].blank?
+      json['html'] = {} if !json.dig('html')
+      json['html']['external_documents'] = []
+      json['external_documents'].each do |doc|
+        if doc['publish']
+          extd = {}
+          extd['title'] = doc['title']
+          extd['uri'] = doc['location'].start_with?('http') ? doc['location'] :  ''
+          json['html']['external_documents'].push(extd)
+        end
       end
     end
   end

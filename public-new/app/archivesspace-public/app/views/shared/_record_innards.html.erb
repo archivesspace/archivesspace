@@ -59,8 +59,8 @@
 	 <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
 	 :p_body => x} %>
         <% end %>
-	<% unless @result['json']['external_documents'].blank? %>
-	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result['json']['external_documents'], :list_clss => 'external_docs'} %>
+	<% unless @result['json']['html']['external_documents'].blank? %>
+	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result['json']['html']['external_documents'], :list_clss => 'external_docs'} %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
 	<% end %>
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
