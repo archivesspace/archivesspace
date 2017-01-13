@@ -1,7 +1,7 @@
 class AccessionProductionReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_production_report",
+                    :uri_suffix => "accession_production_report",
                     :description => "Displays accessions that have been accessioned, processed, and cataloged during a specified time period. Produces a summary statement of the total number of accessions, the total extent, total extent processed, and extent cataloged within the specified date range.",
                   })
 
