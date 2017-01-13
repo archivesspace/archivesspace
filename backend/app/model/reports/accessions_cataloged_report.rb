@@ -6,11 +6,11 @@ class AccessionsCatalogedReport < AbstractReport
                   })
 
   def title
-    "Accessions cataloged"
+    "Cataloged Accessions"
   end
 
   def template
-    '_accessions_cataloged_report.erb'
+    'accessions_cataloged_report.erb'
   end
 
 

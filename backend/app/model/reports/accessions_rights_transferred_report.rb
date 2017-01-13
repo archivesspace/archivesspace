@@ -10,7 +10,7 @@ class AccessionsRightsTransferredReport < AbstractReport
   end
 
   def template
-    '_accessions_rights_transferred_report.erb'
+    'accessions_rights_transferred_report.erb'
   end
 
   def headers
