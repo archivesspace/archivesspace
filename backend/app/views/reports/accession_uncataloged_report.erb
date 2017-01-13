@@ -1,0 +1,33 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Records Reviewed</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Uncataloged Accessions</dt>
+    <dd><%= @report.uncataloged_count %></dd>
+    <dt>Total Extent of Unataloged Accessions</dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+  </dl>
+
+</div>
+
+<% @report.each do |accession| %>
+  <% next if accession.fetch('cataloged') == 1 %>
+
+  <div class="report-record">
+    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= accession.fetch('title') %></div>
+
+    <dl>
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+      <dt>Date Processed</dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+    </dl>
+
+    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+  </div>
+<% end %>
