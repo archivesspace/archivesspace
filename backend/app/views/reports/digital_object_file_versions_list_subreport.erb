@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <th>URI</th>
+    <th>Use Statement</th>
+    <% @report.each do |file_version| %>
+    <tr>
+      <td><%= file_version.fetch('uri') %></td>
+      <td><%= file_version.fetch('useStatement') %></td>
+    </tr>
+  <% end %>
+</table>
