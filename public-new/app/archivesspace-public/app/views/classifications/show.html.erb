@@ -3,6 +3,7 @@
   <div class="information col-sm-12">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     <%= render partial: 'shared/breadcrumbs' %>
+    <div class="description"><%= @result['json']['description'] if @result.dig('json', 'description') %></div>
   </div>
   <div class="col-sm-9">
 <!-- <%= @result.pretty_inspect.html_safe %> -->

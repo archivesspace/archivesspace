@@ -79,6 +79,13 @@ class ClassificationsController <  ApplicationController
     @results =  handle_results(@results)
     if !@results['results'].blank? && @results['results'].length > 0
       @result = @results['results'][0]
+      # deal with linked records
+      @result['json']['linked_records'].each do |rec|
+        if  rec['_resolved'].present? && rec['_resolved']['publish']
+          handle_dates(rec['_resolved'])
+          process_extents(rec['_resolved'])
+        end
+      end
       Pry::ColorPrinter.pp(@result)
       @page_title = strip_mixed_content(@result['json']['title'])
       @tree = fetch_tree(uri)
