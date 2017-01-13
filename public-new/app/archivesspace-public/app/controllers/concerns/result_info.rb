@@ -64,6 +64,8 @@ module ResultInfo
     disp = @result['json'].dig('container_disp')
     info[:container] = [disp] if info[:container].empty? && !disp.blank?
     info[:top_container_url] = [@result.dig('top_container_uri_u_sstr') || ''] if  info[:top_container_url].empty?
+    barcode = @result.dig('_resolved_top_container_uri_u_sstr','json','barcode')
+    info[:barcode] = [barcode] unless barcode.nil?
     restricts = @result.dig('_resolved_top_container_uri_u_sstr','json','active_restrictions')
     if restricts
       ends = ''
@@ -90,12 +92,14 @@ module ResultInfo
       url = nil
       barcode = nil
       if c
+        barcode = nil
         (1..3).each do |i|
           type = c.dig("type_#{i}") || ''
           name << type << ' '  if type.downcase != 'unspecified'
           ind = c.dig("indicator_#{i}") || ''
           name << ind << ' '
-          barcode = c.dig("barcode_#{i}")
+          bc = c.dig("barcode_#{i}")
+          barcode += " #{bc}" if bc
         end
         name.strip!
         locs = c.dig('container_locations')
