@@ -4,22 +4,18 @@
     <td><%= @report.total_count %></td>
   </tr>
   <tr>
-    <td>Cataloged Accessions:</td>
-    <td><%= @report.cataloged_count %></td>
-  </tr>
-  <tr>
-    <td>Total Extent of Cataloged Accessions:</td>
-    <td><%= format_number(@report.total_extent) %></td>
+    <td>Accessions with Inventories:</td>
+    <td><%= @report.total_with_inventories %></td>
   </tr>
 </table>
 
 <div class="page-break"></div>
 
-<% if @report.cataloged_count > 0 %>
+<% if @report.total_with_inventories > 0 %>
   <table style="width: 100%;">
     <tbody>
     <% @report.each do |record| %>
-      <% next if record['cataloged'] == 0 %>
+      <% next unless record['inventory'] %>
       <tr>
         <td colspan="12" style="border-top: 1px dashed black"></td>
       </tr>
@@ -28,23 +24,17 @@
         <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
       </tr>
       <tr>
-        <td colspan="4"><strong>Extent:</strong></td>
-        <td colspan="4"><strong>Date Processed:</strong></td>
-        <td colspan="4"><strong>Cataloged:</strong></td>
-      </tr>
-      <tr>
-        <td colspan="4">
+        <td colspan="12">
           <% if record['extentNumber'] %>
+            <strong>Extent:</strong>
             <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
           <% end %>
         </td>
-        <td colspan="4"><%= format_date(record['accessionProcessedDate']) %></td>
-        <td colspan="4">
-          <% if record['catalogedDate'].nil? || record['catalogedDate'].empty? %>
-            [Date not recorded]
-          <% else %>
-            <%= format_date(record['catalogedDate']) %>
-          <% end %>
+      </tr>
+      <tr>
+        <td colspan="12">
+          <p><strong>Inventory:</strong></p>
+          <%= preserve_newlines(record['inventory']) %>
         </td>
       </tr>
       <tr>
