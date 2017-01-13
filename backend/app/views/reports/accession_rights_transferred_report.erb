@@ -1,100 +1,56 @@
-<table style="margin-bottom: 30px">
-  <tr>
-    <td>Number of Records:</td>
-    <td><%= @report.total_count %></td>
-  </tr>
-  <tr>
-    <td>Accessions with Rights Transferred:</td>
-    <td><%= @report.total_transferred %></td>
-  </tr>
-</table>
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
 
-<div class="page-break"></div>
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Accessions with Rights Transferred</dt>
+    <dd><%= @report.total_transferred %></dd>
+  </dl>
+</div>
 
-<% if @report.total_transferred > 0 %>
-  <table style="width: 100%;">
-    <tbody>
-    <% @report.each do |record| %>
-      <% next if record['rightsTransferred'] == 0 %>
-      <tr>
-        <td colspan="12" style="border-top: 1px dashed black"></td>
-      </tr>
-      <tr>
-        <td colspan="9"><h2><strong><%= transform_text(record['title']) %></strong></h2></td>
-        <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
-      </tr>
-      <tr>
-        <td colspan="3"><strong>Accession Date:</strong></td>
-        <td colspan="3"><strong>Date Processed:</strong></td>
-        <td colspan="3"><strong>Extent:</strong></td>
-        <td colspan="3"><strong>Cataloged:</strong></td>
-      </tr>
-      <tr>
-        <td colspan="3"><%= format_date(record['accessionDate']) %></td>
-        <td colspan="3"><%= format_date(record['accessionProcessedDate']) %></td>
-        <td colspan="3">
-          <% if record['extentNumber'] %>
-            <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
-          <% end %>
-        </td>
-        <td colspan="3">
-          <% if record['cataloged'] == 1 %>
-            true
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12"><strong>Rights & Restrictions:</strong></td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <% if record['restrictionsApply'] == 1 %>
-            <span style="color: red">Restrictions apply.</span>
-          <% else %>
-            No restrictions.
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12"><strong>Rights:</strong></td>
-      </tr>
-      <tr>
-        <td colspan="12"><%= transform_text(record['rightsTransferredNote']) %></td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <% if record['rightsTransferred'] == 1 %>
-            Rights Transferred
-          <% else %>
-            Not transferred
-          <% end %>
-        </td>
-      </tr>
-      <% if record['useRestrictionsNote'] %>
-        <tr>
-          <td colspan="12"><strong>Use Restrictions Note:</strong></td>
-        </tr>
-        <tr>
-          <td colspan="12"><%= transform_text(record['useRestrictionsNote']) %></td>
-        </tr>
+<% @report.each do |accession| %>
+  <% next if accession.fetch('rightsTransferred') == 0 %>
+
+  <div class="report-record">
+    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= accession.fetch('title') %></div>
+
+    <dl>
+      <dt>Accession Date</dt>
+      <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
+      <dt>Date Processed</dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
-      <% if record['accessRestrictionsNote'] %>
-        <tr>
-          <td colspan="12"><strong>Access Restrictions Note:</strong></td>
-        </tr>
-        <tr>
-          <td colspan="12"><%= transform_text(record['accessRestrictionsNote']) %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td colspan="12">
-          <%= insert_subreport('AccessionResourcesSubreport', record) %>
-        </td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+      <dt>Cataloged</dt>
+      <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
+      <dt>Rights &amp; Restrictions</dt>
+      <dd>
+        <% if accession.fetch('restrictionsApply') == 1 %>
+          <span style="color: red">Restrictions apply.</span>
+        <% else %>
+          No restrictions.
+        <% end %>
+      </dd>
+      <dt>Rights Transferred</dt>
+      <dd>
+        <% if accession.fetch('rightsTransferred') == 1 %>
+          Rights Transferred
+        <% else %>
+          Not transferred
+        <% end %>
+      </dd>
+    </dl>
+
+    <%= text_section('Rights Transferred Note', accession.fetch('rightsTransferredNote')) %>
+
+    <%= text_section('Use Restrictions Note', accession.fetch('useRestrictionsNote')) %>
+
+    <%= text_section('Access Restrictions Note', accession.fetch('accessRestrictionsNote')) %>
+
+    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+  </div>
 <% end %>
-<br/>
-<br/>
-<br/>

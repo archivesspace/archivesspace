@@ -1,0 +1,21 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Accessioned Between</dt>
+    <dd><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></dd>
+
+    <dt>Total Extent of Selected Accessions</dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+
+    <dt>Number of Records Selected</dt>
+    <dd><%= @report.total_count %></dd>
+
+    <dt>Total Extent of Cataloged Accessions</dt>
+    <dd><%= format_number(@report.total_extent_of_cataloged) %></dd>
+
+    <dt>Total Extent of Processed Accessions</dt>
+    <dd><%= format_number(@report.total_extent_of_processed) %></dd>
+  </dl>
+
+</div>
