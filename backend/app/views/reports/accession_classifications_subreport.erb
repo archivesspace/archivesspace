@@ -1,0 +1,11 @@
+<table>
+    <tr>
+        <th>Identifier</th>
+        <th>Title</th>
+        <% @report.each do |classification| %>
+            <tr>
+              <td><%= classification['classificationIdentifier'] || classification['classificationTermIdentifier'] %></td>
+              <td><%= classification['classificationTitle'] || classification['classificationTermTitle'] %></td>
+            </tr>
+        <% end %>
+</table>
