@@ -1,7 +1,7 @@
-class AccessionsInventoryReport < AbstractReport
+class AccessionInventoryReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_inventory_report",
+                    :uri_suffix => "accession_inventory_report",
                     :description => "Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.",
                   })
 
@@ -10,7 +10,7 @@ class AccessionsInventoryReport < AbstractReport
   end
 
   def template
-    'accessions_inventory_report.erb'
+    'accession_inventory_report.erb'
   end
 
   def processor

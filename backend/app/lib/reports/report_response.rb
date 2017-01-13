@@ -62,13 +62,24 @@ class ReportErbRenderer
   def text_section(title, value)
     # Sick of typing these out...
     template = <<EOS
-        <div class="section">
+        <section>
             <h3>%s</h3>
             %s
-        </div>
+        </section>
 EOS
 
     template % [h(title), h(value)]
+  end
+
+  def subreport_section(title, subreport, *subreport_args)
+    # Sick of typing these out...
+    template = <<EOS
+        <section>
+            <h3>%s</h3>
+        </section>
+EOS
+
+    template % [h(title)] + insert_subreport(subreport, *subreport_args)
   end
 
   def format_date(date)

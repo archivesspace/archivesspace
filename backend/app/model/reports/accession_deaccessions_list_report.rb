@@ -1,7 +1,7 @@
 class AccessionDeaccessionsListReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_deaccessions_list_report",
+                    :uri_suffix => "accession_deaccessions_list_report",
                     :description => "Displays a list of accession record(s) and linked deaccession record(s). Report contains accession number, title, extent, accession date, container summary, cataloged, date processed, rights transferred, linked deaccessions and total extent of all deaccessions.",
                   })
 
@@ -10,7 +10,7 @@ class AccessionDeaccessionsListReport < AbstractReport
   end
 
   def template
-    'accessions_deaccessions_list_report.erb'
+    'accession_deaccessions_list_report.erb'
   end
 
   def processor
