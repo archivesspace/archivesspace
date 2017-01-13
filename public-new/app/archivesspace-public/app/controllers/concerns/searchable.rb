@@ -231,7 +231,7 @@ module Searchable
       html_notes(result['json'], full)
       # handle dates
       handle_dates( result['json']) if result['json'].has_key?('dates') && full
-      handle_external_docs(result) if full
+      handle_external_docs(result['json']) if full
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
         rr = result['_resolved_repository'].shift
