@@ -1,7 +1,7 @@
-class AccessionsProcessedReport < AbstractReport
+class AccessionProcessedReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "accessions_processed_report",
+                    :uri_suffix => "accession_processed_report",
                     :description => "Displays only those accession(s) that have been processed based on the date processed field. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with a date processed, and the total extent number for those records with date processed.",
                   })
 
@@ -10,7 +10,7 @@ class AccessionsProcessedReport < AbstractReport
   end
 
   def template
-    'accessions_processed_report.erb'
+    'accession_processed_report.erb'
   end
 
   def processor
