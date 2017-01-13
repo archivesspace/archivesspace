@@ -69,7 +69,7 @@ class ReportErbRenderer
         </section>
 EOS
 
-    template % [h(title), h(value)]
+    template % [h(title), preserve_newlines(h(value))]
   end
 
   def subreport_section(title, subreport, *subreport_args)

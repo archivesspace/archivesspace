@@ -62,9 +62,10 @@
       }
 
       dt {
-        display: inline-block;
+        float: left;
         padding: 0;
         font-weight: bold;
+        margin-right: 10px;
       }
 
       dt:after {
@@ -72,8 +73,8 @@
       }
 
       dd {
-        display: inline-block;
-        margin: 0 1em 0 0;
+        display: block;
+        margin: 2px;
         padding: 0;
       }
 
@@ -197,11 +198,6 @@
   </head>
 
   <body class="<%= @report.format %>">
-    <div class="header">
-      <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
-      <h1><%= @report.title %></h1>
-    </div>
-
     <%= render(File.join('app', 'views', 'reports', @report.template)) %>
 
     <% if @report.format === 'html' or @report.format === 'pdf' %>

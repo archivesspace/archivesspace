@@ -1,51 +1,30 @@
-<table style="margin-bottom: 30px">
-  <tr>
-    <td>Number of Records Reviewed:</td>
-    <td><%= @report.total_count %></td>
-  </tr>
-  <tr>
-    <td>Accessions with Inventories:</td>
-    <td><%= @report.total_with_inventories %></td>
-  </tr>
-</table>
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
 
-<div class="page-break"></div>
+  <dl>
+    <dt>Number of Records Reviewed</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Accessions with Inventories</dt>
+    <dd><%= @report.total_with_inventories %></dd>
+  </dl>
+</div>
 
-<% if @report.total_with_inventories > 0 %>
-  <table style="width: 100%;">
-    <tbody>
-    <% @report.each do |record| %>
-      <% next unless record['inventory'] %>
-      <tr>
-        <td colspan="12" style="border-top: 1px dashed black"></td>
-      </tr>
-      <tr>
-        <td colspan="9"><h2><strong><%= transform_text(record['title']) %></strong></h2></td>
-        <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <% if record['extentNumber'] %>
-            <strong>Extent:</strong>
-            <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <p><strong>Inventory:</strong></p>
-          <%= preserve_newlines(record['inventory']) %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <%= insert_subreport('AccessionResourcesSubreport', record) %>
-        </td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+<% @report.each do |accession| %>
+  <% next unless accession['inventory'] %>
+
+  <div class="report-record">
+    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= accession.fetch('title') %></div>
+
+    <dl>
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+    </dl>
+
+    <%= text_section('Inventory', accession.fetch('inventory')) %>
+
+    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+  </div>
 <% end %>
-<br/>
-<br/>
-<br/>

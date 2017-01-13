@@ -1,52 +1,32 @@
-<table style="margin-bottom: 30px">
-  <tr>
-    <td>Number of Records:</td>
-    <td><%= @report.total_count %></td>
-  </tr>
-  <tr>
-    <td>Accessioned Between:</td>
-    <td><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></td>
-  </tr>
-  <tr>
-    <td>Total Extent of Accessions:</td>
-    <td><%= format_number(@report.total_extent) %></td>
-  </tr>
-  <tr>
-    <td>Total Extent of Deaccessions</td>
-    <td><%= format_number(@report.total_extent_of_deaccessions) %></td>
-  </tr>
-</table>
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
 
-<div class="page-break"></div>
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Accessioned Between</dt>
+    <dd><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></dd>
+    <dt>Total Extent of Accessions</dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+    <dt>Total Extent of Deaccessions</dt>
+    <dd><%= format_number(@report.total_extent_of_deaccessions) %></dd>
+  </dl>
+</div>
 
-<table style="width: 100%;">
-  <tbody>
-  <% @report.each do |record| %>
-    <% next if record['rightsTransferred'] == 0 %>
-    <tr>
-      <td colspan="12" style="border-top: 1px dashed black"></td>
-    </tr>
-    <tr>
-      <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
-      <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
-    </tr>
-    <tr>
-      <td colspan="6">
-        <strong>Accession Date:</strong> <%= format_date(record['accessionDate']) %>
-      </td>
-      <td colspan="6">
-        <strong>Extent:</strong> <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="12">
-        <h3>Deaccessions:</h3>
-        <%= insert_subreport('AccessionDeaccessionsSubreport', record) %>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-<br/>
-<br/>
-<br/>
+<% @report.each do |accession| %>
+  <div class="report-record">
+    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= accession.fetch('title') %></div>
+  
+    <dl>
+      <dt>Accession Date</dt>
+      <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+    </dl>
+  
+    <%= subreport_section("Deaccessions", 'AccessionDeaccessionsSubreport', accession) %>
+  </div>
+<% end %>

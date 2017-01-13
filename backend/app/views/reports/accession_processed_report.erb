@@ -1,64 +1,36 @@
-<table style="margin-bottom: 30px">
-  <tr>
-    <td>Number of Records:</td>
-    <td><%= @report.total_count %></td>
-  </tr>
-  <tr>
-    <td>Processed Accessions:</td>
-    <td><%= @report.total_processed %></td>
-  </tr>
-  <tr>
-    <td>Accessioned Between:</td>
-    <td><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></td>
-  </tr>
-  <tr>
-    <td>Total Extent of Processed Accessions:</td>
-    <td><%= format_number(@report.total_extent_of_processed) %></td>
-  </tr>
-</table>
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
 
-<div class="page-break"></div>
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Processed Accessions</dt>
+    <dd><%= @report.total_processed %></dd>
+    <dt>Accessioned Between</dt>
+    <dd><%= format_date(@report.from_date) %> &amp;amp; <%= format_date(@report.to_date) %></dd>
+    <dt>Total Extent of Processed Accessions</dt>
+    <dd><%= format_number(@report.total_extent_of_processed) %></dd>
+  </dl>
+</div>
 
-<% if @report.total_processed > 0 %>
-  <table style="width: 100%;">
-    <tbody>
-    <% @report.each do |record| %>
-      <% next unless record['accessionProcessed'] == '1' %>
-      <tr>
-        <td colspan="12" style="border-top: 1px dashed black"></td>
-      </tr>
-      <tr>
-        <td colspan="9"><h2><strong><%= transform_text(record['title']) %></strong></h2></td>
-        <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <strong>Date Processed:</strong>
-          <%= format_date(record['accessionProcessedDate']) %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <% if record['extentNumber'] %>
-            <strong>Extent:</strong>
-            <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <strong>Cataloged:</strong> <%= format_boolean(record['cataloged'] == 1) %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="12">
-          <%= insert_subreport('AccessionResourcesSubreport', record) %>
-        </td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+<% @report.each do |accession| %>
+  <% next unless accession.fetch('accessionProcessed') == '1' %>
+
+  <div class="report-record">
+    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= accession.fetch('title') %></div>
+
+    <dl>
+      <dt>Date Processed</dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+      <% if accession.fetch('extentNumber') %>
+        <dt>Extent</dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+      <dt>Cataloged</dt>
+      <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
+    </dl>
+
+    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+  </div>
 <% end %>
-<br/>
-<br/>
-<br/>
