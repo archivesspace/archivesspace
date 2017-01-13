@@ -20,11 +20,12 @@
       <% else %>
         body {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          max-width: 900px;
         }
       <% end %>
 
       .header .logo {
-        float: right;
+        display: none;
       }
 
       .header h1 {
@@ -36,6 +37,78 @@
       table h3 {
         margin: 10px 0 0;
       }
+
+      .titlepage {
+        border: 1px solid black;
+        padding: 1em;
+      }     
+
+      .titlepage .title {
+        font-weight: bold;
+        font-size: 36pt;
+        display: table;
+        margin: 0 auto;
+
+      }
+
+      .report-record {
+        margin-top: 2em;
+        padding-bottom: 2em;
+        border-bottom: 2px solid black;
+      }     
+
+      .summary {
+        margin-top: 1em;
+      }
+
+      .summary-item label {
+        display: inline-block;
+        font-weight: bold;
+      }
+
+      .summary-item label:after {
+        content: ": "
+      }     
+
+      .summary-item .summary-value {
+        display: inline-block;
+      }
+
+      .identifier {
+        margin-top: 1em;
+        margin-bottom: 0.25em;
+        font-size: 24pt;
+        font-weight: bold;
+      }
+
+      .record-title {
+        font-style: italic;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        font-size: 100%;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-left: 1em;
+        width: 90%;
+      }
+
+      table th {
+        border-bottom: solid 2px black;
+        text-align: left;
+        padding-left: 0.25em;
+        padding-right: 1em;
+        margin: 0;
+      }
+
+      table td {
+        padding: 0.5em 0.5em 0.5em 0.25em;
+      }     
 
       .report-listing {
         border: 1px solid #AAA;
