@@ -1,9 +1,9 @@
 
 
    <%= render partial: 'shared/dates', locals: {:dates => rec['html']['dates']} if !rec['html']['dates'].blank? %>
-    <% unless @result['json']['extents'].blank? %>
+    <% unless @result['json']['html']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
-       <% @result['json']['extents'].each do |ext| %> 
+       <% @result['json']['html']['extents'].each do |ext| %> 
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
 	  <%= ext['display']%>
 	</p>
