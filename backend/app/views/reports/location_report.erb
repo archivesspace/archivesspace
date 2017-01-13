@@ -1,0 +1,39 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Results</dt>
+    <dd><%= @report.total_count %></dd>
+  </dl>
+</div>
+
+<% @report.each do |location| %>
+
+  <div class="report-record">
+    <div class="identifier"><%= location.fetch('location_building') %></div>
+
+    <dl>
+      <dt>Floor</dt>
+      <dd><%= format_date(location.fetch('location_floor')) %></dd>
+
+      <dt>Room</dt>
+      <dd><%= format_date(location.fetch('location_room')) %></dd>
+
+      <dt>Area</dt>
+      <dd><%= format_date(location.fetch('location_area')) %></dd>
+
+      <dt>Coordinates</dt>
+      <dd><%= format_date(location.fetch('location_coordinate')) %></dd>
+
+      <dt>Barcode</dt>
+      <dd><%= format_date(location.fetch('location_barcode')) %></dd>
+
+      <dt>Classification number</dt>
+      <dd><%= format_date(location.fetch('location_classification')) %></dd>
+    </dl>
+
+    <%= subreport_section("Accessions", 'LocationAccessionsSubreport', location) %>
+
+    <%= subreport_section("Resources", 'LocationResourcesSubreport', location) %>
+  </div>
+<% end %>
