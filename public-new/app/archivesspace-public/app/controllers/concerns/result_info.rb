@@ -111,8 +111,10 @@ module ResultInfo
   end
 
   # handle dates
-  def handle_dates(dates)
-    dates.each do |date|
+  def handle_dates(json)
+    json['html'] = {} if !json.dig('html')
+    json['html']['dates'] = []
+    json['dates'].each do |date|
       label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
       label = '' if label == 'Creation: '
       exp =  date['expression'] || ''
@@ -127,7 +129,7 @@ module ResultInfo
         exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
           I18n.t('bulk._plural', :dates => exp)
       end
-      date['final_expression'] = label + exp
+      json['html']['dates'].push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited')})
     end
   end
 

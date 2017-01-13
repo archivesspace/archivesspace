@@ -11,9 +11,9 @@
     <% unless over.blank? %>
       <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
     <% end %>
-    <% unless @result['json']['dates'].blank? %>
+    <% unless @result['json']['html']['dates'].blank? %>
       <h4><%= t('resource._public.dates') %></h4>
-      <%= render partial: 'shared/dates', locals: {:dates => @result['json']['dates']} %>
+      <%= render partial: 'shared/dates', locals: {:dates => @result['json']['html']['dates']} %>
 
     <% end %>
     <% non_folder.each do |type| %>

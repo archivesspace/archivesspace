@@ -1,6 +1,6 @@
 
 
-   <%= render partial: 'shared/dates', locals: {:dates => rec['dates']} if !rec['dates'].blank? %>
+   <%= render partial: 'shared/dates', locals: {:dates => rec['html']['dates']} if !rec['html']['dates'].blank? %>
     <% unless @result['json']['extents'].blank? %>
       <h4><%= t('resource._public.extent') %></h4>
        <% @result['json']['extents'].each do |ext| %> 
