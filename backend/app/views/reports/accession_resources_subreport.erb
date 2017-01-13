@@ -1,0 +1,13 @@
+<h3>Linked Resource(s):</h3>
+
+<table>
+    <tr>
+        <th>Identifier</th>
+        <th>Title</th>
+        <% @report.each do |record| %>
+            <tr>
+                <td><%= format_4part(record.fetch('identifier')) %></td>
+                <td><%= transform_text(record.fetch('title')) %></td>
+            </tr>
+        <% end %>
+</table>

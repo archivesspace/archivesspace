@@ -13,27 +13,20 @@ class AccessionsRightsTransferredReport < AbstractReport
     'accessions_rights_transferred_report.erb'
   end
 
-  def headers
-    ['accessionId', 'repo_id', 'accessionNumber', 'title', 'accessionDate',
-     'restrictionsApply', 'accessRestrictions', 'accessRestrictionsNote',
-     'useRestrictions', 'useRestrictionsNote', 'containerSummary', 'accessionProcessedDate',
-     'cataloged', 'extentNumber', 'extentType', 'rightsTransferred', 'rightsTransferredNote']
-  end
-
   def processor
     {
       'accessionId' => proc {|record| record[:accessionId]},
       'repo' => proc {|record| record[:repo]},
-      'accessionNumber' => proc {|record| ASUtils.json_parse(record[:accessionNumber]).compact.join('.')},
+      'accessionNumber' => proc {|record| record[:accessionNumber]},
       'title' => proc {|record| record[:title]},
-      'accessionDate' => proc {|record| record[:accessionDate].nil? ? '' : record[:accessionDate].strftime("%Y-%m-%d")},
+      'accessionDate' => proc {|record| record[:accessionDate]},
       'restrictionsApply' => proc {|record| record[:restrictionsApply]},
       'accessRestrictions' => proc {|record| record[:accessRestrictions]},
       'accessRestrictionsNote' => proc {|record| record[:accessRestrictionsNote]},
       'useRestrictions' => proc {|record| record[:useRestrictions]},
       'useRestrictionsNote' => proc {|record| record[:useRestrictionsNote]},
       'containerSummary' => proc {|record| record[:containerSummary]},
-      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate].nil? ? '' : record[:accessionProcessedDate].strftime("%Y-%m-%d")}, 
+      'accessionProcessedDate' => proc {|record| record[:accessionProcessedDate]}, 
       'cataloged' => proc {|record| record[:cataloged]},
       'extentNumber' => proc {|record| record[:extentNumber]},
       'extentType' => proc {|record| record[:extentType]},

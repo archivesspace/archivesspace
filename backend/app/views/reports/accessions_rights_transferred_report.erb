@@ -20,8 +20,8 @@
         <td colspan="12" style="border-top: 1px dashed black"></td>
       </tr>
       <tr>
-        <td colspan="9"><h3 style="margin: 0"><strong><%= transform_text(record['title']) %></strong></h3></td>
-        <td colspan="3"><strong><%= record['accessionNumber'] %></strong></td>
+        <td colspan="9"><h2><strong><%= transform_text(record['title']) %></strong></h2></td>
+        <td colspan="3"><strong><%= format_4part(record['accessionNumber']) %></strong></td>
       </tr>
       <tr>
         <td colspan="3"><strong>Accession Date:</strong></td>
@@ -30,11 +30,11 @@
         <td colspan="3"><strong>Cataloged:</strong></td>
       </tr>
       <tr>
-        <td colspan="3"><%= record['accessionDate'] %></td>
-        <td colspan="3"><%= record['accessionProcessedDate'] %></td>
+        <td colspan="3"><%= format_date(record['accessionDate']) %></td>
+        <td colspan="3"><%= format_date(record['accessionProcessedDate']) %></td>
         <td colspan="3">
-          <% if record['extentNumber'] != '0.0' && !record['containerSummary'].nil? %>
-            <%= record['extentNumber'] %> <%= record['extentType'] %>
+          <% if record['extentNumber'] %>
+            <%= format_number(record['extentNumber']) %> <%= record['extentType'] %>
           <% end %>
         </td>
         <td colspan="3">
@@ -86,6 +86,11 @@
           <td colspan="12"><%= transform_text(record['accessRestrictionsNote']) %></td>
         </tr>
       <% end %>
+      <tr>
+        <td colspan="12">
+          <%= insert_subreport('AccessionResourcesSubreport', record) %>
+        </td>
+      </tr>
     <% end %>
     </tbody>
   </table>
