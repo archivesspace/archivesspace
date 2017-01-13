@@ -72,7 +72,33 @@ class ClassificationsController <  ApplicationController
 
 
   def show
-    uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+    fetch_and_process("/repositories/#{params[:rid]}/classifications/#{params[:id]}")
+    if @results['results'].blank? || @results['results'].length == 0
+      @type =  I18n.t('classification._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
+    else
+      render
+    end
+  end
+
+  def term
+    fetch_and_process("/repositories/#{params[:rid]}/classification_terms/#{params[:id]}")
+    if @results['results'].blank? || @results['results'].length == 0
+      @type =  I18n.t('classification_term._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
+     @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
+    else
+      render 'classifications/show'
+    end
+  end
+
+  # we use this to get and process both classifications and classification terms
+  def fetch_and_process(uri)
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     @results =  archivesspace.search_records([uri],1,@criteria)
@@ -96,12 +122,7 @@ class ClassificationsController <  ApplicationController
       end
       @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
       @context.push({:uri => '', :crumb => process_mixed_content(@result['json']['title']) })
-    else
-      @type =  I18n.t('classification._singular')
-      @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = uri
-      @back_url = request.referer || ''
-      render  'shared/not_found'
     end
   end
+
 end
