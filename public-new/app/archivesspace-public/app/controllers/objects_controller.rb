@@ -99,7 +99,7 @@ class ObjectsController <  ApplicationController
         else
           @dig = process_digital_instance(@result['json']['instances']) 
           fill_request_info 
-          process_extents
+          process_extents(@result['json'])
         end
       rescue Exception => error
         Pry::ColorPrinter.pp error.backtrace

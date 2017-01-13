@@ -207,11 +207,11 @@ module ResultInfo
 
 
 # process extents for display; format per Mark Custer
-  def process_extents
-    unless  @result['json']['extents'].blank?
-      @result['json']['html'] = {} if !@result['json'].dig('html')
-      @result['json']['html']['extents'] = []
-      @result['json']['extents'].each do |ext|
+  def process_extents(json)
+    unless  json['extents'].blank?
+      json['html'] = {} if !json.dig('html')
+      json['html']['extents'] = []
+      json['extents'].each do |ext|
         display = ''
         type = I18n.t("enumerations.extent_extent_type.#{ext['extent_type']}", default: ext['extent_type'])
         display = I18n.t('extent_number_type', :number => ext['number'], :type => type)
@@ -220,7 +220,7 @@ module ResultInfo
         display << ' ' << summ
         display << I18n.t('extent_phys_details',:deets => ext['physical_details']) unless  ext['physical_details'].blank?
         display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless  ext['dimensions'].blank?
-        @result['json']['html']['extents'].push({'display' => display, '_inherited' => ext.dig('_inherited')})
+        json['html']['extents'].push({'display' => display, '_inherited' => ext.dig('_inherited')})
       end
     end
   end
