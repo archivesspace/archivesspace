@@ -19,8 +19,8 @@
      <% end %>
 </ul>
 <% end %>
-    <% if !@result['json']['dates'].blank? %>
-      <% render partial: 'shared/dates', locals: {:dates => @result['json']['dates']} %>
+    <% if !@result['json']['html']['dates'].blank? %>
+      <% render partial: 'shared/dates', locals: {:dates => @result['json']['html']['dates']} %>
     <% end %>
 
   <% if !@result['json']['component_id'].blank? %>

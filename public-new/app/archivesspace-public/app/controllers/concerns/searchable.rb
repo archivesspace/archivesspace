@@ -230,7 +230,7 @@ module Searchable
       result['json']['container_disp'] = container_display(result)
       html_notes(result['json'], full)
       # handle dates
-      handle_dates( result['json']['dates']) if result['json'].has_key?('dates') if full
+      handle_dates( result['json']) if result['json'].has_key?('dates') && full
       handle_external_docs(result) if full
       # the info is deeply nested; find & bring it up 
       if result['_resolved_repository'].kind_of?(Hash) 
