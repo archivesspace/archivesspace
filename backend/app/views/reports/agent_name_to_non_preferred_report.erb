@@ -1,0 +1,23 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+  </dl>
+</div>
+
+<% @report.each do |name| %>
+  <div class="report-record">
+    <div class="identifier"><%= name.fetch('sortName') %></div>
+
+    <dl>
+      <dt>Name Type</dt>
+      <dd><%= name.fetch('nameType') %></dd>
+      <dt>Source</dt>
+      <dd><%= name.fetch('nameSource') %></dd>
+    </dl>
+
+    <%= subreport_section("Non-preferred form(s)", 'AgentNameNonPreferredSubreport', name) %>
+  </div>
+<% end %>

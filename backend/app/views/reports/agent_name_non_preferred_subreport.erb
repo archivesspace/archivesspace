@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Source</th>
+    <% @report.each do |name| %>
+    <tr>
+      <td><%= name.fetch('sortName') %></td>
+      <td><%= name.fetch('nameSource') %></td>
+    </tr>
+  <% end %>
+</table>
