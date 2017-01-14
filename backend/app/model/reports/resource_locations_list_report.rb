@@ -1,16 +1,16 @@
-class ResourceInstancesListReport < AbstractReport
+class ResourceLocationsListReport < AbstractReport
 
   register_report({
-                    :uri_suffix => "resource_instances_list_report",
-                    :description => "Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned containers.",
+                    :uri_suffix => "resource_locations_list_report",
+                    :description => "Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned locations.",
                   })
 
   def title
-    "Resources and Instances List"
+    "Resources and Locations List"
   end
 
   def template
-    'resource_instances_list_report.erb'
+    'resource_locations_list_report.erb'
   end
 
   def query
