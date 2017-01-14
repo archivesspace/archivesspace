@@ -1,0 +1,40 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Number of Restricted Records</dt>
+    <dd><%= @report.restricted_count %></dd>
+    <dt>Total Extent of Resources</dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+    <dt>Total Extent of Restricted Resources</dt>
+    <dd><%= format_number(@report.total_restricted_extent) %></dd>
+  </dl>
+</div>
+
+<% @report.each do |resource| %>
+  <% next if resource.fetch('restrictionsApply') != 1 %>
+
+  <div class="report-record">
+    <div class="identifier">Resource <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
+    <div class="record-title"><%= resource.fetch('title') %></div>
+
+    <dl>
+      <dt>Dates</dt>
+      <dd><%= resource.fetch('dateExpression') %></dd>
+      <dt>Level</dt>
+      <dd><%= resource.fetch('level') %></dd>
+      <dt>Access</dt>
+      <dd>
+        <% if resource.fetch('restrictionsApply') == 1 %>
+          Restrictions apply.
+        <% else %>
+          Open to researchers without restrictions.
+        <% end %>
+      </dd>
+    </dl>
+
+    <%= subreport_section("Names as Creators", 'ResourceNamesAsCreatorsSubreport', resource) %>
+  </div>
+<% end %>
