@@ -1,0 +1,28 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt>Number of Records</dt>
+    <dd><%= @report.total_count %></dd>
+    <dt>Total Extent of Resources</dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+    <dt>Total Extent of Deaccessions</dt>
+    <dd><%= format_number(@report.total_extent_of_deaccessions) %></dd>
+  </dl>
+</div>
+
+<% @report.each do |resource| %>
+  <div class="report-record">
+    <div class="identifier">Resource <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
+    <div class="record-title"><%= resource.fetch('title') %></div>
+
+    <dl>
+      <dt>Dates</dt>
+      <dd><%= resource.fetch('dateExpression') %></dd>
+      <dt>Level</dt>
+      <dd><%= resource.fetch('level') %></dd>
+    </dl>
+
+    <%= subreport_section("Deaccessions", 'ResourceDeaccessionsSubreport', resource) %>
+  </div>
+<% end %>
