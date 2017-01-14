@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Relator</th>
+  </tr>
+
+  <% @report.each do |creator| %>
+    <tr>
+      <td><%= creator.fetch('sortName') %></td>
+      <td><%= creator.fetch('relator') %></td>
+    </tr>
+  <% end %>
+</table>
