@@ -50,7 +50,7 @@ class AccessionConverter < Converter
       'accession_general_note' => 'accession.general_note',
       'accession_inventory' => 'accession.inventory',
       'accession_provenance' => 'accession.provenance',
-      'accession_publish' => 'accession.publish',
+      'accession_publish' => [normalize_boolean, 'accession.publish'],
       'accession_resource_type' => 'accession.resource_type',
       'accession_restrictions_apply' => 'accession.restrictions_apply',
       'accession_retention_rule' => 'accession.retention_rule',
