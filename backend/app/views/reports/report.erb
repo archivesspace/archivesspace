@@ -65,7 +65,7 @@ end
         margin-top: 2em;
         padding-bottom: 2em;
         border-bottom: 2px solid black;
-        page-break-after: always;
+        page-break-before: always;
       }
 
       section > h3 {
@@ -173,18 +173,9 @@ end
       }
 
       @page {
-      @bottom-center {
-            content: element(footer);
-          }
+        @bottom-center {
+          content: element(footer);
         }
-
-      .page-start { -fs-page-sequence: start;}
-
-      .page-number:before { content: counter(page); }
-      .page-count:before { content: counter(pages); }
-
-      .html .pdf-page-count {
-        display: none;
       }
 
       .html #footer {
@@ -197,17 +188,11 @@ end
         font-size: 11px;
       }
 
-      .pdf #footer .timstamp {
+      .pdf #footer .timestamp {
         position: absolute;
         bottom: 10px;
         left: 0;
         font-size: 0.8em;
-      }
-
-      .pdf #footer .pdf-page-count {
-        position: absolute;
-        bottom: 10px;
-        right: 0;
       }
     </style>
   </head>
@@ -222,8 +207,6 @@ end
           <% if @report.repo_id %>Scoped for Repository: <%= h @report.repo_id %><br/><% end %>
           Report Generated at <%= h time.strftime("%Y-%m-%d %H:%M %Z") %>
         </div>
-
-        <div class="pdf-page-count">Page <span class="page-number"/> of <span class="page-count"/></div>
       </div>
     <% end %>
 
