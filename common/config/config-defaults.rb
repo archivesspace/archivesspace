@@ -138,7 +138,7 @@ AppConfig[:locale] = :en
 # Report Configuration
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
-AppConfig[:report_page_layout] = "letter landscape"
+AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
