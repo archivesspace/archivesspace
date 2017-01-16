@@ -7,6 +7,7 @@ class AbstractReport
   attr_accessor :format
   attr_accessor :params
   attr_accessor :db
+  attr_accessor :orientation
   attr_reader :job
 
   def initialize(params, job, db)
@@ -41,6 +42,10 @@ class AbstractReport
 
   def layout
     AppConfig[:report_page_layout]
+  end
+
+  def orientation
+    "portrait"
   end
 
   def processor
