@@ -38,6 +38,13 @@ describe 'Accession converter' do
     @dates.count.should eq(2)
   end
 
+  it "sets the publish status correctly" do
+    @accessions[0]['publish'].should eq(true)
+    @accessions[1]['publish'].should eq(nil)
+    @accessions[2]['publish'].should eq(true)
+    @accessions[3]['publish'].should eq(nil)
+  end
+
 
 end
 

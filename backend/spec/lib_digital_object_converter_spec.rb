@@ -25,13 +25,14 @@ describe 'Digital Object converter' do
     @digital_objects[0]['jsonmodel_type'].should eq('digital_object')
     @digital_objects[0]['level'].should eq('image')
     @digital_objects[0]['title'].should eq('a new digital object')
+    @digital_objects[0]['publish'].should eq(true)
   end
 
 
 
   it "maps digital_object_file version information to the object" do
     @digital_objects[0]['file_versions'].length.should eq(1)
-    {"jsonmodel_type"=>"file_version", "uri"=>nil, "file_uri"=>"http://aspace.me", "publish"=>nil, "use_statement"=>"It's all good", "xlink_actuate_attribute"=>"onRequest", "xlink_show_attribute"=>"embed", "file_format_name"=>"jpeg", "file_format_version"=>"1", "file_size_bytes"=>100, "checksum"=>"xxxxxxx", "checksum_method"=>"md5"}.each do |k, v|
+    {"jsonmodel_type"=>"file_version", "uri"=>nil, "file_uri"=>"http://aspace.me", "publish"=>true, "use_statement"=>"It's all good", "xlink_actuate_attribute"=>"onRequest", "xlink_show_attribute"=>"embed", "file_format_name"=>"jpeg", "file_format_version"=>"1", "file_size_bytes"=>100, "checksum"=>"xxxxxxx", "checksum_method"=>"md5"}.each do |k, v|
       @digital_objects[0]["file_versions"][0][k].should eq(v)
     end
   end
