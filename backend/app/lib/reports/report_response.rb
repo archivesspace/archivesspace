@@ -105,8 +105,7 @@ EOS
   end
 
   def insert_subreport(subreport, params)
-    report_model = Kernel.const_get(subreport)
-    ReportResponse.new(report_model.new(params.merge(:format => 'html'), @report.job, @report.db),
+    ReportResponse.new(subreport.new(params.merge(:format => 'html'), @report.job, @report.db),
                        :layout => false).generate
   end
 

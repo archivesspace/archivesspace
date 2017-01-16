@@ -32,8 +32,8 @@
       <dd><%= format_date(location.fetch('location_classification')) %></dd>
     </dl>
 
-    <%= subreport_section("Accessions", 'LocationAccessionsSubreport', location) %>
+    <%= subreport_section("Accessions", LocationAccessionsSubreport, location) %>
 
-    <%= subreport_section("Resources", 'LocationResourcesSubreport', location) %>
+    <%= subreport_section("Resources", LocationResourcesSubreport, location) %>
   </div>
 <% end %>

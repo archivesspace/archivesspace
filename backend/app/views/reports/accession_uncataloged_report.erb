@@ -28,6 +28,6 @@
       <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
     </dl>
 
-    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

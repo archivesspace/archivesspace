@@ -12,7 +12,7 @@
     <div class="identifier">Digital Object <%= h digital_object.fetch('identifier') %></div>
     <div class="record-title"><%= h digital_object.fetch('title') %></div>
 
-    <%= subreport_section("File Version(s)", 'DigitalObjectFileVersionsListSubreport', digital_object) %>
+    <%= subreport_section("File Version(s)", DigitalObjectFileVersionsListSubreport, digital_object) %>
 
     <section>
       <h3>Component(s)</h3>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= insert_subreport('DigitalObjectComponentFileVersionsListSubreport', digital_object) %>
+          <%= insert_subreport(DigitalObjectComponentFileVersionsListSubreport, digital_object) %>
         </tbody>
       </table>
     </section>

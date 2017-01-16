@@ -31,6 +31,6 @@
       <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
     </dl>
 
-    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>
