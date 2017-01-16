@@ -19,7 +19,7 @@ class RepositoryReport < AbstractReport
   end
 
   def query
-    db[:repository]
+    db[:repository].filter(:hidden => 0)
   end
 
 end
