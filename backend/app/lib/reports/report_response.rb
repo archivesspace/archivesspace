@@ -86,7 +86,7 @@ EOS
 
   def format_date(date)
     unless date.nil?
-      date.to_s
+      h(date.to_s)
     end
   end
 
@@ -100,7 +100,7 @@ EOS
 
   def format_number(number)
     unless number.nil?
-      sprintf('%.2f', number)
+      h(sprintf('%.2f', number))
     end
   end
 
@@ -126,7 +126,7 @@ EOS
     # a hint on where to place the line breaks.  Pretty terrible, but it works.
     #
     if @report.format === 'pdf'
-      escaped = CGI.escapeHTML(s)
+      escaped = h(s)
 
       # Exciting regexp time!  We break our string into "tokens", which are either:
       #
@@ -146,7 +146,7 @@ EOS
         end
       }.join("")
     else
-      CGI.escapeHTML(s)
+      h(s)
     end
   end
 
@@ -190,7 +190,7 @@ EOS
         end
       end
 
-      doc.to_html
+      doc.to_xhtml
     end
 
   end

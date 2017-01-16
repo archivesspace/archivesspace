@@ -5,9 +5,9 @@
         <th>Source</th>
         <% @report.each do |subject| %>
             <tr>
-                <td><%= subject.fetch('subjectTerm') %></td>
-                <td><%= subject.fetch('subjectTermType') %></td>
-                <td><%= subject.fetch('subjectSource') %></td>
+                <td><%= h subject.fetch('subjectTerm') %></td>
+                <td><%= h subject.fetch('subjectTermType') %></td>
+                <td><%= h subject.fetch('subjectSource') %></td>
             </tr>
         <% end %>
 </table>

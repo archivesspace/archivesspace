@@ -1,11 +1,11 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Number of Records Reviewed</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
     <dt>Uncataloged Accessions</dt>
-    <dd><%= @report.uncataloged_count %></dd>
+    <dd><%= h @report.uncataloged_count %></dd>
     <dt>Total Extent of Unataloged Accessions</dt>
     <dd><%= format_number(@report.total_extent) %></dd>
   </dl>
@@ -17,7 +17,7 @@
 
   <div class="report-record">
     <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
-    <div class="record-title"><%= accession.fetch('title') %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>

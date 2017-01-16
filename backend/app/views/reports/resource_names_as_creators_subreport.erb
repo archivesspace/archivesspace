@@ -6,8 +6,8 @@
 
   <% @report.each do |creator| %>
     <tr>
-      <td><%= creator.fetch('sortName') %></td>
-      <td><%= creator.fetch('relator') %></td>
+      <td><%= h creator.fetch('sortName') %></td>
+      <td><%= h creator.fetch('relator') %></td>
     </tr>
   <% end %>
 </table>

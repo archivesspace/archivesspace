@@ -1,9 +1,9 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Number of Records</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
     <dt>Accessioned Between</dt>
     <dd><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></dd>
     <dt>Total Extent of Accessions</dt>
@@ -16,7 +16,7 @@
 <% @report.each do |accession| %>
   <div class="report-record">
     <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
-    <div class="record-title"><%= accession.fetch('title') %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
   
     <dl>
       <dt>Accession Date</dt>
