@@ -44,7 +44,7 @@ function readlink_dash_f {
         i=$[i + 1]
     done
 
-    # Compute the canonicalized name by finding the physical path 
+    # Compute the canonicalized name by finding the physical path
     # for the directory we're in and appending the target file.
     result="`pwd -P`/$target_file"
 
@@ -165,12 +165,16 @@ case "$1" in
             echo "Couldn't find a running instance to stop"
         fi
         ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
     "")
         # Run in foreground mode
         (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee '$ARCHIVESSPACE_LOGS'")
         ;;
     *)
-        echo "Usage: $0 [start|stop]"
+        echo "Usage: $0 [start|stop|restart]"
         exit 1
         ;;
 
