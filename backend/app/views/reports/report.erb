@@ -204,8 +204,8 @@
       <% time = DateTime.now %>
       <div id="footer" class="footer" style="position: running(footer);">
         <div class="timestamp">
-          <% if @report.repo_id %>Scoped for Repository: <%= @report.repo_id %><br/><% end %>
-          Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
+          <% if @report.repo_id %>Scoped for Repository: <%= h @report.repo_id %><br/><% end %>
+          Report Generated at <%= h time.strftime("%Y-%m-%d %H:%M %Z") %>
         </div>
 
         <div class="pdf-page-count">Page <span class="page-number"/> of <span class="page-count"/></div>
@@ -216,6 +216,6 @@
 </html>
 
 <% else %>
-   <!-- <%= @report.template %>  -->
+   <!-- <%= h @report.template %>  -->
     <%= render(File.join('app', 'views', 'reports', @report.template)) %>
 <% end %>

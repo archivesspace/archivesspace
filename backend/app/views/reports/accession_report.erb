@@ -4,7 +4,7 @@
 
     <dl>
         <dt>Number of accessions</dt>
-        <dd><%= @report.accession_count %></dd>
+        <dd><%= h @report.accession_count %></dd>
     </dl>
 </div>
 
@@ -12,7 +12,7 @@
 
     <div class="report-record">
         <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
-        <div class="record-title"><%= accession.fetch('title') %></div>
+        <div class="record-title"><%= h accession.fetch('title') %></div>
 
         <dl>
             <dt>Accession</dt>
@@ -40,7 +40,7 @@
             <dt>Bulk End Date</dt>
             <dd><%= format_date(accession.fetch('bulkDateEnd')) %></dd>
             <dt>Date Expression</dt>
-            <dd><%= accession.fetch('dateExpression') %></dd>
+            <dd><%= h accession.fetch('dateExpression') %></dd>
         </dl>
 
         <%= subreport_section("Names", 'AccessionNamesSubreport', accession) %>
@@ -49,7 +49,7 @@
 
         <dl>
             <dt>Acquisition</dt>
-            <dd><%= accession.fetch('acquisitionType') %></dd>
+            <dd><%= h accession.fetch('acquisitionType') %></dd>
         </dl>
 
         <%= text_section('Retention', accession.fetch('retentionRule')) %>

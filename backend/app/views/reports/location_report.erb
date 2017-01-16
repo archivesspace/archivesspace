@@ -1,16 +1,16 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Number of Results</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
   </dl>
 </div>
 
 <% @report.each do |location| %>
 
   <div class="report-record">
-    <div class="identifier"><%= location.fetch('location_building') %></div>
+    <div class="identifier"><%= h location.fetch('location_building') %></div>
 
     <dl>
       <dt>Floor</dt>

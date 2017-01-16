@@ -1,6 +1,6 @@
 <div class="header">
   <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
-  <h1><%= @report.title %></h1>
+  <h1><%= h @report.title %></h1>
 </div>
 
 <table class="report-listing">

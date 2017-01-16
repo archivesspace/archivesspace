@@ -17,7 +17,7 @@
 
   <div class="report-record">
     <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
-    <div class="record-title"><%= accession.fetch('title') %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>

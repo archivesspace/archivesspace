@@ -1,11 +1,11 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Number of Records</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
     <dt>Number of Restricted Records</dt>
-    <dd><%= @report.restricted_count %></dd>
+    <dd><%= h @report.restricted_count %></dd>
     <dt>Total Extent of Resources</dt>
     <dd><%= format_number(@report.total_extent) %></dd>
     <dt>Total Extent of Restricted Resources</dt>
@@ -18,13 +18,13 @@
 
   <div class="report-record">
     <div class="identifier">Resource <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
-    <div class="record-title"><%= resource.fetch('title') %></div>
+    <div class="record-title"><%= h resource.fetch('title') %></div>
 
     <dl>
       <dt>Dates</dt>
-      <dd><%= resource.fetch('dateExpression') %></dd>
+      <dd><%= h resource.fetch('dateExpression') %></dd>
       <dt>Level</dt>
-      <dd><%= resource.fetch('level') %></dd>
+      <dd><%= h resource.fetch('level') %></dd>
       <dt>Access</dt>
       <dd>
         <% if resource.fetch('restrictionsApply') == 1 %>

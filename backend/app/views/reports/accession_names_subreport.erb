@@ -5,9 +5,9 @@
         <th>Role</th>
         <% @report.each do |name| %>
             <tr>
-                <td><%= name.fetch('sortName') %></td>
-                <td><%= name.fetch('nameLinkFunction') %></td>
-                <td><%= name.fetch('role') %></td>
+                <td><%= h name.fetch('sortName') %></td>
+                <td><%= h name.fetch('nameLinkFunction') %></td>
+                <td><%= h name.fetch('role') %></td>
             </tr>
         <% end %>
 </table>

@@ -7,9 +7,9 @@
 
   <% @report.each do |location| %>
     <tr>
-      <td><%= location.fetch('container') %></td>
-      <td><%= location.fetch('container2Type') %> <%= location.fetch('container2Indicator') %></td>
-      <td><%= location.fetch('container3Type') %> <%= location.fetch('container3Indicator') %></td>
+      <td><%= h location.fetch('container') %></td>
+      <td><%= h location.fetch('container2Type') %> <%= h location.fetch('container2Indicator') %></td>
+      <td><%= h location.fetch('container3Type') %> <%= h location.fetch('container3Indicator') %></td>
     </tr>
   <% end %>
 </table>

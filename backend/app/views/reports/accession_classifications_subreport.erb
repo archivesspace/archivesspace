@@ -4,8 +4,8 @@
         <th>Title</th>
         <% @report.each do |classification| %>
             <tr>
-              <td><%= classification['classificationIdentifier'] || classification['classificationTermIdentifier'] %></td>
-              <td><%= classification['classificationTitle'] || classification['classificationTermTitle'] %></td>
+              <td><%= h classification['classificationIdentifier'] || classification['classificationTermIdentifier'] %></td>
+              <td><%= h classification['classificationTitle'] || classification['classificationTermTitle'] %></td>
             </tr>
         <% end %>
 </table>

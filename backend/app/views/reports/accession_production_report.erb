@@ -1,5 +1,5 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Accessioned Between</dt>
@@ -9,7 +9,7 @@
     <dd><%= format_number(@report.total_extent) %></dd>
 
     <dt>Number of Records Selected</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
 
     <dt>Total Extent of Cataloged Accessions</dt>
     <dd><%= format_number(@report.total_extent_of_cataloged) %></dd>

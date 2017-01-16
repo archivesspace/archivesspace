@@ -1,11 +1,11 @@
 <div class="titlepage">
-  <div class="title"><%= @report.title %></div>
+  <div class="title"><%= h @report.title %></div>
 
   <dl>
     <dt>Number of Records</dt>
-    <dd><%= @report.total_count %></dd>
+    <dd><%= h @report.total_count %></dd>
     <dt>Unprocessed Accessions</dt>
-    <dd><%= @report.total_unprocessed %></dd>
+    <dd><%= h @report.total_unprocessed %></dd>
     <dt>Accessioned Between</dt>
     <dd><%= format_date(@report.from_date) %> &amp;amp; <%= format_date(@report.to_date) %></dd>
     <dt>Total Extent of Unprocessed Accessions</dt>
@@ -18,7 +18,7 @@
 
   <div class="report-record">
     <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
-    <div class="record-title"><%= accession.fetch('title') %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>
