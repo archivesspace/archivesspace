@@ -40,3 +40,4 @@ locales.diff
 Gemfile.local
 supervisord.*
 mysql-connector*.jar
+common/config/config.rb
