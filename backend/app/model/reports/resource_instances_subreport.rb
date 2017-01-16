@@ -26,6 +26,7 @@ class ResourceInstancesSubreport < AbstractReport
               Sequel.as(:sub_container__indicator_2, :container2Indicator),
               Sequel.as(Sequel.lit("GetEnumValueUF(sub_container.type_3_id)"), :container3Type),
               Sequel.as(:sub_container__indicator_3, :container3Indicator))
+      .distinct
   end
 
 end
