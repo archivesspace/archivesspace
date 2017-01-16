@@ -49,7 +49,9 @@ end
       .titlepage {
         border: 1px solid black;
         padding: 1em;
-      }     
+        page-break-after: always;
+        height: 100%;
+      }
 
       .titlepage .title {
         font-weight: bold;
@@ -63,7 +65,12 @@ end
         margin-top: 2em;
         padding-bottom: 2em;
         border-bottom: 2px solid black;
-      }     
+        page-break-after: always;
+      }
+
+      section > h3 {
+          page-break-after: avoid;
+      }
 
       dl {
         margin-top: 1em;
