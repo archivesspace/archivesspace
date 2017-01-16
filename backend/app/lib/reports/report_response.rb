@@ -104,9 +104,19 @@ EOS
     end
   end
 
-  def insert_subreport(subreport, params)
-    ReportResponse.new(subreport.new(params.merge(:format => 'html'), @report.job, @report.db),
-                       :layout => false).generate
+  def insert_subreport(subreport, params = {})
+    # If `subreport` is a class, create an instance.  Otherwise, use the
+    # supplied instance directly.  This gives the caller the opportunity to
+    # construct their own object if desired, without being forced to do so in
+    # every case.
+    #
+    subreport_instance = if subreport.is_a?(AbstractReport)
+      sureport
+    else
+      @report.new_subreport(subreport, params)
+    end
+
+    ReportResponse.new(subreport_instance, :layout => false).generate
   end
 
   def transform_text(s)
