@@ -108,4 +108,12 @@ module ExportHelpers
     ASpaceExport::serialize(eac)
   end
 
+  # this takes identifiers and makes sure there's no 'funny' characters.
+  # usefuly for filenaming on exports.
+  def safe_filename(id, suffix = "")
+    filename = "#{id}_#{Time.now.getutc}_#{suffix}" 
+    filename.gsub(/\s+/, '_').gsub(/[^0-9A-Za-z_\.]/, '')
+  end
+
+
 end
