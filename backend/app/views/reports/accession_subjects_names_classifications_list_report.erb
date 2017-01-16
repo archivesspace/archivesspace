@@ -12,10 +12,10 @@
     <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
-    <%= subreport_section("Names", 'AccessionNamesSubreport', accession) %>
+    <%= subreport_section("Names", AccessionNamesSubreport, accession) %>
 
-    <%= subreport_section("Subjects", 'AccessionSubjectsSubreport', accession) %>
+    <%= subreport_section("Subjects", AccessionSubjectsSubreport, accession) %>
 
-    <%= subreport_section("Classifications", 'AccessionClassificationsSubreport', accession) %>
+    <%= subreport_section("Classifications", AccessionClassificationsSubreport, accession) %>
   </div>
 <% end %>

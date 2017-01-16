@@ -51,6 +51,6 @@
 
     <%= text_section('Access Restrictions Note', accession.fetch('accessRestrictionsNote')) %>
 
-    <%= subreport_section("Linked Resource(s)", 'AccessionResourcesSubreport', accession) %>
+    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

@@ -23,6 +23,6 @@
       <dd><%= h resource.fetch('level') %></dd>
     </dl>
 
-    <%= subreport_section("Deaccessions", 'ResourceDeaccessionsSubreport', resource) %>
+    <%= subreport_section("Deaccessions", ResourceDeaccessionsSubreport, resource) %>
   </div>
 <% end %>

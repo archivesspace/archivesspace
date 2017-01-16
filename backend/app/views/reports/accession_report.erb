@@ -24,9 +24,9 @@
 
         <%= text_section('Container', accession.fetch('containerSummary')) %>
 
-        <%= subreport_section("Deaccessions", "AccessionDeaccessionsSubreport", accession) %>
+        <%= subreport_section("Deaccessions", AccessionDeaccessionsSubreport, accession) %>
 
-        <%= subreport_section("Locations", 'AccessionLocationsSubreport', accession) %>
+        <%= subreport_section("Locations", AccessionLocationsSubreport, accession) %>
 
         <%= text_section('General Note', accession.fetch('containerSummary')) %>
 
@@ -43,9 +43,9 @@
             <dd><%= h accession.fetch('dateExpression') %></dd>
         </dl>
 
-        <%= subreport_section("Names", 'AccessionNamesSubreport', accession) %>
+        <%= subreport_section("Names", AccessionNamesSubreport, accession) %>
 
-        <%= subreport_section("Subjects", 'AccessionSubjectsSubreport', accession) %>
+        <%= subreport_section("Subjects", AccessionSubjectsSubreport, accession) %>
 
         <dl>
             <dt>Acquisition</dt>
