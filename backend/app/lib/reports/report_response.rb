@@ -112,8 +112,10 @@ EOS
     #
     subreport_instance = if subreport.is_a?(AbstractReport)
       sureport
-    else
+    elsif subreport.is_a?(Class)
       @report.new_subreport(subreport, params)
+    else
+      raise "insert_subreport expects first argument to be a Class or an AbstractReport"
     end
 
     ReportResponse.new(subreport_instance, :layout => false).generate
