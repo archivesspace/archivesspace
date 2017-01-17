@@ -83,7 +83,7 @@ class AccessionsController <  ApplicationController
       @context.push({:uri => '', :crumb => @result['json']['title'] })
       @subjects = process_subjects(@result['json']['subjects'])
       @agents = process_agents(@result['json']['linked_agents'], @subjects)
-      process_extents
+      process_extents(@result['json'])
     else
       @type = I18n.t('accession._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
