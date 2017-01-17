@@ -103,7 +103,7 @@ class ObjectsController <  ApplicationController
         end
       rescue Exception => error
         Pry::ColorPrinter.pp error.backtrace
-        throw error
+        raise error
       end
       render
     else
