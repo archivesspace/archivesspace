@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: jasper_accessions_subjects_names_classifications_list
-description: "Displays accessions and their linked names, subjects, and classifications. Report contains accession number, linked resources, accession date, title, extent, linked names, and linked subjects."

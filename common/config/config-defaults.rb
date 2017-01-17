@@ -191,14 +191,6 @@ AppConfig[:max_location_range] = 1000
 # this check here. Do so at your own peril. 
 AppConfig[:ignore_schema_info_check] = false
 
-# Jasper Reports
-# (https://community.jaspersoft.com/project/jasperreports-library)
-# require compilation. This can be done at startup. Please note, if you are
-# using Java 8 and you want to compile at startup, keep this setting at false,
-# but be sure to use the JDK version.
-AppConfig[:enable_jasper] = true
-AppConfig[:compile_jasper] = true
-
 # There are some conditions that has caused tree nodes ( ArchivalObjects, DO
 # Components, and ClassificationTerms) to lose their sequence pointers and
 # position setting. This will resequence these tree nodes prior to startup.

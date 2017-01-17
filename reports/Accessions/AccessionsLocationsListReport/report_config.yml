@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: jasper_accessions_locations_list
-description: "Displays accessions(s) and all specified location information. Report contains title, accession number, cataloged, date range, and assigned locations."

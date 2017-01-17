@@ -359,10 +359,6 @@ eof
       raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")
     end
   end
-  
-  def self.supports_jasper?
-    ![:derby, :h2].include?(@pool.database_type)
-  end
 
 
   def self.supports_mvcc?

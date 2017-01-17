@@ -123,15 +123,6 @@ class ArchivesSpaceService < Sinatra::Base
 
       end
 
-      if AppConfig[:enable_jasper] && DB.supports_jasper? 
-        require_relative 'model/reports/jasper_report' 
-        require_relative 'model/reports/jasper_report_register' 
-        JasperReport.compile if AppConfig[:compile_jasper] 
-        JasperReportRegister.register_reports
-      end
-
-
-
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
