@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: jasper_resources_locations_list
-description: "Displays resource(s) and all specified location information. Report contains title, resource identifier, level, date range, and assigned locations."

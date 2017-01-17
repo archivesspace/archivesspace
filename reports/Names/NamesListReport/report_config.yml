@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: jasper_names_list
-description: "Displays selected name record(s). Report lists name, name type, and name source."

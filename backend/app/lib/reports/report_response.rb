@@ -6,10 +6,6 @@ require_relative 'html_response'
 require 'erb'
 require 'nokogiri'
 
-# this is a generic wrapper for reports reponses. JasperReports do not 
-# need a reponse wrapper and can return reports on formats using the to_FORMAT
-# convention. "Classic" AS reports need a wrapper to render the report in a
-# specific format.
 class ReportResponse
  
   attr_accessor :report
@@ -21,18 +17,13 @@ class ReportResponse
   end
 
   def generate
-    if  @report.is_a?(JasperReport) 
-      format = @report.format    
-      String.from_java_bytes( @report.render(format.to_sym, @params) ) 
-    else
-      file = File.join( File.dirname(__FILE__), "../../views/reports/report.erb")
-      @params[:html_report] ||= proc { ReportErbRenderer.new(@report, @params).render(file) }
+    file = File.join( File.dirname(__FILE__), "../../views/reports/report.erb")
+    @params[:html_report] ||= proc { ReportErbRenderer.new(@report, @params).render(file) }
 
-      format = @report.format
+    format = @report.format
 
-      klass = Object.const_get("#{format.upcase}Response")
-      klass.send(:new, @report, @params).generate
-    end
+    klass = Object.const_get("#{format.upcase}Response")
+    klass.send(:new, @report, @params).generate
   end
 
 end
@@ -163,6 +154,14 @@ EOS
 
   def preserve_newlines(s)
     transform_text(s).gsub(/(?:\r\n)+/,"<br>");
+  end
+
+  def template_path(template_name)
+    if File.exists?(File.join('app', 'views', 'reports', template_name))
+      return File.join('app', 'views', 'reports', template_name)
+    end
+
+    StaticAssetFinder.new('reports').find(template_name)
   end
 
   class HTMLCleaner
