@@ -1143,4 +1143,64 @@ describe "EAD export mappings" do
       item.should_not have_attribute('audience', 'internal') 
     end
   end
+
+  describe "Test suppressed record EAD exports" do
+
+    def get_xml_doc
+      as_test_user("admin") do
+        DB.open(true) do
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_jsonmodel.id}.xml?include_unpublished=true&include_daos=true", true)
+
+          doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
+          doc_nsless_for_resource.remove_namespaces!
+
+          return doc_nsless_for_resource
+        end
+      end
+    end
+
+
+    before(:all) {
+      resource = create(:json_resource,
+                        :publish => false)
+
+      @resource_jsonmodel = JSONModel(:resource).find(resource.id)
+
+      @suppressed_series = create(:json_archival_object_normal,
+                                  :resource => {:ref => @resource_jsonmodel.uri},
+                                  :publish => true,
+                                  :suppressed => true)
+
+      @unsuppressed_series = create(:json_archival_object_normal,
+                                    :resource => {:ref => @resource_jsonmodel.uri},
+                                    :publish => true,
+                                    :suppressed => false)
+
+      @suppressed_series_unsuppressedchild = create(:json_archival_object_normal,
+                                                    :resource => {:ref => @resource_jsonmodel.uri},
+                                                    :parent => {:ref => @suppressed_series.uri},
+                                                    :publish => true,
+                                                    :suppressed => false)
+
+      @unsuppressed_series_unsuppressed_child = create(:json_archival_object_normal,
+                                                       :resource => {:ref => @resource_jsonmodel.uri},
+                                                       :parent => {:ref => @unsuppressed_series.uri},
+                                                       :publish => true,
+                                                       :suppressed => false)
+
+      @unsuppressed_series_suppressed_child = create(:json_archival_object_normal,
+                                                     :resource => {:ref => @resource_jsonmodel.uri},
+                                                     :parent => {:ref => @unsuppressed_series.uri},
+                                                     :publish => true,
+                                                     :suppressed => true)
+
+      @xml = get_xml_doc
+    }
+
+    it "excludes suppressed items" do
+      @xml.xpath('//c').length.should eq(2)
+      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length.should eq(1)
+      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length.should eq(1)
+    end
+  end
 end
