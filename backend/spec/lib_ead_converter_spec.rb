@@ -1125,4 +1125,54 @@ ANEAD
 
   end
 
+  # See https://archivesspace.atlassian.net/browse/AR-1373
+  describe "Mapping component level note tags" do
+    def test_doc
+      src = <<ANEAD
+         <c01 level="series">
+            <did>
+               <unitid>1</unitid>
+               <unittitle>Series 1 Title</unittitle>
+               <note><p>Note text inside did</p></note>
+            </did>
+            <c02 level="subseries">
+               <did>
+                  <unittitle>Finished Prints</unittitle>
+               </did>
+               <c03 level="file">
+                  <did>
+                     <unittitle>File title</unittitle>
+                     <note>
+                        <p>Some note text inside did</p>
+                     </note>
+                  </did>
+                  <note>
+                     <p>Some note text outside did</p>
+                  </note>
+               </c03>
+            </c02>
+         </c01>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before(:all) do
+      parsed = convert(test_doc)
+      @record = parsed.shift
+    end
+
+    it "should create a note for a <note> tag inside a <did>" do
+      @record['notes'][0]['type'].should eq('odd')
+      @record['notes'][0]['subnotes'][0]['content'].should eq('Some note text inside did')
+    end
+
+
+    it "should create a note for a <note> tag outside a <did>" do
+      @record['notes'][1]['type'].should eq('odd')
+      @record['notes'][1]['subnotes'][0]['content'].should eq('Some note text outside did')
+    end
+
+  end
+
 end
