@@ -1,0 +1,5 @@
+en:
+  reports:
+    unprocessed_accessions_report:
+      title: Unprocessed Accessions
+      description: Report on all unprocessed accessions

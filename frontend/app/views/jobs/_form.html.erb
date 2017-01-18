@@ -76,20 +76,20 @@
             <% @report_data["reports"].values.each do | report | %>
               <div class='report-listing'>
                 <div class="alert alert-info">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>">
-                    <%= I18n.t("reports.#{report["model"]}", :default => report["model"]) %>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
+                    <%= I18n.t("reports.#{report["code"]}.title") %>
                   </a>
-                  <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</span>
-                  <button class="pull-right btn btn-default select-record" data-report="<%= report['uri_suffix'] %>">Select</button>
-                  <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>" >
+                  <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</button>
+                  <button class="pull-right btn btn-default select-record" data-report="<%= report['code'] %>">Select</button>
+                  <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>" >
                     <%= I18n.t("job.show_description") %>
                   </a>
                 </div>
-                <div id="reportListing_<%= report["uri_suffix"] %>" class="accordion-body collapse">
+                <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse">
                   <div class="accordion-inner">
-                    <p><%= report['description'] %></p>
+                    <p><%= I18n.t("reports.#{report["code"]}.description", :default => report["code"]) %></p>
                     <hr/>
-                    <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['uri_suffix'] %>' />
+                    <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['code'] %>' />
                     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
                     
                     <% if report_params.length > 0 %>
