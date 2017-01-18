@@ -17,8 +17,9 @@ class ReportResponse
   end
 
   def generate
-    file = File.join( File.dirname(__FILE__), "../../views/reports/report.erb")
-    @params[:html_report] ||= proc { ReportErbRenderer.new(@report, @params).render(file) }
+    @params[:html_report] ||= proc {
+      ReportErbRenderer.new(@report, @params).render("report.erb")
+    }
 
     format = @report.format
 
@@ -42,7 +43,7 @@ class ReportErbRenderer
   end
 
   def render(file)
-    HTMLCleaner.new.clean(ERB.new( File.read(file) ).result(binding))
+    HTMLCleaner.new.clean(ERB.new( File.read(template_path(file)) ).result(binding))
   end
 
   def format_4part(s)
@@ -157,7 +158,7 @@ EOS
   end
 
   def template_path(template_name)
-    if File.exists?(File.join('app', 'views', 'reports', template_name))
+    if File.exist?(File.join('app', 'views', 'reports', template_name))
       return File.join('app', 'views', 'reports', template_name)
     end
 

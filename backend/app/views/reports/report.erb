@@ -199,7 +199,7 @@ end
   </head>
 
   <body class="<%= @report.format %>">
-    <%= render(File.join('app', 'views', 'reports', @report.template)) %>
+    <%= render(@report.template) %>
 
     <% if @report.format === 'html' or @report.format === 'pdf' %>
       <% time = DateTime.now %>
@@ -216,5 +216,5 @@ end
 
 <% else %>
    <!-- <%= h @report.template %>  -->
-    <%= render(File.join('app', 'views', 'reports', @report.template)) %>
+    <%= render(@report.template) %>
 <% end %>
