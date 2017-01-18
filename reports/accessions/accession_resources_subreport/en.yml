@@ -1,3 +1,5 @@
 en:
   reports:
     accession_resources_subreport:
+      identifier: Identifier
+      title: Title

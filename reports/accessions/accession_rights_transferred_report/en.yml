@@ -3,3 +3,20 @@ en:
     accession_rights_transferred_report:
       title: Accessions with rights transferred
       description: Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred.
+      number_of_records: Number of Records
+      total_transferred: Accessions with Rights Transferred
+      identifier_prefix: Accession
+      accession_date: Accession Date
+      processed_date: Date Processed
+      extent: Extent
+      cataloged: Cataloged
+      rights_and_restrictions: Rights &amp; Restrictions
+      retrictions_apply: Restrictions apply.
+      no_restrictions: No restrictions.
+      rights_transferred: Rights Transferred
+      rights_transferred_true: Rights Transferred
+      rights_transferred_false: Not transferred
+      rights_transferred_note: Rights Transferred Note
+      use_restrictions_note: Use Restrictions Note
+      access_restrictions_note: Access Restrictions Note
+      linked_resources: Linked Resource(s)

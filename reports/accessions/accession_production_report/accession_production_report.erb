@@ -2,19 +2,19 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Accessioned Between</dt>
+    <dt><%= i18n('accessioned_between') %></dt>
     <dd><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></dd>
 
-    <dt>Total Extent of Selected Accessions</dt>
+    <dt><%= i18n('total_extent') %></dt>
     <dd><%= format_number(@report.total_extent) %></dd>
 
-    <dt>Number of Records Selected</dt>
+    <dt><%= i18n('number_selected') %></dt>
     <dd><%= h @report.total_count %></dd>
 
-    <dt>Total Extent of Cataloged Accessions</dt>
+    <dt><%= i18n('total_cataloged_extent') %></dt>
     <dd><%= format_number(@report.total_extent_of_cataloged) %></dd>
 
-    <dt>Total Extent of Processed Accessions</dt>
+    <dt><%= i18n('total_processed_extent') %></dt>
     <dd><%= format_number(@report.total_extent_of_processed) %></dd>
   </dl>
 

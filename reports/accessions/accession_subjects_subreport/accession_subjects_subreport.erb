@@ -1,8 +1,8 @@
 <table>
     <tr>
-        <th>Term</th>
-        <th>Type</th>
-        <th>Source</th>
+        <th><%= i18n('term') %></th>
+        <th><%= i18n('type') %></th>
+        <th><%= i18n('source') %></th>
         <% @report.each do |subject| %>
             <tr>
                 <td><%= h subject.fetch('subjectTerm') %></td>

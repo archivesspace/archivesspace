@@ -3,3 +3,8 @@ en:
     accession_receipt_report:
       title: Accession Receipt Report
       description: Displays a receipt indicating accessioning of materials. Report contains accession number, title, extent, accession date, and repository.
+      accession_title: Accession title
+      extent: Extent
+      repository: Repository
+      repository_date: Added to repository on
+      accession_number: Accession number

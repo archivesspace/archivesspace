@@ -2,11 +2,11 @@
   <div class="title"><%= @report.title %></div>
 
   <dl>
-    <dt>Number of Records Reviewed</dt>
+    <dt><%= i18n('number_of_records') %></dt>
     <dd><%= @report.total_count %></dd>
-    <dt>Cataloged Accessions</dt>
+    <dt><%= i18n('number_of_cataloged') %></dt>
     <dd><%= @report.cataloged_count %></dd>
-    <dt>Total Extent of Cataloged Accessions</dt>
+    <dt><%= i18n('total_extent') %></dt>
     <dd><%= format_number(@report.total_extent) %></dd>
   </dl>
 
@@ -16,26 +16,26 @@
   <% next if accession.fetch('cataloged') == 0 %>
 
   <div class="report-record">
-    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>
-        <dt>Extent</dt>
+        <dt><%= i18n('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
-      <dt>Date Processed</dt>
+      <dt><%= i18n('date_processed') %></dt>
       <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
-      <dt>Cataloged</dt>
+      <dt><%= i18n('cataloged') %></dt>
       <dd>
         <% if accession.fetch('catalogedDate').nil? || accession.fetch('catalogedDate').empty? %>
-          [Date not recorded]
+          <%= i18n("cataloged_false") %>
         <% else %>
           <%= format_date(accession.fetch('catalogedDate')) %>
         <% end %>
       </dd>
     </dl>
 
-    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
+    <%= subreport_section(i18n('linked_resources'), AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

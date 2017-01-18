@@ -42,6 +42,10 @@ class ReportErbRenderer
     @params.fetch(:layout, true)
   end
 
+  def i18n(key)
+    h(I18n.t("reports.#{@report.code}.#{key}"))
+  end
+
   def render(file)
     HTMLCleaner.new.clean(ERB.new( File.read(template_path(file)) ).result(binding))
   end

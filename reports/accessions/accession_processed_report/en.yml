@@ -3,3 +3,12 @@ en:
     accession_processed_report:
       title: Processed Accessions
       description: Displays only those accession(s) that have been processed based on the date processed field. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with a date processed, and the total extent number for those records with date processed.
+      number_of_records: Number of Records
+      processed_accessions: Processed Accessions
+      accessioned_between: Accessioned Between
+      total_extent_of_processed: Total Extent of Processed Accessions
+      identifier_prefix: Accession
+      extent: Extent
+      date_processed: Date Processed
+      cataloged: Cataloged
+      linked_resources: Linked Resource(s)

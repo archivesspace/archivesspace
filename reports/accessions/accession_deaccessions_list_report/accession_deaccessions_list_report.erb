@@ -2,31 +2,31 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= i18n('number_of_records') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt>Accessioned Between</dt>
+    <dt><%= i18n('accessioned_between') %></dt>
     <dd><%= format_date(@report.from_date) %> &amp; <%= format_date(@report.to_date) %></dd>
-    <dt>Total Extent of Accessions</dt>
+    <dt><%= i18n('total_extent') %></dt>
     <dd><%= format_number(@report.total_extent) %></dd>
-    <dt>Total Extent of Deaccessions</dt>
+    <dt><%= i18n('total_deaccessions_extent') %></dt>
     <dd><%= format_number(@report.total_extent_of_deaccessions) %></dd>
   </dl>
 </div>
 
 <% @report.each do |accession| %>
   <div class="report-record">
-    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
   
     <dl>
-      <dt>Accession Date</dt>
+      <dt><%= i18n('accession_date') %></dt>
       <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
       <% if accession.fetch('extentNumber') %>
-        <dt>Extent</dt>
+        <dt><%= i18n('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
     </dl>
   
-    <%= subreport_section("Deaccessions", AccessionDeaccessionsSubreport, accession) %>
+    <%= subreport_section(i18n('deaccessions'), AccessionDeaccessionsSubreport, accession) %>
   </div>
 <% end %>

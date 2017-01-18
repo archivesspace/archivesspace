@@ -1,9 +1,9 @@
 <div class="titlepage">
 
-    <div class="title">Accession Records</div>
+    <div class="title"><%= @report.title %></div>
 
     <dl>
-        <dt>Number of accessions</dt>
+        <dt><%= i18n('number_of_accessions') %></dt>
         <dd><%= h @report.accession_count %></dd>
     </dl>
 </div>
@@ -11,69 +11,65 @@
 <% @report.each do |accession| %>
 
     <div class="report-record">
-        <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+        <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
         <div class="record-title"><%= h accession.fetch('title') %></div>
 
         <dl>
-            <dt>Accession</dt>
+            <dt><%= i18n('accession_date') %></dt>
             <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
 
-            <dt>Extent</dt>
+            <dt><%= i18n('extent') %></dt>
             <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
         </dl>
 
-        <%= text_section('Container', accession.fetch('containerSummary')) %>
+        <%= text_section(i18n('container'), accession.fetch('containerSummary')) %>
 
-        <%= subreport_section("Deaccessions", AccessionDeaccessionsSubreport, accession) %>
+        <%= subreport_section(i18n('deaccessions'), AccessionDeaccessionsSubreport, accession) %>
 
-        <%= subreport_section("Locations", AccessionLocationsSubreport, accession) %>
+        <%= subreport_section(i18n('locations'), AccessionLocationsSubreport, accession) %>
 
-        <%= text_section('General Note', accession.fetch('containerSummary')) %>
+        <%= text_section(i18n('general_note'), accession.fetch('containerSummary')) %>
 
         <dl>
-            <dt>Begin Date</dt>
+            <dt><%= i18n('begin_date') %></dt>
             <dd><%= format_date(accession.fetch('dateBegin')) %></dd>
-            <dt>End Date</dt>
+            <dt><%= i18n('end_date') %></dt>
             <dd><%= format_date(accession.fetch('dateEnd')) %></dd>
-            <dt>Bulk Begin Date</dt>
+            <dt><%= i18n('bulk_begin_date') %></dt>
             <dd><%= format_date(accession.fetch('bulkDateBegin')) %></dd>
-            <dt>Bulk End Date</dt>
+            <dt><%= i18n('bulk_end_date') %></dt>
             <dd><%= format_date(accession.fetch('bulkDateEnd')) %></dd>
-            <dt>Date Expression</dt>
+            <dt><%= i18n('date_expression') %></dt>
             <dd><%= h accession.fetch('dateExpression') %></dd>
         </dl>
 
-        <%= subreport_section("Names", AccessionNamesSubreport, accession) %>
+        <%= subreport_section(i18n('names'), AccessionNamesSubreport, accession) %>
 
-        <%= subreport_section("Subjects", AccessionSubjectsSubreport, accession) %>
+        <%= subreport_section(i18n('subjects'), AccessionSubjectsSubreport, accession) %>
 
         <dl>
-            <dt>Acquisition</dt>
+            <dt><%= i18n('acquisitions') %></dt>
             <dd><%= h accession.fetch('acquisitionType') %></dd>
         </dl>
 
-        <%= text_section('Retention', accession.fetch('retentionRule')) %>
+        <%= text_section(i18n('retention'), accession.fetch('retentionRule')) %>
 
-        <%= text_section('Description', accession.fetch('descriptionNote')) %>
+        <%= text_section(i18n('description'), accession.fetch('descriptionNote')) %>
 
-        <%= text_section('Condition', accession.fetch('conditionNote')) %>
+        <%= text_section(i18n('condition'), accession.fetch('conditionNote')) %>
 
-        <%= text_section('Inventory', accession.fetch('inventory')) %>
+        <%= text_section(i18n('inventory'), accession.fetch('inventory')) %>
 
-        <%= text_section('Disposition', accession.fetch('dispositionNote')) %>
+        <%= text_section(i18n('disposition'), accession.fetch('dispositionNote')) %>
 
-        <%= text_section('Restrictions Apply?', format_boolean(accession.fetch('restrictionsApply'))) %>
+        <%= text_section(i18n('restrictions_apply'), format_boolean(accession.fetch('restrictionsApply'))) %>
 
-        <%= text_section('Retention', accession.fetch('retentionRule')) %>
+        <%= text_section(i18n('access_restrictions_note', accession.fetch('accessRestrictionsNote')) %>
 
-        <%= text_section('Description', accession.fetch('descriptionNote')) %>
+        <%= text_section(i18n('user_restrictions_note'), accession.fetch('useRestrictionsNote')) %>
 
-        <%= text_section('Access Restrictions Note', accession.fetch('accessRestrictionsNote')) %>
+        <%= text_section(i18n('rights_transferred'), format_boolean(accession.fetch('rightsTransferred'))) %>
 
-        <%= text_section('Use Restrictions Note', accession.fetch('useRestrictionsNote')) %>
-
-        <%= text_section('Rights Transferred?', format_boolean(accession.fetch('rightsTransferred'))) %>
-
-        <%= text_section('Rights Transferred Note', format_boolean(accession.fetch('rightsTransferredNote'))) %>
+        <%= text_section(i18n('rights_transferred_note'), format_boolean(accession.fetch('rightsTransferredNote'))) %>
     </div>
 <% end %>

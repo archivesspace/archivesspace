@@ -1,8 +1,8 @@
 <table>
     <tr>
-        <th>Name</th>
-        <th>Function</th>
-        <th>Role</th>
+        <%= i18n('name') %>
+        <%= i18n('function') %>
+        <%= i18n('role') %>
         <% @report.each do |name| %>
             <tr>
                 <td><%= h name.fetch('sortName') %></td>
