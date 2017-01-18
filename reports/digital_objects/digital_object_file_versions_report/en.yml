@@ -3,3 +3,11 @@ en:
     digital_object_file_versions_report:
       title: File Version List
       description: Displays any file versions associated with the selected digital objects.
+      total_count: Number of Records
+      identifier_prefix: Digital Object
+      file_versions: File Version(s)
+      components: Component(s)
+      component_identifier: Component Identifier
+      component_title: Component Title
+      uri: URI
+      use_statement: Use Statement
