@@ -3,4 +3,12 @@ en:
     location_report:
       title: Location Report
       description: Displays a list of locations, indicating any accessions or resources assigned to defined locations.
-
+      total_count: Number of Results
+      floor: Floor
+      room: Room
+      area: Area
+      coodinates: Coordinates
+      barcode: Barcode
+      classificaion_number: Classification number
+      accessions: Accessions
+      resources: Resources

@@ -1,3 +1,5 @@
 en:
   reports:
     location_resources_subreport:
+      identifier: Identifier
+      title: Title
