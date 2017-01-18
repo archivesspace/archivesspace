@@ -2,27 +2,27 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= t('total_count') %></dt>
     <dd><%= h @report.total_count %></dd>
   </dl>
 </div>
 
 <% @report.each do |digital_object| %>
   <div class="report-record">
-    <div class="identifier">Digital Object <%= h digital_object.fetch('identifier') %></div>
+    <div class="identifier"><%= t('identifier_prefix') %> <%= h digital_object.fetch('identifier') %></div>
     <div class="record-title"><%= h digital_object.fetch('title') %></div>
 
-    <%= subreport_section("File Version(s)", DigitalObjectFileVersionsListSubreport, digital_object) %>
+    <%= subreport_section(t('file_versions'), DigitalObjectFileVersionsListSubreport, digital_object) %>
 
     <section>
-      <h3>Component(s)</h3>
+      <h3><%= t('components') %></h3>
       <table>
         <thead>
           <tr>
-            <th>Component Identifier</th>
-            <th>Component Title</th>
-            <th>URI</th>
-            <th>Use Statement</th>
+            <th><%= t('component_identifier') %></th>
+            <th><%= t('component_title') %></th>
+            <th><%= t('uri') %></th>
+            <th><%= t('use_statement') %></th>
           </tr>
         </thead>
         <tbody>

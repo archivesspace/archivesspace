@@ -1,7 +1,7 @@
 <table>
   <tr>
-    <th>URI</th>
-    <th>Use Statement</th>
+    <th><%= t('uri') %></th>
+    <th><%= t('use_statement') %></th>
     <% @report.each do |file_version| %>
     <tr>
       <td><%= h file_version.fetch('uri') %></td>
