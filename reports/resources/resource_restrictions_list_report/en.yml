@@ -1,0 +1,6 @@
+en:
+  reports:
+    resource_restrictions_list_report:
+      title: Restricted Resources
+      description: Displays only those resource(s) that are restricted. Report contains title, resource identifier, level, date range, creator names, and a total extent number of the records selected that are checked as restrictions apply.
+

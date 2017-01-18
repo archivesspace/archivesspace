@@ -28,10 +28,6 @@ class AbstractReport
     binding
   end
 
-  def title
-    self.class.name
-  end
-
   def report
     self
   end
@@ -76,5 +72,13 @@ class AbstractReport
         [h, val]
       }])
     end
+  end
+
+  def code
+    self.class.code
+  end
+
+  def self.code
+    self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
   end
 end

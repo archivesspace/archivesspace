@@ -9,15 +9,15 @@
         <% @report_data["reports"].values.each do | report | %>
           <div class="panel panel-default">
             <div class="panel-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>">
-                <%= I18n.t("reports.#{report["model"]}", :default => report["model"]) %>
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
+                <%= I18n.t("reports.#{report["model"]}.title", :default => report["model"]) %>
               </a>
             </div>
-            <div id="reportListing_<%= report["uri_suffix"] %>" class="accordion-body collapse <% if @report_errors && @report && report['model'] === @report['model'] %>in<% end %>">
+            <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse <% if @report_errors && @report && report['model'] === @report['model'] %>in<% end %>">
               <div class="accordion-inner">
                 <p><%= report['description'] %></p>
                 <hr/>
-              <% if @report_errors && @report["uri_suffix"] === report["uri_suffix"] %>
+              <% if @report_errors && @report["code"] === report["code"] %>
                 <div class="alert alert-danger">
                   <% @report_errors['error'].each do | field, msgs |%>
                   <div><%= I18n.t("reports.parameters.#{field}", :default => field) %> - <%= msgs.join(", ") %></div>
@@ -25,7 +25,7 @@
                 </div>
               <% end %>
               <%= form_tag({:action => :download}, {:class => 'form-horizontal form-report'}) do |f| %>
-                <%= hidden_field_tag "report_key", report["uri_suffix"] %>
+                <%= hidden_field_tag "report_key", report["code"] %>
                   <%= form_context "report_params", @report_params do |form| %>
                     <%
                        report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])}
@@ -35,7 +35,7 @@
 
                       <% report_params.each do | param | %>
                        <%= @report_params.inspect %> 
-                        <div class="form-group <% if @report_errors &&  @report["uri_suffix"] === report["uri_suffix"] && @report_errors['error'].has_key?(param[0]) %>error<% end %>">
+                        <div class="form-group <% if @report_errors &&  @report["code"] === report["code"] && @report_errors['error'].has_key?(param[0]) %>error<% end %>">
                           <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
                           <div class="col-sm-9">
                             <%= @report_params[param[0]].inspect %> 

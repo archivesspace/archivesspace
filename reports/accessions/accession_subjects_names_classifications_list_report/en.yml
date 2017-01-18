@@ -1,0 +1,5 @@
+en:
+  reports:
+    accession_subjects_names_classifications_list_report:
+      title: Accessions and Linked Subjects, Names and Classifications
+      description: Displays accessions and their linked names, subjects, and classifications. Report contains accession number, linked resources, accession date, title, extent, linked names, and linked subjects.
