@@ -2,7 +2,7 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Results</dt>
+    <dt><% t 'total_count' %></dt>
     <dd><%= h @report.total_count %></dd>
   </dl>
 </div>
@@ -13,27 +13,27 @@
     <div class="identifier"><%= h location.fetch('location_building') %></div>
 
     <dl>
-      <dt>Floor</dt>
+      <dt><%= t('floor') %></dt>
       <dd><%= format_date(location.fetch('location_floor')) %></dd>
 
-      <dt>Room</dt>
+      <dt><%= t('room') %></dt>
       <dd><%= format_date(location.fetch('location_room')) %></dd>
 
-      <dt>Area</dt>
+      <dt><%= t('area') %></dt>
       <dd><%= format_date(location.fetch('location_area')) %></dd>
 
-      <dt>Coordinates</dt>
+      <dt><%= t('coodinates') %></dt>
       <dd><%= format_date(location.fetch('location_coordinate')) %></dd>
 
-      <dt>Barcode</dt>
+      <dt><%= t('barcode') %></dt>
       <dd><%= format_date(location.fetch('location_barcode')) %></dd>
 
-      <dt>Classification number</dt>
+      <dt><%= t('classificaion_number') %></dt>
       <dd><%= format_date(location.fetch('location_classification')) %></dd>
     </dl>
 
-    <%= subreport_section("Accessions", LocationAccessionsSubreport, location) %>
+    <%= subreport_section(t('accessions'), LocationAccessionsSubreport, location) %>
 
-    <%= subreport_section("Resources", LocationResourcesSubreport, location) %>
+    <%= subreport_section(t('resource'), LocationResourcesSubreport, location) %>
   </div>
 <% end %>
