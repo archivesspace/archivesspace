@@ -13,9 +13,7 @@ ASUtils.wrap(ASUtils.find_local_directories).map{|local_dir| File.join(local_dir
 end
 
 # Add report i18n locales
-ASUtils.wrap(ASUtils.find_local_directories).map{|local_dir| File.join(local_dir, 'reports')}.reject { |dir| !Dir.exists?(dir) }.each do |reports_directory|
-  I18n.load_path += Dir[File.join(reports_directory, '**' , '*.yml')]
-end
+I18n.load_path += Dir[File.join(ASUtils.find_base_directory("reports"), '**', '*.yml')]
 
 
 module I18n

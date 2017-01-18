@@ -64,7 +64,7 @@
 
         <%= text_section(i18n('restrictions_apply'), format_boolean(accession.fetch('restrictionsApply'))) %>
 
-        <%= text_section(i18n('access_restrictions_note', accession.fetch('accessRestrictionsNote')) %>
+        <%= text_section(i18n('access_restrictions_note'), accession.fetch('accessRestrictionsNote')) %>
 
         <%= text_section(i18n('user_restrictions_note'), accession.fetch('useRestrictionsNote')) %>
 
