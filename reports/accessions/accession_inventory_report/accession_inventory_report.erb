@@ -2,9 +2,9 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt><%= i18n('number_of_records') %></dt>
+    <dt><%= t('number_of_records') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt><%= i18n('number_with_inventories') %></dt>
+    <dt><%= t('number_with_inventories') %></dt>
     <dd><%= h @report.total_with_inventories %></dd>
   </dl>
 </div>
@@ -13,18 +13,18 @@
   <% next unless accession['inventory'] %>
 
   <div class="report-record">
-    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>
-        <dt><%= i18n('extent') %> </dt>
+        <dt><%= t('extent') %> </dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
     </dl>
 
-    <%= text_section(i18n('inventory'), accession.fetch('inventory')) %>
+    <%= text_section(t('inventory'), accession.fetch('inventory')) %>
 
-    <%= subreport_section(i18n('linked_resources'), AccessionResourcesSubreport, accession) %>
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

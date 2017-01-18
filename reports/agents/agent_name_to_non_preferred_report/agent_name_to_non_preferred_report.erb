@@ -2,7 +2,7 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= t('total_count') %></dt>
     <dd><%= h @report.total_count %></dd>
   </dl>
 </div>
@@ -12,12 +12,12 @@
     <div class="identifier"><%= h name.fetch('sortName') %></div>
 
     <dl>
-      <dt>Name Type</dt>
+      <dt><%= t('name_type') %></dt>
       <dd><%= h name.fetch('nameType') %></dd>
-      <dt>Source</dt>
+      <dt><%= t('source') %></dt>
       <dd><%= h name.fetch('nameSource') %></dd>
     </dl>
 
-    <%= subreport_section("Non-preferred form(s)", AgentNameNonPreferredSubreport, name) %>
+    <%= subreport_section(t('non_preferred_names'), AgentNameNonPreferredSubreport, name) %>
   </div>
 <% end %>

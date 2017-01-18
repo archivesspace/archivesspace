@@ -1,9 +1,9 @@
 <table>
     <tr>
-        <th><%= i18n('description') %></th>
-        <th><%= i18n('extent') %></th>
-        <th><%= i18n('date') %></th>
-        <th><%= i18n('notification_sent') %></th>
+        <th><%= t('description') %></th>
+        <th><%= t('extent') %></th>
+        <th><%= t('date') %></th>
+        <th><%= t('notification_sent') %></th>
         <% @report.each do |deaccession| %>
             <tr>
                 <td><%= h deaccession.fetch('description') %></td>

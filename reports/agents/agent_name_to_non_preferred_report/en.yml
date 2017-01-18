@@ -3,3 +3,7 @@ en:
     agent_name_to_non_preferred_report:
       title: Name Records and Non-preferred Forms
       description: Displays name(s) and any associated non-preferred name(s). Report contains sort name, name type, name source and any other non-preferred forms of that name.
+      total_count: Number of Records
+      name_type: Name Type
+      source: Source
+      non_preferred_names: Non-preferred form(s)

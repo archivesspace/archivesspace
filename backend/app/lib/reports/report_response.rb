@@ -42,7 +42,7 @@ class ReportErbRenderer
     @params.fetch(:layout, true)
   end
 
-  def i18n(key)
+  def t(key)
     h(I18n.t("reports.#{@report.code}.#{key}"))
   end
 

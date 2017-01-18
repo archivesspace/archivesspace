@@ -2,20 +2,20 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt><%= i18n('number_of_records') %></dt>
+    <dt><%= t('number_of_records') %></dt>
     <dd><%= h @report.total_count %></dd>
   </dl>
 </div>
 
 <% @report.each do |accession| %>
   <div class="report-record">
-    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
-    <%= subreport_section(i18n('names'), AccessionNamesSubreport, accession) %>
+    <%= subreport_section(t('names'), AccessionNamesSubreport, accession) %>
 
-    <%= subreport_section(i18n('subjects'), AccessionSubjectsSubreport, accession) %>
+    <%= subreport_section(t('subjects'), AccessionSubjectsSubreport, accession) %>
 
-    <%= subreport_section(i18n('classifications'), AccessionClassificationsSubreport, accession) %>
+    <%= subreport_section(t('classifications'), AccessionClassificationsSubreport, accession) %>
   </div>
 <% end %>
