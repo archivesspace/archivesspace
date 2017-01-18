@@ -1,7 +1,7 @@
 <table>
   <tr>
-    <th>Name</th>
-    <th>Source</th>
+    <th><%= t('name') %></th>
+    <th><%= t('source') %></th>
     <% @report.each do |name| %>
     <tr>
       <td><%= h name.fetch('sortName') %></td>

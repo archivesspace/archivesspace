@@ -2,11 +2,11 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt><%= i18n('total_count') %></dt>
+    <dt><%= t('total_count') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt><%= i18n('uncataloged_count') %></dt>
+    <dt><%= t('uncataloged_count') %></dt>
     <dd><%= h @report.uncataloged_count %></dd>
-    <dt><%= i18n('total_extent') %></dt>
+    <dt><%= t('total_extent') %></dt>
     <dd><%= format_number(@report.total_extent) %></dd>
   </dl>
 
@@ -16,18 +16,18 @@
   <% next if accession.fetch('cataloged') == 1 %>
 
   <div class="report-record">
-    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
       <% if accession.fetch('extentNumber') %>
-        <dt><%= i18n('extent') %></dt>
+        <dt><%= t('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
-      <dt><%= i18n('date_processed') %></dt>
+      <dt><%= t('date_processed') %></dt>
       <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
     </dl>
 
-    <%= subreport_section(i18n('linked_resources'), AccessionResourcesSubreport, accession) %>
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

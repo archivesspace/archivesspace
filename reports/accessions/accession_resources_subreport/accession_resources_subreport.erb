@@ -1,7 +1,7 @@
 <table>
     <tr>
-        <th><%= i18n('identifier') %></th>
-        <th><%= i18n('title') %></th>
+        <th><%= t('identifier') %></th>
+        <th><%= t('title') %></th>
         <% @report.each do |record| %>
             <tr>
                 <td><%= format_4part(record.fetch('identifier')) %></td>
