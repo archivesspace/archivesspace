@@ -131,6 +131,12 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      # Include packaged reports
+      Array(StaticAssetFinder.new('reports').find_all(".rb")).each do |report_file|
+        require File.absolute_path(report_file)
+      end
+
+
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
 
