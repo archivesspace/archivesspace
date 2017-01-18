@@ -955,12 +955,12 @@ en:
         archived_jobs: Archived Jobs
         files: Files
       messages:
-        status_changed_running: The import job has started running. Refreshing Page...
-        status_changed_completed: The import job has completed.
-        status_changed_failed: The import job has failed.
-        status_changed_canceled: The import job has been canceled.
-        no_active_jobs: There are no active import jobs.
-        no_archived_jobs: There are no archived import jobs.
+        status_changed_running: The job has started running. Refreshing Page...
+        status_changed_completed: The job has completed.
+        status_changed_failed: The job has failed.
+        status_changed_canceled: The job has been canceled.
+        no_active_jobs: There are no active jobs.
+        no_archived_jobs: There are no archived jobs.
         upload_successful: Upload Successful. Redirecting to Job page...
         import_type_missing: Please select an Import Type
         queue_position_next: This import is next in the queue.
