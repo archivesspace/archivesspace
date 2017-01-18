@@ -10,7 +10,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
-                <%= I18n.t("reports.#{report["model"]}.title", :default => report["model"]) %>
+                <%= I18n.t("reports.#{report["code"]}.title", :default => report["code"]) %>
               </a>
             </div>
             <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse <% if @report_errors && @report && report['model'] === @report['model'] %>in<% end %>">
