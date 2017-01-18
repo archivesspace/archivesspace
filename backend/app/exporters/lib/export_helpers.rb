@@ -129,8 +129,6 @@ module ASpaceExport
           type = ( date['date_type'] == 'inclusive' ) ? 'inclusive' :  ( ( date['date_type'] == 'single') ? nil : 'bulk')
           content = if date['expression']
                     date['expression']
-                  elsif date['date_type'] == 'bulk'
-                    'bulk'
                   elsif date['end'].nil? || date['end'] == date['begin']
                     date['begin']
                   else
