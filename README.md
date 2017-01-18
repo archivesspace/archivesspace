@@ -39,13 +39,6 @@ You can check your Java version by running the command:
 
      java -version
 
-<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
-Currently, if you want to use Java 1.8, you will need to remove the
-jdt-compiler jar library from the java classpath ( lib directory of
-your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).  
---->
-
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
 startup script for your platform.  On Linux and OSX:
@@ -285,7 +278,7 @@ schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for Jasper reports).
+backup (which ArchivesSpace uses at least for reports).
 
 If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
