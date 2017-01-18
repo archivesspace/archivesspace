@@ -1,3 +1,6 @@
 en:
   reports:
     resource_instances_subreport:
+      top_container: Top Container
+      container_2: Container 2
+      container_3: Container 3

@@ -2,13 +2,13 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= t('total_count') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt>Number of Restricted Records</dt>
+    <dt><%= t('restricted_count') %></dt>
     <dd><%= h @report.restricted_count %></dd>
-    <dt>Total Extent of Resources</dt>
+    <dt><%= t('total_extent') %></dt>
     <dd><%= format_number(@report.total_extent) %></dd>
-    <dt>Total Extent of Restricted Resources</dt>
+    <dt><%= t('total_restricted_extent') %></dt>
     <dd><%= format_number(@report.total_restricted_extent) %></dd>
   </dl>
 </div>
@@ -16,25 +16,24 @@
 <% @report.each do |resource| %>
   <% next if resource.fetch('restrictionsApply') != 1 %>
 
-  <div class="report-record">
-    <div class="identifier">Resource <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
+  <div class="report-record"<%= t('identifier_prefix') %> <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
     <div class="record-title"><%= h resource.fetch('title') %></div>
 
     <dl>
-      <dt>Dates</dt>
+      <dt><%= t('dates') %></dt>
       <dd><%= h resource.fetch('dateExpression') %></dd>
-      <dt>Level</dt>
+      <dt><%= t('level') %></dt>
       <dd><%= h resource.fetch('level') %></dd>
-      <dt>Access</dt>
+      <dt><%= t('access') %></dt>
       <dd>
         <% if resource.fetch('restrictionsApply') == 1 %>
-          Restrictions apply.
+          <%= t('restrictions_apply_true') %>
         <% else %>
-          Open to researchers without restrictions.
+          <%= t('restrictions_apply_false') %>
         <% end %>
       </dd>
     </dl>
 
-    <%= subreport_section("Names as Creators", ResourceNamesAsCreatorsSubreport, resource) %>
+    <%= subreport_section(t('names_as_creators'), ResourceNamesAsCreatorsSubreport, resource) %>
   </div>
 <% end %>
