@@ -1,3 +1,5 @@
 en:
   reports:
     accession_locations_subreport:
+      location: Location
+      container: Container

@@ -2,9 +2,9 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= i18n('number_of_records') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt>Accessions with Rights Transferred</dt>
+    <dt><%= i18n('total_transferred') %></dt>
     <dd><%= h @report.total_transferred %></dd>
   </dl>
 </div>
@@ -13,44 +13,44 @@
   <% next if accession.fetch('rightsTransferred') == 0 %>
 
   <div class="report-record">
-    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
-      <dt>Accession Date</dt>
+      <dt><%= i18n('accession_date') %></dt>
       <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
-      <dt>Date Processed</dt>
+      <dt><%= i18n('processed_date') %></dt>
       <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
       <% if accession.fetch('extentNumber') %>
-        <dt>Extent</dt>
+        <dt><%= i18n('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
-      <dt>Cataloged</dt>
+      <dt><%= i18n('cataloged') %></dt>
       <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
-      <dt>Rights &amp; Restrictions</dt>
+      <dt><%= i18n('rights_and_restrictions') %></dt>
       <dd>
         <% if accession.fetch('restrictionsApply') == 1 %>
-          <span style="color: red">Restrictions apply.</span>
+          <span style="color: red"><%= i18n('retrictions_apply') %></span>
         <% else %>
-          No restrictions.
+          <%= i18n('no_restrictions') %>
         <% end %>
       </dd>
-      <dt>Rights Transferred</dt>
+      <dt><%= i18n('rights_transferred') %></dt>
       <dd>
         <% if accession.fetch('rightsTransferred') == 1 %>
-          Rights Transferred
+          <%= i18n('rights_transferred_true') %>
         <% else %>
-          Not transferred
+          <%= i18n('rights_transferred_false') %>
         <% end %>
       </dd>
     </dl>
 
-    <%= text_section('Rights Transferred Note', accession.fetch('rightsTransferredNote')) %>
+    <%= text_section(i18n('rights_transferred_note'), accession.fetch('rightsTransferredNote')) %>
 
-    <%= text_section('Use Restrictions Note', accession.fetch('useRestrictionsNote')) %>
+    <%= text_section(i18n('use_restrictions_note'), accession.fetch('useRestrictionsNote')) %>
 
-    <%= text_section('Access Restrictions Note', accession.fetch('accessRestrictionsNote')) %>
+    <%= text_section(i18n('access_restrictions_note'), accession.fetch('accessRestrictionsNote')) %>
 
-    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
+    <%= subreport_section(i18n('linked_resources'), AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

@@ -1,7 +1,7 @@
 <table>
     <tr>
-        <th>Identifier</th>
-        <th>Title</th>
+        <th><%= i18n('identifier') %></th>
+        <th><%= i18n('title') %></th>
         <% @report.each do |classification| %>
             <tr>
               <td><%= h classification['classificationIdentifier'] || classification['classificationTermIdentifier'] %></td>

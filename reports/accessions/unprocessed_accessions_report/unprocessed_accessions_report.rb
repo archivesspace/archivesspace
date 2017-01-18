@@ -2,10 +2,6 @@ class UnprocessedAccessionsReport < AbstractReport
 
   register_report
 
-  def description
-    "Report on all unprocessed accessions"
-  end
-
   def headers
     ['id', 'identifier', 'title', "processing_priority", "processing_status", "processors"]
   end

@@ -2,13 +2,13 @@
   <div class="title"><%= h @report.title %></div>
 
   <dl>
-    <dt>Number of Records</dt>
+    <dt><%= i18n('number_of_records') %></dt>
     <dd><%= h @report.total_count %></dd>
-    <dt>Processed Accessions</dt>
+    <dt><%= i18n('processed_accessions') %></dt>
     <dd><%= h @report.total_processed %></dd>
-    <dt>Accessioned Between</dt>
+    <dt><%= i18n('accessioned_between') %></dt>
     <dd><%= format_date(@report.from_date) %> &amp;amp; <%= format_date(@report.to_date) %></dd>
-    <dt>Total Extent of Processed Accessions</dt>
+    <dt><%= i18n('total_extent_of_processed') %></dt>
     <dd><%= format_number(@report.total_extent_of_processed) %></dd>
   </dl>
 </div>
@@ -17,20 +17,20 @@
   <% next unless accession.fetch('accessionProcessed') == '1' %>
 
   <div class="report-record">
-    <div class="identifier">Accession <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="identifier"><%= i18n('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
     <div class="record-title"><%= h accession.fetch('title') %></div>
 
     <dl>
-      <dt>Date Processed</dt>
+      <dt><%= i18n('date_processed') %></dt>
       <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
       <% if accession.fetch('extentNumber') %>
-        <dt>Extent</dt>
+        <dt><%= i18n('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
       <% end %>
-      <dt>Cataloged</dt>
+      <dt><%= i18n('cataloged') %></dt>
       <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
     </dl>
 
-    <%= subreport_section("Linked Resource(s)", AccessionResourcesSubreport, accession) %>
+    <%= subreport_section(i18n('linked_resources'), AccessionResourcesSubreport, accession) %>
   </div>
 <% end %>

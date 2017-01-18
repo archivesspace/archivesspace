@@ -3,3 +3,12 @@ en:
     accession_cataloged_report:
       title: Cataloged Accessions
       description: Displays only those accessions that have been cataloged. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected that are checked as cataloged, and the total extent number for those records cataloged.
+      number_of_records: Number of Records Reviewed
+      number_of_cataloged: Cataloged Accessions
+      total_extent: Total Extent of Cataloged Accessions
+      identifier_prefix: Accession
+      extent: Extent
+      date_processed: Date Processed
+      cataloged: Cataloged
+      cataloged_false: [Date not recorded]
+      linked_resources: Linked Resource(s)

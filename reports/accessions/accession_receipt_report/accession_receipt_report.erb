@@ -3,22 +3,22 @@
     <div class="title"><%= h @report.title %></div>
 
     <dl>
-      <dt>Accession title</dt>
+      <dt><%= i18n('accession_title') %></dt>
       <dd><%= h accession.fetch('title') %></dd>
 
       <% if accession.fetch('extentNumber') %>
-        <dt>Extent</dt>
+        <dt><%= i18n('extent') %></dt>
         <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
-      <% end %>
+    <% end %>
 
-      <dt>Repository</dt>
+      <dt><%= i18n('repository') %></dt>
       <dd><%= h accession.fetch('repositoryName') %></dd>
 
 
-      <dt>Added to repository on</dt>
+      <dt><%= i18n('repository_date') %></dt>
       <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
 
-      <dt>Accession number</dt>
+      <dt><%= i18n('accession_number') %></dt>
       <dd><%= format_4part(accession.fetch('accessionNumber')) %></dd>
 
     </dl>

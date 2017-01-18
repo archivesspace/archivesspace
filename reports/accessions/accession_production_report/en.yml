@@ -3,3 +3,8 @@ en:
     accession_production_report:
       title: Accession Production Report
       description: Displays accessions that have been accessioned, processed, and cataloged during a specified time period. Produces a summary statement of the total number of accessions, the total extent, total extent processed, and extent cataloged within the specified date range.
+      accessioned_between: Accessioned Between
+      total_extent: Total Extent of Selected Accessions
+      number_selected: Number of Records Selected
+      total_cataloged_extent: Total Extent of Cataloged Accessions
+      total_processed_extent: Total Extent of Processed Accessions
