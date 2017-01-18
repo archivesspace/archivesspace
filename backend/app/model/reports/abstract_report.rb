@@ -20,6 +20,10 @@ class AbstractReport
     @db = db
   end
 
+  def title
+    I18n.t("reports.#{code}.title", :default => code)
+  end
+
   def new_subreport(subreport_model, params)
     subreport_model.new(params.merge(:format => 'html'), job, db)
   end
