@@ -3,4 +3,14 @@ en:
     resource_restrictions_list_report:
       title: Restricted Resources
       description: Displays only those resource(s) that are restricted. Report contains title, resource identifier, level, date range, creator names, and a total extent number of the records selected that are checked as restrictions apply.
-
+      total_count: Number of Records
+      restricted_count: Number of Restricted Records
+      total_extent: Total Extent of Resources
+      total_restricted_extent: Total Extent of Restricted Resources
+      identifier_prefix: Resource
+      dates: Dates
+      level: Level
+      access: Access
+      restrictions_apply_true: Restrictions apply.
+      restrictions_apply_false: Open to researchers without restrictions.
+      names_as_creators: Names as Creators

@@ -1,3 +1,7 @@
 en:
   reports:
     resource_deaccessions_subreport:
+      description: Description
+      extent: Extent
+      date: Date
+      notification_sent: Notification Sent
