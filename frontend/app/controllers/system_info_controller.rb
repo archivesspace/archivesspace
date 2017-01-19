@@ -1,6 +1,7 @@
 class SystemInfoController < ApplicationController
   
   set_access_control  "administer_system" => [ :show, :stream_log]
+  before_filter :user_needs_to_be_global_admin
 
   def show 
     @app_context = params[:app_context] ? params[:app_context] : "frontend_info"

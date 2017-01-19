@@ -42,6 +42,7 @@ class User < JSONModel(:user)
 
 
   def self.become_user(context, username)
+    return false if username == "admin"
     uri = JSONModel(:user).uri_for("#{username}/become-user")
 
     response = JSONModel::HTTP.post_form(uri)

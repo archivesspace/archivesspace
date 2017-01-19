@@ -180,6 +180,10 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def user_is_global_admin?
+    session['user'] and session['user'] == "admin"
+  end
+
 
   def user_must_have(permission)
     unauthorised_access if !session['user'] || !user_can?(permission)
@@ -198,6 +202,9 @@ class ApplicationController < ActionController::Base
     unauthorised_access if session['user'] and not user_can? 'manage_users'
   end
 
+  def user_needs_to_be_global_admin
+    unauthorised_access if not user_is_global_admin?
+  end
 
   helper_method :user_prefs
   def user_prefs

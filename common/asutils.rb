@@ -112,10 +112,7 @@ module ASUtils
  def self.get_diagnostics(exception = nil )
     runtime = java.lang.Runtime.getRuntime
    {
-      :version =>ASConstants.VERSION,  
-      :environment => java.lang.System.getenv.to_hash,
-      :jvm_properties => java.lang.System.getProperties.to_hash,
-      :globals => Hash[global_variables.map {|v| [v, eval(v.to_s)]}],
+      :version =>ASConstants.VERSION,
       :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitized : "not loaded",
       :memory => {
         :free => runtime.freeMemory,

@@ -54,6 +54,20 @@ describe "Users and authentication" do
     @driver.clear_and_send_keys([:id, "select-user"], @user.username)
     @driver.find_element(:css, "#new_become_user .btn-primary").click
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully switched users/)
+
+    @driver.logout
+  end
+
+  it "prevents any user from becoming the global admin" do
+    @driver.login($admin)
+
+    @driver.find_element(:css, '.user-container a.btn').click
+    @driver.find_element(:link, "Become User").click
+    @driver.clear_and_send_keys([:id, "select-user"], "admin")
+    @driver.find_element(:css, "#new_become_user .btn-primary").click
+    @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Failed to switch/)
+
+    @driver.logout
   end
 
 end
