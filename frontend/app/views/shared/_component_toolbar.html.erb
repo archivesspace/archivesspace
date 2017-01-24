@@ -26,7 +26,9 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
-          <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %>
+          <% if ['resource', 'archival_object'].include?(record.jsonmodel_type) %>
+            <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %>
+          <% end %>
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
