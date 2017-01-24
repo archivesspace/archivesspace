@@ -1126,14 +1126,57 @@ ANEAD
   end
 
   # See https://archivesspace.atlassian.net/browse/AR-1373
-  describe "Mapping component level note tags" do
+  describe "Mapping note tags" do
     def test_doc
       src = <<ANEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<ead xmlns:ns2="http://www.w3.org/1999/xlink" xmlns="urn:isbn:1-931666-22-9"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+   <eadheader findaidstatus="temp_record_stead" repositoryencoding="iso15511"
+      countryencoding="iso3166-1" dateencoding="iso8601">
+      <eadid>testimport20</eadid>
+      <filedesc>
+         <titlestmt>
+            <titleproper>test-import1</titleproper>
+            <author/>
+         </titlestmt>
+      </filedesc>
+      <profiledesc>
+         <langusage>
+            <language langcode="eng" encodinganalog="Language">English</language>
+         </langusage>
+      </profiledesc>
+   </eadheader>
+   <archdesc level="collection">
+      <did>
+         <note><p>COLLECTION LEVEL NOTE INSIDE DID</p></note>
+         <unittitle>NOTE import test</unittitle>
+         <unitid>RL.12345</unitid>
+         <langmaterial>
+            <language langcode="eng"/>
+         </langmaterial>
+         <physdesc>
+            <extent>100 linear_feet</extent>
+         </physdesc>
+         <unitdate>1900-1901</unitdate>
+      </did>
+      <note><p>Collection level note outside did</p></note>
+      <accessrestrict>
+         <head>Access to Collection</head>
+         <p>Collection is open for research; access requires at least 24 hours advance notice.</p>
+      </accessrestrict>
+      <arrangement>
+         <head>Organization of the Collection</head>
+         <p>Arragement note text</p>
+      </arrangement>
+      <dsc>
+
          <c01 level="series">
             <did>
                <unitid>1</unitid>
                <unittitle>Series 1 Title</unittitle>
-               <note><p>Note text inside did</p></note>
+               <note><p>Component Note text inside did</p></note>
             </did>
             <c02 level="subseries">
                <did>
@@ -1143,15 +1186,18 @@ ANEAD
                   <did>
                      <unittitle>File title</unittitle>
                      <note>
-                        <p>Some note text inside did</p>
+                        <p>Component note text inside did</p>
                      </note>
                   </did>
                   <note>
-                     <p>Some note text outside did</p>
+                     <p>Component note text outside did</p>
                   </note>
                </c03>
             </c02>
          </c01>
+      </dsc>
+   </archdesc>
+</ead>
 ANEAD
 
       get_tempfile_path(src)
@@ -1159,18 +1205,35 @@ ANEAD
 
     before(:all) do
       parsed = convert(test_doc)
-      @record = parsed.shift
+      @resource = parsed.select {|r| r['jsonmodel_type'] == 'resource' }.first
+      @series = parsed.select {|r| r['level'] == 'series' }.first
+      @file = parsed.select {|r| r['level'] == 'file' }.first
     end
 
-    it "should create a note for a <note> tag inside a <did>" do
-      @record['notes'][0]['type'].should eq('odd')
-      @record['notes'][0]['subnotes'][0]['content'].should eq('Some note text inside did')
+    it "should create a note for a <note> tag inside a <did> for a collection" do
+      @resource['notes'][0]['type'].should eq('odd')
+      @resource['notes'][0]['subnotes'][0]['content'].should eq('COLLECTION LEVEL NOTE INSIDE DID')
     end
 
 
-    it "should create a note for a <note> tag outside a <did>" do
-      @record['notes'][1]['type'].should eq('odd')
-      @record['notes'][1]['subnotes'][0]['content'].should eq('Some note text outside did')
+    it "should create a note for a <note> tag outside a <did> for a collection" do
+      @resource['notes'][1]['type'].should eq('odd')
+      @resource['notes'][1]['subnotes'][0]['content'].should eq('Collection level note outside did')
+    end
+
+
+    it "should create a note for a <note> tag inside a <did> for a component" do
+      @series['notes'][0]['type'].should eq('odd')
+      @series['notes'][0]['subnotes'][0]['content'].should eq('Component Note text inside did')
+
+      @file['notes'][0]['type'].should eq('odd')
+      @file['notes'][0]['subnotes'][0]['content'].should eq('Component note text inside did')
+    end
+
+
+    it "should create a note for a <note> tag outside a <did> for a component" do
+      @file['notes'][1]['type'].should eq('odd')
+      @file['notes'][1]['subnotes'][0]['content'].should eq('Component note text outside did')
     end
 
   end
