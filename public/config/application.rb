@@ -19,6 +19,11 @@ end
 
 module ArchivesSpacePublic
   class Application < Rails::Application
+
+    def self.extend_aspace_routes(routes_file)
+      ArchivesSpacePublic::Application.config.paths['config/routes.rb'].concat([routes_file])
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

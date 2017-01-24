@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 #require 'rails/all'
+
 require 'action_controller/railtie'
 require 'sprockets/railtie'
 
@@ -23,9 +24,12 @@ end
 
 module ArchivesSpace
 
-
-
   class Application < Rails::Application
+
+    def self.extend_aspace_routes(routes_file)
+      ArchivesSpace::Application.config.paths['config/routes.rb'].concat([routes_file])
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -96,10 +100,11 @@ module ArchivesSpace
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.assets.precompile += %w( *.js )
-
-    # Add fonts directory
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
+    Pathname.glob(File.join(Rails.root.join('vendor', 'assets').to_s, "**/*")).each do |path|
+      if path.directory?
+        config.assets.paths << path
+      end
+    end
 
     # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
@@ -154,7 +159,6 @@ ASUtils.find_local_directories('frontend').each do |dir|
     load init_file
   end
 end
-
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'

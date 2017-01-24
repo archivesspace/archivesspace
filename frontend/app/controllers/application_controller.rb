@@ -20,17 +20,17 @@ class ApplicationController < ActionController::Base
   end
 
   # Note: This should be first!
-  before_filter :store_user_session
+  before_action :store_user_session
 
-  before_filter :determine_browser_support
+  before_action :determine_browser_support
 
-  before_filter :refresh_permissions
+  before_action :refresh_permissions
 
-  before_filter :refresh_preferences
+  before_action :refresh_preferences
 
-  before_filter :load_repository_list
+  before_action :load_repository_list
 
-  before_filter :unauthorised_access
+  before_action :unauthorised_access
 
   def self.permission_mappings
     Array(@permission_mappings)
@@ -50,12 +50,12 @@ class ApplicationController < ActionController::Base
   def self.set_access_control(permission_mappings)
     @permission_mappings = permission_mappings
 
-    skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
+    skip_before_action :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
 
     permission_mappings.each do |permission, actions|
       next if permission === :public
 
-      before_filter(:only => Array(actions)) {|c| user_must_have(permission)}
+      before_action(:only => Array(actions)) {|c| user_must_have(permission)}
     end
   end
 
@@ -397,6 +397,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def cleanup_params_for_schema(params_hash, schema)
+    # We're expecting a HashWithIndifferentAccess...
+    params_hash = params_hash.to_unsafe_hash
+
     fix_arrays = proc do |hash, schema|
       result = hash.clone
 

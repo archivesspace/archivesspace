@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   protect_from_forgery
 
-  before_filter :establish_session
-  before_filter :assign_repositories
+  before_action :establish_session
+  before_action :assign_repositories
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
