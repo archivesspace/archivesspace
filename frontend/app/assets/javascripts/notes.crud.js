@@ -389,9 +389,14 @@ $(function() {
         });
         initRemoveActions();
       }
-      
+
       $existingNotes = $(".subrecord-form-list:first > .subrecord-form-wrapper", $this);
-      tooManyNotes = AS.initTooManySubRecords($this, $existingNotes.length, initNoteForms );
+      tooManyNotes = AS.initTooManySubRecords($this, $existingNotes.length, (function (callback) {
+          initNoteForms($this);
+          if (callback) {
+              callback();
+          }
+      }));
 
       if (tooManyNotes === false ) {
         $this.addClass("initialised");
