@@ -138,13 +138,15 @@
 
 
         <div id="manageTemplatesForm" class="rde-inline-form form-horizontal" style="display: none;">
-          <h3>Templates</h3>
+          <h3><%= I18n.t("rde.templates.listing") %></h3>
+          <div class="no-templates-message alert alert-warning" style="display: none">
+            <%= I18n.t("rde.templates.no_templates") %>
+          </div>
           <table class="table">
             <tbody class="table-striped"></tbody>
           </table>
           <button class="btn btn-primary btn-sm"><%= I18n.t("rde.save_template.confirm_removal") %></button>
-          <button class="btn btn-sm btn-cancel"><%= I18n.t("actions.cancel") %></button>
-
+          <button class="btn btn-sm btn-default btn-cancel"><%= I18n.t("actions.cancel") %></button>
         </div>
 
 
@@ -232,5 +234,8 @@
 
 
 <div id="rde_template_table_row"><!--
-<tr data-template-id="${item.id}"><td>${item.name}</td><td><button class="btn btn-default">Remove</button></td></tr>
+<tr>
+  <td style='width: 30px;'><input id='remove_me_please_${item.id}' type='checkbox' name='remove_me_please' value='${item.id}'/></td>
+  <td><label for='remove_me_please_${item.id}'>${item.name}</label></td>
+</tr>
 --></div>

@@ -751,14 +751,9 @@ $(function() {
 
         var $templatesTable = $('table tbody', $manageContainer);
 
-        var templatesToDelete = [];
-
         $containerToggle.off("click").on("click", function(event) {
           event.preventDefault();
           event.stopPropagation();
-
-          templatesToDelete = [];
-
 
           // toggle other panel if it is active
           if (!$(this).hasClass("active")) {
@@ -776,15 +771,18 @@ $(function() {
           e.preventDefault();
           e.stopPropagation();
           $containerToggle.toggleClass("active");
-          $manageContainer.slideToggle(function() {
-            templatesToDelete = [];
-          });
+          $manageContainer.slideToggle();
         });
 
 
         $("button.btn-primary", $manageContainer).off("click").on("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
+
+          var templatesToDelete = [];
+          $manageContainer.find(":checkbox:checked").each(function(){
+            templatesToDelete.push($(this).val());
+          });
 
           $.ajax({
             url: $rde_form.data("list-templates-uri") + "/batch_delete",
@@ -806,23 +804,17 @@ $(function() {
 
 
         var renderTable = function() {
+          if (templateList.length == 0) {
+            $(".no-templates-message", $manageContainer).show();
+            $(".btn-primary", $manageContainer).hide();
+            return;
+          } else {
+            $(".no-templates-message", $manageContainer).hide();
+            $(".btn-primary", $manageContainer).show();
+          }
+
           _.each(templateList, function(item) {
             $templatesTable.append(AS.renderTemplate("rde_template_table_row", {item: item}));
-          });
-
-          $("button", $templatesTable).click(function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var $id = $(this).closest("tr").data('templateId');
-
-            if (_.indexOf(templatesToDelete, $id) > -1) {
-              _.remove(templatesToDelete, $id)
-              $(this).text("Remove");
-            } else {
-              templatesToDelete.push($id);
-              $(this).text("Keep");
-            }
           });
         };
 
