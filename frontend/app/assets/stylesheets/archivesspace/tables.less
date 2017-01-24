@@ -10,17 +10,22 @@ table {
       }
 
       &.required {
-        background-image: asset-url('archivesspace/required_loud.png');
-        background-repeat: no-repeat;
-        background-position: 2px center;
-        padding-left: 16px;
+        &:before {
+          content: '';
+          background-image: asset-url('archivesspace/required_loud.png');
+          background-repeat: no-repeat;
+          background-position: 2px center;
+          padding-right: 16px;
+        }
       }
 
       &.conditionally-required {
-        background-image: asset-url('archivesspace/conditionally_required.png');
-        background-repeat: no-repeat;
-        background-position: 2px center;
-        padding-left: 16px;
+        &:before {
+          font-family: 'Glyphicons Halflings';
+          content: '\002a';
+          color: #aaa;
+          font-size: 0.8em;
+        }
       }
     }
     .col {
