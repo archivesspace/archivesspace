@@ -92,8 +92,6 @@ module MarcXMLBaseMap
           :defaults => {
             :name_order => 'direct',
             :source => 'ingest'
-          
-          
           }
         }
       }
@@ -225,42 +223,6 @@ module MarcXMLBaseMap
           :obj => :name_corporate_entity,
           :rel => :names,
           :map => name_corp_map,
-        },
-        "//datafield[@tag='410']" => {
-          :obj => :name_corporate_entity,
-          :rel => :names,
-          :map => name_corp_map,
-          :defaults => {
-            :name_order => 'direct',
-            :source => 'ingest'
-          }
-        },
-        "//datafield[@tag='411']" => {
-          :obj => :name_corporate_entity,
-          :rel => :names,
-          :map => name_corp_map,
-          :defaults => {
-            :name_order => 'direct',
-            :source => 'ingest'
-          }
-        },
-        "//datafield[@tag='610']" => {
-          :obj => :name_corporate_entity,
-          :rel => :names,
-          :map => name_corp_map,
-          :defaults => {
-            :name_order => 'direct',
-            :source => 'ingest'
-          }
-        },
-        "//datafield[@tag='611']" => {
-          :obj => :name_corporate_entity,
-          :rel => :names,
-          :map => name_corp_map,
-          :defaults => {
-            :name_order => 'direct',
-            :source => 'ingest'
-          }
         }
       }
     })
