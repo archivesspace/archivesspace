@@ -901,6 +901,9 @@ en:
       save_template: Save Template
       template_name: Template name
       confirm_removal: Confirm Removal
+    templates:
+      listing: Templates
+      no_templates: No templates defined
     default_template: Default Template
     messages:
       error_prefix: Row

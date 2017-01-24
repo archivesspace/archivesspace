@@ -84,7 +84,7 @@ describe "RDE Templates" do
 
     @driver.wait_for_ajax
 
-    @driver.find_element(:xpath => "//tr[td/text()='#{template.name}']/td[2]/button").click
+    @driver.find_element(:id => "remove_me_please_#{template.id}").click
 
     @driver.find_element(:css => "#manageTemplatesForm button.btn-primary").click
     @driver.wait_for_ajax
