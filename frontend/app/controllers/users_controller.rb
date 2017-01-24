@@ -48,11 +48,23 @@ class UsersController < ApplicationController
 
   def edit
     @user = JSONModel(:user).find(params[:id])
+
+    if @user.is_system_user and not user_is_global_admin?
+      flash[:error] = I18n.t("user._frontend.messages.access_denied", JSONModelI18nWrapper.new(:user => @user))
+      redirect_to(:controller => :users, :action => :index) and return
+    end
+
     render action: "edit"
   end
 
   def edit_groups
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
+
+    if @user.is_system_user or @user.is_admin
+      flash[:error] = I18n.t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
+      redirect_to(:controller => :users, :action => :manage_access) and return
+    end
+
     @groups = JSONModel(:group).all
     render action: "edit_groups"
   end

@@ -170,4 +170,27 @@ describe "Groups" do
       @driver.ensure_no_such_element(:link, "Create")
     }
   end
+
+  it "cannot modify the user groups via Manage Access if the user is an admin" do
+    @driver.logout.login_to_repo($admin, @repo_to_manage)
+
+    # change @can_manage_repo to a view only
+    @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.find_element(:link, "Manage User Access").click
+
+    while true
+      # Wait for the table to load
+      @driver.find_element(:link, "Edit Groups")
+
+      # assume (for now at least) admin is always on the first page
+      admin_row = @driver.find_element_with_text('//tr', /admin/, true, true)
+      if admin_row
+        expect {
+          admin_row.find_element(:css, 'a.disabled')
+        }.to_not raise_error
+        break
+      end
+    end
+  end
+
 end
