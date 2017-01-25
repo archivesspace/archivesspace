@@ -29,7 +29,6 @@ describe "User management" do
 
   it "can create a user account" do
     @driver.login($admin)
-    @driver.wait_for_ajax 
     
     @driver.find_element(:link, 'System').click
     @driver.find_element(:link, "Manage Users").click
@@ -75,19 +74,22 @@ describe "User management" do
 
   it "doesn't allow another user to edit the global admin or a system account" do
     @driver.login(@test_user)
+
     ['1', '2'].each do |user_id|
-      @driver.navigate.to("#{$frontend}/users/#{user_id}/edit")
-      @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Access denied/)
+      assert (5) {
+        @driver.navigate.to("#{$frontend}/users/#{user_id}/edit")
+        @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /Access denied/)
+      }
     end
   end
 
   it "doesn't allow you to edit the user short names" do
     @driver.login($admin)
 
-    @driver.attempt(10) { |attempt|
-      attempt.navigate.to("#{$frontend}/users/1/edit")
-      attempt.find_element(:id, "user_username_")
-    }.attribute("readonly").should eq("true")
+    assert (5) {
+      @driver.navigate.to("#{$frontend}/users/1/edit")
+      @driver.find_element(:id, "user_username_").attribute("readonly").should eq("true")
+    }
   end
 
 end
