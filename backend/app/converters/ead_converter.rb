@@ -179,8 +179,8 @@ class EADConverter < Converter
     end
 
 
-    with "note" do
-      ancestor(:note_multipart, :resource, :archival_object) do |obj|
+    with "archdesc/note" do
+      ancestor(:resource) do |obj|
         case obj.class.record_type
         when 'resource'
           make :note_multipart, {
@@ -195,6 +195,15 @@ class EADConverter < Converter
           } do |note|
             set ancestor(:resource), :notes, note
           end
+        end
+      end
+
+    end
+
+
+    with "note" do
+      ancestor(:note_multipart, :resource, :archival_object) do |obj|
+        case obj.class.record_type
         when 'archival_object'
           make :note_multipart, {
             :type => 'odd',
