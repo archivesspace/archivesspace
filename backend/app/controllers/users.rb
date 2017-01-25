@@ -98,54 +98,62 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.post('/users/:id/groups')
+    .description("Update a user's groups")
+    .params(["id", :id],
+            ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
+            ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true"],
+            ["repo_id", Integer, "The Repository groups to clear"])
+    .permissions([])            # permissions are enforced in the body for this one
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    user = User.get_or_die(params[:id])
+
+    # Low security: if a repo_id is provided, we're just running in "set
+    # groups for this repo" mode.
+    groups = Array(params[:groups]).map {|uri|
+      group_ref = JSONModel.parse_reference(uri)
+      repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]
+
+      next if repo_id != params[:repo_id]
+
+      RequestContext.open(:repo_id => repo_id) do
+        if current_user.can?(:manage_repository)
+          Group.get_or_die(group_ref[:id])
+        else
+          raise AccessDeniedException.new
+        end
+      end
+    }
+
+    user.add_to_groups(groups, params[:repo_id])
+
+    json_response(:status => "OK")
+  end
+
+
   Endpoint.post('/users/:id')
     .description("Update a user's account")
     .params(["id", :id],
             ["password", String, "The user's password", :optional => true],
-            ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
-            ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true", :optional => true],
-            ["repo_id", Integer, "The Repository groups to clear", :optional => true],
             ["user", JSONModel(:user), "The updated record", :body => true])
     .permissions([])            # permissions are enforced in the body for this one
     .returns([200, :updated],
              [400, :error]) \
   do
     check_admin_access
-
     user = User.get_or_die(params[:id])
 
-    if params[:repo_id] && (params[:groups] || params[:remove_groups])
-      # Low security: if a repo_id is provided, we're just running in "set
-      # groups for this repo" mode.
-      groups = Array(params[:groups]).map {|uri|
-        group_ref = JSONModel.parse_reference(uri)
-        repo_id = JSONModel.parse_reference(group_ref[:repository])[:id]
+    # High security: update the user themselves.
+    raise AccessDeniedException.new if !current_user.can?(:manage_users)
 
-        next if repo_id != params[:repo_id]
+    params[:user].username = Username.value(params[:user].username)
 
-        RequestContext.open(:repo_id => repo_id) do
-          if current_user.can?(:manage_repository)
-            Group.get_or_die(group_ref[:id])
-          else
-            raise AccessDeniedException.new
-          end
-        end
-      }
+    user.update_from_json(params[:user])
 
-      user.add_to_groups(groups, params[:repo_id])
-    end
-
-    if params[:user]
-      # High security: update the user themselves.
-      raise AccessDeniedException.new if !current_user.can?(:manage_users)
-
-      params[:user].username = Username.value(params[:user].username)
-
-      user.update_from_json(params[:user])
-
-      if params[:password]
-        DBAuth.set_password(params[:user].username, params[:password])
-      end
+    if params[:password]
+      DBAuth.set_password(params[:user].username, params[:password])
     end
 
     updated_response(user, params[:user])
