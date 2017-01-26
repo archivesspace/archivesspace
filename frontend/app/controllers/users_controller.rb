@@ -102,24 +102,23 @@ class UsersController < ApplicationController
 
     groups = Array(params[:groups])
 
-    handle_crud(:instance => :user,
-                :obj => JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}")),
-                :save_opts => {
-                  "groups[]" => groups,
-                  :remove_groups => groups.empty?,
-                  :repo_id => session[:repo_id]
-                },
-                :replace => false,
-                :on_invalid => ->(){
-                  flash[:error] = I18n.t("user._frontend.messages.error_update")
-                  @groups = JSONModel(:group).all if user_can?('manage_users')
+    uri = "/users/#{params[:id]}/groups"
+    response = JSONModel::HTTP.post_form(URI(uri),
+                                         'groups[]' => groups,
+                                         :remove_groups => groups.empty?,
+                                         :repo_id => session[:repo_id]
+                                         )
 
-                  render :action => :edit_groups
-                },
-                :on_valid => ->(id){
-                  flash[:success] = I18n.t("user._frontend.messages.updated")
-                  redirect_to :action => :manage_access
-                })
+    if response.code === '200'
+      flash[:success] = I18n.t("user._frontend.messages.updated")
+      redirect_to :action => :manage_access
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_update")
+      @groups = JSONModel(:group).all if user_can?('manage_repository')
+
+      render :action => :edit_groups
+    end
+
   end
 
 
