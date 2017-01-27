@@ -1141,6 +1141,11 @@ ANEAD
             <titleproper>test-import1</titleproper>
             <author/>
          </titlestmt>
+          <notestmt>
+              <note>
+                  <p>A notestmt note</p>
+              </note>
+          </notestmt>
       </filedesc>
       <profiledesc>
          <langusage>
@@ -1222,8 +1227,15 @@ ANEAD
     end
 
 
-    it "should not create collection note for <note> tags in components" do
+    it "should not create collection notes for <note> tags in components" do
       @resource['notes'].length.should eq(2)
+    end
+
+
+    it "should not create 'odd' notes for notestmt/note tags" do
+      @resource['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'A notestmt note'
+      }.should be_empty
     end
 
 
