@@ -1216,19 +1216,21 @@ ANEAD
     end
 
     it "should create a note for a <note> tag inside a <did> for a collection" do
-      @resource['notes'][0]['type'].should eq('odd')
-      @resource['notes'][0]['subnotes'][0]['content'].should eq('COLLECTION LEVEL NOTE INSIDE DID')
+      @resource['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'COLLECTION LEVEL NOTE INSIDE DID'
+      }.should_not be_empty
     end
 
 
     it "should create a note for a <note> tag outside a <did> for a collection" do
-      @resource['notes'][1]['type'].should eq('odd')
-      @resource['notes'][1]['subnotes'][0]['content'].should eq('Collection level note outside did')
+      @resource['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Collection level note outside did'
+      }.should_not be_empty
     end
 
 
     it "should not create collection notes for <note> tags in components" do
-      @resource['notes'].length.should eq(2)
+      @resource['notes'].select{|n| n['type'] == 'odd'}.length.should eq(2)
     end
 
 
@@ -1240,17 +1242,20 @@ ANEAD
 
 
     it "should create a note for a <note> tag inside a <did> for a component" do
-      @series['notes'][0]['type'].should eq('odd')
-      @series['notes'][0]['subnotes'][0]['content'].should eq('Component Note text inside did')
+      @series['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component Note text inside did'
+      }.should_not be_empty
 
-      @file['notes'][0]['type'].should eq('odd')
-      @file['notes'][0]['subnotes'][0]['content'].should eq('Component note text inside did')
+      @file['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component note text inside did'
+      }.should_not be_empty
     end
 
 
     it "should create a note for a <note> tag outside a <did> for a component" do
-      @file['notes'][1]['type'].should eq('odd')
-      @file['notes'][1]['subnotes'][0]['content'].should eq('Component note text outside did')
+      @file['notes'].select{|n|
+        n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component note text outside did'
+      }.should_not be_empty
     end
 
   end
