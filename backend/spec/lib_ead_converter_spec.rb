@@ -1222,6 +1222,11 @@ ANEAD
     end
 
 
+    it "should not create collection note for <note> tags in components" do
+      @resource['notes'].length.should eq(2)
+    end
+
+
     it "should create a note for a <note> tag inside a <did> for a component" do
       @series['notes'][0]['type'].should eq('odd')
       @series['notes'][0]['subnotes'][0]['content'].should eq('Component Note text inside did')
