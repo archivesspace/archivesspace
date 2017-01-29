@@ -311,8 +311,10 @@ module ApplicationHelper
   # Intended to avoid security issues associated with passing user-generated
   # `params` as the `opts` for link_to (which allows them to set the host,
   # controller, etc.)
-  def link_to_merge_params(label, new_params)
-    link_to(label, {}, {"href" => url_for + "?" + URI.encode_www_form(params.except(:controller, :action, :format).merge(new_params))})
+  def link_to_merge_params(label, new_params, html_options = {})
+    link_to(label,
+            url_for + "?" + URI.encode_www_form(params.except(:controller, :action, :format).merge(new_params)),
+            html_options)
   end
 
 end

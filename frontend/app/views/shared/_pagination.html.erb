@@ -19,7 +19,9 @@
 
       <% if @search_data['this_page'] > 1 %>
         <li>
-            <%= link_to_merge_params I18n.t("pagination.previous").html_safe, :page => @search_data['this_page'] - 1, :title => I18n.t("pagination.previous_label") %>
+            <%= link_to_merge_params(I18n.t("pagination.previous").html_safe,
+                                     {:page => @search_data['this_page'] - 1},
+                                     {:title => I18n.t("pagination.previous_label")}) %>
         </li>
       <% else  %>
         <li class="disabled"><a href="#"><%= I18n.t("pagination.previous").html_safe %></a></li>
@@ -37,7 +39,9 @@
 
       <% if @search_data['this_page'] != @search_data['last_page'] %>
         <li>
-            <%= link_to_merge_params I18n.t("pagination.next").html_safe, :page => @search_data['this_page'] + 1, :title => I18n.t("pagination.next_label") %>
+            <%= link_to_merge_params(I18n.t("pagination.next").html_safe,
+                                     {:page => @search_data['this_page'] + 1},
+                                     {:title => I18n.t("pagination.next_label")}) %>
         </li>
       <% else %>
         <li class="disabled"><a href="#"><%= I18n.t("pagination.next").html_safe %></a></li>
