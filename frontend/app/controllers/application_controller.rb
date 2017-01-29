@@ -398,7 +398,9 @@ class ApplicationController < ActionController::Base
 
   def cleanup_params_for_schema(params_hash, schema)
     # We're expecting a HashWithIndifferentAccess...
-    params_hash = params_hash.to_unsafe_hash
+    if params_hash.respond_to?(:to_unsafe_hash)
+      params_hash = params_hash.to_unsafe_hash
+    end
 
     fix_arrays = proc do |hash, schema|
       result = hash.clone
