@@ -144,10 +144,11 @@ describe "Resource instances and containers" do
     loc_modal.clear_and_send_keys([:id, "location_room_"], "66 MOO")
     loc_modal.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box XYZ")
     loc_modal.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "XYZ0001")
-    loc_modal.click_and_wait_until_gone(:css => "#createAndLinkButton")
+
+    @driver.find_element_with_text('//button', /Create and Link to Location/).click
 
     # re-find our original modal
-    @driver.scroll_into_view(modal.find_element(:id => 'createAndLinkButton')).click
+    @driver.scroll_into_view(@driver.find_element_with_text('//button', /Create and Link to Top Container/)).click
 
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
