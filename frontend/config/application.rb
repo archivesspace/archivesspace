@@ -65,12 +65,12 @@ module ArchivesSpace
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
@@ -110,7 +110,7 @@ module ArchivesSpace
     if not ASUtils.find_local_directories.blank?
       # i18n locales
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
