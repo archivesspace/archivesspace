@@ -315,6 +315,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#safe_filename-instance_method" title="#safe_filename (instance method)">#<strong>safe_filename</strong>(id, suffix = &quot;&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>this takes identifiers and makes sure there&#8217;s no &#8216;funny&#8217; characters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#stream_response-instance_method" title="#stream_response (instance method)">#<strong>stream_response</strong>(streamer, content_type = &quot;application/xml&quot;)  &#x21d2; Object </a>
     
 
@@ -760,6 +783,50 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="safe_filename-instance_method">
+  
+    #<strong>safe_filename</strong>(id, suffix = &quot;&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>this takes identifiers and makes sure there&#8217;s no &#8216;funny&#8217; characters.
+usefuly for filenaming on exports.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 113</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_safe_filename identifier id'>safe_filename</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_suffix identifier id'>suffix</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_filename identifier id'>filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{id}_#{Time.now.getutc}_#{suffix}&quot;</span> 
+  <span class='rubyid_filename identifier id'>filename</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\s+/</span><span class='comma token'>,</span> <span class='string val'>'_'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[^0-9A-Za-z_\.]/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="stream_response-instance_method">
   
     #<strong>stream_response</strong>(streamer, content_type = &quot;application/xml&quot;)  &#x21d2; <tt>Object</tt> 
@@ -857,7 +924,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:31 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:07 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
