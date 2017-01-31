@@ -25,7 +25,7 @@
   <%= csrf_meta_tags %>
 
   <% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |layout| %>
-    <% if File.exists?(layout) %>
+    <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
       <%= render :file => layout %>
       <!-- End plugin layout -->

@@ -133,9 +133,9 @@ describe "Resource instances and containers" do
       elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value').should eq("")
     }
 
-    elt.find_element(:css => '.dropdown-toggle.locations').click
+    @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
     @driver.wait_for_ajax
-    elt.find_element(:css, "a.linker-create-btn").click
+    @driver.scroll_into_view(elt.find_element(:css, "a.linker-create-btn")).click
 
     loc_modal = @driver.find_element(:id => 'top_container_container_locations__0__ref__modal')
 
@@ -144,11 +144,11 @@ describe "Resource instances and containers" do
     loc_modal.clear_and_send_keys([:id, "location_room_"], "66 MOO")
     loc_modal.clear_and_send_keys([:id, "location_coordinate_1_label_"], "Box XYZ")
     loc_modal.clear_and_send_keys([:id, "location_coordinate_1_indicator_"], "XYZ0001")
-    loc_modal.click_and_wait_until_gone(:css => "#createAndLinkButton")
+
+    @driver.find_element_with_text('//button', /Create and Link to Location/).click
 
     # re-find our original modal
-    modal = @driver.test_find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
-    modal.find_element(:id => 'createAndLinkButton').click
+    @driver.scroll_into_view(@driver.find_element_with_text('//button', /Create and Link to Top Container/)).click
 
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 

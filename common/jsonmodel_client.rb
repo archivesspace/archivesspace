@@ -170,9 +170,12 @@ module JSONModel
 
 
     def self.get_json(uri, params = {})
+      if params.respond_to?(:to_unsafe_hash)
+        params = params.to_unsafe_hash
+      end
+
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)
-
 
       response = get_response(uri)
 

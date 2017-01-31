@@ -6,8 +6,8 @@ class ApplicationController < ActionController::API
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
 
-  before_filter :establish_session
-  before_filter :assign_repositories
+  before_action :establish_session
+  before_action :assign_repositories
 
   rescue_from RecordNotFound, :with => :handle_404
 

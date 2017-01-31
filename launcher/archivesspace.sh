@@ -115,10 +115,11 @@ for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
+
 startup_cmd="java "$JAVA_OPTS"  \
         $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
-        org.jruby.Main --disable-gems --1.9 \"launcher/launcher.rb\""
+        org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 
 
 export PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"

@@ -64,17 +64,25 @@ class AppConfig
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif java.lang.System.getProperty("ASPACE_LAUNCHER_BASE") &&
-        File.exists?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
+        File.exist?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
       File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
     elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.base"), "conf", "config.rb")
     elsif __FILE__.index(java.lang.System.getProperty("java.io.tmpdir")) != 0
-      File.join(File.dirname(__FILE__), "config.rb")
+      File.join(get_devserver_base, "config", "config.rb")
     else
       File.join(Dir.home, ".aspace_config.rb")
     end
 
+  end
+
+  def self.get_devserver_base
+    # Deal with paths like this:
+    #
+    # /path/to/archivesspace/backend/uri:classloader:/config
+    #
+    File.dirname(__dir__.gsub(/uri:classloader:.*/, ''))
   end
 
   def self.find_user_config
@@ -85,7 +93,7 @@ class AppConfig
                          ]
 
     possible_locations.each do |config|
-      if config and File.exists?(config)
+      if config and File.exist?(config)
         return config
       end
     end
