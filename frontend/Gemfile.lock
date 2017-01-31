@@ -62,8 +62,8 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    jruby-jars (9.1.6.0)
-    json (1.8.3-java)
+    jruby-jars (9.1.7.0)
+    json (1.8.6-java)
     json-schema (1.0.10)
     less (2.6.0)
       commonjs (~> 0.2.7)
@@ -159,7 +159,7 @@ GEM
     therubyrhino_jar (1.7.6)
     thor (0.19.4)
     thread_safe (0.3.5-java)
-    tilt (2.0.5)
+    tilt (2.0.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.4)
@@ -182,8 +182,8 @@ DEPENDENCIES
   coffee-script-source
   jquery-rails
   jquery-ui-rails
-  jruby-jars (= 9.1.6.0)
-  json (= 1.8.3)
+  jruby-jars (= 9.1.7.0)
+  json (= 1.8.6)
   json-schema (= 1.0.10)
   less-rails
   multipart-post (= 1.2.0)

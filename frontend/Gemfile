@@ -21,12 +21,12 @@ gem 'less-rails'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem "json", "1.8.3"
+gem "json", "1.8.6"
 gem 'json-schema', '1.0.10'
 
 gem 'useragent'
 
-gem "jruby-jars", "= 9.1.6.0"
+gem "jruby-jars", "= 9.1.7.0"
 gem 'atomic', '= 1.0.1'
 
 
