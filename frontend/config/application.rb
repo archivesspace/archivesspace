@@ -11,8 +11,6 @@ require 'asutils'
 
 require 'aspace_logger'
 
-require "rails_config_bug_workaround"
-
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line

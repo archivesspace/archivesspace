@@ -24,8 +24,6 @@ ArchivesSpacePublic::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
-  # config.threadsafe!
-
   # DEVELOPMENT ONLY - Allow overriding of the static resources via the local folder(s)
   # N.B. that is supported by the launcher.rb when in production
   if not ASUtils.find_local_directories.blank?

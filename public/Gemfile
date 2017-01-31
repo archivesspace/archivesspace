@@ -36,5 +36,5 @@ end
 
 # Allow plugins to provide their own Gemfiles too.
 #
-# require 'asutils'
-# ASUtils.load_plugin_gems(self)
+require 'asutils'
+ASUtils.load_plugin_gems(self)

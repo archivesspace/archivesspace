@@ -80,6 +80,8 @@ module ASUtils
 
   def self.find_base_directory(root = nil)
     # JRuby 9K seems to be adding this strange suffix...
+    #
+    # Example: /pat/to/archivesspace/backend/uri:classloader:
     this_dir = __dir__.gsub(/uri:classloader:\z/, '')
 
     res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),

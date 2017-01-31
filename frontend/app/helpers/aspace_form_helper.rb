@@ -280,10 +280,9 @@ module AspaceFormHelper
         opts[:class] = "form-control"
       end
 
-      # obj is [0, entry] instead of entry
       @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
-
     end
+
     def textarea(name = nil, value = "", opts =  {})
       options = {:id => id_for(name), :rows => 3}
 

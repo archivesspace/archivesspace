@@ -45,5 +45,5 @@ gem "zip-zip", "0.3"
 
 
 # Allow plugins to provide their own Gemfiles too.
-# require 'asutils'
-# ASUtils.load_plugin_gems(self)
+require 'asutils'
+ASUtils.load_plugin_gems(self)

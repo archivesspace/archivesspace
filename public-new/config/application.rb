@@ -15,8 +15,6 @@ require 'java'
 require 'config/config-distribution'
 require 'asutils'
 
-require "rails_config_bug_workaround"
-
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

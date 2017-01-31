@@ -47,7 +47,7 @@ gem "zip-zip", "0.3"
 gem "nokogiri", "1.7.0.1"
 
 
-# require 'asutils'
+require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
-# ASUtils.load_plugin_gems(self)
+ASUtils.load_plugin_gems(self)
