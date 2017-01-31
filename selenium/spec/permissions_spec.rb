@@ -12,7 +12,7 @@ describe "Permissions" do
 
 
   after(:all) do
-    @driver.quit
+    @driver.logout.quit
   end
 
 

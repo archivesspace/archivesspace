@@ -30,7 +30,7 @@ class AdvancedSearch
       require 'search_definitions'
 
       ASUtils.find_local_directories("search_definitions.rb").each do |file|
-        if File.exist?(file)
+        if File.exists?(file)
           load File.absolute_path(file)
         end
       end

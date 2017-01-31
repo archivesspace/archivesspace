@@ -18,7 +18,7 @@ describe "Notes" do
 
 
   after(:all) do
-    @driver.quit
+    @driver.logout.quit
   end
 
 

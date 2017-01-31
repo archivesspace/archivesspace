@@ -6,7 +6,7 @@ class AgentsController < ApplicationController
                       "manage_repository" => [:defaults, :update_defaults]
 
 
-  before_action :assign_types
+  before_filter :assign_types
   
   include ExportHelper
 

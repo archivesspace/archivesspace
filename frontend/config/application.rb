@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 #require 'rails/all'
-
 require 'action_controller/railtie'
 require 'sprockets/railtie'
 
@@ -10,6 +9,8 @@ require 'config/config-distribution'
 require 'asutils'
 
 require 'aspace_logger'
+
+require "rails_config_bug_workaround"
 
 
 if defined?(Bundler)
@@ -22,12 +23,9 @@ end
 
 module ArchivesSpace
 
+
+
   class Application < Rails::Application
-
-    def self.extend_aspace_routes(routes_file)
-      ArchivesSpace::Application.config.paths['config/routes.rb'].concat([routes_file])
-    end
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -59,16 +57,16 @@ module ArchivesSpace
     config.logger = ActiveSupport::TaggedLogging.new(ASpaceLogger.new($stderr))
 
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
-    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
@@ -98,22 +96,21 @@ module ArchivesSpace
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    Pathname.glob(File.join(Rails.root.join('vendor', 'assets').to_s, "**/*")).each do |path|
-      if path.directory?
-        config.assets.paths << path
-      end
-    end
+    config.assets.precompile += %w( *.js )
+
+    # Add fonts directory
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
     # Allow overriding of the locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
       # i18n locales
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
+        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
         config.assets.paths.unshift(static_directory)
       end
     end
@@ -153,10 +150,11 @@ end
 # Load plugin init.rb files (if present)
 ASUtils.find_local_directories('frontend').each do |dir|
   init_file = File.join(dir, "plugin_init.rb")
-  if File.exist?(init_file)
+  if File.exists?(init_file)
     load init_file
   end
 end
+
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'

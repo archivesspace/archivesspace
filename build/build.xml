@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.7.0/jruby-complete-9.1.7.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.1.7.0.jar" />
+  <property name="jruby_url" value="http://jruby.org.s3.amazonaws.com/downloads/1.7.22/jruby-complete-1.7.22.jar" />
+  <property name="jruby_file" value="jruby-complete-1.7.22.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
@@ -19,11 +19,8 @@
   <property name="aspace.data_directory" value="${basedir}/../build" />
 
   <property environment="env"/>
-  <!--
-      Extra options for people who like lots of GC detail: -verbose:gc -XX:+PrintTenuringDistribution -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime
-  -->
-  <property name="env.JAVA_OPTS" value="" />
-  <property name="default_java_options" value="-XX:MaxPermSize=196m -Xmx600m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
+  <property name="env.JAVA_OPTS" value="-XX:MaxPermSize=196m -Xmx300m -Xss2m" />
+  <property name="default_java_options" value="-Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
 
 
   <target name="help" description="This help">
@@ -79,7 +76,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment --without '${excluded-gem-groups}'" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='${gemfile}' --no-deployment --without '${excluded-gem-groups}'" />
     </java>
   </target>
 
@@ -99,7 +96,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 1.12.5" />
+      <arg line="--1.9 -S gem install bundler -v 1.12.5" />
     </java>
 
     <antcall target="bundler">
@@ -123,7 +120,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib build/scripts/migrate_db.rb" />
+      <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb" />
     </java>
   </target>
 
@@ -137,7 +134,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib build/scripts/migrate_db.rb nuke" />
+      <arg line="-Iapp/lib --1.9 build/scripts/migrate_db.rb nuke" />
     </java>
   </target>
 
@@ -152,14 +149,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-
-      <!-- NOTE: We explicitly add '.' to the load path here because
-           we're running from common/ and JRuby 9k refuses to load
-           `config/config-distribution` because it won't load anything
-           from the current directory on principle (even when that current
-           directory is on the classpath!).  Explicitly setting the load
-           path fixes this test. -->
-      <arg line="-I. ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
   </target>
 
@@ -186,7 +176,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
     </java>
   </target>
   
@@ -230,7 +220,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="tests/integration.rb" />
+      <arg line="--1.9 tests/integration.rb" />
     </java>
   </target>
 
@@ -242,7 +232,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/warble war" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
 
@@ -263,12 +253,12 @@
       <record name="backend_test_log.out" action="start" />
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
             dir="../backend">
-        <jvmarg line="-Daspace.service=backend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS} ${solr.properties}"/>
+        <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS} ${solr.properties}"/>
         <env key="GEM_HOME" value="${gem_home}" />
         <env key="GEM_PATH" value="" />
         <env key="BUNDLE_PATH" value="${gem_home}" />
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-        <arg line="app/main.rb ${aspace.backend.port}" />
+        <arg line="--1.9 app/main.rb ${aspace.backend.port}" />
       </java>
       <record name="backend_test_log.out" action="stop" />
     </parallel>
@@ -283,7 +273,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp scripts/endpoint_doc.rb"/>
+      <arg line="--1.9 -Iapp scripts/endpoint_doc.rb"/>
       <arg value="${match}"/>
     </java>
   </target>
@@ -293,11 +283,11 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="-Daspace.service=indexer -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="app/main.rb" />
+      <arg line="--1.9 app/main.rb" />
     </java>
   </target>
 
@@ -309,7 +299,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/warble war" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
 
@@ -339,7 +329,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
+      <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
     </java>
   </target>
 
@@ -377,12 +367,12 @@
     <record name="frontend_test_log.out" action="start" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
-      <jvmarg line="-Daspace.service=frontend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="script/rails s Puma -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="--1.9 script/rails s Puma --port=${aspace.frontend.port}" />
       </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
@@ -395,7 +385,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="script/rails console" />
+      <arg line="--1.9 script/rails console" />
     </java>
   </target>
 
@@ -409,11 +399,10 @@
           failonerror="true"
           dir="../frontend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
-      <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake assets:precompile --trace" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -423,7 +412,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/warble war" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
 
@@ -449,7 +438,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
   </target>
 
@@ -500,7 +489,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
+      <arg line="--1.9 ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
   </target>
 
@@ -519,7 +508,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake integration:staff cores=${cores} ${only-group-arg}" />
+      <arg line="--1.9 -S rake integration:staff cores=${cores} ${only-group-arg}" />
     </java>
   </target>
 
@@ -532,7 +521,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake doc:gen" />
+      <arg line="--1.9 -S rake doc:gen" />
     </java>
   </target>
 
@@ -545,7 +534,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="build/gems/bin/yardoc" />
+      <arg line="--1.9 build/gems/bin/yardoc" />
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -555,7 +544,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="build/gems/bin/yardoc -f txt" />
+      <arg line="--1.9 build/gems/bin/yardoc -f txt" />
     </java>
   </target>
 
@@ -567,7 +556,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp scripts/build_docs.rb"/>
+      <arg line="--1.9 -Iapp scripts/build_docs.rb"/>
       <arg value="${match}"/>
     </java>
   </target>
@@ -740,7 +729,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib scripts/export_config.rb target/archivesspace/config/config.rb" />
+      <arg line="-Iapp/lib --1.9 scripts/export_config.rb target/archivesspace/config/config.rb" />
     </java>
 
     <zip zipfile="../archivesspace-${version}.zip" level="9">
@@ -824,12 +813,12 @@
     </condition>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../${public-dir}">
-      <jvmarg line="-Daspace.service=public -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="-Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="${rails-bin}/rails s Puma -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="--1.9 ${rails-bin}/rails s Puma --port=${aspace.public.port}" />
     </java>
   </target>
 
@@ -846,11 +835,10 @@
           failonerror="true"
           dir="../${public-dir}">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
-      <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-S rake assets:precompile --trace" />
+      <arg line="--1.9 -S rake assets:precompile --trace" />
     </java>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
@@ -860,7 +848,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/warble war" />
+      <arg line="--1.9 ../build/gems/bin/warble war" />
     </java>
   </target>
 

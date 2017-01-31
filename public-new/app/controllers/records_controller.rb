@@ -1,7 +1,7 @@
 class RecordsController < ApplicationController
   include TreeApis
 
-  before_action :get_repository
+  before_filter :get_repository
 
 
   def resource

@@ -1,5 +1,6 @@
 require "net/http"
 require "uri"
 
-ArchivesSpacePublic::Application.extend_aspace_routes(File.join(File.dirname(__FILE__), "routes.rb"))
+my_routes = [File.join(File.dirname(__FILE__), "routes.rb")]
+ArchivesSpacePublic::Application.config.paths['config/routes'].concat(my_routes)
 

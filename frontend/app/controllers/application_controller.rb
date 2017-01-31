@@ -14,23 +14,23 @@ class ApplicationController < ActionController::Base
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
-    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exists?(dir) }.each do |template_override_directory|
       prepend_view_path(template_override_directory)
     end
   end
 
   # Note: This should be first!
-  before_action :store_user_session
+  before_filter :store_user_session
 
-  before_action :determine_browser_support
+  before_filter :determine_browser_support
 
-  before_action :refresh_permissions
+  before_filter :refresh_permissions
 
-  before_action :refresh_preferences
+  before_filter :refresh_preferences
 
-  before_action :load_repository_list
+  before_filter :load_repository_list
 
-  before_action :unauthorised_access
+  before_filter :unauthorised_access
 
   def self.permission_mappings
     Array(@permission_mappings)
@@ -50,12 +50,12 @@ class ApplicationController < ActionController::Base
   def self.set_access_control(permission_mappings)
     @permission_mappings = permission_mappings
 
-    skip_before_action :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
+    skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
 
     permission_mappings.each do |permission, actions|
       next if permission === :public
 
-      before_action(:only => Array(actions)) {|c| user_must_have(permission)}
+      before_filter(:only => Array(actions)) {|c| user_must_have(permission)}
     end
   end
 
@@ -397,11 +397,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def cleanup_params_for_schema(params_hash, schema)
-    # We're expecting a HashWithIndifferentAccess...
-    if params_hash.respond_to?(:to_unsafe_hash)
-      params_hash = params_hash.to_unsafe_hash
-    end
-
     fix_arrays = proc do |hash, schema|
       result = hash.clone
 

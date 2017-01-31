@@ -4,13 +4,7 @@ class RdeTemplatesController < ApplicationController
   set_access_control "view_repository" => [:index, :show]
 
   def create
-    template_param = params['template']
-
-    if template_param.respond_to?(:to_unsafe_hash)
-      template_param = template_param.to_unsafe_hash
-    end
-
-    template = JSONModel(:rde_template).from_hash(template_param)
+    template = JSONModel(:rde_template).from_hash(params['template'])
 
     id = template.save
 

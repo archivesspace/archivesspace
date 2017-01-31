@@ -45,7 +45,7 @@ module TestUtils
 
 
   def self.build_config_string(config)
-    java_opts = ENV.fetch('JAVA_OPTS', '')
+    java_opts = ""
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
@@ -60,13 +60,15 @@ module TestUtils
       end
     end
 
-    " " + java_opts
+    java_opts
   end
 
 
   def self.start_backend(port, config = {}, config_file = nil)
-    base = File.dirname(__dir__)
-    java_opts = build_config_string(config)
+    base = File.dirname(__FILE__)
+
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M"
+    java_opts += build_config_string(config)
     if config_file
       java_opts += " -Daspace.config=#{config_file}"
     end
@@ -84,7 +86,7 @@ module TestUtils
       java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
     end
 
-    pid = Process.spawn({'JAVA_OPTS' => java_opts},
+    pid = Process.spawn({:JAVA_OPTS => java_opts},
                         "#{base}/../build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
@@ -94,9 +96,9 @@ module TestUtils
 
 
   def self.start_frontend(port, backend_url, config = {})
-    base = File.dirname(__dir__)
+    base = File.dirname(__FILE__)
 
-    java_opts = "-Daspace.config.backend_url=#{backend_url}"
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
 
     build_args = ["frontend:devserver:integration", "-Daspace.frontend.port=#{port}"]
@@ -105,7 +107,7 @@ module TestUtils
       build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
     end
 
-    pid = Process.spawn({'JAVA_OPTS' => java_opts, 'TEST_MODE' => "true"},
+    pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
                         "#{base}/../build/run", *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
@@ -115,14 +117,14 @@ module TestUtils
 
 
   def self.start_public(port, backend_url, config = {})
-    base = File.dirname(__dir__)
+    base = File.dirname(__FILE__)
 
-    java_opts = "-Daspace.config.backend_url=#{backend_url}"
+    java_opts = "-Xmx256M -XX:MaxPermSize=128M -Daspace.config.backend_url=#{backend_url}"
     config.each do |key, value|
       java_opts += " -Daspace.config.#{key}=#{value}"
     end
 
-    pid = Process.spawn({'JAVA_OPTS' => java_opts, 'TEST_MODE' => "true"},
+    pid = Process.spawn({:JAVA_OPTS => java_opts, :TEST_MODE => "true"},
                         "#{base}/../build/run", "public:devserver:integration",
                         "-Daspace.public.port=#{port}")
 
