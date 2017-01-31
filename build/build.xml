@@ -90,7 +90,7 @@
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
     <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -631,7 +631,7 @@
     <delete failonerror="false" dir="target" />
 
     <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
 
     <mkdir dir="target/archivesspace/config" />
@@ -806,7 +806,7 @@
   <!-- Public Interface -->
   <target name="public:clean" description="Delete the Rails tmp directory">
     <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
     <delete dir="../${public-dir}/tmp" />
     <delete dir="../${public-dir}/public/assets" />
@@ -817,10 +817,10 @@
 
   <target name="public:devserver" depends="set-classpath, public:clean" description="Start an instance of the ArchivesSpacePublic development server">
     <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
     <condition property="rails-bin" value="bin" else="script">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../${public-dir}">
@@ -836,7 +836,7 @@
 
   <target name="public:war" depends="set-classpath, public:clean" description="Deploy the public application as a .war file">
     <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_DEV}" arg2="true" />
+      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 
