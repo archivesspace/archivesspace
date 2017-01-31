@@ -4,7 +4,7 @@
     <meta charset="US-ASCII">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  File: README_FEATURES_1.5.0
+  File: README
   
     &mdash; Documentation by YARD 0.9.0
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "README_FEATURES_1.5.0";
+  pathId = "README";
   relpath = '';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="_index.html">Index</a> &raquo; 
-    <span class="title">File: README_FEATURES_1.5.0</span>
+    <span class="title">File: README</span>
   
 </div>
 
@@ -59,40 +59,569 @@
 
       <iframe id="search_frame" src="class_list.html"></iframe>
 
-      <div id="content"><div id='filecontents'><h1 id="what-is-the-new-functionality-related-to-containers-and-container-management-in-150">What is the new functionality related to containers and container management in 1.5.0?</h1>
+      <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
+
+<p><a href="https://travis-ci.org/archivesspace/archivesspace.svg"><img src="https://travis-ci.org/archivesspace/archivesspace.svg" alt="Build Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a></p>
 
 <ul>
-  <li>
-    <p><strong>Top containers replace Container 1s.</strong> Unlike Container 1s in the current version of ArchivesSpace, top containers in the upcoming version can be defined once and linked many times to various archival objects, resources, and accessions.</p>
-  </li>
-  <li>
-    <p><strong>The ability to create container profiles and associate them with top containers.</strong> Optional container profiles allow you to track information about the containers themselves, including dimensions.</p>
-  </li>
-  <li>
-    <p><strong>Extent calculator.</strong> In conjunction with container profiles, the new extent calculator allows you to easily see extents for accessions, resources, or resource components. Optionally, you can use the calculator to generate extent records for an accession, resource, or resource component.</p>
-  </li>
-  <li>
-    <p><strong>Bulk operations for containers.</strong> The Manage Top Containers area provides more efficient ways to work with multiple containers, including the ability to add or edit barcodes, change locations, and delete top containers in bulk.</p>
-  </li>
-  <li>
-    <p><strong>The ability to &#8220;share&#8221; boxes across collections in a meaningful way.</strong> You can define top containers separately from individual accessions and resources and access them from multiple accession and resource records. For example, this might be helpful for recording information about an oversize box that contains items from many collections.</p>
-  </li>
-  <li>
-    <p><strong>The ability to store data that will help you synchronize between ArchivesSpace and item records in your ILS.</strong> If your institution creates item records in its ILS for containers, you can now record that information within ArchivesSpace as well.</p>
-  </li>
-  <li>
-    <p><strong>The ability to store data about the restriction status of material associated with a container.</strong> You can now see at a glance whether any portion of the contents of a container is restricted.</p>
-  </li>
-  <li>
-    <p><strong>Machine-actionable restrictions.</strong> You will now have the ability to associate begin and end dates with &#8220;conditions governing access&#8221; and &#8220;conditions governing use&#8221; Notes. You&#8217;ll also be able to associate a local restriction type for non-time-bound restrictions. This gives the ability to better manage and re-describe expiring restrictions.</p>
-  </li>
+  <li><a href="http://archivesspace.org">archivesspace.org</a></li>
+  <li><a href="https://docs.archivesspace.org/">User Documentation</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/">Technical Documentation</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/api">API</a></li>
+  <li><a href="http://wiki.archivesspace.org">Wiki</a></li>
+  <li><a href="http://development.archivesspace.org">Issue Tracker</a></li>
+  <li>IRC: #archivesspace ( chat.freenode.net )</li>
 </ul>
 
-<p>For more information on using the new features, consult the user manual, particularly the new section titled Managing Containers (available late April 2016).</p>
+<h1 id="system-requirements">System requirements</h1>
+
+<ul>
+  <li>Java 1.6 or higher; Java 1.7 or 1.8 recommended.</li>
+  <li>At least 1024 MB RAM allocated to the application</li>
+  <li>A <a href="https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers">supported browser</a></li>
+</ul>
+
+<p>ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
+Windows (XP, Windows 7, Windows 8, Windows Server 2008 &amp; 2012 ).</p>
+
+<p>MySQL is not required, but is <strong>strongly</strong> recommended for production use.</p>
+
+<p><strong>The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.</strong></p>
+
+<h1 id="getting-started">Getting started</h1>
+
+<p>The quickest way to get ArchivesSpace up and running is to download
+the latest distribution <code>.zip</code> file from the following URL:</p>
+
+<p>https://github.com/archivesspace/archivesspace/releases</p>
+
+<p>You will need to have Java 1.6 (or newer) installed on your machine.
+You can check your Java version by running the command:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
+</code></pre>
+
+<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
+Currently, if you want to use Java 1.8, you will need to remove the
+jdt-compiler jar library from the java classpath ( lib directory of
+your ArchivesSpace directory). This will disable the use of Jasper
+reports ( but not regular reports).  
+--->
+
+<p>When you extract the <code>.zip</code> file, it will create a directory called
+<code>archivesspace</code>.  To run the system, just execute the appropriate
+startup script for your platform.  On Linux and OSX:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>and for Windows:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
+</code></pre>
+
+<p>This will start ArchivesSpace running in foreground mode (so it will
+shut down when you close your terminal window).  Log output will be
+written to the file <code>logs/archivesspace.out</code> (by default).</p>
+
+<p><strong>Note:</strong> If you&#8217;re running Windows and you get an error message like
+<code>unable to resolve type 'size_t'</code> or <code>no such file to load -- bundler</code>,
+make sure that there are no spaces in any part of the path name in which the
+ArchivesSpace directory is located.</p>
+
+<h2 id="start-archivesspace">Start ArchivesSpace</h2>
+
+<p>The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+accessing the following URLs in your browser:</p>
+
+<ul>
+  <li>http://localhost:8089/ &#8211; the backend</li>
+  <li>http://localhost:8080/ &#8211; the staff interface</li>
+  <li>http://localhost:8081/ &#8211; the public interface</li>
+  <li>http://localhost:8090/ &#8211; the Solr admin console</li>
+</ul>
+
+<p>To start using the Staff interface application, log in using the adminstrator 
+account:</p>
+
+<ul>
+  <li>Username: <code>admin</code></li>
+  <li>Password: <code>admin</code></li>
+</ul>
+
+<p>Then, you can create a new repository by selecting &#8220;System&#8221; -&gt; &#8220;Manage
+repositories&#8221; at the top right hand side of the screen.  From the
+&#8220;System&#8221; menu, you can perform a variety of administrative tasks, such
+as creating and modifying user accounts.  <strong>Be sure to change the
+&#8220;admin&#8221; user&#8217;s password at this time.</strong></p>
+
+<h1 id="configuring-archivesspace">Configuring ArchivesSpace</h1>
+
+<p>The primary configuration for ArchivesSpace is done in the config/config.rb
+file. By default, this file contains the default settings, which are indicated
+by commented out lines ( indicated by the &#8220;#&#8221; in the file ). You can adjust these 
+settings by adding new lines that change the default and restarting 
+ArchivesSpace. Be sure that your new settings are not commented out 
+( i.e. do NOT start with a &#8220;#&#8221; ), otherwise the settings will not take effect.</p>
+
+<h1 id="running-archivesspace-as-a-unix-daemon">Running ArchivesSpace as a Unix daemon</h1>
+
+<p>The <code>archivesspace.sh</code> startup script doubles as an init script.  If
+you run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_start identifier id'>start</span>
+</code></pre>
+
+<p>ArchivesSpace will run in the background as a daemon (logging to
+<code>logs/archivesspace.out</code> by default, as before).  You can shut it down with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_stop identifier id'>stop</span>
+</code></pre>
+
+<p>You can even install it as a system-wide init script by creating a
+symbolic link:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/etc/i</span><span class='rubyid_nit identifier id'>nit</span><span class='dot token'>.</span><span class='rubyid_d identifier id'>d</span>
+ <span class='rubyid_ln identifier id'>ln</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span>
+</code></pre>
+
+<p>Then use the appropriate tool for your distribution to set up the
+run-level symbolic links (such as <code>chkconfig</code> for RedHat or
+<code>update-rc.d</code> for Debian-based distributions).</p>
+
+<p>Note that you may want to edit archivesspace.sh to set the account
+that the system runs under, JVM options, and so on.</p>
+
+<h1 id="running-archivesspace-as-a-windows-service">Running ArchivesSpace as a Windows Service</h1>
+
+<p>Running ArchivesSpace as a Windows service requires some additional 
+configuration.</p>
+
+<p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
+provided a service.bat script that will attempt to configure 
+procrun for you (under <code>launcher\service.bat</code>).</p>
+
+<p>To run this script, first you need to <a href="http://www.apache.org/dist/commons/daemon/binaries/windows/">download procrun</a>.
+Extract the files and copy the prunsrv.exe and prunmgr.exe to your
+ArchivesSpace directory.</p>
+
+<p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable. 
+To add Java to your path, edit you %PATH% environment variable to include the directory of
+your java executable ( it will be something like <code>C:\Program Files
+(x86)\Java\bin</code> ). To add <code>JAVA_HOME</code>, add a new system variable and put the
+directory where java was installed ( something like <code>C:\Program Files
+(x86)\Java</code> ).</p>
+
+<p>Before setting up the ArchivesSpace service, you should also <a href="https://github.com/archivesspace/archivesspace#running-archivesspace-against-mysql">configure
+ArchivesSpace to run against MySQL</a>.
+Be sure that the MySQL connector jar file is in the lib directory, in order for
+the service setup script to add it to the application&#8217;s classpath.</p>
+
+<p>Lastly, for the service to shutdown cleanly, uncomment and change these lines in
+config/config.rb:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_jetty_shutdown_handler</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> 
+<span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:jetty_shutdown_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/xkcd&quot;</span>
+</code></pre>
+
+<p>This enables a shutdown hook for Jetty to respond to when the shutdown action
+is taken.</p>
+
+<p>You can now execute the batch script from your ArchivesSpace root directory from
+the command line with <code>launcher\service.bat</code>. This  will configure the service and
+provide two executables: <code>ArchivesSpaceService.exe</code> (the service) and
+<code>ArchivesSpaceServicew.exe</code> (a GUI monitor)</p>
+
+<p>There are several options to launch the service. The easiest is to open the GUI
+monitor and click &#8220;Launch&#8221;.</p>
+
+<p>Alternatively, you can start the GUI monitor and minimize it in your
+system tray with:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceServicew constant id'>ArchivesSpaceServicew</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_MS constant id'>MS</span><span class='div op'>/</span><span class='regexp val'>/
+</span></code></pre>
+
+<p>To execute the service from the command line, you can invoke:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_ES constant id'>ES</span><span class='div op'>/</span><span class='regexp val'>/ 
+</span></code></pre>
+
+<p>Log output will be placed in your ArchivesSpace log directory.</p>
+
+<p>Please see the <a href="http://commons.apache.org/proper/commons-daemon/procrun.html">procrun
+documentation</a>
+for more information.</p>
+
+<h1 id="running-archivesspace-with-a-custom-configuration-file">Running ArchivesSpace with a custom configuration file</h1>
+
+<p>Under your <code>archivesspace</code> directory you will see a directory called
+<code>config</code> which contains a file called <code>config.rb</code>.  By modifying this
+file, you can override the defaults that ArchivesSpace ships with:
+changing things like the ports it listens on and where it puts its data.</p>
+
+<h1 id="running-archivesspace-against-mysql">Running ArchivesSpace against MySQL</h1>
+
+<p>Out of the box, the ArchivesSpace distribution runs against an
+embedded database, but this is only suitable for demonstration
+purposes.  When you are ready to starting using ArchivesSpace with
+real users and data, you should switch to using MySQL.  MySQL offers
+significantly better performance when multiple people are using the
+system, and will ensure that your data is kept safe.</p>
+
+<h2 id="download-mysql-connector">Download MySQL Connector</h2>
+
+<p>ArchivesSpace requires the
+<a href="http://dev.mysql.com/downloads/connector/j/">MySQL Connector for Java</a>,
+which must be downloaded separately because of its licensing agreement.
+Download the Connector and place it in a location where ArchivesSpace can
+find it on its classpath:</p>
+
+<pre class="code ruby"><code class="ruby">     $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_lib identifier id'>lib</span>
+     $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/central.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.39</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.39</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> 
+</code></pre>
+
+<p>Note that the version of the MySQL connector may be different by the
+time you read this.</p>
+
+<h2 id="set-up-your-mysql-database">Set up your MySQL database</h2>
+
+<p>Next, create an empty database in MySQL and grant access to a dedicated
+ArchivesSpace user. The following example uses username <code>as</code>
+and password <code>as123</code>.</p>
+
+<p><strong>NOTE: WHEN CREATING THE DATABASE, YOU MUST SET THE DEFAULT CHARACTER
+ENCODING FOR THE DATABASE TO BE <code>utf8</code>.</strong> This is particularly important
+if you use a MySQL client to create the database (e.g. Navicat, MySQL
+Workbench, phpMyAdmin, etc.).</p>
+
+<p><strong>NOTE: If using AWS RDS MySQL databases, binary logging is not enabled by default and updates will fail.</strong> To enable binary logging, you must create a custom db parameter group for the database and set the <code>log_bin_trust_function_creators = 1</code>. See <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html">Working with DB Parameter Groups</a> for information about RDS parameter groups.</p>
+
+<pre class="code ruby"><code class="ruby">     $ <span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uroot identifier id'>uroot</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span>
+
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>1</span> <span class='rubyid_row identifier id'>row</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'as'</span>@<span class='string val'>'localhost'</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>'as123'</span><span class='semicolon token'>;</span>
+     <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>Then, modify your <code>config/config.rb</code> file to refer to your MySQL
+database. When you modify your configuration file, <strong>MAKE SURE THAT YOU
+SPECIFY THAT THE CHARACTER ENCODING FOR THE DATABASE TO BE <code>UTF-8</code></strong> as shown
+below:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;jdbc:mysql://localhost:3306/archivesspace?user=as&amp;password=as123&amp;useUnicode=true&amp;characterEncoding=UTF-8&quot;</span>
+</code></pre>
+
+<p>There is a database setup script that will create all the tables that
+ArchivesSpace requires.  Run this with:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>  <span class='comment val'># or setup-database.bat under Windows</span>
+</code></pre>
+
+<p>You can now follow the instructions in the &#8220;Getting Started&#8221; section to start
+your ArchivesSpace application.</p>
+
+<h1 id="backup-and-recovery">Backup and recovery</h1>
+
+<h2 id="creating-backups-using-the-provided-script">Creating backups using the provided script</h2>
+
+<p>ArchivesSpace provides some simple scripts for backing up a single
+instance to a <code>.zip</code> file.  You can run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_backup identifier id'>backup</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_output identifier id'>output</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='rubyid_yyyymmdd identifier id'>yyyymmdd</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+</code></pre>
+
+<p>and the script will generate a file containing:</p>
+
+<ul>
+  <li>A snapshot of the demo database (if you&#8217;re using the demo
+database)</li>
+  <li>A snapshot of the Solr index and related indexer files</li>
+</ul>
+
+<p>If you are running against MySQL and have <code>mysqldump</code> installed, you
+can also provide the <code>--mysqldump</code> option.  This will read the
+database settings from your configuration file and add a dump of your
+MySQL database to the resulting <code>.zip</code> file.</p>
+
+<h2 id="managing-your-own-backups">Managing your own backups</h2>
+
+<p>If you want more control over your backups, you can develop your own
+scripts.  ArchivesSpace stores all persistent data in the database, so
+as long as you have backups of your database then you can always
+recover.</p>
+
+<p>If you are running MySQL, the <code>mysqldump</code> utility can dump the database
+schema and data to a file.  It&#8217;s a good idea to run this with the
+<code>--single-transaction</code> option to avoid locking your database tables
+while your backups run. It is also essential to use the <code>--routines</code>
+flag, which will include functions and stored procedures in the
+backup (which ArchivesSpace uses at least for Jasper reports).</p>
+
+<p>If you are running with the demo database, you can create periodic
+database snapshots using the following configuration settings:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># In this example, we create a snapshot at 4am each day and keep</span>
+ <span class='comment val'># 7 days' worth of backups</span>
+ <span class='comment val'>#</span>
+ <span class='comment val'># Database snapshots are written to 'data/demo_db_backups' by</span>
+ <span class='comment val'># default.</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 4 * * *&quot;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>7</span>
+</code></pre>
+
+<p>Solr indexes can always be recreated from the contents of the
+database, but backing them up can reduce your recovery time if
+disaster strikes.  You can create periodic Solr snapshots using the
+following configuration settings:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Create one snapshot per hour and keep only one.</span>
+ <span class='comment val'>#</span>
+ <span class='comment val'># Solr snapshots are written to 'data/solr_backups' by default.</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 * * * *&quot;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+</code></pre>
+
+<h2 id="recovering-from-backup">Recovering from backup</h2>
+
+<p>When recovering an ArchivesSpace installation from backup, you will
+need to restore:</p>
+
+<ul>
+  <li>Your database (either the demo database or MySQL)</li>
+  <li>The search indexes and related indexer files</li>
+</ul>
+
+<p>Of the two, the database backup is the most crucial&#8211;search indexes
+are worth restoring if you have backups, but they can be recreated
+from scratch if necessary.</p>
+
+<h3 id="recovering-your-database">Recovering your database</h3>
+
+<p>If you are using MySQL, recovering your database just requires loading
+your <code>mysqldump</code> backup into an empty database.  If you are using the
+<code>scripts/backup.sh</code> script (described above), this dump file is named
+<code>mysqldump.sql</code> in your backup <code>.zip</code> file.</p>
+
+<p>To load a MySQL dump file, follow the directions in <em>Set up your MySQL
+database</em> to create an empty database with the appropriate
+permissions.  Then, populate the database from your backup file using
+the MySQL client:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uarchivesspace identifier id'>uarchivesspace</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='lt op'>&lt;</span> <span class='rubyid_mysqldump identifier id'>mysqldump</span><span class='dot token'>.</span><span class='rubyid_sql identifier id'>sql</span>
+</code></pre>
+
+<p>(change the username as required and enter your password when
+prompted).</p>
+
+<p>If you are using the demo database, your backup <code>.zip</code> file will
+contain a directory called <code>demo_db_backups</code>.  Each subdirectory of
+<code>demo_db_backups</code> contains a backup of the demo database.  To
+restore from a backup, copy its <code>archivesspace_demo_db</code> directory back
+to your ArchivesSpace data directory.  For example:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_demo_db_backups identifier id'>demo_db_backups</span><span class='div op'>/</span><span class='rubyid_demo_db_backup_1373323208_25926 identifier id'>demo_db_backup_1373323208_25926</span><span class='div op'>/</span><span class='rubyid_archivesspace_demo_db identifier id'>archivesspace_demo_db</span> \
+       <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span>
+</code></pre>
+
+<h3 id="recovering-the-search-indexes-and-related-indexer-files">Recovering the search indexes and related indexer files</h3>
+
+<p>This step is optional since indexes can be rebuilt from the contents
+of the database.  However, recovering your search indexes can reduce
+the time needed to get your system running again.</p>
+
+<p>The backup <code>.zip</code> file contains two directories used by the
+ArchivesSpace indexer:</p>
+
+<ul>
+  <li>solr.backup-[timestamp]/snapshot.[timestamp] &#8211; a snapshot of the
+index files.</li>
+  <li>solr.backup-[timestamp]/indexer_state &#8211; the files used by the
+indexer to remember what it last indexed.</li>
+</ul>
+
+<p>To restore these directories from backup:</p>
+
+<ul>
+  <li>Copy your index snapshot to <code>/path/to/archivesspace/data/solr_index/index</code></li>
+  <li>Copy your indexer_state backup to <code>/path/to/archivesspace/data/indexer_state</code></li>
+</ul>
+
+<p>For example:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span>
+
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='integer val'>.20130709084008464</span> \ 
+       <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span><span class='div op'>/</span><span class='rubyid_index identifier id'>index</span>
+
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_indexer_state identifier id'>indexer_state</span> \ 
+       <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span>
+</code></pre>
+
+<h3 id="checking-your-search-indexes">Checking your search indexes</h3>
+
+<p>ArchivesSpace ships with a script that can run Lucene&#8217;s CheckIndex
+tool for you, verifying that a given Solr index is free from
+corruption.  To test an index, run the following command from your
+<code>archivesspace</code> directory:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Or scripts/checkindex.bat for Windows</span>
+ <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_checkindex identifier id'>checkindex</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span><span class='div op'>/</span><span class='rubyid_index identifier id'>index</span>
+</code></pre>
+
+<p>You can use the same script to check that your Solr backups are valid:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_checkindex identifier id'>checkindex</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='integer val'>.20130709084008464</span>
+</code></pre>
+
+<h1 id="re-creating-indexes">Re-creating indexes</h1>
+
+<p>ArchivesSpace keeps track of what has been indexed by using the files
+under <code>data/indexer_state</code>.  If these files are missing, the indexer
+assumes that nothing has been indexed and reindexes everything.</p>
+
+<p>To force ArchivesSpace to reindex all records, just delete the
+directory <code>/path/to/archivesspace/data/indexer_state</code>.  Since the
+indexing process is cumulative, there&#8217;s no harm in indexing the same
+document multiple times.</p>
+
+<h1 id="resetting-passwords">Resetting passwords</h1>
+
+<p>Under the <code>scripts</code> directory you will find a script that lets you
+reset a user&#8217;s password.  You can invoke it as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_password identifier id'>password</span><span class='minus op'>-</span><span class='rubyid_reset identifier id'>reset</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_theusername identifier id'>theusername</span> <span class='rubyid_newpassword identifier id'>newpassword</span>  <span class='comment val'># or password-reset.bat under Windows</span>
+</code></pre>
+
+<p>If you are running against MySQL, you can use this command to set a
+password while the system is running.  If you are running against the
+demo database, you will need to shutdown ArchivesSpace before running
+this script.</p>
+
+<h1 id="configuring-ldap-authentication">Configuring LDAP authentication</h1>
+
+<p>ArchivesSpace can manage its own user directory, but can also be
+configured to authenticate against one or more LDAP directories by
+specifying them in the application&#8217;s configuration file.  When a user
+attempts to log in, each authentication source is tried until one
+matches.</p>
+
+<p>Here is a minimal example of an LDAP configuration:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>With this configuration, ArchivesSpace performs authentication by
+connecting to <code>ldap://ldap.example.com:389/</code>, binding anonymously,
+searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;username&gt;</code>.</p>
+
+<p>If the user is found, ArchivesSpace authenticates them by
+binding using the password specified.  Finally, the <code>:attribute_map</code>
+entry specifies how LDAP attributes should be mapped to ArchivesSpace
+user attributes (mapping LDAP&#8217;s <code>cn</code> to ArchivesSpace&#8217;s <code>name</code> in the
+above example).</p>
+
+<p>Many LDAP directories don&#8217;t support anonymous binding.  To integrate
+with such a directory, you will need to specify the username and
+password of a user with permission to connect to the directory and
+search for other users.  Modifying the previous example for this case
+looks like this:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>Finally, some LDAP directories enforce the use of SSL encryption.  To
+configure ArchivesSpace to connect via LDAPS, change the port as
+appropriate and specify the <code>encryption</code> option:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>636</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:encryption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:simple_tls</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h1 id="plug-ins-and-local-customizations">Plug-ins and local customizations</h1>
+
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md"> Plug-ins and local customizations readme</a></p>
+
+<h1 id="running-archivesspace-with-an-external-solr-instance">Running ArchivesSpace with an external Solr instance</h1>
+
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/README_SOLR.md">Instructions for using an external Solr server</a></p>
+
+<h1 id="running-archivesspace-under-a-prefix">Running ArchivesSpace under a prefix</h1>
+
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/README_PREFIX.md">Instructions for running under a prefix</a>.</p>
+
+<h1 id="upgrading-archivesspace">Upgrading ArchivesSpace</h1>
+
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md">Upgrading to a new release of ArchivesSpace</a></p>
+
+<h1 id="monitoring-with-new-relic">Monitoring with New Relic</h1>
+
+<p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md">Configuring ArchivesSpace to integrate with New Relic</a></p>
+
+<h1 id="further-documentation">Further documentation</h1>
+
+<p>Additional documentation can be found on the ArchivesSpace
+wiki at <a href="http://wiki.archivesspace.org">http://wiki.archivesspace.org</a>.</p>
+
+<p>A document describing the architecture of ArchivesSpace is published
+at <a href="https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md">https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md</a>.</p>
+
+<p>The latest technical documentation, including API documentation and
+architecture notes, is published at
+<a href="http://archivesspace.github.io/archivesspace/">http://archivesspace.github.io/archivesspace/</a>.</p>
+
+<h1 id="contributing">Contributing</h1>
+
+<p>Contributors are welcome! Please read about our <a href="https://github.com/archivesspace/archivesspace/tree/master/contributing">Contributor License Agreements</a> for more information.</p>
+
+<h1 id="license">License</h1>
+
+<p>ArchivesSpace is released under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License,
+version 2.0</a>. See the
+<a href="COPYING">COPYING</a> file for more information.</p>
+
+<h1 id="credits">Credits</h1>
+
+<p>ArchivesSpace 1.0 was developed by <a href="http://www.hudsonmolonglo.com">Hudson Molonglo</a>
+in partnership with the New York University Libraries, UC San Diego
+Libraries, and University of Illinois Urbana-Champaign Library and with
+funding from the Andrew W. Mellon Foundation, organizational support from
+LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:24 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:01 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
