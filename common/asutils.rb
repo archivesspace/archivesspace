@@ -1,5 +1,10 @@
+# Note: ASUtils gets pulled in all over the place, and in some places prior to
+# any gems having been loaded.  Be careful about loading gems here, as the gem
+# path might not yet be configured.  For example, loading the 'json' gem can
+# cause you to pull in the version that ships with JRuby, rather than the one in
+# your Gemfile.
+
 require 'java'
-require 'json'
 require 'tmpdir'
 require 'tempfile'
 require 'config/config-distribution'
