@@ -1208,7 +1208,23 @@
 831
 832
 833
-834</pre>
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 96</span>
@@ -1285,7 +1301,7 @@
     <span class='rubyid_norm_dates identifier id'>norm_dates</span><span class='dot token'>.</span><span class='rubyid_map! fid id'>map!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_d identifier id'>d</span><span class='bitor op'>|</span> <span class='rubyid_d identifier id'>d</span> <span class='match op'>=~</span> <span class='regexp val'>/^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/</span> <span class='question op'>?</span> <span class='rubyid_d identifier id'>d</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrace token'>}</span>
 
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:date</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:date_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'type'</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>'inclusive'</span><span class='comma token'>,</span>
+      <span class='symbol val'>:date_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'type'</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span> <span class='rubyid_norm_dates identifier id'>norm_dates</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>'inclusive'</span> <span class='colon op'>:</span> <span class='string val'>'single'</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='symbol val'>:expression</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='comma token'>,</span>
       <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'creation'</span><span class='comma token'>,</span>
       <span class='symbol val'>:begin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_norm_dates identifier id'>norm_dates</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -1295,6 +1311,22 @@
       <span class='symbol val'>:certainty</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'certainty'</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
       <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:dates</span><span class='comma token'>,</span> <span class='rubyid_date identifier id'>date</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&quot;archdesc/note&quot;</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_multipart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'odd'</span><span class='comma token'>,</span>
+      <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'id'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'audience'</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>'internal'</span><span class='comma token'>,</span>
+      <span class='symbol val'>:subnotes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>'audience'</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>'internal'</span><span class='comma token'>,</span>
+        <span class='string val'>'jsonmodel_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'note_text'</span><span class='comma token'>,</span>
+        <span class='string val'>'content'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:notes</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -2321,26 +2353,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856</pre>
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 840</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 856</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2380,26 +2412,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-859
-860
-861
-862
-863
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875</pre>
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 859</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 875</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2439,24 +2471,24 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240</pre>
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 242</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_nested_note identifier id'>make_nested_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -2494,27 +2526,27 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
 894
-895</pre>
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 878</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 894</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2555,23 +2587,23 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_single_note identifier id'>make_single_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='comma token'>,</span> <span class='rubyid_tag_name identifier id'>tag_name</span><span class='assign token'>=</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -2598,7 +2630,7 @@ which greatly helps the performance.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:51 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:22 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

@@ -458,17 +458,6 @@
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
 125
 126
 127
@@ -489,10 +478,21 @@
 142
 143
 144
-145</pre>
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
 
@@ -547,16 +547,16 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
-65
-66</pre>
+72
+73
+74
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -589,13 +589,25 @@
 49
 50
 51
-52</pre>
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@user ivar id'>@user</span><span class='dot token'>.</span><span class='rubyid_is_system_user identifier id'>is_system_user</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_user_is_global_admin? fid id'>user_is_global_admin?</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.access_denied&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@user ivar id'>@user</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:users</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:index</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='string val'>&quot;edit&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -619,17 +631,29 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58</pre>
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit_groups identifier id'>edit_groups</span>
   <span class='rubyid_@user ivar id'>@user</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/users/#{params[:id]}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@user ivar id'>@user</span><span class='dot token'>.</span><span class='rubyid_is_system_user identifier id'>is_system_user</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_@user ivar id'>@user</span><span class='dot token'>.</span><span class='rubyid_is_admin identifier id'>is_admin</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.group_not_required&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:user</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@user ivar id'>@user</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:users</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:manage_access</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_@groups ivar id'>@groups</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
   <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='string val'>&quot;edit_groups&quot;</span>
 <span class='rubyid_end end kw'>end</span>
@@ -794,18 +818,6 @@
       <pre class="lines">
 
 
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
 80
 81
 82
@@ -813,10 +825,22 @@
 84
 85
 86
-87</pre>
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
 
@@ -859,18 +883,6 @@
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
 101
 102
 103
@@ -881,33 +893,43 @@
 108
 109
 110
-111</pre>
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_groups identifier id'>update_groups</span>
 
   <span class='rubyid_groups identifier id'>groups</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:groups</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:user</span><span class='comma token'>,</span>
-              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/users/#{params[:id]}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:save_opts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
-                <span class='string val'>&quot;groups[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_groups identifier id'>groups</span><span class='comma token'>,</span>
-                <span class='symbol val'>:remove_groups</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_groups identifier id'>groups</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='comma token'>,</span>
-                <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
-              <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:replace</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.error_update&quot;</span><span class='rparen token'>)</span>
-                <span class='rubyid_@groups ivar id'>@groups</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>'manage_users'</span><span class='rparen token'>)</span>
+  <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/users/#{params[:id]}/groups&quot;</span>
+  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_post_form identifier id'>post_form</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                       <span class='string val'>'groups[]'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_groups identifier id'>groups</span><span class='comma token'>,</span>
+                                       <span class='symbol val'>:remove_groups</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_groups identifier id'>groups</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='comma token'>,</span>
+                                       <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
+                                       <span class='rparen token'>)</span>
 
-                <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit_groups</span>
-              <span class='rbrace token'>}</span><span class='comma token'>,</span>
-              <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
-                <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.updated&quot;</span><span class='rparen token'>)</span>
-                <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:manage_access</span>
-              <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eqq op'>===</span> <span class='string val'>'200'</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.updated&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:manage_access</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;user._frontend.messages.error_update&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_@groups ivar id'>@groups</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:group</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>'manage_repository'</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit_groups</span>
+  <span class='rubyid_end end kw'>end</span>
+
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -920,7 +942,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:56 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

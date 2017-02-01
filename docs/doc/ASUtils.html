@@ -617,18 +617,18 @@
       <pre class="lines">
 
 
+222
+223
+224
 225
 226
 227
 228
 229
-230
-231
-232
-233</pre>
+230</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 222</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -670,6 +670,9 @@
       <pre class="lines">
 
 
+154
+155
+156
 157
 158
 159
@@ -677,13 +680,10 @@
 161
 162
 163
-164
-165
-166
-167</pre>
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_merge identifier id'>deep_merge</span><span class='lparen token'>(</span><span class='rubyid_hash1 identifier id'>hash1</span><span class='comma token'>,</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='rparen token'>)</span>
   <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
@@ -717,6 +717,9 @@
       <pre class="lines">
 
 
+128
+129
+130
 131
 132
 133
@@ -728,13 +731,10 @@
 139
 140
 141
-142
-143
-144
-145</pre>
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 128</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dump_diagnostics identifier id'>dump_diagnostics</span><span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_diagnostics identifier id'>diagnostics</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_diagnostics identifier id'>get_diagnostics</span><span class='lparen token'>(</span> <span class='rubyid_exception identifier id'>exception</span> <span class='rparen token'>)</span> 
@@ -934,10 +934,7 @@
 123
 124
 125
-126
-127
-128
-129</pre>
+126</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/asutils.rb', line 112</span>
@@ -945,10 +942,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_diagnostics identifier id'>get_diagnostics</span><span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rparen token'>)</span>
    <span class='rubyid_runtime identifier id'>runtime</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_Runtime constant id'>Runtime</span><span class='dot token'>.</span><span class='rubyid_getRuntime identifier id'>getRuntime</span>
   <span class='lbrace token'>{</span>
-     <span class='symbol val'>:version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='rubyid_ASConstants constant id'>ASConstants</span><span class='dot token'>.</span><span class='rubyid_VERSION constant id'>VERSION</span><span class='comma token'>,</span>  
-     <span class='symbol val'>:environment</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_getenv identifier id'>getenv</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span>
-     <span class='symbol val'>:jvm_properties</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_getProperties identifier id'>getProperties</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span>
-     <span class='symbol val'>:globals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_global_variables identifier id'>global_variables</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span> <span class='rubyid_eval identifier id'>eval</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+     <span class='symbol val'>:version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='rubyid_ASConstants constant id'>ASConstants</span><span class='dot token'>.</span><span class='rubyid_VERSION constant id'>VERSION</span><span class='comma token'>,</span>
      <span class='symbol val'>:appconfig</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_dump_sanitized identifier id'>dump_sanitized</span> <span class='colon op'>:</span> <span class='string val'>&quot;not loaded&quot;</span><span class='comma token'>,</span>
      <span class='symbol val'>:memory</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
        <span class='symbol val'>:free</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_runtime identifier id'>runtime</span><span class='dot token'>.</span><span class='rubyid_freeMemory identifier id'>freeMemory</span><span class='comma token'>,</span>
@@ -1108,17 +1102,17 @@
       <pre class="lines">
 
 
+167
+168
+169
 170
 171
 172
 173
-174
-175
-176
-177</pre>
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_load_plugin_gems identifier id'>load_plugin_gems</span><span class='lparen token'>(</span><span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
@@ -1172,12 +1166,12 @@
       <pre class="lines">
 
 
-235
-236
-237</pre>
+232
+233
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='notop op'>!</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
@@ -1217,6 +1211,9 @@ things.</p>
       <pre class="lines">
 
 
+204
+205
+206
 207
 208
 209
@@ -1230,13 +1227,10 @@ things.</p>
 217
 218
 219
-220
-221
-222
-223</pre>
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 204</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_recursive_reject_key identifier id'>recursive_reject_key</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1286,18 +1280,18 @@ things.</p>
       <pre class="lines">
 
 
+189
+190
+191
 192
 193
 194
 195
 196
-197
-198
-199
-200</pre>
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 189</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_nested identifier id'>search_nested</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:key?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
@@ -1444,18 +1438,18 @@ production.</p>
       <pre class="lines">
 
 
+178
+179
+180
 181
 182
 183
 184
 185
-186
-187
-188
-189</pre>
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 178</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_object identifier id'>object</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1477,7 +1471,7 @@ production.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:38 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:13 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
