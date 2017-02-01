@@ -100,6 +100,19 @@ window.</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
 </code></pre>
 
+<p>To override configuration defaults create the file <code>common/config/config.rb</code>
+and set values as needed (restart the development servers). To use MySQL
+for development you can set the <code>db_url</code> in <code>common/config/config.rb</code> or set
+the <code>aspace.config.db_url</code> property of <code>JAVA_OPTS</code>:</p>
+
+<p><code>
+export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123"
+</code></p>
+
+<p>See the <a href="https://github.com/archivesspace/archivesspace/#running-archivesspace-against-mysql">setup instructions</a> for initializing the database.
+The MySQL connector should be downloaded to <code>common/lib</code>. If you restore a
+database to use in development it may not play well with the tests.</p>
+
 <h2 id="running-the-tests">Running the tests</h2>
 
 <p>ArchivesSpace uses a combination of RSpec, integration and Selenium
@@ -149,7 +162,7 @@ directory in your ArchivesSpace project directory.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:29 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:05 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>

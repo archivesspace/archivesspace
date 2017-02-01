@@ -510,23 +510,23 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
 130
 131
 132
-133</pre>
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 130</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -632,7 +632,17 @@
 91
 92
 93
-94</pre>
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 31</span>
@@ -649,36 +659,46 @@
                        <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Managers of the #{repo_code} repository&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:grants_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;manage_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_location_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_accession_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_resource_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;update_digital_object_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_event_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_digital_object_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_event_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_container_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_rde_templates&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;manage_rde_templates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-archivists&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Archivists of the #{repo_code} repository&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:grants_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_accession_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_resource_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_digital_object_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_event_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;update_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_container_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-project-managers&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Project managers of the #{repo_code} repository&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:grants_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_accession_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_resource_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_digital_object_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_event_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_container_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>'merge_agents_and_subjects'</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>'merge_agents_and_subjects'</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-advanced-data-entry&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Advanced Data Entry users of the #{repo_code} repository&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:grants_permissions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_accession_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_resource_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_digital_object_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_event_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_subject_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;update_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_container_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-basic-data-entry&quot;</span><span class='comma token'>,</span>
@@ -722,16 +742,16 @@
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117</pre>
+121
+122
+123
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assimilate identifier id'>assimilate</span><span class='lparen token'>(</span><span class='rubyid_other_repository identifier id'>other_repository</span><span class='rparen token'>)</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -761,21 +781,21 @@
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
 107
-108</pre>
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
  
@@ -810,12 +830,12 @@
       <pre class="lines">
 
 
-136
-137
-138</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 146</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
   <span class='dstring node'>&quot;#{name} (#{repo_code})&quot;</span>
@@ -868,7 +888,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2-RC1.a Documentation Generated on Thu Dec  8 10:16:45 2016 by
+  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
