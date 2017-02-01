@@ -118,7 +118,7 @@ Building the actual release is very simple. Back on the master branch ( with
 your docs updated ), run the following:
 
 ```
-$ ./scripts/build_release.sh vX.X.X
+$ ./scripts/build_release vX.X.X
 ```
 
 Replace X.X.X with the version number. This will build and package a release in
@@ -127,7 +127,7 @@ a zip file.
 ## Commit and Tag the release
 
 The release process adds the version number to
-`common/asconstants.rb`.  After you've run the `build_release.sh`
+`common/asconstants.rb`.  After you've run the `build_release`
 script, you'll need to commit that file then tag the release in git.
 
 ```
