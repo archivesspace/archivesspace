@@ -6,8 +6,8 @@ module PublicNewDefaults
 
 # determining the main menu
   $MAIN_MENU = []
-  AppConfig[:hide].keys.each do |k|
-    unless AppConfig[:hide][k]
+  AppConfig[:pui_hide].keys.each do |k|
+    unless AppConfig[:pui_hide][k]
       case k
         when :repositories
         $MAIN_MENU.push(['/repositories', 'repository._plural'])

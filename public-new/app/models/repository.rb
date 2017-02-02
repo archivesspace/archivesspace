@@ -17,7 +17,7 @@ class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :paren
     list = []
     %i(resource record subject agent classification).each do |sym|
       badge = "#{sym}_badge".to_sym
-      unless AppConfig[:repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:hide][badge] :  AppConfig[:repos][repo_code][:hide][badge]
+      unless AppConfig[:pui_repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:pui_hide][badge] :  AppConfig[:pui_repos][repo_code][:hide][badge]
         list.push(sym.to_s)
       end
     end

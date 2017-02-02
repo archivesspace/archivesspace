@@ -13,13 +13,13 @@ class ArchivesSpaceClient
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
     'publish' => true,
-    'page_size' => AppConfig[:search_results_page_size]  }
+    'page_size' => AppConfig[:pui_search_results_page_size]  }
 
   # FIXME: Ultimately we'll set up a dedicated user for the public application
   # to use (instead of admin).
-  def initialize(archivesspace_url: AppConfig[:archivesspace_url],
-                 username: AppConfig[:archivesspace_user],
-                 password: AppConfig[:archivesspace_password])
+  def initialize(archivesspace_url: AppConfig[:backend_url],
+                 username: AppConfig[:pui_archivesspace_user],
+                 password: AppConfig[:pui_archivesspace_password])
     @url = archivesspace_url
     @username = username
     @password = password
