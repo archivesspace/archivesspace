@@ -61,7 +61,7 @@ module JsonHelper
   def handle_note_structure(note, type)
     note_struct = {}
     note_text = ''
-    if note['publish'] || defined?(AppConfig[:ignore_false])  # temporary switch due to ingest issues
+    if note['publish'] || defined?(AppConfig[:pui_ignore_false])  # temporary switch due to ingest issues
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
       note_struct['label'] = label
 #      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
