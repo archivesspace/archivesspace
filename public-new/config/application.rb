@@ -32,7 +32,7 @@ module ArchivesSpacePublic
 
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
-      config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
+      I18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
     I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]

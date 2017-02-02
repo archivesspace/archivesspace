@@ -11,9 +11,9 @@
        </div>
        <% end %>
 
-       <% note_struct = get_note(result['json'], 'abstract') 
+       <% note_struct = result.note('abstract') 
 	  if note_struct.blank? 
-	    note_struct = get_note(result['json'], 'scopecontent')
+	    note_struct = result.note('scopecontent')
           end
 	  if !note_struct['note_text'].blank? %>
           <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>

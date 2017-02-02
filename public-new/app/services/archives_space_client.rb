@@ -48,6 +48,8 @@ class ArchivesSpaceClient
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
 #    Rails.logger.debug("SEARCH URL: #{url}")
     results = do_search(url)
+
+    SolrResults.new(results, search_opts)
   end
 
   # handles multi-line searching
@@ -55,12 +57,24 @@ class ArchivesSpaceClient
     search_opts =  DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url(base,  search_opts.merge(:page => page))
     results = do_search(url)
+
+    SolrResults.new(results)
   end
   # calls the '/search/records' endpoint
-  def search_records(record_list, page = 1, search_opts = {})
+  def search_records(record_list, page = 1, search_opts = {}, full_notes = false)
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url('/search/records', search_opts.merge("uri[]" => record_list))
     results = do_search(url)
+
+    SolrResults.new(results, search_opts, full_notes)
+  end
+
+  def get_record(uri, search_opts = {})
+    results = search_records(ASUtils.wrap(uri), 1, search_opts, full_notes = true)
+    
+    raise RecordNotFound.new if results.empty?
+
+    results.first
   end
 
   def search_repository( base, repo_id, page = 1, search_opts = {})
@@ -68,6 +82,8 @@ class ArchivesSpaceClient
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url(base,search_opts.merge(:page => page))
     results = do_search(url)
+
+    SolrResults.new(results, search_opts)
   end
   # calls the '/search/published_tree' endpoint
   def get_tree(node_uri)
@@ -94,6 +110,8 @@ class ArchivesSpaceClient
     search_opts = search_opts.merge({"q" => "(used_within_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
     url = build_url("/search", search_opts)
     results = do_search(url)
+
+    SolrResults.new(results, search_opts)
   end
 
   def get_full_url(path)

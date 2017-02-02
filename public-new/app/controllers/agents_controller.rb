@@ -77,11 +77,8 @@ class AgentsController <  ApplicationController
     uri = "/agents/#{params[:eid]}/#{params[:id]}"
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource','related_agent_uris:id' ]
-    results =  archivesspace.search_records([uri],1,@criteria)
-    results =  handle_results(results)
-    if !results['results'].blank? && results['results'].length > 0
-      @result = results['results'][0]
-      Pry::ColorPrinter.pp(@result)
+    begin
+      @result = archivesspace.get_record(uri, @criteria)
       @results = fetch_agent_results(@result['title'],uri, params)
       if !@results.blank?
         params[:q] = '*'
@@ -93,7 +90,7 @@ class AgentsController <  ApplicationController
      @page_title = strip_mixed_content(@result['json']['title']) || "#{I18n.t('an_agent')}: #{uri}"
       Rails.logger.debug("Agent title: #{@page_title}")
       @context = []
-    else
+    rescue RecordNotFound
       @type = I18n.t('pui_agent._singular')
       @page_title =  I18n.t('errors.error_404', :type => @type)
       @uri = uri

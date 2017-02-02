@@ -2,30 +2,30 @@
 <!-- pre><%= @result.pretty_inspect.html_safe %></pre -->
 <% non_folder = %w(langmaterial physdesc accessrestrict userestrict) %>
 <% folder = %w(abstract bioghist arrangement physloc custodhist odd acqinfo relatedmaterial separatedmaterial processinfo) %>
-    <% over = get_note(@result['json'], 'scopecontent') %>
+    <% over = @result.note('scopecontent') %>
     <% if over.blank?
-       over = get_note(@result['json'], 'abstract') 
+       over = @result.note('abstract') 
        folder.shift # remove abstract from in-folder notes
 
     end %>
     <% unless over.blank? %>
       <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
     <% end %>
-    <% unless @result['json']['html']['dates'].blank? %>
+    <% unless @result.dates.blank? %>
       <h4><%= t('resource._public.dates') %></h4>
-      <%= render partial: 'shared/dates', locals: {:dates => @result['json']['html']['dates']} %>
+      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
 
     <% end %>
     <% non_folder.each do |type| %>
-       <% note_struct =  get_note(@result['json'], type) %>
+       <% note_struct =  @result.note(type) %>
        <% unless note_struct['note_text'].blank? %>
         <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
        <% end %>
     <% end %>
 
-    <% unless @result['json']['html']['extents'].blank? %>
+    <% unless @result.extents.blank? %>
       <h4><%= t('resource._public.extent') %></h4>
-       <% @result['json']['html']['extents'].each do |ext| %> 
+       <% @result.extents.each do |ext| %> 
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
 	  <%= ext['display']%>
 	</p>
@@ -39,17 +39,17 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'), 
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
-        <% unless @subjects.blank? %>
-	   <% x= render partial: 'shared/present_list', locals: {:list => @subjects, :list_clss => 'subjects_list'} %>
+        <% unless @result.subjects.blank? %>
+	   <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
-	<% unless @agents.blank? %>
-	  <% x= render partial: 'shared/present_list', locals: {:list => @agents, :list_clss => 'agents_list'} %>
+	<% unless @result.agents.blank? %>
+	  <% x= render partial: 'shared/present_list', locals: {:list => @result.agents, :list_clss => 'agents_list'} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
-	<% unless @finding_aid.blank? %>
+	<% unless @result.finding_aid.blank? %>
 	  <% x= render partial: 'resources/finding_aid' %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
 	     :p_id => 'fa', :p_body => x} %>
@@ -59,8 +59,8 @@
 	 <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
 	 :p_body => x} %>
         <% end %>
-	<% unless @result['json']['html']['external_documents'].blank? %>
-	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result['json']['html']['external_documents'], :list_clss => 'external_docs'} %>
+	<% unless @result.external_documents.blank? %>
+	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
 	<% end %>
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
