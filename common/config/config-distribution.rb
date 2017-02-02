@@ -78,11 +78,7 @@ class AppConfig
   end
 
   def self.get_devserver_base
-    # Deal with paths like this:
-    #
-    # /path/to/archivesspace/backend/uri:classloader:/config
-    #
-    File.dirname(__dir__.gsub(/uri:classloader:.*/, ''))
+    File.join(ENV.fetch("GEM_HOME"), "..", "..")
   end
 
   def self.find_user_config
