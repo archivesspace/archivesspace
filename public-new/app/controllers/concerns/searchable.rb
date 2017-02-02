@@ -57,7 +57,7 @@ module Searchable
     }
     @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
-    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:search_results_page_size])
+    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:pui_search_results_page_size])
   end
 
   def set_up_and_run_search(default_types = [],default_facets=[],default_search_opts={}, params={})
@@ -161,7 +161,7 @@ module Searchable
     @criteria['aq'] = advanced_query_builder.build.to_json
     @criteria['filter'] = @facet_filter.get_filter_query.and(type_query_builder).build.to_json
     @criteria['facet[]'] = @facet_filter.get_facet_types
-    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:search_results_page_size])
+    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:pui_search_results_page_size])
   end
 
 

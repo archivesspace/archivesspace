@@ -20,7 +20,7 @@ class RepositoriesController < ApplicationController
     # include_zero = (!params.blank? && params['include_empty']) 
     # ok, page sizing is kind of complicated if not including zero counts
     page_size =  params['page_size'].to_i if !params.blank?
-    page_size = AppConfig[:search_results_page_size] if page_size == 0
+    page_size = AppConfig[:pui_search_results_page_size] if page_size == 0
     query = 'primary_type:repository'
     facets = find_resource_facet
     page = params['page'] || 1 if !params.blank?

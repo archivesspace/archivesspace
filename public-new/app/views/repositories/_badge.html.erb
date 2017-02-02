@@ -20,7 +20,7 @@
     <i class="fa fa-share-alt fa-4x"></i>
     <% end %>
     <br />
-    <% if AppConfig[:repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:hide][:counts] :  AppConfig[:repos][@result['repo_code'].downcase][:hide][:counts] %>
+    <% if AppConfig[:pui_repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:pui_hide][:counts] :  AppConfig[:pui_repos][@result['repo_code'].downcase][:hide][:counts] %>
       <%= t("#{type}._plural") %>
     <% else %>
       <%= @counts[type] %> <%= (@counts['type'] != 1 ? t("#{type}._plural") : t("#{type}._singular")) %>

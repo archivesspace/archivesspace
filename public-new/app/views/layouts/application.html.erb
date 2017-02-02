@@ -1,63 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
- <title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= t('brand.title') %></title>
-    <%= csrf_meta_tags %>
+<head>
+	<title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= t('brand.title') %></title>
+	<%= csrf_meta_tags %>
 <%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
- <% if AppConfig[:block_referrer] %>
- <meta name="referrer" content="origin-when-cross-origin" /> 
- <% end %>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<% if AppConfig[:pui_block_referrer] %>
+		<meta name="referrer" content="origin-when-cross-origin" />
+	<% end %>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <div class="container-fluid no-pad">
-      <section  id="header">
-	<div class="row">
-          <div class="col-sm-9 h1"><% unless request.original_fullpath == '/' %>
-<a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_url] %>"><% end %> <%= t('brand.title') %><% unless request.original_fullpath == '/' %></a><% end %> </div>
-          <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= AppConfig[:branding_img] %>" alt="" /></div>
+<body>
+	<div class="container-fluid no-pad">
+		<%= render partial: 'shared/header' %>
+		<%= render partial: 'shared/navigation' %>
 	</div>
-      </section>
 
-      <section id="navigation">
-	<nav class="navbar navbar-default" aria-label="top-level navigation">
-	    <div class="navbar-header top-bar">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" 
-		      aria-expanded="false">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	      </button>
-	      <div class="collapse navbar-collapse" id="collapsemenu">
-		<ul class="nav nav navbar-nav">
-		  <%# TODO: add class="active" if we're on that page %>
-		  <% $MAIN_MENU.each do |link| %>
-		  <li><a href="<%=link[0] %>"><%= t(link[1]) %></a></li>
-		  <% end %>
-		</ul>
-	      </div>
-	    </div>
-	</nav>
-      </section>
-</div>
+	<section id="container-fluid" class="container">
+		<%= flash_messages %>
+		<%= yield %>
+	</section>
 
-    <section id="container-fluid" class="container">
-      <%= flash_messages %>
-      <%= yield %>
-      </section>
-<script  type="text/javascript" >
-$(".single_note").each(function(index, element){$(this).readmore(250)});</script>
+	<script  type="text/javascript" >
+		$(".single_note").each(function(index, element){$(this).readmore(250)});
+	</script>
 
-    <div class="panel-footer">
-      <div>
-	<a id="aspace-logo" href="http://www.archivesspace.org" target="aspace" title="ArchivesSpace, the Open Source archives information management application"> 
-	  <img src="/img/Aspace-logo.png" alt="The ArchivesSpace Logo" /></a>
-      </div>
-    </div>
-  </body>
+	<%= render partial: 'shared/footer' %>
+</body>
 </html>
