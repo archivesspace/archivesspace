@@ -72,28 +72,27 @@ class ClassificationsController <  ApplicationController
 
 
   def show
-    fetch_and_process("/repositories/#{params[:rid]}/classifications/#{params[:id]}")
-    if @results['results'].blank? || @results['results'].length == 0
+    begin
+      fetch_and_process("/repositories/#{params[:rid]}/classifications/#{params[:id]}")
+    rescue RecordNotFound
       @type =  I18n.t('classification._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
-    else
-      render
     end
   end
 
   def term
-    fetch_and_process("/repositories/#{params[:rid]}/classification_terms/#{params[:id]}")
-    if @results['results'].blank? || @results['results'].length == 0
+    begin
+      fetch_and_process("/repositories/#{params[:rid]}/classification_terms/#{params[:id]}")
+      render 'classifications/show'
+    rescue RecordNotFound
       @type =  I18n.t('classification_term._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
      @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
-    else
-      render 'classifications/show'
     end
   end
 
@@ -101,28 +100,16 @@ class ClassificationsController <  ApplicationController
   def fetch_and_process(uri)
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
-    @results =  archivesspace.search_records([uri],1,@criteria)
-    @results =  handle_results(@results)
-    if !@results['results'].blank? && @results['results'].length > 0
-      @result = @results['results'][0]
-      # deal with linked records
-      @result['json']['linked_records'].each do |rec|
-        if  rec['_resolved'].present? && rec['_resolved']['publish']
-          handle_dates(rec['_resolved'])
-          process_extents(rec['_resolved'])
-        end
-      end
-      Pry::ColorPrinter.pp(@result)
-      @page_title = strip_mixed_content(@result['json']['title'])
-      @tree = fetch_tree(uri)
-      @context = get_path(@tree)
-      # TODO: This is a monkey patch for digital objects
-      if @context.blank?
-        @context = []
-      end
-      @context.unshift({:uri => @result['_resolved_repository']['json']['uri'], :crumb =>  @result['_resolved_repository']['json']['name']})
-      @context.push({:uri => '', :crumb => process_mixed_content(@result['json']['title']) })
+    @result =  archivesspace.get_record(uri, @criteria)
+
+    @tree = fetch_tree(uri)
+    @context = get_path(@tree)
+    # TODO: This is a monkey patch for digital objects
+    if @context.blank?
+      @context = []
     end
+    @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
+    @context.push({:uri => '', :crumb => @result.display_string })
   end
 
 end

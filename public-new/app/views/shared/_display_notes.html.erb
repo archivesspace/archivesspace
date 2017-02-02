@@ -1,4 +1,4 @@
-   <% @result['json']['html'].keys.each do |type|
-      note_struct  = get_note(@result['json'],type) %>
+   <% @result.notes.keys.each do |type|
+      note_struct  = @result.note(type) %>
       <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct} %>
     <% end %>

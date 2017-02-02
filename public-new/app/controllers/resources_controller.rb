@@ -131,66 +131,33 @@ class ResourcesController <  ApplicationController
   end
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
-    record_list = [uri]
-    @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
-    @results =  archivesspace.search_records(record_list,1, @criteria) || {}
-    @results = handle_results(@results)  # this should process all notes
-    if !@results['results'].blank? && @results['results'].length > 0
-      @result = @results['results'][0]
-      @repo_info = process_repo_info(@result.dig('_resolved_repository','json'))
+    begin
+      @criteria = {}
+      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
+      @result =  archivesspace.get_record(uri, @criteria)
+      @repo_info = @result.repository_information
       @cite = ''
-      cite = get_note(@result['json'], 'prefercite')
+      cite = @result.note('prefercite')
       unless cite.blank?
         @cite = strip_mixed_content(cite['note_text'])
       else
-        @cite =  strip_mixed_content(@result['json']['title']) + '.'
+        @cite =  strip_mixed_content(@result.json['title']) + '.'
         unless @repo_info['top']['name'].blank?
           @cite += " #{ @repo_info['top']['name']}."
         end
       end
       @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-      @dig = process_digital_instance(@result['json']['instances'])
-      @subjects = process_subjects(@result['json']['subjects'])
-      @agents = process_agents(@result['json']['linked_agents'], @subjects)
-      @finding_aid = process_finding_aid(@result['json'])
-
-      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result['json']['title'])}"
-      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result['json']['title'])}]
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info(true)
-      process_extents(@result['json'])
       @tree = fetch_tree(uri)
-    else
+    rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
       render  'shared/not_found'
     end
-  end
-
-  private
-  def process_finding_aid(json)
-    fa = {}
-    json.keys.each do |k|
-      if k.start_with? 'finding_aid'
-        fa[k.sub("finding_aid_","")] = strip_mixed_content(json[k])
-      elsif k == 'revision_statements'
-        revision = []
-        v = json[k]
-        if v.kind_of? Array
-          v.each do |rev|
-            revision.push({'date' => rev['date'] || '', 'desc' => rev['description'] || ''})
-          end
-        else
-          if v.kind_of? Hash
-            revision.push({'date' => v['date'] || '', 'desc' => v['description'] || ''})
-          end
-        end
-        fa['revision'] = revision
-      end
-    end
-    fa
   end
 end

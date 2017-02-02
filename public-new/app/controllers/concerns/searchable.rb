@@ -201,7 +201,7 @@ module Searchable
     @page_search += "&sort=#{@sort}" if defined?(@sort) && @sort
 
     @filters = @facet_filter.get_filter_hash(@page_search)
-
+    
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = I18n.t('search_results.page_title', :count => @results['total_hits'])
   end
@@ -212,10 +212,12 @@ module Searchable
 # if full is false, only process notes for 'abstract' and 'scopecontent', don't process dates or extents
   #  results['json'}['html'][type]
   def handle_results(results, full = true)
+    # FIXME: move facet handling to SolrResults
     unless  results['facets'].blank? || results['facets']['facet_fields'].blank?
       results['facets']['facet_fields'] = strip_facet_fields(results['facets']['facet_fields'])
     end
-    results['results'] = process_results(results['results'], full)
+    # FIXME: remove this method as we no longer process results here - Record does the needful
+    # results['results'] = process_results(results['results'], full)
     results
   end
 
@@ -256,9 +258,9 @@ module Searchable
         end
       end
     end
-    results
+   results
   end
-
+  
 
   # process notes
   def html_notes(json, full)

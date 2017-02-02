@@ -80,10 +80,8 @@ Rails.logger.debug("we hit search!")
     uri = "/subjects/#{sid}"
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
-    results =  archivesspace.search_records([uri],1,@criteria)
-    results =  handle_results(results)
-    if !results['results'].blank? && results['results'].length > 0
-      @result = results['results'][0]
+    begin
+      @result =  archivesspace.get_record(uri, @criteria)
       @results = fetch_subject_results(@result['title'],uri, params)
       if !@results.blank?
         params[:q] = '*'
@@ -91,9 +89,9 @@ Rails.logger.debug("we hit search!")
       else
         @pager = nil
       end
-      @page_title = strip_mixed_content(@result['json']['title']) || "#{I18n.t('subject._singular')} #{uri}"
+      @page_title = strip_mixed_content(@result.display_string) || "#{I18n.t('subject._singular')} #{uri}"
       @context = []
-    else
+    rescue RecordNotFound
       @type = I18n.t('subject._singular')
       @page_title = I18n.t('errors.error_404', :type =>@type)
       @uri = uri
