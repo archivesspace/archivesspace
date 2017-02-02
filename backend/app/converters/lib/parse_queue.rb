@@ -104,6 +104,10 @@ module ASpaceImport
         raise e
       end
 
+      unless hash['uri']
+        raise "Imported object must have a URI!"
+      end
+
       if @must_be_unique.include?(hash['jsonmodel_type'])
         hash_code = hash.clone.tap {|h| h.delete("uri")}.hash
 
