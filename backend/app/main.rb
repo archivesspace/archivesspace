@@ -57,6 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
     require 'sinatra/reloader'
     register Sinatra::Reloader
     config.also_reload File.join("app", "**", "*.rb")
+    config.also_reload File.join("..", "plugins", "*", "backend", "**", "*.rb")
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
