@@ -9,9 +9,17 @@
 	<% end %>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+		<% if File.exists?(template) %>
+			<!-- Begin plugin layout -->
+			<%= render :file => template %>
+			<!-- End plugin layout -->
+		<% end %>
+	<% end %>
+</head>
 
 <body>
 	<div class="container-fluid no-pad">

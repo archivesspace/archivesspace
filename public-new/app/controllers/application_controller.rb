@@ -23,6 +23,15 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+
+  # Allow overriding of templates via the local folder(s)
+  if not ASUtils.find_local_directories.blank?
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
+      prepend_view_path(template_override_directory)
+    end
+  end
+
+
   def archivesspace
     ArchivesSpaceClient.new
   end
