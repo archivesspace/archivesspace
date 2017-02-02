@@ -314,7 +314,6 @@ class CommonIndexer
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
         doc['repo_sort'] = record['record']['display_string']
-        doc['publish'] = true
       end
     }
 
