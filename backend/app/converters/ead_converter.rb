@@ -25,10 +25,6 @@ class EADConverter < Converter
   end
 
 
-  def self.profile
-    "Convert EAD To ArchivesSpace JSONModel records"
-  end
-
   # We override this to skip nodes that are often very deep
   # We can safely assume ead, c, and archdesc will have children,
   # which greatly helps the performance.
