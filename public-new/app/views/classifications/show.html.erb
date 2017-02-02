@@ -11,13 +11,9 @@
 <!-- <%= @result.pretty_inspect.html_safe %> -->
 
 <br/>
-    <% if @result['json']['linked_records'].present? %>
-     <% @result['json']['linked_records'].each do |rec| %>
-       <% if rec['_resolved'].present? && rec['_resolved']['publish'] %>
-         <h4>Linked record: <%= process_mixed_content(rec['_resolved']['title'] || '[Missing title]') %></h4>
-	 <%= render partial: 'shared/record', locals: {:rec => rec['_resolved']} %>
-       <% end %> 
-     <% end %>
+    <% @result.linked_records.each do |rec| %>
+       <h4>Linked record: <%= rec.display_string %></h4>
+	 <%= render partial: 'shared/record', locals: {:rec => rec} %>
     <% end %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">

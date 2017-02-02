@@ -24,6 +24,8 @@ module JsonHelper
 
   # pull the note out of the result['json']['html'] hash, if it exists
   def get_note(json, type, deflabel='')
+    $stderr.puts "FIXME Replace this with call to result.notes: #{caller.first}"
+
     note_struct = {}
     if json['html'].present? && json['html'].has_key?(type)
       note_struct = json['html'][type]

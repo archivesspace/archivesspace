@@ -1,13 +1,13 @@
-<% badge_label = t("#{result['primary_type']}._singular") %>
+<% badge_label = t("#{result.primary_type}._singular") %>
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
-    <a class="record-title" href="<%= result['uri'] %>">  <%= result['json']['display_string'] %></a>
+    <a class="record-title" href="<%= result.uri %>">  <%= result.display_string %></a>
   <% else %>
-    <%= result['json']['display_string'] %>
+    <%= result.display_string %>
   <% end %>
-  <%  unless result['json']['container_disp'].blank?
-        if  result['json']['container_disp'].size == 1 
-          badge_label =  result['json']['container_disp'][0]
+  <%  unless result.container_display.blank?
+        if  result.container_display.size == 1 
+          badge_label =  result.container_display[0]
         else
           badge_label = t('multiple_containers')
         end
@@ -16,8 +16,8 @@
 
 
 <div class="badge-and-identifier">
-  <div class="record-type-badge <%= (result['primary_type'].start_with?('agent') ? 'agent' : result['primary_type']) %>">
-    <i class="fa <%= case  result['primary_type']
+  <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
+    <i class="fa <%= case  result.primary_type
 	      when 'repository'
 	      'fa-home'
 	      when  'resource'
@@ -40,7 +40,7 @@
 	      'fa-cog'
 	      end %>"></i>&#160;<%= badge_label %>
   </div>
-    <% comp_id = result['json'].dig('_composite_identifier') || result['json'].dig('component_id') ||  result['json'].dig('id_0')
+    <% comp_id = result.json.dig('_composite_identifier') || result.json.dig('component_id') ||  result.json.dig('id_0')
        if comp_id %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>

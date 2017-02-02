@@ -18,14 +18,14 @@
 </div>
 <div class="row">
   <div class="col-sm-9">
-    <% if !@result['json']['extents'].blank? %>
-    <%   @result['json']['extents'].each do |ext| %>
+    <% if !@result.extents.blank? %>
+    <%   @result.extents.each do |ext| %>
     <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
     <% end %>
     <br/>
     <% end %>
-    <% if !@result['json']['html']['dates'].blank? %>
-      <% render partial: 'shared/dates', locals: {:dates => @result['json']['html']['dates']} %>
+    <% if !@result.dates.blank? %>
+      <% render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
 
   <% if !@result['json']['component_id'].blank? %>
@@ -39,7 +39,7 @@
  <% if !@results.blank? && @results['total_hits'] > 0 %>
      <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-         <% @results['results'].each do |result| %>
+         <% @results.records.each do |result| %>
            <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
          <% end %>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>

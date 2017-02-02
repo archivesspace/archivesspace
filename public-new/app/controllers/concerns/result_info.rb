@@ -19,7 +19,7 @@ module ResultInfo
 # cite
   def fill_cite
     @cite = ''
-    cite = get_note(@result['json'], 'prefercite')
+    cite = @result.note('prefercite')
     unless cite.blank?
       @cite = strip_mixed_content(cite['note_text'])
     else
@@ -43,7 +43,7 @@ module ResultInfo
       hier = ''
       @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
       @request[:hierarchy] = hier.strip
-      note = get_note(@result['json'], 'accessrestrict')
+      note = @result.note('accessrestrict')
       unless note.blank? 
         @request[:restrict] = note['note_text'] 
       end

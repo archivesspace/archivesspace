@@ -31,8 +31,8 @@ class ObjectsController <  ApplicationController
     begin
       set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts,params)
     rescue Exception => error
-      flash[:error] = error
-      redirect_back(fallback_location: '/') and return
+     flash[:error] = error
+     redirect_back(fallback_location: '/') and return
     end
     @context = repo_context(repo_id, 'record')
     unless @pager.one_page?
@@ -83,17 +83,15 @@ class ObjectsController <  ApplicationController
     uri = uri.sub("\#pui",'')
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
-    @result = object_result(url, @criteria)
-    if !@result.empty?
+    
+    begin
+      @result = archivesspace.get_record(url, @criteria)
       begin
-        @repo_info =  process_repo_info(@result.dig('_resolved_repository','json'))
-        @page_title = strip_mixed_content(@result['json']['display_string'] || @result['json']['title'])
+        @repo_info =  @result.repository_information
+        @page_title = @result.display_string
         @tree = fetch_tree(uri)
-        digital_archival_info(@result['json']) if @result['primary_type'] == 'digital_object'
         @context = breadcrumb_info
         @cite = fill_cite
-        @subjects = process_subjects(@result['json']['subjects'])
-        @agents = process_agents(@result['json']['linked_agents'], @subjects)
         if @result['primary_type'] == 'digital_object'
           @dig = process_digital(@result['json'])
         else
@@ -106,7 +104,7 @@ class ObjectsController <  ApplicationController
         raise error
       end
       render
-    else
+    rescue RecordNotFound
       @type = I18n.t("#{(params[:obj_type] == 'archival_objects'? 'archival' : 'digital')}_object._singular")
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
@@ -118,14 +116,11 @@ class ObjectsController <  ApplicationController
   private
   # return a single processed archival or digital object
   def object_result(url, criteria)
-    Rails.logger.debug("\t*** object_result url: #{url}")
-    result = {}
-    results =  archivesspace.search_records([url],1,criteria)
-    results = handle_results(results)
-    unless results['results'].blank? || results['results'].empty?
-      result = results['results'][0]
+    begin
+     archivesspace.get_record(url, criteria)
+    rescue RecordNotFound
+      {}
     end
-    result
   end
   
   # get archival info
