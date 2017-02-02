@@ -337,7 +337,7 @@ end
 if $0 == __FILE__
   Log.info("Dev server starting up...")
 
-  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
+  ArchivesSpaceService.run!(:bind => '0.0.0.0', :port => (ARGV[0] or 4567)) do |server|
     def server.stop
       # Shutdown long polling threads that would otherwise hold things up.
       Notifications.shutdown
