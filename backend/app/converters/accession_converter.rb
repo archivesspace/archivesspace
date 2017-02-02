@@ -23,11 +23,6 @@ class AccessionConverter < Converter
   end
 
 
-  def self.profile
-    "Convert Accession Records from a CSV file"
-  end
-
-
   def self.configure
     {
       # 1. Map the cell data to schemas / handlers
