@@ -155,6 +155,7 @@ class BatchImportRunner < JobRunner
         end 
       else
         ticker.log("Error: #{CGI.escapeHTML(  last_error.inspect )}")
+        Log.exception(last_error)
       end
       ticker.log("!" * 50 ) 
       raise last_error
