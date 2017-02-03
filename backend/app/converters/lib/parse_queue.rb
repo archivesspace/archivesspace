@@ -53,6 +53,16 @@ module ASpaceImport
 
     def <<(obj)
       self.class.dedupe_subrecords(obj)
+
+      raise "Imported object can't be nil!" unless obj
+
+      # If the record's JSON schema contains a URI (i.e. this is a top-level
+      # record), then blow up if it isn't provided.
+      if obj.class.schema['uri'] && !obj.uri
+        Log.debug("Can't import object: #{obj.inspect}")
+        raise "Imported object must have a URI!"
+      end
+
       @working_area.push(obj)
     end
 
@@ -102,10 +112,6 @@ module ASpaceImport
       rescue JSONModel::ValidationException => e
         e.import_context = obj["import_context"] 
         raise e
-      end
-
-      unless hash['uri']
-        raise "Imported object must have a URI!"
       end
 
       if @must_be_unique.include?(hash['jsonmodel_type'])
