@@ -17,12 +17,23 @@ class CommonIndexer
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile, :location_profile,
-                     :archival_object, :resource,
-                    :digital_object, :digital_object_component,
-                    :subject, :location, :classification, :classification_term,
-                    :event, :accession,
-                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
+  @@record_types = [:resource,
+                    :digital_object,
+                    :accession,
+                    :agent_person,
+                    :agent_software,
+                    :agent_family,
+                    :agent_corporate_entity,
+                    :subject,
+                    :location,
+                    :event,
+                    :top_container,
+                    :classification,
+                    :container_profile,
+                    :location_profile,
+                    :archival_object,
+                    :digital_object_component,
+                    :classification_term]
 
   @@global_types = [:agent_person, :agent_software, :agent_family, :agent_corporate_entity,
                     :location, :subject]
