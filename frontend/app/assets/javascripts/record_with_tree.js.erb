@@ -1,0 +1,24 @@
+/*
+   Absolute minimum to get records showing here.  Full original code still in
+   tree.js.erb.
+ */
+
+$(function() {
+
+  var $container = $('#object_container');
+
+  $.ajax({
+    type: 'GET',
+    data: {
+      inline: true,
+    },
+    success: function(html) {
+      $container.html(html);
+    },
+    error: function(obj, errorText, errorDesc) {
+      /* FIXME: i18n */
+      $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
+    }
+  });
+
+});

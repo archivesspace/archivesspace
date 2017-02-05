@@ -26,36 +26,37 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/resources/:id/tree')
-    .description("Get a Resource tree")
-    .params(["id", :id],
-            ["limit_to", String, "An Archival Object URI or 'root'", :optional => true],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "OK"]) \
-  do
-    resource = Resource.get_or_die(params[:id])
-
-    tree = if params[:limit_to] && !params[:limit_to].empty?
-             if params[:limit_to] == "root"
-               ao = :root
-             else
-               ref = JSONModel.parse_reference(params[:limit_to])
-
-               if ref
-                 ao = ArchivalObject[ref[:id]]
-               else
-                 raise BadParamsException.new(:limit_to => ["Invalid value"])
-               end
-             end
-
-             resource.partial_tree(ao)
-           else
-             resource.tree
-           end
-
-    json_response(tree)
-  end
+  # FIXME: delete?
+  # Endpoint.get('/repositories/:repo_id/resources/:id/tree')
+  #   .description("Get a Resource tree")
+  #   .params(["id", :id],
+  #           ["limit_to", String, "An Archival Object URI or 'root'", :optional => true],
+  #           ["repo_id", :repo_id])
+  #   .permissions([:view_repository])
+  #   .returns([200, "OK"]) \
+  # do
+  #   resource = Resource.get_or_die(params[:id])
+  # 
+  #   tree = if params[:limit_to] && !params[:limit_to].empty?
+  #            if params[:limit_to] == "root"
+  #              ao = :root
+  #            else
+  #              ref = JSONModel.parse_reference(params[:limit_to])
+  # 
+  #              if ref
+  #                ao = ArchivalObject[ref[:id]]
+  #              else
+  #                raise BadParamsException.new(:limit_to => ["Invalid value"])
+  #              end
+  #            end
+  # 
+  #            resource.partial_tree(ao)
+  #          else
+  #            resource.tree
+  #          end
+  # 
+  #   json_response(tree)
+  # end
 
 
   Endpoint.post('/repositories/:repo_id/resources/:id')
@@ -122,6 +123,69 @@ class ArchivesSpaceService < Sinatra::Base
     record_types = graph.models.map {|m| m.my_jsonmodel(true) }.compact.map {|j| j.record_type}.reject {|t| t == 'resource' }
 
     json_response(record_types)
+  end
+
+  ## Trees!
+
+  # MIGRATION NOTE/QUESTION: Anyone using the /tree endpoint outside of aspace core?
+  Endpoint.get('/repositories/:repo_id/resources/:id/tree/root')
+    .description("Fetch tree information for the top-level resource record")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+
+    json_response(large_tree_for_resource.root)
+  end
+
+  Endpoint.get('/repositories/:repo_id/resources/:id/tree/waypoint')
+    .description("Fetch the record slice for a given tree waypoint")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["offset", Integer, "The page of records to return"],
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+    offset = params[:offset]
+
+    parent_id = if params[:parent_node]
+                  JSONModel.parse_reference(params[:parent_node]).fetch(:id)
+                else
+                  # top-level record
+                  nil
+                end
+
+    json_response(large_tree_for_resource.waypoint(parent_id, offset))
+  end
+
+  Endpoint.get('/repositories/:repo_id/resources/:id/tree/node')
+    .description("Fetch tree information for an Archival Object record within a tree")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_uri", String, "The URI of the Archival Object record of interest"])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+
+    ao_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
+
+    json_response(large_tree_for_resource.node(ArchivalObject.get_or_die(ao_id)))
+  end
+
+  private
+
+  def large_tree_for_resource
+    resource = Resource.get_or_die(params[:id])
+
+    large_tree = LargeTree.new(resource)
+    large_tree.add_decorator(LargeTreeResource.new)
+
+    large_tree
   end
 
 end

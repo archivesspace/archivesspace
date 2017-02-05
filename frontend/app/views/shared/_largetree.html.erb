@@ -1,0 +1,13 @@
+<%
+   read_only = false if read_only.blank?
+%>
+
+<div id="tree-container">
+</div>
+
+<%= stylesheet_link_tag "archivesspace/largetree" %>
+<%= javascript_include_tag "largetree" %>
+
+<script>
+ var tree = new LargeTree($('#tree-container'), new ASpaceTree('<%= url_for(:action => :show) %>/tree'));
+</script>

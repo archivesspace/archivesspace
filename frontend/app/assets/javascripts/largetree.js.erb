@@ -1,0 +1,284 @@
+/* FIXME: Scroll top offset needs adjusting I think */
+
+(function (exports) {
+    "use strict";
+
+    var WAYPOINT_CLEANUP_MS = 5000;
+    var SCROLL_DELAY_MS = 25;
+    var THRESHOLD_EMS = 1000;
+
+    function LargeTree(container, datasource) {
+        this.elt = container;
+        this.source = datasource;
+        this.scrollTimer = undefined;
+
+        this.renderRoot();
+        this.initEventHandlers();
+    }
+
+    LargeTree.prototype.deleteWaypoints = function (parent) {
+        var waypoint = parent.next();
+
+        if (!waypoint.hasClass('waypoint')) {
+            /* Nothing left to burn */
+            return false;
+        }
+
+        var waypointLevel = waypoint.data('level');
+
+        if (!waypointLevel) {
+            return false;
+        }
+
+        /* Delete all elements up to and including the end waypoint marker */
+        while (true) {
+            var elt = waypoint.next();
+
+            if (elt.length == 0) {
+                break;
+            }
+
+            if (elt.hasClass('end-marker') && waypointLevel == elt.data('level')) {
+                elt.remove();
+                break;
+            } else {
+                elt.remove();
+            }
+        }
+
+        waypoint.remove();
+
+        return true;
+    }
+
+    LargeTree.prototype.initEventHandlers = function () {
+        var self = this;
+
+        this.elt.on('scroll', function () {
+            if (self.scrollTimer) {
+                clearTimeout(self.scrollTimer);
+            }
+
+            self.scrollTimer = setTimeout(function () {
+                self.considerExpandingWaypoint();
+            }, SCROLL_DELAY_MS);
+        });
+
+        $(this.elt).on('click', '.expandme', function (e) {
+            e.preventDefault();
+            var button = $(this);
+            var parent = button.closest('tr');
+
+            if (button.data('expanded')) {
+                /* Collapse it */
+                while (self.deleteWaypoints(parent)) {
+                    /* Remove the elements from one or more waypoints */
+                }
+
+                $(button).data('expanded', false);
+                $('.expandme-icon', button).removeClass('expanded');
+            } else {
+                /* Expand it */
+                $('.expandme-icon', button).addClass('expanded');
+                $(button).data('expanded', true);
+
+                self.source.fetchNode(parent.data('uri')).done(function (node) {
+                    self.appendWaypoints(parent, parent.data('uri'), node.waypoints, node.waypoint_size, parent.data('level') + 1);
+                });
+            }
+        });
+    };
+
+    var makeWaypoint = function (uri, offset, indentLevel) {
+        var result = $('<tr class="waypoint collapsed" />');
+        result.addClass('indent-level-' + indentLevel);
+        result.data('level', indentLevel);
+        result.data('uri', uri);
+        result.data('offset', offset);
+
+        return result;
+    };
+
+    LargeTree.prototype.appendWaypoints = function (elt, parentURI, waypointCount, waypointSize, indentLevel) {
+        for (var i = waypointCount - 1; i >= 0; i--) {
+            var waypoint = makeWaypoint(parentURI, i, indentLevel);
+            waypoint.css('height', (waypointSize * 2) + 'em');
+            elt.after(waypoint);
+        }
+
+        var self = this;
+        setTimeout(function () {self.considerExpandingWaypoint(); }, 0);
+    };
+
+    LargeTree.prototype.renderRoot = function () {
+        var self = this;
+        var rootList = $('<table class="root" />');
+
+        this.source.fetchRootNode().done(function (rootNode) {
+            var row = $('<tr />');
+            row.data('indent', 0);
+            row.append($('<td class="title" />').text(rootNode.title));
+
+            row.append($('<td class="level" />').text(rootNode.level));
+            row.append($('<td class="type" />').text(rootNode.type));
+            row.append($('<td class="container" />').text(rootNode.container));
+
+            rootList.append(row);
+            self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
+
+            self.elt.append(rootList);
+        });
+    };
+
+    LargeTree.prototype.considerExpandingWaypoint = function () {
+        var emHeight = parseFloat($("body").css("font-size"));
+        var threshold_px = emHeight * THRESHOLD_EMS;
+        var containerHeight = this.elt.outerHeight();
+
+        /* Find the waypoint nearest to the top of the tree and the top of the
+           page. */
+        var waypointToExpand;
+        $('.waypoint.collapsed', this.elt).each(function (idx, elt) {
+            elt = $(elt);
+            var eltTop = elt.offset().top;
+            var eltBottom = eltTop + elt.height();
+
+            var waypointVisible = (Math.abs(eltTop) <= (containerHeight + threshold_px)) ||
+                                  (Math.abs(eltBottom) <= (containerHeight + threshold_px)) ||
+                                  (eltTop < 0 && eltBottom > 0);
+
+            if (waypointVisible) {
+                var candidate = {
+                    elt: elt,
+                    top: eltTop,
+                    level: elt.data('level'),
+                };
+
+                if (!waypointToExpand) {
+                    waypointToExpand = candidate;
+                } else {
+                    if (waypointToExpand.level > candidate.level || waypointToExpand.top > candidate.top) {
+                        waypointToExpand = candidate;
+                    }
+                }
+            }
+        });
+
+        if (waypointToExpand) {
+            this.expandWaypoint(waypointToExpand.elt);
+        }
+    };
+
+    var activeExpansions = {};
+
+    var row_templates = {
+        end_marker: $('<tr class="waypoint end-marker" />'),
+        entry: $('<tr> ' +
+                 '  <td class="title"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button> </td>' +
+                 '  <td class="level"></td>' +
+                 '  <td class="type"></td>' +
+                 '  <td class="container"></td>' +
+                 '</tr>'),
+    };
+
+    LargeTree.prototype.expandWaypoint = function (elt) {
+        var waypoint_button = $('button', $(elt).prev());
+
+        var self = this;
+        var uri = elt.data('uri');
+        var offset = elt.data('offset');
+        var level = elt.data('level');
+
+        var key = uri + "_" + offset;
+        if (activeExpansions[key]) {
+            console.log("IN PROGRESS");
+            return;
+        }
+
+        activeExpansions[key] = true;
+
+        this.source.fetchWaypoint(uri, offset).done(function (nodes) {
+            var endMarker = row_templates.end_marker.clone(false);
+            endMarker.data('level', level);
+
+            elt.after(endMarker);
+
+            var newRows = []
+
+            $(nodes).each(function (idx, node) {
+                var row = row_templates.entry.clone(false);
+
+                row.addClass('indent-level-' + level);
+                row.data('level', level);
+
+                var title = row.find('.title');
+                title.append($('<a />').prop('href', APP_PATH + 'resolve/readonly?uri=' + node.uri).text(node.title));
+                title.attr('title', node.title);
+
+                if (node.child_count == 0) {
+                    row.find('.expandme').css('visibility', 'hidden');
+                }
+
+                row.find('.level').text(node.level);
+                row.find('.type').text(node.type);
+                row.find('.container').text(node.container);
+
+                row.data('uri', node.uri);
+
+                newRows.push(row);
+            });
+
+            elt.after.apply(elt, newRows);
+
+            elt.removeClass('collapsed').addClass('expanded');
+
+            activeExpansions[key] = false;
+
+            self.considerExpandingWaypoint();
+        });
+    };
+
+    /*********************************************************************************/
+    /* Data source */
+    /*********************************************************************************/
+    function ASpaceTree(baseURL) {
+        this.url = baseURL.replace(/\/+$/, "");
+    }
+
+
+    ASpaceTree.prototype.urlFor = function (action) {
+        return this.url + "/" + action;
+    }
+
+    ASpaceTree.prototype.fetchRootNode = function () {
+        return $.ajax(this.urlFor("root"),
+                      {
+                          method: "GET",
+                      });
+    };
+
+    ASpaceTree.prototype.fetchNode = function (uri) {
+        return $.ajax(this.urlFor("node"),
+                      {
+                          method: "GET",
+                          data: {
+                              node: uri,
+                          }
+                      });
+    };
+
+    ASpaceTree.prototype.fetchWaypoint = function (uri, offset) {
+        return $.ajax(this.urlFor("waypoint"),
+                      {
+                          method: "GET",
+                          data: {
+                              node: uri,
+                              offset: offset,
+                          }
+                      });
+    };
+
+    exports.LargeTree = LargeTree;
+    exports.ASpaceTree = ASpaceTree;
+
+}(window));
