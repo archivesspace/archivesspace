@@ -1,0 +1,72 @@
+#tree-container {
+    background-color: white;
+    margin-bottom: 1em;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 300px;
+
+    button.expandme {
+        background: none;
+        border: 0;
+    }
+
+    .waypoint {
+        list-style: none;
+        height: 0;
+    }
+
+    li {
+        padding: 0;
+        margin: 0.5em 0;
+    }
+
+    .waypoint.expanded {
+        display: none;
+    }
+
+    .root {
+        width: 100%;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    td.title { width: 38%; }
+    td.level { width: 8%; }
+    td.type { width: 18%; }
+    td.container { width: 28%; }
+
+    td {
+        padding-left: 2%;
+        white-space: nowrap;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .expandme:focus {
+        border: 0;
+        outline-style: none;
+    }
+
+    .expandme {
+        margin-right: 10px;
+    }
+
+    .expandme-icon.expanded {
+        transform: rotate(90deg);
+        transition:transform 100ms ease-out;
+    }
+
+    .indent-level-0 td:first-child { padding-left: 0; }
+    .indent-level-1 td:first-child { padding-left: 1em; }
+    .indent-level-2 td:first-child { padding-left: 2em; }
+    .indent-level-3 td:first-child { padding-left: 3em; }
+    .indent-level-4 td:first-child { padding-left: 4em; }
+    .indent-level-5 td:first-child { padding-left: 5em; }
+    .indent-level-6 td:first-child { padding-left: 6em; }
+    .indent-level-7 td:first-child { padding-left: 7em; }
+    .indent-level-8 td:first-child { padding-left: 8em; }
+    .indent-level-9 td:first-child { padding-left: 9em; }
+    .indent-level-10 td:first-child { padding-left: 10em; }
+}

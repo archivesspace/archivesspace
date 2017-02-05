@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree, :models_in_graph],
+  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
@@ -100,6 +100,36 @@ class ResourcesController < ApplicationController
 
   end
 
+  def tree_root
+    resource_uri = JSONModel(:resource).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/root")
+  end
+
+  def tree_node
+    resource_uri = JSONModel(:resource).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/node",
+                                             :node_uri => node_uri)
+  end
+
+  def tree_waypoint
+    resource_uri = JSONModel(:resource).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/waypoint",
+                                             :parent_node => node_uri,
+                                             :offset => params[:offset])
+  end
 
 
   def transfer
@@ -254,11 +284,6 @@ class ResourcesController < ApplicationController
   end
 
 
-  def tree
-    render :json => fetch_tree
-  end
-
-
   def suppress
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(true)
@@ -287,68 +312,6 @@ class ResourcesController < ApplicationController
   end
 
   private
-
-  def fetch_tree
-    flash.keep # keep the flash... just in case this fires before the form is loaded
-
-    tree = []
-
-    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/resources/") 
-                 params[:node_uri]
-               else
-                 "root"
-               end
-
-    if !params[:hash].blank?
-      node_id = params[:hash].sub("tree::", "").sub("#", "")
-      if node_id.starts_with?("resource")
-        limit_to = "root"
-      elsif node_id.starts_with?("archival_object")
-        limit_to = JSONModel(:archival_object).uri_for(node_id.sub("archival_object_", "").to_i)
-      end
-    end
-
-    tree = JSONModel(:resource_tree).find(nil, :resource_id => params[:id], :limit_to => limit_to).to_hash(:validated)
-
-    prepare_tree_nodes(tree) do |node|
-
-      node['text'] = node['title']
-      node['level'] = I18n.t("enumerations.archival_record_level.#{node['level']}", :default => node['level'])
-      node['instance_types'] = node['instance_types'].map{|instance_type| I18n.t("enumerations.instance_instance_type.#{instance_type}", :default => instance_type)}
-      node['containers'].each{|container|
-        container["type_1"] = I18n.t("enumerations.container_type.#{container["type_1"]}", :default => container["type_1"]) if container["type_1"]
-        container["type_2"] = I18n.t("enumerations.container_type.#{container["type_2"]}", :default => container["type_2"]) if container["type_2"]
-        container["type_3"] = I18n.t("enumerations.container_type.#{container["type_3"]}", :default => container["type_3"]) if container["type_3"]
-      }
-      node_db_id = node['id']
-
-      node['id'] = "#{node["node_type"]}_#{node["id"]}"
-
-      if node['has_children'] && node['children'].empty?
-        node['children'] = true
-      end
-
-      node['type'] = node['node_type']
-
-      node['li_attr'] = {
-        "data-uri" => node['record_uri'],
-        "data-id" => node_db_id,
-        "rel" => node['node_type']
-      }
-      node['a_attr'] = {
-        "href" => "#tree::#{node['id']}",
-        "title" => node["title"]
-      }
-
-      if node['node_type'] == 'resource' || node['record_uri'] == limit_to
-#        node['state'] = {'opened' => true}
-      end
-
-    end
-
-    tree
-
-  end
 
 
   # refactoring note: suspiciously similar to accessions_controller.rb

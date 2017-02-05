@@ -4,7 +4,8 @@
 
 <div class="row">
   <div class="col-md-12">
-    <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @resource, :read_only => true} %>
+    <%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @resource, :read_only => true} %>
+    <%= javascript_include_tag "record_with_tree" %>
   </div>
 </div>
 
