@@ -857,6 +857,7 @@
           failonerror="true"
           dir="../${public-dir}">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
