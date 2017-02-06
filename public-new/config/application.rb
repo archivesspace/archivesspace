@@ -20,7 +20,7 @@ require_relative 'initializers/plugins'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module ArchivesspacePublic
+module ArchivesSpacePublic
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -50,6 +50,9 @@ module ArchivesspacePublic
         config.assets.paths.unshift(static_directory)
       end
     end
+
+    # add fonts to the asset path
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
   end
 end
 
