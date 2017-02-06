@@ -2,7 +2,8 @@
 # require 'pp'
 module PublicNewDefaults
 #  pp "initializing resources"
-  Repository.set_repos(ArchivesSpaceClient.new.list_repositories)
+# FIXME do we need to do this in the intializer?
+#  Repository.set_repos(ArchivesSpaceClient.new.list_repositories)
 
 # determining the main menu
   $MAIN_MENU = []
