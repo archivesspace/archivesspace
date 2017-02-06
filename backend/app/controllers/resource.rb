@@ -135,8 +135,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
-    resource = Resource.get_or_die(params[:id])
-
     json_response(large_tree_for_resource.root)
   end
 
@@ -149,7 +147,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
-    resource = Resource.get_or_die(params[:id])
     offset = params[:offset]
 
     parent_id = if params[:parent_node]
@@ -170,8 +167,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
-    resource = Resource.get_or_die(params[:id])
-
     ao_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
 
     json_response(large_tree_for_resource.node(ArchivalObject.get_or_die(ao_id)))
