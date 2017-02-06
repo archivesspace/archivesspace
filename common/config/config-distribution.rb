@@ -63,9 +63,8 @@ class AppConfig
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
-    elsif java.lang.System.getProperty("ASPACE_LAUNCHER_BASE") &&
-        File.exist?(File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb"))
-      File.join(java.lang.System.getProperty("ASPACE_LAUNCHER_BASE"), "config", "config.rb")
+    elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
+      File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
     elsif java.lang.System.getProperty("catalina.base")
       # Tomcat users
       File.join(java.lang.System.getProperty("catalina.base"), "conf", "config.rb")
