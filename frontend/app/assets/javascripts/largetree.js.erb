@@ -219,7 +219,7 @@
                 row.data('level', level);
 
                 var title = row.find('.title');
-                title.append($('<a />').prop('href', self.link_url(uri)).text(node.title));
+                title.append($('<a />').prop('href', self.link_url(node.uri)).text(node.title));
                 title.attr('title', node.title);
 
                 if (node.child_count == 0) {
