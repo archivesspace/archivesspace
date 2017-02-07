@@ -117,7 +117,10 @@
         this.source.fetchRootNode().done(function (rootNode) {
             var row = $('<tr />');
             row.data('indent', 0);
-            row.append($('<td class="title" />').text(rootNode.title));
+            row.append(
+                $('<td class="title" />')
+                   .append($('<a>').attr('href', self.link_url(rootNode.uri))
+                                   .text(rootNode.title)));
 
             row.append($('<td class="level" />').text(rootNode.level));
             row.append($('<td class="type" />').text(rootNode.type));
@@ -174,11 +177,15 @@
     var row_templates = {
         end_marker: $('<tr class="waypoint end-marker" />'),
         entry: $('<tr> ' +
-                 '  <td class="title"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button> </td>' +
+                 '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                  '  <td class="level"></td>' +
                  '  <td class="type"></td>' +
                  '  <td class="container"></td>' +
                  '</tr>'),
+    };
+
+    LargeTree.prototype.link_url = function(uri) {
+        return APP_PATH + 'resolve/readonly?uri=' + uri;
     };
 
     LargeTree.prototype.expandWaypoint = function (elt) {
@@ -212,7 +219,7 @@
                 row.data('level', level);
 
                 var title = row.find('.title');
-                title.append($('<a />').prop('href', APP_PATH + 'resolve/readonly?uri=' + node.uri).text(node.title));
+                title.append($('<a />').prop('href', self.link_url(uri)).text(node.title));
                 title.attr('title', node.title);
 
                 if (node.child_count == 0) {

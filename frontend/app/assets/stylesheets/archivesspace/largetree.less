@@ -38,10 +38,11 @@
     td.container { width: 28%; }
 
     td {
-        padding-left: 2%;
         white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
         box-sizing: border-box;
+        height: 25px;
     }
 
     .expandme:focus {
@@ -49,24 +50,42 @@
         outline-style: none;
     }
 
-    .expandme {
-        margin-right: 10px;
-    }
-
     .expandme-icon.expanded {
         transform: rotate(90deg);
         transition:transform 100ms ease-out;
     }
 
-    .indent-level-0 td:first-child { padding-left: 0; }
-    .indent-level-1 td:first-child { padding-left: 1em; }
-    .indent-level-2 td:first-child { padding-left: 2em; }
-    .indent-level-3 td:first-child { padding-left: 3em; }
-    .indent-level-4 td:first-child { padding-left: 4em; }
-    .indent-level-5 td:first-child { padding-left: 5em; }
-    .indent-level-6 td:first-child { padding-left: 6em; }
-    .indent-level-7 td:first-child { padding-left: 7em; }
-    .indent-level-8 td:first-child { padding-left: 8em; }
-    .indent-level-9 td:first-child { padding-left: 9em; }
-    .indent-level-10 td:first-child { padding-left: 10em; }
+    .indentor {
+        display: inline-block;
+        text-align: right;
+        background-color: #F1F1F1;
+    }
+
+    table.root {
+        tbody {
+            tr:nth-of-type(odd) {
+                background-color: #FAFAFA;
+            }
+            tr:first-child {
+                background-color: #F1F1F1;
+                td.title {
+                    padding-left: 6px
+                }
+            }
+        }
+    }
+
+    @indent-width: 24px;
+
+    .indent-level-0 .indentor { width: @indent-width; }
+    .indent-level-1 .indentor { width: 1 * @indent-width; }
+    .indent-level-2 .indentor { width: 2 * @indent-width; }
+    .indent-level-3 .indentor { width: 3 * @indent-width; }
+    .indent-level-4 .indentor { width: 4 * @indent-width; }
+    .indent-level-5 .indentor { width: 5 * @indent-width; }
+    .indent-level-6 .indentor { width: 6 * @indent-width; }
+    .indent-level-7 .indentor { width: 7 * @indent-width; }
+    .indent-level-8 .indentor { width: 8 * @indent-width; }
+    .indent-level-9 .indentor { width: 9 * @indent-width; }
+    .indent-level-10 .indentor { width: 10 * @indent-width; }
 }
