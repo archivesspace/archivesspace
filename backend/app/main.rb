@@ -244,6 +244,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   class RequestWrappingMiddleware
+
+    Session.init
+
     def initialize(app)
       @app = app
     end
