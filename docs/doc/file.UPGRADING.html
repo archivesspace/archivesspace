@@ -64,7 +64,7 @@
 <ul>
   <li><strong>Please also see <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md">UPGRADING_1.1.1.md</a> for special considerations when upgrading to v1.1.1</strong></li>
   <li><strong>Please also see <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md">UPGRADING_1.1.0.md</a> for special considerations when upgrading to v1.1.0</strong></li>
-  <li><strong>Please also see <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md">UPGRADING_1.5.0.md</a> for special considerations when upgrading to v1.5.0 or v1.5.1 (from v1.4.2)</strong></li>
+  <li>**Please also see <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md">UPGRADING_1.5.0.md</a> for special considerations when upgrading from v1.4.2 to 1..5.x **</li>
 </ul>
 
 <h2 id="create-a-backup-of-your-archivesspace-instance">Create a backup of your ArchivesSpace instance</h2>
@@ -77,13 +77,16 @@ under the <em>Backup and recovery</em> section in <a href="https://github.com/ar
 
 <p>It&#8217;s a good idea to unpack a fresh copy of the version of
 ArchivesSpace you are upgrading to.  This will ensure that you are
-running the latest versions of all files.  For example, on Mac OS X or
-Linux:</p>
+running the latest versions of all files.  In the examples below,
+replace the lower case x with the version number updating to. For example,
+1.5.2 or 1.5.3.</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span>
- $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span>
- $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_O constant id'>O</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_releases identifier id'>releases</span><span class='div op'>/</span><span class='rubyid_download identifier id'>download</span><span class='div op'>/</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5.1</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5.1</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
- $ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5.1</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+<p>For example, on Mac OS X or Linux:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>
+ $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>
+ $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_O constant id'>O</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_releases identifier id'>releases</span><span class='div op'>/</span><span class='rubyid_download identifier id'>download</span><span class='div op'>/</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+ $ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
 </code></pre>
 
 <p>( The curl step is optional and simply downloads the distribution from github. You can also
@@ -111,7 +114,7 @@ your original ArchivesSpace installation:</p>
 
 <p>For example, on Mac OS X or Linux:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
  $ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='mult op'>*</span> <span class='rubyid_data identifier id'>data</span><span class='div op'>/</span>
  $ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='mult op'>*</span> <span class='rubyid_config identifier id'>config</span><span class='div op'>/</span>
  $ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_lib identifier id'>lib</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='mult op'>*</span> <span class='rubyid_lib identifier id'>lib</span><span class='div op'>/</span>
@@ -121,7 +124,7 @@ your original ArchivesSpace installation:</p>
 
 <p>Or on Windows:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
  $ <span class='rubyid_xcopy identifier id'>xcopy</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>\<span class='rubyid_data identifier id'>data</span>\<span class='mult op'>*</span> <span class='rubyid_data identifier id'>data</span> <span class='regexp val'>/i /</span><span class='rubyid_k identifier id'>k</span> <span class='div op'>/</span><span class='rubyid_h identifier id'>h</span> <span class='regexp val'>/s /e</span> <span class='div op'>/</span><span class='rubyid_o identifier id'>o</span> <span class='regexp val'>/x /</span><span class='rubyid_y identifier id'>y</span>
  $ <span class='rubyid_xcopy identifier id'>xcopy</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>\<span class='rubyid_config identifier id'>config</span>\<span class='mult op'>*</span> <span class='rubyid_config identifier id'>config</span> <span class='regexp val'>/i /</span><span class='rubyid_k identifier id'>k</span> <span class='div op'>/</span><span class='rubyid_h identifier id'>h</span> <span class='regexp val'>/s /e</span> <span class='div op'>/</span><span class='rubyid_o identifier id'>o</span> <span class='regexp val'>/x /</span><span class='rubyid_y identifier id'>y</span>
  $ <span class='rubyid_xcopy identifier id'>xcopy</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>\<span class='rubyid_lib identifier id'>lib</span>\<span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='mult op'>*</span> <span class='rubyid_lib identifier id'>lib</span> <span class='regexp val'>/i /</span><span class='rubyid_k identifier id'>k</span> <span class='div op'>/</span><span class='rubyid_h identifier id'>h</span> <span class='regexp val'>/s /e</span> <span class='div op'>/</span><span class='rubyid_o identifier id'>o</span> <span class='regexp val'>/x /</span><span class='rubyid_y identifier id'>y</span>
@@ -129,8 +132,8 @@ your original ArchivesSpace installation:</p>
  $ xcopy \path\to\archivesspace-1.4.2\archivesspace\plugins\wonderful_plugin plugins\wonderful_plugin /i</span> <span class='div op'>/</span><span class='rubyid_k identifier id'>k</span> <span class='regexp val'>/h /s</span> <span class='div op'>/</span><span class='rubyid_e identifier id'>e</span> <span class='regexp val'>/o /</span><span class='rubyid_x identifier id'>x</span> <span class='div op'>/</span><span class='rubyid_y identifier id'>y</span>
 </code></pre>
 
-<p>Note that you may want to preserve the logs file (<code>logs/archivesspace.out</code> 
-by default) from your previous installation&#8211;just in case you need to 
+<p>Note that you may want to preserve the logs file (<code>logs/archivesspace.out</code>
+by default) from your previous installation&#8211;just in case you need to
 refer to it later.</p>
 
 <h3 id="configuration-note">Configuration note</h3>
@@ -156,8 +159,8 @@ locale file.</p>
 <p>A good way to do this is to use a Diff tool, like Notepad++, TextMate, or just
 Linux diff command:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_diff identifier id'>diff</span> <span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
- $ <span class='rubyid_diff identifier id'>diff</span> <span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_enums identifier id'>enums</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5.1</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_enums identifier id'>enums</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_diff identifier id'>diff</span> <span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
+ $ <span class='rubyid_diff identifier id'>diff</span> <span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.4</span><span class='integer val'>.2</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_enums identifier id'>enums</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_enums identifier id'>enums</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
 </code></pre>
 
 <p>This will show you the differences in your current locales files, as well as the
@@ -173,30 +176,30 @@ that need to happen as a part of the upgrade.  To do this, use the
 <code>setup-database</code> script for your platform. For example, on Mac OS X
 or Linux:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
  $ <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
 </code></pre>
 
 <p>Or on Windows:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='integer val'>.1</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
  $ <span class='rubyid_scripts identifier id'>scripts</span>\<span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
 </code></pre>
 
 <h2 id="if-youre-using-external-solr">If you&#8217;re using external Solr</h2>
 
-<p>It&#8217;s recommeneded you check your version against the version included with 
+<p>It&#8217;s recommeneded you check your version against the version included with
 ArchivesSpace:</p>
 
-<p>https://github.com/archivesspace/archivesspace/blob/v1.5.1/build/build.xml#L9</p>
+<p>https://github.com/archivesspace/archivesspace/blob/v1.5.x/build/build.xml#L9</p>
 
-<p>If your version is older than the one provided by ArchivesSpace you may want to 
+<p>If your version is older than the one provided by ArchivesSpace you may want to
 consider upgrading.</p>
 
-<p>Also you should check <code>schema.xml</code> and <code>solrconfig.xml</code> for changes and update 
+<p>Also you should check <code>schema.xml</code> and <code>solrconfig.xml</code> for changes and update
 them if necessary (this is required for proper functionality).</p>
 
-<p>https://github.com/archivesspace/archivesspace/tree/v1.5.1/solr</p>
+<p>https://github.com/archivesspace/archivesspace/tree/v1.5.x/solr</p>
 
 <h2 id="if-youve-deployed-to-tomcat">If you&#8217;ve deployed to Tomcat</h2>
 
@@ -214,15 +217,15 @@ any libraries from the previous ASpace version from your Tomcat classpath.</p>
     <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='rubyid_file identifier id'>file</span> <span class='lparen token'>(</span> <span class='rubyid_check identifier id'>check</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_Tomcat constant id'>Tomcat</span> <span class='rubyid_conf identifier id'>conf</span><span class='div op'>/</span><span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_current identifier id'>current</span>
     <span class='rubyid_settings identifier id'>settings</span><span class='dot token'>.</span> <span class='rparen token'>)</span>
  <span class='float val'>5</span><span class='dot token'>.</span> <span class='rubyid_Make constant id'>Make</span> <span class='rubyid_sure identifier id'>sure</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_MySQL constant id'>MySQL</span> <span class='rubyid_connector identifier id'>connector</span> <span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_lib identifier id'>lib</span> <span class='rubyid_directory identifier id'>directory</span>
- <span class='float val'>6</span><span class='dot token'>.</span> <span class='rubyid_Run constant id'>Run</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span> <span class='rubyid_script identifier id'>script</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_migration identifier id'>migration</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span> 
+ <span class='float val'>6</span><span class='dot token'>.</span> <span class='rubyid_Run constant id'>Run</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span> <span class='rubyid_script identifier id'>script</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_migration identifier id'>migration</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span>
  <span class='float val'>7</span><span class='dot token'>.</span> <span class='rubyid_Delete constant id'>Delete</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_ASpace constant id'>ASpace</span> <span class='rubyid_related identifier id'>related</span> <span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_libraries identifier id'>libraries</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_Tomcat constant id'>Tomcat</span><span class='string val'>'s lib directory. These
-    will include the &quot;gems&quot; folder, as well as &quot;common.jar&quot; and some 
-    [others](https://github.com/archivesspace/archivesspace/tree/master/common/lib). 
+    will include the &quot;gems&quot; folder, as well as &quot;common.jar&quot; and some
+    [others](https://github.com/archivesspace/archivesspace/tree/master/common/lib).
     This will make sure your running the correct version of the dependent
-    libraries for your new ASpace version. 
+    libraries for your new ASpace version.
     Just be sure not to delete any of the Apache Tomcat libraries.
  8. Run your setup-tomcat script ( just like in the install instructions ).
-    This will copy all the files over to Tomcat. 
+    This will copy all the files over to Tomcat.
  9. Start Tomcat
 </span></code></pre>
 
@@ -232,7 +235,7 @@ any libraries from the previous ASpace version from your Tomcat classpath.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.2.a Documentation Generated on Mon Jan 30 15:34:05 2017 by
+  ArchivesSpace Version v1.5.3-RC2 Documentation Generated on Wed Feb  8 13:48:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
