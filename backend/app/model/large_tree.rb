@@ -31,6 +31,8 @@ class LargeTree
         response = decorator.root(response, @root_record)
       end
 
+      precalculate_waypoints(response, nil)
+
       response
     end
   end
@@ -48,6 +50,8 @@ class LargeTree
       @decorators.each do |decorator|
         response = decorator.node(response, node_record)
       end
+
+      precalculate_waypoints(response, node_record.id)
 
       response
     end
@@ -95,6 +99,23 @@ class LargeTree
   end
 
   private
+
+  # When we return a list of waypoints, the client will pretty much always
+  # immediate ask us for the first one in the list.  So, let's have the option
+  # of sending them back in the initial response for a given node to save it the
+  # extra request.
+  def precalculate_waypoints(response, parent_id)
+    response['precomputed_waypoints'] = {}
+
+    uri = parent_id ? response['uri'] : ""
+
+    if response['waypoints'] > 0
+      response['precomputed_waypoints'][uri] ||= {}
+      response['precomputed_waypoints'][uri][0] = waypoint(parent_id, 0)
+    end
+
+    response
+  end
 
   def waypoint_response(child_count)
     {
