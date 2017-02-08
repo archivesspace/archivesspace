@@ -3,22 +3,139 @@
    tree.js.erb.
  */
 
-$(function() {
+(function(exports) {
+    function AjaxTree(tree, $pane) {
+        this.tree = tree;
+        this.$pane = $pane;
 
-  var $container = $('#object_container');
-
-  $.ajax({
-    type: 'GET',
-    data: {
-      inline: true,
-    },
-    success: function(html) {
-      $container.html(html);
-    },
-    error: function(obj, errorText, errorDesc) {
-      /* FIXME: i18n */
-      $container.html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
+        // load initial pane!
+        var id = this.id_from_hash();
+        if (id == null) {
+            id = tree.root_id;
+        }
+        this.loadPaneForId(id);
+        this.setupHashChange();
     }
-  });
 
-});
+    AjaxTree.prototype.setupHashChange = function() {
+        $(window).hashchange($.proxy(this.handleHashChange, this));
+    };
+
+    AjaxTree.prototype.id_from_hash = function() {
+        if (!location.hash || location.hash.indexOf("tree::") === -1) {
+            return;
+        }
+
+        return location.hash.replace("#tree::", "");
+    };
+
+    AjaxTree.prototype.handleHashChange = function() {
+        var self = this;
+
+        if ($(window).data("ignore-hashchange")) {
+            $(window).data("ignore-hashchange", false);
+            return;
+        }
+
+        var id_from_hash = self.id_from_hash();
+
+        if (id_from_hash == null) {
+          return;
+        }
+
+        // TODO Set selected row on tree
+
+        // Load pane
+        self.loadPaneForId(id_from_hash);
+    };
+
+    AjaxTree.prototype.loadPaneForId = function(id) {
+        var self = this;
+
+        // TODO insertLoadingMessage();
+        var params = {};
+        params.inline = true;
+        // TODO genericise!
+        params["resource_id"] = self.tree.root_uri;
+
+        var regex_match = id.match(/([a-z_]+)([0-9]+)/);
+        var row_type = regex_match[1].replace(/_$/, "");
+        var row_id = regex_match[2];
+
+        // FIXME: nicer way to get the controller path?
+        var url = APP_PATH+row_type + 's' + '/' + row_id;
+
+        if (!self.tree.read_only) {
+            url = url + "/edit";
+        }
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: params,
+            success: function(html) {
+                self.$pane.html(html);
+                if (!self.tree.read_only) {
+                    self.setup_ajax_form();
+                }
+                $(document).trigger("loadedrecordform.aspace", [self.$pane]);
+            },
+            error: function(obj, errorText, errorDesc) {
+                $("#object_container").html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
+            }
+        });
+    };
+
+
+    AjaxTree.prototype.setup_ajax_form = function() {
+        var self = this;
+
+        var $form = $("form", self.$pane);
+
+        $form.ajaxForm({
+            data: {
+                inline: true
+            },
+            beforeSubmit: function(arr, $form) {
+                $(".btn-primary", $form).attr("disabled","disabled");
+
+                if ($form.data("createPlusOne")) {
+                    arr.push({
+                        name: "plus_one",
+                        value: "true",
+                        required: false,
+                        type: "text"
+                    });
+                }
+            },
+            success: function(response, status, xhr) {
+                self.$pane.html(response);
+                var $form = self.setup_ajax_form();
+
+                if ($form.data('formErrors')) {
+                    self.$pane.triggerHandler("submitted", {success: false});
+                    $form.data("form_changed", true);
+                    $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
+                } else {
+                    $form.data("form_changed", false);
+
+                    self.$pane.triggerHandler("submitted", {success: true});
+                }
+
+                if ( $form.data('"update-monitor-paused"') ) {
+                    $form.data("update-monitor-paused", false);
+                }
+
+                // scroll back to the top
+                $.scrollTo("header");
+            },
+            error: function(obj, errorText, errorDesc) {
+                self.$pane.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
+                self.$pane.triggerHandler("submitted", {success: false});
+                $(".btn-primary", $form).removeAttr("disabled");
+            }
+        });
+    };
+
+    exports.AjaxTree = AjaxTree;
+}(window));
