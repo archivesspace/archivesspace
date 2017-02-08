@@ -48,6 +48,7 @@
         }
     %>
       <script>
+        <%# FIXME this will need to change and instead refetch to refresh the largetree %>
         AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
       </script>
     <% end %>

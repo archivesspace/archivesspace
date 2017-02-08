@@ -1,3 +1,4 @@
+//= require jquery.ba-hashchange
 /* FIXME: Scroll top offset needs adjusting I think */
 
 (function (exports) {
@@ -7,10 +8,14 @@
     var SCROLL_DELAY_MS = 25;
     var THRESHOLD_EMS = 1000;
 
-    function LargeTree(container, datasource) {
+    function LargeTree(container, datasource, root_uri, read_only) {
         this.elt = container;
         this.source = datasource;
         this.scrollTimer = undefined;
+
+        this.root_uri = root_uri;
+        this.root_id = this.uri_to_tree_id(root_uri);
+        this.read_only = read_only;
 
         this.renderRoot();
         this.initEventHandlers();
@@ -116,6 +121,9 @@
 
         this.source.fetchRootNode().done(function (rootNode) {
             var row = $('<tr />');
+            row.data('uri', rootNode.uri);
+            row.attr('id', self.uri_to_tree_id(rootNode.uri));
+            row.addClass('root-row');
             row.data('indent', 0);
             row.append(
                 $('<td class="title" />')
@@ -184,8 +192,20 @@
                  '</tr>'),
     };
 
+    LargeTree.prototype.uri_to_tree_id = function(uri) {
+      // FIXME: can we move this to the node json/Ruby?
+      // e.g. turn /repositories/2/resources/1 into resource_1
+      var last_part = uri.replace(/\/repositories\/[0-9]+\//,"");
+      var bits = last_part.match(/([a-z_]+)\/([0-9]+)/);
+      var type_plural = bits[1].replace(/\//g,'_');
+      var id = bits[2];
+      var type = type_plural.replace(/s$/, '');
+      return [type, id].join('_');
+    };
+
     LargeTree.prototype.link_url = function(uri) {
-        return APP_PATH + 'resolve/readonly?uri=' + uri;
+        // convert the uri into tree-speak
+        return "#tree::" + this.uri_to_tree_id(uri);
     };
 
     LargeTree.prototype.expandWaypoint = function (elt) {
@@ -230,6 +250,7 @@
                 row.find('.container').text(node.container);
 
                 row.data('uri', node.uri);
+                row.attr('id', self.uri_to_tree_id(node.uri));
 
                 newRows.push(row);
             });

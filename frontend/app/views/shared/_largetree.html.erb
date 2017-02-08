@@ -9,5 +9,5 @@
 <%= javascript_include_tag "largetree" %>
 
 <script>
- var tree = new LargeTree($('#tree-container'), new ASpaceTree('<%= url_for(:action => :show) %>/tree'));
+ var tree = new LargeTree($('#tree-container'), new ASpaceTree('<%= url_for(:action => :show) %>/tree'), '<%= root_record.uri %>', <%= read_only %>);
 </script>
