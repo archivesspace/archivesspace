@@ -326,10 +326,6 @@ AppConfig[:record_inheritance] = {
 # PUI Configurations
 # TODO: Clean up configuration options
 
-#FIXME: create a new PUI user
-AppConfig[:pui_archivesspace_user] = 'admin'
-AppConfig[:pui_archivesspace_password] = 'admin'
-
 AppConfig[:pui_search_results_page_size] = 25
 AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain

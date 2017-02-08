@@ -73,6 +73,9 @@ class Search
   end
 
   def self.records_for_uris(uris, resolve = [])
+    show_suppressed = !RequestContext.get(:enforce_suppression)
+    show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
+
     boolean_query = JSONModel.JSONModel(:boolean_query)
                     .from_hash('op' => 'OR',
                                'subqueries' => uris.map {|uri|
@@ -84,7 +87,10 @@ class Search
                                })
 
     query = Solr::Query.create_advanced_search(JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query))
-    query.pagination(1, uris.length)
+
+    query.pagination(1, uris.length).
+          show_suppressed(show_suppressed).
+          show_published_only(show_published_only)
 
     results = Solr.search(query)
 
@@ -95,6 +101,9 @@ class Search
   end
 
   def self.record_type_counts(record_types, for_repo_uri = nil)
+    show_suppressed = !RequestContext.get(:enforce_suppression)
+    show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
+
     result = {}
 
     repos_of_interest = if for_repo_uri
@@ -136,7 +145,9 @@ class Search
                                    ])
 
         query = Solr::Query.create_advanced_search(JSONModel.JSONModel(:advanced_query).from_hash('query' => boolean_query))
-        query.pagination(1, 1)
+        query.pagination(1, 1).
+              show_suppressed(show_suppressed).
+              show_published_only(show_published_only)
 
         hits = Solr.search(query)
 
