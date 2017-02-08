@@ -16,7 +16,11 @@
         <% ASUtils.wrap(external_ids).each do |external_id| %>
           <tr>
             <td><%= external_id['source'] %></td>
-            <td><%= external_id['external_id'] %></td>
+            <% if external_id['external_id'].start_with?("http:")  or external_id['external_id'].start_with?("https:")  %>
+              <td><%= link_to external_id['external_id'], external_id['external_id'], :target => "_blank" %></td>
+            <% else %>
+              <td><%= external_id['external_id'] %></td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>
