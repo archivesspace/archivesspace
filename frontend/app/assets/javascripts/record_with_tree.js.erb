@@ -9,15 +9,15 @@
         this.$pane = $pane;
 
         // load initial pane!
-        var id = this.id_from_hash();
+        var tree_id = this.tree_id_from_hash();
 
-        if (id == null) {
-            id = tree.root_id;
+        if (tree_id == null) {
+            tree_id = tree.root_tree_id;
         } else {
-            this.tree.displayNode(id);
+            this.tree.setCurrentNode(tree_id);
         }
 
-        this.loadPaneForId(id);
+        this.loadPaneForId(tree_id);
         this.setupHashChange();
     }
 
@@ -25,7 +25,7 @@
         $(window).hashchange($.proxy(this.handleHashChange, this));
     };
 
-    AjaxTree.prototype.id_from_hash = function() {
+    AjaxTree.prototype.tree_id_from_hash = function() {
         if (!location.hash || location.hash.indexOf("tree::") === -1) {
             return;
         }
@@ -41,16 +41,17 @@
             return;
         }
 
-        var id_from_hash = self.id_from_hash();
+        var tree_id = self.tree_id_from_hash();
 
-        if (id_from_hash == null) {
+        if (tree_id == null) {
           return;
         }
 
         // TODO Set selected row on tree
 
         // Load pane
-        self.loadPaneForId(id_from_hash);
+        tree.setCurrentNode(tree_id);
+        self.loadPaneForId(tree_id);
     };
 
     AjaxTree.prototype.loadPaneForId = function(id) {

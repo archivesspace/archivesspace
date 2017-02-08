@@ -14,8 +14,11 @@
         this.scrollTimer = undefined;
 
         this.root_uri = root_uri;
-        this.root_id = this.uri_to_tree_id(root_uri);
+        this.root_tree_id = this.uri_to_tree_id(root_uri);
         this.read_only = read_only;
+
+        // default to the root_id
+        this.current_tree_id = this.root_tree_id;
 
         this.waypoints = {}
 
@@ -33,13 +36,13 @@
         this.source.fetchPathFromRoot(ao_id).done(function (path) {
             self.recursivelyExpandWaypoints(path, function () {
                 console.log('a[href="#' +  tree_id +'"]');
-                var selected = $('a[href="#tree::' + tree_id +'"]');
+                var current = $('a[href="#tree::' + tree_id +'"]');
 
-                selected.scrollTo(0, {
+                current.scrollTo(0, {
                     offset: '50%',
                 });
 
-                selected.focus();
+                current.focus();
             });
         });
     }
@@ -335,8 +338,15 @@
                 row.find('.type').text(node.type);
                 row.find('.container').text(node.container);
 
+                var tree_id = self.uri_to_tree_id(node.uri);
                 row.data('uri', node.uri);
-                row.attr('id', self.uri_to_tree_id(node.uri));
+                row.attr('id', tree_id);
+
+                if (self.current_tree_id == tree_id) {
+                    row.addClass('current');
+                } else {
+                    row.removeClass('current');
+                }
 
                 newRows.push(row);
             });
@@ -446,6 +456,17 @@
         $(Object.keys(node.precomputed_waypoints)).each(function (idx, uri) {
             precomputedWaypoints[uri] = node.precomputed_waypoints[uri]
         });
+    };
+
+    LargeTree.prototype.setCurrentNode = function(tree_id) {
+        $('#'+this.current_tree_id, this.elt).removeClass('current');
+        this.current_tree_id = tree_id;
+
+        if ($('#'+this.current_tree_id, this.elt).length == 1) {
+            $('#'+this.current_tree_id, this.elt).addClass('current');
+        } else {
+            this.displayNode(this.current_tree_id);
+        }
     };
 
     exports.LargeTree = LargeTree;

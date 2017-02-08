@@ -1,9 +1,10 @@
 #tree-container {
-    background-color: white;
+    background-color: #FAFAFA;
     margin-bottom: 1em;
     overflow-x: auto;
     overflow-y: auto;
     max-height: 300px;
+    padding: 2px; // to allow for outline on current row
 
     button.expandme {
         background: none;
@@ -53,6 +54,10 @@
     .expandme-icon.expanded {
         transform: rotate(90deg);
         transition:transform 100ms ease-out;
+    }
+
+    tr.current {
+        outline: 2px solid #0A6AA1;
     }
 
     .indentor {
