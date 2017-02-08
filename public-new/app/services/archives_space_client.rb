@@ -15,11 +15,9 @@ class ArchivesSpaceClient
     'publish' => true,
     'page_size' => AppConfig[:pui_search_results_page_size]  }
 
-  # FIXME: Ultimately we'll set up a dedicated user for the public application
-  # to use (instead of admin).
   def initialize(archivesspace_url: AppConfig[:backend_url],
-                 username: AppConfig[:pui_archivesspace_user],
-                 password: AppConfig[:pui_archivesspace_password])
+                 username: AppConfig[:public_username],
+                 password: AppConfig[:public_user_secret])
     @url = archivesspace_url
     @username = username
     @password = password
@@ -61,7 +59,7 @@ class ArchivesSpaceClient
     SolrResults.new(results)
   end
   # calls the '/search/records' endpoint
-  def search_records(record_list, page = 1, search_opts = {}, full_notes = false)
+  def search_records(record_list, search_opts = {}, full_notes = false)
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url('/search/records', search_opts.merge("uri[]" => record_list))
     results = do_search(url)
@@ -70,7 +68,7 @@ class ArchivesSpaceClient
   end
 
   def get_record(uri, search_opts = {})
-    results = search_records(ASUtils.wrap(uri), 1, search_opts, full_notes = true)
+    results = search_records(ASUtils.wrap(uri), search_opts, full_notes = true)
     
     raise RecordNotFound.new if results.empty?
 

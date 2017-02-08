@@ -567,38 +567,6 @@ class CommonIndexer
       end
     }
 
-
-    # PUI type rules
-    add_document_prepare_hook {|doc, record|
-      object_record_types = ['accession', 'digital_object', 'digital_object_component']
-
-      if object_record_types.include?(doc['primary_type'])
-        doc['types'] << 'pui_record'
-      end
-
-      if ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
-        doc['types'] << 'pui_agent'
-      end
-
-
-      if ['resource'].include?(doc['primary_type'])
-        doc['types'] << 'pui_collection'
-      elsif ['classification'].include?(doc['primary_type'])
-        doc['types'] << 'pui_record_group'
-      elsif ['agent_person'].include?(doc['primary_type'])
-        doc['types'] << 'pui_person'
-      else
-        doc['types'] << 'pui_' + doc['primary_type']
-      end
-
-      unless doc['primary_type'] == 'archival_object'
-        # All record types are available to PUI except archival objects, since
-        # our pui_indexer indexes a specially formatted version of those.
-        doc['types'] << 'pui'
-      end
-    }
-
-
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
@@ -877,6 +845,9 @@ class CommonIndexer
 
         doc['title_sort'] = clean_for_sort(doc['title'])
 
+        # do this last of all so we know for certain the doc is published
+        apply_pui_fields(doc, record)
+
         next if skip_index_doc?(doc)
 
         batch << clean_whitespace(doc)
@@ -964,6 +935,36 @@ class CommonIndexer
     false
   end
 
+  def apply_pui_fields(doc, record)
+    # only add pui types if the record is published
+    if doc['publish'] === true
+      object_record_types = ['accession', 'digital_object', 'digital_object_component']
+
+      if object_record_types.include?(doc['primary_type'])
+        doc['types'] << 'pui_record'
+      end
+
+      if ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
+        doc['types'] << 'pui_agent'
+      end
+
+      if ['resource'].include?(doc['primary_type'])
+        doc['types'] << 'pui_collection'
+      elsif ['classification'].include?(doc['primary_type'])
+        doc['types'] << 'pui_record_group'
+      elsif ['agent_person'].include?(doc['primary_type'])
+        doc['types'] << 'pui_person'
+      else
+        doc['types'] << 'pui_' + doc['primary_type']
+      end
+
+      unless doc['primary_type'] == 'archival_object'
+        # All record types are available to PUI except archival objects, since
+        # our pui_indexer indexes a specially formatted version of those.
+        doc['types'] << 'pui'
+      end
+    end
+  end
 end
 
 
