@@ -57,6 +57,39 @@ class LargeTree
     end
   end
 
+  def node_from_root(ao_id)
+    result = []
+
+    DB.open do |db|
+      while true
+        this_node = db[@node_table].filter(:id => ao_id).select(:repo_id, :parent_id, :position).first
+
+        this_position = db[@node_type]
+                        .filter(:parent_id => this_node[:parent_id])
+                        .where { position <= this_node[:position] }
+                        .count
+
+        parent_uri = if this_node[:parent_id]
+                       JSONModel(@node_type).uri_for(this_node[:parent_id], :repo_id => this_node[:repo_id])
+                     else
+                       nil
+                     end
+
+        result << {:node => parent_uri,
+                   :offset => (this_position / WAYPOINT_SIZE.to_f).to_i}
+
+        # No parent ID means we've hit the root
+        if this_node[:parent_id]
+          ao_id = this_node[:parent_id]
+        else
+          break
+        end
+      end
+    end
+
+    result.reverse
+  end
+
   def waypoint(parent_id, offset)
     record_ids = []
     records = {}

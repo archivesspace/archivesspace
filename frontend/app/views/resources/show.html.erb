@@ -12,5 +12,7 @@
 <div id="object_container"></div>
 
 <script>
-    new AjaxTree(tree, $('#object_container'));
+ $(document).on("largetree.loaded", function () {
+     new AjaxTree(tree, $('#object_container'));
+ });
 </script>

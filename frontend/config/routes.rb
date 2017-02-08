@@ -111,6 +111,7 @@ ArchivesSpace::Application.routes.draw do
       match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
       match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
       match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
+      match 'resources/:id/tree/node_from_root' => 'resources#node_from_root', :via => [:get]
       match 'resources/:id/tree/waypoint' => 'resources#tree_waypoint', :via => [:get]
       match 'resources/:id/suppress' => 'resources#suppress', :via => [:post]
       match 'resources/:id/unsuppress' => 'resources#unsuppress', :via => [:post]

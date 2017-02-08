@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :models_in_graph],
+  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
@@ -104,6 +104,14 @@ class ResourcesController < ApplicationController
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
     render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/root")
+  end
+
+  # FIXME: bad name on frontend and backend.  Really a path or something?
+  def node_from_root
+    resource_uri = JSONModel(:resource).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/node_from_root",
+                                            :node_id => params[:node_id])
   end
 
   def tree_node
