@@ -10,3 +10,9 @@ gem 'redcarpet', '~> 3.3.1'
 
 gem 'rake', '~> 10.4.2'
 gem 'therubyracer', '~> 0.12.1', platforms: :ruby
+
+# In order to remove deprecation warning with the solution of
+# You can use the sass-convert command to automatically fix most cases.
+git 'https://github.com/ably-forks/compass', branch: 'sass-deprecation-warning-fix' do
+  gem 'compass-core'
+end

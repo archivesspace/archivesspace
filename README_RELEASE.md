@@ -66,21 +66,23 @@ To build the documentation:
 
 2. Make sure that [script/build_docs.rb](https://github.com/archivesspace/archivesspace/blob/master/scripts/build_docs.rb#L7-L8) is up-to-date and update [Jekyll's sidebar](https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html) if necessary.
 
-3. ```
+3. Bootstrap your development environment by downloading all dependencies--JRuby, Gems, Solr, etc.
+```
   $ build/run bootstrap
-  ```
+```
 
-3. ```
-    $ build/run backend:test
-    ```
+4. Run the backend unit tests
+```
+  $ build/run backend:test
+```
 
-3. Rip apart the READMEs for content by running the doc:build ANT task
+5. Rip apart the READMEs for content by running the doc:build ANT task
 
 ```
   $ build/run doc:build
 ```
 
-4. Build Slate ( using a standard Ruby )
+6. Build Slate ( using a standard Ruby )
 
 ```
   $ cd docs/slate
@@ -92,7 +94,7 @@ To build the documentation:
   $ mv build ../api
 ```
 
-5. Compile Jekyll
+7. Compile Jekyll
 
 ```
   $ cd docs
@@ -102,15 +104,19 @@ To build the documentation:
   $ ./bin/jekyll serve # optional if you want to have a look at the site.
 ```
 
-6. Commit the docs directory to git then push it to the gh-pages branch
+8. Commit the docs directory to git then push it to the gh-pages branch
 
 ```
+$ cd ../ # go to top of the working tree
+$ git add .
+$ git commit # with appropriate commit message
 $  git subtree push --prefix docs origin gh-pages
 ( or, if you get a FF error )
 $ git push origin `git subtree split --prefix docs master`:gh-pages --force
 ```
 
-7. Now merge in the docs directory back into master.
+9. Now merge in the docs directory back into master by committing the new-document
+branch, creating a PR, and merging the PR
 
 ## Build the release
 
