@@ -136,7 +136,9 @@
 
             self.source.fetchNode(parent.data('uri')).done(function (node) {
                 self.appendWaypoints(parent, parent.data('uri'), node.waypoints, node.waypoint_size, parent.data('level') + 1);
-                done_callback();
+                if (done_callback) {
+                    done_callback();
+                }
             });
         }
     };
