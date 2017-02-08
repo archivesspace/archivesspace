@@ -198,7 +198,6 @@
 
         var key = uri + "_" + offset;
         if (activeExpansions[key]) {
-            console.log("IN PROGRESS");
             return;
         }
 
@@ -258,31 +257,75 @@
     }
 
     ASpaceTree.prototype.fetchRootNode = function () {
+        var self = this;
+
         return $.ajax(this.urlFor("root"),
                       {
                           method: "GET",
-                      });
+                      })
+                .done(function (rootNode) {
+                    self.cachePrecomputedWaypoints(rootNode);
+                });
     };
 
     ASpaceTree.prototype.fetchNode = function (uri) {
+        var self = this;
+
         return $.ajax(this.urlFor("node"),
                       {
                           method: "GET",
                           data: {
                               node: uri,
                           }
-                      });
+                      })
+                .done(function (node) {
+                    self.cachePrecomputedWaypoints(node);
+                });
+
     };
 
     ASpaceTree.prototype.fetchWaypoint = function (uri, offset) {
-        return $.ajax(this.urlFor("waypoint"),
-                      {
-                          method: "GET",
-                          data: {
-                              node: uri,
-                              offset: offset,
-                          }
-                      });
+        var cached = this.getPrecomputedWaypoint(uri, offset);
+
+        if (cached) {
+            return {
+                done: function (callback) {
+                    callback(cached);
+                }
+            };
+        } else {
+            return $.ajax(this.urlFor("waypoint"),
+                          {
+                              method: "GET",
+                              data: {
+                                  node: uri,
+                                  offset: offset,
+                              }
+                          });
+        }
+    };
+
+    var precomputedWaypoints = {};
+
+    ASpaceTree.prototype.getPrecomputedWaypoint = function (uri, offset) {
+        var result;
+
+        if (uri == null) {
+            uri = "";
+        }
+
+        if (precomputedWaypoints[uri] && precomputedWaypoints[uri][offset]) {
+            result = precomputedWaypoints[uri][offset];
+            precomputedWaypoints[uri] = {};
+        }
+
+        return result;
+    };
+
+    ASpaceTree.prototype.cachePrecomputedWaypoints = function (node) {
+        $(Object.keys(node.precomputed_waypoints)).each(function (idx, uri) {
+            precomputedWaypoints[uri] = node.precomputed_waypoints[uri]
+        });
     };
 
     exports.LargeTree = LargeTree;
