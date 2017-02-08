@@ -17,9 +17,70 @@
         this.root_id = this.uri_to_tree_id(root_uri);
         this.read_only = read_only;
 
-        this.renderRoot();
+        this.waypoints = {}
+
         this.initEventHandlers();
+        this.renderRoot(function () {
+            $(document).triggerHandler('largetree.loaded');
+        });
     }
+
+    /* FIXME: generalise */
+    LargeTree.prototype.displayNode = function (tree_id) {
+        var self = this;
+        var ao_id = tree_id.split("_")[2]
+
+        this.source.fetchPathFromRoot(ao_id).done(function (path) {
+            self.recursivelyExpandWaypoints(path, function () {
+                console.log('a[href="#' +  tree_id +'"]');
+                var selected = $('a[href="#tree::' + tree_id +'"]');
+
+                selected.scrollTo(0, {
+                    offset: '50%',
+                });
+
+                selected.focus();
+            });
+        });
+    }
+
+    LargeTree.prototype.recursivelyExpandWaypoints = function (path, done_callback) {
+        var self = this;
+
+        /*
+           Here, `path` is a list of objects like:
+
+             node: /some/uri; offset: NN
+
+           which means "expand subtree /some/uri then expand waypoint NN".
+
+           The top-level is special because we automatically show it as expanded, so we skip expanding the root node.
+         */
+
+        if (path.length == 0) {
+            done_callback();
+            return;
+        }
+
+        var waypoint_description = path.shift();
+
+        var next_fn = function () {
+            var waypoint = self.waypoints[waypoint_description.node][waypoint_description.offset];
+
+            self.expandWaypoint(waypoint, function () {
+                self.recursivelyExpandWaypoints(path, done_callback);
+            })
+        };
+
+        if (waypoint_description.node) {
+            var tree_id = self.uri_to_tree_id(waypoint_description.node)
+
+            self.openNode($('#' + tree_id).find('.expandme'), next_fn);
+        } else {
+            /* this is the root node (subtree already expanded) */
+            next_fn();
+        }
+    };
 
     LargeTree.prototype.deleteWaypoints = function (parent) {
         var waypoint = parent.next();
@@ -56,6 +117,30 @@
         return true;
     }
 
+    LargeTree.prototype.openNode = function (button, done_callback) {
+        var self = this;
+        var parent = button.closest('tr');
+
+        if (button.data('expanded')) {
+            /* Collapse it */
+            while (self.deleteWaypoints(parent)) {
+                /* Remove the elements from one or more waypoints */
+            }
+
+            $(button).data('expanded', false);
+            $('.expandme-icon', button).removeClass('expanded');
+        } else {
+            /* Expand it */
+            $('.expandme-icon', button).addClass('expanded');
+            $(button).data('expanded', true);
+
+            self.source.fetchNode(parent.data('uri')).done(function (node) {
+                self.appendWaypoints(parent, parent.data('uri'), node.waypoints, node.waypoint_size, parent.data('level') + 1);
+                done_callback();
+            });
+        }
+    };
+
     LargeTree.prototype.initEventHandlers = function () {
         var self = this;
 
@@ -71,42 +156,31 @@
 
         $(this.elt).on('click', '.expandme', function (e) {
             e.preventDefault();
-            var button = $(this);
-            var parent = button.closest('tr');
-
-            if (button.data('expanded')) {
-                /* Collapse it */
-                while (self.deleteWaypoints(parent)) {
-                    /* Remove the elements from one or more waypoints */
-                }
-
-                $(button).data('expanded', false);
-                $('.expandme-icon', button).removeClass('expanded');
-            } else {
-                /* Expand it */
-                $('.expandme-icon', button).addClass('expanded');
-                $(button).data('expanded', true);
-
-                self.source.fetchNode(parent.data('uri')).done(function (node) {
-                    self.appendWaypoints(parent, parent.data('uri'), node.waypoints, node.waypoint_size, parent.data('level') + 1);
-                });
-            }
+            self.openNode($(this));
         });
     };
 
-    var makeWaypoint = function (uri, offset, indentLevel) {
+    LargeTree.prototype.makeWaypoint = function (uri, offset, indentLevel) {
         var result = $('<tr class="waypoint collapsed" />');
         result.addClass('indent-level-' + indentLevel);
+
         result.data('level', indentLevel);
         result.data('uri', uri);
         result.data('offset', offset);
+
+        if (!this.waypoints[uri]) {
+            this.waypoints[uri] = {}
+        }
+
+        /* Keep a lookup table of waypoints so we can find and expand them programmatically */
+        this.waypoints[uri][offset] = result;
 
         return result;
     };
 
     LargeTree.prototype.appendWaypoints = function (elt, parentURI, waypointCount, waypointSize, indentLevel) {
         for (var i = waypointCount - 1; i >= 0; i--) {
-            var waypoint = makeWaypoint(parentURI, i, indentLevel);
+            var waypoint = this.makeWaypoint(parentURI, i, indentLevel);
             waypoint.css('height', (waypointSize * 2) + 'em');
             elt.after(waypoint);
         }
@@ -115,7 +189,7 @@
         setTimeout(function () {self.considerExpandingWaypoint(); }, 0);
     };
 
-    LargeTree.prototype.renderRoot = function () {
+    LargeTree.prototype.renderRoot = function (completed_callback) {
         var self = this;
         var rootList = $('<table class="root" />');
 
@@ -138,10 +212,13 @@
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
 
             self.elt.append(rootList);
+            completed_callback();
         });
     };
 
     LargeTree.prototype.considerExpandingWaypoint = function () {
+        var self = this;
+
         var emHeight = parseFloat($("body").css("font-size"));
         var threshold_px = emHeight * THRESHOLD_EMS;
         var containerHeight = this.elt.outerHeight();
@@ -176,7 +253,9 @@
         });
 
         if (waypointToExpand) {
-            this.expandWaypoint(waypointToExpand.elt);
+            self.expandWaypoint(waypointToExpand.elt, function () {
+                self.considerExpandingWaypoint();
+            });
         }
     };
 
@@ -208,7 +287,12 @@
         return "#tree::" + this.uri_to_tree_id(uri);
     };
 
-    LargeTree.prototype.expandWaypoint = function (elt) {
+    LargeTree.prototype.expandWaypoint = function (elt, done_callback) {
+        if (elt.hasClass('expanded')) {
+            done_callback();
+            return;
+        }
+
         var waypoint_button = $('button', $(elt).prev());
 
         var self = this;
@@ -261,7 +345,7 @@
 
             activeExpansions[key] = false;
 
-            self.considerExpandingWaypoint();
+            done_callback();
         });
     };
 
@@ -296,6 +380,7 @@
                       {
                           method: "GET",
                           data: {
+/* THINKME: Should rename node to node_uri?  S */
                               node: uri,
                           }
                       })
@@ -303,6 +388,18 @@
                     self.cachePrecomputedWaypoints(node);
                 });
 
+    };
+
+    ASpaceTree.prototype.fetchPathFromRoot = function (node_id) {
+        var self = this;
+
+        return $.ajax(this.urlFor("node_from_root"),
+                      {
+                          method: "GET",
+                          data: {
+                              node_id: node_id,
+                          }
+                      });
     };
 
     ASpaceTree.prototype.fetchWaypoint = function (uri, offset) {

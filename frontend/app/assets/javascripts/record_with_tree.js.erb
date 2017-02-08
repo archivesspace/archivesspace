@@ -10,9 +10,13 @@
 
         // load initial pane!
         var id = this.id_from_hash();
+
         if (id == null) {
             id = tree.root_id;
+        } else {
+            this.tree.displayNode(id);
         }
+
         this.loadPaneForId(id);
         this.setupHashChange();
     }
