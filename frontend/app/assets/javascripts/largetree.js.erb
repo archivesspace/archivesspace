@@ -34,7 +34,6 @@
 
         this.source.fetchPathFromRoot(ao_id).done(function (path) {
             self.recursivelyExpandWaypoints(path, function () {
-                console.log('a[href="#' +  tree_id +'"]');
                 var current = $('a[href="#tree::' + tree_id +'"]');
 
                 current.scrollTo(0, {
@@ -147,6 +146,7 @@
 
     LargeTree.prototype.initEventHandlers = function () {
         var self = this;
+        var currentlyExpanding = false
 
         this.elt.on('scroll', function () {
             if (self.scrollTimer) {
@@ -154,7 +154,13 @@
             }
 
             self.scrollTimer = setTimeout(function () {
-                self.considerExpandingWaypoint();
+                if (!currentlyExpanding) {
+                    currentlyExpanding = true;
+
+                    self.considerExpandingWaypoint(function () {
+                        currentlyExpanding = false;
+                    });
+                }
             }, SCROLL_DELAY_MS);
         });
 
@@ -220,11 +226,16 @@
         });
     };
 
-    LargeTree.prototype.considerExpandingWaypoint = function () {
+    LargeTree.prototype.considerExpandingWaypoint = function (done_callback) {
         var self = this;
+
+        if (!done_callback) {
+            done_callback = $.noop;
+        }
 
         var emHeight = parseFloat($("body").css("font-size"));
         var threshold_px = emHeight * THRESHOLD_EMS;
+        var containerTop = this.elt.offset().top;
         var containerHeight = this.elt.outerHeight();
 
         /* Find the waypoint nearest to the top of the tree and the top of the
@@ -232,8 +243,13 @@
         var waypointToExpand;
         $('.waypoint.collapsed', this.elt).each(function (idx, elt) {
             elt = $(elt);
-            var eltTop = elt.offset().top;
+            /* The element's top is measured from the top of the page, but we
+               want it relative to the top of the container.  Adjust as
+               appropriate. */
+            var eltTop = elt.offset().top - containerTop;
+
             var eltBottom = eltTop + elt.height();
+
 
             var waypointVisible = (Math.abs(eltTop) <= (containerHeight + threshold_px)) ||
                                   (Math.abs(eltBottom) <= (containerHeight + threshold_px)) ||
@@ -258,8 +274,10 @@
 
         if (waypointToExpand) {
             self.expandWaypoint(waypointToExpand.elt, function () {
-                self.considerExpandingWaypoint();
+                self.considerExpandingWaypoint(done_callback);
             });
+        } else {
+            done_callback();
         }
     };
 
