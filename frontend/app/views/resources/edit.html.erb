@@ -1,16 +1,3 @@
 <%= setup_context :object => @resource %>
 
-<div class="row">
-  <div class="col-md-12">
-    <%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @resource, :read_only => false} %>
-    <%= javascript_include_tag "record_with_tree" %>
-  </div>
-</div>
-
-<div id="object_container"></div>
-
-<script>
-    $(document).on("largetree.loaded", function () {
-        new AjaxTree(tree, $('#object_container'));
-    });
-</script>
+<%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @resource, :read_only => false} %>

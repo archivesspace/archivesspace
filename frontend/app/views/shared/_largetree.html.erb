@@ -2,12 +2,22 @@
    read_only = false if read_only.blank?
 %>
 
-<div id="tree-container">
+<div class="row">
+  <div class="col-md-12">
+    <div id="tree-container"></div>
+  </div>
 </div>
+
+<div id="object_container"></div>
 
 <%= stylesheet_link_tag "archivesspace/largetree" %>
 <%= javascript_include_tag "largetree" %>
+<%= javascript_include_tag "record_with_tree" %>
 
 <script>
- var tree = new LargeTree($('#tree-container'), new ASpaceTree('<%= url_for(:action => :show) %>/tree'), '<%= root_record.uri %>', <%= read_only %>);
+    var tree = new Tree('<%= url_for(:action => :show) %>/tree',
+                        $('#tree-container'),
+                        $('#object_container'),
+                        '<%= root_record.uri %>',
+                        <%= read_only %>);
 </script>
