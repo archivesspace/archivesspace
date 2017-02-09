@@ -11,8 +11,8 @@ class LargeTree
 
     @root_record = root_record
 
-    @root_table = root_record.class.root_record_type.intern
-    @node_table = @node_type = root_record.class.node_record_type.intern
+    @root_table = root_record.class.root_type.intern
+    @node_table = @node_type = root_record.class.node_type.intern
   end
 
   def add_decorator(decorator)

@@ -33,17 +33,26 @@
         table-layout: fixed;
     }
 
-    td.title { width: 38%; }
-    td.level { width: 8%; }
-    td.type { width: 18%; }
-    td.container { width: 28%; }
+    td.resource-level { width: 8%; }
+    td.resource-type { width: 18%; }
+    td.resource-container { width: 28%; }
+
+    td.digital-object-type { width: 12%; }
+    td.file-uri-summary { width: 28%; }
+
 
     td {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         box-sizing: border-box;
-        height: 25px;
+
+        // Don't change this without also changing largetree.js.erb ->
+        // appendWaypoints to match.
+        //
+        // We rely on rows having heights known in advance to do our
+        // height calculations.
+        height: 2em;
     }
 
     .expandme:focus {

@@ -1,18 +1,23 @@
 //= require jquery.ba-hashchange
 
+//= require tree_ids_helpers
+//= require ajaxtree
+//= require tree_renderers
+
 (function (exports) {
     "use strict";
 
     var SCROLL_DELAY_MS = 25;
     var THRESHOLD_EMS = 300;
 
-    function LargeTree(datasource, container, root_uri, read_only, loaded_callback) {
+    function LargeTree(datasource, container, root_uri, read_only, renderer, loaded_callback) {
         this.source = datasource;
         this.elt = container;
         this.scrollTimer = undefined;
+        this.renderer = renderer;
 
         this.root_uri = root_uri;
-        this.root_tree_id = this.uri_to_tree_id(root_uri);
+        this.root_tree_id = TreeIds.uri_to_tree_id(root_uri);
         this.read_only = read_only;
 
         // default to the root_id
@@ -26,20 +31,17 @@
         });
     }
 
-    /* FIXME: generalise */
     LargeTree.prototype.displayNode = function (tree_id) {
         var self = this;
-        var ao_id = tree_id.split("_")[2]
 
-        this.source.fetchPathFromRoot(ao_id).done(function (path) {
+        var bits = tree_id.split("_")
+
+        var node_id = TreeIds.parse_tree_id(tree_id).id;
+
+        this.source.fetchPathFromRoot(node_id).done(function (path) {
             self.recursivelyExpandWaypoints(path, function () {
-                var current = $('a[href="#tree::' + tree_id +'"]');
-
-                current.scrollTo(0, {
-                    offset: '50%',
-                });
-
-                current.focus();
+                var current = $('#' + tree_id);
+                current.find('a.record-title')[0].focus();
             });
         });
     }
@@ -73,7 +75,7 @@
         };
 
         if (waypoint_description.node) {
-            var tree_id = self.uri_to_tree_id(waypoint_description.node)
+            var tree_id = TreeIds.uri_to_tree_id(waypoint_description.node)
 
             self.openNode($('#' + tree_id).find('.expandme'), next_fn);
         } else {
@@ -88,6 +90,12 @@
         if (!waypoint.hasClass('waypoint')) {
             /* Nothing left to burn */
             return false;
+        }
+
+        if (waypoint.hasClass('collapsed')) {
+            waypoint.remove();
+
+            return true;
         }
 
         var waypointLevel = waypoint.data('level');
@@ -147,7 +155,7 @@
         var self = this;
         var currentlyExpanding = false
 
-        this.elt.on('scroll', function () {
+        this.elt.on('scroll', function (event) {
             if (self.scrollTimer) {
                 clearTimeout(self.scrollTimer);
             }
@@ -190,6 +198,10 @@
     LargeTree.prototype.appendWaypoints = function (elt, parentURI, waypointCount, waypointSize, indentLevel) {
         for (var i = waypointCount - 1; i >= 0; i--) {
             var waypoint = this.makeWaypoint(parentURI, i, indentLevel);
+
+            /* We force the line height to a constant 2em so we can predictably
+               guess how tall to make waypoints.  See largetree.less for where we
+               set this on table.td elements. */
             waypoint.css('height', (waypointSize * 2) + 'em');
             elt.after(waypoint);
         }
@@ -203,19 +215,16 @@
         var rootList = $('<table class="root" />');
 
         this.source.fetchRootNode().done(function (rootNode) {
-            var row = $('<tr />');
+            var row = self.renderer.get_root_template();
+
             row.data('uri', rootNode.uri);
-            row.attr('id', self.uri_to_tree_id(rootNode.uri));
+            row.attr('id', TreeIds.uri_to_tree_id(rootNode.uri));
             row.addClass('root-row');
             row.data('indent', 0);
-            row.append(
-                $('<td class="title" />')
-                   .append($('<a>').attr('href', self.link_url(rootNode.uri))
-                                   .text(rootNode.title)));
+            row.find('.title').append($('<a>').attr('href', TreeIds.link_url(rootNode.uri))
+                                              .text(rootNode.title));
 
-            row.append($('<td class="level" />').text(rootNode.level));
-            row.append($('<td class="type" />').text(rootNode.type));
-            row.append($('<td class="container" />').text(rootNode.container));
+            self.renderer.add_root_columns(row, rootNode);
 
             rootList.append(row);
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
@@ -282,32 +291,6 @@
 
     var activeExpansions = {};
 
-    var row_templates = {
-        end_marker: $('<tr class="waypoint end-marker" />'),
-        entry: $('<tr> ' +
-                 '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
-                 '  <td class="level"></td>' +
-                 '  <td class="type"></td>' +
-                 '  <td class="container"></td>' +
-                 '</tr>'),
-    };
-
-    LargeTree.prototype.uri_to_tree_id = function(uri) {
-      // FIXME: can we move this to the node json/Ruby?
-      // e.g. turn /repositories/2/resources/1 into resource_1
-      var last_part = uri.replace(/\/repositories\/[0-9]+\//,"");
-      var bits = last_part.match(/([a-z_]+)\/([0-9]+)/);
-      var type_plural = bits[1].replace(/\//g,'_');
-      var id = bits[2];
-      var type = type_plural.replace(/s$/, '');
-      return [type, id].join('_');
-    };
-
-    LargeTree.prototype.link_url = function(uri) {
-        // convert the uri into tree-speak
-        return "#tree::" + this.uri_to_tree_id(uri);
-    };
-
     LargeTree.prototype.expandWaypoint = function (elt, done_callback) {
         if (elt.hasClass('expanded')) {
             done_callback();
@@ -329,7 +312,7 @@
         activeExpansions[key] = true;
 
         this.source.fetchWaypoint(uri, offset).done(function (nodes) {
-            var endMarker = row_templates.end_marker.clone(false);
+            var endMarker = self.renderer.endpoint_marker();
             endMarker.data('level', level);
 
             elt.after(endMarker);
@@ -337,24 +320,22 @@
             var newRows = []
 
             $(nodes).each(function (idx, node) {
-                var row = row_templates.entry.clone(false);
+                var row = self.renderer.get_node_template();
 
                 row.addClass('indent-level-' + level);
                 row.data('level', level);
 
                 var title = row.find('.title');
-                title.append($('<a />').prop('href', self.link_url(node.uri)).text(node.title));
+                title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
                 title.attr('title', node.title);
 
                 if (node.child_count == 0) {
                     row.find('.expandme').css('visibility', 'hidden');
                 }
 
-                row.find('.level').text(node.level);
-                row.find('.type').text(node.type);
-                row.find('.container').text(node.container);
+                self.renderer.add_node_columns(row, node)
 
-                var tree_id = self.uri_to_tree_id(node.uri);
+                var tree_id = TreeIds.uri_to_tree_id(node.uri);
                 row.data('uri', node.uri);
                 row.attr('id', tree_id);
 
@@ -485,159 +466,27 @@
         }
     };
 
-    function AjaxTree(tree, $pane) {
-        this.tree = tree;
-        this.$pane = $pane;
 
-        // load initial pane!
-        var tree_id = this.tree_id_from_hash();
 
-        if (tree_id == null) {
-            tree_id = tree.root_tree_id;
-        } else {
-            this.tree.setCurrentNode(tree_id);
-        }
-
-        this.loadPaneForId(tree_id);
-        this.setupHashChange();
-    }
-
-    AjaxTree.prototype.setupHashChange = function() {
-        $(window).hashchange($.proxy(this.handleHashChange, this));
+    var renderers = {
+        resource: new ResourceRenderer(),
+        digital_object: new DigitalObjectRenderer(),
+        classification: new ClassificationRenderer(),
     };
 
-    AjaxTree.prototype.tree_id_from_hash = function() {
-        if (!location.hash || location.hash.indexOf("tree::") === -1) {
-            return;
-        }
-
-        return location.hash.replace("#tree::", "");
-    };
-
-    AjaxTree.prototype.handleHashChange = function() {
-        var self = this;
-
-        if ($(window).data("ignore-hashchange")) {
-            $(window).data("ignore-hashchange", false);
-            return;
-        }
-
-        var tree_id = self.tree_id_from_hash();
-
-        if (tree_id == null) {
-            return;
-        }
-
-        // TODO Set selected row on tree
-
-        // Load pane
-        self.tree.setCurrentNode(tree_id);
-        self.loadPaneForId(tree_id);
-    };
-
-    AjaxTree.prototype.loadPaneForId = function(id) {
-        var self = this;
-
-        // TODO insertLoadingMessage();
-        var params = {};
-        params.inline = true;
-        params[self.tree.root_node_type + '_id'] = self.tree.root_uri;
-
-        var regex_match = id.match(/([a-z_]+)([0-9]+)/);
-        var row_type = regex_match[1].replace(/_$/, "");
-        var row_id = regex_match[2];
-
-        // FIXME: nicer way to get the controller path?
-        var url = APP_PATH+row_type + 's' + '/' + row_id;
-
-        if (!self.tree.read_only) {
-            url = url + "/edit";
-        }
-
-        $.ajax({
-            url: url,
-            type: 'GET',
-            data: params,
-            success: function(html) {
-                self.$pane.html(html);
-                if (!self.tree.read_only) {
-                    self.setup_ajax_form();
-                }
-                $(document).trigger("loadedrecordform.aspace", [self.$pane]);
-            },
-            error: function(obj, errorText, errorDesc) {
-                // FIXME I18n message
-                $("#object_container").html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
-            }
-        });
-    };
-
-
-    AjaxTree.prototype.setup_ajax_form = function() {
-        var self = this;
-
-        var $form = $("form", self.$pane);
-
-        $form.ajaxForm({
-            data: {
-                inline: true
-            },
-            beforeSubmit: function(arr, $form) {
-                $(".btn-primary", $form).attr("disabled","disabled");
-
-                if ($form.data("createPlusOne")) {
-                    arr.push({
-                        name: "plus_one",
-                        value: "true",
-                        required: false,
-                        type: "text"
-                    });
-                }
-            },
-            success: function(response, status, xhr) {
-                self.$pane.html(response);
-                var $form = self.setup_ajax_form();
-
-                if ($form.data('formErrors')) {
-                    self.$pane.triggerHandler("submitted", {success: false});
-                    $form.data("form_changed", true);
-                    $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
-                } else {
-                    $form.data("form_changed", false);
-
-                    self.$pane.triggerHandler("submitted", {success: true});
-                }
-
-                if ( $form.data('"update-monitor-paused"') ) {
-                    $form.data("update-monitor-paused", false);
-                }
-
-                // scroll back to the top
-                $.scrollTo("header");
-            },
-            error: function(obj, errorText, errorDesc) {
-                // FIXME I18n message
-                self.$pane.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
-                self.$pane.triggerHandler("submitted", {success: false});
-                $(".btn-primary", $form).removeAttr("disabled");
-            }
-        });
-    };
-
-
-    function Tree(datasource_url, tree_container, form_container, root_uri, read_only) {
+    function Tree(datasource_url, tree_container, form_container, root_uri, read_only, root_record_type) {
         var self = this;
 
         self.datasource = new ASpaceTree(datasource_url);
-        self.large_tree = new LargeTree(self.datasource, tree_container, root_uri, read_only, function() {
+
+        var tree_renderer = renderers[root_record_type];
+
+        self.large_tree = new LargeTree(self.datasource, tree_container, root_uri, read_only, tree_renderer, function() {
             self.ajax_tree =  new AjaxTree(self.large_tree, form_container);
         });
     };
 
 
-    exports.LargeTree = LargeTree;
-    exports.ASpaceTree = ASpaceTree;
-    exports.AjaxTree = AjaxTree;
     exports.Tree = Tree;
 
 }(window));

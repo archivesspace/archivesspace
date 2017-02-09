@@ -50,17 +50,18 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree')
-    .description("Get a Digital Object tree")
-    .params(["id", :id],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "OK"]) \
-  do
-    digital_object = DigitalObject.get_or_die(params[:id])
-
-    json_response(digital_object.tree)
-  end
+  # THINKME: What do we do with this?
+  # Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree')
+  #   .description("Get a Digital Object tree")
+  #   .params(["id", :id],
+  #           ["repo_id", :repo_id])
+  #   .permissions([:view_repository])
+  #   .returns([200, "OK"]) \
+  # do
+  #   digital_object = DigitalObject.get_or_die(params[:id])
+  # 
+  #   json_response(digital_object.tree)
+  # end
 
 
   Endpoint.delete('/repositories/:repo_id/digital_objects/:id')
@@ -86,6 +87,75 @@ class ArchivesSpaceService < Sinatra::Base
     digital_object.publish!
 
     updated_response(digital_object)
+  end
+
+  ## Trees!
+
+  # MIGRATION NOTE/QUESTION: Anyone using the /tree endpoint outside of aspace core?
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/root')
+    .description("Fetch tree information for the top-level digital object record")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    json_response(large_tree_for_digital_object.root)
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/waypoint')
+    .description("Fetch the record slice for a given tree waypoint")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["offset", Integer, "The page of records to return"],
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    offset = params[:offset]
+
+    parent_id = if params[:parent_node]
+                  JSONModel.parse_reference(params[:parent_node]).fetch(:id)
+                else
+                  # top-level record
+                  nil
+                end
+
+    json_response(large_tree_for_digital_object.waypoint(parent_id, offset))
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/node')
+    .description("Fetch tree information for an Digital Object Component record within a tree")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_uri", String, "The URI of the Digital Object Component record of interest"])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    digital_object_component_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
+
+    json_response(large_tree_for_digital_object.node(DigitalObjectComponent.get_or_die(digital_object_component_id)))
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/node_from_root')
+    .description("Fetch tree path from the root record to an Digital Object Component")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_id", Integer, "The ID of the Digital Object Component record of interest"])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    json_response(large_tree_for_digital_object.node_from_root(params[:node_id]))
+  end
+
+  private
+
+  def large_tree_for_digital_object
+    digital_object = DigitalObject.get_or_die(params[:id])
+
+    large_tree = LargeTree.new(digital_object)
+    large_tree.add_decorator(LargeTreeDigitalObject.new)
+
+    large_tree
   end
 
 end

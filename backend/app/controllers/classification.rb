@@ -26,17 +26,17 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/classifications/:id/tree')
-    .description("Get a Classification tree")
-    .params(["id", :id],
-            ["repo_id", :repo_id])
-    .permissions([:view_repository])
-    .returns([200, "OK"]) \
-  do
-    classification = Classification.get_or_die(params[:id])
-
-    json_response(classification.tree)
-  end
+  # Endpoint.get('/repositories/:repo_id/classifications/:id/tree')
+  #   .description("Get a Classification tree")
+  #   .params(["id", :id],
+  #           ["repo_id", :repo_id])
+  #   .permissions([:view_repository])
+  #   .returns([200, "OK"]) \
+  # do
+  #   classification = Classification.get_or_die(params[:id])
+  # 
+  #   json_response(classification.tree)
+  # end
 
 
   Endpoint.post('/repositories/:repo_id/classifications/:id')
@@ -72,4 +72,75 @@ class ArchivesSpaceService < Sinatra::Base
   do
     handle_delete(Classification, params[:id])
   end
+
+  ## Trees!
+
+  # MIGRATION NOTE/QUESTION: Anyone using the /tree endpoint outside of aspace core?
+  Endpoint.get('/repositories/:repo_id/classifications/:id/tree/root')
+    .description("Fetch tree information for the top-level classification record")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    json_response(large_tree_for_classification.root)
+  end
+
+  Endpoint.get('/repositories/:repo_id/classifications/:id/tree/waypoint')
+    .description("Fetch the record slice for a given tree waypoint")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["offset", Integer, "The page of records to return"],
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    offset = params[:offset]
+
+    parent_id = if params[:parent_node]
+                  JSONModel.parse_reference(params[:parent_node]).fetch(:id)
+                else
+                  # top-level record
+                  nil
+                end
+
+    json_response(large_tree_for_classification.waypoint(parent_id, offset))
+  end
+
+  Endpoint.get('/repositories/:repo_id/classifications/:id/tree/node')
+    .description("Fetch tree information for an Classification Term record within a tree")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_uri", String, "The URI of the Classification Term record of interest"])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    classification_term_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
+
+    json_response(large_tree_for_classification.node(ClassificationTerm.get_or_die(classification_term_id)))
+  end
+
+  Endpoint.get('/repositories/:repo_id/classifications/:id/tree/node_from_root')
+    .description("Fetch tree path from the root record to an Classification Term")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_id", Integer, "The ID of the Classification Term record of interest"])
+    .permissions([:view_repository])
+    .returns([200, "TODO"]) \
+  do
+    json_response(large_tree_for_classification.node_from_root(params[:node_id]))
+  end
+
+  private
+
+  def large_tree_for_classification
+    classification = Classification.get_or_die(params[:id])
+
+    large_tree = LargeTree.new(classification)
+    large_tree.add_decorator(LargeTreeClassification.new)
+
+    large_tree
+  end
+
+
 end
