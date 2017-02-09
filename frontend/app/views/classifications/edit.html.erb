@@ -1,9 +1,3 @@
 <%= setup_context :object => @classification %>
 
-<div class="row" xmlns="http://www.w3.org/1999/html">
-  <div class="col-md-12">
-    <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @classification} %>
-  </div>
-</div>
-
-<div id="object_container"></div>
+<%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @classification, :read_only => false} %>
