@@ -133,7 +133,7 @@ class ResourcesController <  ApplicationController
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
       @criteria = {}
-      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
+      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
       @cite = ''

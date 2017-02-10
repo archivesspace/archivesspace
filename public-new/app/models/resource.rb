@@ -1,12 +1,15 @@
 class Resource < Record
 
-  attr_reader :digital_instances, :finding_aid
+  attr_reader :digital_instances, :finding_aid, :related_accessions,
+              :related_deaccessions
 
   def initialize(*args)
     super
 
     @digital_instances = parse_digital_instance
     @finding_aid = parse_finding_aid
+    @related_accessions = parse_related_accessions
+    @related_deaccessions = parse_related_deaccessions
   end
 
   private
@@ -74,5 +77,29 @@ class Resource < Record
       end
     end
     fa
+  end
+
+  def parse_related_accessions
+    ASUtils.wrap(raw['related_accession_uris']).collect{|uri|
+      if raw['_resolved_related_accession_uris']
+        raw['_resolved_related_accession_uris'][uri].first
+      end
+    }.compact.select{|accession|
+      accession['publish']
+    }.map {|accession|
+      record_from_resolved_json(ASUtils.json_parse(accession['json']))
+    }
+  end
+
+  def parse_related_deaccessions
+    return [] unless AppConfig[:pui_display_deaccessions]
+
+    deaccessions = []
+
+    related_accessions.each{|accession|
+      deaccessions.concat(accession.deaccessions)
+    }
+
+    deaccessions
   end
 end

@@ -15,7 +15,7 @@ class Classification < Record
 
     json['linked_records'].each do |rec|
       if  rec['_resolved'].present? && rec['_resolved']['publish']
-        records << Record.from_resolved_json(rec['_resolved'])
+        records << record_from_resolved_json(rec['_resolved'])
       end
     end
 

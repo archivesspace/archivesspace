@@ -292,6 +292,9 @@ class CommonIndexer
         doc['restrictions_apply'] = record['record']['restrictions_apply']
         doc['access_restrictions'] = record['record']['access_restrictions']
         doc['use_restrictions'] = record['record']['use_restrictions']
+        doc['related_resource_uris'] = record['record']['related_resources'].
+                                          collect{|resource| resource["ref"]}.
+                                          compact.uniq
       end
     }
 
@@ -347,6 +350,9 @@ class CommonIndexer
         doc['restrictions'] = record['record']['restrictions']
         doc['ead_id'] = record['record']['ead_id']
         doc['finding_aid_status'] = record['record']['finding_aid_status']
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect{|accession| accession["ref"]}.
+                                           compact.uniq
       end
 
       if doc['primary_type'] == 'digital_object'
