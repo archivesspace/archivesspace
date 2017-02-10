@@ -18,7 +18,7 @@ class Record
     if solr_result['json'].kind_of? Hash
       @json = solr_result['json']
     else
-      @json = JSON.parse(solr_result['json']) || {} 
+      @json = ASUtils.json_parse(solr_result['json']) || {}
     end
 
     @full = full
