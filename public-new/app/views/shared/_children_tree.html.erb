@@ -3,7 +3,13 @@
 <ul class="tree children ">
   <% tree['direct_children'].each do | child | %>
   <li class="fa <%= child['has_children'] ? 'fa-folder-o' : 'fa-sticky-note-o' %>">
-    <a href="<%= child['record_uri'] %>"><%= process_mixed_content(child['title']).html_safe %></a>
+    <a href="<%= child['record_uri'] %>">
+      <% if ['classification', 'classification_term'].include?(child['node_type']) %>
+        <%= process_mixed_content("#{child['identifier']} #{child['title']}").html_safe %>
+      <% else %>
+        <%= process_mixed_content(child['title']).html_safe %>
+      <% end %>
+    </a>
     <% if child['has_children'] %>
     <a title="more objects below" href="javascript: go_deep(\"tree/<%= child['record_uri'] %>\")"><i class="fa fa-level-down" aria-hidden="true"></i></a>
     <% end %>
