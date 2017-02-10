@@ -263,6 +263,7 @@ en:
   listing: Listing
   list: "%{type} List"
   cont_arr: Collection organization
+  subgroups: Subgroups
   accessed: Accessed
   containers: Container List
   related_accessions: Related Accessions
@@ -388,6 +389,7 @@ en:
   classification:
     _singular: Record Group
     _plural: Record Groups
+    creator: Creator
 
   classification_term:
    _singular: Record Group Term

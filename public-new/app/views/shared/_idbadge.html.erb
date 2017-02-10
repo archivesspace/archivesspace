@@ -40,7 +40,7 @@
 	      'fa-cog'
 	      end %>"></i>&#160;<%= badge_label %>
   </div>
-    <% comp_id = result.json.dig('_composite_identifier') || result.json.dig('component_id') ||  result.json.dig('id_0')
+    <% comp_id = result.identifier
        if comp_id %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>
