@@ -25,7 +25,7 @@
     <% end %>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <% unless !defined?(@tree) || @tree.blank? %> 
+   <% unless !defined?(@tree) || @tree.blank? || ASUtils.wrap(@tree['direct_children']).empty? %> 
     <h4><%= t('subgroups') %></h4>
     <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
    <% end %>
