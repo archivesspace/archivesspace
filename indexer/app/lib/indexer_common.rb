@@ -589,7 +589,7 @@ class CommonIndexer
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],
-          'suppressed' => record['record']['suppressed'].to_s,
+          'suppressed' => record['record']['suppressed'],
           'repository' => get_record_scope(record['uri']),
           'created_by' => cm['created_by'],
           'last_modified_by' => cm['last_modified_by'],
@@ -826,15 +826,15 @@ class CommonIndexer
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
         doc['json'] = ASUtils.to_json(values)
-        doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
-        if doc['suppressed'] == 'true'
-          doc['publish'] = 'false'
+        doc['suppressed'] = values.has_key?('suppressed') && values['suppressed']
+        if doc['suppressed']
+          doc['publish'] = false
         elsif is_repository_unpublished?(uri, values)
-          doc['publish'] = 'false'
+          doc['publish'] = false
         elsif values['is_repository_unpublished']
-          doc['publish'] = 'false'
+          doc['publish'] = false
         else
-          doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
+          doc['publish'] = values.has_key?('publish') && values['publish']
         end
         doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
         doc['repository'] = get_record_scope(uri)
@@ -937,7 +937,7 @@ class CommonIndexer
 
   def apply_pui_fields(doc, record)
     # only add pui types if the record is published
-    if doc['publish'] === true
+    if doc['publish']
       object_record_types = ['accession', 'digital_object', 'digital_object_component']
 
       if object_record_types.include?(doc['primary_type'])
