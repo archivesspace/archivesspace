@@ -265,6 +265,8 @@ en:
   cont_arr: Collection organization
   accessed: Accessed
   containers: Container List
+  related_accessions: Related Accessions
+  related_resources: Related Resources
 
   accession:
    _singular: Unprocessed 
@@ -272,6 +274,9 @@ en:
    _public:
       section:
         summary: Summary
+      related_accessions:
+       accessions: Accession Records
+       deaccessions: Deaccession Records
 
   archival_object:
     _singular: Archival Record
@@ -339,6 +344,9 @@ en:
         series_statement: Series statement
         note: Note
         revision: Revision Statements
+      related_accessions:
+        accessions: Accession Records
+        deaccessions: Deaccession Records
 
 
 

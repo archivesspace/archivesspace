@@ -49,7 +49,7 @@
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
-	<% unless @result.finding_aid.blank? %>
+	<% if @result.kind_of?(Resource) && !@result.finding_aid.blank? %>
 	  <% x= render partial: 'resources/finding_aid' %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
 	     :p_id => 'fa', :p_body => x} %>
@@ -67,6 +67,14 @@
            <% x= render partial: 'repositories/repository_details' %>
 	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
 	    :p_id => 'repo_deets', :p_body => x} %>
+        <% end %>
+        <% if @result.kind_of?(Resource) && !@result.related_accessions.blank? %>
+          <% x = render partial: 'resources/related_accessions', locals: {:accessions => @result.related_accessions, :deaccessions => @result.related_deaccessions} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => x} %>
+        <% end %>
+        <% if @result.kind_of?(Accession) && !@result.related_resources.blank? %>
+          <% x = render partial: 'accessions/related_resources', locals: {:resources => @result.related_resources} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
         <% end %>
       </div>        
     </div>

@@ -362,3 +362,5 @@ AppConfig[:pui_repos] = {}
 # AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # if it's a specific email address
 # AppConfig[:pui_repos][{repo_code}][:hide] = {}
 # AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+
+AppConfig[:pui_display_deaccessions] = true
