@@ -9,7 +9,9 @@ class Accession < Record
   end
 
   def acquisition_type
-    I18n.t("enumerations.accession_acquisition_type.#{json['acquisition_type']}", :default => json['acquisition_type'])
+    if json['acquisition_type']
+      I18n.t("enumerations.accession_acquisition_type.#{json['acquisition_type']}", :default => json['acquisition_type'])
+    end
   end
 
   def deaccessions
