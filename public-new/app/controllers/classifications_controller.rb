@@ -113,7 +113,7 @@ class ClassificationsController <  ApplicationController
       @context = []
     end
     @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
-    @context.push({:uri => '', :crumb => @result.display_string })
+    @context.push({:uri => '', :crumb => @result.display_string_for_breadcrumb })
   end
 
   def fetch_linked_records(uri)

@@ -13,6 +13,10 @@ class Classification < Record
     json['description'] || ''
   end
 
+  def display_string_for_breadcrumb
+    "#{json['identifier']} #{json['title']}"
+  end
+
   private
 
   def parse_linked_records
@@ -28,11 +32,11 @@ class Classification < Record
   end
 
   def parse_full_title
-     "#{ASUtils.wrap(json['path_from_root']).collect{|c| c['identifier']}.join('/')} #{json['title']}"
+     "#{parse_identifier} #{json['title']}"
   end
 
   def parse_identifier
-    json['identifier']
+    ASUtils.wrap(json['path_from_root']).collect{|c| c['identifier']}.join('/')
   end
 
   def parse_creator
