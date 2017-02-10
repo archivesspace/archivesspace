@@ -73,7 +73,9 @@ class ClassificationsController <  ApplicationController
 
   def show
     begin
-      fetch_and_process("/repositories/#{params[:rid]}/classifications/#{params[:id]}")
+      uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+      fetch_and_process(uri)
+      fetch_linked_records(uri)
     rescue RecordNotFound
       @type =  I18n.t('classification._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
@@ -85,7 +87,9 @@ class ClassificationsController <  ApplicationController
 
   def term
     begin
-      fetch_and_process("/repositories/#{params[:rid]}/classification_terms/#{params[:id]}")
+      uri = "/repositories/#{params[:rid]}/classification_terms/#{params[:id]}"
+      fetch_and_process(uri)
+      fetch_linked_records(uri)
       render 'classifications/show'
     rescue RecordNotFound
       @type =  I18n.t('classification_term._singular')
@@ -99,8 +103,8 @@ class ClassificationsController <  ApplicationController
   # we use this to get and process both classifications and classification terms
   def fetch_and_process(uri)
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
-    @result =  archivesspace.get_record(uri, @criteria)
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'agent_uris:id']
+    @result = archivesspace.get_record(uri, @criteria)
 
     @tree = fetch_tree(uri)
     @context = get_path(@tree)
@@ -110,6 +114,26 @@ class ClassificationsController <  ApplicationController
     end
     @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
     @context.push({:uri => '', :crumb => @result.display_string })
+  end
+
+  def fetch_linked_records(uri)
+    qry = "classification_uris:\"#{uri}\""
+    @base_search = "#{uri}?"
+    search_opts = default_search_opts(DEFAULT_CL_SEARCH_OPTS)
+    search_opts['fq']=[qry]
+
+    set_up_search(['pui'], DEFAULT_CL_FACET_TYPES, search_opts, params, qry)
+
+    @base_search= @base_search.sub("q=#{qry}", '')
+    page = Integer(params.fetch(:page, "1"))
+
+    @results =  archivesspace.search(@query, page, @criteria)
+
+    if @results['total_hits'] > 0
+      process_search_results(@base_search)
+    else
+      @results = []
+    end
   end
 
 end
