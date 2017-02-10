@@ -7,7 +7,8 @@ class Record
   attr_reader :raw, :full, :json, :display_string, :container_display, :notes,
               :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
-              :subjects, :agents, :extents, :repository_information
+              :subjects, :agents, :extents, :repository_information,
+              :identifier
 
   attr_accessor :criteria 
 
@@ -25,6 +26,7 @@ class Record
 
     @primary_type = raw['primary_type']
     @uri = raw['uri']
+    @identifier = parse_identifier
 
     @display_string = parse_full_title
     @container_display = parse_container_display
@@ -68,6 +70,10 @@ class Record
       ft = I18n.t('inherited', :title => strip_mixed_content(json['title']), :display => ft)
     end
     ft
+  end
+
+  def parse_identifier
+    json.dig('_composite_identifier') || json.dig('component_id') ||  json.dig('id_0')
   end
 
   def parse_container_display
