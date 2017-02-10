@@ -23,10 +23,9 @@ class Tree
     crumbs = []
 
     if !json['path_to_root'].blank?
-      path = ASUtils.wrap(json['path_to_root'])
-      path.each_with_index {|node, i|
+      ASUtils.wrap(json['path_to_root']).each_with_index {|node, i|
         crumbs << {
-          :crumb => title_for_node(node, path[0..i]),
+          :crumb => title_for_node(node),
           :uri => node['record_uri'] || ''
         }
       }
@@ -35,11 +34,11 @@ class Tree
     crumbs
   end
 
-  def title_for_node(node, previous_nodes)
+  def title_for_node(node)
     title = node['title'] || ''
 
     if ['classification', 'classification_term'].include?(node['node_type'])
-      title = "#{previous_nodes.map {|c| c['identifier']}.join('/')} #{node['title']}"
+      title = "#{node['identifier']} #{node['title']}"
     end
 
     process_mixed_content(title)
