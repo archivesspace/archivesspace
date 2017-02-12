@@ -179,6 +179,12 @@ AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ?
 # and this
 AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
+# The number of concurrent threads available to run background jobs
+# Introduced for AR-1619 - long running jobs were blocking the queue
+# Resist the urge to set this to a big number!
+AppConfig[:job_thread_count] = 2
+
+
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
 AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 

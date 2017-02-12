@@ -146,17 +146,26 @@ class BackgroundJobQueue
   end
 
 
-  def start_background_thread
+  def start_background_thread(thread_number)
     Thread.new do
+      Thread.current[:number] = thread_number
+      Log.info("Starting background job thread #{Thread.current[:number]}")
       while true
         begin
           run_pending_job
         rescue
-          Log.error("Error in job manager thread: #{$!} #{$@}")
+          Log.error("Error in job manager thread #{Thread.current[:number]}: #{$!} #{$@}")
         end
 
         sleep AppConfig[:job_poll_seconds].to_i
       end
+    end
+  end
+
+
+  def start_background_threads
+    AppConfig[:job_thread_count].times do |i|
+      start_background_thread(i+1)
     end
   end
 
@@ -174,7 +183,7 @@ class BackgroundJobQueue
     
 
     queue = BackgroundJobQueue.new
-    queue.start_background_thread
+    queue.start_background_threads
   end
 
 end
