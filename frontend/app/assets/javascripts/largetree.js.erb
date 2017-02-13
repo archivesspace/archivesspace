@@ -517,6 +517,8 @@
                 var tree_id = TreeIds.uri_to_tree_id(node.uri);
                 row.data('uri', node.uri);
                 row.data('jsonmodel_type', node.jsonmodel_type);
+                row.data('position', node.position);
+                row.data('parent_id', node.parent_id);
                 row.attr('id', tree_id);
 
                 if (self.current_tree_id == tree_id) {
