@@ -33,6 +33,10 @@
         table-layout: fixed;
     }
 
+    td.no-drag-handle { width: 1em; }
+    td.drag-handle { width: 1em; background-color: red; }
+    td.drag-handle.multiselected { width: 1em; background-color: blue; }
+
     td.resource-level { width: 8%; }
     td.resource-type { width: 18%; }
     td.resource-container { width: 28%; }
@@ -104,4 +108,29 @@
     .indent-level-8 .indentor { width: 8 * @indent-width; }
     .indent-level-9 .indentor { width: 9 * @indent-width; }
     .indent-level-10 .indentor { width: 10 * @indent-width; }
+}
+
+.tree-drag-indicator {
+    position: absolute;
+    display: inline-block;
+    z-index: 1000;
+    background-color: white;
+    padding: 5px;
+    border: solid black 1px;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        padding-left: 1.5em;
+    }
+}
+
+.drag-drop-over {
+    border: 1px solid rgb(2,132,130);
+}
+
+.tree-scroll-hotspot {
+    position: absolute;
+    opacity: 0%;
+    z-index: 900;
 }
