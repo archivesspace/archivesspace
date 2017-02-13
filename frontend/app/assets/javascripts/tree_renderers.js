@@ -2,11 +2,13 @@ function BaseRenderer() {
     this.endpointMarkerTemplate = $('<tr class="waypoint end-marker" />');
 
     this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
                           '  <td class="title"></td>' +
                           '</tr>');
 
 
     this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                           '</tr>');
 }
@@ -28,6 +30,7 @@ BaseRenderer.prototype.get_node_template = function () {
 function ResourceRenderer() {
     BaseRenderer.call(this);
     this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
                           '  <td class="title"></td>' +
                           '  <td class="resource-level"></td>' +
                           '  <td class="resource-type"></td>' +
@@ -35,6 +38,7 @@ function ResourceRenderer() {
                           '</tr>');
 
     this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                           '  <td class="resource-level"></td>' +
                           '  <td class="resource-type"></td>' +
@@ -63,6 +67,7 @@ function DigitalObjectRenderer() {
 
 
     this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
                           '  <td class="title"></td>' +
                           '  <td class="digital-object-type"></td>' +
                           '  <td class="file-uri-summary"></td>' +
@@ -70,6 +75,7 @@ function DigitalObjectRenderer() {
 
 
     this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                           '  <td class="digital-object-type"></td>' +
                           '  <td class="file-uri-summary"></td>' +
