@@ -6,10 +6,11 @@ function AjaxTree(tree, $pane) {
     var tree_id = this.tree_id_from_hash();
 
     if (tree_id == null) {
-        tree_id = tree.root_tree_id;
+        tree_id = tree.large_tree.root_tree_id;
+        location.hash = 'tree::' + tree_id;
     }
 
-    this.tree.setCurrentNode(tree_id);
+    this.tree.large_tree.setCurrentNode(tree_id);
     this.loadPaneForId(tree_id);
     this.setupHashChange();
 }
@@ -23,8 +24,14 @@ AjaxTree.prototype.tree_id_from_hash = function() {
         return;
     }
 
-    return location.hash.replace(/^#(tree::)?/, "");
-};
+    var tree_id = location.hash.replace(/^#(tree::)?/, "");
+
+    if (TreeIds.parse_tree_id(tree_id)) {
+        return tree_id;
+    } else {
+        return null;
+    }
+}
 
 AjaxTree.prototype.handleHashChange = function(event) {
     var self = this;
@@ -43,7 +50,7 @@ AjaxTree.prototype.handleHashChange = function(event) {
     // TODO Set selected row on tree
 
     // Load pane
-    self.tree.setCurrentNode(tree_id);
+    self.tree.large_tree.setCurrentNode(tree_id);
     self.loadPaneForId(tree_id);
 
     return false;
@@ -55,7 +62,7 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
     // TODO insertLoadingMessage();
     var params = {};
     params.inline = true;
-    params[self.tree.root_node_type + '_id'] = self.tree.root_uri;
+    params[self.tree.large_tree.root_node_type + '_id'] = self.tree.large_tree.root_uri;
 
     var parsed = TreeIds.parse_tree_id(tree_id);
     var row_type = parsed.type;
@@ -64,7 +71,7 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
     // FIXME: nicer way to get the controller path?
     var url = APP_PATH+row_type + 's' + '/' + row_id;
 
-    if (!self.tree.read_only) {
+    if (!self.tree.large_tree.read_only) {
         url = url + "/edit";
     }
 
@@ -79,7 +86,7 @@ AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
         data: params,
         success: function(html) {
             self.$pane.html(html);
-            if (!self.tree.read_only) {
+            if (!self.tree.large_tree.read_only) {
                 self.setup_ajax_form();
             }
             $(document).trigger("loadedrecordform.aspace", [self.$pane]);
@@ -151,6 +158,19 @@ AjaxTree.prototype.setup_ajax_form = function() {
 
 AjaxTree.prototype.add_new_after = function(node, level, url) {
     var self = this;
+
+    // update the hash
+    $(window).data('ignore-hashchange', true);
+    location.hash = 'new';
+
+    // catch any clicks (as this will cancel the new form)
+    $(self.tree.large_tree.elt).on('click', function(event) {
+        event.preventDefault();
+        // FIXME cancel new form?
+    });
+    $(self.tree.toolbar_renderer.container).empty();
+
+    // add a new table row
     var $new_tr = $('<tr>');
     $new_tr.data('last_node', node);
     var colspan = 0;
@@ -172,6 +192,7 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     $new_tr.attr('id', 'new');
     $new_tr.addClass('indent-level-'+level);
 
+    // FIXME need to position this tr based on level and position
     node.after($new_tr);
 
     if (node.data('level') < level) {
@@ -185,7 +206,7 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
         }
     }
 
-    var root_node = $('#'+this.tree.root_tree_id);
+    var root_node = $('#'+this.tree.large_tree.root_tree_id);
 
     var params = {
         inline: true
