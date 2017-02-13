@@ -8,6 +8,7 @@ require_relative 'find_and_replace_runner'
 require_relative 'print_to_pdf_runner'
 require_relative 'reports_runner'
 require_relative 'batch_import_runner'
+require_relative 'slow_nothing_runner'
 require_relative 'container_conversion_runner'
 
 class BackgroundJobQueue
@@ -55,7 +56,7 @@ class BackgroundJobQueue
           return job
         rescue
           # Someone got this job.
-          Log.info("Skipped job: #{job}")
+          Log.info("Skipped job #{job.id} on #{Thread.current[:name]}")
           sleep 2
         end
       end
@@ -75,16 +76,17 @@ class BackgroundJobQueue
 
     finished = Atomic.new(false)
     job_canceled = Atomic.new(false)
+    job_thread_name = Thread.current[:name]
 
     watchdog_thread = Thread.new do
       while !finished.value
         DB.open do |db|
-          Log.debug("Running job #{job.class.to_s}:#{job.id}")
+          Log.debug("Running job #{job.id} on #{job_thread_name}")
           job = job.class.any_repo[job.id]
 
           if job.status === "canceled"
-            # Notify the running import that we've been manually canceled
-            Log.info("Received cancel request for job #{job.id}")
+            # Notify the running job that we've been manually canceled
+            Log.info("Received cancel request for job #{job.id} on #{job_thread_name}")
             job_canceled.value = true
           end
 
@@ -127,12 +129,13 @@ class BackgroundJobQueue
           # prior to this point, the job might have finished successfully
           # without being recorded as such.
           #
-          Log.warn("Job #{job.id} finished successfully but didn't report success.  Marking it as finished successfully ourselves.")
+          Log.warn("Job #{job.id} finished successfully but didn't report success.  " +
+                   "Marking it as finished successfully ourselves, on #{job_thread_name}.")
           runner.success!
         end
       end
     rescue
-      Log.error("Job #{job.id} failed: #{$!} #{$@}")
+      Log.error("Job #{job.id} on #{job_thread_name} failed: #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.
       finished.value = true
       watchdog_thread.join
@@ -142,19 +145,19 @@ class BackgroundJobQueue
       end
     end
 
-    Log.debug("Completed job #{job.class.to_s}:#{job.id}")
+    Log.debug("Completed job #{job.id} on #{job_thread_name}")
   end
 
 
   def start_background_thread(thread_number)
     Thread.new do
-      Thread.current[:number] = thread_number
-      Log.info("Starting background job thread #{Thread.current[:number]}")
+      Thread.current[:name] = "background job thread #{thread_number}"
+      Log.info("Starting #{Thread.current[:name]}")
       while true
         begin
           run_pending_job
         rescue
-          Log.error("Error in job manager thread #{Thread.current[:number]}: #{$!} #{$@}")
+          Log.error("Error in #{Thread.current[:name]}: #{$!} #{$@}")
         end
 
         sleep AppConfig[:job_poll_seconds].to_i
@@ -164,7 +167,7 @@ class BackgroundJobQueue
 
 
   def start_background_threads
-    AppConfig[:job_thread_count].times do |i|
+    AppConfig[:job_thread_count].to_i.times do |i|
       start_background_thread(i+1)
     end
   end
