@@ -26,7 +26,8 @@ class LargeTree
                                    .count
 
       response = waypoint_response(child_count).merge("title" => @root_record.title,
-                                                      "uri" => @root_record.uri)
+                                                      "uri" => @root_record.uri,
+                                                      "jsonmodel_type" => @root_table.to_s)
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
@@ -45,7 +46,8 @@ class LargeTree
                     .count
 
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
-                                                      "uri" => node_record.uri)
+                                                      "uri" => node_record.uri,
+                                                      "jsonmodel_type" => @node_table.to_s)
 
       @decorators.each do |decorator|
         response = decorator.node(response, node_record)
@@ -119,7 +121,8 @@ class LargeTree
         child_count = child_counts.fetch(id, 0)
 
         waypoint_response(child_count).merge("title" => row[:title],
-                                             "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]))
+                                             "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
+                                             "jsonmodel_type" => @node_type.to_s)
 
       end
 

@@ -3,6 +3,7 @@
 //= require tree_ids_helpers
 //= require ajaxtree
 //= require tree_renderers
+//= require tree_toolbar
 
 (function (exports) {
     "use strict";
@@ -10,7 +11,7 @@
     var SCROLL_DELAY_MS = 25;
     var THRESHOLD_EMS = 300;
 
-    function LargeTree(datasource, container, root_uri, read_only, renderer, loaded_callback) {
+    function LargeTree(datasource, container, root_uri, read_only, renderer, tree_loaded_callback, node_selected_callback) {
         this.source = datasource;
         this.elt = container;
         this.scrollTimer = undefined;
@@ -23,11 +24,13 @@
         // default to the root_id
         this.current_tree_id = this.root_tree_id;
 
-        this.waypoints = {}
+        this.waypoints = {};
+
+        this.node_selected_callback = node_selected_callback;
 
         this.initEventHandlers();
         this.renderRoot(function () {
-            loaded_callback();
+            tree_loaded_callback();
         });
     }
 
@@ -38,10 +41,12 @@
 
         var node_id = TreeIds.parse_tree_id(tree_id).id;
 
-        this.source.fetchPathFromRoot(node_id).done(function (path) {
+        self.source.fetchPathFromRoot(node_id).done(function (path) {
             self.recursivelyExpandWaypoints(path, function () {
                 var current = $('#' + tree_id);
                 current.find('a.record-title')[0].focus();
+
+                $.proxy(self.node_selected_callback, self)(current, tree);
             });
         });
     }
@@ -221,15 +226,15 @@
             row.attr('id', TreeIds.uri_to_tree_id(rootNode.uri));
             row.addClass('root-row');
             row.data('indent', 0);
+            row.data('jsonmodel_type', rootNode.jsonmodel_type);
             row.find('.title').append($('<a>').attr('href', TreeIds.link_url(rootNode.uri))
                                               .text(rootNode.title));
-
-            self.renderer.add_root_columns(row, rootNode);
 
             rootList.append(row);
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
 
             self.elt.append(rootList);
+            self.renderer.add_root_columns(row, rootNode);
             completed_callback();
         });
     };
@@ -337,6 +342,7 @@
 
                 var tree_id = TreeIds.uri_to_tree_id(node.uri);
                 row.data('uri', node.uri);
+                row.data('jsonmodel_type', node.jsonmodel_type);
                 row.attr('id', tree_id);
 
                 if (self.current_tree_id == tree_id) {
@@ -460,7 +466,9 @@
         this.current_tree_id = tree_id;
 
         if ($('#'+this.current_tree_id, this.elt).length == 1) {
-            $('#'+this.current_tree_id, this.elt).addClass('current');
+            var current = $('#'+this.current_tree_id, this.elt);
+            current.addClass('current');
+            $.proxy(this.node_selected_callback, self)(current, this);
         } else {
             this.displayNode(this.current_tree_id);
         }
@@ -474,16 +482,25 @@
         classification: new ClassificationRenderer(),
     };
 
-    function Tree(datasource_url, tree_container, form_container, root_uri, read_only, root_record_type) {
+    function Tree(datasource_url, tree_container, form_container, toolbar_container, root_uri, read_only, root_record_type) {
         var self = this;
 
         self.datasource = new ASpaceTree(datasource_url);
 
         var tree_renderer = renderers[root_record_type];
 
-        self.large_tree = new LargeTree(self.datasource, tree_container, root_uri, read_only, tree_renderer, function() {
-            self.ajax_tree =  new AjaxTree(self.large_tree, form_container);
-        });
+        self.large_tree = new LargeTree(self.datasource, 
+                                        tree_container,
+                                        root_uri,
+                                        read_only,
+                                        tree_renderer, 
+                                        function() {
+                                            self.ajax_tree =  new AjaxTree(self.large_tree, form_container);
+                                        },
+                                        function(node, tree) {
+                                            var toolbar_renderer = new TreeToolbarRenderer(tree);
+                                            toolbar_renderer.render(node, toolbar_container);
+                                        });
     };
 
 

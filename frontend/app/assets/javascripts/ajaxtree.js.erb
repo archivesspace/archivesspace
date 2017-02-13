@@ -7,10 +7,9 @@ function AjaxTree(tree, $pane) {
 
     if (tree_id == null) {
         tree_id = tree.root_tree_id;
-    } else {
-        this.tree.setCurrentNode(tree_id);
     }
 
+    this.tree.setCurrentNode(tree_id);
     this.loadPaneForId(tree_id);
     this.setupHashChange();
 }
@@ -24,21 +23,21 @@ AjaxTree.prototype.tree_id_from_hash = function() {
         return;
     }
 
-    return location.hash.replace("#tree::", "");
+    return location.hash.replace(/^#(tree::)?/, "");
 };
 
-AjaxTree.prototype.handleHashChange = function() {
+AjaxTree.prototype.handleHashChange = function(event) {
     var self = this;
 
     if ($(window).data("ignore-hashchange")) {
         $(window).data("ignore-hashchange", false);
-        return;
+        return false;
     }
 
     var tree_id = self.tree_id_from_hash();
 
     if (tree_id == null) {
-        return;
+        return false;
     }
 
     // TODO Set selected row on tree
@@ -46,6 +45,8 @@ AjaxTree.prototype.handleHashChange = function() {
     // Load pane
     self.tree.setCurrentNode(tree_id);
     self.loadPaneForId(tree_id);
+
+    return false;
 };
 
 AjaxTree.prototype.loadPaneForId = function(tree_id) {

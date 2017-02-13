@@ -1,0 +1,236 @@
+var SHARED_TOOLBAR_ACTIONS = [
+    // navigate to previous node
+    [
+        {
+            label: '<span class="glyphicon glyphicon-arrow-left"></span>',
+            cssClasses: 'btn-default ',
+            onClick: function(event, node, tree, toolbarRenderer) {
+                var prev_node = node.prevAll('tr:not(.waypoint):first');
+                if (prev_node.length != 0) {
+                    location.hash = prev_node.attr('id');
+                }
+                return false;
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                // FIXME make these nagivate into nodes and not jump page
+                // Disable until fixed.
+                return false;
+            }
+        },
+        // navigate to next node
+        {
+            label: '<span class="glyphicon glyphicon-arrow-right"></span>',
+            cssClasses: 'btn-default',
+            onClick: function(event, node, tree, toolbarRenderer) {
+                var next_node = node.nextAll('tr:not(.waypoint):first');
+                // if at bottom, wrap to bottom
+                if (next_node.length == 0) {
+                    location.hash = tree.large_tree.root_tree_id;
+                } else {
+                    location.hash = next_node.attr('id');
+                }
+                return false;
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                // FIXME make these nagivate into nodes and not jump page
+                // Disable until fixed.
+                return false;
+            }
+        },
+    ],
+    // go back to the read only page
+    {
+        label: '<%= I18n.t("actions.finish_editing") %>',
+        cssClasses: 'btn-success',
+        groupCssClasses: 'pull-right',
+        onClick: function(event, node, tree, toolbarRenderer) {
+            var readonlyPath = location.pathname.replace(/^\//, '').replace(/\/edit$/, '');
+            location.href = APP_PATH + readonlyPath + location.hash;
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            return !tree.large_tree.read_only;
+        }
+    },
+];
+
+var TreeToolbarConfiguration = {
+    resource: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        {
+            label: '<%= I18n.t("resource._frontend.action.add_child") %>',
+            cssClasses: 'btn-default',
+            onClick: $.noop,
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            }
+        }
+    ]),
+
+    archival_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        [
+            {
+                label: '<%= I18n.t("archival_object._frontend.action.add_child") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            },
+            {
+                label: '<%= I18n.t("archival_object._frontend.action.add_sibling") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            }
+        ]
+    ]),
+
+    digital_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        {
+            label: '<%= I18n.t("digital_object._frontend.action.add_child") %>',
+            cssClasses: 'btn-default',
+            onClick: $.noop,
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            }
+        }
+    ]),
+
+    digital_object_component: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        [
+            {
+                label: '<%= I18n.t("digital_object_component._frontend.action.add_child") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            },
+            {
+                label: '<%= I18n.t("digital_object_component._frontend.action.add_sibling") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            }
+        ]
+    ]),
+
+    classification: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        {
+            label: '<%= I18n.t("classification._frontend.action.add_child") %>',
+            cssClasses: 'btn-default',
+            onClick: $.noop,
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            }
+        }
+    ]),
+
+    classification_term: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        [
+            {
+                label: '<%= I18n.t("classification_term._frontend.action.add_child") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            },
+            {
+                label: '<%= I18n.t("classification_term._frontend.action.add_sibling") %>',
+                cssClasses: 'btn-default',
+                onClick: $.noop,
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                }
+            },
+        ]
+    ]),
+};
+
+function TreeToolbarRenderer(tree) {
+    this.tree = tree;
+}
+
+TreeToolbarRenderer.prototype.render = function(node, container) {
+    var self = this;
+    var actions = TreeToolbarConfiguration[node.data('jsonmodel_type')];
+    container.empty();
+
+    if (actions == null) {
+        return
+    }
+
+    actions.map(function(action_or_group) {
+        if (!$.isArray(action_or_group)) {
+            action_group = [action_or_group];
+        } else {
+            action_group = action_or_group;
+        }
+        var $group = $('<div>').addClass('btn-group');
+
+        action_group.map(function(action) {
+            if ($.proxy(action.isVisible, tree)(node, tree, self)) {
+                var $btn = $('<a>').addClass('btn btn-xs');
+                $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
+
+                if ($.proxy(action.isEnabled, tree)(node, tree, self)) {
+                    $btn.on('click', function (event) {
+                        return $.proxy(action.onClick, tree)(event, node, tree, self);
+                    });
+                } else {
+                    $btn.addClass('disabled');
+                }
+
+                if (action.groupCssClasses) {
+                    $group.addClass(action.groupCssClasses);
+                }
+
+                $group.append($btn);
+            }
+        });
+
+        if ($group.length > 0) {
+            container.append($group);
+        }
+    })
+};
