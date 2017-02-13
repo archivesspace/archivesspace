@@ -209,14 +209,15 @@ var TreeToolbarConfiguration = {
     ]),
 };
 
-function TreeToolbarRenderer(tree) {
+function TreeToolbarRenderer(tree, container) {
     this.tree = tree;
+    this.container = container;
 }
 
-TreeToolbarRenderer.prototype.render = function(node, container) {
+TreeToolbarRenderer.prototype.render = function(node) {
     var self = this;
     var actions = TreeToolbarConfiguration[node.data('jsonmodel_type')];
-    container.empty();
+    self.container.empty();
 
     if (actions == null) {
         return
@@ -258,7 +259,7 @@ TreeToolbarRenderer.prototype.render = function(node, container) {
         });
 
         if ($group.length > 0) {
-            container.append($group);
+            self.container.append($group);
         }
     })
 };

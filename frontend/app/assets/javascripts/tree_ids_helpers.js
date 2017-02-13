@@ -21,6 +21,10 @@ TreeIds.uri_to_parts = function (uri) {
 
 TreeIds.parse_tree_id = function (tree_id) {
     var regex_match = tree_id.match(/([a-z_]+)([0-9]+)/);
+    if (regex_match == null || regex_match.length != 3) {
+        return;
+    }
+
     var row_type = regex_match[1].replace(/_$/, "");
     var row_id = regex_match[2];
 

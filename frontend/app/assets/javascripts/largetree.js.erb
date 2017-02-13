@@ -665,17 +665,18 @@
 
         var tree_renderer = renderers[root_record_type];
 
+        self.toolbar_renderer = new TreeToolbarRenderer(tree, toolbar_container);
+
         self.large_tree = new LargeTree(self.datasource, 
                                         tree_container,
                                         root_uri,
                                         read_only,
                                         tree_renderer, 
                                         function() {
-                                            self.ajax_tree =  new AjaxTree(self.large_tree, form_container);
+                                            self.ajax_tree =  new AjaxTree(self, form_container);
                                         },
                                         function(node, tree) {
-                                            var toolbar_renderer = new TreeToolbarRenderer(tree);
-                                            toolbar_renderer.render(node, toolbar_container);
+                                            self.toolbar_renderer.render(node);
                                         });
     };
 
