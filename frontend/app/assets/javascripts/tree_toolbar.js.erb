@@ -4,43 +4,38 @@ var SHARED_TOOLBAR_ACTIONS = [
         {
             label: '<span class="glyphicon glyphicon-arrow-left"></span>',
             cssClasses: 'btn-default ',
-            onClick: function(event, node, tree, toolbarRenderer) {
+            onRender: function(btn, node, tree, toolbarRenderer) {
                 var prev_node = node.prevAll('tr:not(.waypoint):first');
                 if (prev_node.length != 0) {
-                    location.hash = prev_node.attr('id');
+                    btn.attr('href', '#tree::' + prev_node.attr('id'));
+                } else {
+                    btn.addClass('disabled');
                 }
-                return false;
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
             },
             isVisible: function(node, tree, toolbarRenderer) {
-                // FIXME make these nagivate into nodes and not jump page
-                // Disable until fixed.
-                return false;
+                return true;
             }
         },
         // navigate to next node
         {
             label: '<span class="glyphicon glyphicon-arrow-right"></span>',
             cssClasses: 'btn-default',
-            onClick: function(event, node, tree, toolbarRenderer) {
+            onRender: function(btn, node, tree, toolbarRenderer) {
                 var next_node = node.nextAll('tr:not(.waypoint):first');
-                // if at bottom, wrap to bottom
                 if (next_node.length == 0) {
-                    location.hash = tree.large_tree.root_tree_id;
+                    btn.attr('href', '#tree::' + tree.large_tree.root_tree_id);
                 } else {
-                    location.hash = next_node.attr('id');
+                    btn.attr('href', '#tree::' + next_node.attr('id'));
                 }
-                return false;
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
             },
             isVisible: function(node, tree, toolbarRenderer) {
-                // FIXME make these nagivate into nodes and not jump page
-                // Disable until fixed.
-                return false;
+                return true;
             }
         },
     ],
@@ -49,9 +44,9 @@ var SHARED_TOOLBAR_ACTIONS = [
         label: '<%= I18n.t("actions.finish_editing") %>',
         cssClasses: 'btn-success',
         groupCssClasses: 'pull-right',
-        onClick: function(event, node, tree, toolbarRenderer) {
+        onRender: function(btn, node, tree, toolbarRenderer) {
             var readonlyPath = location.pathname.replace(/^\//, '').replace(/\/edit$/, '');
-            location.href = APP_PATH + readonlyPath + location.hash;
+            btn.attr('href', readonlyPath + location.hash);
         },
         isEnabled: function(node, tree, toolbarRenderer) {
             return true;
@@ -241,15 +236,21 @@ TreeToolbarRenderer.prototype.render = function(node, container) {
                 $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
 
                 if ($.proxy(action.isEnabled, tree)(node, tree, self)) {
-                    $btn.on('click', function (event) {
-                        return $.proxy(action.onClick, tree)(event, node, tree, self);
-                    });
+                    if (action.onClick) {
+                        $btn.on('click', function (event) {
+                            return $.proxy(action.onClick, tree)(event, node, tree, self);
+                        });
+                    }
                 } else {
                     $btn.addClass('disabled');
                 }
 
                 if (action.groupCssClasses) {
                     $group.addClass(action.groupCssClasses);
+                }
+
+                if (action.onRender) {
+                    $.proxy(action.onRender, tree)($btn, node, tree, self);
                 }
 
                 $group.append($btn);

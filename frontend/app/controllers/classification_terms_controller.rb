@@ -10,6 +10,7 @@ class ClassificationTermsController < ApplicationController
     @classification_term = JSONModel(:classification_term).new._always_valid!
     @classification_term.parent = {'ref' => JSONModel(:classification_term).uri_for(params[:classification_term_id])} if params.has_key?(:classification_term_id)
     @classification_term.classification = {'ref' => JSONModel(:classification).uri_for(params[:classification_id])} if params.has_key?(:classification_id)
+    @classification_term.position = params[:position] if params.has_key?(:position)
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'classification_term'
