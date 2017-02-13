@@ -108,6 +108,23 @@
     .indent-level-8 .indentor { width: 8 * @indent-width; }
     .indent-level-9 .indentor { width: 9 * @indent-width; }
     .indent-level-10 .indentor { width: 10 * @indent-width; }
+
+    tr#new {
+        .indentor, .new-title {
+            float: left;
+        }
+        .new-title {
+            margin-left: 4px;
+            line-height: 2em;
+        }
+        .indentor {
+            .glyphicon {
+                line-height: 2em;
+                margin-right: 4px;
+                color: #4cae4c;
+            }
+        }
+    }
 }
 
 .tree-drag-indicator {
