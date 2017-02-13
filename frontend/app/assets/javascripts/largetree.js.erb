@@ -4,6 +4,7 @@
 //= require ajaxtree
 //= require tree_renderers
 //= require tree_toolbar
+//= require tree_resizer
 
 (function (exports) {
     "use strict";
@@ -666,6 +667,7 @@
         var tree_renderer = renderers[root_record_type];
 
         self.toolbar_renderer = new TreeToolbarRenderer(tree, toolbar_container);
+        self.resizer = new TreeResizer(self, tree_container);
 
         self.large_tree = new LargeTree(self.datasource, 
                                         tree_container,
