@@ -26,6 +26,8 @@ TreeResizer.prototype.setup = function() {
     self.$toggle.on('click', function() {
         self.toggle_height();
     });
+
+    self.container.height(self.get_height());
 }
 
 TreeResizer.prototype.get_height = function() {
