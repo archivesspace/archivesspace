@@ -15,7 +15,7 @@ TreeResizer.prototype.setup = function() {
         handles: "s",
         minHeight: DEFAULT_TREE_MIN_HEIGHT,
         resize: function(event, ui) {
-            self.container.removeClass("maxmized");
+            self.container.removeClass("maximized");
             self.set_height(ui.size.height);
         }
     });
