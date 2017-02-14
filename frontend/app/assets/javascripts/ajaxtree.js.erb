@@ -80,6 +80,13 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
 
 AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
     var self = this;
+    var $blockout = $('<div>').addClass('blockout');
+    $blockout.height(self.$pane.height());
+    // add 30 to take into account for outer margin :/ 
+    $blockout.width(self.$pane.width() + 30);
+    $blockout.css('left', '-15px');
+    self.$pane.prepend($blockout);
+
     $.ajax({
         url: url,
         type: 'GET',
