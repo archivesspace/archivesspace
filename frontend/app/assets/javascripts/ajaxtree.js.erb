@@ -172,8 +172,8 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
 
     // catch any clicks (as this will cancel the new form)
     $(self.tree.large_tree.elt).on('click', function(event) {
-        event.preventDefault();
-        // FIXME cancel new form?
+        // FIXME cancel new form? show warning?
+        $("#new", self.tree.large_tree.elt).remove();
     });
     $(self.tree.toolbar_renderer.container).empty();
 
