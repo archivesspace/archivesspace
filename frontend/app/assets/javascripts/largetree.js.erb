@@ -35,6 +35,10 @@
         });
     }
 
+    LargeTree.prototype.addPlugin = function (plugin) {
+        plugin.initialize(this);
+    };
+
     LargeTree.prototype.displayNode = function (tree_id) {
         var self = this;
 
@@ -183,187 +187,6 @@
             e.preventDefault();
             self.openNode($(this));
         });
-
-
-        /* Drag and drop! */
-        (function () {
-            var DRAG_DELAY = 100;
-            var MOUSE_OFFSET = 20;
-            var EXPAND_DELAY = 200;
-            var HOTSPOT_HEIGHT = 200;
-            var AUTO_SCROLL_SPEED = 200;
-
-            var dragActive = false;
-            var dragIndicator = $('<div class="tree-drag-indicator" />');
-            var rowsToMove = [];
-
-            var scrollUpHotspot = $('<div class="tree-scroll-hotspot tree-scroll-up-hotspot" />');
-            var scrollDownHotspot = $('<div class="tree-scroll-hotspot tree-scroll-down-hotspot" />');
-
-            var dragDelayTimer = undefined;
-            var expandTimer = undefined;
-            var autoScrollTimer = undefined;
-
-            var lastCursorPosition = undefined;
-
-            /* Drag/drop */
-            $(self.elt).on('mousedown', '.drag-handle', function (event) {
-                var selection = $(this);
-                if (event.ctrlKey) {
-                    $(this).addClass('multiselected');
-
-                    return false;
-                }
-
-                dragDelayTimer = setTimeout(function () {
-                    if ($('.multiselected', self.elt).length > 0) {
-                        rowsToMove = $('.multiselected', self.elt).closest('tr').toArray();
-                    } else {
-                        rowsToMove = [selection.closest('tr')[0]];
-                    }
-
-                    dragActive = true;
-
-                    scrollUpHotspot.width(self.elt.width()).height(HOTSPOT_HEIGHT);
-                    scrollDownHotspot.width(self.elt.width()).height(HOTSPOT_HEIGHT);
-
-                    scrollUpHotspot.css('top', self.elt.offset().top - HOTSPOT_HEIGHT)
-                                   .css('left', self.elt.offset().left);
-                    scrollDownHotspot.css('top', self.elt.offset().top + self.elt.height())
-                                     .css('left', self.elt.offset().left);
-
-                    dragIndicator.empty().hide();
-                    dragIndicator.append($('<ul />').append(rowsToMove.map(function (elt, idx) {
-                        return $('<li />').text($(elt).find('.title').text());
-                    })));
-
-
-                    $(self.elt).focus();
-
-                    $('body').prepend(dragIndicator);
-                    $('body').prepend(scrollUpHotspot);
-                    $('body').prepend(scrollDownHotspot);
-                }, DRAG_DELAY);
-
-                return false;
-            });
-
-            $(document).on('click', function (event) {
-                if (!event.ctrlKey && !$(event.target).hasClass('drag-handle')) {
-                    $(self.elt).find('.multiselected').removeClass('multiselected');
-                }
-            });
-
-            $(document).on('mousemove', function (event) {
-                if (dragActive) {
-                    lastCursorPosition = {x: event.clientX, y: event.clientY};
-
-                    dragIndicator[0].style.left = (event.clientX + MOUSE_OFFSET) + 'px';
-                    dragIndicator[0].style.top = (event.clientY + MOUSE_OFFSET) + 'px';
-                    dragIndicator[0].style.display = 'inline-block';
-                }
-            });
-
-            $(self.elt).on('mouseout', '.expandme', function (event) {
-                if (expandTimer) {
-                    clearTimeout(expandTimer);
-                    expandTimer = undefined;
-                }
-            });
-
-            $(self.elt).on('mouseover', '.expandme', function (event) {
-                var button = $(this);
-
-                if (dragActive && button.find('.expanded').length == 0) {
-                    expandTimer = setTimeout(function () {
-                        self.openNode(button);
-                    }, EXPAND_DELAY);
-                }
-            });
-
-            $(self.elt).on('mouseenter', 'tr.largetree-node', function (event) {
-                if (dragActive) {
-                    $(this).addClass('drag-drop-over');
-                }
-            });
-
-            $(self.elt).on('mouseleave', 'tr.largetree-node', function (event) {
-                if (dragActive) {
-                    $(this).removeClass('drag-drop-over');
-                }
-            });
-
-            $(document).on('mouseenter', '.tree-scroll-hotspot', function (event) {
-                var hotspot = event.target;
-
-                var direction = 1;
-
-                if ($(hotspot).hasClass('tree-scroll-up-hotspot')) {
-                    direction = -1;
-                }
-
-                var hotspotBounds = hotspot.getBoundingClientRect();
-                autoScrollTimer = setInterval(function () {
-                    if (lastCursorPosition) {
-                        var scrollAcceleration = (lastCursorPosition.y - hotspotBounds.top) / hotspotBounds.height;
-
-                        if (direction == -1) {
-                            scrollAcceleration = (1 - scrollAcceleration);
-                        }
-
-                        /* Go faster/slower at the two extremes */
-                        if (scrollAcceleration > 0.8) {
-                            scrollAcceleration += 0.1;
-                        }
-
-                        if (scrollAcceleration < 0.2) {
-                            scrollAcceleration = 0.05;
-                        }
-
-                        var position = $(self.elt).scrollTop();
-
-                        $(self.elt).scrollTop(position + (direction * AUTO_SCROLL_SPEED * scrollAcceleration));
-                    }
-                }, 50);
-            });
-
-            $(document).on('mouseout', '.tree-scroll-hotspot', function (event) {
-                if (autoScrollTimer) {
-                    clearTimeout(autoScrollTimer);
-                }
-                autoScrollTimer = undefined;
-            });
-
-
-            $(document).on('mouseup', function (event) {
-                if (dragActive) {
-                    dragActive = false;
-                    dragIndicator.remove();
-                    $(self.elt).find('.drag-drop-over').removeClass('drag-drop-over');
-                    $(self.elt).find('.multiselected').removeClass('multiselected');
-
-                    if (autoScrollTimer) {
-                        console.log("Cancelling timer");
-                        clearTimeout(autoScrollTimer);
-                        autoScrollTimer = undefined;
-                    }
-
-                    $(document).find('.tree-scroll-hotspot').remove();
-
-                    console.log("Do something with", rowsToMove);
-
-                    event.preventDefault();
-                    return false;
-                }
-
-                if (dragDelayTimer) {
-                    clearTimeout(dragDelayTimer);
-                    dragDelayTimer = undefined;
-                }
-
-                return true;
-            });
-        }());
     };
 
     LargeTree.prototype.makeWaypoint = function (uri, offset, indentLevel) {
@@ -689,6 +512,9 @@
                                         function(node, tree) {
                                             self.toolbar_renderer.render(node);
                                         });
+
+
+        self.large_tree.addPlugin(new LargeTreeDragDrop());
     };
 
 
