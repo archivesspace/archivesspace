@@ -1,6 +1,11 @@
+var FORM_CHANGED_KEY = 'form_changed';
+var FORM_SUBMITTED_EVENT = 'submitted';
+
 function AjaxTree(tree, $pane) {
     this.tree = tree;
     this.$pane = $pane;
+
+    this._ignore_hash_change = false;
 
     // load initial pane!
     var tree_id = this.tree_id_from_hash();
@@ -36,8 +41,9 @@ AjaxTree.prototype.tree_id_from_hash = function() {
 AjaxTree.prototype.handleHashChange = function(event) {
     var self = this;
 
-    if ($(window).data("ignore-hashchange")) {
-        $(window).data("ignore-hashchange", false);
+    if (self._ignore_hash_change) {
+        // ignored! and now stop ignoring..
+        this._ignore_hash_change = false;
         return false;
     }
 
@@ -47,11 +53,10 @@ AjaxTree.prototype.handleHashChange = function(event) {
         return false;
     }
 
-    // TODO Set selected row on tree
-
-    // Load pane
-    self.tree.large_tree.setCurrentNode(tree_id);
-    self.loadPaneForId(tree_id);
+    self.check_for_form_changes(tree_id, function() {
+        self.tree.large_tree.setCurrentNode(tree_id);
+        self.loadPaneForId(tree_id);
+    });
 
     return false;
 };
@@ -135,17 +140,18 @@ AjaxTree.prototype.setup_ajax_form = function() {
             $(document).trigger("loadedrecordform.aspace", [self.$pane]);
 
             if ($form.data('formErrors')) {
-                self.$pane.triggerHandler("submitted", {success: false});
-                $form.data("form_changed", true);
+                self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
+                $form.data(FORM_CHANGED_KEY, true);
                 $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
             } else {
-                $form.data("form_changed", false);
+                self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
+                $form.data(FORM_CHANGED_KEY, false);
 
                 // FIXME: UPDATE TREE!
                 self.tree.large_tree.refreshForId($('#id', $form).val()); // or similar
             }
 
-            if ( $form.data('"update-monitor-paused"') ) {
+            if ( $form.data("update-monitor-paused") ) {
                 $form.data("update-monitor-paused", false);
             }
 
@@ -155,7 +161,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
         error: function(obj, errorText, errorDesc) {
             // FIXME I18n message
             self.$pane.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
-            self.$pane.triggerHandler("submitted", {success: false});
+            self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
             $(".btn-primary", $form).removeAttr("disabled");
         }
     });
@@ -167,8 +173,7 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     var self = this;
 
     // update the hash
-    $(window).data('ignore-hashchange', true);
-    location.hash = 'new';
+    self.quietly_change_hash('new');
 
     // catch any clicks (as this will cancel the new form)
     $(self.tree.large_tree.elt).on('click', function(event) {
@@ -246,4 +251,93 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
             node.find('a.record-title').focus();
         });
     });
+};
+
+AjaxTree.prototype.check_for_form_changes = function(target_tree_id, callback) {
+    var self = this;
+    var $form = $("form", self.$pane);
+
+    if ($form.data(FORM_CHANGED_KEY)) {
+        var p = self.confirmChanges(target_tree_id);
+        p.done(function(proceed) {
+            if (proceed) {
+                callback();
+            } else {
+                var current_tree_id = self.tree.large_tree.current_tree_id;
+                self.quietly_change_hash('tree::'+current_tree_id);
+            }
+        });
+        p.fail(function(err) {
+            throw err;
+        });
+    } else {
+        callback();
+    }
+};
+
+AjaxTree.prototype.confirmChanges = function(target_tree_id) {
+    var self = this;
+    var $form = $("form", self.$pane);
+    var current_tree_id = self.tree.large_tree.current_tree_id;
+
+//    var node = tree.get_node(target);
+//    var targetNodeEl = tree.get_node(node, true);
+
+    var d = $.Deferred();
+
+//    var parentIdFornew;
+//    if (targetNodeEl.attr("id") === "new") {
+//        parentIdFornew = targetNodeEl.parents("li:first").attr("id");
+//    }
+
+    // open save your changes modal
+    // FIXME I18n
+    AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
+
+    $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
+        $('.btn', '#saveYourChangesModal').addClass('disabled');
+
+        var onSubmitSuccess = function() {
+            $form.data(FORM_CHANGED_KEY, false);
+            $("#saveYourChangesModal").modal("hide");
+            d.resolve(true);
+        };
+
+        var onSubmitError = function() {
+            $("#saveYourChangesModal").modal("hide");
+            d.resolve(false);
+        };
+
+        self.$pane.one(FORM_SUBMITTED_EVENT, function(event, data) {
+            if (data.success) {
+                onSubmitSuccess();
+            } else {
+                onSubmitError();
+            }
+        });
+
+        $form.triggerHandler("submit");
+    });
+
+    $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
+        $form.data("form_changed", false);
+        
+        if (current_tree_id != "new") {
+            $('#new', self.$pane).remove();
+        }
+
+        $("#saveYourChangesModal").modal("hide");
+        d.resolve(true);
+    });
+
+    $(".btn-cancel", "#saveYourChangesModal").on("click", function() {
+        d.resolve(false);
+    });
+
+    return d.promise();
+};
+
+AjaxTree.prototype.quietly_change_hash = function(tree_id) {
+    this._ignore_hash_change = true;
+    location.hash = tree_id;
 };
