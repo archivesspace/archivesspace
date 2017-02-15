@@ -19,6 +19,10 @@ TreeIds.uri_to_parts = function (uri) {
     };
 }
 
+TreeIds.backend_uri_to_frontend_uri = function (uri) {
+    return APP_PATH + uri.replace(/\/repositories\/[0-9]+\//, "")
+}
+
 TreeIds.parse_tree_id = function (tree_id) {
     var regex_match = tree_id.match(/([a-z_]+)([0-9]+)/);
     if (regex_match == null || regex_match.length != 3) {
