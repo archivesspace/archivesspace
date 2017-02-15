@@ -112,6 +112,8 @@ To build the documentation:
 
 ```
 $ cd ../ # go to top of the working tree
+$ git add .
+$ git commit # with appropriate commit message
 $  git subtree push --prefix docs origin gh-pages
 ( or, if you get a FF error )
 $ git push origin `git subtree split --prefix docs master`:gh-pages --force
