@@ -43,6 +43,23 @@ module PUIIndexerMixin
         # special handling for title because it is populated from display_string
         # in indexer_common and display_string is not changed in the merge process
         doc['title'] = merged['title'] if merged['title']
+
+        # special handling for fullrecord because we don't want the ancestors indexed.
+        # we could merge here with :direct_only and :remove_ancestors, but this is cheaper
+        # since the record we have is already merged with :direct_only from fetch_records
+        doc['fullrecord'] = CommonIndexer.extract_string_values(record.reject{|k,v| k == 'ancestors'})
+
+        # unfortunately we have to duplicate this code from the original prepare hook
+        %w(finding_aid_subtitle finding_aid_author).each do |field|
+          if record['record'].has_key?(field)
+            doc['fullrecord'] << "#{record['record'][field]} "
+          end
+        end
+        if record['record'].has_key?('names')
+          doc['fullrecord'] << record['record']['names'].map {|name|
+            CommonIndexer.extract_string_values(name)
+          }.join(" ")
+        end
       end
     }
   end
