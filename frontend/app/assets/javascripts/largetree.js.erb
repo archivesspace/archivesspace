@@ -28,7 +28,7 @@
         this.waypoints = {};
 
         this.node_selected_callback = node_selected_callback;
-        this.expandHooks = [];
+        this.populateWaypointHooks = [];
 
         this.initEventHandlers();
         this.renderRoot(function () {
@@ -40,8 +40,8 @@
         plugin.initialize(this);
     };
 
-    LargeTree.prototype.addExpandHook = function (callback) {
-        this.expandHooks.push(callback);
+    LargeTree.prototype.addPopulateWaypointHook = function (callback) {
+        this.populateWaypointHooks.push(callback);
     };
 
     LargeTree.prototype.displayNode = function (tree_id, done_callback) {
@@ -50,12 +50,14 @@
         var node_id = TreeIds.parse_tree_id(tree_id).id;
 
         self.source.fetchPathFromRoot(node_id).done(function (path) {
-            self.recursivelyExpandWaypoints(path, function () {
+            self.recursivelyPopulateWaypoints(path, function () {
                 var current = $('#' + tree_id);
                 current.find('a.record-title')[0].focus();
 
                 $.proxy(self.node_selected_callback, self)(current, tree);
-                done_callback(current);
+                if (done_callback) {
+                    done_callback(current);
+                }
             });
         });
     };
@@ -107,7 +109,7 @@
             });
     };
 
-    LargeTree.prototype.recursivelyExpandWaypoints = function (path, done_callback) {
+    LargeTree.prototype.recursivelyPopulateWaypoints = function (path, done_callback) {
         var self = this;
 
         /*
@@ -115,7 +117,7 @@
 
              node: /some/uri; offset: NN
 
-           which means "expand subtree /some/uri then expand waypoint NN".
+           which means "expand subtree /some/uri then populate waypoint NN".
 
            The top-level is special because we automatically show it as expanded, so we skip expanding the root node.
          */
@@ -130,8 +132,8 @@
         var next_fn = function () {
             var waypoint = self.waypoints[waypoint_description.node][waypoint_description.offset];
 
-            self.expandWaypoint(waypoint, function () {
-                self.recursivelyExpandWaypoints(path, done_callback);
+            self.populateWaypoint(waypoint, function () {
+                self.recursivelyPopulateWaypoints(path, done_callback);
             });
         };
 
@@ -153,7 +155,7 @@
             return false;
         }
 
-        if (waypoint.hasClass('collapsed')) {
+        if (!waypoint.hasClass('populated')) {
             waypoint.remove();
 
             return true;
@@ -244,7 +246,7 @@
                 if (!currentlyExpanding) {
                     currentlyExpanding = true;
 
-                    self.considerExpandingWaypoint(function () {
+                    self.considerPopulatingWaypoint(function () {
                         currentlyExpanding = false;
                     });
                 }
@@ -259,7 +261,7 @@
     };
 
     LargeTree.prototype.makeWaypoint = function (uri, offset, indentLevel) {
-        var result = $('<tr class="waypoint collapsed" />');
+        var result = $('<tr class="waypoint" />');
         result.addClass('indent-level-' + indentLevel);
 
         result.data('level', indentLevel);
@@ -270,7 +272,7 @@
             this.waypoints[uri] = {};
         }
 
-        /* Keep a lookup table of waypoints so we can find and expand them programmatically */
+        /* Keep a lookup table of waypoints so we can find and populate them programmatically */
         this.waypoints[uri][offset] = result;
 
         return result;
@@ -288,7 +290,7 @@
         }
 
         var self = this;
-        setTimeout(function () {self.considerExpandingWaypoint(); }, 0);
+        setTimeout(function () {self.considerPopulatingWaypoint(); }, 0);
     };
 
     LargeTree.prototype.renderRoot = function (done_callback) {
@@ -319,7 +321,7 @@
         });
     };
 
-    LargeTree.prototype.considerExpandingWaypoint = function (done_callback) {
+    LargeTree.prototype.considerPopulatingWaypoint = function (done_callback) {
         var self = this;
 
         if (!done_callback) {
@@ -334,8 +336,9 @@
         /* Find the waypoint nearest to the top of the tree and the top of the
            page. */
         var waypointToExpand;
-        $('.waypoint.collapsed', this.elt).each(function (idx, elt) {
+        $('.waypoint:not(.populated)', this.elt).each(function (idx, elt) {
             elt = $(elt);
+
             /* The element's top is measured from the top of the page, but we
                want it relative to the top of the container.  Adjust as
                appropriate. */
@@ -366,18 +369,18 @@
         });
 
         if (waypointToExpand) {
-            self.expandWaypoint(waypointToExpand.elt, function () {
-                self.considerExpandingWaypoint(done_callback);
+            self.populateWaypoint(waypointToExpand.elt, function () {
+                self.considerPopulatingWaypoint(done_callback);
             });
         } else {
             done_callback();
         }
     };
 
-    var activeExpansions = {};
+    var activeWaypointPopulates = {};
 
-    LargeTree.prototype.expandWaypoint = function (elt, done_callback) {
-        if (elt.hasClass('expanded')) {
+    LargeTree.prototype.populateWaypoint = function (elt, done_callback) {
+        if (elt.hasClass('populated')) {
             done_callback();
             return;
         }
@@ -388,11 +391,11 @@
         var level = elt.data('level');
 
         var key = uri + "_" + offset;
-        if (activeExpansions[key]) {
+        if (activeWaypointPopulates[key]) {
             return;
         }
 
-        activeExpansions[key] = true;
+        activeWaypointPopulates[key] = true;
 
         this.source.fetchWaypoint(uri, offset).done(function (nodes) {
             var endMarker = self.renderer.endpoint_marker();
@@ -436,11 +439,11 @@
 
             elt.after.apply(elt, newRows);
 
-            elt.removeClass('collapsed').addClass('expanded');
+            elt.addClass('populated');
 
-            activeExpansions[key] = false;
+            activeWaypointPopulates[key] = false;
 
-            $(self.expandHooks).each(function (idx, hook) {
+            $(self.populateWaypointHooks).each(function (idx, hook) {
                 hook();
             });
 

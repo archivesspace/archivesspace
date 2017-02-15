@@ -31,7 +31,7 @@
 
             /* THINKME: move this into a utility?  like "iterate child rows" */
             while (waypoint.hasClass('waypoint')) {
-                if (waypoint.hasClass('expanded')) {
+                if (waypoint.hasClass('populated')) {
                     var startLevel = waypoint.data('level');
 
                     var elt = waypoint.next();
@@ -65,7 +65,7 @@
 
         self.largetree = largetree;
 
-        largetree.addExpandHook(function () {
+        largetree.addPopulateWaypointHook(function () {
             /* Make sure none of the descendants of any multi-selected node can
                be selected */
             self.setDragHandleState();
