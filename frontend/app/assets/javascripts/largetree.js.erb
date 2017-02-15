@@ -222,7 +222,7 @@
         setTimeout(function () {self.considerExpandingWaypoint(); }, 0);
     };
 
-    LargeTree.prototype.renderRoot = function (completed_callback) {
+    LargeTree.prototype.renderRoot = function (done_callback) {
         var self = this;
         var rootList = $('<table class="root" />');
 
@@ -242,7 +242,7 @@
 
             self.elt.append(rootList);
             self.renderer.add_root_columns(row, rootNode);
-            completed_callback();
+            done_callback();
         });
     };
 
