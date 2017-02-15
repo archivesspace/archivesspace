@@ -311,6 +311,15 @@
                             scrollAcceleration = (1 - scrollAcceleration);
                         }
 
+                        /* Go faster/slower at the two extremes */
+                        if (scrollAcceleration > 0.8) {
+                            scrollAcceleration += 0.1;
+                        }
+
+                        if (scrollAcceleration < 0.2) {
+                            scrollAcceleration = 0.05;
+                        }
+
                         var position = $(self.elt).scrollTop();
 
                         $(self.elt).scrollTop(position + (direction * AUTO_SCROLL_SPEED * scrollAcceleration));
