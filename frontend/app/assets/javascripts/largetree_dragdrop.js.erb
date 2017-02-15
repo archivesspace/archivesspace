@@ -226,7 +226,12 @@
 
                 $(document).find('.tree-scroll-hotspot').remove();
 
-                self.handleDrop($(event.target).closest('tr.largetree-node,tr.root-row'));
+                var dropTarget = $(event.target).closest('tr.largetree-node,tr.root-row');
+
+                /* If they didn't drop on a row, that's a cancel. */
+                if (dropTarget.length > 0) {
+                    self.handleDrop(dropTarget);
+                }
 
                 event.preventDefault();
                 return false;
