@@ -309,7 +309,9 @@
             rootList.append(row);
             self.appendWaypoints(row, null, rootNode.waypoints, rootNode.waypoint_size, 1);
 
-            self.elt.empty().append(rootList);
+            /* Remove any existing table */
+            self.elt.find('table.root').remove();
+            self.elt.prepend(rootList);
             self.renderer.add_root_columns(row, rootNode);
             if (done_callback) {
                 done_callback();
@@ -585,7 +587,6 @@
         var tree_renderer = renderers[root_record_type];
 
         self.toolbar_renderer = new TreeToolbarRenderer(tree, toolbar_container);
-        self.resizer = new TreeResizer(self, tree_container);
 
         self.large_tree = new LargeTree(self.datasource, 
                                         tree_container,
@@ -593,7 +594,8 @@
                                         read_only,
                                         tree_renderer, 
                                         function() {
-                                            self.ajax_tree =  new AjaxTree(self, form_container);
+                                            self.ajax_tree = new AjaxTree(self, form_container);
+                                            self.resizer = new TreeResizer(self, tree_container);
                                         },
                                         function(node, tree) {
                                             self.toolbar_renderer.render(node);
