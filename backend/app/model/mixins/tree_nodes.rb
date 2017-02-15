@@ -156,6 +156,10 @@ module TreeNodes
       parent_uri = parent_id ? self.class.uri_for(self.class.node_record_type.intern, parent_id) : root_uri
       sequence = "#{parent_uri}_children_position"
 
+      if self.id == parent_id
+        raise "Can't make a record into its own parent"
+      end
+
       parent_name = if parent_id
                       "#{parent_id}@#{self.class.node_record_type}"
                     else
