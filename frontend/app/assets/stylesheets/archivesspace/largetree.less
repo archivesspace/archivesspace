@@ -33,9 +33,18 @@
     }
 
     td.no-drag-handle { width: 1em; }
-    td.drag-handle { width: 1em; background-color: red; }
+    td.drag-handle {
+        width: 1em;
+        background-image: asset-url('archivesspace/tree_drag_handle.gif');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        cursor: move;
+    }
     td.drag-handle.drag-disabled { visibility: hidden; }
-    td.drag-handle.multiselected { width: 1em; background-color: blue; }
+    td.drag-handle.multiselected {
+        width: 1em;
+        background-color: #0A6AA1;
+    }
 
     td.resource-level { width: 8%; }
     td.resource-type { width: 18%; }
