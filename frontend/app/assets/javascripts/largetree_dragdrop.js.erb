@@ -61,6 +61,8 @@
     LargeTreeDragDrop.prototype.initialize = function (largetree) {
         var self = this;
 
+        self.largetree = largetree;
+
         largetree.addExpandHook(function () {
             /* Make sure none of the descendants of any multi-selected node can
                be selected */
@@ -151,7 +153,7 @@
 
             if (self.dragActive && button.find('.expanded').length == 0) {
                 self.expandTimer = setTimeout(function () {
-                    largetree.openNode(button);
+                    largetree.toggleNode(button);
                 }, EXPAND_DELAY);
             }
         });
@@ -224,7 +226,7 @@
 
                 $(document).find('.tree-scroll-hotspot').remove();
 
-                self.handleDrop();
+                self.handleDrop($(event.target).closest('tr.largetree-node,tr.root-row'));
 
                 event.preventDefault();
                 return false;
@@ -240,13 +242,15 @@
     };
 
 
-    LargeTreeDragDrop.prototype.handleDrop = function () {
+    LargeTreeDragDrop.prototype.handleDrop = function (dropTarget) {
         var self = this;
 
-        console.log("Do something with", self.rowsToMove);
+        var movingRows = self.rowsToMove;
         self.rowsToMove = []
 
         self.setDragHandleState();
+
+        self.largetree.reparentNodes(dropTarget, movingRows);
     };
 
     exports.LargeTreeDragDrop = LargeTreeDragDrop;
