@@ -26,15 +26,16 @@
         /* Drag/drop */
         $(largetree.elt).on('mousedown', '.drag-handle', function (event) {
             var selection = $(this);
+
             if (event.ctrlKey) {
-                $(this).addClass('multiselected');
+                selection.addClass('multiselected');
+                self.rowsToMove.push(selection.closest('tr'));
 
                 return false;
             }
 
             self.dragDelayTimer = setTimeout(function () {
                 if ($('.multiselected', largetree.elt).length > 0) {
-                    self.rowsToMove = $('.multiselected', largetree.elt).closest('tr').toArray();
                 } else {
                     self.rowsToMove = [selection.closest('tr')[0]];
                 }
@@ -66,7 +67,6 @@
         });
 
         $(document).on('click', function (event) {
-            console.log(event.target);
             if (!event.ctrlKey &&
                 !$(event.target).hasClass('drag-handle') &&
                 $(event.target).closest('.expandme').length == 0) {
@@ -170,6 +170,8 @@
                 $(document).find('.tree-scroll-hotspot').remove();
 
                 console.log("Do something with", self.rowsToMove);
+                self.rowsToMove = []
+
 
                 event.preventDefault();
                 return false;
