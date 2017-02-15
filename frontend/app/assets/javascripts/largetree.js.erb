@@ -28,6 +28,7 @@
         this.waypoints = {};
 
         this.node_selected_callback = node_selected_callback;
+        this.expandHooks = [];
 
         this.initEventHandlers();
         this.renderRoot(function () {
@@ -38,6 +39,10 @@
     LargeTree.prototype.addPlugin = function (plugin) {
         plugin.initialize(this);
     };
+
+    LargeTree.prototype.addExpandHook = function (callback) {
+        this.expandHooks.push(callback);
+    }
 
     LargeTree.prototype.displayNode = function (tree_id) {
         var self = this;
@@ -368,6 +373,10 @@
             elt.removeClass('collapsed').addClass('expanded');
 
             activeExpansions[key] = false;
+
+            $(self.expandHooks).each(function (idx, hook) {
+                hook();
+            });
 
             done_callback();
         });

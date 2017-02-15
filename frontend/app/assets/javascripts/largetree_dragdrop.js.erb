@@ -20,17 +20,72 @@
         this.lastCursorPosition = undefined;
     };
 
+    LargeTreeDragDrop.prototype.setDragHandleState = function () {
+        var self = this;
+
+        $('.drag-handle.drag-disabled').removeClass('drag-disabled');
+
+        /* Mark the children of each selected row as unselectable */
+        $(self.rowsToMove).each(function (idx, elt) {
+            var waypoint = $(elt).next();
+
+            /* THINKME: move this into a utility?  like "iterate child rows" */
+            while (waypoint.hasClass('waypoint')) {
+                if (waypoint.hasClass('expanded')) {
+                    var startLevel = waypoint.data('level');
+
+                    var elt = waypoint.next();
+                    while (!elt.hasClass('end-marker') && elt.data('level') >= startLevel) {
+                        elt.find('.drag-handle').addClass('drag-disabled');
+                        elt = elt.next();
+                    }
+                }
+
+                waypoint = elt.next();
+            }
+        });
+
+        /* Mark the ancestors of each selected row as unselectable */
+        $(self.rowsToMove).each(function (idx, row) {
+            var next = $(row);
+            var level = next.data('level') - 1;
+
+            while (level > 0) {
+                next = next.prevAll('.largetree-node.indent-level-' + level + ':first');
+                next.find('.drag-handle').addClass('drag-disabled');
+                level -= 1;
+            }
+        });
+    };
+
     LargeTreeDragDrop.prototype.initialize = function (largetree) {
         var self = this;
 
-        /* Drag/drop */
+        largetree.addExpandHook(function () {
+            /* Make sure none of the descendants of any multi-selected node can
+               be selected */
+            self.setDragHandleState();
+        });
+
         $(largetree.elt).on('mousedown', '.drag-handle', function (event) {
             var selection = $(this);
 
-            if (event.ctrlKey) {
-                selection.addClass('multiselected');
-                self.rowsToMove.push(selection.closest('tr')[0]);
+            if (event.ctrlKey || event.metaKey) {
+                var row = selection.closest('tr');
 
+                if (selection.hasClass('multiselected')) {
+                    /* deselect */
+                    self.rowsToMove = self.rowsToMove.filter(function (elt) {
+                        return (elt != row[0]);
+                    });
+
+                    selection.removeClass('multiselected');
+                } else {
+                    selection.addClass('multiselected');
+                    self.rowsToMove.push(row[0]);
+                }
+
+                self.setDragHandleState();
                 return false;
             }
 
@@ -66,6 +121,7 @@
             return false;
         });
 
+        /* NOTE: Add undo? */
         $(document).on('click', function (event) {
             if (!event.ctrlKey &&
                 !$(event.target).hasClass('drag-handle') &&

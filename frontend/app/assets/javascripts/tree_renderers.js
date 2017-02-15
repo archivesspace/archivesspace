@@ -1,5 +1,5 @@
 function BaseRenderer() {
-    this.endpointMarkerTemplate = $('<tr class="waypoint end-marker" />');
+    this.endpointMarkerTemplate = $('<tr class="end-marker" />');
 
     this.rootTemplate = $('<tr> ' +
                           '  <td class="no-drag-handle"></td>' +
