@@ -18,7 +18,7 @@
         this.autoScrollTimer = undefined;
 
         this.lastCursorPosition = undefined;
-    };
+    }
 
     LargeTreeDragDrop.prototype.setDragHandleState = function () {
         var self = this;
@@ -26,8 +26,8 @@
         $('.drag-handle.drag-disabled').removeClass('drag-disabled');
 
         /* Mark the children of each selected row as unselectable */
-        $(self.rowsToMove).each(function (idx, elt) {
-            var waypoint = $(elt).next();
+        $(self.rowsToMove).each(function (idx, selectedRow) {
+            var waypoint = $(selectedRow).next();
 
             /* THINKME: move this into a utility?  like "iterate child rows" */
             while (waypoint.hasClass('waypoint')) {
@@ -39,15 +39,17 @@
                         elt.find('.drag-handle').addClass('drag-disabled');
                         elt = elt.next();
                     }
-                }
 
-                waypoint = elt.next();
+                    waypoint = elt.next();
+                } else {
+                    waypoint = waypoint.next();
+                }
             }
         });
 
         /* Mark the ancestors of each selected row as unselectable */
-        $(self.rowsToMove).each(function (idx, row) {
-            var next = $(row);
+        $(self.rowsToMove).each(function (idx, selectedRow) {
+            var next = $(selectedRow);
             var level = next.data('level') - 1;
 
             while (level > 0) {
@@ -126,7 +128,7 @@
         $(document).on('click', function (event) {
             if (!event.ctrlKey &&
                 !$(event.target).hasClass('drag-handle') &&
-                $(event.target).closest('.expandme').length == 0) {
+                $(event.target).closest('.expandme').length === 0) {
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
             }
         });
@@ -151,7 +153,7 @@
         $(largetree.elt).on('mouseover', '.expandme', function (event) {
             var button = $(this);
 
-            if (self.dragActive && button.find('.expanded').length == 0) {
+            if (self.dragActive && button.find('.expanded').length === 0) {
                 self.expandTimer = setTimeout(function () {
                     largetree.toggleNode(button);
                 }, EXPAND_DELAY);
@@ -251,7 +253,7 @@
         var self = this;
 
         var movingRows = self.rowsToMove;
-        self.rowsToMove = []
+        self.rowsToMove = [];
 
         self.setDragHandleState();
 

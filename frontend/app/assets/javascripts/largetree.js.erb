@@ -42,7 +42,7 @@
 
     LargeTree.prototype.addExpandHook = function (callback) {
         this.expandHooks.push(callback);
-    }
+    };
 
     LargeTree.prototype.displayNode = function (tree_id, done_callback) {
         var self = this;
@@ -58,7 +58,7 @@
                 done_callback(current);
             });
         });
-    }
+    };
 
     LargeTree.prototype.reparentNodes = function (new_parent, nodes, position) {
         var self = this;
@@ -100,7 +100,7 @@
                     $($.unique(uris_to_reopen)).each(function (idx, uri) {
                         self.displayNode(TreeIds.uri_to_tree_id(uri),
                                          function (elt) {
-                                             self.expandNode(elt)
+                                             self.expandNode(elt);
                                          });
                     });
                 });
@@ -120,7 +120,7 @@
            The top-level is special because we automatically show it as expanded, so we skip expanding the root node.
          */
 
-        if (path.length == 0) {
+        if (path.length === 0) {
             done_callback();
             return;
         }
@@ -132,11 +132,11 @@
 
             self.expandWaypoint(waypoint, function () {
                 self.recursivelyExpandWaypoints(path, done_callback);
-            })
+            });
         };
 
         if (waypoint_description.node) {
-            var tree_id = TreeIds.uri_to_tree_id(waypoint_description.node)
+            var tree_id = TreeIds.uri_to_tree_id(waypoint_description.node);
 
             self.toggleNode($('#' + tree_id).find('.expandme'), next_fn);
         } else {
@@ -169,7 +169,7 @@
         while (true) {
             var elt = waypoint.next();
 
-            if (elt.length == 0) {
+            if (elt.length === 0) {
                 break;
             }
 
@@ -184,7 +184,7 @@
         waypoint.remove();
 
         return true;
-    }
+    };
 
     LargeTree.prototype.toggleNode = function (button, done_callback) {
         var self = this;
@@ -211,7 +211,7 @@
                 done_callback();
             }
         });
-    }
+    };
 
     LargeTree.prototype.collapseNode = function (row, done_callback) {
         var self = this;
@@ -228,11 +228,11 @@
         if (done_callback) {
             done_callback();
         }
-    }
+    };
 
     LargeTree.prototype.initEventHandlers = function () {
         var self = this;
-        var currentlyExpanding = false
+        var currentlyExpanding = false;
 
         /* Content loading */
         this.elt.on('scroll', function (event) {
@@ -267,7 +267,7 @@
         result.data('offset', offset);
 
         if (!this.waypoints[uri]) {
-            this.waypoints[uri] = {}
+            this.waypoints[uri] = {};
         }
 
         /* Keep a lookup table of waypoints so we can find and expand them programmatically */
@@ -380,8 +380,6 @@
             return;
         }
 
-        var waypoint_button = $('button', $(elt).prev());
-
         var self = this;
         var uri = elt.data('uri');
         var offset = elt.data('offset');
@@ -400,7 +398,7 @@
 
             elt.after(endMarker);
 
-            var newRows = []
+            var newRows = [];
 
             $(nodes).each(function (idx, node) {
                 var row = self.renderer.get_node_template();
@@ -412,11 +410,11 @@
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
                 title.attr('title', node.title);
 
-                if (node.child_count == 0) {
+                if (node.child_count === 0) {
                     row.find('.expandme').css('visibility', 'hidden');
                 }
 
-                self.renderer.add_node_columns(row, node)
+                self.renderer.add_node_columns(row, node);
 
                 var tree_id = TreeIds.uri_to_tree_id(node.uri);
                 row.data('uri', node.uri);
@@ -458,7 +456,7 @@
 
     ASpaceTree.prototype.urlFor = function (action) {
         return this.url + "/" + action;
-    }
+    };
 
     ASpaceTree.prototype.fetchRootNode = function () {
         var self = this;
@@ -479,7 +477,7 @@
                       {
                           method: "GET",
                           data: {
-/* THINKME: Should rename node to node_uri?  S */
+                              /* THINKME: Should rename node to node_uri?  S */
                               node: uri,
                           }
                       })
@@ -540,7 +538,7 @@
     ASpaceTree.prototype.getPrecomputedWaypoint = function (uri, offset) {
         var result;
 
-        if (uri == null) {
+        if (uri === null) {
             uri = "";
         }
 
@@ -554,7 +552,7 @@
 
     ASpaceTree.prototype.cachePrecomputedWaypoints = function (node) {
         $(Object.keys(node.precomputed_waypoints)).each(function (idx, uri) {
-            precomputedWaypoints[uri] = node.precomputed_waypoints[uri]
+            precomputedWaypoints[uri] = node.precomputed_waypoints[uri];
         });
     };
 
@@ -603,7 +601,7 @@
 
 
         self.large_tree.addPlugin(new LargeTreeDragDrop());
-    };
+    }
 
 
     exports.Tree = Tree;
