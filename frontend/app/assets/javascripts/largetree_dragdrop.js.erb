@@ -20,6 +20,37 @@
         this.lastCursorPosition = undefined;
     }
 
+    LargeTreeDragDrop.prototype.isDropAllowed = function(target_node) {
+        var self = this;
+
+        if (target_node.is('.root-row')) {
+            // always able to drop onto root node
+            return true;
+        }
+
+        var uris_to_check = [];
+        uris_to_check.push(target_node.data('uri'));
+        var level = target_node.data('level') - 1;
+        var row = target_node;
+        while (level > 0) {
+            row = row.prevAll('.largetree-node.indent-level-' + level + ':first');
+            uris_to_check.push(row.data('uri'));
+            level -= 1;
+        }
+
+        var isAllowed = true;
+
+        $(self.rowsToMove).each(function (idx, selectedRow) {
+            var uri = $(selectedRow).data('uri');
+            if ($.inArray(uri, uris_to_check) >= 0) {
+                isAllowed = false;
+                return;
+            }
+        });
+
+        return isAllowed;
+    };
+
     LargeTreeDragDrop.prototype.setDragHandleState = function () {
         var self = this;
 
@@ -160,15 +191,20 @@
             }
         });
 
-        $(largetree.elt).on('mouseenter', 'tr.largetree-node', function (event) {
+        $(largetree.elt).on('mouseenter', 'tr.root-row, tr.largetree-node', function (event) {
             if (self.dragActive) {
-                $(this).addClass('drag-drop-over');
+                if (self.isDropAllowed($(this))) {
+                    $(this).addClass('drag-drop-over');
+                } else {
+                    $(this).addClass('drag-drop-over-disallowed');
+                }
             }
         });
 
-        $(largetree.elt).on('mouseleave', 'tr.largetree-node', function (event) {
+        $(largetree.elt).on('mouseleave', 'tr.root-row, tr.largetree-node', function (event) {
             if (self.dragActive) {
-                $(this).removeClass('drag-drop-over');
+                $(this).removeClass('drag-drop-over').
+                        removeClass('drag-drop-over-disallowed');
             }
         });
 
@@ -219,6 +255,7 @@
                 self.dragActive = false;
                 self.dragIndicator.remove();
                 $(largetree.elt).find('.drag-drop-over').removeClass('drag-drop-over');
+                $(largetree.elt).find('.drag-drop-over-disallowed').removeClass('drag-drop-over-disallowed');
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
 
                 if (self.autoScrollTimer) {
@@ -231,9 +268,13 @@
                 var dropTarget = $(event.target).closest('tr.largetree-node,tr.root-row');
 
                 /* If they didn't drop on a row, that's a cancel. */
-                if (dropTarget.length > 0) {
+                if (dropTarget.length > 0 && self.isDropAllowed(dropTarget)) {
                     self.handleDrop(dropTarget);
                 }
+
+                // reset things
+                $('.drag-handle.drag-disabled').removeClass('drag-disabled');
+                self.rowsToMove = [];
 
                 event.preventDefault();
                 return false;
