@@ -194,7 +194,6 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  @refresh_tree_node = true
                   flash.now[:success] = I18n.t("resource._frontend.messages.updated", JSONModelI18nWrapper.new(:resource => @resource))
                   render_aspace_partial :partial => "edit_inline"
                 })

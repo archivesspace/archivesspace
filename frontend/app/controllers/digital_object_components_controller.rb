@@ -53,8 +53,6 @@ class DigitalObjectComponentsController < ApplicationController
                     I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved'])) :
                     I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']))
 
-                  @refresh_tree_node = true
-
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -81,8 +79,6 @@ class DigitalObjectComponentsController < ApplicationController
                     I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent)) :
                     I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object))
                   flash.now[:success] = success_message
-
-                  @refresh_tree_node = true
 
                   render_aspace_partial :partial => "edit_inline"
                 })
