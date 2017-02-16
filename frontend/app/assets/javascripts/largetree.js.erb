@@ -605,7 +605,10 @@
                                         });
 
 
-        self.large_tree.addPlugin(new LargeTreeDragDrop());
+        if (!read_only) {
+            tree_container.addClass('drag-enabled');
+            self.large_tree.addPlugin(new LargeTreeDragDrop());
+        }
     }
 
 
