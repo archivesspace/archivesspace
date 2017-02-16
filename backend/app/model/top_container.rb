@@ -54,7 +54,6 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
-  # THINKE: if this joined on the TopContainer object first you could get those back much more cheaply.
   def self.linked_instance_ds
     TopContainer
       .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :id)
