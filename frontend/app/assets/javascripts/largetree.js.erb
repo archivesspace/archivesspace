@@ -333,19 +333,20 @@
         var containerTop = this.elt.offset().top;
         var containerHeight = this.elt.outerHeight();
 
-        /* Find the waypoint nearest to the top of the tree and the top of the
-           page. */
-        var waypointToExpand;
-        $('.waypoint:not(.populated)', this.elt).each(function (idx, elt) {
-            elt = $(elt);
+        /* Pick a reasonable guess at which waypoint we might want to populate
+           (based on our scroll position) */
+        var allWaypoints = $('.waypoint');
 
+        var scrollPercent = self.elt.scrollTop() / self.elt.find('table.root').height();
+        var startIdx = Math.floor(scrollPercent * allWaypoints.length);
+
+        var waypointToPopulate;
+        var evaluateWaypointFn = function (elt) {
             /* The element's top is measured from the top of the page, but we
                want it relative to the top of the container.  Adjust as
                appropriate. */
             var eltTop = elt.offset().top - containerTop;
-
             var eltBottom = eltTop + elt.height();
-
 
             var waypointVisible = (Math.abs(eltTop) <= (containerHeight + threshold_px)) ||
                                   (Math.abs(eltBottom) <= (containerHeight + threshold_px)) ||
@@ -358,18 +359,56 @@
                     level: elt.data('level'),
                 };
 
-                if (!waypointToExpand) {
-                    waypointToExpand = candidate;
+                if (!waypointToPopulate) {
+                    waypointToPopulate = candidate;
                 } else {
-                    if (waypointToExpand.level > candidate.level || waypointToExpand.top > candidate.top) {
-                        waypointToExpand = candidate;
+                    if (waypointToPopulate.level > candidate.level || waypointToPopulate.top > candidate.top) {
+                        waypointToPopulate = candidate;
                     }
                 }
-            }
-        });
 
-        if (waypointToExpand) {
-            self.populateWaypoint(waypointToExpand.elt, function () {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        /* Search for a waypoint by scanning backwards */
+        for (var i = startIdx; i > 0; i--) {
+            var waypoint = $(allWaypoints[i]);
+
+            if (waypoint.hasClass('populated')) {
+                /* nothing to do for this one */
+                continue;
+            }
+
+            var waypointWasVisible = evaluateWaypointFn(waypoint);
+
+            if (!waypointWasVisible) {
+                /* No point considering waypoints even further up in the DOM */
+                break;
+            }
+        }
+
+        /* Now scan forwards */
+        for (var i = startIdx; i < allWaypoints.length; i++) {
+            var waypoint = $(allWaypoints[i]);
+
+            if (waypoint.hasClass('populated')) {
+                /* nothing to do for this one */
+                continue;
+            }
+
+            var waypointWasVisible = evaluateWaypointFn(waypoint);
+
+            if (!waypointWasVisible) {
+                /* No point considering waypoints even further up in the DOM */
+                break;
+            }
+        }
+
+        if (waypointToPopulate) {
+            self.populateWaypoint(waypointToPopulate.elt, function () {
                 self.considerPopulatingWaypoint(done_callback);
             });
         } else {
