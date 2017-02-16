@@ -8,7 +8,8 @@ var SHARED_TOOLBAR_ACTIONS = [
 
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 tree.ajax_tree.blockout_form();
-                tree.resizer.maximize();
+                $.scrollTo(0);
+                tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
             } else {
                 tree.ajax_tree.unblockout_form();

@@ -42,10 +42,13 @@ TreeResizer.prototype.set_height = function(height) {
     AS.prefixed_cookie("archives-tree-container::height", height);
 };
 
-TreeResizer.prototype.maximize = function() {
+TreeResizer.prototype.maximize = function(margin) {
+    if (margin === undefined) {
+        margin = 50;
+    }
+
     this.container.addClass("maximized");
-    this.container.height($(window).height() - 50);
-    document.body.scrollTop  = this.tree.toolbar_renderer.container.offset().top - 5;
+    this.container.height($(window).height() - margin - this.container.offset().top);
 };
 
 TreeResizer.prototype.reset = function() {

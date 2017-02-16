@@ -337,7 +337,6 @@
             self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
                 resetState()
             });
-            resetState();
         }).on('click', '.add-items-as-children', function() {
             self.largetree.reparentNodes(dropTarget, self.rowsToMove).done(function() {
                 resetState()
@@ -350,5 +349,6 @@
     };
 
     exports.LargeTreeDragDrop = LargeTreeDragDrop;
+    exports.DRAGDROP_HOTSPOT_HEIGHT = HOTSPOT_HEIGHT
 
 }(window));
