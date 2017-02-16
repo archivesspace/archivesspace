@@ -16,18 +16,19 @@ class LargeTreeResource
 
   def waypoint(response, record_ids)
     # Load the instance type and record level
-    ArchivalObject.join(Instance, :archival_object_id => :id)
-      .join(Sequel.as(:enumeration_value, :type_enum), :id => :instance__instance_type_id)
-      .join(Sequel.as(:enumeration_value, :level_enum), :id => :archival_object__level_id)
-      .filter(:archival_object_id => record_ids)
-      .select(:archival_object_id,
+    ArchivalObject
+      .left_join(Instance, :archival_object_id => :id)
+      .left_join(Sequel.as(:enumeration_value, :type_enum), :id => :instance__instance_type_id)
+      .left_join(Sequel.as(:enumeration_value, :level_enum), :id => :archival_object__level_id)
+      .filter(:archival_object__id => record_ids)
+      .select(Sequel.as(:archival_object__id, :id),
               Sequel.as(:type_enum__value, :type),
               Sequel.as(:level_enum__value, :level))
       .each do |row|
-      id = row[:archival_object_id]
+      id = row[:id]
       result_for_record = response.fetch(record_ids.index(id))
 
-      result_for_record['type'] = row[:type]
+      result_for_record['type'] = row[:type] if row[:type]
       result_for_record['level'] = row[:level]
     end
 
