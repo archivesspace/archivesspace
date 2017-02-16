@@ -370,6 +370,9 @@ AjaxTree.prototype.quietly_change_hash = function(tree_id) {
 
 AjaxTree.prototype.blockout_form = function() {
     var self = this;
+    if (self.$pane.has('.blockout').length > 0) {
+        return;
+    }
     var $blockout = $('<div>').addClass('blockout');
     $blockout.height(self.$pane.height());
     // add 30 to take into account for outer margin :/ 
