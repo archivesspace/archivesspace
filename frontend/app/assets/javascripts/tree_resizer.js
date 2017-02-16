@@ -45,7 +45,7 @@ TreeResizer.prototype.set_height = function(height) {
 TreeResizer.prototype.maximize = function() {
     this.container.addClass("maximized");
     this.container.height($(window).height() - 50);
-    document.body.scrollTop = this.tree.toolbar_renderer.container.offset().top - 5;
+    document.body.scrollTop  = this.tree.toolbar_renderer.container.offset().top - 5;
 };
 
 TreeResizer.prototype.reset = function() {
