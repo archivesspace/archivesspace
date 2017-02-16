@@ -131,6 +131,23 @@ class CommonIndexer
   end
 
 
+  def self.build_fullrecord(record)
+    fullrecord = CommonIndexer.extract_string_values(record)
+    %w(finding_aid_subtitle finding_aid_author).each do |field|
+      if record['record'].has_key?(field)
+        fullrecord << "#{record['record'][field]} "
+      end
+    end
+
+    if record['record'].has_key?('names')
+      fullrecord << record['record']['names'].map {|name|
+        CommonIndexer.extract_string_values(name)
+      }.join(" ")
+    end
+    fullrecord
+  end
+
+
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
@@ -539,18 +556,7 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] = CommonIndexer.extract_string_values(record)
-      %w(finding_aid_subtitle finding_aid_author).each do |field|
-        if record['record'].has_key?(field)
-          doc['fullrecord'] << "#{record['record'][field]} "
-        end
-      end
-
-      if record['record'].has_key?('names')
-        doc['fullrecord'] << record['record']['names'].map {|name|
-          CommonIndexer.extract_string_values(name)
-        }.join(" ")
-      end
+      doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
     }
 
 
