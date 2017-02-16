@@ -178,6 +178,8 @@ AjaxTree.prototype.setup_ajax_form = function() {
         self.loadPaneForId(tree_id);
     });
 
+    self.tree.toolbar_renderer.notify_form_loaded($form);
+
     return $form;
 };
 
