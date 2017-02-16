@@ -109,13 +109,14 @@
                 var row = selection.closest('tr');
 
                 if (selection.hasClass('multiselected')) {
-                    /* deselect */
+                    /* deselect a selected item */
                     self.rowsToMove = self.rowsToMove.filter(function (elt) {
                         return (elt != row[0]);
                     });
 
                     selection.removeClass('multiselected');
                 } else {
+                    /* Add this item to the selection */
                     selection.addClass('multiselected');
                     self.rowsToMove.push(row[0]);
                 }
@@ -125,9 +126,19 @@
             }
 
             self.dragDelayTimer = setTimeout(function () {
+                /* Start a drag of one or more items */
+                var row = selection.closest('tr');
+
                 if ($('.multiselected', largetree.elt).length > 0) {
+                    if (!row.find('.drag-handle').hasClass('multiselected')) {
+                        /* If the item we started dragging from wasn't part of
+                           the multiselection, add it in. */
+                        row.find('.drag-handle').addClass('multiselected');
+                        self.rowsToMove.push(row[0]);
+                    }
                 } else {
-                    self.rowsToMove = [selection.closest('tr')[0]];
+                    /* We're just tragging a single row */
+                    self.rowsToMove = [row[0]];
                 }
 
                 self.dragActive = true;
