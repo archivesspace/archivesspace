@@ -2,6 +2,17 @@ var SHARED_TOOLBAR_ACTIONS = [
     {
         label: 'Enable Reorder', // I18n me
         cssClasses: 'btn-default drag-toggle',
+        onRender: function(btn, node, tree, toolbarRenderer) {
+            if ($(tree.large_tree.elt).is('.drag-enabled')) {
+                $(btn).addClass('active');
+                tree.ajax_tree.blockout_form();
+            }
+        },
+        onToolbarRendered: function(toolbarRenderer) {
+            if ($(tree.large_tree.elt).is('.drag-enabled')) {
+                $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
+            }
+        },
         onClick: function(event, node, tree, toolbarRenderer) {
             $(tree.large_tree.elt).toggleClass('drag-enabled');
             $(event.target).toggleClass('active');
@@ -23,9 +34,14 @@ var SHARED_TOOLBAR_ACTIONS = [
         isVisible: function(node, tree, toolbarRenderer) {
             return !tree.large_tree.read_only;
         },
-        onFormChanged: function(btn, form, tree) {
+        onFormChanged: function(btn, form, tree, toolbarRenderer) {
             $(btn).addClass('disabled');
-        }, 
+        },
+        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+            if ($(tree.large_tree.elt).is('.drag-enabled')) {
+                tree.ajax_tree.blockout_form();
+            }
+        },
     },
     // go back to the read only page
     {
@@ -208,8 +224,19 @@ TreeToolbarRenderer.prototype.reset = function() {
     }
 };
 
+TreeToolbarRenderer.prototype.reset_callbacks = function() {
+    this.on_form_changed_callbacks = [];
+    this.on_form_loaded_callbacks = [];
+    this.on_toolbar_rendered_callbacks = [];
+};
+
 TreeToolbarRenderer.prototype.render = function(node) {
     var self = this;
+
+    if (self.current_node) {
+        self.reset_callbacks();
+    }
+
     self.current_node = node;
 
     var actions = TreeToolbarConfiguration[node.data('jsonmodel_type')];
@@ -219,7 +246,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
         return
     }
 
-    self.on_form_changed_callbacks = [];
+    self.reset_callbacks();
 
     actions.map(function(action_or_group) {
         if (!$.isArray(action_or_group)) {
@@ -253,9 +280,21 @@ TreeToolbarRenderer.prototype.render = function(node) {
                 }
 
                 if (action.onFormChanged) {
-                    self.on_form_changed_callbacks.push((function(form) {
-                        $.proxy(action.onFormChanged, tree)($btn, form, tree);
-                    }));
+                    self.on_form_changed_callbacks.push(function(form) {
+                        $.proxy(action.onFormChanged, tree)($btn, form, tree, self);
+                    });
+                }
+
+                if (action.onFormLoaded) {
+                    self.on_form_loaded_callbacks.push(function(form) {
+                        $.proxy(action.onFormLoaded, tree)($btn, form, tree, self);
+                    });
+                }
+
+                if (action.onToolbarRendered) {
+                    self.on_toolbar_rendered_callbacks.push(function() {
+                        $.proxy(action.onToolbarRendered, tree)(self);
+                    });
                 }
 
                 $group.append($btn);
@@ -265,11 +304,21 @@ TreeToolbarRenderer.prototype.render = function(node) {
         if ($group.length > 0) {
             self.container.append($group);
         }
-    })
+    });
+
+    $.each(self.on_toolbar_rendered_callbacks, function(i, callback) {
+        callback();
+    });
 };
 
 TreeToolbarRenderer.prototype.notify_form_changed = function(form) {
     $.each(this.on_form_changed_callbacks, function(i, callback) {
+        callback(form);
+    });
+};
+
+TreeToolbarRenderer.prototype.notify_form_loaded = function(form) {
+    $.each(this.on_form_loaded_callbacks, function(i, callback) {
         callback(form);
     });
 };
