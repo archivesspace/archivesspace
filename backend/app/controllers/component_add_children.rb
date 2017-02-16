@@ -197,7 +197,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
       ensure
         # close out the gaps.  
-        last_child.order_siblings if last_child
+        #### last_child.order_siblings if last_child
       end
     end
 
