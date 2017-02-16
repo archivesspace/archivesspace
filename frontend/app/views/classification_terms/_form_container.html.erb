@@ -13,6 +13,7 @@
   <%= form.hidden_input "classification" %>
   <%= form.hidden_input "position" %>
   <%= hidden_field_tag "id", @classification_term.id %>
+  <%= hidden_field_tag "uri", @classification_term.uri %>
 
   <% define_template("classification_term", jsonmodel_definition(:classification_term)) do |form| %>
     <section id="basic_information">

@@ -12,7 +12,6 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_component.title = I18n.t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
-    @digital_object_component.position = params[:position] if params.has_key?(:position)
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'digital_object_component'

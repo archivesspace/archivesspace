@@ -1,3 +1,5 @@
+//= require jquery.ba-hashchange
+
 var FORM_CHANGED_KEY = 'form_changed';
 var FORM_SUBMITTED_EVENT = 'submitted';
 
@@ -147,8 +149,8 @@ AjaxTree.prototype.setup_ajax_form = function() {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
                 $form.data(FORM_CHANGED_KEY, false);
 
-                // FIXME: UPDATE TREE!
-                self.tree.large_tree.refreshForId($('#id', $form).val()); // or similar
+                var uri = $('#uri', $form).val()
+                self.tree.large_tree.redisplayAndShow([uri]);
             }
 
             if ( $form.data("update-monitor-paused") ) {
@@ -175,18 +177,14 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     // update the hash
     self.quietly_change_hash('new');
 
-    // catch any clicks (as this will cancel the new form)
-    $(self.tree.large_tree.elt).on('click', function(event) {
-        // FIXME cancel new form? show warning?
-        $("#new", self.tree.large_tree.elt).remove();
-    });
+    // clear the toolbar
     $(self.tree.toolbar_renderer.container).empty();
 
-    // add a new table row
+    // create a new table row
     var $new_tr = $('<tr>');
     $new_tr.data('last_node', node);
     var colspan = 0;
-    node.find('td').filter(':not(.title,.drag-handle)').each(function(td) {
+    node.find('td').filter(':not(.title,.drag-handle,.no-drag-handle)').each(function(td) {
         colspan += $(td).attr('colspan') || 1;
     });
     var $drag = $('<td>');
@@ -200,49 +198,59 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     $('<td>').attr('colspan', colspan).appendTo($new_tr);
     node.removeClass('current');
     $new_tr.addClass('current');
-
     $new_tr.attr('id', 'new');
+
     $new_tr.addClass('indent-level-'+level);
 
-    // FIXME need to position this tr based on level and position
-    node.after($new_tr);
-
-    if (node.data('level') < level) {
-        if (node.find('.expandme:visible').length != 0) {
-            if (node.find('.expandme .expandme-icon').is(':not(.expanded')) {
-                // FIXME this will need to show all the children nodes so the 
-                // the new node is the last in the list
-                // FIXME and focus the new row
-                node.find('.expandme').trigger('click');
-            }
-        }
-    }
+    var target_position = 0;
+    var parent_id = null;
 
     var root_node = $('#'+this.tree.large_tree.root_tree_id);
+    var root_uri_parts = TreeIds.uri_to_parts(root_node.data('uri'));
+    var node_uri_parts = TreeIds.uri_to_parts(node.data('uri'));
+
+    // add the new row at the end of the target level
+    if (level > node.data('level')) {
+        /* We're adding a new child */
+        parent_id = node_uri_parts.id
+
+        if (node.data('child_count') == 0) {
+            /* Adding a child to a currently childless element */
+            node.after($new_tr);
+        } else {
+            /* Adding a child to something with existing children */
+            var callback = function() {
+                var endmarker = node.nextAll('.waypoint.indent-level-'+level+', .end-marker.indent-level-'+level).last();
+                endmarker.after($new_tr);
+            };
+
+            if (node.data('level') == 0) {
+                /* Adding to a root node.  No need to expand. */
+                callback();
+            } else {
+                self.tree.large_tree.expandNode(node, callback);
+            }
+        }
+    } else {
+        /* We're adding a new sibling to the end of the current level */
+        var endmarker = node.nextAll('.end-marker.indent-level-'+level+':last');
+        endmarker.after($new_tr);
+
+        parent_id = node.data('parent_id');
+    }
 
     var params = {
         inline: true
     };
 
-    var root_uri_parts = TreeIds.uri_to_parts(root_node.data('uri'));
-    var node_uri_parts = TreeIds.uri_to_parts(node.data('uri'));
-
     params[root_uri_parts.type + '_id'] = root_uri_parts.id;
-    if (node.data('jsonmodel_type') == root_uri_parts.type) {
-        // add new node below root node
-        params['position'] = 0;
-    } else if (node.data('level') == level) {
-        // add sibling node below current node
-        params['position'] = node.data('position') + 1;
-        if (node.data('parent_id')) {
-            params[node_uri_parts.type + '_id'] = node.data('parent_id');
-        }
-    } else {
-        // add as last child of node
-        params[node_uri_parts.type + '_id'] = node_uri_parts.id;
+
+    if (parent_id) {
+        params[node_uri_parts.type + '_id'] = parent_id;
     }
 
     self._ajax_the_pane(url, params, function() {
+        self.$pane.find('form').data(FORM_CHANGED_KEY, true);
         self.$pane.find('.btn-cancel').on('click', function(event) {
             event.preventDefault();
             $new_tr.remove();
@@ -322,11 +330,12 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
     $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
         $form.data("form_changed", false);
         
-        if (current_tree_id != "new") {
-            $('#new', self.$pane).remove();
-        }
-
         $("#saveYourChangesModal").modal("hide");
+        var tree_id = self.tree_id_from_hash();
+        var uri = $('#' + tree_id).data('uri');
+        self.tree.large_tree.redisplayAndShow([uri], function() {
+            $('#'+tree_id).addClass('current');
+        });
         d.resolve(true);
     });
 
