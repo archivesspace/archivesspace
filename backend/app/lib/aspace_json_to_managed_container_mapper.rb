@@ -146,10 +146,10 @@ class AspaceJsonToManagedContainerMapper
 
   def try_matching_indicator_within_collection(container)
     indicator = container['indicator_1']
-    
+
     type_type_id = Enumeration.filter( :name => 'container_type' ).get(:id) 
     type_id = EnumerationValue.filter( :enumeration_id => type_type_id, :value => container["type_1"] ).get(:id) 
-    
+
     return nil if !type_id
 
     resource_uri = @json['resource'] && @json['resource']['ref']
@@ -157,18 +157,24 @@ class AspaceJsonToManagedContainerMapper
 
     resource_id = JSONModel(:resource).id_for(resource_uri)
 
-    matching_top_containers = TopContainer.linked_instance_ds.
-                              join(:archival_object, :id => :instance__archival_object_id).
-                              where { Sequel.|({:archival_object__root_record_id => resource_id},
-                                               {:instance__resource_id => resource_id}) }.
-                              filter(:top_container__indicator => indicator).
-                              filter(:top_container__type_id => type_id).
-                              select(:top_container_id)
+    matching_top_containers_by_instance =
+      TopContainer.linked_instance_ds.
+      join(:archival_object, :id => :instance__archival_object_id).
+      filter(:instance__resource_id => resource_id).
+      filter(:top_container__indicator => indicator).
+      filter(:top_container__type_id => type_id).
+      select_all(:top_container)
 
-    TopContainer[:id => matching_top_containers]
+    matching_top_containers_by_ao =
+      TopContainer.linked_instance_ds.
+      join(:archival_object, :id => :instance__archival_object_id).
+      filter(:archival_object__root_record_id => resource_id).
+      filter(:top_container__indicator => indicator).
+      filter(:top_container__type_id => type_id).
+      select_all(:top_container)
+
+    matching_top_containers_by_instance.first || matching_top_containers_by_ao.first
   end
-
-
 
   def ensure_harmonious_values(top_container, aspace_container)
     properties = {:indicator => 'indicator_1', :barcode => 'barcode_1', :type_id => 'type_id'}
