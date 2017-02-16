@@ -283,10 +283,6 @@
                     self.handleDrop(dropTarget);
                 }
 
-                // reset things
-                $('.drag-handle.drag-disabled').removeClass('drag-disabled');
-                self.rowsToMove = [];
-
                 event.preventDefault();
                 return false;
             }
@@ -304,12 +300,53 @@
     LargeTreeDragDrop.prototype.handleDrop = function (dropTarget) {
         var self = this;
 
-        var movingRows = self.rowsToMove;
-        self.rowsToMove = [];
+        function resetState() {
+            self.rowsToMove = [];
+            $blockout.remove();
+            $menu.remove();
+            self.setDragHandleState();
+        }
 
-        self.setDragHandleState();
+        // blockout the page
+        var $blockout = $('<div>').addClass('largetree-blockout');
+        $(document.body).append($blockout);
+        
+        // insert a menu!
+        // FIXME I18n
+        var $menu = $('<ul>').addClass('dropdown-menu');
+        $menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
+        $menu.append($('<li><a href="javascript:void(0)" class="add-items-as-children">Add Items as Children</a></li>'));
+        $menu.append($('<li><a href="javascript:void(0)" class="add-items-after">Add Items After</a></li>'));
 
-        self.largetree.reparentNodes(dropTarget, movingRows);
+        $(document.body).append($menu);
+        $menu.css('position','absolute');
+        $menu.css('top',dropTarget.offset().top + dropTarget.height());
+        $menu.css('left',dropTarget.offset().left);
+        $menu.css('z-index', 1000);
+        $menu.show();
+
+        $blockout.on('click', function() {
+            resetState();
+        });
+
+        function getParent(node) {
+            return node.prevAll('.indent-level-'+node.data('level') - 1 + ':first');
+        }
+
+        $menu.on('click', '.add-items-before', function() {
+            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
+                resetState()
+            });
+            resetState();
+        }).on('click', '.add-items-as-children', function() {
+            self.largetree.reparentNodes(dropTarget, self.rowsToMove).done(function() {
+                resetState()
+            });
+        }).on('click', '.add-items-after', function() {
+            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position') + 1).done(function() {
+                resetState()
+            });
+        });
     };
 
     exports.LargeTreeDragDrop = LargeTreeDragDrop;
