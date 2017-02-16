@@ -651,7 +651,7 @@
 
         var tree_renderer = renderers[root_record_type];
 
-        self.toolbar_renderer = new TreeToolbarRenderer(tree, toolbar_container);
+        self.toolbar_renderer = new TreeToolbarRenderer(self, toolbar_container);
 
         self.large_tree = new LargeTree(self.datasource, 
                                         tree_container,
@@ -668,7 +668,6 @@
 
 
         if (!read_only) {
-            tree_container.addClass('drag-enabled');
             self.large_tree.addPlugin(new LargeTreeDragDrop());
         }
     }
