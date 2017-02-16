@@ -1,5 +1,3 @@
-//= require jquery.ba-hashchange
-
 //= require tree_ids_helpers
 //= require ajaxtree
 //= require tree_renderers
@@ -98,15 +96,25 @@
                                   }),
                                   position)
             .done(function () {
-                self.renderRoot(function () {
-                    $($.unique(uris_to_reopen)).each(function (idx, uri) {
-                        self.displayNode(TreeIds.uri_to_tree_id(uri),
-                                         function (elt) {
-                                             self.expandNode(elt);
-                                         });
-                    });
-                });
+                self.redisplayAndShow(uris_to_reopen);
             });
+    };
+
+    LargeTree.prototype.redisplayAndShow = function(uris, done_callback) {
+        var self = this;
+
+        self.renderRoot(function () {
+            $($.unique(uris)).each(function (idx, uri) {
+                self.displayNode(TreeIds.uri_to_tree_id(uri),
+                    function (elt) {
+                        self.expandNode(elt);
+
+                        if (done_callback) {
+                            done_callback();
+                        }
+                    });
+            });
+        });
     };
 
     LargeTree.prototype.recursivelyPopulateWaypoints = function (path, done_callback) {
@@ -203,6 +211,13 @@
         var self = this;
         var button = row.find('.expandme');
 
+        if (button.data('expanded')) {
+            if (done_callback) {
+                done_callback();
+            }
+            return;
+        }
+
         $('.expandme-icon', button).addClass('expanded');
         $(button).data('expanded', true);
 
@@ -279,8 +294,11 @@
     };
 
     LargeTree.prototype.appendWaypoints = function (elt, parentURI, waypointCount, waypointSize, indentLevel) {
+        var child_count = elt.data('child_count');
         for (var i = waypointCount - 1; i >= 0; i--) {
             var waypoint = this.makeWaypoint(parentURI, i, indentLevel);
+
+            waypoint.data('child_count_at_this_level', child_count);
 
             /* We force the line height to a constant 2em so we can predictably
                guess how tall to make waypoints.  See largetree.less for where we
@@ -303,9 +321,11 @@
             row.data('uri', rootNode.uri);
             row.attr('id', TreeIds.uri_to_tree_id(rootNode.uri));
             row.addClass('root-row');
-            row.data('indent', 0);
+            row.data('level', 0);
+            row.data('child_count', rootNode.child_count);
             row.data('jsonmodel_type', rootNode.jsonmodel_type);
             row.find('.title').append($('<a>').attr('href', TreeIds.link_url(rootNode.uri))
+                                              .addClass('record-title')
                                               .text(rootNode.title));
 
             rootList.append(row);
@@ -439,6 +459,8 @@
         this.source.fetchWaypoint(uri, offset).done(function (nodes) {
             var endMarker = self.renderer.endpoint_marker();
             endMarker.data('level', level);
+            endMarker.data('child_count_at_this_level', elt.data('child_count_at_this_level'));
+            endMarker.addClass('indent-level-' + level);
 
             elt.after(endMarker);
 
@@ -449,6 +471,7 @@
 
                 row.addClass('largetree-node indent-level-' + level);
                 row.data('level', level);
+                row.data('child_count', node.child_count);
 
                 var title = row.find('.title');
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));

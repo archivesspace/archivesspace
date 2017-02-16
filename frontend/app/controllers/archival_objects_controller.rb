@@ -12,7 +12,6 @@ class ArchivalObjectsController < ApplicationController
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
-    @archival_object.position = params[:position] if params.has_key?(:position)
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'archival_object'
