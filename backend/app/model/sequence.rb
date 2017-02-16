@@ -10,9 +10,17 @@ class Sequence
   def self.get(sequence)
     Thread.current[:initialised_sequences] ||= {}
 
-    if !Thread.current[:initialised_sequences][sequence]
-      Thread.current[:initialised_sequences][sequence] = true
+    needs_sequence_init = !Thread.current[:initialised_sequences][sequence]
 
+    future = Thread.new do
+      handle_get(sequence, needs_sequence_init)
+    end
+
+    future.value
+  end
+
+  def self.handle_get(sequence, needs_sequence_init)
+    if needs_sequence_init
       DB.open(true) do |db|
         DB.attempt {
           init(sequence, 0)
@@ -47,4 +55,5 @@ class Sequence
 
     raise SequenceError.new("Gave up trying to generate a sequence number for: '#{sequence}'")
   end
+
 end
