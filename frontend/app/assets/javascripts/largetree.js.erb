@@ -75,7 +75,7 @@
 
         var uris_to_reopen = [];
 
-        if (new_parent.data('uri')) {
+        if (new_parent.data('uri') && !new_parent.is('.root-row')) {
             uris_to_reopen.push(new_parent.data('uri'));
         }
 
@@ -130,7 +130,7 @@
            The top-level is special because we automatically show it as expanded, so we skip expanding the root node.
          */
 
-        if (path.length === 0) {
+        if (!path || path.length === 0) {
             done_callback();
             return;
         }
