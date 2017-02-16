@@ -334,7 +334,7 @@
         }
 
         $menu.on('click', '.add-items-before', function() {
-            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position') - 1).done(function() {
+            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
                 resetState()
             });
             resetState();
@@ -343,7 +343,7 @@
                 resetState()
             });
         }).on('click', '.add-items-after', function() {
-            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
+            self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position') + 1).done(function() {
                 resetState()
             });
         });

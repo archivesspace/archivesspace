@@ -75,7 +75,7 @@
 
         var uris_to_reopen = [];
 
-        if (!new_parent.hasClass('root-row')) {
+        if (new_parent.data('uri')) {
             uris_to_reopen.push(new_parent.data('uri'));
         }
 

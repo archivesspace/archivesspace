@@ -45,9 +45,16 @@ class LargeTree
                             :parent_id => node_record.id)
                     .count
 
+      my_position = node_record.position
+
+      node_position = db[@node_table].filter(:root_record_id => @root_record.id,
+                                                :parent_id => node_record.parent_id)
+                      .where { position < my_position }
+                      .count + 1
+
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
                                                       "uri" => node_record.uri,
-                                                      "position" => node_record.position,
+                                                      "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s)
 
       @decorators.each do |decorator|
@@ -117,13 +124,13 @@ class LargeTree
                            .group_and_count(:parent_id)
                            .map {|row| [row[:parent_id], row[:count]]}]
 
-      response = record_ids.map do |id|
+      response = record_ids.each_with_index.map do |id, idx|
         row = records[id]
         child_count = child_counts.fetch(id, 0)
 
         waypoint_response(child_count).merge("title" => row[:title],
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
-                                             "position" => row[:position],
+                                             "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
                                              "jsonmodel_type" => @node_type.to_s)
 
