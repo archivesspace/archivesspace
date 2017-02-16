@@ -199,8 +199,16 @@ function TreeToolbarRenderer(tree, container) {
     this.container = container;
 }
 
+TreeToolbarRenderer.prototype.reset = function() {
+    if (this.current_node) {
+        this.render(this.current_node);
+    }
+};
+
 TreeToolbarRenderer.prototype.render = function(node) {
     var self = this;
+    self.current_node = node;
+
     var actions = TreeToolbarConfiguration[node.data('jsonmodel_type')];
     self.container.empty();
 

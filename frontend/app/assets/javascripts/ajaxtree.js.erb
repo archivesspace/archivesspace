@@ -171,6 +171,13 @@ AjaxTree.prototype.setup_ajax_form = function() {
         self.on_form_changed();
     });
 
+    $form.on('click', '.revert-changes a', function() {
+        var tree_id = tree.large_tree.current_tree_id;
+        self.blockout_form();
+        tree.toolbar_renderer.reset();
+        self.loadPaneForId(tree_id);
+    });
+
     return $form;
 };
 
