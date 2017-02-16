@@ -314,9 +314,15 @@
         // insert a menu!
         // FIXME I18n
         var $menu = $('<ul>').addClass('dropdown-menu');
-        $menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
+        if (!dropTarget.is('.root-row')) {
+            $menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
+        }
+
         $menu.append($('<li><a href="javascript:void(0)" class="add-items-as-children">Add Items as Children</a></li>'));
-        $menu.append($('<li><a href="javascript:void(0)" class="add-items-after">Add Items After</a></li>'));
+
+        if (!dropTarget.is('.root-row')) {
+            $menu.append($('<li><a href="javascript:void(0)" class="add-items-after">Add Items After</a></li>'));
+        }
 
         $(document.body).append($menu);
         $menu.css('position','absolute');
