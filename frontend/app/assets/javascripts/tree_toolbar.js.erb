@@ -1,44 +1,4 @@
 var SHARED_TOOLBAR_ACTIONS = [
-    // navigate to previous node
-    [
-        {
-            label: '<span class="glyphicon glyphicon-arrow-left"></span>',
-            cssClasses: 'btn-default ',
-            onRender: function(btn, node, tree, toolbarRenderer) {
-                var prev_node = node.prevAll('tr:not(.waypoint):first');
-                if (prev_node.length != 0) {
-                    btn.attr('href', '#tree::' + prev_node.attr('id'));
-                } else {
-                    btn.addClass('disabled');
-                }
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return true;
-            }
-        },
-        // navigate to next node
-        {
-            label: '<span class="glyphicon glyphicon-arrow-right"></span>',
-            cssClasses: 'btn-default',
-            onRender: function(btn, node, tree, toolbarRenderer) {
-                var next_node = node.nextAll('tr:not(.waypoint):first');
-                if (next_node.length == 0) {
-                    btn.attr('href', '#tree::' + tree.large_tree.root_tree_id);
-                } else {
-                    btn.attr('href', '#tree::' + next_node.attr('id'));
-                }
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return true;
-            }
-        },
-    ],
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
