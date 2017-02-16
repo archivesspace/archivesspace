@@ -27,7 +27,7 @@ TreeResizer.prototype.setup = function() {
         self.toggle_height();
     });
 
-    self.container.height(self.get_height());
+    self.reset();
 }
 
 TreeResizer.prototype.get_height = function() {
@@ -46,6 +46,10 @@ TreeResizer.prototype.maximize = function() {
     this.container.addClass("maximized");
     this.container.height($(window).height() - 50);
     document.body.scrollTop = this.tree.toolbar_renderer.container.offset().top - 5;
+};
+
+TreeResizer.prototype.reset = function() {
+    this.container.height(this.get_height());
 };
 
 TreeResizer.prototype.minimize = function() {

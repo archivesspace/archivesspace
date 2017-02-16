@@ -87,12 +87,8 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
 
 AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
     var self = this;
-    var $blockout = $('<div>').addClass('blockout');
-    $blockout.height(self.$pane.height());
-    // add 30 to take into account for outer margin :/ 
-    $blockout.width(self.$pane.width() + 30);
-    $blockout.css('left', '-15px');
-    self.$pane.prepend($blockout);
+
+    self.blockout_form();
 
     $.ajax({
         url: url,
@@ -143,7 +139,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
 
             if ($form.data('formErrors')) {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
-                $form.data(FORM_CHANGED_KEY, true);
+                self.on_form_changed();
                 $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
             } else {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
@@ -171,6 +167,10 @@ AjaxTree.prototype.setup_ajax_form = function() {
         }
     });
 
+    $form.on('formchanged.aspace', function() {
+        self.on_form_changed();
+    });
+
     return $form;
 };
 
@@ -190,7 +190,7 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     node.find('td').filter(':not(.title,.drag-handle,.no-drag-handle)').each(function(td) {
         colspan += $(td).attr('colspan') || 1;
     });
-    var $drag = $('<td>');
+    var $drag = $('<td>').addClass('no-drag-handle');
     $drag.appendTo($new_tr);
     var $titleCell = $('<td>').addClass('title');
     var $indentor = $('<span>').addClass('indentor');
@@ -253,13 +253,16 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     }
 
     self._ajax_the_pane(url, params, function() {
-        self.$pane.find('form').data(FORM_CHANGED_KEY, true);
         self.$pane.find('.btn-cancel').on('click', function(event) {
             event.preventDefault();
-            $new_tr.remove();
-            self.loadPaneForId(node.attr('id'));
-            node.addClass('current');
-            node.find('a.record-title').focus();
+            var tree_id= node.attr('id');
+            var uri = node.data('uri');
+            self.tree.large_tree.redisplayAndShow([uri], function() {
+                self.tree.large_tree.setCurrentNode(tree_id);
+            });
+
+            self.quietly_change_hash('tree::'+tree_id);
+            self.loadPaneForId(tree_id);
         });
     });
 };
@@ -353,4 +356,27 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
 AjaxTree.prototype.quietly_change_hash = function(tree_id) {
     this._ignore_hash_change = true;
     location.hash = tree_id;
+};
+
+
+AjaxTree.prototype.blockout_form = function() {
+    var self = this;
+    var $blockout = $('<div>').addClass('blockout');
+    $blockout.height(self.$pane.height());
+    // add 30 to take into account for outer margin :/ 
+    $blockout.width(self.$pane.width() + 30);
+    $blockout.css('left', '-15px');
+    self.$pane.prepend($blockout);
+};
+
+AjaxTree.prototype.unblockout_form = function() {
+    this.$pane.find('.blockout').remove();
+};
+
+AjaxTree.prototype.on_form_changed = function() {
+    var $form = this.$pane.find('form');
+    if (!$form.data(FORM_CHANGED_KEY)) {
+        $form.data(FORM_CHANGED_KEY, true);
+        self.tree.toolbar_renderer.notify_form_changed($form);
+    }
 };

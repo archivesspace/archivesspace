@@ -1,4 +1,29 @@
 var SHARED_TOOLBAR_ACTIONS = [
+    {
+        label: 'Enable Reorder', // I18n me
+        cssClasses: 'btn-default',
+        onClick: function(event, node, tree, toolbarRenderer) {
+            $(tree.large_tree.elt).toggleClass('drag-enabled');
+            $(event.target).toggleClass('active');
+
+            if ($(tree.large_tree.elt).is('.drag-enabled')) {
+                tree.ajax_tree.blockout_form();
+                tree.resizer.maximize();
+            } else {
+                tree.ajax_tree.unblockout_form();
+                tree.resizer.reset();
+            }
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            return !tree.large_tree.read_only;
+        },
+        onFormChanged: function(btn, form, tree) {
+            $(btn).addClass('disabled');
+        }, 
+    },
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
@@ -183,6 +208,8 @@ TreeToolbarRenderer.prototype.render = function(node) {
         return
     }
 
+    self.on_form_changed_callbacks = [];
+
     actions.map(function(action_or_group) {
         if (!$.isArray(action_or_group)) {
             action_group = [action_or_group];
@@ -214,6 +241,12 @@ TreeToolbarRenderer.prototype.render = function(node) {
                     $.proxy(action.onRender, tree)($btn, node, tree, self);
                 }
 
+                if (action.onFormChanged) {
+                    self.on_form_changed_callbacks.push((function(form) {
+                        $.proxy(action.onFormChanged, tree)($btn, form, tree);
+                    }));
+                }
+
                 $group.append($btn);
             }
         });
@@ -222,4 +255,10 @@ TreeToolbarRenderer.prototype.render = function(node) {
             self.container.append($group);
         }
     })
+};
+
+TreeToolbarRenderer.prototype.notify_form_changed = function(form) {
+    $.each(this.on_form_changed_callbacks, function(i, callback) {
+        callback(form);
+    });
 };
