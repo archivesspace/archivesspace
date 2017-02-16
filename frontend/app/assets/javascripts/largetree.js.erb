@@ -90,7 +90,7 @@
             }
         });
 
-        this.source.reparentNodes(parent_uri,
+        return this.source.reparentNodes(parent_uri,
                                   nodes.map(function (elt) {
                                       return $(elt).data('uri');
                                   }),
