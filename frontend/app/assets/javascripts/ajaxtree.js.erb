@@ -149,8 +149,11 @@ AjaxTree.prototype.setup_ajax_form = function() {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
                 $form.data(FORM_CHANGED_KEY, false);
 
-                var uri = $('#uri', $form).val()
+                var uri = $('#uri', $form).val();
                 self.tree.large_tree.redisplayAndShow([uri]);
+
+                var tree_id = TreeIds.uri_to_tree_id(uri);
+                self.tree.large_tree.setCurrentNode(tree_id);
             }
 
             if ( $form.data("update-monitor-paused") ) {
@@ -333,8 +336,9 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
         $("#saveYourChangesModal").modal("hide");
         var tree_id = self.tree_id_from_hash();
         var uri = $('#' + tree_id).data('uri');
+
         self.tree.large_tree.redisplayAndShow([uri], function() {
-            $('#'+tree_id).addClass('current');
+            self.tree.large_tree.setCurrentNode(tree_id);
         });
         d.resolve(true);
     });
