@@ -344,7 +344,7 @@
                 resetState()
             });
         }).on('click', '.add-items-as-children', function() {
-            self.largetree.reparentNodes(dropTarget, self.rowsToMove).done(function() {
+            self.largetree.reparentNodes(dropTarget, self.rowsToMove, dropTarget.data('child_count')).done(function() {
                 resetState()
             });
         }).on('click', '.add-items-after', function() {
