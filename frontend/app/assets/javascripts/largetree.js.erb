@@ -50,7 +50,7 @@
         self.source.fetchPathFromRoot(node_id).done(function (path) {
             self.recursivelyPopulateWaypoints(path, function () {
                 var current = $('#' + tree_id);
-                current.find('a.record-title')[0].focus();
+                current.find('.record-title')[0].focus();
 
                 $.proxy(self.node_selected_callback, self)(current, tree);
                 if (done_callback) {
