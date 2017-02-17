@@ -53,6 +53,7 @@
                 current.find('.record-title')[0].focus();
 
                 $.proxy(self.node_selected_callback, self)(current, tree);
+
                 if (done_callback) {
                     done_callback(current);
                 }
@@ -643,7 +644,7 @@
         });
     };
 
-    LargeTree.prototype.setCurrentNode = function(tree_id) {
+    LargeTree.prototype.setCurrentNode = function(tree_id, callback) {
         $('#'+this.current_tree_id, this.elt).removeClass('current');
         this.current_tree_id = tree_id;
 
@@ -651,8 +652,11 @@
             var current = $('#'+this.current_tree_id, this.elt);
             current.addClass('current');
             $.proxy(this.node_selected_callback, self)(current, this);
+            if (callback) {
+                callback();
+            }
         } else {
-            this.displayNode(this.current_tree_id);
+            this.displayNode(this.current_tree_id, callback);
         }
     };
 

@@ -146,10 +146,12 @@ AjaxTree.prototype.setup_ajax_form = function() {
                 $form.data(FORM_CHANGED_KEY, false);
 
                 var uri = $('#uri', $form).val();
-                self.tree.large_tree.redisplayAndShow([uri]);
-
-                var tree_id = TreeIds.uri_to_tree_id(uri);
-                self.tree.large_tree.setCurrentNode(tree_id);
+                self.tree.large_tree.redisplayAndShow([uri], function() {
+                    var tree_id = TreeIds.uri_to_tree_id(uri);
+                    self.tree.large_tree.setCurrentNode(tree_id, function() {
+                        self.tree.toolbar_renderer.notify_form_loaded($form);
+                    });
+                });
             }
 
             if ( $form.data("update-monitor-paused") ) {
