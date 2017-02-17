@@ -65,12 +65,32 @@
 
         var parent_uri = new_parent.data('uri');
 
-        if (!position) {
-            position = 0;
-        }
-
         if (!parent_uri) {
             parent_uri = this.root_uri;
+        }
+
+        if (position) {
+            /* If any of the nodes we're moving were originally siblings that
+            fall before the drop target, we need to adjust the position for the
+            fact that everything will "shift up" when they're moved */
+            var positionAdjustment = 0;
+
+            $(nodes).each(function (idx, elt) {
+                var level = $(elt).data('level');
+                var node_parent_uri = $(elt).prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
+
+                if (!node_parent_uri) {
+                    node_parent_uri = self.root_uri;
+                }
+
+                if (node_parent_uri == parent_uri && $(elt).data('position') < position) {
+                    positionAdjustment += 1;
+                }
+            });
+
+            position -= positionAdjustment;
+        } else {
+            position = 0;
         }
 
         var uris_to_reopen = [];
