@@ -11,8 +11,13 @@ function TreeResizer(tree, container) {
 TreeResizer.prototype.setup = function() {
     var self = this;
 
+    var resize_handle = $('<div class="ui-resizable-handle ui-resizable-s" />');
+    self.container.after(resize_handle);
+
     self.container.resizable({
-        handles: "s",
+        handles: {
+            s: resize_handle,
+        },
         minHeight: DEFAULT_TREE_MIN_HEIGHT,
         resize: function(event, ui) {
             self.container.removeClass("maximized");
