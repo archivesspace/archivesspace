@@ -11,22 +11,22 @@ function TreeResizer(tree, container) {
 TreeResizer.prototype.setup = function() {
     var self = this;
 
-    var resize_handle = $('<div class="ui-resizable-handle ui-resizable-s" />');
-    self.container.after(resize_handle);
+    self.resize_handle = $('<div class="ui-resizable-handle ui-resizable-s" />');
+    self.container.after(self.resize_handle);
 
     self.container.resizable({
         handles: {
-            s: resize_handle,
+            s: self.resize_handle,
         },
         minHeight: DEFAULT_TREE_MIN_HEIGHT,
         resize: function(event, ui) {
-            self.container.removeClass("maximized");
+            self.resize_handle.removeClass("maximized");
             self.set_height(ui.size.height);
         }
     });
 
     self.$toggle = $('<a>').addClass('tree-resize-toggle');
-    $('.ui-resizable-handle', self.container).append(self.$toggle);
+    self.resize_handle.append(self.$toggle);
 
     self.$toggle.on('click', function() {
         self.toggle_height();
@@ -52,7 +52,7 @@ TreeResizer.prototype.maximize = function(margin) {
         margin = 50;
     }
 
-    this.container.addClass("maximized");
+    this.resize_handle.addClass("maximized");
     this.container.height($(window).height() - margin - this.container.offset().top);
 };
 
@@ -61,13 +61,13 @@ TreeResizer.prototype.reset = function() {
 };
 
 TreeResizer.prototype.minimize = function() {
-    this.container.removeClass("maximized");
+    this.resize_handle.removeClass("maximized");
     this.container.height(DEFAULT_TREE_MIN_HEIGHT);
     document.body.scrollTop = this.tree.toolbar_renderer.container.offset().top - 5;
 };
 
 TreeResizer.prototype.maximized = function() {
-    return this.container.is('.maximized');
+    return this.resize_handle.is('.maximized');
 }
 
 TreeResizer.prototype.toggle_height = function() {
