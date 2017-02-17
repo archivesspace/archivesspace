@@ -281,6 +281,8 @@
                 /* If they didn't drop on a row, that's a cancel. */
                 if (dropTarget.length > 0 && self.isDropAllowed(dropTarget)) {
                     self.handleDrop(dropTarget);
+                } else {
+                    self.rowsToMove = [];
                 }
 
                 event.preventDefault();
