@@ -16,6 +16,8 @@
         this.scrollTimer = undefined;
         this.renderer = renderer;
 
+        this.elt.css('will-change', 'transform');
+
         this.root_uri = root_uri;
         this.root_tree_id = TreeIds.uri_to_tree_id(root_uri);
         this.read_only = read_only;
