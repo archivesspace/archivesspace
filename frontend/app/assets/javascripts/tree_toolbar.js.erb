@@ -8,7 +8,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 tree.ajax_tree.blockout_form();
             }
         },
-        onToolbarRendered: function(toolbarRenderer) {
+        onToolbarRendered: function(btn, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
             }
@@ -75,7 +75,13 @@ var TreeToolbarConfiguration = {
             },
             isVisible: function(node, tree, toolbarRenderer) {
                 return !tree.large_tree.read_only;
-            }
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -93,7 +99,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_sibling") %>',
@@ -107,7 +119,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             }
         ]
     ]),
@@ -125,7 +143,13 @@ var TreeToolbarConfiguration = {
             },
             isVisible: function(node, tree, toolbarRenderer) {
                 return !tree.large_tree.read_only;
-            }
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -143,7 +167,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
             {
                 label: '<%= I18n.t("digital_object_component._frontend.action.add_sibling") %>',
@@ -157,7 +187,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             }
         ]
     ]),
@@ -175,7 +211,13 @@ var TreeToolbarConfiguration = {
             },
             isVisible: function(node, tree, toolbarRenderer) {
                 return !tree.large_tree.read_only;
-            }
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -193,7 +235,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
             {
                 label: '<%= I18n.t("classification_term._frontend.action.add_sibling") %>',
@@ -207,7 +255,13 @@ var TreeToolbarConfiguration = {
                 },
                 isVisible: function(node, tree, toolbarRenderer) {
                     return !tree.large_tree.read_only;
-                }
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
         ]
     ]),
@@ -293,7 +347,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
 
                 if (action.onToolbarRendered) {
                     self.on_toolbar_rendered_callbacks.push(function() {
-                        $.proxy(action.onToolbarRendered, tree)(self);
+                        $.proxy(action.onToolbarRendered, tree)($btn, self);
                     });
                 }
 
