@@ -9,7 +9,10 @@
      </form>
    </li>
 
-   <li class="large-badge  align-center"><a class="btn page_action" href="javascript:alert('this will handle the bookmark for <%= title %>');" title="<%= t('actions.bookmark') %>"><i class="fa fa-bookmark fa-3x"></i><br/><%= t('actions.bookmark') %></a></li>
+   <li class="large-badge  align-center">
+    <a class="btn page_action" href="javascript:alert('this will handle the bookmark for <%= title %>');" title="<%= t('actions.bookmark') %>">
+      <i class="fa fa-bookmark fa-3x"></i><br/><%= t('actions.bookmark') %></a>
+    </li>
    <li class="large-badge align-center">
     <% if defined?(@request) %>
      <form id="request_sub" action="<%= @request[:request_uri]%>/request" method="post">
@@ -24,5 +27,34 @@
     <% end %>
    </li>
    <li class="large-badge align-center"><a class="btn page_action" href="javascript:alert('this will print? <%= title %>');" title="<%= t('actions.print') %>"><i class="fa fa-file-pdf-o fa-3x"></i><br/><%= t('actions.print') %></a></li>
+
+    <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
+      <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
+      <% icon_css = page_action.fetch('icon_css') %>
+      <% icon = "<i class='fa fa-3x #{icon_css}'></i>" %>
+      <% link_content = "#{icon}<br>#{label}".html_safe %>
+
+      <li class="large-badge  align-center">
+        <% if page_action.has_key?('onclick_javascript') %>
+          <% javascript = page_action.fetch('onclick_javascript') %>
+          <%= link_to link_content, 'javascript:void(0);',
+                      :class => 'btn page_action',
+                      :title => label,
+                      :'data-title' =>  record.display_string,
+                      :'data-uri' =>  record.uri,
+                      :onclick => javascript %>
+        <% elsif page_action.has_key?('build_url_proc') %>
+            <% proc = page_action.fetch('build_url_proc') %>
+            <% url = proc.call(record) %>
+            <%= link_to link_content, url,
+                        :class => 'btn page_action',
+                        :title => label %>
+        <% else %>
+            <%= link_to link_content, '#',
+                        :class => 'btn page_action',
+                        :title => label %>
+        <% end %>
+      </li>
+    <% end %>
  </ul>
 </div>
