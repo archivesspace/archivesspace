@@ -34,20 +34,21 @@ module PUIIndexerMixin
     # this runs after the hooks in indexer_common, so we can overwrite with confidence
     add_document_prepare_hook {|doc, record|
       if RecordInheritance.has_type?(doc['primary_type'])
-        merged = RecordInheritance.merge(record['record'], :remove_ancestors => true)
         # special handling for json because we need to include indirectly inherited
         # fields too - the json sent to indexer_common only has directly inherited
         # fields because only they should be indexed.
-        doc['json'] = ASUtils.to_json(merged)
+        # so we remerge without the :direct_only flag, and we remove the ancestors
+        doc['json'] = ASUtils.to_json(RecordInheritance.merge(record['record'],
+                                                              :remove_ancestors => true))
 
         # special handling for title because it is populated from display_string
         # in indexer_common and display_string is not changed in the merge process
-        doc['title'] = merged['title'] if merged['title']
+        doc['title'] = record['record']['title'] if record['record']['title']
 
         # special handling for fullrecord because we don't want the ancestors indexed.
-        # we could merge here with :direct_only and :remove_ancestors, but this is cheaper
-        # since the record we have is already merged with :direct_only from fetch_records
-        doc['fullrecord'] = CommonIndexer.build_fullrecord(record.reject{|k,v| k == 'ancestors'})
+        # we're now done with the ancestors, so we can just delete them from the record
+        record['record'].delete('ancestors')
+        doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
       end
     }
   end
