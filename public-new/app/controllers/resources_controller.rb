@@ -136,17 +136,6 @@ class ResourcesController <  ApplicationController
       @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
-      @cite = ''
-      cite = @result.note('prefercite')
-      unless cite.blank?
-        @cite = strip_mixed_content(cite['note_text'])
-      else
-        @cite =  strip_mixed_content(@result.json['title']) + '.'
-        unless @repo_info['top']['name'].blank?
-          @cite += " #{ @repo_info['top']['name']}."
-        end
-      end
-      @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])

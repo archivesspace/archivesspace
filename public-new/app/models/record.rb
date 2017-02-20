@@ -286,4 +286,8 @@ class Record
     @service
   end
 
+  def cite_url_and_timestamp
+    "#{AppConfig[:public_url].sub(/^\//, '')}#{uri}  #{I18n.t('accessed')}  #{Time.now.strftime("%B %d, %Y")}"
+  end
+
 end

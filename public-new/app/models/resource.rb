@@ -1,7 +1,7 @@
 class Resource < Record
 
   attr_reader :digital_instances, :finding_aid, :related_accessions,
-              :related_deaccessions
+              :related_deaccessions, :cite
 
   def initialize(*args)
     super
@@ -10,6 +10,7 @@ class Resource < Record
     @finding_aid = parse_finding_aid
     @related_accessions = parse_related_accessions
     @related_deaccessions = parse_related_deaccessions
+    @cite = parse_cite_string
   end
 
   private
@@ -101,5 +102,18 @@ class Resource < Record
     }
 
     deaccessions
+  end
+
+  def parse_cite_string
+    cite = note('prefercite')
+    unless cite.blank?
+      cite = strip_mixed_content(cite['note_text'])
+    else
+      cite =  strip_mixed_content(display_string) + '.'
+      unless repository_information['top']['name'].blank?
+        cite += " #{ repository_information['top']['name']}."
+      end
+    end
+    "#{cite}   #{cite_url_and_timestamp}."
   end
 end
