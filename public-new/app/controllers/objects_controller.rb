@@ -91,7 +91,6 @@ class ObjectsController <  ApplicationController
         @page_title = @result.display_string
         @tree = fetch_tree(uri)
         @context = breadcrumb_info
-        @cite = fill_cite
         if @result['primary_type'] == 'digital_object'
           @dig = process_digital(@result['json'])
         else

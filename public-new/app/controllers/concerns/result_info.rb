@@ -16,21 +16,6 @@ module ResultInfo
     context
   end
 
-# cite
-  def fill_cite
-    @cite = ''
-    cite = @result.note('prefercite')
-    unless cite.blank?
-      @cite = strip_mixed_content(cite['note_text'])
-    else
-      @cite = strip_mixed_content(@result['json']['title']) + "."
-      ttl = @result.dig('_resolved_resource', 'json', 'title')
-      @cite += " #{strip_mixed_content(ttl)}." unless !ttl
-      @cite += " #{ @repo_info['top']['name']}." unless !@repo_info.dig('top','name')
-    end
-    @cite += "   #{request.original_url}  #{I18n.t('accessed')} " +  Time.now.strftime("%B %d, %Y") + "."
-  end
-
   def fill_request_info(resource = false)
     container = container_info
     unless !resource && (( container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code']))
