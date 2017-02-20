@@ -364,3 +364,9 @@ AppConfig[:pui_repos] = {}
 # AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 
 AppConfig[:pui_display_deaccessions] = true
+
+# Enable / disable PUI resource/archival object page actions
+AppConfig[:pui_page_actions_cite] = true
+AppConfig[:pui_page_actions_bookmark] = true
+AppConfig[:pui_page_actions_request] = true
+AppConfig[:pui_page_actions_print] = true

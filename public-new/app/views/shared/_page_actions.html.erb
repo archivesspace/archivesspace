@@ -1,5 +1,6 @@
 <div title="<%= t('page_actions')%>">
  <ul class="list-inline">        
+   <% if AppConfig[:pui_page_actions_cite] %>
    <li class="large-badge  align-center">
      <form id="cite_sub" action="/cite" method="post">
        <input type="hidden" name="cite" value="<%=cite %>" />
@@ -8,11 +9,15 @@
        <i class="fa fa-book fa-3x"></i><br/><%= t('actions.cite') %></button>
      </form>
    </li>
+   <% end %>
 
+   <% if AppConfig[:pui_page_actions_bookmark] %>
    <li class="large-badge  align-center">
     <a class="btn page_action" href="javascript:alert('this will handle the bookmark for <%= title %>');" title="<%= t('actions.bookmark') %>">
       <i class="fa fa-bookmark fa-3x"></i><br/><%= t('actions.bookmark') %></a>
     </li>
+   <% end %>
+   <% if AppConfig[:pui_page_actions_request] %>
    <li class="large-badge align-center">
     <% if defined?(@request) %>
      <form id="request_sub" action="<%= @request[:request_uri]%>/request" method="post">
@@ -26,7 +31,10 @@
 
     <% end %>
    </li>
+   <% end %>
+   <% if AppConfig[:pui_page_actions_print] %>
    <li class="large-badge align-center"><a class="btn page_action" href="javascript:alert('this will print? <%= title %>');" title="<%= t('actions.print') %>"><i class="fa fa-file-pdf-o fa-3x"></i><br/><%= t('actions.print') %></a></li>
+   <% end %>
 
     <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
       <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
