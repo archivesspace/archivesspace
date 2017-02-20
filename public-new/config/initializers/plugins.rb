@@ -22,12 +22,6 @@ module Plugins
     end
   end
 
-  def self.add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position = nil)
-    ArchivesSpacePublic::Application.config.after_initialize do
-      PublicNewDefaults::add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position)
-    end
-  end
-
   def self.add_record_page_action_erb(record_types, erb_partial, position = nil)
     ArchivesSpacePublic::Application.config.after_initialize do
       PublicNewDefaults::add_record_page_action_erb(record_types, erb_partial, position)

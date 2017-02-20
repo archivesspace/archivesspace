@@ -3,26 +3,14 @@
     <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
       <li class="large-badge  align-center">
         <% if page_action.has_key?('erb_partial') %>
-          <%= render :partial => page_action.fetch('erb_partial') %>
+          <%= render :partial => page_action.fetch('erb_partial'), :locals => { :record => record } %>
         <% else %>
           <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
           <% icon_class = page_action.fetch('icon') %>
           <% icon = "<i class='fa fa-3x #{icon_class}'></i>" %>
           <% link_content = "#{icon}<br>#{label}".html_safe %>
-          <% if page_action.has_key?('post_params_proc') %>
-            <% params = page_action.fetch('post_params_proc').call(record) %>
-            <% post_url = page_action.fetch('url_proc').call(record) %>
-            <% form_id = page_action.fetch('form_id', '') %>
-            <form id="<%= form_id %>" action="<%= post_url %>" method="post">
-              <% params.each do |name, value| %>
-                <input type="hidden" name="<%= name %>" value="<%= value %>" />
-              <% end %>
-              <button type="submit" class="btn btn-default page_action cite">
-                <%= link_content %>
-              </button>
-            </form>
-  
-          <% elsif page_action.has_key?('onclick_javascript') %>
+
+          <% if page_action.has_key?('onclick_javascript') %>
             <% javascript = page_action.fetch('onclick_javascript') %>
             <%= link_to link_content, 'javascript:void(0);',
                         :class => 'btn btn-default page_action',
