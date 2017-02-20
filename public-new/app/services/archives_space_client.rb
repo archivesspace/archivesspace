@@ -67,6 +67,14 @@ class ArchivesSpaceClient
     SolrResults.new(results, search_opts, full_notes)
   end
 
+  def get_raw_record(uri, search_opts = {})
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    url = build_url('/search/records', search_opts.merge("uri[]" => ASUtils.wrap(uri)))
+    results = do_search(url)
+
+    ASUtils.json_parse(results.fetch('results').fetch(0).fetch('json'))
+  end
+
   def get_record(uri, search_opts = {})
     results = search_records(ASUtils.wrap(uri), search_opts, full_notes = true)
     

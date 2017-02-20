@@ -52,7 +52,14 @@ Rails.application.routes.draw do
   post "repositories/:rid/records" => 'objects#index'
   get "repositories/:id" => 'repositories#show'
   post "repositories/:id" => 'repositories#show'
-  
+
+  get "repositories/:rid/resources/:id/to-infinity-and-beyond"  => 'resources#infinite'
+  get "repositories/:rid/resources/:id/infinite/waypoints"  => 'resources#waypoints'
+
+  get "repositories/:rid/resources/:id/tree/root"  => 'resources#tree_root'
+  get "repositories/:rid/resources/:id/tree/waypoint"  => 'resources#tree_waypoint'
+  get "repositories/:rid/resources/:id/tree/node"  => 'resources#tree_node'
+
   get '/repositories', to: 'repositories#index'
   get '/search', to: 'search#search'
 end

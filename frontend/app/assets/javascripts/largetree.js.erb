@@ -1,11 +1,54 @@
-//= require tree_ids_helpers
-//= require ajaxtree
-//= require tree_renderers
-//= require tree_toolbar
-//= require tree_resizer
-
 (function (exports) {
     "use strict";
+
+    /************************************************************************/
+    /* Tree ID helpers  */
+    /************************************************************************/
+    var TreeIds = {}
+
+    /* FIXME: Figure out how to get rid of plural stuff and hopefully all of this... */
+    TreeIds.uri_to_tree_id = function (uri) {
+        var parts = TreeIds.uri_to_parts(uri);
+        return parts.type + '_' + parts.id;
+    }
+
+    TreeIds.uri_to_parts = function (uri) {
+        var last_part = uri.replace(/\/repositories\/[0-9]+\//,"");
+        var bits = last_part.match(/([a-z_]+)\/([0-9]+)/);
+        var type_plural = bits[1].replace(/\//g,'_');
+        var id = bits[2];
+        var type = type_plural.replace(/s$/, '');
+
+        return {
+            type: type,
+            id: id
+        };
+    }
+
+    TreeIds.backend_uri_to_frontend_uri = function (uri) {
+        return APP_PATH + uri.replace(/\/repositories\/[0-9]+\//, "")
+    }
+
+    TreeIds.parse_tree_id = function (tree_id) {
+        var regex_match = tree_id.match(/([a-z_]+)([0-9]+)/);
+        if (regex_match == null || regex_match.length != 3) {
+            return;
+        }
+
+        var row_type = regex_match[1].replace(/_$/, "");
+        var row_id = regex_match[2];
+
+        return {type: row_type, id: row_id}
+    }
+
+    TreeIds.link_url = function(uri) {
+        // convert the uri into tree-speak
+        return "#tree::" + TreeIds.uri_to_tree_id(uri);
+    };
+
+    exports.TreeIds = TreeIds
+    /************************************************************************/
+
 
     var SCROLL_DELAY_MS = 25;
     var THRESHOLD_EMS = 300;
@@ -20,10 +63,11 @@
 
         this.root_uri = root_uri;
         this.root_tree_id = TreeIds.uri_to_tree_id(root_uri);
-        this.read_only = read_only;
 
         // default to the root_id
         this.current_tree_id = this.root_tree_id;
+
+        this.read_only = read_only;
 
         this.waypoints = {};
 
@@ -241,7 +285,7 @@
             return;
         }
 
-        $('.expandme-icon', button).addClass('expanded');
+        button.find('.expandme-icon').addClass('expanded');
         $(button).data('expanded', true);
 
         self.source.fetchNode(row.data('uri')).done(function (node) {
@@ -263,7 +307,7 @@
         var button = row.find('.expandme');
 
         $(button).data('expanded', false);
-        $('.expandme-icon', button).removeClass('expanded');
+        button.find('.expandme-icon').removeClass('expanded');
 
         if (done_callback) {
             done_callback();
@@ -378,7 +422,7 @@
 
         /* Pick a reasonable guess at which waypoint we might want to populate
            (based on our scroll position) */
-        var allWaypoints = $('.waypoint');
+        var allWaypoints = self.elt.find('.waypoint');
 
         var scrollPercent = self.elt.scrollTop() / self.elt.find('table.root').height();
         var startIdx = Math.floor(scrollPercent * allWaypoints.length);
@@ -539,16 +583,16 @@
     /*********************************************************************************/
     /* Data source */
     /*********************************************************************************/
-    function ASpaceTree(baseURL) {
+    function TreeDataSource(baseURL) {
         this.url = baseURL.replace(/\/+$/, "");
     }
 
 
-    ASpaceTree.prototype.urlFor = function (action) {
+    TreeDataSource.prototype.urlFor = function (action) {
         return this.url + "/" + action;
     };
 
-    ASpaceTree.prototype.fetchRootNode = function () {
+    TreeDataSource.prototype.fetchRootNode = function () {
         var self = this;
 
         return $.ajax(this.urlFor("root"),
@@ -560,7 +604,7 @@
                 });
     };
 
-    ASpaceTree.prototype.fetchNode = function (uri) {
+    TreeDataSource.prototype.fetchNode = function (uri) {
         var self = this;
 
         return $.ajax(this.urlFor("node"),
@@ -577,7 +621,7 @@
 
     };
 
-    ASpaceTree.prototype.fetchPathFromRoot = function (node_id) {
+    TreeDataSource.prototype.fetchPathFromRoot = function (node_id) {
         var self = this;
 
         return $.ajax(this.urlFor("node_from_root"),
@@ -589,7 +633,7 @@
                       });
     };
 
-    ASpaceTree.prototype.fetchWaypoint = function (uri, offset) {
+    TreeDataSource.prototype.fetchWaypoint = function (uri, offset) {
         var cached = this.getPrecomputedWaypoint(uri, offset);
 
         if (cached) {
@@ -610,7 +654,7 @@
         }
     };
 
-    ASpaceTree.prototype.reparentNodes = function (new_parent_uri, node_uris, position) {
+    TreeDataSource.prototype.reparentNodes = function (new_parent_uri, node_uris, position) {
         var target = TreeIds.backend_uri_to_frontend_uri(new_parent_uri);
 
         return $.ajax(target + "/accept_children",
@@ -625,7 +669,7 @@
 
     var precomputedWaypoints = {};
 
-    ASpaceTree.prototype.getPrecomputedWaypoint = function (uri, offset) {
+    TreeDataSource.prototype.getPrecomputedWaypoint = function (uri, offset) {
         var result;
 
         if (uri === null) {
@@ -640,7 +684,7 @@
         return result;
     };
 
-    ASpaceTree.prototype.cachePrecomputedWaypoints = function (node) {
+    TreeDataSource.prototype.cachePrecomputedWaypoints = function (node) {
         $(Object.keys(node.precomputed_waypoints)).each(function (idx, uri) {
             precomputedWaypoints[uri] = node.precomputed_waypoints[uri];
         });
@@ -662,43 +706,7 @@
         }
     };
 
-
-
-    var renderers = {
-        resource: new ResourceRenderer(),
-        digital_object: new DigitalObjectRenderer(),
-        classification: new ClassificationRenderer(),
-    };
-
-    function Tree(datasource_url, tree_container, form_container, toolbar_container, root_uri, read_only, root_record_type) {
-        var self = this;
-
-        self.datasource = new ASpaceTree(datasource_url);
-
-        var tree_renderer = renderers[root_record_type];
-
-        self.toolbar_renderer = new TreeToolbarRenderer(self, toolbar_container);
-
-        self.large_tree = new LargeTree(self.datasource, 
-                                        tree_container,
-                                        root_uri,
-                                        read_only,
-                                        tree_renderer, 
-                                        function() {
-                                            self.ajax_tree = new AjaxTree(self, form_container);
-                                            self.resizer = new TreeResizer(self, tree_container);
-                                        },
-                                        function(node, tree) {
-                                            self.toolbar_renderer.render(node);
-                                        });
-
-
-        if (!read_only) {
-            self.large_tree.addPlugin(new LargeTreeDragDrop());
-        }
-    }
-
-
-    exports.Tree = Tree;
+    exports.LargeTree = LargeTree;
+    exports.TreeDataSource = TreeDataSource;
 
 }(window));

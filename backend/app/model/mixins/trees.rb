@@ -171,6 +171,44 @@ module Trees
     JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end
 
+  # Return a depth-first-ordered list of URIs under this tree (starting with the tree itself)
+  def ordered_records
+    id_positions = {}
+    parent_to_child_id = {}
+
+    self.class.node_model
+      .filter(:root_record_id => self.id)
+      .select(:id, :position, :parent_id).each do |row|
+
+      id_positions[row[:id]] = row[:position]
+      parent_to_child_id[row[:parent_id]] ||= []
+      parent_to_child_id[row[:parent_id]] << row[:id]
+    end
+
+    result = []
+
+    # Start with top-level records
+    root_set = [nil]
+    id_positions[nil] = 0
+
+    while !root_set.empty?
+      next_rec = root_set.shift
+      if next_rec.nil?
+        # Our first iteration.  Nothing to add yet.
+      else
+        result << next_rec
+      end
+
+      children = parent_to_child_id.fetch(next_rec, []).sort_by {|child| id_positions[child]}
+      children.reverse.each do |child|
+        root_set.unshift(child)
+      end
+    end
+
+    [{'ref' => self.uri}] +
+      result.map {|id| {'ref' => self.class.node_model.uri_for(self.class.node_type, id)}
+    }
+  end
 
   def transfer_to_repository(repository, transfer_group = [])
     obj = super

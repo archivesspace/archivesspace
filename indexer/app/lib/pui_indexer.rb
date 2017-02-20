@@ -3,6 +3,8 @@ require 'record_inheritance'
 require_relative 'indexer_common'
 require_relative 'periodic_indexer'
 
+require 'set'
+
 module PUIIndexerMixin
 
   PUI_RESOLVES = [
@@ -51,6 +53,102 @@ module PUIIndexerMixin
         doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
       end
     }
+
+    add_batch_hook do |batch|
+
+      resources = Set.new
+
+      batch.each do |rec|
+        if rec['primary_type'] == 'archival_object'
+          resources << rec['resource']
+        elsif rec['primary_type'] == 'resource'
+          resources << rec['uri']
+        end
+      end
+
+      add_infscroll_docs(resources, batch)
+      add_largetree_docs(resources, batch)
+    end
+  end
+
+  def add_infscroll_docs(resource_uris, batch)
+    resource_uris.each do |resource_uri|
+      json = JSONModel::HTTP.get_json(resource_uri + '/ordered_records')
+
+      # FIXME: need to arrange for these records to be deleted when their parent collection is
+      batch << {
+        'id' => "#{resource_uri}/ordered_records",
+        'publish' => "true",
+        'primary_type' => "resource_ordered_records",
+        'json' => ASUtils.to_json(json)
+      }
+    end
+  end
+
+  def add_largetree_docs(resource_uris, batch)
+    resource_uris.each do |resource_uri|
+      json = JSONModel::HTTP.get_json(resource_uri + '/tree/root')
+
+      # FIXME: need to arrange for these records to be deleted when their parent collection is
+
+      # :ADD, "#{resource_uri}/tree/root"
+      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:89 a1b22e]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/root"^ => "#{resource_uri}/tree/root"}.pretty_inspect + "\n")
+
+      batch << {
+        'id' => "#{resource_uri}/tree/root",
+        'publish' => "true",
+        'primary_type' => "tree_root",
+        'json' => ASUtils.to_json(json)
+      }
+
+      add_waypoints(json, resource_uri, nil, batch)
+
+      # json
+      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:91 be7580]: " + {%Q^json^ => json}.pretty_inspect + "\n")
+    end
+  end
+
+  def add_waypoints(json, resource_uri, parent_uri, batch)
+    json.fetch('waypoints').times do |waypoint_number|
+      json = JSONModel::HTTP.get_json(resource_uri + '/tree/waypoint',
+                                     :offset => waypoint_number,
+                                     :parent_node => parent_uri)
+
+
+      # :ADD, "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"
+      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:113 2a1c6]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"^ => "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"}.pretty_inspect + "\n")
+
+      batch << {
+        'id' => "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
+        'publish' => "true",
+        'primary_type' => "tree_waypoint",
+        'json' => ASUtils.to_json(json)
+      }
+
+      json.each do |waypoint_record|
+        if waypoint_record.fetch('child_count') > 0
+          add_nodes(resource_uri, waypoint_record.fetch('uri'), batch)
+        end
+      end
+
+    end
+  end
+
+  def add_nodes(resource_uri, record_uri, batch)
+      json = JSONModel::HTTP.get_json(resource_uri + '/tree/node',
+                                     :node_uri => record_uri)
+
+      # :ADD, "#{resource_uri}/tree/node_#{json.fetch('uri')}"
+      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:136 af5d5b]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/node_#{json.fetch('uri')}"^ => "#{resource_uri}/tree/node_#{json.fetch('uri')}"}.pretty_inspect + "\n")
+
+      batch << {
+        'id' => "#{resource_uri}/tree/node_#{json.fetch('uri')}",
+        'publish' => "true",
+        'primary_type' => "tree_node",
+        'json' => ASUtils.to_json(json)
+      }
+
+      add_waypoints(json, resource_uri, json.fetch('uri'), batch)
   end
 
   def skip_index_record?(record)

@@ -42,3 +42,5 @@ Gemfile.local
 supervisord.*
 mysql-connector*.jar
 common/config/config.rb
+public-new/vendor/assets/stylesheets/largetree.less
+public-new/vendor/assets/javascripts/largetree.js.erb

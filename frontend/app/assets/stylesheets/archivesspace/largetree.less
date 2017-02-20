@@ -1,3 +1,7 @@
+// Note!  This file is used both in the frontend (LESS) and pui
+// (SASS).  Keep the rules here as close to vanilla CSS as
+// possible--or, at least, a compatible subset of LESS/SCSS!
+
 #tree-container {
     background-color: #EEE;
     margin-bottom: 1em;
@@ -121,19 +125,17 @@
         }
     }
 
-    @indent-width: 24px;
-
-    .indent-level-0 .indentor { width: @indent-width; }
-    .indent-level-1 .indentor { width: 1 * @indent-width; }
-    .indent-level-2 .indentor { width: 2 * @indent-width; }
-    .indent-level-3 .indentor { width: 3 * @indent-width; }
-    .indent-level-4 .indentor { width: 4 * @indent-width; }
-    .indent-level-5 .indentor { width: 5 * @indent-width; }
-    .indent-level-6 .indentor { width: 6 * @indent-width; }
-    .indent-level-7 .indentor { width: 7 * @indent-width; }
-    .indent-level-8 .indentor { width: 8 * @indent-width; }
-    .indent-level-9 .indentor { width: 9 * @indent-width; }
-    .indent-level-10 .indentor { width: 10 * @indent-width; }
+    .indent-level-0 .indentor { width: 24px }
+    .indent-level-1 .indentor { width: 24px }
+    .indent-level-2 .indentor { width: 48px }
+    .indent-level-3 .indentor { width: 72px }
+    .indent-level-4 .indentor { width: 96px }
+    .indent-level-5 .indentor { width: 120px }
+    .indent-level-6 .indentor { width: 144px }
+    .indent-level-7 .indentor { width: 168px }
+    .indent-level-8 .indentor { width: 192px }
+    .indent-level-9 .indentor { width: 216px }
+    .indent-level-10 .indentor { width: 240px; }
 
     tr#new {
         .indentor, .new-title {
@@ -201,7 +203,7 @@
     }
 }
 
-&.ui-resizable-resizing {
+.ui-resizable-resizing {
     .ui-resizable-handle.ui-resizable-s {
         background-color: #e9e9e9;
     }

@@ -12,8 +12,7 @@
 <div id="object_container"></div>
 
 <%= stylesheet_link_tag "archivesspace/largetree" %>
-<%= javascript_include_tag "largetree" %>
-<%= javascript_include_tag "largetree_dragdrop" %>
+<%= javascript_include_tag "tree" %>
 
 <script>
     var tree = new Tree('<%= url_for(:action => :show) %>/tree',

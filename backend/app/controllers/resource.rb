@@ -59,6 +59,20 @@ class ArchivesSpaceService < Sinatra::Base
   # end
 
 
+  Endpoint.get('/repositories/:repo_id/resources/:id/ordered_records')
+    .description("Get the list of URIs of this resource and all archival objects contained within." +
+                 "Ordered by tree order (i.e. if you fully expanded the record tree and read from top to bottom)")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "JSONModel(:resource_ordered_records)"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+
+    json_response(JSONModel(:resource_ordered_records).from_hash(:uris => resource.ordered_records))
+  end
+
+
   Endpoint.post('/repositories/:repo_id/resources/:id')
     .description("Update a Resource")
     .params(["id", :id],
