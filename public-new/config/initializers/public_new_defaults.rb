@@ -90,34 +90,6 @@ module PublicNewDefaults
     end
   end
 
-
-  # Add a POST form page action for a particular jsonmodel record type
-  # - record_types: the types to display for e.g, resource, archival_object etc
-  # - label: I18n path or string for the label
-  # - icon: CSS classes for the Font Awesome icon e.g. 'fa fa-book fa-3x'
-  # - post_params_proc: a proc that returns a hash of the params to include as hidden inputs]
-  # - url_proc: a proc passed the record upon render which must return a string
-  #   (the record is passed as a param to the proc)
-  # - position: index to include the menu item
-  def self.add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position = nil)
-    action = {
-      'label' => label,
-      'icon' => icon,
-      'form_id' => form_id,
-      'post_params_proc' => post_params_proc,
-      'url_proc' => url_proc,
-    }
-
-    ASUtils.wrap(record_types).each do |record_type|
-      $RECORD_PAGE_ACTIONS[record_type] ||= []
-      if (position.nil?)
-        $RECORD_PAGE_ACTIONS[record_type] << action
-      else
-        $RECORD_PAGE_ACTIONS[record_type].insert(position, action)
-      end
-    end
-  end
-
 # Add an action from an ERB for a particular jsonmodel record type
 # - record_types: the types to display for e.g, resource, archival_object etc
 # - erb_partial: the path the erb partial
@@ -140,19 +112,8 @@ module PublicNewDefaults
   # Load any default actions:
   # Cite
   if AppConfig[:pui_page_actions_cite]
-    add_record_page_action_post(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
-                                'actions.cite',
-                                'fa-book',
-                                'cite_sub',
-                                proc {|record|
-                                  {
-                                    'cite' => record.cite,
-                                    'uri' => record.uri,
-                                  }
-                                },
-                                proc {|record|
-                                  "#{AppConfig[:public_prefix]}cite"
-                                })
+    add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+                               'shared/cite_page_action')
   end
   # Bookmark
   if AppConfig[:pui_page_actions_bookmark]
