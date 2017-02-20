@@ -1,66 +1,44 @@
 <div title="<%= t('page_actions')%>">
- <ul class="list-inline">        
-   <% if AppConfig[:pui_page_actions_cite] %>
-   <li class="large-badge  align-center">
-     <form id="cite_sub" action="/cite" method="post">
-       <input type="hidden" name="cite" value="<%=cite %>" />
-       <input type="hidden" name="url" value="<%= url %>" />
-       <button type="submit" class="btn page_action cite btn-default" title="<%= t('actions.cite') %>"> 
-       <i class="fa fa-book fa-3x"></i><br/><%= t('actions.cite') %></button>
-     </form>
-   </li>
-   <% end %>
-
-   <% if AppConfig[:pui_page_actions_bookmark] %>
-   <li class="large-badge  align-center">
-    <a class="btn page_action" href="javascript:alert('this will handle the bookmark for <%= title %>');" title="<%= t('actions.bookmark') %>">
-      <i class="fa fa-bookmark fa-3x"></i><br/><%= t('actions.bookmark') %></a>
-    </li>
-   <% end %>
-   <% if AppConfig[:pui_page_actions_request] %>
-   <li class="large-badge align-center">
-    <% if defined?(@request) %>
-     <form id="request_sub" action="<%= @request[:request_uri]%>/request" method="post">
-        <%= render partial: 'shared/request_hiddens' %>
-	<button type="submit" class="btn page_action request  btn-default" title="<%= t('actions.request') %>">
-	  <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
-    </form>
-    <% else %>
-         <button class="btn page_action request  btn-default" disabled="true">
-          <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
-
-    <% end %>
-   </li>
-   <% end %>
-   <% if AppConfig[:pui_page_actions_print] %>
-   <li class="large-badge align-center"><a class="btn page_action" href="javascript:alert('this will print? <%= title %>');" title="<%= t('actions.print') %>"><i class="fa fa-file-pdf-o fa-3x"></i><br/><%= t('actions.print') %></a></li>
-   <% end %>
-
+ <ul class="list-inline">
     <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
-      <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
-      <% icon_css = page_action.fetch('icon_css') %>
-      <% icon = "<i class='fa fa-3x #{icon_css}'></i>" %>
-      <% link_content = "#{icon}<br>#{label}".html_safe %>
-
       <li class="large-badge  align-center">
-        <% if page_action.has_key?('onclick_javascript') %>
-          <% javascript = page_action.fetch('onclick_javascript') %>
-          <%= link_to link_content, 'javascript:void(0);',
-                      :class => 'btn page_action',
-                      :title => label,
-                      :'data-title' =>  record.display_string,
-                      :'data-uri' =>  record.uri,
-                      :onclick => javascript %>
-        <% elsif page_action.has_key?('build_url_proc') %>
-            <% proc = page_action.fetch('build_url_proc') %>
-            <% url = proc.call(record) %>
-            <%= link_to link_content, url,
-                        :class => 'btn page_action',
-                        :title => label %>
+        <% if page_action.has_key?('erb_partial') %>
+          <%= render :partial => page_action.fetch('erb_partial') %>
         <% else %>
-            <%= link_to link_content, '#',
-                        :class => 'btn page_action',
-                        :title => label %>
+          <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
+          <% icon_class = page_action.fetch('icon') %>
+          <% icon = "<i class='fa fa-3x #{icon_class}'></i>" %>
+          <% link_content = "#{icon}<br>#{label}".html_safe %>
+          <% if page_action.has_key?('post_params_proc') %>
+            <% params = page_action.fetch('post_params_proc').call(record) %>
+            <% post_url = page_action.fetch('url_proc').call(record) %>
+            <% form_id = page_action.fetch('form_id', '') %>
+            <form id="<%= form_id %>" action="<%= post_url %>" method="post">
+              <% params.each do |name, value| %>
+                <input type="hidden" name="<%= name %>" value="<%= value %>" />
+              <% end %>
+              <button type="submit" class="btn btn-default page_action cite">
+                <%= link_content %>
+              </button>
+            </form>
+  
+          <% elsif page_action.has_key?('onclick_javascript') %>
+            <% javascript = page_action.fetch('onclick_javascript') %>
+            <%= link_to link_content, 'javascript:void(0);',
+                        :class => 'btn btn-default page_action',
+                        :title => label,
+                        :'data-title' =>  record.display_string,
+                        :'data-uri' =>  record.uri,
+                        :onclick => javascript %>
+          <% elsif page_action.has_key?('url_proc') %>
+              <% proc = page_action.fetch('url_proc') %>
+              <% url = proc.call(record) %>
+              <%= link_to link_content, url,
+                          :class => 'btn btn-default page_action',
+                          :title => label %>
+          <% else %>
+            <!-- Nothing we can do for this action -->
+          <% end %>
         <% end %>
       </li>
     <% end %>

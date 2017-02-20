@@ -10,15 +10,27 @@ module Plugins
     end
   end
 
-  def self.add_record_page_action_proc(record_type, label, icon_css, build_url_proc)
+  def self.add_record_page_action_proc(record_type, label, icon_css, build_url_proc, position = nil)
     ArchivesSpacePublic::Application.config.after_initialize do
-      PublicNewDefaults::add_record_page_action_proc(record_type, label, icon_css, build_url_proc)
+      PublicNewDefaults::add_record_page_action_proc(record_type, label, icon_css, build_url_proc, position)
     end
   end
 
-  def self.add_record_page_action_js(record_type, label, icon_css, onclick_javascript)
+  def self.add_record_page_action_js(record_type, label, icon_css, onclick_javascript, position = nil)
     ArchivesSpacePublic::Application.config.after_initialize do
-      PublicNewDefaults::add_record_page_action_js(record_type, label, icon_css, onclick_javascript)
+      PublicNewDefaults::add_record_page_action_js(record_type, label, icon_css, onclick_javascript, position)
+    end
+  end
+
+  def self.add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position = nil)
+    ArchivesSpacePublic::Application.config.after_initialize do
+      PublicNewDefaults::add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position)
+    end
+  end
+
+  def self.add_record_page_action_erb(record_types, erb_partial, position = nil)
+    ArchivesSpacePublic::Application.config.after_initialize do
+      PublicNewDefaults::add_record_page_action_erb(record_types, erb_partial, position)
     end
   end
 end

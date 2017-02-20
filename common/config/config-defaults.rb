@@ -370,3 +370,33 @@ AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
+
+# Add page actions via the configuration
+AppConfig[:pui_page_actions] = []
+# Examples:
+# Javascript action example: 
+# AppConfig[:pui_page_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'onclick_javascript' => 'alert("do something grand");',
+# }
+# # Hyperlink action example:
+# AppConfig[:pui_page_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+# }
+# # Form-POST action example:
+# AppConfig[:pui_page_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   # 'post_params_proc' returns a hash of params which populates a form with hidden inputs ('name' => 'value')
+#   'post_params_proc' => proc {|record| {'uri' => record.uri, 'display_string' => record.display_string} },
+#   # 'url_proc' returns the URL for the form to POST to
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+#   # 'form_id' as string to be used as the form's ID
+#   'form_id' => 'my_grand_action',
+# }
