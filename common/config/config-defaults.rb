@@ -400,3 +400,9 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'form_id' as string to be used as the form's ID
 #   'form_id' => 'my_grand_action',
 # }
+# # ERB action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   # 'erb_partial' returns the path to an erb template from which the action will be rendered
+#   'erb_partial' => 'shared/my_special_action',
+# }
