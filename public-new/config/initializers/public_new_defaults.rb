@@ -39,38 +39,147 @@ module PublicNewDefaults
 #  MemoryLeak::Resources.define(:repository, proc { ArchivesSpaceClient.new.list_repositories }, 60)
 #pp MemoryLeak::Resources.get(:repository)
 
-  # determining the record page actions menu
+  # Setup the Page Action menu items
   $RECORD_PAGE_ACTIONS = {}
 
-  # Add a page action for a particular jsonmodel record type
-  # - record_type: the type e.g, resource, archival_object etc
+  # Add a link page action for a particular jsonmodel record type
+  # - record_types: the types to display for e.g, resource, archival_object etc
   # - label: I18n path or string for the label
-  # - icon_css: CSS classes for the Font Awesome icon e.g. 'fa-book'
-  # - build_url_proc: a proc passed the record upon render which must return a string
-  #   (the record is passed as a param to the proc)  def self.add_record_page_action_javascript(record_type, label, icon_css, build_url_proc = nil, onclick_javascript = nil)
-  def self.add_record_page_action_proc(record_type, label, icon_css, build_url_proc)
-    $RECORD_PAGE_ACTIONS[record_type] ||= []
-    $RECORD_PAGE_ACTIONS[record_type] << {
+  # - icon: CSS classes for the Font Awesome icon e.g. 'fa-book'
+  # - url_proc: a proc passed the record upon render which must return a string
+  #   (the record is passed as a param to the proc)
+  # - position: index to include the menu item
+  def self.add_record_page_action_proc(record_types, label, icon, url_proc, position = nil)
+    action = {
       'label' => label,
-      'icon_css' => icon_css,
-      'build_url_proc' => build_url_proc
+      'icon' => icon,
+      'url_proc' => url_proc
     }
+
+    ASUtils.wrap(record_types).each do |record_type|
+      $RECORD_PAGE_ACTIONS[record_type] ||= []
+      if (position.nil?)
+        $RECORD_PAGE_ACTIONS[record_type] << action
+      else
+        $RECORD_PAGE_ACTIONS[record_type].insert(position, action)
+      end
+    end
   end
 
-  # Add a page action for a particular jsonmodel record type
-  # - record_type: the type e.g, resource, archival_object etc
+  # Add a JavaScript page action for a particular jsonmodel record type
+  # - record_types: the types to display for e.g, resource, archival_object etc
   # - label: I18n path or string for the label
-  # - icon_css: CSS classes for the Font Awesome icon e.g. 'fa fa-book fa-3x'
+  # - icon: CSS classes for the Font Awesome icon e.g. 'fa fa-book fa-3x'
   # - onclick_javascript: a javascript expression to run when the action is clicked
   #   (the record uri and title are available as data attributes on the button element)
-  def self.add_record_page_action_js(record_type, label, icon_css, onclick_javascript)
-    $RECORD_PAGE_ACTIONS[record_type] ||= []
-    $RECORD_PAGE_ACTIONS[record_type] << {
+  # - position: index to include the menu item
+  def self.add_record_page_action_js(record_types, label, icon, onclick_javascript, position = nil)
+    action = {
       'label' => label,
-      'icon_css' => icon_css,
+      'icon' => icon,
       'onclick_javascript' => onclick_javascript
     }
+
+    ASUtils.wrap(record_types).each do |record_type|
+      $RECORD_PAGE_ACTIONS[record_type] ||= []
+      if (position.nil?)
+        $RECORD_PAGE_ACTIONS[record_type] << action
+      else
+        $RECORD_PAGE_ACTIONS[record_type].insert(position, action)
+      end
+    end
   end
 
+
+  # Add a POST form page action for a particular jsonmodel record type
+  # - record_types: the types to display for e.g, resource, archival_object etc
+  # - label: I18n path or string for the label
+  # - icon: CSS classes for the Font Awesome icon e.g. 'fa fa-book fa-3x'
+  # - post_params_proc: a proc that returns a hash of the params to include as hidden inputs]
+  # - url_proc: a proc passed the record upon render which must return a string
+  #   (the record is passed as a param to the proc)
+  # - position: index to include the menu item
+  def self.add_record_page_action_post(record_types, label, icon, form_id, post_params_proc, url_proc, position = nil)
+    action = {
+      'label' => label,
+      'icon' => icon,
+      'form_id' => form_id,
+      'post_params_proc' => post_params_proc,
+      'url_proc' => url_proc,
+    }
+
+    ASUtils.wrap(record_types).each do |record_type|
+      $RECORD_PAGE_ACTIONS[record_type] ||= []
+      if (position.nil?)
+        $RECORD_PAGE_ACTIONS[record_type] << action
+      else
+        $RECORD_PAGE_ACTIONS[record_type].insert(position, action)
+      end
+    end
+  end
+
+# Add an action from an ERB for a particular jsonmodel record type
+# - record_types: the types to display for e.g, resource, archival_object etc
+# - erb_partial: the path the erb partial
+# - position: index to include the menu item
+  def self.add_record_page_action_erb(record_types, erb_partial, position = nil)
+    action = {
+      'erb_partial' => erb_partial,
+    }
+
+    ASUtils.wrap(record_types).each do |record_type|
+      $RECORD_PAGE_ACTIONS[record_type] ||= []
+      if (position.nil?)
+        $RECORD_PAGE_ACTIONS[record_type] << action
+      else
+        $RECORD_PAGE_ACTIONS[record_type].insert(position, action)
+      end
+    end
+  end
+
+  # Load any default actions:
+  # Cite
+  if AppConfig[:pui_page_actions_cite]
+    add_record_page_action_post(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+                                'actions.cite',
+                                'fa-book',
+                                'cite_sub',
+                                proc {|record|
+                                  {
+                                    'cite' => record.cite,
+                                    'uri' => record.uri,
+                                  }
+                                },
+                                proc {|record|
+                                  "#{AppConfig[:public_prefix]}cite"
+                                })
+  end
+  # Bookmark
+  if AppConfig[:pui_page_actions_bookmark]
+    add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+                              'actions.bookmark',
+                              'fa-bookmark',
+                              'bookmark_page()')
+  end
+  # Request
+  if AppConfig[:pui_page_actions_request]
+    add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+                                'shared/request_page_action')
+  end
+  # Print
+  if AppConfig[:pui_page_actions_print]
+    add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+                              'actions.print',
+                              'fa-file-pdf-o',
+                              'print_page()')
+  end
+
+  # Load any actions defined in AppConfig:
+  ASUtils.wrap(AppConfig[:pui_page_actions]).each do |action|
+    ASUtils.wrap(action.fetch('record_type')).each do |record_type|
+      $RECORD_PAGE_ACTIONS[record_type] ||= []
+      $RECORD_PAGE_ACTIONS[record_type] << action
+    end
+  end
 
 end
