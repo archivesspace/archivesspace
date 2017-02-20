@@ -174,8 +174,8 @@ module PublicNewDefaults
                               'print_page()')
   end
 
-  # Load any actions defined in AppConfig:
-  ASUtils.wrap(AppConfig[:pui_page_actions]).each do |action|
+  # Load any custom actions defined in AppConfig:
+  ASUtils.wrap(AppConfig[:pui_page_custom_actions]).each do |action|
     ASUtils.wrap(action.fetch('record_type')).each do |record_type|
       $RECORD_PAGE_ACTIONS[record_type] ||= []
       $RECORD_PAGE_ACTIONS[record_type] << action
