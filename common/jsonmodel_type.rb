@@ -144,7 +144,8 @@ class JSONModelType
 
     if uri =~ /#{pattern}\/#{ID_REGEXP}(\#.*)?$/
       return id_to_int($1)
-    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/tree$/
+    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/(tree|ordered_records)$/
+      # FIXME: gross hardcoding...
       return id_to_int($1)
     else
       if noerror

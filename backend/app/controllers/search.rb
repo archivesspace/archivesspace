@@ -94,10 +94,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_all_records])
     .returns([200, "a JSON map of records"]) \
   do
-    params[:uri].each do |uri|
-      JSONModel.parse_reference(uri) or raise "Parse error for URI: #{uri}"
-    end
-
     records = Search.records_for_uris(Array(params[:uri]), Array(params[:resolve]))
 
     json_response(records)

@@ -1,0 +1,106 @@
+<%= javascript_include_tag 'infinite_scroll' %>
+<%= javascript_include_tag 'largetree' %>
+
+<div class="infinite-record-wrapper">
+    <div class="infinite-record-container">
+        <div class="root">
+            <% waypoint_size = 20 %>
+            <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
+                <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">&nbsp;</div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<div class="infinite-tree-view" id='tree-container'>
+</div>
+
+<script>
+
+ function BaseRenderer() {
+     this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+
+     this.rootTemplate = $('<tr> ' +
+                           '  <td class="no-drag-handle"></td>' +
+                           '  <td class="title"></td>' +
+                           '</tr>');
+
+
+     this.nodeTemplate = $('<tr> ' +
+                           '  <td class="drag-handle"></td>' +
+                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+                           '</tr>');
+ }
+
+ BaseRenderer.prototype.endpoint_marker = function () {
+     return this.endpointMarkerTemplate.clone(true);
+ }
+
+ BaseRenderer.prototype.get_root_template = function () {
+     return this.rootTemplate.clone(false);
+ }
+
+
+ BaseRenderer.prototype.get_node_template = function () {
+     return this.nodeTemplate.clone(false);
+ };
+
+ function ResourceRenderer() {
+     BaseRenderer.call(this);
+     this.rootTemplate = $('<tr> ' +
+                           '  <td class="no-drag-handle"></td>' +
+                           '  <td class="title"></td>' +
+                           '  <td class="resource-level"></td>' +
+                           '  <td class="resource-type"></td>' +
+                           '  <td class="resource-container"></td>' +
+                           '</tr>');
+
+     this.nodeTemplate = $('<tr> ' +
+                           '  <td class="drag-handle"></td>' +
+                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+                           '  <td class="resource-level"></td>' +
+                           '  <td class="resource-type"></td>' +
+                           '  <td class="resource-container"></td>' +
+                           '</tr>');
+ }
+
+ ResourceRenderer.prototype = Object.create(BaseRenderer.prototype);
+
+ ResourceRenderer.prototype.add_root_columns = function (row, rootNode) {
+     row.find('.resource-level').text(rootNode.level).attr('title', rootNode.level);
+     row.find('.resource-type').text(rootNode.type).attr('title', rootNode.type);
+     row.find('.resource-container').text(rootNode.container).attr('title', rootNode.container);
+ }
+
+
+ ResourceRenderer.prototype.add_node_columns = function (row, node) {
+     row.find('.resource-level').text(node.level).attr('title', node.level);
+     row.find('.resource-type').text(node.type).attr('title', node.type);
+     row.find('.resource-container').text(node.container).attr('title', node.container);
+ };
+
+</script>
+
+<script>
+ $('.infinite-record-wrapper').css('position', 'relative').css('left', '-200px');
+
+ /* FIXME: Place the tree to the right.  Can we do this with CSS somehow? */
+ $('.infinite-tree-view').css('position', 'absolute').css('right', '2em').css('top', $('.infinite-record-wrapper').offset().top);
+
+
+ var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite', $('.infinite-record-wrapper'), <%= @ordered_records.length %>);
+
+ /* NOTE: This just here for debugging... */
+ window.scroller = scroll;
+
+ var tree = new LargeTree(new TreeDataSource('<%= url_for(:action => :show) %>/tree'),
+                          $('.infinite-tree-view'),
+                          '<%= @root_uri %>',
+                          true,
+                          new ResourceRenderer(),
+                          $.noop,
+                          $.noop);
+
+ window.tree = tree;
+</script>
+

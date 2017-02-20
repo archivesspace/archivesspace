@@ -149,4 +149,39 @@ class ResourcesController <  ApplicationController
       render  'shared/not_found'
     end
   end
+
+  def infinite
+    @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+
+    @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
+  end
+
+  def waypoints
+    results = archivesspace.search_records(params[:urls], {}, true)
+
+    render :json => Hash[results.records.map {|record|
+                           @result = record
+                           [record.uri,
+                            render_to_string(:partial => 'infinite_item')]}]
+  end
+
+  def tree_root
+    @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/root')
+  end
+
+  def tree_node
+    @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_' + params[:node])
+  end
+
+
+  def tree_waypoint
+    @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/waypoint_' + params[:node] + '_' + params[:offset])
+  end
+
 end

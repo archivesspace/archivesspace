@@ -1,3 +1,5 @@
+//= require jquery.cookie
+
 var DEFAULT_TREE_PANE_HEIGHT = 100;
 var DEFAULT_TREE_MIN_HEIGHT = 60;
 

@@ -1,0 +1,33 @@
+.infinite-record-wrapper {
+    height: 600px;
+    overflow: hidden;
+}
+
+.infinite-record-container {
+    width: 100%;
+    overflow: hidden;
+    will-change: transform;
+
+    .waypoint {
+        height: 1em;
+    }
+
+    .waypoint.populated {
+        height: auto;
+    }
+
+}
+
+.infinite-record-scrollbar {
+    overflow: scroll;
+    position: absolute;
+    width: 15px;
+}
+
+.infinite-tree-view {
+    width: 500px;
+    height: 600px;
+
+    border: 1px solid red;
+    padding: 1em;
+}

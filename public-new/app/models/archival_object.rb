@@ -1,22 +1,12 @@
 class ArchivalObject < Record
 
-  attr_reader :cite
-
-  def initialize(*args)
-    super
-
-    @cite = parse_cite_string
-  end
-
   def finding_aid
     # as this shares the same template as resources,
     # be clear that this object doesn't have a finding aid
     nil
   end
 
-  private
-
-  def parse_cite_string
+  def cite
     cite = note('prefercite')
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
