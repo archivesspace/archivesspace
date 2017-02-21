@@ -114,7 +114,9 @@ class RecordInheritance
   private
 
 
-  def merge_record(json, opts)
+  def merge_record(json_in, opts)
+    json = json_in.clone
+
     direct_only = opts.fetch(:direct_only) { false }
     remove_ancestors = opts.fetch(:remove_ancestors) { false }
     config = @config.fetch(json['jsonmodel_type'].intern) { false }
@@ -133,7 +135,7 @@ class RecordInheritance
               ancestor_val = fld.has_key?(:inherit_if) ? fld[:inherit_if].call(ancestor['_resolved'][fld[:property]])
                                                        : ancestor['_resolved'][fld[:property]]
               unless ancestor_val.empty?
-                json[fld[:property]] << ancestor_val
+                json[fld[:property]] = json[fld[:property]] + ancestor_val
                 json[fld[:property]].flatten!
                 json = apply_inheritance_properties(json, ancestor_val, ancestor, fld)
                 break
@@ -155,7 +157,7 @@ class RecordInheritance
       end
 
       # composite identifer
-      if config.has_key?(:composite_identifiers)
+      if config.has_key?(:composite_identifiers) && !direct_only
         ids = []
         json['ancestors'].reverse.each do |ancestor|
           if ancestor['_resolved']['component_id']
