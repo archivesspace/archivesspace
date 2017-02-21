@@ -406,3 +406,29 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+
+# PUI email settings (logs emails when disabled)
+AppConfig[:pui_email_enabled] = false
+# 'pui_request_email_from_address' the 'from' email address for all request emails 
+AppConfig[:pui_request_email_from_address] = 'no-reply@example.com'
+# 'pui_request_email_staff_address' the 'to' email address for all request emails 
+AppConfig[:pui_request_email_staff_address] = 'mystaff@example.com'
+# Example sendmail configuration: 
+#AppConfig[:piu_email_configuration] = proc {|config|
+#  config.action_mailer.delivery_method = :sendmail
+#  config.action_mailer.perform_deliveries = true
+#  config.action_mailer.raise_delivery_errors = true
+#}
+# Example SMTP configuration: 
+# AppConfig[:piu_email_configuration] = proc {|config|
+#   config.action_mailer.delivery_method = :smtp
+#   config.action_mailer.smtp_settings = {
+#       address:              'smtp.gmail.com',
+#       port:                 587,
+#       domain:               'example.com',
+#       user_name:            '<username>',
+#       password:             '<password>',
+#       authentication:       'plain',
+#       enable_starttls_auto: true
+#   }
+# }

@@ -55,16 +55,19 @@ en:
   page_actions: Page Actions    
 
   request:
-    required: (required)
+    required: required
     user_name: Your name
     user_email: Your email address
     date: Anticipated arrival date
     note: Note to the staff 
     visit: "Submit a request to visit %{repo_name} to view <strong>%{archival_object}</strong>"
     submit: Submit Request
+    submitted: Thank you, your request has been submitted.  You will soon recieve an email with a copy of your request. 
     errors:
       name: Please enter your name
       email: Please enter a valid email address
+    email:
+      subject: "Request for %{title}"
 
   search-button:
     label: Search

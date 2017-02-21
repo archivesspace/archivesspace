@@ -5,7 +5,11 @@ class RequestsController < ApplicationController
     @request = RequestItem.new(params)
     errs = @request.validate
     if errs.blank?
-      flash[:notice] = (@request.to_text_array)
+      flash[:notice] = I18n.t('request.submitted')
+
+      RequestMailer.request_received_staff_email(@request).deliver
+      RequestMailer.request_received_email(@request).deliver
+
       redirect_to params.fetch('base_url', request[:request_uri])
     else
       flash[:error] = errs
