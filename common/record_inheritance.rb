@@ -168,7 +168,7 @@ class RecordInheritance
             ids << id
           elsif ancestor['_resolved']['id_0']
             ids << (0..3).map { |i| ancestor['_resolved']["id_#{i}"] }.compact.
-              join(config[:composite_identifiers].fetch(:identifier_delimiter) { ' ' })
+              join(config[:composite_identifiers].fetch(:identifier_delimiter, ' '))
           end
         end
 
@@ -181,7 +181,9 @@ class RecordInheritance
           ids << id
         end
 
-        json['_composite_identifier'] = ids.join(' ')
+        delimiter = config[:composite_identifiers].fetch(:identifier_delimiter, ' ')
+        delimiter += ' ' if delimiter != ' ' && config[:composite_identifiers][:include_level]
+        json['_composite_identifier'] = ids.join(delimiter)
       end
     end
 
