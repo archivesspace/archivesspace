@@ -27,7 +27,6 @@ class RepositoriesController < ApplicationController
     @criteria['page_size'] = 100
     @search_data =  archivesspace.search(query, page, @criteria) || {}
     Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
-    @hits = facets.length
     @json = []
     if !@search_data['results'].blank?
       @pager =  Pager.new("/repositories?", @search_data['this_page'],@search_data['last_page'])
