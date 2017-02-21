@@ -4,6 +4,7 @@ require 'rails'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
+require 'action_mailer/railtie'
 
 require 'asutils'
 require_relative 'initializers/plugins'
@@ -11,7 +12,6 @@ require_relative 'initializers/plugins'
 # Maybe we won't need these?
 
 # DISABLED BY MST # require 'active_record/railtie'
-# DISABLED BY MST # require 'action_mailer/railtie'
 # DISABLED BY MST # require 'active_job/railtie'
 # DISABLED BY MST # require 'action_cable/engine'
 # DISABLED BY MST # require 'rails/test_unit/railtie'
