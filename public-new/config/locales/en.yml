@@ -167,6 +167,8 @@ en:
       year_now: now
       year_begin: the beginning
       from_to: "Years: %{begin} to %{end}"
+      child_container_u_sstr: Child container
+      grand_child_container_u_sstr: Grandchild container
 
   search_sorting:
     sort_by: "Sort by:"
@@ -247,6 +249,7 @@ en:
       show: Show Advanced Search
       hide: Hide Advanced Search
 
+  contains: "Contains %{count} %{type}"
   found: "Found in %{count} %{type}"
   coll_obj: 
     _singular: Collection or Record
@@ -352,7 +355,9 @@ en:
         accessions: Accession Records
         deaccessions: Deaccession Records
 
-
+  top_container:
+    _singular: Container
+    _plural: Containers
 
   related_resource:
     _singular: Related Collection
