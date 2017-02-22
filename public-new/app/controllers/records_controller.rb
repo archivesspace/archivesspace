@@ -1,5 +1,6 @@
 class RecordsController < ApplicationController
   include TreeApis
+  include ManipulateNode
 
   before_filter :get_repository
 
@@ -24,8 +25,8 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
     hash = archival_object.to_hash()
     hash['path'] =  get_path(hash['uri'])
-    json =  ASUtils.to_json(hash, {:max_nesting => false})
-    render :json => json
+    hash['title'] = process_content(hash['title'])
+    render :json => ASUtils.to_json(hash)
   end
 
 
