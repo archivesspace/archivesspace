@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   get "agents/:eid/:id" => 'agents#show'
   get 'agents' => 'agents#index'
 
+
+  get  "repositories/:rid/top_containers/:id" => 'containers#show'
+  post  "repositories/:rid/top_containers/:id" => 'containers#show'
   get 'repositories/resources' => 'resources#index'
   get  "repositories/:rid/accessions/:id" => 'accessions#show'
   post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
@@ -36,6 +39,7 @@ Rails.application.routes.draw do
   get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
+  get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'
   get  "repositories/:rid/classifications/" => 'classifications#index'
   post  "repositories/:rid/classifications/" => 'classifications#index'
