@@ -10,5 +10,5 @@ FOR /D %%c IN (..\..\gems\gems\jruby-*) DO (
 )
 
 set GEM_HOME=gems
-java %JAVA_OPTS% -cp "..\..\lib\*!JRUBY!" org.jruby.Main --1.9 -S gem install bundler
-java %JAVA_OPTS% -cp "..\..\lib\*!JRUBY!" org.jruby.Main --1.9 -S ..\..\gems\bin\bundle install --gemfile=Gemfile
+java %JAVA_OPTS% -cp "..\..\lib\*!JRUBY!" org.jruby.Main -S gem install bundler
+java %JAVA_OPTS% -cp "..\..\lib\*!JRUBY!" org.jruby.Main -S ..\..\gems\bin\bundle install --gemfile=Gemfile

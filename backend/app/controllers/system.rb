@@ -49,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "OK"]) \
   do
     flag = AppConfig[:demodb_snapshot_flag]
-    if File.exists?(flag)
+    if File.exist?(flag)
       Log.info("Starting backup of embedded demo database")
       DB.demo_db_backup
       Log.info("Backup of embedded demo database completed!")

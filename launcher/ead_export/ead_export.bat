@@ -11,4 +11,4 @@ FOR /D %%c IN (..\gems\gems\jruby-*) DO (
   set JRUBY=!JRUBY!;%%c\lib\*
 )
 
-java %JAVA_OPTS% -cp "..\lib\*!JRUBY!" org.jruby.Main --1.9 ..\launcher\ead_export\lib\ead_export.rb %1 %2 %3
+java %JAVA_OPTS% -cp "..\lib\*!JRUBY!" org.jruby.Main ..\launcher\ead_export\lib\ead_export.rb %1 %2 %3

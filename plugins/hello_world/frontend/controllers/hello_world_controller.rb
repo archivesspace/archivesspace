@@ -1,6 +1,6 @@
 class HelloWorldController < ApplicationController
 
-  skip_before_filter :unauthorised_access
+  skip_before_action :unauthorised_access
 
   def index
     @whosaidhello = JSONModel::HTTP::get_json('/whosaidhello')

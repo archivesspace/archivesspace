@@ -19,6 +19,11 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
     profile = Selenium::WebDriver::Firefox::Profile.new
+    FileUtils.rm("/tmp/firefox_console", :force => true)
+    profile["webdriver.log.file"] = "/tmp/firefox_console"
+
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    profile["webdriver.log.level"] = "ALL"
     profile["browser.download.dir"] = Dir.tmpdir
     profile["browser.download.folderList"] = 2
     profile["browser.helperApps.alwaysAsk.force"] = false
@@ -136,13 +141,23 @@ class Driver
     self
   end
 
+  SPINNER_RETRIES = 10
+
   def wait_for_spinner
-    # This will take 50ms to turn up then linger for 1 second, so we should see it.
-    begin
-      find_element(:css, ".spinner")
-      wait_until_gone(:css, ".spinner")
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      # Assume we just missed it...
+    puts "    Awaiting spinner... (#{caller[0]})"
+
+    # The spinner's height is 100 when shown
+    SPINNER_RETRIES.times do
+      height = self.execute_script("return $('#archives_tree_overlay').height()")
+      break if height != 0
+      sleep 0.2
+    end
+
+    # and zero when hidden
+    SPINNER_RETRIES.times do
+      height = self.execute_script("return $('#archives_tree_overlay').height()")
+      break if height == 0
+      sleep 0.2
     end
   end
 

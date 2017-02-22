@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   include ApplicationHelper  
-  before_filter :get_repository
+  before_action :get_repository
 
   def resource
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
