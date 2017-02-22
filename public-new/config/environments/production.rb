@@ -83,16 +83,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   # DISABLED BY MST # config.active_record.dump_schema_after_migration = false
-
-  # mailer
-  if AppConfig[:pui_email_enabled]
-    config.action_mailer.perform_deliveries = production?
-    config.action_mailer.default_options = {
-      from: AppConfig[:pui_request_email_from_address]
-    }
-    AppConfig[:piu_email_configuration].call(config)
-  else
-    config.action_mailer.delivery_method = :test
-    config.action_mailer.perform_deliveries = false
-  end
 end
