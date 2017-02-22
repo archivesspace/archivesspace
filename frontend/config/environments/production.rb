@@ -7,8 +7,22 @@ ArchivesSpace::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
-  # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = true 
+  config.eager_load = true
+
+  # WARNING: Don't enable `consider_all_requests_local` without doing some
+  # research first.  When this was turned on, Rails 5.0.1 would flush the
+  # LookupContext DetailsKey cache between requests, which has the effect of
+  # generating a new set of cache keys for partials that are rendered.  The
+  # knock-on effect of this is that all partials get recompiled and cached,
+  # which over time leads to an accumulation of compiled partials and an OOM
+  # condition.
+  #
+  # See: actionview-5.0.1/lib/action_view/lookup_context.rb for the DetailsKey
+  # that contains this key cache, and
+  # actionview-5.0.1/lib/action_view/railtie.rb for the initializer that clears
+  # it on each request when `consider_all_requests_local` is set.
+  #
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -21,14 +35,14 @@ ArchivesSpace::Application.configure do
 
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false 
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
 
   # If a prefix has been specified, use it!
   config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
-  config.assets.manifest = File.join(Rails.public_path, "assets")
+  #config.assets.manifest = File.join(Rails.public_path, "assets")
 
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -52,27 +66,8 @@ ArchivesSpace::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
-  # Precompile additional assets
-  config.assets.precompile = [Proc.new {|file|
-                                file =~ /.*\.js$/ or
-                                file =~ /jstree/ or
-                                file =~ /css-spinners\/.*/ or
-                                file =~ /codemirror\/.*/ or
-                                file =~ /codemirror\/util\/.*/ or
-                                file =~ /.*\.(png|jpg|gif)$/ or
-                                file =~ /.*\.(eot|svg|ttf|woff|woff2)$/ or
-                                file =~ /themes\/.*\/(application|bootstrap).css/ or
-                                file =~ /rde.css/ or
-                                file =~ /jquery.kiketable.colsizable.css/ or
-                                file =~ /jquery.tablesorter\/.*/ or 
-                                file =~ /bootstrap-select\/.*/
-                              }]
-
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-
-  # Enable threaded mode
-  config.threadsafe!
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
@@ -109,3 +104,5 @@ if AppConfig[:frontend_prefix] != "/"
     end
   end
 end
+
+ActiveSupport::Deprecation.silenced = true

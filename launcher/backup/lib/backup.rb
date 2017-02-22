@@ -85,7 +85,7 @@ class ArchivesSpaceBackup
   def backup(output_file, do_mysqldump = false)
     output_file = File.absolute_path(output_file, ENV['ORIG_PWD'])
 
-    if File.exists?(output_file)
+    if File.exist?(output_file)
       puts "Output file '#{output_file}' already exists!  Aborting"
       return 1
     end
@@ -114,7 +114,7 @@ class ArchivesSpaceBackup
 
       Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
         add_whole_directory(solr_snapshot, zipfile) if AppConfig[:enable_solr]
-        add_whole_directory(demo_db_backups, zipfile) if Dir.exists?(demo_db_backups)
+        add_whole_directory(demo_db_backups, zipfile) if Dir.exist?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
         zipfile.add("mysqldump.sql", mysql_dump) if mysql_dump
       end
