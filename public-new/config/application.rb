@@ -53,6 +53,26 @@ module ArchivesSpacePublic
 
     # add fonts to the asset path
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
+    # mailer configuration
+    if AppConfig[:pui_email_enabled]
+      config.action_mailer.delivery_method = AppConfig[:pui_email_delivery_method]
+      config.action_mailer.perform_deliveries = AppConfig[:pui_email_perform_deliveries]
+      config.action_mailer.raise_delivery_errors = AppConfig[:pui_email_raise_delivery_errors]
+
+      if config.action_mailer.delivery_method == :sendmail
+        if AppConfig.has_key? :pui_email_sendmail_settings
+          config.action_mailer.smtp_settings = AppConfig[:pui_email_sendmail_settings]
+        end
+      end
+      if config.action_mailer.delivery_method == :smtp
+        config.action_mailer.smtp_settings = AppConfig[:pui_email_smtp_settings]
+      end
+    else
+      config.action_mailer.delivery_method = :test
+      config.action_mailer.perform_deliveries = false
+    end
+
   end
 end
 

@@ -22,6 +22,7 @@ module ResultInfo
       @request = RequestItem.new(container)
       @request[:request_uri] = @result['uri']
       @request[:repo_name] = @repo_info['top']['name'] || '[unknown!]'
+      @request[:repo_uri] = @repo_info['top']['uri']
       @request[:cite] = @cite
       @request[:identifier] = @result.dig('json', '_composite_identifier')
       @request[:title] = @page_title

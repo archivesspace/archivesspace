@@ -409,26 +409,43 @@ AppConfig[:pui_page_custom_actions] = []
 
 # PUI email settings (logs emails when disabled)
 AppConfig[:pui_email_enabled] = false
-# 'pui_request_email_from_address' the 'from' email address for all request emails 
-AppConfig[:pui_request_email_from_address] = 'no-reply@example.com'
-# 'pui_request_email_staff_address' the 'to' email address for all request emails 
-AppConfig[:pui_request_email_staff_address] = 'mystaff@example.com'
-# Example sendmail configuration: 
-#AppConfig[:piu_email_configuration] = proc {|config|
-#  config.action_mailer.delivery_method = :sendmail
-#  config.action_mailer.perform_deliveries = true
-#  config.action_mailer.raise_delivery_errors = true
-#}
-# Example SMTP configuration: 
-# AppConfig[:piu_email_configuration] = proc {|config|
-#   config.action_mailer.delivery_method = :smtp
-#   config.action_mailer.smtp_settings = {
-#       address:              'smtp.gmail.com',
-#       port:                 587,
-#       domain:               'example.com',
-#       user_name:            '<username>',
-#       password:             '<password>',
-#       authentication:       'plain',
-#       enable_starttls_auto: true
-#   }
+
+# 'pui_email_override' for testing, this email will be the to-address for all sent emails
+# AppConfig[:pui_email_override] = 'testing@example.com'
+
+# 'pui_request_email_repository_addresses' allows a request email address to be defined for a repository
+# AppConfig[:pui_request_email_repository_addresses] = {
+# Example define two different to and from email addresses
+#   '/repositories/2' => {
+#     'to' => 'testing1@example.com',
+#     'from' => 'testing2@example.com',
+#   },
+# Example a single email address for both to and from addresses
+#   '/repositories/3' => 'testing3@example.com'
 # }
+# 'pui_request_email_fallback_to_address' the 'to' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'
+# 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
+
+# Example sendmail configuration: 
+# AppConfig[:pui_email_delivery_method] = :sendmail
+# AppConfig[:pui_email_sendmail_settings] = {
+#   location: '/usr/sbin/sendmail',
+#   arguments: '-i'
+# }
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
+# Example SMTP configuration:
+#AppConfig[:pui_email_delivery_method] = :smtp
+#AppConfig[:pui_email_smtp_settings] = {
+#      address:              'smtp.gmail.com',
+#      port:                 587,
+#      domain:               'gmail.com',
+#      user_name:            '<username>',
+#      password:             '<password>',
+#      authentication:       'plain',
+#      enable_starttls_auto: true,
+#}
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
