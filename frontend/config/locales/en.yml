@@ -93,6 +93,8 @@ en:
     download_pdf: Download PDF
     download_report: Download Report
     click_to_show: Please click to load records. 
+    rapid_data_entry: Rapid Data Entry
+    enable_reorder: Enable Reorder
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -546,7 +548,6 @@ en:
         add_child: Add Child
         create: Create Digital Object
         save: Save Digital Object
-        rapid_data_entry: Rapid Data Entry
 
   digital_object_component:
     _frontend:
@@ -786,7 +787,6 @@ en:
         finding_aid: Finding Aid Data
       action:
         add_child: Add Child
-        rapid_data_entry: Rapid Data Entry
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
