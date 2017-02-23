@@ -1,6 +1,6 @@
 var SHARED_TOOLBAR_ACTIONS = [
     {
-        label: 'Enable Reorder', // I18n me
+        label: '<%= I18n.t('actions.enable_reorder') %>',
         cssClasses: 'btn-default drag-toggle',
         onRender: function(btn, node, tree, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
@@ -13,7 +13,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
             }
         },
-        onClick: function(event, node, tree, toolbarRenderer) {
+        onClick: function(event, btn, node, tree, toolbarRenderer) {
             $(tree.large_tree.elt).toggleClass('drag-enabled');
             $(event.target).toggleClass('active');
 
@@ -43,6 +43,26 @@ var SHARED_TOOLBAR_ACTIONS = [
             }
         },
     },
+    // RDE
+    {
+        label: '<%= I18n.t("actions.rapid_data_entry") %>',
+        cssClasses: 'btn-default add-children',
+        onClick: function(event, btn, node, tree, toolbarRenderer) {
+            $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            return !tree.large_tree.read_only;
+        },
+        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+            $(btn).removeClass('disabled');
+        },
+        onToolbarRendered: function(btn, toolbarRenderer) {
+            $(btn).addClass('disabled');
+        },
+    },
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
@@ -66,7 +86,7 @@ var TreeToolbarConfiguration = {
         {
             label: '<%= I18n.t("resource._frontend.action.add_child") %>',
             cssClasses: 'btn-default',
-            onClick: function(event, node, tree, toolbarRenderer) {
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
                 var url = '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
             },
@@ -90,7 +110,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
                 },
@@ -110,7 +130,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level'), url);
                 },
@@ -134,7 +154,7 @@ var TreeToolbarConfiguration = {
         {
             label: '<%= I18n.t("digital_object._frontend.action.add_child") %>',
             cssClasses: 'btn-default',
-            onClick: function(event, node, tree, toolbarRenderer) {
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
                 var url = '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
             },
@@ -158,7 +178,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("digital_object_component._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
                 },
@@ -178,7 +198,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("digital_object_component._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level'), url);
                 },
@@ -202,7 +222,7 @@ var TreeToolbarConfiguration = {
         {
             label: '<%= I18n.t("classification._frontend.action.add_child") %>',
             cssClasses: 'btn-default',
-            onClick: function(event, node, tree, toolbarRenderer) {
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
                 var url = '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
                 tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
             },
@@ -226,7 +246,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("classification_term._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level') + 1, url);
                 },
@@ -246,7 +266,7 @@ var TreeToolbarConfiguration = {
             {
                 label: '<%= I18n.t("classification_term._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
-                onClick: function(event, node, tree, toolbarRenderer) {
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
                     var url = '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
                     tree.ajax_tree.add_new_after(node, node.data('level'), url);
                 },
@@ -309,6 +329,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
             action_group = action_or_group;
         }
         var $group = $('<div>').addClass('btn-group');
+        self.container.append($group);
 
         action_group.map(function(action) {
             if ($.proxy(action.isVisible, tree)(node, tree, self)) {
@@ -318,7 +339,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
                 if ($.proxy(action.isEnabled, tree)(node, tree, self)) {
                     if (action.onClick) {
                         $btn.on('click', function (event) {
-                            return $.proxy(action.onClick, tree)(event, node, tree, self);
+                            return $.proxy(action.onClick, tree)(event, $btn, node, tree, self);
                         });
                     }
                 } else {
@@ -327,10 +348,6 @@ TreeToolbarRenderer.prototype.render = function(node) {
 
                 if (action.groupCssClasses) {
                     $group.addClass(action.groupCssClasses);
-                }
-
-                if (action.onRender) {
-                    $.proxy(action.onRender, tree)($btn, node, tree, self);
                 }
 
                 if (action.onFormChanged) {
@@ -352,11 +369,15 @@ TreeToolbarRenderer.prototype.render = function(node) {
                 }
 
                 $group.append($btn);
+
+                if (action.onRender) {
+                    $.proxy(action.onRender, tree)($btn, node, tree, self);
+                }
             }
         });
 
-        if ($group.length > 0) {
-            self.container.append($group);
+        if ($group.length == 0) {
+            $group.remove();
         }
     });
 
