@@ -106,8 +106,20 @@ ResourceRenderer.prototype.build_container_summary = function(node) {
 
         $.each(node['containers'], function(_, container) {
             var summary_items = []
-            if (container.top_container_type) {
-                summary_items.push(self.i18n('container_type', container.top_container_type) + ': ' + container.top_container_indicator);
+            if (container.top_container_indicator) {
+                var top_container_summary = '';
+
+                if (container.top_container_type) {
+                    top_container_summary += self.i18n('container_type', container.top_container_type) + ': ';
+                }
+
+                top_container_summary += container.top_container_indicator;
+
+                if (container.top_container_barcode) {
+                    top_container_summary += ' [' + container.top_container_barcode + ']';
+                }
+
+                summary_items.push(top_container_summary);
             }
             if (container.type_2) {
                 summary_items.push(self.i18n('container_type', container.type_2) + ': ' + container.indicator_2);

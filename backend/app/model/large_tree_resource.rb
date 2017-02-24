@@ -16,6 +16,7 @@ class LargeTreeResource
       .select(Sequel.as(:instance_type__value, :instance_type),
               Sequel.as(:top_container_type__value, :top_container_type),
               Sequel.as(:top_container__indicator, :top_container_indicator),
+              Sequel.as(:top_container__barcode, :top_container_barcode),
               Sequel.as(:type_2__value, :type_2),
               Sequel.as(:sub_container__indicator_2, :indicator_2),
               Sequel.as(:type_3__value, :type_3),
@@ -27,6 +28,7 @@ class LargeTreeResource
         container_data['instance_type'] = row[:instance_type] if row[:instance_type]
         container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
         container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
+        container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
         container_data['type_2'] = row[:type_2] if row[:type_2]
         container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
         container_data['type_3'] = row[:type_3] if row[:type_3]
@@ -71,6 +73,7 @@ class LargeTreeResource
               Sequel.as(:instance_type__value, :instance_type),
               Sequel.as(:top_container_type__value, :top_container_type),
               Sequel.as(:top_container__indicator, :top_container_indicator),
+              Sequel.as(:top_container__barcode, :top_container_barcode),
               Sequel.as(:type_2__value, :type_2),
               Sequel.as(:sub_container__indicator_2, :indicator_2),
               Sequel.as(:type_3__value, :type_3),
@@ -85,6 +88,7 @@ class LargeTreeResource
       container_data['instance_type'] = row[:instance_type] if row[:instance_type]
       container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
       container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
+      container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
       container_data['type_2'] = row[:type_2] if row[:type_2]
       container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
       container_data['type_3'] = row[:type_3] if row[:type_3]
