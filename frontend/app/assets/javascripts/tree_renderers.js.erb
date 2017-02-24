@@ -161,7 +161,8 @@ DigitalObjectRenderer.prototype = BaseRenderer.prototype;
 
 DigitalObjectRenderer.prototype.add_root_columns = function (row, rootNode) {
     if (rootNode.digital_object_type) {
-        row.find('.digital-object-type').text(rootNode.digital_object_type).attr('title', rootNode.digital_object_type);
+        var type = this.i18n('digital_object_digital_object_type', rootNode.digital_object_type);
+        row.find('.digital-object-type').text(type).attr('title', type);
     }
 
     if (rootNode.file_uri_summary) {
@@ -181,7 +182,9 @@ ClassificationRenderer.prototype = BaseRenderer.prototype;
 
 
 var EnumerationTranlations = {};
-<% ['instance_instance_type', 'container_type', 'resource_resource_type', 'archival_record_level'].each do |enumeration_name|  
+<% ['instance_instance_type', 'container_type', 'resource_resource_type',
+    'archival_record_level', 'digital_object_digital_object_type'
+   ].each do |enumeration_name|
   translations = {}
   JSONModel.enum_values(enumeration_name).each do |enumeration_value|
     translations[enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
