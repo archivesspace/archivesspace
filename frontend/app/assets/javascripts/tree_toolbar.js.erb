@@ -15,7 +15,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
         onClick: function(event, btn, node, tree, toolbarRenderer) {
             $(tree.large_tree.elt).toggleClass('drag-enabled');
-            $(event.target).toggleClass('active');
+            $(event.target).toggleClass('btn-success');
 
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 tree.ajax_tree.blockout_form();
