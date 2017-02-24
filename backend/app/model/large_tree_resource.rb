@@ -59,6 +59,33 @@ class LargeTreeResource
       result_for_record['level'] = row[:other_level] || row[:level]
     end
 
+    ASDate
+      .left_join(Sequel.as(:enumeration_value, :date_type), :id => :date__date_type_id)
+      .left_join(Sequel.as(:enumeration_value, :date_label), :id => :date__label_id)
+      .filter(:archival_object_id => record_ids)
+      .select(:archival_object_id,
+              Sequel.as(:date_type__value, :type),
+              Sequel.as(:date_label__value, :label),
+              :expression,
+              :begin,
+              :end)
+      .each do |row|
+
+      id = row[:archival_object_id]
+
+      result_for_record = response.fetch(record_ids.index(id))
+      result_for_record['dates'] ||= []
+
+      date_data = {}
+      date_data['type'] = row[:type] if row[:type]
+      date_data['label'] = row[:label] if row[:label]
+      date_data['expression'] = row[:expression] if row[:expression]
+      date_data['begin'] = row[:begin] if row[:begin]
+      date_data['end'] = row[:end] if row[:end]
+
+      result_for_record['dates'] << date_data
+    end
+
     # Display container information
     Instance
       .join(:sub_container, :sub_container__instance_id => :instance__id)
