@@ -11,6 +11,10 @@ var SHARED_TOOLBAR_ACTIONS = [
         onToolbarRendered: function(btn, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
+                $('.cut-selection',toolbarRenderer.containe).removeClass('disabled');
+                if ($('.cut', tree.large_tree.elt).length > 0) {
+                    $('.paste-selection',toolbarRenderer.containe).removeClass('disabled');
+                }
             }
         },
         onClick: function(event, btn, node, tree, toolbarRenderer) {
@@ -22,10 +26,13 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $.scrollTo(0);
                 tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
+                $('.cut-selection,.paste-selection', toolbarRenderer.container).show();
+                $('.cut-selection',toolbarRenderer.containe).removeClass('disabled');
             } else {
                 tree.ajax_tree.unblockout_form();
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).removeClass('disabled');
+                $('.cut-selection,.paste-selection', toolbarRenderer.container).hide();
             }
         },
         isEnabled: function(node, tree, toolbarRenderer) {
@@ -43,6 +50,76 @@ var SHARED_TOOLBAR_ACTIONS = [
             }
         },
     },
+    [
+        {
+            label: '<%= I18n.t("actions.cut") %>',
+            cssClasses: 'btn-default cut-selection',
+            onRender: function(btn, node, tree, toolbarRenderer) {
+                if (!$(tree.large_tree.elt).is('.drag-enabled')) {
+                    btn.hide();
+                }
+            },
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                event.preventDefault();
+                // clear the previous cut set
+                $('.cut', tree.large_tree.elt).removeClass('cut');
+
+                var rowsToCut = [];
+                if (tree.dragdrop.rowsToMove.length > 0) {
+                    // if multiselected rows, cut them
+                    rowsToCut = $.merge([], tree.dragdrop.rowsToMove);
+                } else {
+                    // otherwise cut the current row
+                    rowsToCut = [tree.current()];
+                }
+
+                $.each(rowsToCut, function(_, row) {
+                    $(row).addClass('cut');
+                });
+
+                $('.paste-selection', toolbarRenderer.container).removeClass('disabled');
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only && tree.dragdrop;
+            }
+        },
+        {
+            label: '<%= I18n.t("actions.paste") %>',
+            cssClasses: 'btn-default paste-selection',
+            onRender: function(btn, node, tree, toolbarRenderer) {
+                if (!$(tree.large_tree.elt).is('.drag-enabled')) {
+                    btn.hide();
+                } else if ($('.cut', $(tree.large_tree.elt)).length == 0) {
+                    btn.addClass('disabled');
+                }
+            },
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                event.preventDefault();
+                var current = tree.current();
+                var cut = $('.cut', tree.large_tree.elt);
+
+                var rowsToPaste = [];
+                cut.each(function(_,row) {
+                    if ($(row).data('uri') != current.data('uri')) {
+                        rowsToPaste.push(row);
+                    }
+                });
+
+                tree.large_tree.reparentNodes(current, rowsToPaste, current.data('child_count')).done(function() {
+                    $('.cut', tree.large_tree.elt).removeClass('cut');
+                });
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only && tree.dragdrop;
+            }
+        },
+    ],
     // RDE
     {
         label: '<%= I18n.t("actions.rapid_data_entry") %>',
