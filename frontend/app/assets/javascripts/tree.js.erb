@@ -39,9 +39,14 @@
 
 
         if (!read_only) {
-            self.large_tree.addPlugin(new LargeTreeDragDrop());
+            self.dragdrop = self.large_tree.addPlugin(new LargeTreeDragDrop());
         }
-    }
+    };
+
+
+    Tree.prototype.current = function() {
+        return $('.current', this.large_tree.elt);
+    };
 
 
     exports.Tree = Tree;

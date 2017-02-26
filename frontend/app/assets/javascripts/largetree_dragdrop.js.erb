@@ -172,6 +172,7 @@
                 !$(event.target).hasClass('drag-handle') &&
                 $(event.target).closest('.expandme').length === 0) {
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
+                self.rowsToMove = [];
             }
         });
 

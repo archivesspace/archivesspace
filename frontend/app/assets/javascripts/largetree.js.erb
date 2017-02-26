@@ -82,6 +82,8 @@
 
     LargeTree.prototype.addPlugin = function (plugin) {
         plugin.initialize(this);
+
+        return plugin;
     };
 
     LargeTree.prototype.addPopulateWaypointHook = function (callback) {
