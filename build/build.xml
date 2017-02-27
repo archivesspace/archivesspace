@@ -816,15 +816,23 @@
 
 
   <target name="public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
-    <mkdir dir="../public-new/vendor/assets/stylesheets/archivesspace" />
+    <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public-new" /></antcall>
+    <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public" /></antcall>
 
-    <concat destfile="../public-new/vendor/assets/javascripts/largetree.js.erb">
+  </target>
+
+  <target name="-public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
+    <property name="publicdir" value="" />
+
+    <mkdir dir="../${publicdir}/vendor/assets/stylesheets/archivesspace" />
+
+    <concat destfile="../${publicdir}/vendor/assets/javascripts/largetree.js.erb">
       <header trimleading="yes"><![CDATA[<%# DON'T EDIT THIS FILE -- the canonical version is under the frontend project %>
       ]]>
       </header>
       <fileset file="../frontend/app/assets/javascripts/largetree.js.erb" />
     </concat>
-    <concat destfile="../public-new/vendor/assets/stylesheets/archivesspace/largetree.scss">
+    <concat destfile="../${publicdir}/vendor/assets/stylesheets/archivesspace/largetree.scss">
       <header trimleading="yes">
       // DON'T EDIT THIS FILE -- the canonical version is under the frontend project
       </header>
