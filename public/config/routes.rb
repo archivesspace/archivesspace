@@ -16,6 +16,11 @@ ArchivesSpacePublic::Application.routes.draw do
       match 'repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
       match 'agents/:id' => 'records#agent', :via => [:get]
 
+      get "repositories/:repo_id/resources/:id/tree/root"  => 'records#resource_tree_root'
+      get "repositories/:repo_id/resources/:id/tree/waypoint"  => 'records#resource_tree_waypoint'
+      get "repositories/:repo_id/resources/:id/tree/node"  => 'records#resource_tree_node'
+      get "repositories/:repo_id/resources/:id/tree/node_from_root"  => 'records#resource_tree_node_from_root'
+
       match 'repositories' => 'search#repository', :via => [:get]
       match 'subjects/:id' => 'search#subject', :via => [:get]
       root :to => "site#index"

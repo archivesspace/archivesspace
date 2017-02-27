@@ -162,6 +162,50 @@ class PeriodicIndexerWorker < CommonIndexer
   end
 
 
+  def configure_doc_rules
+    super
+
+    add_batch_hook {|batch|
+      records = batch.map {|rec|
+        if ['resource', 'digital_object', 'classification'].include?(rec['primary_type'])
+          rec['id']
+        elsif rec['primary_type'] == 'archival_object'
+          rec['resource']
+        elsif rec['primary_type'] == 'digital_object_component'
+          rec['digital_object']
+        elsif rec['primary_type'] == 'classification_term'
+          rec['classification']
+        else
+          nil
+        end
+      }.compact.uniq
+
+      # Don't reprocess trees we've already covered during previous batches
+      records -= ProcessedTrees.instance.keySet.to_a
+
+      ## Each record needs its tree indexed
+
+      # Delete any existing versions
+      delete_trees_for(records)
+
+      records.each do |record_uri|
+        # To avoid all of the indexing threads hitting the same tree at the same
+        # moment, use @processed_trees to ensure that only one of them handles
+        # it.
+        next if ProcessedTrees.instance.putIfAbsent(record_uri, true)
+
+        record_data = JSONModel.parse_reference(record_uri)
+
+        tree = JSONModel("#{record_data[:type]}_tree".intern).find(nil, "#{record_data[:type]}_id".intern => record_data[:id])
+
+        load_tree_docs(tree.to_hash(:trusted), batch, record_uri, [],
+                       ['classification'].include?(record_data[:type]))
+        ProcessedTrees.instance.put(record_uri, true)
+      end
+    }
+  end
+
+
   def fetch_records(type, ids, resolve)
     JSONModel(type).all(:id_set => ids.join(","), 'resolve[]' => resolve)
   end

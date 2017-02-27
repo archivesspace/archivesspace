@@ -85,6 +85,9 @@ module PUIIndexerMixin
     end
   end
 
+  # FIXME: Need to do digital objects and classifications here too
+  #
+  # FIXME: Doing things one at a time is probably going to be way too slow.
   def add_largetree_docs(resource_uris, batch)
     resource_uris.each do |resource_uri|
       json = JSONModel::HTTP.get_json(resource_uri + '/tree/root')
@@ -126,17 +129,32 @@ module PUIIndexerMixin
       }
 
       json.each do |waypoint_record|
-        if waypoint_record.fetch('child_count') > 0
-          add_nodes(resource_uri, waypoint_record.fetch('uri'), batch)
-        end
+        add_nodes(resource_uri, waypoint_record, batch)
       end
 
     end
   end
 
-  def add_nodes(resource_uri, record_uri, batch)
+  def add_nodes(resource_uri, waypoint_record, batch)
+    record_uri = waypoint_record.fetch('uri')
+
+    # Index the path from this record back to the resource root
+    node_id = JSONModel.parse_reference(record_uri).fetch(:id)
+    path_json = JSONModel::HTTP.get_json(resource_uri + '/tree/node_from_root',
+                                         :node_id => node_id)
+
+    batch << {
+      'id' => "#{resource_uri}/tree/node_from_root_#{node_id}",
+      'publish' => "true",
+      'primary_type' => "tree_node_from_root",
+      'json' => ASUtils.to_json(path_json)
+    }
+
+
+    # Index the node itself if it has children
+    if waypoint_record.fetch('child_count') > 0
       json = JSONModel::HTTP.get_json(resource_uri + '/tree/node',
-                                     :node_uri => record_uri)
+                                      :node_uri => record_uri)
 
       # :ADD, "#{resource_uri}/tree/node_#{json.fetch('uri')}"
       require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:136 af5d5b]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/node_#{json.fetch('uri')}"^ => "#{resource_uri}/tree/node_#{json.fetch('uri')}"}.pretty_inspect + "\n")
@@ -148,7 +166,9 @@ module PUIIndexerMixin
         'json' => ASUtils.to_json(json)
       }
 
+      # Finally, walk the node's waypoints and index those too.
       add_waypoints(json, resource_uri, json.fetch('uri'), batch)
+    end
   end
 
   def skip_index_record?(record)
