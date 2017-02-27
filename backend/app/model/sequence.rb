@@ -1,19 +1,17 @@
 class Sequence
 
-  # We run sequence generation in separate threads to allow us to commit
-  # transactions independently of the caller.  Otherwise the nested transaction
-  # is subsumed by the parent one, which doesn't work.
-  @@pool = java.util.concurrent.ThreadPoolExecutor.new(10,
-                                                       10,
-                                                       0,
-                                                       java.util.concurrent.TimeUnit::MILLISECONDS,
-                                                       java.util.concurrent.ArrayBlockingQueue.new(1024))
+  # Run a separate DB connection pool to allow sequences to commit independently
+  # to the caller.  The separate pool also prevents deadlocks that would occur
+  # if caller threads tried to take a second connection from the main DB
+  # connection pool.
+  db_connections = [(AppConfig[:db_max_connections] / 5.0).floor,
+                    5].min
 
-  @@submit = @@pool.java_method(:submit, [java.util.concurrent.Callable])
+  @@pool = DB::DBPool.new(db_connections, :skip_utf8_check => true).connect
 
 
   def self.init(sequence, value)
-    DB.open(true) do |db|
+    @@pool.open(true) do |db|
       db[:sequence].insert(:sequence_name => sequence.to_s, :value => value)
     end
   end
@@ -23,32 +21,24 @@ class Sequence
 
     needs_sequence_init = !Thread.current[:initialised_sequences][sequence]
 
-    future = @@submit.call(proc { handle_get(sequence, needs_sequence_init)})
-
-    begin
-      future.get
-    ensure
-      Thread.current[:initialised_sequences][sequence] = true
-    end
-  end
-
-  def self.handle_get(sequence, needs_sequence_init)
     if needs_sequence_init
-      DB.open(true) do |db|
-        DB.attempt {
+      @@pool.open(true) do |db|
+        @@pool.attempt {
           init(sequence, 0)
           return 0
         }.and_if_constraint_fails {
           # Sequence is already defined, which is fine
         }
       end
+
+      Thread.current[:initialised_sequences][sequence] = true
     end
 
     # If we make it to here, the sequence already exists and needs to be incremented
     1000.times do
       new_value = nil
 
-      updated_count = DB.open do |db|
+      updated_count = @@pool.open do |db|
         old_value = db[:sequence].filter(:sequence_name => sequence.to_s).get(:value)
         new_value = old_value + 1
 
