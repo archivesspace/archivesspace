@@ -351,7 +351,7 @@ AppConfig[:pui_repos] = {}
 # Example:
 # AppConfig[:pui_repos][{repo_code}] = {}
 # AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
-# AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # if it's a specific email address
+# AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
 # AppConfig[:pui_repos][{repo_code}][:hide] = {}
 # AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 
@@ -402,19 +402,9 @@ AppConfig[:pui_page_custom_actions] = []
 # PUI email settings (logs emails when disabled)
 AppConfig[:pui_email_enabled] = false
 
+# See above AppConfig[:pui_repos][{repo_code}][:request_email] for setting repository email overrides
 # 'pui_email_override' for testing, this email will be the to-address for all sent emails
 # AppConfig[:pui_email_override] = 'testing@example.com'
-
-# 'pui_request_email_repository_addresses' allows a request email address to be defined for a repository
-# AppConfig[:pui_request_email_repository_addresses] = {
-# Example define two different to and from email addresses
-#   '/repositories/2' => {
-#     'to' => 'testing1@example.com',
-#     'from' => 'testing2@example.com',
-#   },
-# Example a single email address for both to and from addresses
-#   '/repositories/3' => 'testing3@example.com'
-# }
 # 'pui_request_email_fallback_to_address' the 'to' email address for repositories that don't define their own email
 #AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'
 # 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
