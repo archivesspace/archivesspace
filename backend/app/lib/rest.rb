@@ -218,10 +218,12 @@ module RESTHelpers
       methods.each do |method|
         ArchivesSpaceService.send(method, @uri, {}) do
           if deprecated
-            Log.warn(("*" * 80) + "\n*** CALLING A DEPRECATED ENDPOINT: #{method} #{uri}.")
-            if deprecated_description
-              Log.warn(deprecated_description)
-            end
+            Log.warn("\n" +
+                     ("*" * 80) +
+                     "\n*** CALLING A DEPRECATED ENDPOINT: #{method} #{uri}\n" +
+                     (deprecated_description ? ("\n" + deprecated_description) : "") +
+                     "\n" +
+                     ("*" * 80))
           end
 
 
