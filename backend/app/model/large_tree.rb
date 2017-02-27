@@ -74,6 +74,10 @@ class LargeTree
       while true
         this_node = db[@node_table].filter(:id => ao_id).select(:repo_id, :parent_id, :position).first
 
+        unless this_node
+          raise NotFoundException.new("Could not find #{@node_type} record with ID #{ao_id}")
+        end
+
         this_position = db[@node_type]
                         .filter(:parent_id => this_node[:parent_id])
                         .where { position <= this_node[:position] }

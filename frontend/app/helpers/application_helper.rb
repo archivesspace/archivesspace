@@ -28,11 +28,21 @@ module ApplicationHelper
   end
 
   def include_theme_css
-    css = ""
-    css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap", :media => "all")
-    css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
-    css.html_safe
+    begin
+      css = ""
+      css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap", :media => "all")
+      css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
+      css.html_safe
+    rescue
+      # :BOMBED, $!
+      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [application_helper.rb:39 129524]: " + {%Q^:BOMBED^ => :BOMBED, %Q^$!^ => $!}.pretty_inspect + "\n")
+
+      $stderr.puts($@.join("\n"))
+
+      raise $!
+    end
   end
+
 
   def set_title(title)
     @title = title

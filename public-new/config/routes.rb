@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get "repositories/:rid/resources/:id/tree/root"  => 'resources#tree_root'
   get "repositories/:rid/resources/:id/tree/waypoint"  => 'resources#tree_waypoint'
   get "repositories/:rid/resources/:id/tree/node"  => 'resources#tree_node'
+  get "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
   get '/repositories', to: 'repositories#index'
   get '/search', to: 'search#search'

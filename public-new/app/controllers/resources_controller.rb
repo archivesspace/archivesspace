@@ -184,4 +184,10 @@ class ResourcesController <  ApplicationController
     render :json => archivesspace.get_raw_record(@root_uri + '/tree/waypoint_' + params[:node] + '_' + params[:offset])
   end
 
+  def tree_node_from_root
+    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_id])
+  end
+
 end

@@ -20,24 +20,24 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!archival_object || archival_object.has_unpublished_ancestor || !archival_object.publish)
 
     @archival_object = ArchivalObjectView.new(archival_object)
-    @tree_view = Search.tree_view(@archival_object.uri)
+    # @tree_view = Search.tree_view(@archival_object.uri)
 
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    @tree_view["path_to_root"].each do |record|
-      raise RecordNotFound.new if not record["publish"] == true
-
-      if record["node_type"] === "resource"
-        @resource_uri = record['record_uri']
-        breadcrumb_title = title_or_finding_aid_filing_title(record) 
-        @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
-      else
-        @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
-      end
-    end
+    # @tree_view["path_to_root"].each do |record|
+    #   raise RecordNotFound.new if not record["publish"] == true
+    # 
+    #   if record["node_type"] === "resource"
+    #     @resource_uri = record['record_uri']
+    #     breadcrumb_title = title_or_finding_aid_filing_title(record) 
+    #     @breadcrumbs.push([breadcrumb_title, url_for(:controller => :records, :action => :resource, :id => record["id"], :repo_id => @repository.id), "resource"])
+    #   else
+    #     @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :archival_object, :id => record["id"], :repo_id => @repository.id), "archival_object"])
+    #   end
+    # end
 
     @breadcrumbs.push([@archival_object.display_string, "#", "archival_object"])
   end
@@ -60,21 +60,21 @@ class RecordsController < ApplicationController
     raise RecordNotFound.new if (!digital_object_component || digital_object_component.has_unpublished_ancestor ||  !digital_object_component.publish)
 
     @digital_object_component = DigitalObjectView.new(digital_object_component)
-    @tree_view = Search.tree_view(@digital_object_component.uri)
+    # @tree_view = Search.tree_view(@digital_object_component.uri)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
     ]
 
-    @tree_view["path_to_root"].each do |record|
-      raise RecordNotFound.new if not record["publish"] == true
-
-      if record["node_type"] === "digital_object"
-        @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object, :id => record["id"], :repo_id => @repository.id), "digital_object"])
-      else
-        @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object_component, :id => record["id"], :repo_id => @repository.id), "digital_object_component"])
-      end
-    end
+    # @tree_view["path_to_root"].each do |record|
+    #   raise RecordNotFound.new if not record["publish"] == true
+    # 
+    #   if record["node_type"] === "digital_object"
+    #     @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object, :id => record["id"], :repo_id => @repository.id), "digital_object"])
+    #   else
+    #     @breadcrumbs.push([record["title"], url_for(:controller => :records, :action => :digital_object_component, :id => record["id"], :repo_id => @repository.id), "digital_object_component"])
+    #   end
+    # end
 
     @breadcrumbs.push([@digital_object_component.display_string, "#", "digital_object_component"])
   end
@@ -83,7 +83,7 @@ class RecordsController < ApplicationController
     @classification = JSONModel(:classification).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "linked_agents"])
     raise RecordNotFound.new if (!@classification || !@classification.publish)
 
-    @tree_view = Search.tree_view(@classification.uri)
+    # @tree_view = Search.tree_view(@classification.uri)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
@@ -124,6 +124,34 @@ class RecordsController < ApplicationController
     render :json => tree_view
   end
 
+
+  def resource_tree_root
+    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+
+    render :json => Search.get_raw_record(@root_uri + '/tree/root')
+  end
+
+  def resource_tree_node
+    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+
+    render :json => Search.get_raw_record(@root_uri + '/tree/node_' + params[:node])
+  end
+
+
+  def resource_tree_node_from_root
+    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+
+    render :json => Search.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_id])
+  end
+
+
+
+
+  def resource_tree_waypoint
+    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+
+    render :json => Search.get_raw_record(@root_uri + '/tree/waypoint_' + params[:node] + '_' + params[:offset])
+  end
 
   private
 
