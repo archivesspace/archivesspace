@@ -4,7 +4,7 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hierarchy
                                :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
                                :restriction_ends,  :machine, 
                                :top_container_url, :container,  :barcode, :location_title, 
-                               :location_url, :repo_uri)
+                               :location_url, :repo_uri, :repo_code)
 
   def RequestItem.allow_nontops(repo_code)
     allow = nil

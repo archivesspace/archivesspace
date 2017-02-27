@@ -2,7 +2,7 @@
  <% unless @back_url.blank? %>
  <input type='hidden' name='back_url' value='<%= @back_url %>' />
  <% end %>
- <% %i(repo_name request_uri title resource_id resource_name identifier cite hierarchy restrict restriction_ends).each do |s| %>
+ <% %i(repo_name repo_uri repo_code request_uri title resource_id resource_name identifier cite hierarchy restrict restriction_ends).each do |s| %>
  <input type='hidden' name='<%= s.to_s %>' value='<%= @request[s] %>' />
  <% end %>
 
