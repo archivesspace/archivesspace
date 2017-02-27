@@ -95,18 +95,25 @@
 
         var node_id = TreeIds.parse_tree_id(tree_id).id;
 
-        self.source.fetchPathFromRoot(node_id).done(function (path) {
-            self.recursivelyPopulateWaypoints(path, function () {
-                var current = $('#' + tree_id);
-                current.find('.record-title')[0].focus();
+        var displaySelectedNode = function () {
+            var current = $('#' + tree_id);
+            current.find('.record-title')[0].focus();
 
-                $.proxy(self.node_selected_callback, self)(current, tree);
+            $.proxy(self.node_selected_callback, self)(current, tree);
 
-                if (done_callback) {
-                    done_callback(current);
-                }
+            if (done_callback) {
+                done_callback(current);
+            }
+        };
+
+        if (tree_id === self.root_tree_id) {
+            /* We don't need to do any fetching for the root node. */
+            displaySelectedNode();
+        } else {
+            self.source.fetchPathFromRoot(node_id).done(function (path) {
+                self.recursivelyPopulateWaypoints(path, displaySelectedNode);
             });
-        });
+        }
     };
 
     LargeTree.prototype.reparentNodes = function (new_parent, nodes, position) {
@@ -174,9 +181,12 @@
 
         self.renderRoot(function () {
             $($.unique(uris)).each(function (idx, uri) {
-                self.displayNode(TreeIds.uri_to_tree_id(uri),
+                var tree_id = TreeIds.uri_to_tree_id(uri);
+                self.displayNode(tree_id,
                     function (elt) {
-                        self.expandNode(elt);
+                        if (self.root_tree_id != tree_id) {
+                            self.expandNode(elt);
+                        }
 
                         if (done_callback) {
                             done_callback();
