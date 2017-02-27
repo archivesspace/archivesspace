@@ -161,6 +161,13 @@ module RESTHelpers
     end
 
 
+    def deprecated(description = nil)
+      @deprecated = true
+      @deprecated_description = description
+
+      self
+    end
+
     def paginated(val)
       @paginated = val
 
@@ -185,6 +192,8 @@ module RESTHelpers
       preconditions = @preconditions
       rp = @required_params
       paginated = @paginated
+      deprecated = @deprecated
+      deprecated_description = @deprecated_description
       use_transaction = @use_transaction
       uri = @uri
       methods = @methods
@@ -208,6 +217,16 @@ module RESTHelpers
 
       methods.each do |method|
         ArchivesSpaceService.send(method, @uri, {}) do
+          if deprecated
+            Log.warn("\n" +
+                     ("*" * 80) +
+                     "\n*** CALLING A DEPRECATED ENDPOINT: #{method} #{uri}\n" +
+                     (deprecated_description ? ("\n" + deprecated_description) : "") +
+                     "\n" +
+                     ("*" * 80))
+          end
+
+
           RequestContext.open(request_context) do
             DB.open do |db|
               ensure_params(rp, paginated)

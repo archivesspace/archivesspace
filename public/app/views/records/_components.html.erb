@@ -1,3 +1,7 @@
+<%= javascript_include_tag 'largetree' %>
+<%= javascript_include_tag 'largetree_resource' %>
+<%= stylesheet_link_tag "archivesspace/largetree" %>
+
 <% show_search = defined?(:show_search) ? show_search : false %>
 
 <section id="components" data-show-search="<%= show_search %>">
@@ -10,9 +14,7 @@
     <li class="components-search"><a href="#components_search"><span class="icon icon-search"></span> <%= I18n.t("record_tree.search_tab") %></a></li>
   </ul>
   <div class="tab-content">
-    <div id="components_record_tree" class="tab-pane active">
-      <ul class="record-tree" data-root-uri="<%= root_uri %>"></ul>
-    </div>
+    <div id="components_record_tree" class="largetree-container tab-pane active"></div>
     <div id="components_search" class="tab-pane">
       <%= form_tag url_for(:controller => :search, :action => :search, :format => :js) do %>
         <%= hidden_field_tag "root_record", root_uri %>
@@ -43,3 +45,16 @@
 <div id="template_record_tree_loading"><!--
   <li><%= image_tag "archivesspace/record_tree_loading.gif" %></li>
 --></div>
+
+<script>
+    var tree = new LargeTree(new TreeDataSource('<%= root_uri %>/tree'),
+                             $('#components_record_tree'),
+                             '<%= root_uri %>',
+                             true,
+                             new ResourceRenderer(),
+                             $.noop,
+                             $.noop);
+
+    tree.setCurrentNode(TreeIds.uri_to_tree_id('<%= url_for(:action => controller.action_name) %>'));
+
+</script>

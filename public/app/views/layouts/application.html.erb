@@ -7,6 +7,8 @@
 
   <link href="<%= AppConfig[:public_proxy_prefix] %>favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
+  <%= javascript_include_tag 'jquery' %>
+
   <% if ENV["TEST_MODE"] %>
     <script>
       TEST_ERRORS = [];

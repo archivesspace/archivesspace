@@ -19,7 +19,7 @@
 
   <%= render_aspace_partial :partial => "components", :locals => {
         :record_type => "archival_object",
-        :root_uri => archival_object.uri,
+        :root_uri => archival_object.resource['ref'],
       }
   %>
 
