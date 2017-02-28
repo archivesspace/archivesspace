@@ -56,7 +56,7 @@ class BackgroundJobQueue
           return job
         rescue
           # Someone got this job.
-          Log.info("Skipped job #{job.id} on #{Thread.current[:name]}")
+          Log.info("Another thread is running job #{job.id}, skipping on #{Thread.current[:name]}")
           sleep 2
         end
       end
@@ -98,7 +98,12 @@ class BackgroundJobQueue
     end
 
     begin
-      runner = JobRunner.for(job).canceled(job_canceled)
+      runner = JobRunner.for(job)
+
+      # Give the runner a ref to the canceled atomic,
+      # so it can find out if it's been canceled
+      runner.cancelation_signaler(job_canceled)
+
       runner.add_success_hook do
         # Upon success, have the job set our status to "completed" at the right
         # point.  This allows the batch import to set the job status within the
