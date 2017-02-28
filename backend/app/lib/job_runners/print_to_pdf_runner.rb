@@ -1,11 +1,9 @@
-require_relative 'job_runner'
-require_relative "../exporters/lib/exporter"
-require_relative 'AS_fop'
+require_relative "../../exporters/lib/exporter"
+require_relative '../AS_fop'
 
 
 class PrintToPDFRunner < JobRunner
   include JSONModel
-
 
   def self.instance_for(job)
     if job.job_type == "print_to_pdf_job"
