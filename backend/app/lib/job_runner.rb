@@ -1,8 +1,35 @@
 class JobRunner
 
   class JobRunnerNotFound < StandardError; end
-
+  class JobRunnerError < StandardError; end
   class BackgroundJobError < StandardError; end
+
+
+  # Implement this in your subclass
+  #
+  # This returns an instance of the subclass if the job
+  # has a job_type that the subclass knows how to run,
+  # otherwise is returns nil
+  def self.instance_for(job)
+    # Not raising here because we don't want one bad runner to spoil it for everyone
+    return nil
+
+    # Example:
+    # if job.job_type == "my_job_type"
+    #   self.new(job)
+    # else
+    #   nil
+    # end
+  end
+
+
+  # Implement this in your subclass
+  #
+  # This is the method that does the actual work
+  def run
+    raise JobRunnerError.new("#{self.class} must implement the #run method")
+  end
+
 
   def self.for(job)
     @runners.each do |runner|
@@ -46,12 +73,13 @@ class JobRunner
   end
 
 
-  def canceled(canceled)
-    @job_canceled = canceled
-    self
+  def canceled?
+    @job_canceled.value
   end
 
 
-  def run; end
+  def cancelation_signaler(canceled)
+    @job_canceled = canceled
+  end
 
 end
