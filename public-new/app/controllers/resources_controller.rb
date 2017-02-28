@@ -152,8 +152,23 @@ class ResourcesController <  ApplicationController
 
   def infinite
     @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    begin
+      @criteria = {}
+      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
+      @result =  archivesspace.get_record(@root_uri, @criteria)
+      @repo_info = @result.repository_information
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+      fill_request_info(true)
 
-    @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
+      @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
+    rescue RecordNotFound
+      @type = I18n.t('resource._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
+    end
   end
 
   def waypoints

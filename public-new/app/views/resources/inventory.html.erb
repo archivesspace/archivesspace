@@ -17,7 +17,7 @@
   <div class="col-sm-9 text-center tabbing navbar navbar-default">
     <ul class="tabbing nav nav-pills">
       <li><%= link_to t('actions.collection_overview'), :action => :show %></li>
-      <li><a  href="javascript:alert('this does what?');"><%= t('actions.hierarch') %></a></li>
+      <li><%= link_to t('actions.hierarch'), url_for(:action => :infinite) %></li>
       <li><a class='active' href='#'><%= t('actions.numeric') %></a></li>
     </ul>
   </div>
