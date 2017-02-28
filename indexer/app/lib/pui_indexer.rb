@@ -77,21 +77,6 @@ class PUIIndexer < PeriodicIndexer
         doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
       end
     }
-
-    add_batch_hook do |batch|
-      resources = Set.new
-
-      batch.each do |rec|
-        if rec['primary_type'] == 'archival_object'
-          resources << rec['resource']
-        elsif rec['primary_type'] == 'resource'
-          resources << rec['uri']
-        end
-      end
-
-      add_infscroll_docs(resources, batch)
-      add_largetree_docs(resources, batch)
-    end
   end
 
   def add_infscroll_docs(resource_uris, batch)
@@ -117,9 +102,6 @@ class PUIIndexer < PeriodicIndexer
 
       # FIXME: need to arrange for these records to be deleted when their parent collection is
 
-      # :ADD, "#{resource_uri}/tree/root"
-      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:89 a1b22e]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/root"^ => "#{resource_uri}/tree/root"}.pretty_inspect + "\n")
-
       batch << {
         'id' => "#{resource_uri}/tree/root",
         'publish' => "true",
@@ -128,9 +110,6 @@ class PUIIndexer < PeriodicIndexer
       }
 
       add_waypoints(json, resource_uri, nil, batch)
-
-      # json
-      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:91 be7580]: " + {%Q^json^ => json}.pretty_inspect + "\n")
     end
   end
 
@@ -140,9 +119,6 @@ class PUIIndexer < PeriodicIndexer
                                      :offset => waypoint_number,
                                      :parent_node => parent_uri)
 
-
-      # :ADD, "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"
-      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:113 2a1c6]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"^ => "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}"}.pretty_inspect + "\n")
 
       batch << {
         'id' => "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
@@ -179,9 +155,6 @@ class PUIIndexer < PeriodicIndexer
       json = JSONModel::HTTP.get_json(resource_uri + '/tree/node',
                                       :node_uri => record_uri)
 
-      # :ADD, "#{resource_uri}/tree/node_#{json.fetch('uri')}"
-      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [pui_indexer.rb:136 af5d5b]: " + {%Q^:ADD^ => :ADD, %Q^"#{resource_uri}/tree/node_#{json.fetch('uri')}"^ => "#{resource_uri}/tree/node_#{json.fetch('uri')}"}.pretty_inspect + "\n")
-
       batch << {
         'id' => "#{resource_uri}/tree/node_#{json.fetch('uri')}",
         'publish' => "true",
@@ -201,6 +174,32 @@ class PUIIndexer < PeriodicIndexer
 
   def skip_index_doc?(doc)
     !doc['publish']
+  end
+
+  def index_round_complete(repository)
+    # Index any trees in `repository`
+
+    last_resource_mtime = [@state.get_last_mtime(repository.id, :resource) - @window_seconds, 0].max
+    last_ao_mtime = [@state.get_last_mtime(repository.id, :archival_object) - @window_seconds, 0].max
+
+    resource_ids = Set.new(JSONModel::HTTP.get_json(JSONModel(:resource).uri_for, :all_ids => true, :modified_since => last_resource_mtime))
+    ao_ids = JSONModel::HTTP.get_json(JSONModel(:archival_object).uri_for, :all_ids => true, :modified_since => last_ao_mtime, :bollocks => 'true')
+
+    ao_ids.each_slice(@records_per_thread) do |ids|
+      archival_objects = JSONModel(:archival_object).all(:id_set => ids.join(","), 'resolve[]' => [])
+
+      archival_objects.each do |ao|
+        resource_ids << JSONModel.parse_reference(ao['resource']['ref']).fetch(:id)
+      end
+    end
+
+    resource_uris = resource_ids.map {|id| JSONModel(:resource).uri_for(id)}
+
+    batch = IndexBatch.new
+    add_infscroll_docs(resource_uris, batch)
+    add_largetree_docs(resource_uris, batch)
+
+    index_batch(batch)
   end
 
 end

@@ -163,7 +163,6 @@ module JSONModel
 
   def self.load_schema(schema_name)
     if not @@models[schema_name]
-
       old_verbose = $VERBOSE
       $VERBOSE = nil
       src = schema_src(schema_name)

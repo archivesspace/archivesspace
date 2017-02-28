@@ -90,7 +90,7 @@ class PeriodicIndexer < CommonIndexer
           break if (id_subset == :finished || id_subset.nil?)
 
           records = @timing.time_block(:record_fetch_ms) do
-            fetch_records(record_type, id_subset, @@resolved_attributes)
+            fetch_records(record_type, id_subset, resolved_attributes)
           end
 
           if !records.empty?
@@ -106,7 +106,7 @@ class PeriodicIndexer < CommonIndexer
 
         did_something
       rescue
-        $stderr.puts("Failure in periodic indexer worker thread: #{$!}")
+        $stderr.puts("Failure in #{@indexer_name} worker thread: #{$!}")
         raise $!
       end
     end
@@ -147,7 +147,6 @@ class PeriodicIndexer < CommonIndexer
       did_something = false
 
       @@record_types.each do |type|
-        # FIXME: Can we detect the global repository in a more obvious way?  Property on the repo?
         next if @@global_types.include?(type) && i > 0
         start = Time.now
 
@@ -198,6 +197,8 @@ class PeriodicIndexer < CommonIndexer
 
       send_commit if did_something
 
+      index_round_complete(repository)
+
       checkpoints.each do |repository, type, start|
         @state.set_last_mtime(repository.id, type, start)
       end
@@ -206,6 +207,10 @@ class PeriodicIndexer < CommonIndexer
     handle_deletes
 
     log("Index round complete")
+  end
+
+  def index_round_complete(repository)
+    # Give subclasses a place to hang custom behavior.
   end
 
   def handle_deletes

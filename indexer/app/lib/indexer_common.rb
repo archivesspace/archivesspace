@@ -891,13 +891,19 @@ class CommonIndexer
       end
     end
 
+    index_batch(batch, timing)
+
+    timing
+  end
+
+
+  def index_batch(batch, timing = IndexerTiming.new)
     timing.time_block(:batch_hooks_ms) do
       # Allow hooks to operate on the entire batch if desired
       @batch_hooks.each_with_index do |hook|
         hook.call(batch)
       end
     end
-
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
@@ -934,8 +940,6 @@ class CommonIndexer
         end
       end
     end
-
-    timing
   end
 
 
