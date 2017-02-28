@@ -3,13 +3,21 @@
 
 require 'thread'
 require 'atomic'
+
 require_relative 'job_runner'
-require_relative 'find_and_replace_runner'
-require_relative 'print_to_pdf_runner'
-require_relative 'reports_runner'
-require_relative 'batch_import_runner'
-require_relative 'slow_nothing_runner'
-require_relative 'container_conversion_runner'
+
+# load job runners
+Dir.glob(File.join(File.dirname(__FILE__), "job_runners", "*.rb")).each do |file|
+  require file
+end
+
+# and also from plugins
+ASUtils.find_local_directories('backend').each do |prefix|
+  Dir.glob(File.join(prefix, "job_runners", "*.rb")).each do |file|
+    require File.absolute_path(file)
+  end
+end
+
 
 class BackgroundJobQueue
 

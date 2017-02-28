@@ -1,11 +1,6 @@
-require_relative 'job_runner'
-
-
 # This is actually a big bunch of nothing. 
 # We run this job in the conversation process
 class ContainerConversionRunner < JobRunner
-  
-
 
   def self.instance_for(job)
     if job.job_type == "container_conversion_job"
@@ -14,6 +9,7 @@ class ContainerConversionRunner < JobRunner
       nil
     end
   end
+
 
   def run
     super

@@ -1,7 +1,4 @@
-require_relative 'job_runner'
-
 class FindAndReplaceRunner < JobRunner
-
 
   def self.instance_for(job)
     if job.job_type == "find_and_replace_job"

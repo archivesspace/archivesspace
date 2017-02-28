@@ -1,16 +1,14 @@
 # prepare an import job run: orchestrates converting the input file's records,
 # runs the job and gathers its log output, handling any errors.
 
-require_relative 'job_runner'
-
-[File.expand_path("..", File.dirname(__FILE__)),
+[File.expand_path(File.join('..', '..'), File.dirname(__FILE__)),
  *ASUtils.find_local_directories('backend')].each do |prefix|
   Dir.glob(File.join(prefix, "converters", "*.rb")).sort.each do |file|
     require File.absolute_path(file)
   end
 end
 
-require_relative 'streaming_import'
+require_relative '../streaming_import'
 
 
 class Ticker
