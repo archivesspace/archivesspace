@@ -58,7 +58,7 @@ module ASpaceImport
 
       # If the record's JSON schema contains a URI (i.e. this is a top-level
       # record), then blow up if it isn't provided.
-      if obj.class.schema['uri'] && !obj.uri
+      if obj.class.is_a?(JSONModelType) && obj.class.schema['uri'] && !obj.uri
         Log.debug("Can't import object: #{obj.inspect}")
         raise "Imported object must have a URI!"
       end
