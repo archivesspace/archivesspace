@@ -27,7 +27,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
                 $('.cut-selection,.paste-selection', toolbarRenderer.container).show();
-                $('.cut-selection',toolbarRenderer.containe).removeClass('disabled');
+                $('.cut-selection',toolbarRenderer.container).removeClass('disabled');
             } else {
                 tree.ajax_tree.unblockout_form();
                 tree.resizer.reset();
@@ -68,16 +68,18 @@ var SHARED_TOOLBAR_ACTIONS = [
                 if (tree.dragdrop.rowsToMove.length > 0) {
                     // if multiselected rows, cut them
                     rowsToCut = $.merge([], tree.dragdrop.rowsToMove);
-                } else {
+                } else if (tree.current().is(':not(.root-row')) {
                     // otherwise cut the current row
                     rowsToCut = [tree.current()];
                 }
 
-                $.each(rowsToCut, function(_, row) {
-                    $(row).addClass('cut');
-                });
+                if (rowsToCut.length > 0) {
+                    $.each(rowsToCut, function(_, row) {
+                        $(row).addClass('cut');
+                    });
 
-                $('.paste-selection', toolbarRenderer.container).removeClass('disabled');
+                    $('.paste-selection', toolbarRenderer.container).removeClass('disabled');
+                }
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
