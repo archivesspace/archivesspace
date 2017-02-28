@@ -20,7 +20,7 @@
     <ul class="tabbing nav nav-pills">
       <li><a class="active" href="#"><%= t('actions.collection_overview') %></a></li><li>
       <a href="<%= url_for(:action => :infinite) %>"><%= t('actions.hierarch') %></a></li><li>
-<a href="javascript:alert('Is this for the container stuff?');"><%= t('actions.numeric') %></a></li>
+      <%= link_to t('actions.numeric'), :action => :inventory %></li>
     </ul>
   </div>
 </div>

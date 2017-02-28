@@ -544,6 +544,14 @@ class CommonIndexer
           if instance['sub_container'] && instance['sub_container']['top_container']
             doc['top_container_uri_u_sstr'] ||= []
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
+            if instance['sub_container']['type_2']
+              doc['child_container_u_sstr'] ||= []
+              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+            end
+            if instance['sub_container']['type_3']
+              doc['grand_child_container_u_sstr'] ||= []
+              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_2']}"
+            end
           end
         }
       end
@@ -972,21 +980,28 @@ class CommonIndexer
         doc['types'] << 'pui_agent'
       end
 
-      if ['resource'].include?(doc['primary_type'])
-        doc['types'] << 'pui_collection'
-      elsif ['classification'].include?(doc['primary_type'])
-        doc['types'] << 'pui_record_group'
-      elsif ['agent_person'].include?(doc['primary_type'])
-        doc['types'] << 'pui_person'
-      else
-        doc['types'] << 'pui_' + doc['primary_type']
-      end
-
       unless doc['primary_type'] == 'archival_object'
         # All record types are available to PUI except archival objects, since
         # our pui_indexer indexes a specially formatted version of those.
+        if ['resource'].include?(doc['primary_type'])
+          doc['types'] << 'pui_collection'
+        elsif ['classification'].include?(doc['primary_type'])
+          doc['types'] << 'pui_record_group'
+        elsif ['agent_person'].include?(doc['primary_type'])
+          doc['types'] << 'pui_person'
+        else
+          doc['types'] << 'pui_' + doc['primary_type']
+        end
+
         doc['types'] << 'pui'
       end
+    end
+
+    # index all top containers for pui
+    if doc['primary_type'] == 'top_container'
+      doc['publish'] = true
+      doc['types'] << 'pui_container'
+      doc['types'] << 'pui'
     end
   end
 end

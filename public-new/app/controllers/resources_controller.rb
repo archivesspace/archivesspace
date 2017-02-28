@@ -177,7 +177,6 @@ class ResourcesController <  ApplicationController
     render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_' + params[:node])
   end
 
-
   def tree_waypoint
     @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
 
@@ -188,6 +187,61 @@ class ResourcesController <  ApplicationController
     @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
 
     render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_id])
+  end
+
+  def inventory
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    begin
+      # stuff for the collection bits
+      @criteria = {}
+      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
+      @result =  archivesspace.get_record(uri, @criteria)
+      @repo_info = @result.repository_information
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+      fill_request_info(true)
+
+      # top container stuff ... sets @records
+      fetch_containers(uri, "#{uri}/inventory", params)
+
+      if !@results.blank?
+        params[:q] = '*'
+        @pager =  Pager.new(@base_search, @results['this_page'], @results['last_page'])
+      else
+        @pager = nil
+      end
+
+    rescue RecordNotFound
+      @type = I18n.t('resource._singular')
+      @page_title = I18n.t('errors.error_404', :type => @type)
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found'
+    end
+  end
+
+
+  private
+
+  def fetch_containers(resource_uri, page_uri, params)
+    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND types:pui AND types:pui_container"
+    @base_search = "#{page_uri}?"
+    search_opts =  default_search_opts({
+      'sort' => 'typeahead_sort_key_u_sort asc',
+      'facet.mincount' => 1
+    })
+    search_opts['fq']=[qry]
+    set_up_search(['pui_container'], ['type_enum_s'], search_opts, params, qry)
+    @base_search= @base_search.sub("q=#{qry}", '')
+    page = Integer(params.fetch(:page, "1"))
+
+    @results = archivesspace.search(@query, page, @criteria)
+
+    if @results['total_hits'] > 0
+      process_search_results(@base_search)
+    else
+      @results = []
+    end
   end
 
 end
