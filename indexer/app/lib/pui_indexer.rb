@@ -1,11 +1,10 @@
 require 'record_inheritance'
 
-require_relative 'indexer_common'
 require_relative 'periodic_indexer'
 
 require 'set'
 
-module PUIIndexerMixin
+class PUIIndexer < PeriodicIndexer
 
   PUI_RESOLVES = [
     'ancestors',
@@ -14,10 +13,35 @@ module PUIIndexerMixin
     'ancestors::instances::sub_container::top_container'
   ]
 
+  def initialize(state = nil, name)
+    index_state = state || IndexState.new(File.join(AppConfig[:data_directory], "indexer_pui_state"))
+
+    super(index_state, name)
+
+    # Set up our JSON schemas now that we know the JSONModels have been loaded
+    RecordInheritance.prepare_schemas
+
+    @time_to_sleep = AppConfig[:pui_indexing_frequency_seconds].to_i
+    @thread_count = AppConfig[:pui_indexer_thread_count].to_i
+    @records_per_thread = AppConfig[:pui_indexer_records_per_thread].to_i
+  end
+
+  def fetch_records(type, ids, resolve)
+    records = JSONModel(type).all(:id_set => ids.join(","), 'resolve[]' => resolve)
+    if RecordInheritance.has_type?(type)
+      RecordInheritance.merge(records, :direct_only => true)
+    else
+      records
+    end
+  end
+
+  def self.get_indexer(state = nil, name = "PUI Indexer")
+    indexer = self.new(state, name)
+  end
+
   def resolved_attributes
     super + PUI_RESOLVES
   end
-
 
   def configure_doc_rules
     super
@@ -55,7 +79,6 @@ module PUIIndexerMixin
     }
 
     add_batch_hook do |batch|
-
       resources = Set.new
 
       batch.each do |rec|
@@ -179,48 +202,5 @@ module PUIIndexerMixin
   def skip_index_doc?(doc)
     !doc['publish']
   end
-end
 
-class PUIIndexerTask < PeriodicIndexerTask
-  def initialize(params)
-    super
-    @worker_class = PUIIndexerWorker
-  end
-end
-
-class PUIIndexerWorker < PeriodicIndexerWorker
-  include PUIIndexerMixin
-
-  def fetch_records(type, ids, resolve)
-    records = JSONModel(type).all(:id_set => ids.join(","), 'resolve[]' => resolve)
-    if RecordInheritance.has_type?(type)
-      RecordInheritance.merge(records, :direct_only => true)
-    else
-      records
-    end
-  end
-
-end
-
-class PUIIndexer < PeriodicIndexer
-  include PUIIndexerMixin
-
-  def initialize(state = nil, name)
-    index_state = state || IndexState.new(File.join(AppConfig[:data_directory], "indexer_pui_state"))
-
-    super(index_state, name)
-
-    # Set up our JSON schemas now that we know the JSONModels have been loaded
-    RecordInheritance.prepare_schemas
-
-    @time_to_sleep = AppConfig[:pui_indexing_frequency_seconds].to_i
-    @thread_count = AppConfig[:pui_indexer_thread_count].to_i
-    @records_per_thread = AppConfig[:pui_indexer_records_per_thread].to_i
-
-    @task_class = PUIIndexerTask
-  end
-
-  def self.get_indexer(state = nil, name = "PUI Indexer")
-    indexer = self.new(state, name)
-  end
 end

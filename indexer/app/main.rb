@@ -16,7 +16,11 @@ class ArchivesSpaceIndexer < Sinatra::Base
 
     $stderr.puts "Starting periodic indexer"
     threads << Thread.new do
-      periodic_indexer.run
+      begin
+        periodic_indexer.run
+      rescue
+        $stderr.puts "Unexpected failure in periodic indexer: #{$!}"
+      end
     end
 
     if AppConfig[:pui_indexer_enabled]
@@ -25,7 +29,11 @@ class ArchivesSpaceIndexer < Sinatra::Base
         # Stagger them to encourage them to run at different times
         sleep AppConfig[:solr_indexing_frequency_seconds]
 
-        pui_indexer.run
+        begin
+          pui_indexer.run
+        rescue
+          $stderr.puts "Unexpected failure in PUI indexer: #{$!}"
+        end
       end
     end
 
@@ -95,7 +103,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
       "Running every #{AppConfig[:solr_indexing_frequency_seconds].to_i} seconds. "
     end
   end
-  
+
   # this pauses the indexer so that bulk update and migrations can happen
   # without bogging down the server
   put "/" do
