@@ -23,3 +23,26 @@
                         <%= read_only %>,
                         '<%= root_record.jsonmodel_type %>');
 </script>
+
+<div id="tree_toolbar_transfer_action"><!--
+  <a class="btn btn-xs btn-default dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
+    <%= I18n.t "actions.transfer" %> <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu tree-transfer-form">
+    <li class="col-sm-12">
+      <%= form_tag("#{root_path}archival_objects/${node_id}/transfer") do |f| %>
+        <%= form_context :transfer, {} do |form| %>
+          <fieldset>
+            <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
+            <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
+            <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id], :layout => "stacked" }%>
+          </fieldset>
+          <div class="form-actions">
+            <button class="btn btn-default btn-primary pull-left transfer-button"><%= I18n.t("actions.transfer") %></button>
+            <a class="btn btn-default btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+          </div>
+        <% end %>
+      <% end %>
+    </li>
+  </ul>-->
+</div>

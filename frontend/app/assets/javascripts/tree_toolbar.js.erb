@@ -226,7 +226,45 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             }
-        ]
+        ],
+        {
+            label: '<%= I18n.t("actions.transfer") %>',
+            cssClasses: 'btn-default dropdown-toggle transfer-node',
+            groupCssClasses: 'dropdown',
+            onRender: function(btn, node, tree, toolbarRenderer) {
+                var $li = btn.parent();
+                btn.replaceWith(AS.renderTemplate('tree_toolbar_transfer_action', {
+                                    node_id: TreeIds.uri_to_parts(node.data('uri')).id,
+                                    root_object_id: TreeIds.uri_to_parts(tree.large_tree.root_uri).id,
+                                }));
+                $(".linker:not(.initialised)", $li).linker()
+
+                var $form = $li.find('form');
+                $form.on('submit', function(event) {
+                    if ($(this).serializeObject()['transfer[ref]']) {
+                        // continue with the POST
+                        return;
+                    } else {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        $(".missing-ref-message", $form).show();
+                        return true;
+                    }
+                }).on('click', '.btn-cancel', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(this).closest('.btn-group.dropdown').toggleClass("open");
+                }).on('click', ':input', function(event) {
+                    event.stopPropagation();
+                }).on("click", ".dropdown-toggle", function(event) {
+                    event.stopPropagation();
+                    $(this).parent().toggleClass("open");
+                });
+                $li.on('shown.bs.dropdown', function() {
+                    $("#token-input-transfer_ref_", $form).focus();
+                });
+            }
+        }
     ]),
 
     digital_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
@@ -411,11 +449,11 @@ TreeToolbarRenderer.prototype.render = function(node) {
         self.container.append($group);
 
         action_group.map(function(action) {
-            if ($.proxy(action.isVisible, tree)(node, tree, self)) {
+            if (action.isVisible == undefined || $.proxy(action.isVisible, tree)(node, tree, self)) {
                 var $btn = $('<a>').addClass('btn btn-xs');
                 $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
 
-                if ($.proxy(action.isEnabled, tree)(node, tree, self)) {
+                if (action.isEnabled == undefined || $.proxy(action.isEnabled, tree)(node, tree, self)) {
                     if (action.onClick) {
                         $btn.on('click', function (event) {
                             return $.proxy(action.onClick, tree)(event, $btn, node, tree, self);
