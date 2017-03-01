@@ -6,24 +6,37 @@ class LargeTree
 
   WAYPOINT_SIZE = 200
 
-  def initialize(root_record)
+  def initialize(root_record, opts = {})
     @decorators = []
 
     @root_record = root_record
 
     @root_table = root_record.class.root_type.intern
     @node_table = @node_type = root_record.class.node_type.intern
+
+    @published_only = opts.fetch(:published_only, false)
   end
 
   def add_decorator(decorator)
     @decorators << decorator
   end
 
+  def published_filter
+    filter = {}
+
+    filter[:publish] = @published_only ? [1] : [0, 1]
+    filter[:suppressed] = @published_only ? [0] : [0, 1]
+
+    filter
+  end
+
   def root
     DB.open do |db|
-      child_count = db[@node_table].filter(:root_record_id => @root_record.id,
+      child_count = db[@node_table]
+                    .filter(:root_record_id => @root_record.id,
                                            :parent_id => nil)
-                                   .count
+                    .filter(published_filter)
+                    .count
 
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
@@ -43,12 +56,15 @@ class LargeTree
       child_count = db[@node_table]
                     .filter(:root_record_id => @root_record.id,
                             :parent_id => node_record.id)
+                    .filter(published_filter)
                     .count
 
       my_position = node_record.position
 
-      node_position = db[@node_table].filter(:root_record_id => @root_record.id,
-                                                :parent_id => node_record.parent_id)
+      node_position = db[@node_table]
+                      .filter(:root_record_id => @root_record.id,
+                              :parent_id => node_record.parent_id)
+                      .filter(published_filter)
                       .where { position < my_position }
                       .count + 1
 
@@ -85,7 +101,10 @@ class LargeTree
         # Get the set of parents of the current level of nodes
         next_nodes_to_expand = []
 
-        db[@node_table].filter(:id => nodes_to_expand).select(:id, :parent_id, :position).each do |row|
+        db[@node_table]
+          .filter(:id => nodes_to_expand)
+          .filter(published_filter)
+          .select(:id, :parent_id, :position).each do |row|
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
           next_nodes_to_expand << row[:parent_id]
@@ -100,6 +119,7 @@ class LargeTree
       (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq.each do |node_id|
         this_position = db[@node_type]
                         .filter(:parent_id => child_to_parent_map[node_id])
+                        .filter(published_filter)
                         .where { position <= node_to_position_map[node_id] }
                         .count
 
@@ -138,6 +158,7 @@ class LargeTree
       db[@node_table]
         .filter(:root_record_id => @root_record.id,
                 :parent_id => parent_id)
+        .filter(published_filter)
         .order(:position)
         .select(:id, :repo_id, :title, :position)
         .offset(offset * WAYPOINT_SIZE)
@@ -151,6 +172,7 @@ class LargeTree
       child_counts = Hash[db[@node_table]
                            .filter(:root_record_id => @root_record.id,
                                    :parent_id => records.keys)
+                           .filter(published_filter)
                            .group_and_count(:parent_id)
                            .map {|row| [row[:parent_id], row[:count]]}]
 

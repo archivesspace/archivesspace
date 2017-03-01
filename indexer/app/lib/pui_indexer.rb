@@ -110,7 +110,8 @@ class PUIIndexer < PeriodicIndexer
       resource_uris.each do |resource_uri|
         @node_uris.clear
 
-        json = JSONModel::HTTP.get_json(resource_uri + '/tree/root')
+        json = JSONModel::HTTP.get_json(resource_uri + '/tree/root',
+                                        :published_only => true)
 
         # FIXME: need to arrange for these records to be deleted when their parent collection is
 
@@ -131,7 +132,8 @@ class PUIIndexer < PeriodicIndexer
       json.fetch('waypoints').times do |waypoint_number|
         json = JSONModel::HTTP.get_json(resource_uri + '/tree/waypoint',
                                         :offset => waypoint_number,
-                                        :parent_node => parent_uri)
+                                        :parent_node => parent_uri,
+                                        :published_only => true)
 
 
         batch << {
@@ -155,7 +157,8 @@ class PUIIndexer < PeriodicIndexer
       # Index the node itself if it has children
       if waypoint_record.fetch('child_count') > 0
         json = JSONModel::HTTP.get_json(resource_uri + '/tree/node',
-                                        :node_uri => record_uri)
+                                        :node_uri => record_uri,
+                                        :published_only => true)
 
         batch << {
           'id' => "#{resource_uri}/tree/node_#{json.fetch('uri')}",
@@ -175,7 +178,8 @@ class PUIIndexer < PeriodicIndexer
         .each_slice(128) do |node_ids|
 
         node_paths = JSONModel::HTTP.get_json(root_uri + '/tree/node_from_root',
-                                              'node_ids[]' => node_ids)
+                                              'node_ids[]' => node_ids,
+                                              :published_only => true)
 
         node_paths.each do |node_id, path|
           batch << {

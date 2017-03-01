@@ -146,7 +146,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resources/:id/tree/root')
     .description("Fetch tree information for the top-level resource record")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -158,7 +159,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["offset", Integer, "The page of records to return"],
-            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -178,7 +180,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree information for an Archival Object record within a tree")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_uri", String, "The URI of the Archival Object record of interest"])
+            ["node_uri", String, "The URI of the Archival Object record of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -191,7 +194,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree paths from the root record to Archival Objects")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_ids", [Integer], "The IDs of the Archival Object records of interest"])
+            ["node_ids", [Integer], "The IDs of the Archival Object records of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -200,10 +204,10 @@ class ArchivesSpaceService < Sinatra::Base
 
   private
 
-  def large_tree_for_resource
+  def large_tree_for_resource(largetree_opts = {})
     resource = Resource.get_or_die(params[:id])
 
-    large_tree = LargeTree.new(resource)
+    large_tree = LargeTree.new(resource, {:published_only => params[:published_only]}.merge(largetree_opts))
     large_tree.add_decorator(LargeTreeResource.new)
 
     large_tree

@@ -51,7 +51,7 @@
         });
 
         if (scrollTimer) {
-            clearInterval(scrollTimer);
+y            clearInterval(scrollTimer);
         }
 
         scrollTimer = setTimeout(function () {

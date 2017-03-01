@@ -81,7 +81,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/classifications/:id/tree/root')
     .description("Fetch tree information for the top-level classification record")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -93,7 +94,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["offset", Integer, "The page of records to return"],
-            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -113,7 +115,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree information for an Classification Term record within a tree")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_uri", String, "The URI of the Classification Term record of interest"])
+            ["node_uri", String, "The URI of the Classification Term record of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -126,7 +129,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree path from the root record to Classification Terms")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_ids", [Integer], "The IDs of the Classification Term records of interest"])
+            ["node_ids", [Integer], "The IDs of the Classification Term records of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -138,7 +142,7 @@ class ArchivesSpaceService < Sinatra::Base
   def large_tree_for_classification
     classification = Classification.get_or_die(params[:id])
 
-    large_tree = LargeTree.new(classification)
+    large_tree = LargeTree.new(classification, {:published_only => params[:published_only]}.merge(largetree_opts))
     large_tree.add_decorator(LargeTreeClassification.new)
 
     large_tree
