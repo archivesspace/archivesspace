@@ -186,7 +186,7 @@ class PUIIndexer < PeriodicIndexer
             'id' => "#{root_uri}/tree/node_from_root_#{node_id}",
             'publish' => "true",
             'primary_type' => "tree_node_from_root",
-            'json' => ASUtils.to_json(path)
+            'json' => ASUtils.to_json({node_id => path})
           }
         end
       end
