@@ -99,7 +99,9 @@
 
         var displaySelectedNode = function () {
             var current = $('#' + tree_id);
-            current.find('.record-title')[0].focus();
+            if (current.find('.record-title')[0]) {
+                current.find('.record-title')[0].focus();
+            }
 
             $.proxy(self.node_selected_callback, self)(current, tree);
 
@@ -239,7 +241,11 @@
         if (waypoint_description.node) {
             var tree_id = TreeIds.uri_to_tree_id(waypoint_description.node);
 
-            self.toggleNode($('#' + tree_id).find('.expandme'), next_fn);
+            if ($('#' + tree_id).find('.expandme').find('.expanded').length > 0) {
+                next_fn();
+            } else {
+                self.toggleNode($('#' + tree_id).find('.expandme'), next_fn);
+            }
         } else {
             /* this is the root node (subtree already expanded) */
             next_fn();
@@ -575,6 +581,7 @@
                 self.renderer.add_node_columns(row, node);
 
                 var tree_id = TreeIds.uri_to_tree_id(node.uri);
+
                 row.data('uri', node.uri);
                 row.data('jsonmodel_type', node.jsonmodel_type);
                 row.data('position', node.position);
@@ -591,7 +598,7 @@
             });
 
             elt.after.apply(elt, newRows);
-
+ 
             elt.addClass('populated');
 
             activeWaypointPopulates[key] = false;

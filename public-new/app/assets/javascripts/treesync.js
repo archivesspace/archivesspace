@@ -83,7 +83,7 @@
     TreeSync.prototype.handleScroll = function() {
         var self = this;
 
-        function syncAfterScroll() {
+        var syncAfterScroll = function () {
             var $record = self.scroller.getClosestElement();
             var uri = $record.data('uri');
             var tree_id = TreeIds.uri_to_tree_id(uri);

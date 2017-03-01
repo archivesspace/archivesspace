@@ -173,7 +173,11 @@
             self.scrollPosition -= (eltTop - containerTop);
             self.elt[0].style.transform = 'translateY(' + self.scrollPosition + 'px' + ')';
 
-            self.considerPopulatingWaypoints(true);
+            self.considerPopulatingWaypoints(true, false, function () {
+                $.each(self.scrollCallbacks, function(_, callback) {
+                    callback();
+                });
+            });
         };
 
         if (!$($('.waypoint')[targetWaypoint]).is('.populated')) {
@@ -230,8 +234,12 @@
 
     var populateRunning = false;
 
-    InfiniteScroll.prototype.considerPopulatingWaypoints = function (preserveScroll, reentrant, callback) {
+    InfiniteScroll.prototype.considerPopulatingWaypoints = function (preserveScroll, reentrant, done_callback) {
         var self = this;
+
+        if (!done_callback) {
+            done_callback = $.noop;
+        }
 
         if (populateRunning && !reentrant) {
             return;
@@ -248,9 +256,10 @@
             var end = start + BATCH_SIZE;
 
             self.populateWaypoints(waypoints.slice(start, end), preserveScroll, function () {
-                self.considerPopulatingWaypoints(preserveScroll, true, callback);
+                self.considerPopulatingWaypoints(preserveScroll, true, done_callback);
             });
         } else {
+            done_callback();
             populateRunning = false;
             if (callback) {
                 callback();
