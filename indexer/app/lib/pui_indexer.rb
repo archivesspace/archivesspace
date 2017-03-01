@@ -93,7 +93,7 @@ class PUIIndexer < PeriodicIndexer
     end
   end
 
-  # FIXME: Need to do digital objects and classifications here too
+
   class LargeTreeDocIndexer
 
     attr_reader :batch
@@ -106,69 +106,69 @@ class PUIIndexer < PeriodicIndexer
       @batch = batch
     end
 
-    def add_largetree_docs(resource_uris)
-      resource_uris.each do |resource_uri|
+    def add_largetree_docs(root_record_uris)
+      root_record_uris.each do |node_uri|
         @node_uris.clear
 
-        json = JSONModel::HTTP.get_json(resource_uri + '/tree/root',
+        json = JSONModel::HTTP.get_json(node_uri + '/tree/root',
                                         :published_only => true)
 
         # FIXME: need to arrange for these records to be deleted when their parent collection is
 
         batch << {
-          'id' => "#{resource_uri}/tree/root",
+          'id' => "#{node_uri}/tree/root",
           'publish' => "true",
           'primary_type' => "tree_root",
           'json' => ASUtils.to_json(json)
         }
 
-        add_waypoints(json, resource_uri, nil)
+        add_waypoints(json, node_uri, nil)
 
-        index_paths_to_root(resource_uri, @node_uris)
+        index_paths_to_root(node_uri, @node_uris)
       end
     end
 
-    def add_waypoints(json, resource_uri, parent_uri)
+    def add_waypoints(json, root_record_uri, parent_uri)
       json.fetch('waypoints').times do |waypoint_number|
-        json = JSONModel::HTTP.get_json(resource_uri + '/tree/waypoint',
+        json = JSONModel::HTTP.get_json(root_record_uri + '/tree/waypoint',
                                         :offset => waypoint_number,
                                         :parent_node => parent_uri,
                                         :published_only => true)
 
 
         batch << {
-          'id' => "#{resource_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
+          'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
           'publish' => "true",
           'primary_type' => "tree_waypoint",
           'json' => ASUtils.to_json(json)
         }
 
         json.each do |waypoint_record|
-          add_nodes(resource_uri, waypoint_record)
+          add_nodes(root_record_uri, waypoint_record)
         end
       end
     end
 
-    def add_nodes(resource_uri, waypoint_record)
+    def add_nodes(root_record_uri, waypoint_record)
       record_uri = waypoint_record.fetch('uri')
 
       @node_uris << record_uri
 
       # Index the node itself if it has children
       if waypoint_record.fetch('child_count') > 0
-        json = JSONModel::HTTP.get_json(resource_uri + '/tree/node',
+        json = JSONModel::HTTP.get_json(root_record_uri + '/tree/node',
                                         :node_uri => record_uri,
                                         :published_only => true)
 
         batch << {
-          'id' => "#{resource_uri}/tree/node_#{json.fetch('uri')}",
+          'id' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
           'publish' => "true",
           'primary_type' => "tree_node",
           'json' => ASUtils.to_json(json)
         }
 
         # Finally, walk the node's waypoints and index those too.
-        add_waypoints(json, resource_uri, json.fetch('uri'))
+        add_waypoints(json, root_record_uri, json.fetch('uri'))
       end
     end
 
@@ -234,7 +234,9 @@ class PUIIndexer < PeriodicIndexer
     end
 
     batch = IndexBatch.new
-    add_infscroll_docs(tree_uris, batch)
+
+    add_infscroll_docs(tree_uris.select {|uri| JSONModel.parse_reference(uri).fetch(:type) == 'resource'},
+                       batch)
 
     LargeTreeDocIndexer.new(batch).add_largetree_docs(tree_uris)
 
