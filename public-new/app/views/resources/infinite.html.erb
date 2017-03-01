@@ -116,7 +116,15 @@
 // $('.infinite-tree-view').css('position', 'absolute').css('right', '2em').css('top', $('.infinite-record-wrapper').offset().top);
 
 
- var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite', $('.infinite-record-wrapper'), <%= @ordered_records.length %>);
+ var syncer = new TreeSync('<%= params[:rid]%>');
+ window.syncer = syncer;
+
+ var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite',
+                                 $('.infinite-record-wrapper'),
+                                 <%= @ordered_records.length %>,
+                                 function() {
+                                     syncer.infiniteScrollIsReady(scroll);
+                                 });
 
  /* NOTE: This just here for debugging... */
  window.scroller = scroll;
@@ -127,7 +135,7 @@
                           true,
                           new ResourceRenderer(),
                           function() {
-                              tree.treesync = new TreeSync(tree, scroll);
+                              syncer.treeIsReady(tree);
                           },
                           $.noop);
 

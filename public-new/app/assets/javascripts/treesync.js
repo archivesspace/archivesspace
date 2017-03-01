@@ -2,10 +2,27 @@
 
 (function(exports) {
 
-    function TreeSync(tree, scroller) {
+    function TreeSync(repo_id) {
+        this.repo_id = repo_id;
+    };
+
+    TreeSync.prototype.treeIsReady = function(tree) {
         this.tree = tree;
+
+        if (this.scroller != undefined) {
+            this.ready();
+        }
+    };
+
+    TreeSync.prototype.infiniteScrollIsReady = function(scroller) {
         this.scroller = scroller;
 
+        if (this.tree != undefined) {
+            this.ready();
+        }
+    };
+
+    TreeSync.prototype.ready = function() {
         this.setupHashChange();
         this.scroller.registerScrollCallback($.proxy(this.handleScroll, this));
     };
@@ -44,7 +61,8 @@
     TreeSync.prototype.scrollTo = function(tree_id) {
         var self = this;
 
-        var uri = $("#"+tree_id, self.tree.elt).data('uri');
+        var uri = self.uriForTreeId(tree_id);
+
         var $waypoint = self.scroller.wrapper.find('[data-uris*="'+uri+';"], [data-uris$="'+uri+'"]');
         var uris = $waypoint.data('uris').split(';');
         var index = $.inArray(uri, uris);
@@ -77,6 +95,13 @@
         this.scrollTimeout = setTimeout(function() {
             syncAfterScroll();
         }, this.SCROLL_TIMEOUT);
+    };
+
+
+    TreeSync.prototype.uriForTreeId = function(tree_id) {
+        // FIXME Can this moved somewhere else? TreeIds?
+        var parsed_tree_id = TreeIds.parse_tree_id(tree_id);
+        return '/repositories/'+this.repo_id+'/'+parsed_tree_id.type + 's/'+parsed_tree_id.id;
     };
 
     exports.TreeSync = TreeSync;
