@@ -11,6 +11,9 @@
 
     TreeSync.prototype.setupHashChange = function() {
         $(window).hashchange($.proxy(this.handleHashChange, this));
+
+        // if there's a hash, do something upon loading the trees
+        this.handleHashChange() 
     };
 
     TreeSync.prototype.handleHashChange = function() {
