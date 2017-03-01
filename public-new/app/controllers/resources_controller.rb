@@ -140,7 +140,7 @@ class ResourcesController <  ApplicationController
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info(true)
-      @tree = fetch_tree(uri)
+      # GONE # @tree = fetch_tree(uri)
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)

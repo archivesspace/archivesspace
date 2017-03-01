@@ -27,7 +27,7 @@ class DigitalObject < Record
       begin
         arch = archives_space_service.get_record(uri, @search_opts)
         results[uri] = arch
-        @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
+        # GONE # @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
       rescue RecordNotFound
         # Assume not published or not yet indexed
       end

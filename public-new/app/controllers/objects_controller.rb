@@ -89,7 +89,7 @@ class ObjectsController <  ApplicationController
       begin
         @repo_info =  @result.repository_information
         @page_title = @result.display_string
-        @tree = fetch_tree(uri)
+        # GONE # @tree = fetch_tree(uri)
         @context = breadcrumb_info
         if @result['primary_type'] == 'digital_object'
           @dig = process_digital(@result['json'])
@@ -133,7 +133,7 @@ class ObjectsController <  ApplicationController
         arch['json']['html'].keys.each do |type|
           dig_json['html'][type] = arch['json']['html'][type] if dig_json.dig('html', type).blank?
         end
-        @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
+        # GONE # @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
       end
     end
   end

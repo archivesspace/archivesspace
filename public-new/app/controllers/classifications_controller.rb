@@ -106,7 +106,7 @@ class ClassificationsController <  ApplicationController
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'agent_uris:id']
     @result = archivesspace.get_record(uri, @criteria)
 
-    @tree = fetch_tree(uri)
+    # GONE # @tree = fetch_tree(uri)
     @context = get_path(@tree)
     # TODO: This is a monkey patch for digital objects
     if @context.blank?
