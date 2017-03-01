@@ -211,7 +211,7 @@ class PUIIndexer < PeriodicIndexer
     last_ao_mtime = [@state.get_last_mtime(repository.id, :archival_object) - @window_seconds, 0].max
 
     resource_ids = Set.new(JSONModel::HTTP.get_json(JSONModel(:resource).uri_for, :all_ids => true, :modified_since => last_resource_mtime))
-    ao_ids = JSONModel::HTTP.get_json(JSONModel(:archival_object).uri_for, :all_ids => true, :modified_since => last_ao_mtime, :bollocks => 'true')
+    ao_ids = JSONModel::HTTP.get_json(JSONModel(:archival_object).uri_for, :all_ids => true, :modified_since => last_ao_mtime)
 
     ao_ids.each_slice(@records_per_thread) do |ids|
       archival_objects = JSONModel(:archival_object).all(:id_set => ids.join(","), 'resolve[]' => [])
