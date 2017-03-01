@@ -23,6 +23,7 @@
   </div>
 </div>
 
+<%= javascript_include_tag 'treesync' %>
 <%= javascript_include_tag 'infinite_scroll' %>
 <%= javascript_include_tag 'largetree' %>
 
@@ -125,9 +126,11 @@
                           '<%= @root_uri %>',
                           true,
                           new ResourceRenderer(),
-                          $.noop,
+                          function() {
+                              tree.treesync = new TreeSync(tree, scroll);
+                          },
                           $.noop);
 
- window.tree = tree;
+window.tree = tree;
 </script>
 
