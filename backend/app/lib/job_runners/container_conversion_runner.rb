@@ -2,13 +2,7 @@
 # We run this job in the conversation process
 class ContainerConversionRunner < JobRunner
 
-  def self.instance_for(job)
-    if job.job_type == "container_conversion_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
+  register_for_job_type('container_conversion_job', :hidden => true)
 
 
   def run

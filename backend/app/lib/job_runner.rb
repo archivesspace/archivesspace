@@ -5,22 +5,24 @@ class JobRunner
   class BackgroundJobError < StandardError; end
 
 
-  # Implement this in your subclass
+  # In your subclass register your interest in handling job types like this:
   #
-  # This returns an instance of the subclass if the job
-  # has a job_type that the subclass knows how to run,
-  # otherwise is returns nil
-  def self.instance_for(job)
-    # Not raising here because we don't want one bad runner to spoil it for everyone
-    return nil
-
-    # Example:
-    # if job.job_type == "my_job_type"
-    #   self.new(job)
-    # else
-    #   nil
-    # end
-  end
+  #   class MyRunner < JobRunner
+  #     register_for_job_type('my_job')
+  #     ...
+  #
+  # This can be called many times if your runner can handle ore than one job type.
+  # The type is the jsonmodel_type of the defined schema for the job type.
+  #
+  # If another runner has already registered for the type an exception will be thrown.
+  #
+  # The register_for_job_type method can take two options:
+  #   register_for_job_type('my_job', :hidden => true, :run_concurrently => true)
+  #
+  #   :hidden - if true then the job_type is not included in the list of job_types
+  #   :run_concurrently - if true then jobs of this type will be run concurrently
+  #
+  # Both options are false by default.
 
 
   # Implement this in your subclass
@@ -31,24 +33,37 @@ class JobRunner
   end
 
 
-  def self.for(job)
-    @runners.each do |runner|
-      runner = runner.instance_for(job)
-      return runner if runner
+  # Nothing below here needs to be implemented in your subclass
+
+
+  def self.register_for_job_type(type, opts = {})
+    @@runners ||= {}
+    if @@runners.has_key?(type)
+      raise JobRunnerError.new("Attempting to register #{self} for job type #{type} " +
+                               "- already handled by #{@@runners[type]}")
     end
 
-    raise JobRunnerNotFound.new("No suitable runner found for #{job.job_type}")
+    @@runners[type] = {
+      :class => self,
+      :hidden => opts.fetch(:hidden, false),
+      :run_concurrently => opts.fetch(:run_concurrently, false)
+    }
   end
 
 
-  def self.register_runner(subclass)
-    @runners ||= []
-    @runners.unshift(subclass)
+  def self.for(job)
+    type = ASUtils.json_parse(job[:job_blob])['jsonmodel_type']
+
+    unless @@runners.has_key?(type)
+      raise JobRunnerNotFound.new("No suitable runner found for #{type}")
+    end
+
+    @@runners[type][:class].new(job)
   end
 
 
-  def self.inherited(subclass)
-    JobRunner.register_runner(subclass)
+  def self.registered_job_types
+    @@runners.keys.select {|k| !@@runners[k][:hidden] }
   end
 
 

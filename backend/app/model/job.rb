@@ -88,7 +88,7 @@ class Job < Sequel::Model(:job)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
     jsons.zip(objs).each do |json, obj|
-      json.job = JSONModel(json.job_type.intern).from_json(obj.job_blob)
+      json.job = JSONModel(obj.type.intern).from_hash(obj.job)
       json.owner = obj.owner.username
       json.queue_position = obj.queue_position if obj.status === "queued"
     end
@@ -97,8 +97,18 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def type
+    job['jsonmodel_type']
+  end
+
+
+  def job
+    @job ||= ASUtils.json_parse(job_blob)
+  end
+
+
   def file_store
-    @file_store ||= JobFileStore.new("#{job_type}_#{id}")
+    @file_store ||= JobFileStore.new("#{type}_#{id}")
   end
 
 
