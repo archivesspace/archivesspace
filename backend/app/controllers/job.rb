@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/jobs')
-    .description("Create a new import job")
+    .description("Create a new job")
     .params(["job", JSONModel(:job), "The job object", :body => true],
             ["repo_id", :repo_id])
     .permissions([:import_records])
@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/jobs_with_files')
-    .description("Create a new import job and post input files")
+    .description("Create a new job and post input files")
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])
@@ -33,15 +33,12 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/jobs/types')
-    .description("List all supported import job types")
+    .description("List all supported job types")
     .params(["repo_id", :repo_id])
     .permissions([])
     .returns([200, "A list of supported job types"]) \
   do
-    show_hidden = false
-    # json_response(Converter.list_import_types(show_hidden))
-    e = Enumeration.filter(:name => 'job_type').first
-    json_response(Enumeration.to_jsonmodel(e).values)
+    json_response(JobRunner.registered_job_types)
   end
 
 
@@ -59,7 +56,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/jobs/:id/cancel')
-    .description("Cancel a job")
+    .description("Cancel a Job")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:cancel_importer_job])
