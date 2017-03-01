@@ -95,7 +95,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/root')
     .description("Fetch tree information for the top-level digital object record")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -107,7 +108,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["offset", Integer, "The page of records to return"],
-            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true])
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -127,7 +129,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree information for an Digital Object Component record within a tree")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_uri", String, "The URI of the Digital Object Component record of interest"])
+            ["node_uri", String, "The URI of the Digital Object Component record of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -140,7 +143,8 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Fetch tree paths from the root record to Digital Object Components")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_ids", [Integer], "The IDs of the Digital Object Component records of interest"])
+            ["node_ids", [Integer], "The IDs of the Digital Object Component records of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
@@ -149,10 +153,10 @@ class ArchivesSpaceService < Sinatra::Base
 
   private
 
-  def large_tree_for_digital_object
+  def large_tree_for_digital_object(largetree_opts = {})
     digital_object = DigitalObject.get_or_die(params[:id])
 
-    large_tree = LargeTree.new(digital_object)
+    large_tree = LargeTree.new(digital_object, {:published_only => params[:published_only]}.merge(largetree_opts))
     large_tree.add_decorator(LargeTreeDigitalObject.new)
 
     large_tree

@@ -112,8 +112,8 @@
             /* We don't need to do any fetching for the root node. */
             displaySelectedNode();
         } else {
-            self.source.fetchPathFromRoot(node_id).done(function (path) {
-                self.recursivelyPopulateWaypoints(path, displaySelectedNode);
+            self.source.fetchPathFromRoot(node_id).done(function (paths) {
+                self.recursivelyPopulateWaypoints(paths[node_id], displaySelectedNode);
             });
         }
     };
@@ -652,7 +652,7 @@
                       {
                           method: "GET",
                           data: {
-                              node_id: node_id,
+                              node_ids: [node_id],
                           }
                       });
     };
