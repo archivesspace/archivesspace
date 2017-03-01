@@ -23,7 +23,7 @@
    </div>
 
     <div id="sidebar" class="sidebar sidebar-container col-sm-3">
-      <%= render partial: 'shared/children_tree', :locals => {:root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+      <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
     </div>
   </div>
  <%= render partial: 'shared/modal_actions' %>

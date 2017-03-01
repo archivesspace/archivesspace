@@ -17,11 +17,11 @@ module RecordHelper
     when 'digital_object'
       DigitalObject
     when 'digital_object_component'
-      DigitalObject
+      DigitalObjectComponent
     when 'classification'
       Classification
     when 'classification_term'
-      Classification
+      ClassificationTerm
     else
       Record
     end

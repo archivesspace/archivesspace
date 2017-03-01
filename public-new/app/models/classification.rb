@@ -17,6 +17,10 @@ class Classification < Record
     "#{json['identifier']} #{json['title']}"
   end
 
+  def root_node_uri
+    uri
+  end
+
   private
 
   def parse_linked_records

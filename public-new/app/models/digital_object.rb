@@ -15,6 +15,10 @@ class DigitalObject < Record
     nil
   end
 
+  def root_node_uri
+    uri
+  end
+
   private
 
   def parse_digital_archival_info

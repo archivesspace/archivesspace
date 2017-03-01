@@ -139,7 +139,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   private
 
-  def large_tree_for_classification
+  def large_tree_for_classification(largetree_opts = {})
     classification = Classification.get_or_die(params[:id])
 
     large_tree = LargeTree.new(classification, {:published_only => params[:published_only]}.merge(largetree_opts))
