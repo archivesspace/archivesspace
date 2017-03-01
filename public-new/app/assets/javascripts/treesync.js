@@ -7,6 +7,7 @@
         this.scroller = scroller;
 
         this.setupHashChange();
+        this.scroller.registerScrollCallback($.proxy(this.handleScroll, this));
     };
 
     TreeSync.prototype.setupHashChange = function() {
@@ -58,6 +59,24 @@
                 self.scroller.scrollToRecord(recordOffset);
             });
         }
+    };
+
+    TreeSync.prototype.SCROLL_TIMEOUT = 500;
+    TreeSync.prototype.handleScroll = function() {
+        var self = this;
+
+        function syncAfterScroll() {
+            var $record = self.scroller.getClosestElement();
+            var uri = $record.data('uri');
+            var tree_id = TreeIds.uri_to_tree_id(uri);
+            self.tree.displayNode(tree_id);
+        };
+
+        clearTimeout(this.scrollTimeout);
+
+        this.scrollTimeout = setTimeout(function() {
+            syncAfterScroll();
+        }, this.SCROLL_TIMEOUT);
     };
 
     exports.TreeSync = TreeSync;
