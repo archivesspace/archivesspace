@@ -438,7 +438,7 @@ module RESTHelpers
             params[name] = request.body
           end
 
-          if not params[name] and not opts[:optional] and not opts[:default]
+          if not params[name] and !opts[:optional] and !opts.has_key?(:default)
             errors[:missing] << {:name => name, :doc => doc}
           else
 
