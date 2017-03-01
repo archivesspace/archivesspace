@@ -160,7 +160,6 @@ class ResourcesController <  ApplicationController
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
       fill_request_info(true)
-
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
@@ -199,9 +198,9 @@ class ResourcesController <  ApplicationController
   end
 
   def tree_node_from_root
-    @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
+    @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
 
-    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_id])
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_ids].first)
   end
 
   def inventory

@@ -14,6 +14,8 @@
         this.scrollPosition = 0;
         this.scrollbarElt = undefined;
 
+        this.scrollCallbacks = [];
+
         this.initScrollbar();
         this.initEventHandlers();
         this.considerPopulatingWaypoints(false);
@@ -43,6 +45,10 @@
         }
 
         self.elt[0].style.transform = 'translateY(' + self.scrollPosition + 'px' + ')';
+
+        $.each(self.scrollCallbacks, function(_, callback) {
+            callback();
+        });
 
         if (scrollTimer) {
             clearInterval(scrollTimer);
@@ -119,6 +125,10 @@
                 return;
             }
 
+            $.each(self.scrollCallbacks, function(_, callback) {
+                callback();
+            });
+
             if (self.scrollDragDelayTimer) {
                 clearInterval(self.scrollDragDelayTimer);
             }
@@ -131,6 +141,10 @@
 
         $('body').append(self.scrollbarElt);
 
+    };
+
+    InfiniteScroll.prototype.registerScrollCallback = function(callback) {
+        this.scrollCallbacks.push(callback);
     };
 
     InfiniteScroll.prototype.updateScrollPosition = function () {
@@ -279,7 +293,11 @@
                 $(uris).each(function (i, uri) {
                     if (records[uri]) {
                         recordNumber = (waypointNumber * waypointSize) + i;
-                        $(waypoint).append($('<div class="infinite-record-record" />').attr('id', 'record-number-' + recordNumber).data('record-number', recordNumber).html(records[uri]));
+                        $(waypoint).append($('<div class="infinite-record-record" />').
+                                    attr('id', 'record-number-' + recordNumber).
+                                    data('record-number', recordNumber).
+                                    data('uri', uri).
+                                    html(records[uri]));
                     }
                 });
 
@@ -301,6 +319,12 @@
         return self.base_url + '/' + action;
     };
 
+
+    InfiniteScroll.prototype.getClosestElement = function() {
+        var allRecords = this.elt.find('.infinite-record-record');
+        var index = this.findClosestElement(allRecords);
+        return $(allRecords.get(index));
+    };
 
     exports.InfiniteScroll = InfiniteScroll;
 
