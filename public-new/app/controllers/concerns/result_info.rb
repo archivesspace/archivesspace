@@ -3,8 +3,8 @@ module ResultInfo
 
   # create the breadcrumbs
   def breadcrumb_info
-    context = get_path(@tree)
-    path = @tree.dig('path_to_root')
+    context = [] # FIXME get_path(@tree)
+    path = [] # FIXME @tree.dig('path_to_root')
     unless !path || !path.kind_of?(Array) || path.size == 0
       type = path[0].dig('node_type')
       unless type == 'repository' || !@repo_info.dig('top','uri')

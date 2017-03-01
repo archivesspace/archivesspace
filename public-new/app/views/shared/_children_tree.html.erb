@@ -1,20 +1,57 @@
-<%# displaying the children of a resource or object %>
-<% if !tree['direct_children'].blank? %>
-<ul class="tree children ">
-  <% tree['direct_children'].each do | child | %>
-  <li class="fa <%= child['has_children'] ? 'fa-folder-o' : 'fa-sticky-note-o' %>">
-    <a href="<%= child['record_uri'] %>">
-      <% if ['classification', 'classification_term'].include?(child['node_type']) %>
-        <%= process_mixed_content("#{child['identifier']} #{child['title']}").html_safe %>
-      <% else %>
-        <%= process_mixed_content(child['title']).html_safe %>
-      <% end %>
-    </a>
-    <% if child['has_children'] %>
-    <a title="more objects below" href="javascript: go_deep(\"tree/<%= child['record_uri'] %>\")"><i class="fa fa-level-down" aria-hidden="true"></i></a>
-    <% end %>
-  </li>
-  <% end %>
-</ul>
+<%= javascript_include_tag 'largetree' %>
 
-<% end %>
+<div id="sidebar" class="sidebar sidebar-container">
+  <a name="organization" title="<%= t('internal_links.collection') %>"></a>
+  <h4><%= t('cont_arr') %></h4>
+  <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+</div>
+
+<script>
+
+    function SimpleRenderer() {
+        this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+
+        this.rootTemplate = $('<tr> ' +
+            '  <td class="no-drag-handle"></td>' +
+            '  <td class="title"></td>' +
+            '</tr>');
+
+
+        this.nodeTemplate = $('<tr> ' +
+            '  <td class="drag-handle"></td>' +
+            '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+            '</tr>');
+    }
+
+    SimpleRenderer.prototype.endpoint_marker = function () {
+        return this.endpointMarkerTemplate.clone(true);
+    }
+
+    SimpleRenderer.prototype.get_root_template = function () {
+        return this.rootTemplate.clone(false);
+    }
+
+
+    SimpleRenderer.prototype.get_node_template = function () {
+        return this.nodeTemplate.clone(false);
+    };
+
+    SimpleRenderer.prototype.add_root_columns = function (row, rootNode) {
+        row.find('a.record-title').attr('href', rootNode.uri);
+    }
+    SimpleRenderer.prototype.add_node_columns = function (row, node) {
+        row.find('a.record-title').attr('href', node.uri);
+    };
+
+    var root_uri = '<%= root_node_uri %>';
+    var tree = new LargeTree(new TreeDataSource(root_uri + '/tree'),
+        $('#tree-container'),
+        root_uri,
+        true,
+        new SimpleRenderer(),
+        function() {
+            var tree_id = TreeIds.uri_to_tree_id('<%= current_node_uri %>');
+            tree.setCurrentNode(tree_id);
+        },
+        $.noop);
+</script>

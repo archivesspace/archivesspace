@@ -61,11 +61,7 @@
 	<% end %>
     </div>
 
-    <h4><%= t('cont_arr') %></h4>
-    <% unless !defined?(@tree) %>
-    <a name="organization" title="<%= t('internal_links.collection') %>"></a>
-    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
-    <% end %>
+    <%= render partial: 'shared/children_tree', :locals => {:root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
   </div>
 </div>
 
