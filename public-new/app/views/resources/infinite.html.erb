@@ -134,3 +134,15 @@
 window.tree = tree;
 </script>
 
+<script>
+  // handle clicks on tree items
+  $('.infinite-record-wrapper').on('click', '.infinite-record-record a.record-title', function(event) {
+      // update the hash so browser-back returns user to the record they clicked
+      var $record = $(this).closest('.infinite-record-record');
+      var uri = $record.data('uri');
+      var tree_id = TreeIds.uri_to_tree_id(uri);
+      location.hash = '#tree::'+tree_id;
+
+      return true;
+  });
+</script>
