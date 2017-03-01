@@ -278,7 +278,7 @@ class DigitalObjectsController < ApplicationController
     digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
 
     render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node_from_root",
-                                             :node_id => params[:node_id])
+                                             'node_ids[]' => params[:node_ids])
   end
 
   def tree_node

@@ -67,42 +67,68 @@ class LargeTree
     end
   end
 
-  def node_from_root(ao_id)
-    result = []
+  # FIXME: maybe waypoint_path_from_root is a better name?
+  #
+  # {"108803":[{"node":null,"offset":0},{"node":"/repositories/2/archival_objects/108515","offset":0}]}
+  def node_from_root(node_ids, repo_id)
+    child_to_parent_map = {}
+    node_to_position_map = {}
+    node_to_waypoint_map = {}
+
+    result = {}
 
     DB.open do |db|
-      while true
-        this_node = db[@node_table].filter(:id => ao_id).select(:repo_id, :parent_id, :position).first
+      ## Fetch our mappings of nodes to parents and nodes to positions
+      nodes_to_expand = node_ids
 
-        unless this_node
-          raise NotFoundException.new("Could not find #{@node_type} record with ID #{ao_id}")
+      while !nodes_to_expand.empty?
+        # Get the set of parents of the current level of nodes
+        next_nodes_to_expand = []
+
+        db[@node_table].filter(:id => nodes_to_expand).select(:id, :parent_id, :position).each do |row|
+          child_to_parent_map[row[:id]] = row[:parent_id]
+          node_to_position_map[row[:id]] = row[:position]
+          next_nodes_to_expand << row[:parent_id]
         end
 
+        nodes_to_expand = next_nodes_to_expand.uniq
+      end
+
+      ## Calculate the waypoint that each node will fall into
+      node_to_waypoint_map = {}
+
+      (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq.each do |node_id|
         this_position = db[@node_type]
-                        .filter(:parent_id => this_node[:parent_id])
-                        .where { position <= this_node[:position] }
+                        .filter(:parent_id => child_to_parent_map[node_id])
+                        .where { position <= node_to_position_map[node_id] }
                         .count
 
-        parent_uri = if this_node[:parent_id]
-                       JSONModel(@node_type).uri_for(this_node[:parent_id], :repo_id => this_node[:repo_id])
-                     else
-                       nil
-                     end
+        node_to_waypoint_map[node_id] = (this_position / WAYPOINT_SIZE)
+      end
 
-        result << {:node => parent_uri,
-                   :offset => (this_position / WAYPOINT_SIZE.to_f).to_i}
+      ## Build up the path of waypoints for each node
+      node_ids.each do |node_id|
+        path = []
 
-        # No parent ID means we've hit the root
-        if this_node[:parent_id]
-          ao_id = this_node[:parent_id]
-        else
-          break
+        current_node = node_id
+        while child_to_parent_map[current_node]
+          parent_node = child_to_parent_map[current_node]
+
+          path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
+                   "offset" => node_to_waypoint_map.fetch(current_node)}
+
+          current_node = parent_node
         end
+
+        path << {"node" => nil, "offset" => 0}
+
+        result[node_id] = path.reverse
       end
     end
 
-    result.reverse
+    result
   end
+
 
   def waypoint(parent_id, offset)
     record_ids = []
