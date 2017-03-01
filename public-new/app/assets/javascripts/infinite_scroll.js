@@ -261,9 +261,6 @@
         } else {
             done_callback();
             populateRunning = false;
-            if (callback) {
-                callback();
-            }
         }
     };
 
