@@ -20,18 +20,12 @@
     <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
 
     <%= render partial: 'shared/record_innards' %>
+   </div>
 
-   </div>
-   <% unless @tree['direct_children'].blank? %>
-   <a name="organization" title="<%= t('internal_links.collection') %>"></a>
-   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <h4><%= t('cont_arr') %></h4>
-    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
- 
-   </div>
-   <% else %>
-   <div class="col-sm-3">&nbsp;</div>
-   <% end %>
+    <div class="col-sm-3">
+      <%= render partial: 'shared/children_tree', :locals => {:root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+    </div>
   </div>
  <%= render partial: 'shared/modal_actions' %>
 </div>
+

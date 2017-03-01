@@ -19,4 +19,8 @@ class ArchivalObject < Record
 
     "#{cite}   #{cite_url_and_timestamp}."
   end
+
+  def root_node_uri
+    json.fetch('resource').fetch('ref')
+  end
 end
