@@ -5,13 +5,7 @@ require_relative '../AS_fop'
 class PrintToPDFRunner < JobRunner
   include JSONModel
 
-  def self.instance_for(job)
-    if job.job_type == "print_to_pdf_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
+  register_for_job_type('print_to_pdf_job')
  
 
   def run

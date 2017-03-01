@@ -6,13 +6,7 @@ class ReportRunner < JobRunner
   
   include JSONModel
 
-  def self.instance_for(job)
-    if job.job_type == "report_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
+  register_for_job_type('report_job')
 
 
   def self.reports

@@ -39,13 +39,7 @@ end
 
 class BatchImportRunner < JobRunner
 
-  def self.instance_for(job)
-    if job.job_type == "import_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
+  register_for_job_type('import_job')
 
 
   def run
