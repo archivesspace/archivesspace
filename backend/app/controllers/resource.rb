@@ -188,16 +188,15 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/repositories/:repo_id/resources/:id/tree/node_from_root')
-    .description("Fetch tree path from the root record to an Archival Object")
+    .description("Fetch tree paths from the root record to Archival Objects")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["node_id", Integer, "The ID of the Archival Object record of interest"])
+            ["node_ids", [Integer], "The IDs of the Archival Object records of interest"])
     .permissions([:view_repository])
     .returns([200, "TODO"]) \
   do
-    json_response(large_tree_for_resource.node_from_root(params[:node_id]))
+    json_response(large_tree_for_resource.node_from_root(params[:node_ids], params[:repo_id]))
   end
-
 
   private
 

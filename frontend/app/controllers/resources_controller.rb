@@ -111,7 +111,7 @@ class ResourcesController < ApplicationController
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
     render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/node_from_root",
-                                            :node_id => params[:node_id])
+                                             'node_ids[]' => params[:node_ids])
   end
 
   def tree_node
