@@ -6,6 +6,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   include TreeNodes
   include ClassificationIndexing
   include Publishable
+  include AutoGenerator
 
   enable_suppression
 
@@ -24,6 +25,11 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   define_relationship(:name => :classification,
                       :json_property => 'linked_records',
                       :contains_references_to_types => proc {[Accession, Resource]})
+
+  auto_generate :property => :display_string,
+                :generator => proc { |json|
+                  json['title']
+                }
 
 
 

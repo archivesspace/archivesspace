@@ -11,7 +11,7 @@ class LargeTree
 
     @root_record = root_record
 
-    @root_table = root_record.class.root_type.intern
+    @root_table = @root_type = root_record.class.root_type.intern
     @node_table = @node_type = root_record.class.node_type.intern
 
     @published_only = opts.fetch(:published_only, false)
@@ -89,7 +89,8 @@ class LargeTree
   def node_from_root(node_ids, repo_id)
     child_to_parent_map = {}
     node_to_position_map = {}
-    node_to_waypoint_map = {}
+    node_to_root_record_map = {}
+    node_to_title_map = {}
 
     result = {}
 
@@ -104,9 +105,11 @@ class LargeTree
         db[@node_table]
           .filter(:id => nodes_to_expand)
           .filter(published_filter)
-          .select(:id, :parent_id, :position).each do |row|
+          .select(:id, :parent_id, :root_record_id, :position, :display_string).each do |row|
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
+          node_to_title_map[row[:id]] = row[:display_string]
+          node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
         end
 
@@ -126,8 +129,22 @@ class LargeTree
         node_to_waypoint_map[node_id] = (this_position / WAYPOINT_SIZE)
       end
 
+      root_record_titles = {}
+      db[@root_table]
+        .join(@node_table, :root_record_id => :id)
+        .filter(Sequel.qualify(@node_table, :id) => node_ids)
+        .select(Sequel.qualify(@root_table, :id),
+                Sequel.qualify(@root_table, :title))
+        .distinct
+        .each do |row|
+        root_record_titles[row[:id]] = row[:title]
+      end
+
       ## Build up the path of waypoints for each node
       node_ids.each do |node_id|
+        root_record_id = node_to_root_record_map.fetch(node_id)
+        root_record_uri = JSONModel(@root_type).uri_for(root_record_id, :repo_id => repo_id)
+
         path = []
 
         current_node = node_id
@@ -135,12 +152,17 @@ class LargeTree
           parent_node = child_to_parent_map[current_node]
 
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
+                   "root_record_uri" => root_record_uri,
+                   "title" => node_to_title_map.fetch(node_id),
                    "offset" => node_to_waypoint_map.fetch(current_node)}
 
           current_node = parent_node
         end
 
-        path << {"node" => nil, "offset" => 0}
+        path << {"node" => nil,
+                 "root_record_uri" => root_record_uri,
+                 "offset" => 0,
+                 "title" => root_record_titles[root_record_id]}
 
         result[node_id] = path.reverse
       end
