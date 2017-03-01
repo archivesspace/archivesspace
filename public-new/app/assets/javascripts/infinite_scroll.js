@@ -5,7 +5,7 @@
     var SCROLL_DRAG_DELAY_MS = 500;
     var LOAD_THRESHOLD_PX = 5000;
 
-    function InfiniteScroll(base_url, elt, recordCount) {
+    function InfiniteScroll(base_url, elt, recordCount, loaded_callback) {
         this.base_url = base_url;
         this.wrapper = elt;
         this.elt = elt.find('.infinite-record-container');
@@ -18,7 +18,7 @@
 
         this.initScrollbar();
         this.initEventHandlers();
-        this.considerPopulatingWaypoints(false);
+        this.considerPopulatingWaypoints(false, null, loaded_callback);
 
         this.globalStyles = $('<style />');
 
@@ -230,7 +230,7 @@
 
     var populateRunning = false;
 
-    InfiniteScroll.prototype.considerPopulatingWaypoints = function (preserveScroll, reentrant) {
+    InfiniteScroll.prototype.considerPopulatingWaypoints = function (preserveScroll, reentrant, callback) {
         var self = this;
 
         if (populateRunning && !reentrant) {
@@ -248,10 +248,13 @@
             var end = start + BATCH_SIZE;
 
             self.populateWaypoints(waypoints.slice(start, end), preserveScroll, function () {
-                self.considerPopulatingWaypoints(preserveScroll, true);
+                self.considerPopulatingWaypoints(preserveScroll, true, callback);
             });
         } else {
             populateRunning = false;
+            if (callback) {
+                callback();
+            }
         }
     };
 
