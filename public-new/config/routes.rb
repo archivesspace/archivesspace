@@ -65,6 +65,16 @@ Rails.application.routes.draw do
   get "repositories/:rid/resources/:id/tree/node"  => 'resources#tree_node'
   get "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
+  get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
+  get "repositories/:rid/digital_objects/:id/tree/waypoint"  => 'digital_objects#tree_waypoint'
+  get "repositories/:rid/digital_objects/:id/tree/node"  => 'digital_objects#tree_node'
+  get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
+
+  get "repositories/:rid/classifications/:id/tree/root"  => 'classifications#tree_root'
+  get "repositories/:rid/classifications/:id/tree/waypoint"  => 'classifications#tree_waypoint'
+  get "repositories/:rid/classifications/:id/tree/node"  => 'classifications#tree_node'
+  get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
+
   get '/repositories', to: 'repositories#index'
   get '/search', to: 'search#search'
 end

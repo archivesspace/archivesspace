@@ -107,7 +107,7 @@ class ClassificationsController <  ApplicationController
     @result = archivesspace.get_record(uri, @criteria)
 
     # GONE # @tree = fetch_tree(uri)
-    @context = get_path(@tree)
+    @context = [] # FIXME get_path(@tree)
     # TODO: This is a monkey patch for digital objects
     if @context.blank?
       @context = []
@@ -134,6 +134,30 @@ class ClassificationsController <  ApplicationController
     else
       @results = []
     end
+  end
+
+  def tree_root
+    @root_uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/root')
+  end
+
+  def tree_node
+    @root_uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_' + params[:node])
+  end
+
+  def tree_waypoint
+    @root_uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/waypoint_' + params[:node] + '_' + params[:offset])
+  end
+
+  def tree_node_from_root
+    @root_uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+
+    render :json => archivesspace.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_ids].first)
   end
 
 end

@@ -5,6 +5,8 @@ class Classification < Sequel::Model(:classification)
   include ClassificationIndexing
   include Publishable
 
+  enable_suppression
+
   corresponds_to JSONModel(:classification)
   set_model_scope(:repository)
 

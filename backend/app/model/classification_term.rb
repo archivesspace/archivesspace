@@ -7,6 +7,8 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   include ClassificationIndexing
   include Publishable
 
+  enable_suppression
+
   corresponds_to JSONModel(:classification_term)
   set_model_scope(:repository)
 

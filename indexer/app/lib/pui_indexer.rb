@@ -206,27 +206,37 @@ class PUIIndexer < PeriodicIndexer
 
   def index_round_complete(repository)
     # Index any trees in `repository`
+    tree_types = [[:resource, :archival_object],
+                  [:digital_object, :digital_object_component],
+                  [:classification, :classification_term]]
 
-    last_resource_mtime = [@state.get_last_mtime(repository.id, :resource) - @window_seconds, 0].max
-    last_ao_mtime = [@state.get_last_mtime(repository.id, :archival_object) - @window_seconds, 0].max
+    tree_uris = []
 
-    resource_ids = Set.new(JSONModel::HTTP.get_json(JSONModel(:resource).uri_for, :all_ids => true, :modified_since => last_resource_mtime))
-    ao_ids = JSONModel::HTTP.get_json(JSONModel(:archival_object).uri_for, :all_ids => true, :modified_since => last_ao_mtime)
+    tree_types.each do |pair|
+      root_type = pair.first
+      node_type = pair.last
 
-    ao_ids.each_slice(@records_per_thread) do |ids|
-      archival_objects = JSONModel(:archival_object).all(:id_set => ids.join(","), 'resolve[]' => [])
+      last_root_node_mtime = [@state.get_last_mtime(repository.id, root_type) - @window_seconds, 0].max
+      last_node_mtime = [@state.get_last_mtime(repository.id, node_type) - @window_seconds, 0].max
 
-      archival_objects.each do |ao|
-        resource_ids << JSONModel.parse_reference(ao['resource']['ref']).fetch(:id)
+      root_node_ids = Set.new(JSONModel::HTTP.get_json(JSONModel(root_type).uri_for, :all_ids => true, :modified_since => last_root_node_mtime))
+      node_ids = JSONModel::HTTP.get_json(JSONModel(node_type).uri_for, :all_ids => true, :modified_since => last_node_mtime)
+
+      node_ids.each_slice(@records_per_thread) do |ids|
+        node_records = JSONModel(node_type).all(:id_set => ids.join(","), 'resolve[]' => [])
+
+        node_records.each do |record|
+          root_node_ids << JSONModel.parse_reference(record[root_type.to_s]['ref']).fetch(:id)
+        end
       end
+
+      tree_uris.concat(root_node_ids.map {|id| JSONModel(root_type).uri_for(id) })
     end
 
-    resource_uris = resource_ids.map {|id| JSONModel(:resource).uri_for(id)}
-
     batch = IndexBatch.new
-    add_infscroll_docs(resource_uris, batch)
+    add_infscroll_docs(tree_uris, batch)
 
-    LargeTreeDocIndexer.new(batch).add_largetree_docs(resource_uris)
+    LargeTreeDocIndexer.new(batch).add_largetree_docs(tree_uris)
 
     puts "Indexed #{batch.length} additional PUI records"
 

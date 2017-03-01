@@ -61,7 +61,7 @@
 	<% end %>
     </div>
 
-    <%= render partial: 'shared/children_tree', :locals => {:root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
+    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
   </div>
 </div>
 

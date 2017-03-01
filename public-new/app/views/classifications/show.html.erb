@@ -24,11 +24,9 @@
 
     <% end %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <% unless !defined?(@tree) || @tree.blank? || ASUtils.wrap(@tree['direct_children']).empty? %> 
-    <h4><%= t('subgroups') %></h4>
-    <%= render partial: 'shared/children_tree', locals: {:tree => @tree} %>
-   <% end %>
+  <div id="sidebar" class="sidebar sidebar-container col-sm-3">
+    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <%= render partial: 'shared/facets' %>
     <% end %>
