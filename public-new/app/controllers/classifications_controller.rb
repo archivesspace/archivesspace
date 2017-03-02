@@ -105,15 +105,7 @@ class ClassificationsController <  ApplicationController
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'agent_uris:id']
     @result = archivesspace.get_record(uri, @criteria)
-
-    # GONE # @tree = fetch_tree(uri)
-    @context = [] # FIXME get_path(@tree)
-    # TODO: This is a monkey patch for digital objects
-    if @context.blank?
-      @context = []
-    end
-    @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
-    @context.push({:uri => '', :crumb => @result.display_string_for_breadcrumb })
+    @context = @result.breadcrumb
   end
 
   def fetch_linked_records(uri)

@@ -21,6 +21,15 @@ class Classification < Record
     uri
   end
 
+  def breadcrumb
+    [
+      {
+        :uri => '',
+        :crumb => display_string
+      }
+    ]
+  end
+
   private
 
   def parse_linked_records

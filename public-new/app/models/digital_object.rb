@@ -19,6 +19,15 @@ class DigitalObject < Record
     uri
   end
 
+  def breadcrumb
+    [
+      {
+        :uri => '',
+        :crumb => display_string
+      }
+    ]
+  end
+
   private
 
   def parse_digital_archival_info
@@ -29,7 +38,7 @@ class DigitalObject < Record
       uri << '#pui' unless uri.end_with?('#pui')
 
       begin
-        arch = archives_space_service.get_record(uri, @search_opts)
+        arch = archives_space_client.get_record(uri, @search_opts)
         results[uri] = arch
         # GONE # @tree = fetch_tree(uri.sub('#pui','')) if @tree['path_to_root'].blank?
       rescue RecordNotFound

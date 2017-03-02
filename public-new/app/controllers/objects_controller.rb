@@ -89,8 +89,7 @@ class ObjectsController <  ApplicationController
       begin
         @repo_info =  @result.repository_information
         @page_title = @result.display_string
-        # GONE # @tree = fetch_tree(uri)
-        @context = breadcrumb_info
+        @context = @result.breadcrumb
         if @result['primary_type'] == 'digital_object'
           @dig = process_digital(@result['json'])
         else
