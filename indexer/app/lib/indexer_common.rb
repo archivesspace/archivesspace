@@ -61,6 +61,10 @@ class CommonIndexer
     @@resolved_attributes
   end
 
+  def record_types
+    @@record_types
+  end
+
   # This is to pause the indexer.
   # Duration is given in seconds.
   def self.pause(duration = 900 )
@@ -840,7 +844,7 @@ class CommonIndexer
         reference = JSONModel.parse_reference(uri)
         record_type = reference && reference[:type]
 
-        if !record_type || skip_index_record?(record) || (record_type != 'repository' && !@@record_types.include?(record_type.intern))
+        if !record_type || skip_index_record?(record) || (record_type != 'repository' && !record_types.include?(record_type.intern))
           next
         end
 
