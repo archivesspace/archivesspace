@@ -182,6 +182,6 @@ describe 'Record inheritance' do
   it "adds a composite identifier" do
     merged = record_inheritance.merge(json)
 
-    merged['_composite_identifier'].should eq('RES.1 Series ABC')
+    merged['_composite_identifier'].should eq('RES.1. Series ABC')
   end
 end
