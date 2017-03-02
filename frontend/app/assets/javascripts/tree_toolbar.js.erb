@@ -68,7 +68,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 if (tree.dragdrop.rowsToMove.length > 0) {
                     // if multiselected rows, cut them
                     rowsToCut = $.merge([], tree.dragdrop.rowsToMove);
-                } else if (tree.current().is(':not(.root-row')) {
+                } else if (tree.current().is(':not(.root-row)')) {
                     // otherwise cut the current row
                     rowsToCut = [tree.current()];
                 }
