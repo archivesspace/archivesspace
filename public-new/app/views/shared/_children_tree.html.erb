@@ -48,7 +48,10 @@
         new SimpleRenderer(),
         function() {
             var tree_id = TreeIds.uri_to_tree_id('<%= current_node_uri %>');
-            tree.setCurrentNode(tree_id);
+            tree.setCurrentNode(tree_id, function() {
+                // scroll to selected node
+                tree.elt.scrollTo('#'+tree_id, 0, {offset: -50});
+            });
         },
         $.noop);
 </script>

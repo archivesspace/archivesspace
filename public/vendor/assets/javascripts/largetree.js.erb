@@ -99,9 +99,6 @@
 
         var displaySelectedNode = function () {
             var current = $('#' + tree_id);
-            if (current.find('.record-title')[0]) {
-                current.find('.record-title')[0].focus();
-            }
 
             $.proxy(self.node_selected_callback, self)(current, tree);
 
