@@ -96,12 +96,10 @@
         var node_id = TreeIds.parse_tree_id(tree_id).id;
 
         var displaySelectedNode = function () {
-            var current = $('#' + tree_id);
-
-            $.proxy(self.node_selected_callback, self)(current, tree);
+            var node = $('#' + tree_id);
 
             if (done_callback) {
-                done_callback(current);
+                done_callback(node);
             }
         };
 
@@ -182,19 +180,25 @@
         var self = this;
 
         self.renderRoot(function () {
-            $($.unique(uris)).each(function (idx, uri) {
-                var tree_id = TreeIds.uri_to_tree_id(uri);
-                self.displayNode(tree_id,
-                    function (elt) {
-                        if (self.root_tree_id != tree_id) {
-                            self.expandNode(elt);
-                        }
+            var uris_to_reopen = $.unique(uris);
 
-                        if (done_callback) {
-                            done_callback();
-                        }
-                    });
-            });
+            if (uris_to_reopen.length > 0) {
+                $(uris_to_reopen).each(function (idx, uri) {
+                    var tree_id = TreeIds.uri_to_tree_id(uri);
+                    self.displayNode(tree_id,
+                        function (elt) {
+                            if (self.root_tree_id != tree_id) {
+                                self.expandNode(elt);
+                            }
+
+                            if (done_callback) {
+                                done_callback();
+                            }
+                        });
+                });
+            } else if (done_callback) {
+                done_callback();
+            }
         });
     };
 
