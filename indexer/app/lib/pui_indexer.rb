@@ -46,7 +46,7 @@ class PUIIndexer < PeriodicIndexer
   def record_types
     # We only want to index the record types we're going to make separate
     # PUI-specific versions of...
-    ['archival_object']
+    (super.select {|type| RecordInheritance.has_type?(type)} + ['archival_object']).uniq
   end
 
   def configure_doc_rules
