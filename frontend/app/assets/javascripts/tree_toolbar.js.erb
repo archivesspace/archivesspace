@@ -263,7 +263,10 @@ var TreeToolbarConfiguration = {
                 $li.on('shown.bs.dropdown', function() {
                     $("#token-input-transfer_ref_", $form).focus();
                 });
-            }
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
         }
     ]),
 
