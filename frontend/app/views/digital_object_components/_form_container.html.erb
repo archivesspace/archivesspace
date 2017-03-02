@@ -25,8 +25,8 @@
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
       <div class="form-group">
-        <%= form.label "publish" %>
-        <div class="controls">
+        <%= form.label "publish", :class => 'control-label col-sm-2' %>
+        <div class="checkbox col-sm-9">
           <%= form.checkbox "publish", {}, user_prefs["publish"] %>
           <% if form.obj["has_unpublished_ancestor"] %>
             <span class="help-inline"><span class="text-info"><%= I18n.t("digital_object_component._frontend.messages.has_unpublished_ancestor") %></span></span>
