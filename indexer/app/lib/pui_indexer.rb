@@ -43,13 +43,28 @@ class PUIIndexer < PeriodicIndexer
     super + PUI_RESOLVES
   end
 
+  def record_types
+    # We only want to index the record types we're going to make separate
+    # PUI-specific versions of...
+    ['archival_object']
+  end
+
   def configure_doc_rules
     super
+
+    record_has_children('resource')
+    record_has_children('archival_object')
+    record_has_children('digital_object')
+    record_has_children('digital_object_component')
+    record_has_children('classification')
+    record_has_children('classification_term')
+
 
     add_document_prepare_hook {|doc, record|
 
       if doc['primary_type'] == 'archival_object'
         doc['id'] = "#{doc['id']}#pui"
+        doc['parent_id'] = doc['id']
         doc['types'] ||= []
         doc['types'] << 'pui'
         doc['types'] << 'pui_archival_object'
@@ -86,6 +101,7 @@ class PUIIndexer < PeriodicIndexer
       # FIXME: need to arrange for these records to be deleted when their parent collection is
       batch << {
         'id' => "#{resource_uri}/ordered_records",
+        'parent_id' => resource_uri,
         'publish' => "true",
         'primary_type' => "resource_ordered_records",
         'json' => ASUtils.to_json(json)
@@ -113,10 +129,9 @@ class PUIIndexer < PeriodicIndexer
         json = JSONModel::HTTP.get_json(node_uri + '/tree/root',
                                         :published_only => true)
 
-        # FIXME: need to arrange for these records to be deleted when their parent collection is
-
         batch << {
           'id' => "#{node_uri}/tree/root",
+          'parent_id' => node_uri,
           'publish' => "true",
           'primary_type' => "tree_root",
           'json' => ASUtils.to_json(json)
@@ -138,6 +153,7 @@ class PUIIndexer < PeriodicIndexer
 
         batch << {
           'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
+          'parent_id' => (parent_uri || root_record_uri),
           'publish' => "true",
           'primary_type' => "tree_waypoint",
           'json' => ASUtils.to_json(json)
@@ -162,6 +178,7 @@ class PUIIndexer < PeriodicIndexer
 
         batch << {
           'id' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
+          'parent_id' => json.fetch('uri'),
           'publish' => "true",
           'primary_type' => "tree_node",
           'json' => ASUtils.to_json(json)
@@ -173,17 +190,17 @@ class PUIIndexer < PeriodicIndexer
     end
 
     def index_paths_to_root(root_uri, node_uris)
-      node_uris
-        .map {|uri| JSONModel.parse_reference(uri).fetch(:id)}
-        .each_slice(128) do |node_ids|
+      node_uris.each_slice(128) do |node_uris|
 
+        node_id_to_uri = Hash[node_uris.map {|uri| [JSONModel.parse_reference(uri).fetch(:id), uri]}]
         node_paths = JSONModel::HTTP.get_json(root_uri + '/tree/node_from_root',
-                                              'node_ids[]' => node_ids,
+                                              'node_ids[]' => node_id_to_uri.keys,
                                               :published_only => true)
 
         node_paths.each do |node_id, path|
           batch << {
             'id' => "#{root_uri}/tree/node_from_root_#{node_id}",
+            'parent_id' => node_id_to_uri.fetch(Integer(node_id)),
             'publish' => "true",
             'primary_type' => "tree_node_from_root",
             'json' => ASUtils.to_json({node_id => path})
@@ -243,6 +260,7 @@ class PUIIndexer < PeriodicIndexer
     puts "Indexed #{batch.length} additional PUI records"
 
     index_batch(batch)
+    send_commit
   end
 
 end

@@ -146,7 +146,7 @@ class PeriodicIndexer < CommonIndexer
       checkpoints = []
       did_something = false
 
-      @@record_types.each do |type|
+      record_types.each do |type|
         next if @@global_types.include?(type) && i > 0
         start = Time.now
 
@@ -195,9 +195,9 @@ class PeriodicIndexer < CommonIndexer
         $stderr.puts("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
       end
 
-      send_commit if did_something
-
       index_round_complete(repository)
+
+      send_commit if did_something
 
       checkpoints.each do |repository, type, start|
         @state.set_last_mtime(repository.id, type, start)
