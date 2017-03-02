@@ -384,6 +384,10 @@ module TreeNodes
 
     def handle_delete(ids_to_delete)
       ids = self.filter(:id => ids_to_delete )
+
+      # Update the root record's mtime so that any tree-related records are reindexed
+      root_model.filter(:id => ids.select(:root_record_id)).update(:system_mtime => Time.now)
+
       # lets get a group of records that have unique parents or root_records
       parents = ids.select_group(:parent_id, :root_record_id).all   
       # we then nil out the parent id so deletes can do its thing 
