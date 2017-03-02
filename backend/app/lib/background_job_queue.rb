@@ -164,7 +164,7 @@ class BackgroundJobQueue
 
   def start_background_thread(thread_number)
     Thread.new do
-      Thread.current[:name] = "background job thread #{thread_number}"
+      Thread.current[:name] = "background job thread #{thread_number} (#{Thread.current.object_id})"
       Log.info("Starting #{Thread.current[:name]}")
       while true
         begin
