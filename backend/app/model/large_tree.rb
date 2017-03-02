@@ -153,7 +153,7 @@ class LargeTree
 
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
                    "root_record_uri" => root_record_uri,
-                   "title" => node_to_title_map.fetch(node_id),
+                   "title" => node_to_title_map.fetch(parent_node),
                    "offset" => node_to_waypoint_map.fetch(current_node)}
 
           current_node = parent_node
