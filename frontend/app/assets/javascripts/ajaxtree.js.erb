@@ -17,7 +17,10 @@ function AjaxTree(tree, $pane) {
         location.hash = 'tree::' + tree_id;
     }
 
-    this.tree.large_tree.setCurrentNode(tree_id);
+    this.tree.large_tree.setCurrentNode(tree_id, function() {
+        var midpoint = (tree.large_tree.elt.height() - $('#'+tree_id).height()) / 2;
+        tree.large_tree.elt.scrollTo('#'+tree_id, 0, {offset: -midpoint});
+    });
     this.loadPaneForId(tree_id);
     this.setupHashChange();
 }

@@ -87,7 +87,9 @@
             var $record = self.scroller.getClosestElement();
             var uri = $record.data('uri');
             var tree_id = TreeIds.uri_to_tree_id(uri);
-            self.tree.displayNode(tree_id);
+            self.tree.setCurrentNode(tree_id, function() {
+                self.tree.elt.scrollTo('#'+tree_id, 0, {offset: -50});
+            });
         };
 
         clearTimeout(this.scrollTimeout);
