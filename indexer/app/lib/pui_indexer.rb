@@ -63,8 +63,9 @@ class PUIIndexer < PeriodicIndexer
     add_document_prepare_hook {|doc, record|
 
       if doc['primary_type'] == 'archival_object'
-        doc['id'] = "#{doc['id']}#pui"
-        doc['parent_id'] = doc['id']
+        parent_id = doc['id']
+        doc['id'] = "#{parent_id}#pui"
+        doc['parent_id'] = parent_id
         doc['types'] ||= []
         doc['types'] << 'pui'
         doc['types'] << 'pui_archival_object'
@@ -175,6 +176,9 @@ class PUIIndexer < PeriodicIndexer
         json = JSONModel::HTTP.get_json(root_record_uri + '/tree/node',
                                         :node_uri => record_uri,
                                         :published_only => true)
+
+        # We might bomb out if a record was deleted out from under us.
+        return if json.nil?
 
         batch << {
           'id' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
