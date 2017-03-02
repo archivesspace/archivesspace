@@ -4,16 +4,16 @@ var SHARED_TOOLBAR_ACTIONS = [
         cssClasses: 'btn-default drag-toggle',
         onRender: function(btn, node, tree, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                $(btn).addClass('active');
+                $(btn).addClass('active').addClass('btn-success');
                 tree.ajax_tree.blockout_form();
             }
         },
         onToolbarRendered: function(btn, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
-                $('.cut-selection',toolbarRenderer.containe).removeClass('disabled');
+                $('.btn:not(.drag-toggle,.finish-editing,.move-node)',toolbarRenderer.container).addClass('disabled');
+                $('.cut-selection',toolbarRenderer.container).removeClass('disabled');
                 if ($('.cut', tree.large_tree.elt).length > 0) {
-                    $('.paste-selection',toolbarRenderer.containe).removeClass('disabled');
+                    $('.paste-selection',toolbarRenderer.container).removeClass('disabled');
                 }
             }
         },
@@ -26,13 +26,13 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $.scrollTo(0);
                 tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
                 $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
-                $('.cut-selection,.paste-selection', toolbarRenderer.container).show();
-                $('.cut-selection',toolbarRenderer.container).removeClass('disabled');
+                $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).show();
+                $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
                 tree.ajax_tree.unblockout_form();
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).removeClass('disabled');
-                $('.cut-selection,.paste-selection', toolbarRenderer.container).hide();
+                $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
             }
         },
         isEnabled: function(node, tree, toolbarRenderer) {
@@ -122,6 +122,112 @@ var SHARED_TOOLBAR_ACTIONS = [
             }
         },
     ],
+    {
+        label: '<%= I18n.t "actions.move" %> <span class="caret"></span>',
+        cssClasses: 'btn-default dropdown-toggle move-node',
+        groupCssClasses: 'dropdown',
+        onRender: function(btn, node, tree, toolbarRenderer) {
+            if (!$(tree.large_tree.elt).is('.drag-enabled')) {
+                btn.hide();
+            }
+            var level = node.data('level');
+            var position = node.data('position');
+
+            var $prev = node.prevAll('.largetree-node:first');
+            var $next = node.nextAll('.largetree-node:first');
+
+            var $options = $('<ul>').addClass('dropdown-menu ');
+            // move up a level
+            if (level > 1) {
+                var $li = $('<li>');
+                $li.append($('<a>').attr('href', 'javascript:void(0);').
+                                    addClass('move-node move-node-up-level').
+                                    text('<%= I18n.t('actions.move_up_a_level') %>'));
+                $options.append($li);
+            }
+            // move up on same level
+            if ($prev.data('level') == level) {
+                var $li = $('<li>');
+                $li.append($('<a>').attr('href', 'javascript:void(0);')
+                                   .addClass('move-node move-node-up')
+                                   .text('<%= I18n.t('actions.move_up') %>'));
+                $options.append($li);
+            }
+            // move down on same level
+            if ($next.data('level') == level) {
+                var $li = $('<li>');
+                $li.append($('<a>').attr('href', 'javascript:void(0);')
+                                   .addClass('move-node move-node-down')
+                                   .text('<%= I18n.t('actions.move_down') %>'));
+                $options.append($li);
+            }
+            // move down into sibling
+            if (($prev.length > 0 && $prev.data('level') == level) ||
+                ($next.length > 0 && $next.data('level') == level)) {
+                var $li = $('<li>').addClass('dropdown-submenu');
+                $li.append($('<a>').attr('href', 'javascript:void(0);')
+                    .text('<%= I18n.t('actions.move_down_into') %>'));
+                $options.append($li);
+
+                // add nearest siblings to dropdown list
+                // 1 up and 1 below
+                var $siblings = $('<ul>').addClass('dropdown-menu');
+                if ($prev.length > 0 && $prev.data('level') == level) {
+                    var $subli = $('<li>');
+                    $subli.append($('<a>').attr('href', 'javascript:void(0);')
+                        .addClass('move-node move-node-down-into')
+                        .data('uri', $prev.data('uri'))
+                        .data('tree_id', $prev.attr('id'))
+                        .text($prev.find('.record-title').text().trim()));
+                    $siblings.append($subli);
+                }
+                if ($next.length > 0 && $next.data('level') == level) {
+                    var $subli = $('<li>');
+                    $subli.append($('<a>').attr('href', 'javascript:void(0);')
+                        .addClass('move-node move-node-down-into')
+                        .data('uri', $next.data('uri'))
+                        .data('tree_id', $next.attr('id'))
+                        .text($next.find('.record-title').text().trim()));
+                    $siblings.append($subli);
+                }
+                $siblings.appendTo($li);
+            }
+            $options.appendTo(btn.closest('.btn-group'));
+
+            $options.on('click', '.move-node-up-level', function(event) {
+                // move node to last child of parent
+                var $new_parent = node.prevAll('.indent-level-'+(level-2)+":first");
+                tree.large_tree.reparentNodes($new_parent, node, $new_parent.data('child_count'));
+            }).on('click', '.move-node-up', function(event) {
+                // move node above nearest sibling
+                var $parent = node.prevAll('.indent-level-'+(level-1)+":first");
+                var $prev = node.prevAll('.indent-level-'+(level)+":first");
+                tree.large_tree.reparentNodes($parent, node, $prev.data('position'));
+            }).on('click', '.move-node-down', function(event) {
+                // move node below nearest sibling
+                var $parent = node.prevAll('.indent-level-'+(level-1)+":first");
+                var $next = node.nextAll('.indent-level-'+(level)+":first");
+                tree.large_tree.reparentNodes($parent, node, $next.data('position')+1);
+            }).on('click', '.move-node-down-into', function(event) {
+                // move node to last child of sibling
+                var $parent = $('#'+$(this).data('tree_id'));
+                tree.large_tree.reparentNodes($parent, node, $parent.data('child_count'));
+            });
+
+            btn.attr('data-toggle', 'dropdown');
+        },
+        isEnabled: function(node, tree, toolbarRenderer) {
+            return true;
+        },
+        isVisible: function(node, tree, toolbarRenderer) {
+            // not available to root nodes
+            if (node.is('.root-row')) {
+                return false;
+            }
+
+            return !tree.large_tree.read_only && tree.dragdrop;
+        },
+    },
     // RDE
     {
         label: '<%= I18n.t("actions.rapid_data_entry") %>',

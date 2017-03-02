@@ -165,11 +165,14 @@
             }
         });
 
+        var uris_to_move = [];
+        $(nodes).each(function (_, elt) {
+            uris_to_move.push($(elt).data('uri'));
+        });
+
         return this.source.reparentNodes(parent_uri,
-                                  nodes.map(function (elt) {
-                                      return $(elt).data('uri');
-                                  }),
-                                  position)
+                                         uris_to_move,
+                                         position)
             .done(function () {
                 self.redisplayAndShow(uris_to_reopen);
             });
