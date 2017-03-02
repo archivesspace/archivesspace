@@ -231,11 +231,17 @@ class PUIIndexer < PeriodicIndexer
                   [:digital_object, :digital_object_component],
                   [:classification, :classification_term]]
 
+    start = Time.now
+    checkpoints = []
+
     tree_uris = []
 
     tree_types.each do |pair|
       root_type = pair.first
       node_type = pair.last
+
+      checkpoints << [repository, root_type, start]
+      checkpoints << [repository, node_type, start]
 
       last_root_node_mtime = [@state.get_last_mtime(repository.id, root_type) - @window_seconds, 0].max
       last_node_mtime = [@state.get_last_mtime(repository.id, node_type) - @window_seconds, 0].max
@@ -265,6 +271,11 @@ class PUIIndexer < PeriodicIndexer
 
     index_batch(batch)
     send_commit
+
+    checkpoints.each do |repository, type, start|
+      @state.set_last_mtime(repository.id, type, start)
+    end
+
   end
 
 end
