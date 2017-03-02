@@ -1,4 +1,5 @@
 class ArchivalObject < Record
+  include TreeNodes
 
   def finding_aid
     # as this shares the same template as resources,
@@ -23,4 +24,5 @@ class ArchivalObject < Record
   def root_node_uri
     json.fetch('resource').fetch('ref')
   end
+
 end

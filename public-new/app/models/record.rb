@@ -281,8 +281,8 @@ class Record
     info
   end
   
-  def archives_space_service
-    @service ||= ArchivesSpaceService.new
+  def archives_space_client
+    @service ||= ArchivesSpaceClient.new
     @service
   end
 
