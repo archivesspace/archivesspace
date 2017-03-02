@@ -36,7 +36,7 @@
         <%= form.label_and_select "language", form.possible_options_for("language", true) %>
         <div class="form-group">
           <%= form.label "publish", :class => 'control-label col-sm-2' %>
-          <div class="controls col-sm-9">
+          <div class="checkbox col-sm-9">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>
             <% if form.obj["has_unpublished_ancestor"] %>
               <span class="help-inline"><span class="text-info"><%= I18n.t("archival_object._frontend.messages.has_unpublished_ancestor") %></span></span>
