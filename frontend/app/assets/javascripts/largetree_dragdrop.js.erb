@@ -167,10 +167,17 @@
             return false;
         });
 
-        $(document).on('click', function (event) {
+        $(document).on('mousedown', function (event) {
             if (!event.ctrlKey &&
+                /* Not clicking on a drag handle */
                 !$(event.target).hasClass('drag-handle') &&
+
+                /* Not operating the dropdown menu */
+                $(event.target).closest('.largetree-dropdown-menu').length === 0 &&
+
+                /* Not attempting to expand something */
                 $(event.target).closest('.expandme').length === 0) {
+
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
                 self.rowsToMove = [];
             }
@@ -316,7 +323,7 @@
         
         // insert a menu!
         // FIXME I18n
-        var $menu = $('<ul>').addClass('dropdown-menu');
+        var $menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
         if (!dropTarget.is('.root-row')) {
             $menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
         }
