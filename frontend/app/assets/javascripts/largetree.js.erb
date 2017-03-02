@@ -560,6 +560,7 @@
             elt.after(endMarker);
 
             var newRows = [];
+            var current = undefined;
 
             $(nodes).each(function (idx, node) {
                 var row = self.renderer.get_node_template();
@@ -588,6 +589,7 @@
 
                 if (self.current_tree_id == tree_id) {
                     row.addClass('current');
+                    current = row;
                 } else {
                     row.removeClass('current');
                 }
@@ -604,6 +606,10 @@
             $(self.populateWaypointHooks).each(function (idx, hook) {
                 hook();
             });
+
+            if (current) {
+                $.proxy(self.node_selected_callback, self)(current, self);
+            }
 
             done_callback();
         });
