@@ -113,7 +113,7 @@ class LargeTree
           next_nodes_to_expand << row[:parent_id]
         end
 
-        nodes_to_expand = next_nodes_to_expand.uniq
+        nodes_to_expand = next_nodes_to_expand.compact.uniq
       end
 
       ## Calculate the waypoint that each node will fall into
