@@ -34,12 +34,14 @@ module ApplicationHelper
       css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
       css.html_safe
     rescue
-      # :BOMBED, $!
-      require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [application_helper.rb:39 129524]: " + {%Q^:BOMBED^ => :BOMBED, %Q^$!^ => $!}.pretty_inspect + "\n")
+      # On app startup in dev mode, the above call triggers the LESS stylesheets
+      # to compile, and there seems to be a problem with two threads doing this
+      # concurrently.  If things go badly, just retry.
 
-      $stderr.puts($@.join("\n"))
+      Rails.logger.warn("Retrying include_theme_css: #{$!}")
 
-      raise $!
+      sleep 1
+      retry
     end
   end
 
