@@ -117,7 +117,7 @@ class AdvancedQueryBuilder
   end
 
   def self.as_field_query(query_data)
-    raise "keys should be strings only" if query_data.any?{ |k,_| k.is_a? Symbol }
+    raise "keys should be strings only" if query_data.kind_of?(Hash) && query_data.any?{ |k,_| k.is_a? Symbol }
 
     if query_data.kind_of?(JSONModelType)
       query_data
