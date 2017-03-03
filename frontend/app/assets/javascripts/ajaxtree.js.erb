@@ -284,7 +284,7 @@ AjaxTree.prototype.add_new_after = function(node, level) {
         params[node_uri_parts.type + '_id'] = parent_id;
     }
 
-    var url = self._new_form_url_for(node.data('jsonmodel_type'));
+    var url = self._new_node_form_url_for(node.data('jsonmodel_type'));
 
     self._ajax_the_pane(url, params, function() {
         // set form_changed = true for this new form
@@ -421,12 +421,12 @@ AjaxTree.prototype.on_form_changed = function() {
     }
 };
 
-AjaxTree.prototype._new_form_url_for = function(jsonmodel_type) {
-    if (jsonmodel_type == 'archival_object') {
+AjaxTree.prototype._new_node_form_url_for = function(jsonmodel_type) {
+    if (jsonmodel_type == 'resource' || jsonmodel_type == 'archival_object') {
         return '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
-    } else if (jsonmodel_type == 'digital_object_component') {
+    } else if (jsonmodel_type == 'digital_object' || jsonmodel_type == 'digital_object_component') {
         return '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
-    } else if (jsonmodel_type == 'classification_term') {
+    } else if (jsonmodel_type == 'classification' || jsonmodel_type == 'classification_term') {
         return '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
     } else {
         throw 'No new form available for: '+ jsonmodel_type;
