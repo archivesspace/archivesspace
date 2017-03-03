@@ -4,6 +4,7 @@ class JobRunner
   class JobRunnerError < StandardError; end
   class BackgroundJobError < StandardError; end
 
+  RegisteredRunner = Struct.new(:type, :runner, :hidden, :run_concurrently)
 
   # In your subclass register your interest in handling job types like this:
   #
@@ -43,11 +44,9 @@ class JobRunner
                                "- already handled by #{@@runners[type]}")
     end
 
-    @@runners[type] = {
-      :class => self,
-      :hidden => opts.fetch(:hidden, false),
-      :run_concurrently => opts.fetch(:run_concurrently, false)
-    }
+    @@runners[type] = RegisteredRunner.new(type, self,
+                                           opts.fetch(:hidden, false),
+                                           opts.fetch(:run_concurrently, false))
   end
 
 
@@ -58,7 +57,12 @@ class JobRunner
       raise JobRunnerNotFound.new("No suitable runner found for #{type}")
     end
 
-    @@runners[type][:class].new(job)
+    @@runners[type].runner.new(job)
+  end
+
+
+  def self.registered_runner_for(type)
+    @@runners.fetch(type, false)
   end
 
 

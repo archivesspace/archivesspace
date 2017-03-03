@@ -37,8 +37,7 @@ class BackgroundJobQueue
           stale_job.save
           return stale_job
         rescue
-          # If we failed to save the job, another thread must have grabbed it
-          # first.
+          # If we failed to save the job, another thread must have grabbed it first.
           nil
         end
       end
@@ -47,28 +46,44 @@ class BackgroundJobQueue
 
 
   def find_queued_job
-    while true
-      DB.open do |db|
+    DB.open do |db|
 
-        job = Job.any_repo.
-          filter(:status => "queued").
-          order(:time_submitted).first
+      Job.any_repo.filter(:status => 'queued').order(:time_submitted).each do |job|
 
-        return unless job
+        runner = JobRunner.registered_runner_for(job.type)
 
         begin
+          unless runner
+            Log.error("No runner registered for #{job.type} job #{job.id}! " +
+                      "Marking as failed on #{Thread.current[:name]}")
+            job.status = 'failed'
+            job.save
+            next
+          end
+
+          if !runner.run_concurrently &&
+              !Job.any_repo.filter(:status => 'running')
+                  .where(Sequel.like(:job_blob, '%"jsonmodel_type":"' + job.type + '"%')).empty?
+
+            Log.info("Job type #{job.type} is not registered to run concurrently " +
+                     "and there's currently one running, so skipping job #{job.id} " +
+                     "on #{Thread.current[:name]}")
+            next
+          end
+
           job.status = "running"
           job.time_started = Time.now
           job.save
 
           return job
         rescue
-          # Someone got this job.
-          Log.info("Another thread is running job #{job.id}, skipping on #{Thread.current[:name]}")
-          sleep 2
+          # Another thread handled this job.
+          Log.info("Another thread is handling job #{job.id}, skipping on #{Thread.current[:name]}")
         end
       end
     end
+    # No jobs to run at this time
+    false
   end
 
 
