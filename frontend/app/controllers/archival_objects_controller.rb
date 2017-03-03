@@ -178,6 +178,7 @@ class ArchivalObjectsController < ApplicationController
 
   def add_children
     @parent = JSONModel(:archival_object).find(params[:id])
+    @resource_uri = @parent['resource']['ref']
 
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
