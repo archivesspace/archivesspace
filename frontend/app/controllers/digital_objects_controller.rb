@@ -201,6 +201,7 @@ class DigitalObjectsController < ApplicationController
     flash.clear
 
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
     @children = DigitalObjectChildren.new
     @exceptions = []
 
@@ -210,6 +211,7 @@ class DigitalObjectsController < ApplicationController
 
   def add_children
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
 
     if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
 
