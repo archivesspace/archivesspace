@@ -230,11 +230,7 @@ describe "Notes" do
     @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
 
 
-    @driver.find_element(:link, "Revert Changes").click
-
-
-    # Skip over "Save Your Changes" dialog i.e. don't save AO.
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.find_element(:css => '.btn.btn-cancel.btn-default').click
   end
 
 

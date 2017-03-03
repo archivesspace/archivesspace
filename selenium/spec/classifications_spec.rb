@@ -152,7 +152,7 @@ describe "Classifications" do
     
     @driver.get_view_page(a_classification)
     @driver.find_element(:css, "#search_embedded").text.should match(/#{a_resource.title}/)
-    @driver.find_element(:id, js_node(a_term).a_id).click
+    tree_click(tree_node(a_term))
     @driver.wait_for_ajax 
     @driver.find_element(:css, "#search_embedded").text.should match(/#{an_accession.title}/)
 

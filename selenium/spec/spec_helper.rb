@@ -48,7 +48,7 @@ RSpec.configure do |config|
   end
 
   config.include BackendClientMethods
-  config.include JSTreeHelperMethods
+  config.include TreeHelperMethods
   config.include FactoryGirl::Syntax::Methods
   config.extend RSpecClassHelpers
   config.verbose_retry = true

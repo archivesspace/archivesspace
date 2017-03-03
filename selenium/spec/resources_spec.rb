@@ -123,7 +123,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
     # The new Resource shows up on the tree
-    assert(5) { @driver.find_element(:css => "a.jstree-clicked").text.strip.should match(resource_regex) }
+    assert(5) { tree_current.text.strip.should match(resource_regex) }
   end
 
 
@@ -144,6 +144,8 @@ describe "Resources and archival objects" do
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     }.to_not raise_error
+
+    @driver.find_element(:css, "a.btn.btn-cancel").click
   end
 
 
@@ -164,7 +166,9 @@ describe "Resources and archival objects" do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
 
-    @driver.find_element(:link, "Revert Changes").click
+    # click on another node
+    tree_click(tree_node(@resource))
+
     @driver.find_element(:id, "dismissChangesButton").click
   end
 
@@ -184,7 +188,7 @@ describe "Resources and archival objects" do
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/i)
 
-    @driver.find_element(:link, "Revert Changes").click
+    tree_click(tree_node(@resource))
     @driver.find_element(:id, "dismissChangesButton").click
   end
   
@@ -248,11 +252,13 @@ describe "Resources and archival objects" do
       @driver.click_and_wait_until_gone(:id => "createPlusOne")
     end
 
-    elements = @driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
+    elements = tree_nodes_at_level(1).map{|li| li.text.strip}
 
     ["January", "February", "December"].each do |month|
       elements.any? {|elt| elt =~ /#{month}/}.should be_truthy
     end
+
+    @driver.find_element(:css, "a.btn.btn-cancel").click
   end
 
 
@@ -261,20 +267,16 @@ describe "Resources and archival objects" do
     @driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
    
     # sanity check..
-    @driver.find_element(:id => js_node(@archival_object).a_id).click 
+    tree_click(tree_node(@archival_object))
     pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
     10.times {
       @driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
     }
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "unimportant change")
-    @driver.find_element(:id => js_node(@resource).a_id).click
-    sleep(5)
-    @driver.find_element(:id, "dismissChangesButton").click
 
-    assert(5) {
-      @driver.find_element(:css => "a.jstree-clicked .title-column").text.delete("1").chomp.strip.should eq(@resource.title.delete("1").chomp.strip)
-    }
+    tree_click(tree_node(@resource))
+    @driver.find_element(:id, "dismissChangesButton").click
   end
 
 
@@ -284,14 +286,12 @@ describe "Resources and archival objects" do
 
     @driver.find_element(:id, "archival_object_level_").select_option("item")
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
-    sleep(5)
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.wait_for_ajax
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
     }.to_not raise_error
-
-    @driver.find_element(:link, "Revert Changes").click
+    tree_click(tree_node(@resource))
     @driver.find_element(:id, "dismissChangesButton").click
   end
 

@@ -383,6 +383,14 @@
         });
     };
 
+    LargeTreeDragDrop.prototype.simulate_drag_and_drop = function(source_tree_id, target_tree_id) {
+        var source = $('#' + source_tree_id);
+        var target = $('#' + target_tree_id);
+
+        this.rowsToMove = [source];
+        this.handleDrop(target);
+    };
+
     exports.LargeTreeDragDrop = LargeTreeDragDrop;
     exports.DRAGDROP_HOTSPOT_HEIGHT = HOTSPOT_HEIGHT
 
