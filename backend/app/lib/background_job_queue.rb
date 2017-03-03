@@ -48,7 +48,7 @@ class BackgroundJobQueue
   def find_queued_job
     DB.open do |db|
 
-      Job.any_repo.filter(:status => 'queued').order(:time_submitted).each do |job|
+      Job.queued_jobs.each do |job|
 
         runner = JobRunner.registered_runner_for(job.type)
 
@@ -56,27 +56,23 @@ class BackgroundJobQueue
           unless runner
             Log.error("No runner registered for #{job.type} job #{job.id}! " +
                       "Marking as failed on #{Thread.current[:name]}")
-            job.status = 'failed'
-            job.save
+
+            job.finish!(:failed)
             next
           end
 
-          if !runner.run_concurrently &&
-              !Job.any_repo.filter(:status => 'running')
-                  .where(Sequel.like(:job_blob, '%"jsonmodel_type":"' + job.type + '"%')).empty?
-
-            Log.info("Job type #{job.type} is not registered to run concurrently " +
-                     "and there's currently one running, so skipping job #{job.id} " +
-                     "on #{Thread.current[:name]}")
+          if !runner.run_concurrently && Job.any_running?(job.type)
+            Log.debug("Job type #{job.type} is not registered to run concurrently " +
+                      "and there's currently one running, so skipping job #{job.id} " +
+                      "on #{Thread.current[:name]}")
             next
           end
 
-          job.status = "running"
-          job.time_started = Time.now
-          job.save
+          job.start!
 
           return job
-        rescue
+
+        rescue Sequel::NoExistingObject
           # Another thread handled this job.
           Log.info("Another thread is handling job #{job.id}, skipping on #{Thread.current[:name]}")
         end
@@ -137,7 +133,7 @@ class BackgroundJobQueue
         finished.value = true
         watchdog_thread.join
 
-        job.finish(:completed)
+        job.finish!(:completed)
       end
 
       runner.run
@@ -147,7 +143,7 @@ class BackgroundJobQueue
 
       if job_canceled.value
         # Mark the job as permanently canceled
-        job.finish(:canceled)
+        job.finish!(:canceled)
       else
         unless job.success?
           # If the job didn't record success, mark it as finished ourselves.
@@ -169,7 +165,7 @@ class BackgroundJobQueue
       watchdog_thread.join
 
       unless job.success?
-        job.finish(:failed)
+        job.finish!(:failed)
       end
     end
 
@@ -184,10 +180,9 @@ class BackgroundJobQueue
       while true
         begin
           run_pending_job
-        rescue
-          Log.error("Error in #{Thread.current[:name]}: #{$!} #{$@}")
+        rescue => e
+          Log.error("Error in #{Thread.current[:name]}: #{e.class} #{$!} #{$@}")
         end
-
         sleep AppConfig[:job_poll_seconds].to_i
       end
     end
@@ -206,7 +201,7 @@ class BackgroundJobQueue
     begin
       while(true) do
         stale = find_stale_job
-        stale.finish(:canceled)
+        stale.finish!(:canceled)
         break if stale.nil?
       end
     rescue

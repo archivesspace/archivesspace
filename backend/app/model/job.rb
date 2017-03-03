@@ -97,6 +97,17 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def self.queued_jobs
+    self.any_repo.filter(:status => 'queued').order(:time_submitted)
+  end
+
+
+  def self.any_running?(type)
+    !self.any_repo.filter(:status => 'running')
+         .where(Sequel.like(:job_blob, '%"jsonmodel_type":"' + type + '"%')).empty?
+  end
+
+
   def type
     job['jsonmodel_type']
   end
@@ -153,11 +164,18 @@ class Job < Sequel::Model(:job)
   end
 
 
-  def finish(status)
+  def start!
+    self.status = 'running'
+    self.time_started = Time.now
+    self.save
+  end
+
+
+  def finish!(status)
     file_store.close_output
 
     self.reload
-    self.status = "#{status}"
+    self.status = status.to_s
     self.time_finished = Time.now
     self.save
   end
