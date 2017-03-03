@@ -143,7 +143,9 @@ AjaxTree.prototype.setup_ajax_form = function() {
 
             $(document).trigger("loadedrecordform.aspace", [self.$pane]);
 
-            if ($form.data('formErrors')) {
+            // FIXME better way to be sure?
+            //if ($form.data('formErrors')) {
+            if ($form.find('.error').length > 0) {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
                 self.on_form_changed();
                 $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
