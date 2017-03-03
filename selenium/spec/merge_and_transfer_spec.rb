@@ -68,7 +68,7 @@ describe "Merging and transfering resources" do
 
     (@aoset2 + @aoset3).each do |ao|
       assert(5) {
-        @driver.find_element(:id => js_node(ao).li_id)
+        @driver.find_element(:id => tree_node(ao).tree_id)
       }
     end
   end
@@ -95,7 +95,7 @@ describe "Merging and transfering resources" do
     @driver.get_edit_page(@resource2)
     (@aoset2 + @aoset3).each do |ao|
       assert(5) {
-        @driver.find_element(:id => js_node(ao).li_id)
+        @driver.find_element(:id => tree_node(ao).tree_id)
       }
     end
   end

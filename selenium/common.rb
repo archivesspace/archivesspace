@@ -11,7 +11,7 @@ require 'securerandom'
 
 require_relative 'common/webdriver'
 require_relative 'common/backend_client_mixin'
-require_relative 'common/jstree_helper'
+require_relative 'common/tree_helper'
 require_relative 'common/rspec_class_helpers'
 require_relative 'common/driver'
 
