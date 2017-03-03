@@ -74,7 +74,6 @@ module ArchivesSpace
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
 
     config.i18n.default_locale = AppConfig[:locale]
-    config.logger = ActiveSupport::TaggedLogging.new(ASpaceLogger.new($stderr))
 
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
