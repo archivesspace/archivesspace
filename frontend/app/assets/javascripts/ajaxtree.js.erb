@@ -135,7 +135,10 @@ AjaxTree.prototype.setup_ajax_form = function() {
             }
         },
         success: function(response, status, xhr) {
+            var shouldPlusOne =  self.$pane.find('form').data('createPlusOne');
+
             self.$pane.html(response);
+
             var $form = self.setup_ajax_form();
 
             $(document).trigger("loadedrecordform.aspace", [self.$pane]);
@@ -153,6 +156,9 @@ AjaxTree.prototype.setup_ajax_form = function() {
                     var tree_id = TreeIds.uri_to_tree_id(uri);
                     self.tree.large_tree.setCurrentNode(tree_id, function() {
                         self.tree.toolbar_renderer.notify_form_loaded($form);
+                        if (shouldPlusOne) {
+                            self.add_new_after(tree.current(), tree.current().data('level'));
+                        }
                     });
                 });
             }
@@ -183,12 +189,21 @@ AjaxTree.prototype.setup_ajax_form = function() {
         self.loadPaneForId(tree_id);
     });
 
+    $form.data('createPlusOne', false);
+    $form.on('click', '.btn-plus-one', function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        $form.data("createPlusOne", true);
+        $form.triggerHandler("submit");
+    });
+
     self.tree.toolbar_renderer.notify_form_loaded($form);
 
     return $form;
 };
 
-AjaxTree.prototype.add_new_after = function(node, level, url) {
+AjaxTree.prototype.add_new_after = function(node, level) {
     var self = this;
 
     // update the hash
@@ -268,6 +283,8 @@ AjaxTree.prototype.add_new_after = function(node, level, url) {
     if (parent_id) {
         params[node_uri_parts.type + '_id'] = parent_id;
     }
+
+    var url = self._new_form_url_for(node.data('jsonmodel_type'));
 
     self._ajax_the_pane(url, params, function() {
         // set form_changed = true for this new form
@@ -401,5 +418,17 @@ AjaxTree.prototype.on_form_changed = function() {
     if (!$form.data(FORM_CHANGED_KEY)) {
         $form.data(FORM_CHANGED_KEY, true);
         self.tree.toolbar_renderer.notify_form_changed($form);
+    }
+};
+
+AjaxTree.prototype._new_form_url_for = function(jsonmodel_type) {
+    if (jsonmodel_type == 'archival_object') {
+        return '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
+    } else if (jsonmodel_type == 'digital_object_component') {
+        return '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
+    } else if (jsonmodel_type == 'classification_term') {
+        return '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
+    } else {
+        throw 'No new form available for: '+ jsonmodel_type;
     }
 };
