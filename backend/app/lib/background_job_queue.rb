@@ -23,33 +23,22 @@ class BackgroundJobQueue
 
   JOB_TIMEOUT_SECONDS = AppConfig[:job_timeout_seconds].to_i
 
-  def find_stale_job
-    DB.open do |db|
-      stale_job = Job.any_repo.
-        filter(:status => "running").
-        where {
-        system_mtime <= (Time.now - JOB_TIMEOUT_SECONDS)
-      }.first 
-
-      if stale_job
-        begin
-          stale_job.time_started = Time.now
-          stale_job.save
-          return stale_job
-        rescue
-          # If we failed to save the job, another thread must have grabbed it first.
-          nil
-        end
+  def get_next_job
+    # First cancel any jobs that are in a running state but which haven't
+    # been touched by their watchdog for a time greater than the configured timeout.
+    # This shouldn't really happen, but his replaces the concept of a stale job
+    # used in an earlier implementation that was problematic because it could end up
+    # calling the #run method on a job more than once.
+    begin
+      Job.running_jobs_untouched_since(Time.now - JOB_TIMEOUT_SECONDS).each do |job|
+        job.finish!(:canceled)
       end
+    rescue => e
+      Log.error("Error trying to cancel unwatched jobs on #{Thread.current[:name]}: #{e.class} #{$!} #{$@}")
     end
-  end
 
-
-  def find_queued_job
     DB.open do |db|
-
       Job.queued_jobs.each do |job|
-
         runner = JobRunner.registered_runner_for(job.type)
 
         begin
@@ -57,7 +46,7 @@ class BackgroundJobQueue
             Log.error("No runner registered for #{job.type} job #{job.id}! " +
                       "Marking as failed on #{Thread.current[:name]}")
 
-            job.finish!(:failed)
+            job.finish!(:canceled)
             next
           end
 
@@ -68,6 +57,7 @@ class BackgroundJobQueue
             next
           end
 
+          # start the job here to prevent other threads from grabbing it
           job.start!
 
           return job
@@ -80,11 +70,6 @@ class BackgroundJobQueue
     end
     # No jobs to run at this time
     false
-  end
-
-
-  def get_next_job
-    find_stale_job || find_queued_job
   end
 
 
@@ -158,8 +143,8 @@ class BackgroundJobQueue
           runner.success!
         end
       end
-    rescue
-      Log.error("Job #{job.id} on #{job_thread_name} failed: #{$!} #{$@}")
+    rescue => e
+      Log.error("Job #{job.id} on #{job_thread_name} failed: #{e.class} #{$!} #{$@}")
       # If anything went wrong, make sure the watchdog thread still stops.
       finished.value = true
       watchdog_thread.join
@@ -197,14 +182,13 @@ class BackgroundJobQueue
 
 
   def self.init
-    # clear out stale jobs on start
+    # cancel jobs left in a running state from a previous run
     begin
-      while(true) do
-        stale = find_stale_job
-        stale.finish!(:canceled)
-        break if stale.nil?
+      Job.running_jobs.each do |job|
+        job.finish!(:canceled)
       end
-    rescue
+    rescue => e
+      Log.error("Error trying to cancel old jobs: #{e.class} #{$!} #{$@}")
     end
     
 

@@ -102,6 +102,16 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def self.running_jobs
+    self.any_repo.filter(:status => 'running').order(:time_submitted)
+  end
+
+
+  def self.running_jobs_untouched_since(time)
+    self.any_repo.filter(:status => "running").where { system_mtime < time } 
+  end
+
+
   def self.any_running?(type)
     !self.any_repo.filter(:status => 'running')
          .where(Sequel.like(:job_blob, '%"jsonmodel_type":"' + type + '"%')).empty?
@@ -175,7 +185,7 @@ class Job < Sequel::Model(:job)
     file_store.close_output
 
     self.reload
-    self.status = status.to_s
+    self.status = [:canceled, :failed].include?(status) ? status.to_s : 'completed'
     self.time_finished = Time.now
     self.save
   end
