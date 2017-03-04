@@ -44,13 +44,13 @@ class BackgroundJobQueue
         begin
           unless runner
             Log.error("No runner registered for #{job.type} job #{job.id}! " +
-                      "Marking as failed on #{Thread.current[:name]}")
+                      "Marking as canceled on #{Thread.current[:name]}")
 
             job.finish!(:canceled)
             next
           end
 
-          if !runner.run_concurrently && Job.any_running?(job.type)
+          if !runner.run_concurrently and Job.any_running?(job.type)
             Log.debug("Job type #{job.type} is not registered to run concurrently " +
                       "and there's currently one running, so skipping job #{job.id} " +
                       "on #{Thread.current[:name]}")

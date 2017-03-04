@@ -1,8 +1,12 @@
-#require_relative 'utils'
-
 Sequel.migration do
 
   up do
+    alter_table(:job) do
+      add_column(:job_type, String, :null => false)
+    end
+
+    self[:job].update(:job_type => self[:enumeration_value].filter(:id => :job_type_id).select(:value))
+
     alter_table(:job) do
       drop_foreign_key(:job_type_id)
     end
