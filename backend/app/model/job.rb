@@ -79,6 +79,7 @@ class Job < Sequel::Model(:job)
     
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
+                           :job_type => json.job['jsonmodel_type'],
                            :job_blob => ASUtils.to_json(json.job),
                            :job_params => ASUtils.to_json(json.job_params) 
                           ))
@@ -90,7 +91,7 @@ class Job < Sequel::Model(:job)
     jsons.zip(objs).each do |json, obj|
       json.job = JSONModel(obj.type.intern).from_hash(obj.job)
       json.owner = obj.owner.username
-      json.queue_position = obj.queue_position if obj.status === "queued"
+      json.queue_position = obj.queue_position if obj.status === 'queued'
     end
 
     jsons
@@ -113,18 +114,17 @@ class Job < Sequel::Model(:job)
 
 
   def self.any_running?(type)
-    !self.any_repo.filter(:status => 'running')
-         .where(Sequel.like(:job_blob, '%"jsonmodel_type":"' + type + '"%')).empty?
-  end
-
-
-  def type
-    job['jsonmodel_type']
+    !self.any_repo.filter(:status => 'running').where(:job_type => type).empty?
   end
 
 
   def job
     @job ||= ASUtils.json_parse(job_blob)
+  end
+
+
+  def type
+    self.job_type
   end
 
 

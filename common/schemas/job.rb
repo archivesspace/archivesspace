@@ -8,6 +8,11 @@
 
       "uri" => {"type" => "string", "required" => false},
 
+      "job_type" => {
+        "type" => "string",
+        "readonly" => true
+      },
+   
       "job" => {
         "type" => "object"
       },

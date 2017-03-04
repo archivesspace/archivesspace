@@ -1918,6 +1918,12 @@ en:
     _singular: Background Job
     _plural: Background Jobs
     job_type: Job Type
+    types:
+      print_to_pdf_job: Print To PDF 
+      import_job: Import Data
+      find_and_replace_job: Batch Find and Replace (Beta)
+      report_job: Reports
+      container_conversion_job: Reports
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -1932,7 +1938,7 @@ en:
 
   import_job:
     _singular: Import Job
-    filenames: Import Files
+    filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
     import_type_accession_csv: Accession CSV
