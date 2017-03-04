@@ -33,6 +33,8 @@ class BackgroundJobQueue
       Job.running_jobs_untouched_since(Time.now - JOB_TIMEOUT_SECONDS).each do |job|
         job.finish!(:canceled)
       end
+    rescue Sequel::NoExistingObject
+      Log.debug("Another thread cancelled unwatched job #{job.id}, nothing to do on #{Thread.current[:name]}")
     rescue => e
       Log.error("Error trying to cancel unwatched jobs on #{Thread.current[:name]}: #{e.class} #{$!} #{$@}")
     end
