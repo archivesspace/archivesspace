@@ -149,6 +149,11 @@ module ApplicationHelper
   end
 
 
+  def job_types
+    MemoryLeak::Resources.get(:job_types)
+  end
+
+
   def current_user
     session[:user]
   end

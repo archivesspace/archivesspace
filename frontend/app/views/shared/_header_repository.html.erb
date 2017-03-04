@@ -83,7 +83,15 @@
                   <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
                 <% end %>
                 <li class="divider"></li>
-                <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :new %></li>
+
+                <li class="dropdown-submenu">
+                  <a href="javascript:void(0);"><%= I18n.t("job._singular") %></a>
+                  <ul class="dropdown-menu">
+                    <% job_types.each do |type| %>
+                      <li><%= link_to I18n.t("job.types.#{type}"), :controller => :jobs, :action => :new, :job_type => type %></li>
+                    <% end %> 
+                  </ul>
+                </li>
               </ul>
             </li>
           <% end %>

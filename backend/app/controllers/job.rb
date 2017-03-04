@@ -32,9 +32,9 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/repositories/:repo_id/jobs/types')
+  Endpoint.get('/job_types')
     .description("List all supported job types")
-    .params(["repo_id", :repo_id])
+    .params()
     .permissions([])
     .returns([200, "A list of supported job types"]) \
   do
