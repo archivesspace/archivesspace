@@ -157,6 +157,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
                 $form.data(FORM_CHANGED_KEY, false);
 
                 var uri = $('#uri', $form).val();
+                self.quietly_change_hash(TreeIds.link_url(uri));
                 self.tree.large_tree.redisplayAndShow([uri], function() {
                     var tree_id = TreeIds.uri_to_tree_id(uri);
                     self.tree.large_tree.setCurrentNode(tree_id, function() {
