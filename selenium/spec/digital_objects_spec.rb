@@ -54,7 +54,7 @@ describe "Digital Objects" do
     @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
     # The new Digital Object shows up on the tree
-    assert(5) { @driver.find_element(:css => "a.jstree-clicked").text.strip.should match(/#{digital_object_title}/) }
+    assert(5) { @driver.find_element(:css => "tr.root-row .title").text.strip.should match(/#{digital_object_title}/) }
   end
 
   it "can handle multiple file versions and file system and network path types" do
@@ -85,6 +85,8 @@ describe "Digital Objects" do
     # False start: create an object without filling it out
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /you must provide/)
+
+    @driver.find_element(:css, "a.btn.btn-cancel").click
   end
 
 
@@ -123,7 +125,7 @@ describe "Digital Objects" do
     end
 
 
-    elements = @driver.blocking_find_elements(:css => "li.jstree-leaf").map{|li| li.text.strip}
+    elements = @driver.blocking_find_elements(:css => ".largetree-node.indent-level-1").map{|li| li.text.strip}
 
     ["PNG format", "GIF format", "BMP format"].each do |thing|
       elements.any? {|elt| elt =~ /#{thing}/}.should be_truthy
@@ -136,54 +138,46 @@ describe "Digital Objects" do
     @driver.get("#{$frontend}#{@do.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::digital_object_component_#{@do_child1.id}")
     @driver.wait_for_ajax
 
+    child = @driver.find_element(:id, "digital_object_component_#{@do_child1.id}")
+    expect(child.attribute('class')).to include('current')
+
     # create grand child
-    10.times do 
-      begin 
-        @driver.find_element(:link, "Add Child").click
-        break
-      rescue
-        sleep 0.5
-        next
-      end
-    end
+    tree_add_child
 
-    @driver.wait_for_ajax
-    @driver.find_element(:id, "digital_object_component_title_")
+    child_title = 'ICO'
 
-    @driver.clear_and_send_keys([:id, "digital_object_component_title_"], "ICO")
+    @driver.clear_and_send_keys([:id, "digital_object_component_title_"], child_title)
     @driver.clear_and_send_keys([:id, "digital_object_component_component_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
-    10.times do
-      begin
-        @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
-        break
-      rescue
-        $stderr.puts "cant save damnit" 
-        sleep 0.5
-        next
-      end
-    end
-
-    # Resize the tree panel to show our tree
-    @driver.execute_script('$(".archives-tree-container").height(500)')
-    @driver.execute_script('$(".archives-tree").height(500)')
-
-    #drag to become sibling of parent
-    source = @driver.find_element_with_text("//div[@id='archives_tree']//a", /ICO/)
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//a", /#{@do.title}/)
-    @driver.action.drag_and_drop(source, target).perform
-
-    @driver.wait_for_spinner
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
     @driver.wait_for_ajax
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
-    target.find_element_with_text(".//a", /ICO/)
+
+    root = tree_node_for_title(@do.title)
+    expect(root.attribute('class')).to include('root-row')
+    child = @driver.find_element(:id, "digital_object_component_#{@do_child1.id}")
+    expect(child.attribute('class')).to include('indent-level-1')
+    grand_child = tree_node_for_title(child_title)
+    expect(grand_child.attribute('class')).to include('indent-level-2')
+
+    tree_drag_and_drop(grand_child, root, 'Add Items as Children')
+
+    root = tree_node_for_title(@do.title)
+    expect(root.attribute('class')).to include('root-row')
+    child = @driver.find_element(:id, "digital_object_component_#{@do_child1.id}")
+    expect(child.attribute('class')).to include('indent-level-1')
+    grand_child = tree_node_for_title(child_title)
+    expect(grand_child.attribute('class')).to include('indent-level-1')
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
+    @driver.wait_for_ajax
 
-    target = @driver.find_element_with_text("//div[@id='archives_tree']//li", /#{@do.title}/)
-    target.find_element_with_text(".//a", /ICO/)
-
+    root = tree_node_for_title(@do.title)
+    expect(root.attribute('class')).to include('root-row')
+    child = @driver.find_element(:id, "digital_object_component_#{@do_child1.id}")
+    expect(child.attribute('class')).to include('indent-level-1')
+    grand_child = tree_node_for_title(child_title)
+    expect(grand_child.attribute('class')).to include('indent-level-1')
   end
 end
