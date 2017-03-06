@@ -112,13 +112,14 @@ $(function() {
           });
     };
 
-
-    $("#job_job_type_", $form).change(function() {
+    $(document).ready(function() {
       $("#job_form_messages", $form).empty()
 
-      if ($(this).val() === "") {
+      var type = $("#job_type").val();
+
+      if (type === "") {
         //
-      } else if ($(this).val() === "report_job") {
+      } else if (type === "report_job") {
         $("#job_form_messages", $form)
           .html(AS.renderTemplate("template_report_instructions"));
         // we disable to form...
@@ -142,14 +143,14 @@ $(function() {
         });
       
         initLocationReportSubForm();
-      } else if ($(this).val() === "print_to_pdf_job") {
+      } else if (type === "print_to_pdf_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_type_fields", $form)
           .empty()
           .html(AS.renderTemplate("template_print_to_pdf_job", {id_path: "print_to_pdf_job", path: "print_to_pdf_job"}));
         $(".linker:not(.initialised)").linker();
 
-      } else if ($(this).val() === "find_and_replace_job") {
+      } else if (type === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_form_messages", $form)
           .html(AS.renderTemplate("template_find_and_replace_warning"));
@@ -211,7 +212,8 @@ $(function() {
           });
         });
 
-      } else if ($(this).val() === "import_job") {
+      } else if (type === "import_job") {
+	  //      } else if ($(this).val() === "import_job") {
         // $("#noImportTypeSelected", $form).hide();
         // $("#noImportTypeSelected", $form).show();
         // $("#job_filenames_", $form).hide();
@@ -242,10 +244,14 @@ $(function() {
         });
         $("#job_import_type_", $form).trigger("change");
 
+      } else {
+        $("#noImportTypeSelected", $form).hide();
+        $("#job_type_fields", $form)
+          .empty()
+          .html(AS.renderTemplate("template_" + type, {id_path: type, path: type}));
+        $(".linker:not(.initialised)").linker();
       }
     });
-
-    $("#job_job_type_", $form).trigger("change");
 
     var handleError = function(errorHTML) {
 
@@ -262,7 +268,7 @@ $(function() {
         $(".btn, a, :input", $form).attr("disabled", "disabled").addClass("disabled");
         $progress.show();
 
-        jobType = $('#job_job_type_', $form).val();
+	var jobType = $("#job_type").val();
 
         if (jobType === 'find_and_replace_job') {
           for (var i=0; i < arr.length; i++) {

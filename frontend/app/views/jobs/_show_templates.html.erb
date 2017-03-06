@@ -109,6 +109,18 @@
 <% end %>
 
 
+<%# Now create a template for all job types not handled above - eg from plugins %>
+<% job_types.each do |type| %>
+  <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'container_conversion_job', 'report_job'].include?(type) %>
+  <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
+
+    <%= render_aspace_partial :partial => "#{type}/show", :locals => {:job => job, :form => form} %>
+
+  <% end %>
+<% end %>
+
+
+
 
 
 <div id="template_job_running_notice"><!--
