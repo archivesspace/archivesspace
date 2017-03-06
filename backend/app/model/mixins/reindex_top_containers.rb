@@ -58,7 +58,7 @@ module ReindexTopContainers
 
 
   # not defined in accession or resource
-  def update_position_only(*)
+  def set_parent_and_position(*)
     super
     reindex_top_containers
   end
