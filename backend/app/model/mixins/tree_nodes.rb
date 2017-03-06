@@ -54,13 +54,7 @@ module TreeNodes
   # as observed by the user (0...RECORD_COUNT).  A physical position is the
   # position number stored in the database, which may have gaps.
   def attempt_set_position_in_list(target_logical_position)
-    self.class.tree_node_pool.open do |db|
-      # Trickiness note: we're pulling the siblings from a separate DB
-      # connection to make sure we're seeing the latest (committed) state of
-      # things.  This means we can retry and have a chance of eventually
-      # succeeding.
-      #
-      # Other updates will happen within the original transaction, however.
+    DB.open do |db|
       ordered_siblings = db[self.class.node_model.table_name].filter(:parent_name => self.parent_name).order(:position)
 
       current_physical_position = self.position
@@ -251,15 +245,6 @@ module TreeNodes
 
   module ClassMethods
 
-    db_connections = [(AppConfig[:db_max_connections] / 5.0).floor,
-                      5].min
-
-    @@tree_node_pool = DB::DBPool.new(db_connections, :skip_utf8_check => true).connect
-
-    def tree_node_pool
-      @@tree_node_pool
-    end
-
     def retry_db_update(&block)
       finished = false
       last_error = nil
@@ -305,8 +290,10 @@ module TreeNodes
       obj = nil
 
       retry_db_update do
-        position_values = determine_tree_position_for_new_node(json)
-        obj = super(json, extra_values.merge(position_values))
+        DB.open do
+          position_values = determine_tree_position_for_new_node(json)
+          obj = super(json, extra_values.merge(position_values))
+        end
       end
 
       if obj.nil?
@@ -358,23 +345,13 @@ module TreeNodes
     end
 
     def next_position_for_parent(parent_name)
-      # Use a separate connection here to work outside of the enclosing
-      # transaction.  If the DB is updated underneath us we want to see the
-      # current values.
-      max_committed_position = @@tree_node_pool.open do |db|
+      max_position = DB.open do |db|
         db[node_model.table_name]
           .filter(:parent_name => parent_name)
           .select(:position)
           .max(:position)
       end
-
-      # But if our current transaction has inserted a new record with a higher position, take that!
-      max_position_this_transaction = node_model
-                                      .filter(:parent_name => parent_name)
-                                      .select(:position)
-                                      .max(:position)
-
-      max_position = [max_committed_position, max_position_this_transaction, 0].compact.max
+      max_position ||= 0
 
       max_position + TreeNodes::POSITION_STEP
     end

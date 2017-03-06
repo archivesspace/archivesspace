@@ -107,7 +107,7 @@ class DB
         retries.times do |attempt|
           begin
             if transaction
-              self.transaction do
+              self.transaction(:isolation => opts.fetch(:isolation_level, :repeatable)) do
                 return yield @pool
               end
 
