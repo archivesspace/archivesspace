@@ -50,17 +50,14 @@
   <% end %>
 
   <% define_template("job", jsonmodel_definition(:job)) do |form| %>
-    <section>
-      <fieldset>
-        <%= form.label_and_select "job_type", @job_types, :field_opts => { :default => @job_type } %>
-      </fieldset>
-    </section>
+
+    <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
+
     <div id="job_form_messages">
         <hr/>
         <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
         <hr/>
     </div>
-
 
     <div id="job_type_fields"></div>
   <% end %>
@@ -132,14 +129,23 @@
       </div>
   <% end %>
 
+  <%# Now create a template for all job types not handled above - eg from plugins %>
+  <% job_types.each do |type| %>
+    <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
+    <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 
+      <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
+
+      <input name="<%= type %>[jsonmodel_type]" type="hidden" value="<%= type %>">
+    <% end %>
+  <% end %>
 
 
   <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
     <%= form_context :job, @job do |form| %>
           <div class="record-pane">
             <%= link_to_help :topic => "job" %>
-            <h2><%= I18n.t("job._frontend.actions.new") %></h2>
+            <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type])  %> </h2>
 
             <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
 

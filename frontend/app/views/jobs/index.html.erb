@@ -4,7 +4,19 @@
   <div class="col-md-12">
     <div class="record-toolbar">
       <div class="pull-right">
-        <%= link_to I18n.t("job._frontend.actions.create"), {:controller => :jobs, :action => :new}, :class => "btn btn-sm btn-default" %>
+        <div class="btn-group">
+          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+            <%= I18n.t("job._frontend.actions.create") %>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu open-aligned-right">
+            <% job_types.each do |type| %>
+              <li>
+                <%= link_to I18n.t("job.types.#{type}"), :controller => :jobs, :action => :new, :job_type => type %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
       <div class="clearfix"></div>
     </div>
