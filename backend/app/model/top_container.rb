@@ -49,25 +49,31 @@ class TopContainer < Sequel::Model(:top_container)
     result = []
 
     # Resource linked directly
-    result += Resource
+    resource_ids = []
+    resource_ids += Resource
              .join(:instance, :instance__resource_id => :resource__id)
              .join(:sub_container, :sub_container__instance_id => :instance__id)
              .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
              .filter(:top_container_link_rlshp__top_container_id => self.id)
-             .select_all(:resource)
+             .select(:resource__id)
              .distinct
-             .all
+             .all.map{|row| row[:id]}
 
     # Resource linked via AO
-    result += Resource
+    resource_ids += Resource
              .join(:archival_object, :archival_object__root_record_id => :resource__id)
              .join(:instance, :instance__archival_object_id => :archival_object__id)
              .join(:sub_container, :sub_container__instance_id => :instance__id)
              .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
              .filter(:top_container_link_rlshp__top_container_id => self.id)
-             .select_all(:resource)
+             .select(:resource__id)
              .distinct
-             .all
+             .all.map{|row| row[:id]}
+
+    result += Resource
+              .filter(:id => resource_ids.uniq)
+              .select_all(:resource)
+              .all
 
     result += Accession
              .join(:instance, :instance__accession_id => :accession__id)
@@ -75,7 +81,6 @@ class TopContainer < Sequel::Model(:top_container)
              .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
              .filter(:top_container_link_rlshp__top_container_id => self.id)
              .select_all(:accession)
-             .distinct
              .all
 
     result.uniq {|obj| [obj.class, obj.id]}
