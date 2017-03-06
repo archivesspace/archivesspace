@@ -11,7 +11,7 @@ module ApplicationHelper
           concat content_tag(:span, '&times;'.html_safe, 'aria-hidden' => true)
           concat content_tag(:span, 'Close', class: 'sr-only')
         end)
-        concat (message.kind_of?(Array) ?  message.join('<br/>').html_safe : message)
+        concat (message.kind_of?(Array) ?  message.join('<br/>').html_safe : message.html_safe)
       end)
     end
     nil
