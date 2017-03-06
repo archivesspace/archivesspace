@@ -195,9 +195,7 @@ $(function() {
     scope = scope || $(document.body);
     $(".has-popover:not(.initialised)", scope)
       .popover(popoverOptions)
-      .click(function(e) {
-        e.preventDefault();
-      }).addClass("initialised");
+      .addClass("initialised");
   };
   initPopovers();
   $(document).bind("loadedrecordform.aspace init.popovers", function(event, $container) {
