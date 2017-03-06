@@ -171,13 +171,13 @@ var SHARED_TOOLBAR_ACTIONS = [
 
                 // add nearest siblings to dropdown list
                 // 1 up and 1 below
-                var $siblings = $('<ul>').addClass('dropdown-menu');
+                var $siblings = $('<ul>').addClass('dropdown-menu').addClass('move-node-into-menu');
                 if ($prevAtLevel.length > 0) {
                     var $subli = $('<li>');
                     $subli.append($('<a>').attr('href', 'javascript:void(0);')
                         .addClass('move-node move-node-down-into')
-                        .data('uri', $prevAtLevel.data('uri'))
-                        .data('tree_id', $prevAtLevel.attr('id'))
+                        .attr('data-uri', $prevAtLevel.data('uri'))
+                        .attr('data-tree_id', $prevAtLevel.attr('id'))
                         .text($prevAtLevel.find('.record-title').text().trim()));
                     $siblings.append($subli);
                 }
@@ -185,8 +185,8 @@ var SHARED_TOOLBAR_ACTIONS = [
                     var $subli = $('<li>');
                     $subli.append($('<a>').attr('href', 'javascript:void(0);')
                         .addClass('move-node move-node-down-into')
-                        .data('uri', $nextAtLevel.data('uri'))
-                        .data('tree_id', $nextAtLevel.attr('id'))
+                        .attr('data-uri', $nextAtLevel.data('uri'))
+                        .attr('data-tree_id', $nextAtLevel.attr('id'))
                         .text($nextAtLevel.find('.record-title').text().trim()));
                     $siblings.append($subli);
                 }

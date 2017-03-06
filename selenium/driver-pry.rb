@@ -2,7 +2,7 @@ require_relative 'spec/spec_helper'
 
 include BackendClientMethods
 # include DriverMacroMethods
-include JSTreeHelperMethods
+include TreeHelperMethods
 include FactoryGirl::Syntax::Methods
 
 selenium_init($backend_start_fn, $frontend_start_fn)

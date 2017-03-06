@@ -73,13 +73,13 @@ describe "RDE" do
     @driver.wait_for_ajax
 
     expect {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My AO, 2013/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Item/)
+      tree_node_for_title('My AO, 2013')
+      tree_node_for_title('Item')
     }.not_to raise_error
   end
 
   it "can access the RDE form when editing an archival object" do
-    @driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
+    @driver.find_element(:css, "tr.largetree-node.indent-level-1 a.record-title").click
     @driver.wait_for_ajax
 
     expect {
@@ -120,9 +120,10 @@ describe "RDE" do
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
     @driver.wait_for_ajax
 
+
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1, 2013/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2, 2013/)
+      tree_node_for_title('Child 1, 2013')
+      tree_node_for_title('Child 2, 2013')
     }
   end
 
@@ -334,13 +335,14 @@ describe "Digital Object RDE" do
 
     @driver.wait_for_ajax
 
+
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My DO/)
+      tree_node_for_title('My DO')
     }
   end
 
   it "can access the RDE form when editing an digital object" do
-    @driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
+    @driver.find_element(:css, "tr.largetree-node.indent-level-1 a.record-title").click
     @driver.wait_for_ajax
 
     @driver.find_element(:id, "digital_object_component_title_")
@@ -364,8 +366,8 @@ describe "Digital Object RDE" do
     @driver.wait_for_ajax
 
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2/)
+      tree_node_for_title('Child 1')
+      tree_node_for_title('Child 2')
     }
   end
 
