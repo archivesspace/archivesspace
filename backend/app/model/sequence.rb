@@ -1,3 +1,7 @@
+# As things stand, this class isn't used by the core code anymore.  However, we
+# keep it around for the sake of plugins that do use it for things like ID
+# generation.
+#
 class Sequence
 
   # Run a separate DB connection pool to allow sequences to commit independently
