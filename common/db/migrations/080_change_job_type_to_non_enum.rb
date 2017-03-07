@@ -11,9 +11,11 @@ Sequel.migration do
       drop_foreign_key(:job_type_id)
     end
 
-    enum = self[:enumeration].filter(:name => 'job_type').first
-    self[:enumeration_value].filter(:enumeration_id => enum[:id]).delete
-    self[:enumeration].filter(:name => 'job_type').delete
+    self.transaction do
+      enum = self[:enumeration].filter(:name => 'job_type').first
+      self[:enumeration_value].filter(:enumeration_id => enum[:id]).delete
+      self[:enumeration].filter(:name => 'job_type').delete
+    end
   end
 
 
