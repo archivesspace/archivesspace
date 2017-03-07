@@ -4,8 +4,6 @@ class FindAndReplaceRunner < JobRunner
 
 
   def run
-    super
-
     job_data = @json.job
 
     terminal_error = nil
