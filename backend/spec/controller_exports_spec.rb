@@ -72,13 +72,12 @@ describe 'Exports controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      ao = create(:json_archival_object, {:title => "archival object: #{name}",
+                                          :resource => {:ref => resource.uri}})
       if not aos.empty?
         ao.parent = {:ref => aos.last.uri}
         ao.publish = false
       end
-
-      ao.resource = {:ref => resource.uri}
 
       ao.save
       aos << ao
@@ -97,13 +96,13 @@ describe 'Exports controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      ao = create(:json_archival_object, {:title => "archival object: #{name}",
+                                          :resource => {:ref => resource.uri}})
+
       if not aos.empty?
         ao.parent = {:ref => aos.last.uri}
         ao.publish = false
       end
-
-      ao.resource = {:ref => resource.uri}
 
       ao.save
       aos << ao
