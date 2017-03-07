@@ -46,6 +46,10 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def collections
+    @collections ||= calculate_collections
+  end
+
+  def calculate_collections
     result = []
 
     # Resource linked directly
@@ -88,6 +92,10 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def series
+    @series ||= calculate_series
+  end
+
+  def calculate_series
     linked_aos = ArchivalObject
                  .join(:instance, :instance__archival_object_id => :archival_object__id)
                  .join(:sub_container, :sub_container__instance_id => :instance__id)
