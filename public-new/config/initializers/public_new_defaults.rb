@@ -109,31 +109,36 @@ module PublicNewDefaults
     end
   end
 
-  # Load any default actions:
+  ## Load any default actions:
   # Cite
   if AppConfig[:pui_page_actions_cite]
     add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
                                'shared/cite_page_action')
   end
-  # Bookmark
-  if AppConfig[:pui_page_actions_bookmark]
-    add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
-                              'actions.bookmark',
-                              'fa-bookmark',
-                              'bookmark_page()')
-  end
+
+  ## Bookmark
+  # TODO disabled for now; to be implemented with the bookbag feature
+  # if AppConfig[:pui_page_actions_bookmark]
+  #   add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+  #                             'actions.bookmark',
+  #                             'fa-bookmark',
+  #                             'bookmark_page()')
+  # end
+
   # Request
   if AppConfig[:pui_page_actions_request]
     add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
                                 'shared/request_page_action')
   end
-  # Print
-  if AppConfig[:pui_page_actions_print]
-    add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
-                              'actions.print',
-                              'fa-file-pdf-o',
-                              'print_page()')
-  end
+
+  ## Print
+  # FIXME disabled for now; to be implemented with the offline PDF finding aids AR-1471
+  # if AppConfig[:pui_page_actions_print]
+  #   add_record_page_action_js(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+  #                             'actions.print',
+  #                             'fa-file-pdf-o',
+  #                             'print_page()')
+  # end
 
   # Load any custom actions defined in AppConfig:
   ASUtils.wrap(AppConfig[:pui_page_custom_actions]).each do |action|
