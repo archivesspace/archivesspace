@@ -25,5 +25,5 @@
 /.idea
 
 # Hide shared tree resources
-/vendor/assets/javascripts/archivesspace/largetree.js.erb
+/vendor/assets/javascripts/largetree.js.erb
 /vendor/assets/stylesheets/archivesspace/largetree.scss
