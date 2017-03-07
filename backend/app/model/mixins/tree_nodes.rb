@@ -56,6 +56,9 @@ module TreeNodes
   def attempt_set_position_in_list(target_logical_position)
     DB.open do |db|
       ordered_siblings = db[self.class.node_model.table_name].filter(:parent_name => self.parent_name).order(:position)
+      siblings_count = ordered_siblings.count
+
+      target_logical_position = [target_logical_position, siblings_count - 1].min
 
       current_physical_position = self.position
       current_logical_position = ordered_siblings.where { position < current_physical_position }.count
@@ -86,7 +89,7 @@ module TreeNodes
       right_node_idx = left_node_idx + 1
 
       right_node_physical_position =
-        if right_node_idx >= ordered_siblings.count
+        if right_node_idx >= siblings_count
           # We'll be the last item in the list (nobody to the right of us)
           nil
         else
@@ -151,13 +154,15 @@ module TreeNodes
   def update_from_json(json, extra_values = {}, apply_nested_records = true)
     root_uri = self.class.uri_for(self.class.root_record_type, self.root_record_id)
 
-    if json[self.class.root_record_type]['ref'] != root_uri
+    if json[self.class.root_record_type]['ref'] != root_uri || extra_values[:force_reposition]
+      extra_values.delete(:force_reposition)
+      json.position = nil
       # Through some inexplicable sequence of events, the update is allowed to
       # change the root record on the fly.  I guess we'll allow this...
       extra_values = extra_values.merge(self.class.determine_tree_position_for_new_node(json))
     end
 
-    obj = super
+    obj = super(json, extra_values, apply_nested_records)
 
     if json.position
       set_position_in_list(json.position)
@@ -334,6 +339,7 @@ module TreeNodes
         result["parent_id"] = parent_id
         result["parent_name"] = "#{parent_id}@#{self.node_record_type}"
       else
+        result["parent_id"] = nil
         result["parent_name"] = "root@#{root_record_uri}"
       end
 
