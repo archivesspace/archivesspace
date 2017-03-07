@@ -7,13 +7,13 @@ require 'atomic'
 require_relative 'job_runner'
 
 # load job runners
-Dir.glob(File.join(File.dirname(__FILE__), "job_runners", "*.rb")).each do |file|
+Dir.glob(File.join(File.dirname(__FILE__), "job_runners", "*.rb")).sort.each do |file|
   require file
 end
 
 # and also from plugins
 ASUtils.find_local_directories('backend').each do |prefix|
-  Dir.glob(File.join(prefix, "job_runners", "*.rb")).each do |file|
+  Dir.glob(File.join(prefix, "job_runners", "*.rb")).sort.each do |file|
     require File.absolute_path(file)
   end
 end
