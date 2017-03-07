@@ -63,6 +63,10 @@ module ReindexTopContainers
     reindex_top_containers
   end
 
+  def set_root(*)
+    super
+    reindex_top_containers
+  end
 
   def delete
     reindex_top_containers
