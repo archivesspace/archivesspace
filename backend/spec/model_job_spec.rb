@@ -3,22 +3,21 @@ require 'spec_helper'
 describe 'job model and job runners' do
 
   before(:all) do
-    enum = Enumeration.find(:name => 'job_type')
-    EnumerationValue.create(:value => 'nugatory_job', :enumeration_id => enum.id)
 
-    BackendEnumSource.cache_entry_for('job_type', true)
-
-    JSONModel(:job).schema['properties']['job']['type'] = 'object'
-
+    JSONModel.create_model_for("nugatory_job",
+                               {
+                                 "$schema" => "http://www.archivesspace.org/archivesspace.json",
+                                 "version" => 1,
+                                 "type" => "object",
+                                 "properties" => {}
+                               })
 
     class NugatoryJobRunner < JobRunner
 
+      register_for_job_type("nugatory_job")
+
       @run_till_canceled = false
 
-
-      def initialize(job)
-        @job = job
-      end
 
       def self.run_till_canceled!
         @run_till_canceled = true
@@ -33,18 +32,9 @@ describe 'job model and job runners' do
       end
 
 
-      def self.instance_for(job)
-        if job.job_type == "nugatory_job"
-          self.new(job)
-        else
-          nil
-        end
-      end
-
-
       def run
         while self.class.run_till_canceled?
-          break if @job_canceled && @job_canceled.value
+          break if self.canceled?
           sleep(0.2)
         end
       end
@@ -52,13 +42,9 @@ describe 'job model and job runners' do
     end
   end
 
+
   after(:all) do
-    RequestContext.open(:repo_id => $repo_id) do
-      as_test_user("admin") do
-        EnumerationValue.filter(:value => 'nugatory_job').first.destroy
-        BackendEnumSource.cache_entry_for('job_type', true)
-      end
-    end
+    JSONModel.destroy_model(:nugatory_job)
   end
 
 
@@ -74,8 +60,7 @@ describe 'job model and job runners' do
 
 
       json = JSONModel(:job).from_hash({
-                                         :job_type => 'nugatory_job',
-                                         :job => {},
+                                         :job => {'jsonmodel_type' => 'nugatory_job'},
                                        })
 
 
@@ -126,9 +111,10 @@ describe 'job model and job runners' do
 
 
     it 'runs a job and keeps track of its canceled state' do
-      runner = JobRunner.for(job).canceled(Atomic.new(false))
+      runner = JobRunner.for(job)
+      runner.cancelation_signaler(Atomic.new(false))
       runner.run
-      runner.instance_variable_get(:@job_canceled).value.should == false
+      runner.canceled?.should == false
     end
   end
 
@@ -158,8 +144,7 @@ describe 'job model and job runners' do
     it "can find the next queued job and start it", :skip_db_open do
 
       json = JSONModel(:job).from_hash({
-                                       :job_type => 'nugatory_job',
-                                       :job => {},
+                                       :job => {'jsonmodel_type' => 'nugatory_job'},
                                        })
 
       as_test_user("admin") do
@@ -192,8 +177,7 @@ describe 'job model and job runners' do
       NugatoryJobRunner.run_till_canceled!
 
       json = JSONModel(:job).from_hash({
-                                       :job_type => 'nugatory_job',
-                                       :job => {},
+                                       :job => {'jsonmodel_type' => 'nugatory_job'},
                                        })
 
       as_test_user("admin") do
