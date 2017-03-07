@@ -468,7 +468,7 @@ en:
         </ul>
     dates: Dates
     dates_tooltip: |
-        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p>
+        <p>Use this field for alignment with MARC authority records. These dates, rather than Dates of Existence, are added to the name entry in the display.</p>
         <p>Dates of existence for the named entity.</p>
         <p>Examples:<p>
         <ul>
