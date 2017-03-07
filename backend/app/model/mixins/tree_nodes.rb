@@ -152,7 +152,9 @@ module TreeNodes
     root_uri = self.class.uri_for(self.class.root_record_type, self.root_record_id)
 
     if json[self.class.root_record_type]['ref'] != root_uri
-      raise "You must use a transfer request to move nodes from one tree to another"
+      # Through some inexplicable sequence of events, the update is allowed to
+      # change the root record on the fly.  I guess we'll allow this...
+      extra_values = extra_values.merge(self.class.determine_tree_position_for_new_node(json))
     end
 
     obj = super
