@@ -39,9 +39,27 @@
             .html(rootNode.parsed_title);
     }
     SimpleRenderer.prototype.add_node_columns = function (row, node) {
+        var title_bits = [];
+        if (node.parsed_title) {
+            title_bits.push(node.parsed_title);
+        }
+
+        if (node.dates && node.dates.length > 0) {
+            var first_date = node.dates[0];
+            if (first_date.expression) {
+                title_bits.push(first_date.expression);
+            } else if (first_date.begin && first_date.end) {
+                title_bits.push(first_date.begin + '-' + first_date.end);
+            } else if (first_date.begin) {
+                title_bits.push(first_date.begin);
+            }
+        }
+
+        var title =  title_bits.join(', ');
+
         row.find('a.record-title')
             .attr('href', node.uri)
-            .html(node.parsed_title);
+            .html(title);
     };
 
     var root_uri = '<%= root_node_uri %>';
