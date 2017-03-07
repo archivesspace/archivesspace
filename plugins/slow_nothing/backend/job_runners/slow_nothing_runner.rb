@@ -1,6 +1,6 @@
 class SlowNothingRunner < JobRunner
 
-  register_for_job_type('slow_nothing_job', :run_concurrently => false)
+  register_for_job_type('slow_nothing_job', :run_concurrently => true)
 
   def run
     @json.job['times'].to_i.times do |i|
