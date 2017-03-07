@@ -191,13 +191,6 @@ AppConfig[:max_location_range] = 1000
 # this check here. Do so at your own peril. 
 AppConfig[:ignore_schema_info_check] = false
 
-# There are some conditions that has caused tree nodes ( ArchivalObjects, DO
-# Components, and ClassificationTerms) to lose their sequence pointers and
-# position setting. This will resequence these tree nodes prior to startup.
-# If is recogmended that this be used very infrequently and should not be set
-# to true for all startups ( as it will take a considerable amount of time )
-AppConfig[:resequence_on_startup] = false
-
 # This is a URL that points to some demo data that can be used for testing,
 # teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
 AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip" 

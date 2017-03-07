@@ -331,7 +331,7 @@ describe 'Managed Container model' do
 
       original_mtime = top_container.refresh.system_mtime
 
-      ArchivalObject[child.id].update_position_only(grandparent.id, 1)
+      ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
       top_container.refresh.system_mtime.should be > original_mtime
     end

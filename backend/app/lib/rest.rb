@@ -243,9 +243,25 @@ module RESTHelpers
               end
             end
   
-            DB.open((use_transaction == :unspecified) ? true : use_transaction) do
+            use_transaction = (use_transaction == :unspecified) ? true : use_transaction
+            db_opts = {}
+
+            if use_transaction
+              if methods == [:post]
+                # Pure POST requests use read committed so that tree position
+                # updates can be retried with a chance of succeeding (i.e. we
+                # can read the last committed value when determining our
+                # position)
+                db_opts[:isolation_level] = :committed
+              else
+                # Anything that might be querying the DB will get repeatable read.
+                db_opts[:isolation_level] = :repeatable
+              end
+            end
+
+            DB.open(use_transaction, db_opts) do
               RequestContext.put(:current_username, current_user.username)
-  
+
               # If the current user is a manager, show them suppressed records
               # too.
               if RequestContext.get(:repo_id)

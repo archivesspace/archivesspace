@@ -24,10 +24,16 @@ end
 # Use an in-memory Derby DB for the test suite
 class DB
 
+  def self.get_default_pool
+    @default_pool
+  end
+
   class DBPool
 
     def connect
-      if not @pool
+      # If we're not connected, we're in the process of setting up the primary
+      # DB pool, so go ahead and connect to an in-memory Derby instance.
+      if DB.get_default_pool == :not_connected
         require "db/db_migrator"
 
         if ENV['ASPACE_TEST_DB_URL']
@@ -53,9 +59,12 @@ class DB
         end
 
         DBMigrator.setup_database(@pool)
-      end
 
-      self
+        self
+      else
+        # For the sake of our tests, have all pools share the same Derby.
+        DB.get_default_pool
+      end
     end
 
     # For the sake of unit tests, just fire these straight away (since the entire

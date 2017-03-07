@@ -22,7 +22,6 @@ require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
-require_relative 'lib/resequencer'
 require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
 
@@ -208,7 +207,6 @@ class ArchivesSpaceService < Sinatra::Base
 
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
-        Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
 
         # this checks the system_event table to see if we've already run the CMM
         # for the upgrade from =< v1.4.2
