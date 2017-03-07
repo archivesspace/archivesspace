@@ -52,7 +52,7 @@ class BackgroundJobQueue
             next
           end
 
-          if !runner.run_concurrently and Job.any_running?(job.type)
+          if !runner.run_concurrently && Job.any_running?(job.type)
             Log.debug("Job type #{job.type} is not registered to run concurrently " +
                       "and there's currently one running, so skipping job #{job.id} " +
                       "on #{Thread.current[:name]}")
