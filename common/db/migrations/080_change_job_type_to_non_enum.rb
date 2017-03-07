@@ -2,7 +2,7 @@ Sequel.migration do
 
   up do
     alter_table(:job) do
-      add_column(:job_type, String, :null => false)
+      add_column(:job_type, String, :null => false, :default => 'unknown_job_type')
     end
 
     self[:job].update(:job_type => self[:enumeration_value].filter(:id => :job_type_id).select(:value))
