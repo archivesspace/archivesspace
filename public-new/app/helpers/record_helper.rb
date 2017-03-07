@@ -22,6 +22,10 @@ module RecordHelper
       Classification
     when 'classification_term'
       ClassificationTerm
+    when 'subject'
+      Subject
+    when 'top_container'
+      Container
     else
       Record
     end
