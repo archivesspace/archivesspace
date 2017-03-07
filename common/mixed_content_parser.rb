@@ -19,7 +19,13 @@ module MixedContentParser
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
     content = content.split("\n\n").inject("") { |c,n| c << "<p>#{n}</p>"  } if opts[:wrap_blocks]
 
-    cleaned_content = org.jsoup.Jsoup.clean(content, base_uri, org.jsoup.safety.Whitelist.relaxed.addTags("emph", "lb").addAttributes("emph", "render"), d.outputSettings())
+    whitelist = org.jsoup.safety.Whitelist.relaxed
+                                          .addTags("emph", "lb", "title", "unitdate")
+                                          .addAttributes("emph", "render")
+                                          .addAttributes("title", "render")
+                                          .addAttributes("unitdate", "render")
+
+    cleaned_content = org.jsoup.Jsoup.clean(content, base_uri, whitelist, d.outputSettings())
 
     document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
     document.outputSettings.escapeMode(Java::OrgJsoupNodes::Entities::EscapeMode.xhtml)
