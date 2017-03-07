@@ -258,7 +258,7 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def reindex_linked_records
-        self.class.update_mtime_for_ids([self.id])
+    self.class.update_mtime_for_ids([self.id])
   end
 
   def self.search_stream(params, repo_id, &block)
