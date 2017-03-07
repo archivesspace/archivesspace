@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../app/lib/find_and_replace_runner'
+require_relative '../app/lib/job_runners/find_and_replace_runner'
 require_relative '../app/lib/background_job_queue'
 
 def find_and_replace_job(resource_uri)
