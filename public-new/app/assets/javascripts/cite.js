@@ -27,20 +27,3 @@ function setupClip(modalId, btnText,target, type ) {
 function cite() {
     $("#cite_modal").modal('show');
 }
-
-function bookmark_page() {
-    if (window.sidebar && window.sidebar.addPanel) { // Mozilla Firefox Bookmark \\
-        window.sidebar.addPanel(document.title, window.location.href, '');
-    } else if (window.external && ("AddFavorite" in window.external)) {
-        window.external.AddFavorite(location.href, document.title);
-    } else if (window.opera && window.print) {
-        this.title = document.title;
-        return true;
-    } else { // webkit - safari/chrome
-        alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
-    }
-}
-
-function print_page() {
-    window.print();
-}
