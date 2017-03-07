@@ -1015,13 +1015,19 @@ en:
         add: Add Container Instance
 
   top_container:
+    container_profile: Container Profile
+    container_profile_tooltip: |
+        <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
     indicator: Indicator
     indicator_tooltip: |
         <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
     barcode: Barcode
     barcode_tooltip: |
         <p>Used to record the barcode that uniquely identifies the highest level container.</p>
-    type: Container Type 
+    type: Container Type
+    type_tooltip: |
+        <p>The type of the highest level container.	
+        <p>Values in this Controlled Value List may be modified.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
         <p>Identifier of associated holding record in the library ILS</p>
