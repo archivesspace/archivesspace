@@ -5,8 +5,12 @@ module MixedContentParser
   def self.parse(content, base_uri, opts = {} )
     opts[:pretty_print] ||= false
 
+    return if content.nil?
+
     content.strip!
     content.chomp!
+
+    return '' if content.empty?
 
     # create an empty document just to get an outputSettings object
     # (seems like the API falls down when we do this directly...)
