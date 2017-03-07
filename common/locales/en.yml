@@ -1924,6 +1924,7 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       report_job: Reports
       container_conversion_job: Reports
+      unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
     status_queued: Queued
