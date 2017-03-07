@@ -9,7 +9,6 @@ class PrintToPDFRunner < JobRunner
  
 
   def run
-    super
     begin 
 
       RequestContext.open( :repo_id => @job.repo_id) do

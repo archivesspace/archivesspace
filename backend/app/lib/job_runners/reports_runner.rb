@@ -15,7 +15,6 @@ class ReportRunner < JobRunner
 
 
   def run
-    super
     @job.write_output("Generating report")
     file = ASUtils.tempfile("report_job_")
     begin 
