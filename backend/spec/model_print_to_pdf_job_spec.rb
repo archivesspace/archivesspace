@@ -1,11 +1,7 @@
 require 'spec_helper'
-require_relative '../app/lib/job_runners/print_to_pdf_runner'
-require_relative '../app/lib/background_job_queue'
-
 
 def print_to_pdf_job( resource_uri )
      build( :json_job, 
-            :job_type => 'print_to_pdf_job',
             :job => build(:json_print_to_pdf_job, :source => resource_uri)
           )
 end

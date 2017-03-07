@@ -6,7 +6,7 @@ class ContainerConversionRunner < JobRunner
 
 
   def run
-    super
+    # nothing
   end
 
 end
