@@ -34,10 +34,14 @@
     };
 
     SimpleRenderer.prototype.add_root_columns = function (row, rootNode) {
-        row.find('a.record-title').attr('href', rootNode.uri);
+        row.find('a.record-title')
+            .attr('href', rootNode.uri)
+            .html(rootNode.parsed_title);
     }
     SimpleRenderer.prototype.add_node_columns = function (row, node) {
-        row.find('a.record-title').attr('href', node.uri);
+        row.find('a.record-title')
+            .attr('href', node.uri)
+            .html(node.parsed_title);
     };
 
     var root_uri = '<%= root_node_uri %>';
