@@ -1,17 +1,16 @@
 Sequel.migration do
 
   up do
-    begin
     alter_table(:archival_object) do
       drop_index([:parent_name, :position], :unique => true, :name => "uniq_ao_pos")
     end
+
     alter_table(:digital_object_component) do
       drop_index([:parent_name, :position], :unique => true, :name => "uniq_do_pos")
     end
+
     alter_table(:classification_term) do
       drop_index([:parent_name, :position], :unique => true, :name => "uniq_ct_pos")
-    end
-    rescue
     end
 
     self.transaction do
@@ -23,9 +22,11 @@ Sequel.migration do
     alter_table(:archival_object) do
       add_index([:parent_name, :position], :unique => true, :name => "uniq_ao_pos")
     end
+
     alter_table(:digital_object_component) do
       add_index([:parent_name, :position], :unique => true, :name => "uniq_do_pos")
     end
+
     alter_table(:classification_term) do
       add_index([:parent_name, :position], :unique => true, :name => "uniq_ct_pos")
     end
