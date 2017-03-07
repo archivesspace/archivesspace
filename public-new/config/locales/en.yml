@@ -169,6 +169,8 @@ en:
       from_to: "Years: %{begin} to %{end}"
       child_container_u_sstr: Child container
       grand_child_container_u_sstr: Grandchild container
+      type_enum_s: Type
+      series_title_u_sstr: Series
 
   search_sorting:
     sort_by: "Sort by:"
