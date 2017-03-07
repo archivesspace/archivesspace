@@ -1,5 +1,7 @@
 # TODO: Some documentation on what's going on
 
+require 'mixed_content_parser'
+
 class LargeTree
 
   include JSONModel
@@ -155,7 +157,8 @@ class LargeTree
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
                    "root_record_uri" => root_record_uri,
                    "title" => node_to_title_map.fetch(parent_node),
-                   "offset" => node_to_waypoint_map.fetch(current_node)}
+                   "offset" => node_to_waypoint_map.fetch(current_node),
+                   "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')}
 
           current_node = parent_node
         end
@@ -163,7 +166,8 @@ class LargeTree
         path << {"node" => nil,
                  "root_record_uri" => root_record_uri,
                  "offset" => node_to_waypoint_map.fetch(current_node),
-                 "title" => root_record_titles[root_record_id]}
+                 "title" => root_record_titles[root_record_id],
+                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
 
         result[node_id] = path.reverse
       end
@@ -204,6 +208,7 @@ class LargeTree
         child_count = child_counts.fetch(id, 0)
 
         waypoint_response(child_count).merge("title" => row[:title],
+                                             "parsed_title" => MixedContentParser.parse(row[:title], '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
