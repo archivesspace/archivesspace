@@ -186,7 +186,7 @@ class BackgroundJobQueue
   def self.init
     # cancel jobs left in a running state from a previous run
     begin
-      Job.running_jobs.each do |job|
+      Job.running_jobs_untouched_since(Time.now - JOB_TIMEOUT_SECONDS).each do |job|
         job.finish!(:canceled)
       end
     rescue => e
