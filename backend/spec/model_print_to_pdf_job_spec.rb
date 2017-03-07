@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../app/lib/print_to_pdf_runner'
+require_relative '../app/lib/job_runners/print_to_pdf_runner'
 require_relative '../app/lib/background_job_queue'
 
 
