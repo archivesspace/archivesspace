@@ -63,8 +63,8 @@ class JobRunner
                                            self,
                                            opts.fetch(:hidden, false),
                                            opts.fetch(:run_concurrently, false),
-                                           opts.fetch(:create_permissions, []),
-                                           opts.fetch(:cancel_permissions, []))
+                                           [opts.fetch(:create_permissions, [])].flatten,
+                                           [opts.fetch(:cancel_permissions, [])].flatten)
   end
 
 
@@ -85,7 +85,8 @@ class JobRunner
 
 
   def self.registered_job_types
-    @@runners.keys.select {|k| !@@runners[k][:hidden] }
+    Hash[ @@runners.reject{|k,v| v[:hidden] }.map { |k, v| [k, {:create_permissions => v.create_permissions,
+                                                                :cancel_permissions => v.cancel_permissions}] } ]
   end
 
 
