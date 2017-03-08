@@ -39,8 +39,8 @@ end
 
 class BatchImportRunner < JobRunner
 
-  register_for_job_type('import_job', :create_permission => :import_records,
-                                      :cancel_permission => :cancel_importer_job)
+  register_for_job_type('import_job', :create_permissions => :import_records,
+                                      :cancel_permissions => :cancel_importer_job)
 
 
   def run

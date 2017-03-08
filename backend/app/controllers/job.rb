@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
   def has_permissions_or_raise(job, permissions)
     runner = JobRunner.registered_runner_for(job['job']['jsonmodel_type'])
 
-    ASUtils.wrap(runner.send(permissions)).each do |perm|
+    runner.send(permissions).each do |perm|
       unless current_user.can?(perm)
         raise AccessDeniedException.new("Access denied")
       end

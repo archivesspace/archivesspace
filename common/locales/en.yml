@@ -1422,6 +1422,8 @@ en:
       manage_container_record: delete/bulk update top container records
       manage_container_profile_record: create/update/delete container profile records
       manage_location_profile_record: create/update/delete location profile records
+      create_job: create and run a background job
+      cancel_job: cancel a background job
     _singular: Group
     _plural: Groups
 
