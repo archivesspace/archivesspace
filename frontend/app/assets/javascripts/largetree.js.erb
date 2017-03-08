@@ -449,7 +449,6 @@
     LargeTree.prototype.initEventHandlers = function () {
         var self = this;
         var currentlyExpanding = false;
-        var pendingScrollEvents = 0;
 
         /* Content loading */
         this.elt.on('scroll', function (event) {
@@ -458,19 +457,11 @@
             }
 
             var handleScroll = function () {
-                if (currentlyExpanding) {
-                    pendingScrollEvents += 1;
-                } else {
+                if (!currentlyExpanding) {
                     currentlyExpanding = true;
-                    pendingScrollEvents = 0;
 
                     self.considerPopulatingWaypoint(function () {
                         currentlyExpanding = false;
-
-                        if (pendingScrollEvents > 0) {
-                            /* If we scrolled while populating waypoints, do another round */
-                            handleScroll();
-                        }
                     });
                 }
             };
@@ -607,7 +598,7 @@
         };
 
         /* Search for a waypoint by scanning backwards */
-        for (var i = startIdx; i > 0; i--) {
+        for (var i = startIdx - 1; i > 0; i--) {
             var waypoint = $(allWaypoints[i]);
 
             if (waypoint.hasClass('populated')) {
@@ -634,7 +625,7 @@
 
             var waypointWasVisible = evaluateWaypointFn(waypoint);
 
-            if (!waypointWasVisible) {
+            if (!waypointWasVisible && i > startIdx) {
                 /* No point considering waypoints even further up in the DOM */
                 break;
             }
