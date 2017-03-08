@@ -1,6 +1,8 @@
 class FindAndReplaceRunner < JobRunner
 
-  register_for_job_type('find_and_replace_job')
+  register_for_job_type('find_and_replace_job',
+                        :create_permissions => :manage_repository,
+                        :cancel_permissions => :manage_repository)
 
 
   def run
