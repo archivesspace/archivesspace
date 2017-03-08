@@ -436,6 +436,11 @@
         $(button).data('expanded', false);
         button.find('.expandme-icon').removeClass('expanded');
 
+        /* Removing elements might have scrolled something else into view */
+        setTimeout(function () {
+            self.considerPopulatingWaypoint();
+        }, 0);
+
         if (done_callback) {
             done_callback();
         }
