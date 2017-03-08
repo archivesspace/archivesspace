@@ -4,7 +4,12 @@ class JobRunner
   class JobRunnerError < StandardError; end
   class BackgroundJobError < StandardError; end
 
-  RegisteredRunner = Struct.new(:type, :runner, :hidden, :run_concurrently)
+  RegisteredRunner = Struct.new(:type,
+                                :runner,
+                                :hidden,
+                                :run_concurrently,
+                                :create_permissions,
+                                :cancel_permissions)
 
   # In your subclass register your interest in handling job types like this:
   #
@@ -17,13 +22,23 @@ class JobRunner
   #
   # If another runner has already registered for the type an exception will be thrown.
   #
-  # The register_for_job_type method can take two options:
-  #   register_for_job_type('my_job', :hidden => true, :run_concurrently => true)
+  # The register_for_job_type method can take the following options:
+  #   Example:
+  #     register_for_job_type('my_job',
+  #                           :hidden => true,
+  #                           :run_concurrently => true,
+  #                           :create_permissions => :some_perm,
+  #                           :cancel_permissions => [:a_perm, :another_perm])
   #
   #   :hidden - if true then the job_type is not included in the list of job_types
   #   :run_concurrently - if true then jobs of this type will be run concurrently
+  #   :create_permissions - a permission or list of permissions required to
+  #                         create jobs of this type
+  #   :cancel_permissions - a permission or list of permissions required to
+  #                         cancel jobs of this type
   #
-  # Both options are false by default.
+  # :hidden and :run_concurrently default to false.
+  # :create_permissions and :cancel_permissions default to an empty array
 
 
   # Implement this in your subclass
@@ -44,9 +59,12 @@ class JobRunner
                                "- already handled by #{@@runners[type]}")
     end
 
-    @@runners[type] = RegisteredRunner.new(type, self,
+    @@runners[type] = RegisteredRunner.new(type,
+                                           self,
                                            opts.fetch(:hidden, false),
-                                           opts.fetch(:run_concurrently, false))
+                                           opts.fetch(:run_concurrently, false),
+                                           opts.fetch(:create_permissions, []),
+                                           opts.fetch(:cancel_permissions, []))
   end
 
 

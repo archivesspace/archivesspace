@@ -1,13 +1,38 @@
 class ArchivesSpaceService < Sinatra::Base
 
+  # Job runners can specify permissions required to create or cancel
+  # particular types of jobs, so we have special handling for it here
+
+  def has_permissions_or_raise(job, permissions)
+    runner = JobRunner.registered_runner_for(job['job']['jsonmodel_type'])
+
+    ASUtils.wrap(runner.send(permissions)).each do |perm|
+      unless current_user.can?(perm)
+        raise AccessDeniedException.new("Access denied")
+      end
+    end
+  end
+
+
+  def can_create_or_raise(job)
+    has_permissions_or_raise(job, :create_permissions)
+  end
+
+
+  def can_cancel_or_raise(job)
+    has_permissions_or_raise(job, :cancel_permissions)
+  end
+
 
   Endpoint.post('/repositories/:repo_id/jobs')
     .description("Create a new job")
     .params(["job", JSONModel(:job), "The job object", :body => true],
             ["repo_id", :repo_id])
-    .permissions([:import_records])
+    .permissions([:create_job])
     .returns([200, :updated]) \
   do
+    can_create_or_raise(params[:job])
+
     job = Job.create_from_json(params[:job], :user => current_user)
 
     created_response(job, params[:job])
@@ -19,9 +44,11 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])
-    .permissions([:import_records])
+    .permissions([:create_job])
     .returns([200, :updated]) \
   do
+    can_create_or_raise(params[:job])
+
     job = Job.create_from_json(params[:job], :user => current_user)
 
     params[:files].each do |file|
@@ -59,9 +86,11 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Cancel a Job")
     .params(["id", :id],
             ["repo_id", :repo_id])
-    .permissions([:cancel_importer_job])
+    .permissions([:cancel_job])
     .returns([200, :updated]) \
   do
+    can_cancel_or_raise(Job.to_jsonmodel(params[:id]))
+
     job = Job.get_or_die(params[:id])
     job.cancel!
 
