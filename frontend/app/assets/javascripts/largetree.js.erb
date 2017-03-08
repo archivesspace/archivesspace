@@ -633,7 +633,9 @@
 
         if (waypointToPopulate) {
             self.populateWaypoint(waypointToPopulate.elt, function () {
-                self.considerPopulatingWaypoint(done_callback);
+                setTimeout(function () {
+                    self.considerPopulatingWaypoint(done_callback);
+                }, 0);
             });
         } else {
             done_callback();
