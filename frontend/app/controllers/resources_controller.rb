@@ -103,15 +103,15 @@ class ResourcesController < ApplicationController
   def tree_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
-    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/root")
+    render :json => pass_through_json("#{resource_uri}/tree/root")
   end
 
   # FIXME: bad name on frontend and backend.  Really a path or something?
   def node_from_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
-    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/node_from_root",
-                                             'node_ids[]' => params[:node_ids])
+    render :json => pass_through_json("#{resource_uri}/tree/node_from_root",
+                                      'node_ids[]' => params[:node_ids])
   end
 
   def tree_node
@@ -122,8 +122,8 @@ class ResourcesController < ApplicationController
                  nil
                end
 
-    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/node",
-                                             :node_uri => node_uri)
+    render :json => pass_through_json("#{resource_uri}/tree/node",
+                                      :node_uri => node_uri)
   end
 
   def tree_waypoint
@@ -134,11 +134,11 @@ class ResourcesController < ApplicationController
                  nil
                end
 
-    render :json => JSONModel::HTTP.get_json("#{resource_uri}/tree/waypoint",
-                                             :parent_node => node_uri,
-                                             :offset => params[:offset])
-  end
+    render :json => pass_through_json("#{resource_uri}/tree/waypoint",
+                                      :parent_node => node_uri,
+                                      :offset => params[:offset])
 
+  end
 
   def transfer
     begin
@@ -321,7 +321,18 @@ class ResourcesController < ApplicationController
   private
 
 
-  # refactoring note: suspiciously similar to accessions_controller.rb
+  def pass_through_json(uri, params = {})
+    json = "{}"
+
+    JSONModel::HTTP.stream(uri, params) do |response|
+      json = response.body
+    end
+
+    json
+  end
+
+
+# refactoring note: suspiciously similar to accessions_controller.rb
   def fetch_resolved(id)
     resource = JSONModel(:resource).find(id, find_opts)
 
