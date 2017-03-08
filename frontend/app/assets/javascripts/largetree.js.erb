@@ -598,7 +598,24 @@
         };
 
         /* Search for a waypoint by scanning backwards */
-        for (var i = startIdx - 1; i > 0; i--) {
+        for (var i = startIdx; i >= 0; i--) {
+            var waypoint = $(allWaypoints[i]);
+
+            if (waypoint.hasClass('populated')) {
+                /* nothing to do for this one */
+                continue;
+            }
+
+            var waypointWasVisible = evaluateWaypointFn(waypoint);
+
+            if (!waypointWasVisible && i < startIdx) {
+                /* No point considering waypoints even further up in the DOM */
+                break;
+            }
+        }
+
+        /* Now scan forwards */
+        for (var i = startIdx + 1; i < allWaypoints.length; i++) {
             var waypoint = $(allWaypoints[i]);
 
             if (waypoint.hasClass('populated')) {
@@ -609,23 +626,6 @@
             var waypointWasVisible = evaluateWaypointFn(waypoint);
 
             if (!waypointWasVisible) {
-                /* No point considering waypoints even further up in the DOM */
-                break;
-            }
-        }
-
-        /* Now scan forwards */
-        for (var i = startIdx; i < allWaypoints.length; i++) {
-            var waypoint = $(allWaypoints[i]);
-
-            if (waypoint.hasClass('populated')) {
-                /* nothing to do for this one */
-                continue;
-            }
-
-            var waypointWasVisible = evaluateWaypointFn(waypoint);
-
-            if (!waypointWasVisible && i > startIdx) {
                 /* No point considering waypoints even further up in the DOM */
                 break;
             }
