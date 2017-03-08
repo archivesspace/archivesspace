@@ -449,6 +449,7 @@
     LargeTree.prototype.initEventHandlers = function () {
         var self = this;
         var currentlyExpanding = false;
+        var pendingScrollEvents = 0;
 
         /* Content loading */
         this.elt.on('scroll', function (event) {
@@ -456,15 +457,25 @@
                 clearTimeout(self.scrollTimer);
             }
 
-            self.scrollTimer = setTimeout(function () {
-                if (!currentlyExpanding) {
+            var handleScroll = function () {
+                if (currentlyExpanding) {
+                    pendingScrollEvents += 1;
+                } else {
                     currentlyExpanding = true;
+                    pendingScrollEvents = 0;
 
                     self.considerPopulatingWaypoint(function () {
                         currentlyExpanding = false;
+
+                        if (pendingScrollEvents > 0) {
+                            /* If we scrolled while populating waypoints, do another round */
+                            handleScroll();
+                        }
                     });
                 }
-            }, SCROLL_DELAY_MS);
+            };
+
+            self.scrollTimer = setTimeout(handleScroll, SCROLL_DELAY_MS);
         });
 
         /* Expand/collapse nodes */
