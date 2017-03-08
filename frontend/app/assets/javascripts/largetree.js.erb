@@ -59,6 +59,9 @@
         this.scrollTimer = undefined;
         this.renderer = renderer;
 
+        this.progressIndicator = $('<progress class="largetree-progress-indicator" />');
+        this.elt.before(this.progressIndicator);
+
         this.elt.css('will-change', 'transform');
 
         this.root_uri = root_uri;
@@ -79,6 +82,18 @@
             tree_loaded_callback();
         });
     }
+
+    LargeTree.prototype.currentlyLoading = function () {
+        this.progressIndicator.css('visibility', 'visible');
+    }
+
+    LargeTree.prototype.doneLoading = function () {
+        var self = this;
+        setTimeout(function () {
+            self.progressIndicator.css('visibility', 'hidden');
+        }, 0);
+    }
+
 
     LargeTree.prototype.addPlugin = function (plugin) {
         plugin.initialize(this);
@@ -632,12 +647,14 @@
         }
 
         if (waypointToPopulate) {
+            self.currentlyLoading();
             self.populateWaypoint(waypointToPopulate.elt, function () {
                 setTimeout(function () {
                     self.considerPopulatingWaypoint(done_callback);
                 }, 0);
             });
         } else {
+            self.doneLoading();
             done_callback();
         }
     };
