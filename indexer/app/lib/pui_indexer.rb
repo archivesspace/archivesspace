@@ -46,7 +46,7 @@ class PUIIndexer < PeriodicIndexer
   def record_types
     # We only want to index the record types we're going to make separate
     # PUI-specific versions of...
-    (super.select {|type| RecordInheritance.has_type?(type)} + ['archival_object']).uniq
+    (super.select {|type| RecordInheritance.has_type?(type)} + [:archival_object]).uniq
   end
 
   def configure_doc_rules
@@ -62,13 +62,13 @@ class PUIIndexer < PeriodicIndexer
 
     add_document_prepare_hook {|doc, record|
 
-      if doc['primary_type'] == 'archival_object'
+      if RecordInheritance.has_type?(doc['primary_type'])
         parent_id = doc['id']
         doc['id'] = "#{parent_id}#pui"
         doc['parent_id'] = parent_id
         doc['types'] ||= []
         doc['types'] << 'pui'
-        doc['types'] << 'pui_archival_object'
+        doc['types'] << "pui_#{doc['primary_type']}"
         doc['types'] << 'pui_record'
       end
     }
@@ -267,7 +267,7 @@ class PUIIndexer < PeriodicIndexer
 
     LargeTreeDocIndexer.new(batch).add_largetree_docs(tree_uris)
 
-    puts "Indexed #{batch.length} additional PUI records"
+    log "Indexed #{batch.length} additional PUI records in repository #{repository.repo_code}"
 
     index_batch(batch)
     send_commit

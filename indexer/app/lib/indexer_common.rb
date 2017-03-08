@@ -988,7 +988,7 @@ class CommonIndexer
         doc['types'] << 'pui_agent'
       end
 
-      unless doc['primary_type'] == 'archival_object'
+      unless RecordInheritance.has_type?(doc['primary_type'])
         # All record types are available to PUI except archival objects, since
         # our pui_indexer indexes a specially formatted version of those.
         if ['resource'].include?(doc['primary_type'])
