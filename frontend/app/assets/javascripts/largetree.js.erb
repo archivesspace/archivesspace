@@ -116,6 +116,9 @@
     LargeTree.prototype.reparentNodes = function (new_parent, nodes, position) {
         var self = this;
 
+        var scrollPosition = self.elt.scrollTop();
+        var loadingMask = self.displayLoadingMask(scrollPosition)
+
         var parent_uri = new_parent.data('uri');
 
         if (!parent_uri) {
@@ -146,12 +149,17 @@
             position = 0;
         }
 
+        /* Record some information about the current state of the tree so we can
+           revert things to more-or-less how they were once we reload. */
         var uris_to_reopen = [];
 
+
+        /* Refresh the drop target */
         if (new_parent.data('uri') && !new_parent.is('.root-row')) {
             uris_to_reopen.push(new_parent.data('uri'));
         }
 
+        /* Reopen the parent of any nodes we dragged from */
         $(nodes).each(function (idx, elt) {
             var level = $(elt).data('level');
             var parent_uri = $(elt).prevAll('.indent-level-' + (level - 1) + ':first').data('uri');
@@ -163,6 +171,11 @@
             }
         });
 
+        /* Reopen any other nodes that were open */
+        self.elt.find('.expandme .expanded').closest('tr').each(function (idx, elt) {
+            uris_to_reopen.push($(elt).data('uri'));
+        });
+
         var uris_to_move = [];
         $(nodes).each(function (_, elt) {
             uris_to_move.push($(elt).data('uri'));
@@ -172,33 +185,109 @@
                                          uris_to_move,
                                          position)
             .done(function () {
-                self.redisplayAndShow(uris_to_reopen);
+                self.redisplayAndShow(uris_to_reopen, function () {
+                    self.considerPopulatingWaypoint(function () {
+                        self.elt.animate({
+                            scrollTop: scrollPosition
+                        }, function(){
+                            loadingMask.remove();
+                        });
+
+                        $(nodes).each(function (i, node) {
+                            var id = $(node).attr('id');
+                            self.elt.find('#' + id).addClass('reparented-highlight');
+
+                            setTimeout(function () {
+                                self.elt.find('#' + id).removeClass('reparented-highlight').addClass('reparented');
+                            }, 500);
+                        });
+                    });
+                });
             });
+    };
+
+    LargeTree.prototype.displayLoadingMask = function (scrollPosition) {
+        var self = this;
+
+        var loadingMask = self.elt.clone(false);
+
+        loadingMask.on('click', function (e) { e.preventDefault(); return false; });
+
+        loadingMask.find('*').removeAttr('id');
+        loadingMask.attr('id', 'tree-container-loading');
+        loadingMask.css('z-index', 2000)
+                   .css('position', 'absolute')
+                   .css('left', self.elt.offset().left)
+                   .css('top', self.elt.offset().top);
+
+        loadingMask.width(self.elt.width());
+
+        var spinner = $('<div class="spinner" />');
+        spinner.css('font-size', '50px')
+               .css('display', 'inline')
+               .css('z-index', 2500)
+               .css('position', 'fixed')
+               .css('margin', 0)
+               .css('left', '50%')
+               .css('top', '50%');
+
+
+        $('body').prepend(loadingMask);
+        $('body').prepend(spinner);
+
+        loadingMask.scrollTop(scrollPosition);
+
+        return {
+            remove: function () {
+                loadingMask.remove();
+                spinner.remove();
+            }
+        };
     };
 
     LargeTree.prototype.redisplayAndShow = function(uris, done_callback) {
         var self = this;
 
+        uris = $.unique(uris);
+
+        if (!done_callback) {
+            done_callback = $.noop;
+        }
+
         self.renderRoot(function () {
-            var uris_to_reopen = $.unique(uris);
+            var uris_to_reopen = uris.slice(0)
+            var displayedNodes = [];
 
-            if (uris_to_reopen.length > 0) {
-                $(uris_to_reopen).each(function (idx, uri) {
-                    var tree_id = TreeIds.uri_to_tree_id(uri);
-                    self.displayNode(tree_id,
-                        function (elt) {
-                            if (self.root_tree_id != tree_id) {
-                                self.expandNode(elt);
-                            }
+            var handle_next_uri = function (node) {
+                if (node) {
+                    displayedNodes.push(node);
+                }
 
-                            if (done_callback) {
-                                done_callback();
-                            }
-                        });
-                });
-            } else if (done_callback) {
-                done_callback();
-            }
+                if (uris_to_reopen.length == 0) {
+                    /* Finally, expand any nodes that haven't been expanded along the way */
+                    var expand_next = function (done_callback) {
+                        if (displayedNodes.length > 0) {
+                            var node = displayedNodes.shift();
+                            self.expandNode(node, function () {
+                                expand_next(done_callback);
+                            });
+                        } else {
+                            done_callback();
+                        }
+                    };
+
+                    return expand_next(function () {
+                        return done_callback();
+                    });
+                }
+
+                var uri = uris_to_reopen.shift();
+                var tree_id = TreeIds.uri_to_tree_id(uri);
+
+                self.displayNode(tree_id, handle_next_uri);
+            };
+
+            handle_next_uri();
         });
     };
 
@@ -225,6 +314,7 @@
         var next_fn = function () {
             if (!self.waypoints[waypoint_description.node]) {
                 /* An error occurred while expanding. */
+                debugger;
                 return;
             }
 
@@ -232,6 +322,7 @@
 
             if (!waypoint) {
                 /* An error occurred while expanding. */
+                debugger;
                 return;
             }
 
@@ -319,6 +410,10 @@
 
         button.find('.expandme-icon').addClass('expanded');
         $(button).data('expanded', true);
+
+        if (!row.data('uri')) {
+            debugger;
+        }
 
         self.source.fetchNode(row.data('uri')).done(function (node) {
             self.appendWaypoints(row, row.data('uri'), node.waypoints, node.waypoint_size, row.data('level') + 1);
@@ -412,6 +507,8 @@
 
     LargeTree.prototype.renderRoot = function (done_callback) {
         var self = this;
+        self.waypoints = {};
+
         var rootList = $('<table class="root" />');
 
         this.source.fetchRootNode().done(function (rootNode) {
@@ -432,6 +529,7 @@
 
             /* Remove any existing table */
             self.elt.find('table.root').remove();
+
             self.elt.prepend(rootList);
             self.renderer.add_root_columns(row, rootNode);
             if (done_callback) {
@@ -645,6 +743,10 @@
 
     TreeDataSource.prototype.fetchNode = function (uri) {
         var self = this;
+
+        if (!uri) {
+            throw "Node can't be empty!";
+        }
 
         return $.ajax(this.urlFor("node"),
                       {
