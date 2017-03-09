@@ -161,7 +161,7 @@ class LargeTree
 
         path << {"node" => nil,
                  "root_record_uri" => root_record_uri,
-                 "offset" => 0,
+                 "offset" => node_to_waypoint_map.fetch(current_node),
                  "title" => root_record_titles[root_record_id]}
 
         result[node_id] = path.reverse
