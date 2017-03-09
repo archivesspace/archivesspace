@@ -24,7 +24,7 @@ describe 'ASModel Object Graph' do
 
   it "can produce a simple object graph from a top-level tree" do
     resource = create(:resource, :repo_id => $repo_id)
-    top_ao = create(:archival_object, :root_record_id => resource.id, :repo_id => $repo_id)
+    top_ao = create(:archival_object, :root_record_id => resource.id, :repo_id => $repo_id, :position => 0)
 
     count = 5
 
