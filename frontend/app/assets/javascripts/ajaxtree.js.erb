@@ -402,6 +402,14 @@ AjaxTree.prototype.quietly_change_hash = function(tree_id) {
 };
 
 
+AjaxTree.prototype.hide_form = function() {
+    this.$pane.hide();
+}
+
+AjaxTree.prototype.show_form = function() {
+    this.$pane.show();
+}
+
 AjaxTree.prototype.blockout_form = function() {
     var self = this;
     if (self.$pane.has('.blockout').length > 0) {
