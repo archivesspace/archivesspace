@@ -90,6 +90,65 @@
         });
     };
 
+    LargeTreeDragDrop.prototype.handleMultiSelect = function (selection) {
+        var self = this;
+        var row = selection.closest('tr');
+
+        if (selection.hasClass('multiselected')) {
+            /* deselect a selected item */
+            self.rowsToMove = self.rowsToMove.filter(function (elt) {
+                return (elt != row[0]);
+            });
+
+            selection.removeClass('multiselected');
+        } else {
+            /* Add this item to the selection */
+            selection.addClass('multiselected');
+            self.rowsToMove.push(row[0]);
+        }
+
+        self.setDragHandleState();
+
+        return false;
+    };
+
+    LargeTreeDragDrop.prototype.handleShiftSelect = function (selection) {
+        var self = this;
+
+        var row = selection.closest('tr');
+        var lastSelection = self.rowsToMove[self.rowsToMove.length - 1]
+
+        if (lastSelection) {
+            var start = $(lastSelection);
+            var end = row;
+
+            if (start.index() > end.index()) {
+                /* Oops.  Swap them. */
+                var tmp = end;
+                end = start;
+                start = tmp;
+            }
+
+            var rowsInRange = start.nextUntil(end).andSelf().add(end);
+            var targetLevel = $(lastSelection).data('level');
+
+            rowsInRange.each(function (i, row) {
+                if ($(row).is('.largetree-node')) {
+                    if (!$(row).is('.multiselected') && $(row).data('level') === targetLevel) {
+                        $(row).find('.drag-handle').addClass('multiselected')
+                        self.rowsToMove.push(row);
+                    }
+                }
+            });
+
+            self.rowsToMove = $.unique(self.rowsToMove);
+
+            self.setDragHandleState();
+        }
+
+        return false;
+    };
+
     LargeTreeDragDrop.prototype.initialize = function (largetree) {
         var self = this;
 
@@ -105,62 +164,14 @@
             var selection = $(this);
 
             if (event.ctrlKey || event.metaKey) {
-                var row = selection.closest('tr');
-
-                if (selection.hasClass('multiselected')) {
-                    /* deselect a selected item */
-                    self.rowsToMove = self.rowsToMove.filter(function (elt) {
-                        return (elt != row[0]);
-                    });
-
-                    selection.removeClass('multiselected');
-                } else {
-                    /* Add this item to the selection */
-                    selection.addClass('multiselected');
-                    self.rowsToMove.push(row[0]);
-                }
-
-                self.setDragHandleState();
-                return false;
+                return self.handleMultiSelect(selection);
+            } else if (event.shiftKey) {
+                return self.handleShiftSelect(selection);
             }
-
-            if (event.shiftKey) {
-                var row = selection.closest('tr');
-                var lastSelection = self.rowsToMove[self.rowsToMove.length - 1]
-
-                if (lastSelection) {
-                    var start = $(lastSelection);
-                    var end = row;
-
-                    if (start.index() > end.index()) {
-                        /* Oops.  Swap them. */
-                        var tmp = end;
-                        end = start;
-                        start = tmp;
-                    }
-
-                    var rowsInRange = start.nextUntil(end).andSelf().add(end);
-                    var targetLevel = $(lastSelection).data('level');
-
-                    rowsInRange.each(function (i, row) {
-                        if ($(row).is('.largetree-node')) {
-                            if (!$(row).is('.multiselected') && $(row).data('level') === targetLevel) {
-                                $(row).find('.drag-handle').addClass('multiselected')
-                                self.rowsToMove.push(row);
-                            }
-                        }
-                    });
-
-                    self.rowsToMove = $.unique(self.rowsToMove);
-
-                    self.setDragHandleState();
-                }
-
-                return false;
-            }
-
 
             self.dragDelayTimer = setTimeout(function () {
+                self.dragDelayTimer = undefined;
+
                 /* Start a drag of one or more items */
                 var row = selection.closest('tr');
 
@@ -337,8 +348,17 @@
             }
 
             if (self.dragDelayTimer) {
+                /* The mouse click finished prior to our drag starting (so we've
+                   received a click, not a drag) */
+
                 clearTimeout(self.dragDelayTimer);
                 self.dragDelayTimer = undefined;
+
+                /* Deselect everything */
+                self.resetState();
+                $(largetree.elt).find('.multiselected').removeClass('multiselected');
+
+                self.handleMultiSelect($(event.target));
             }
 
             return true;
@@ -346,41 +366,51 @@
     };
 
 
+    LargeTreeDragDrop.prototype.resetState = function () {
+        var self = this;
+
+        self.rowsToMove = [];
+
+        if (self.blockout) {
+            self.blockout.remove();
+            self.blockout = undefined;
+        }
+
+        if (self.menu) {
+            self.menu.remove();
+            self.menu = undefined;
+        }
+        self.setDragHandleState();
+    };
+
     LargeTreeDragDrop.prototype.handleDrop = function (dropTarget) {
         var self = this;
 
-        function resetState() {
-            self.rowsToMove = [];
-            $blockout.remove();
-            $menu.remove();
-            self.setDragHandleState();
-        }
-
         // blockout the page
-        var $blockout = $('<div>').addClass('largetree-blockout');
-        $(document.body).append($blockout);
+        self.blockout = $('<div>').addClass('largetree-blockout');
+        $(document.body).append(self.blockout);
         
         // insert a menu!
         // FIXME I18n
-        var $menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
+        self.menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
         if (!dropTarget.is('.root-row')) {
-            $menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
+            self.menu.append($('<li><a href="javascript:void(0)" class="add-items-before">Add Items Before</a></li>'));
         }
 
-        $menu.append($('<li><a href="javascript:void(0)" class="add-items-as-children">Add Items as Children</a></li>'));
+        self.menu.append($('<li><a href="javascript:void(0)" class="add-items-as-children">Add Items as Children</a></li>'));
 
         if (!dropTarget.is('.root-row')) {
-            $menu.append($('<li><a href="javascript:void(0)" class="add-items-after">Add Items After</a></li>'));
+            self.menu.append($('<li><a href="javascript:void(0)" class="add-items-after">Add Items After</a></li>'));
         }
 
-        $(document.body).append($menu);
-        $menu.css('position','absolute');
-        $menu.css('top',dropTarget.offset().top + dropTarget.height());
-        $menu.css('left',dropTarget.offset().left);
-        $menu.css('z-index', 1000);
-        $menu.show();
-        $menu.find('a:first').focus();
-        $menu.on('keydown', function(event) {
+        $(document.body).append(self.menu);
+        self.menu.css('position','absolute');
+        self.menu.css('top',dropTarget.offset().top + dropTarget.height());
+        self.menu.css('left',dropTarget.offset().left);
+        self.menu.css('z-index', 1000);
+        self.menu.show();
+        self.menu.find('a:first').focus();
+        self.menu.on('keydown', function(event) {
             if (event.keyCode == 27) { //escape
                 resetState();
                 return false;
@@ -399,7 +429,7 @@
             return true;
         });
 
-        $blockout.on('click', function() {
+        self.blockout.on('click', function() {
             resetState();
         });
 
@@ -407,7 +437,7 @@
             return node.prevAll('.indent-level-'+(node.data('level') - 1) + ':first');
         }
 
-        $menu.on('click', '.add-items-before', function() {
+        self.menu.on('click', '.add-items-before', function() {
             self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
                 resetState()
             });
