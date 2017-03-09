@@ -13,10 +13,10 @@ class PUIIndexer < PeriodicIndexer
     'ancestors::instances::sub_container::top_container'
   ]
 
-  def initialize(state = nil, name)
+  def initialize(backend = nil, state = nil, name)
     index_state = state || IndexState.new(File.join(AppConfig[:data_directory], "indexer_pui_state"))
 
-    super(index_state, name)
+    super(backend, index_state, name)
 
     # Set up our JSON schemas now that we know the JSONModels have been loaded
     RecordInheritance.prepare_schemas
