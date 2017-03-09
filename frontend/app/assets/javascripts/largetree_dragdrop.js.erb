@@ -229,7 +229,10 @@
                 $(event.target).closest('.largetree-dropdown-menu').length === 0 &&
 
                 /* Not attempting to expand something */
-                $(event.target).closest('.expandme').length === 0) {
+                $(event.target).closest('.expandme').length === 0 &&
+
+                /* Not using the resize handle */
+                $(event.target).closest('.ui-resizable-handle').length === 0) {
 
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
                 self.rowsToMove = [];
