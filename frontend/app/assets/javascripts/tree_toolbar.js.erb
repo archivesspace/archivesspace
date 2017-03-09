@@ -13,7 +13,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
         onToolbarRendered: function(btn, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                $('.btn:not(.drag-toggle,.finish-editing,.move-node)',toolbarRenderer.container).addClass('disabled');
+                $('.btn:not(.drag-toggle,.finish-editing,.cut-selection,.paste-selection,.move-node)',toolbarRenderer.container).hide();
                 $('.cut-selection',toolbarRenderer.container).removeClass('disabled');
                 if ($('.cut', tree.large_tree.elt).length > 0) {
                     $('.paste-selection',toolbarRenderer.container).removeClass('disabled');
