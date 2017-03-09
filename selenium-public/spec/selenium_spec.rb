@@ -23,7 +23,7 @@ describe "ArchivesSpace Public interface" do
 
 
   before(:all) do
-    @repo = create(:repo)
+    @repo = create(:repo, :publish => true)
     set_repo(@repo)
 
     @driver = Driver.new.go_home
@@ -67,10 +67,12 @@ describe "ArchivesSpace Public interface" do
 
       create(:repo,
              :repo_code => @test_repo_code_1,
-             :name => @test_repo_name_1)
+             :name => @test_repo_name_1,
+             :publish => true)
       create(:repo,
              :repo_code => @test_repo_code_2,
-             :name => @test_repo_name_2)
+             :name => @test_repo_name_2,
+             :publish => true)
 
       @indexer.run_index_round
     end
