@@ -154,17 +154,25 @@ module TreeNodes
   def update_from_json(json, extra_values = {}, apply_nested_records = true)
     root_uri = self.class.uri_for(self.class.root_record_type, self.root_record_id)
 
-    if json[self.class.root_record_type]['ref'] != root_uri || extra_values[:force_reposition]
+    do_position_override = json[self.class.root_record_type]['ref'] != root_uri || extra_values[:force_reposition]
+
+    if do_position_override
       extra_values.delete(:force_reposition)
       json.position = nil
       # Through some inexplicable sequence of events, the update is allowed to
       # change the root record on the fly.  I guess we'll allow this...
       extra_values = extra_values.merge(self.class.determine_tree_position_for_new_node(json))
+    else
+      if !json.position
+        # The incoming JSON had no position set.  Just keep what we already had.
+        extra_values['position'] = self.position
+      end
     end
 
     obj = super(json, extra_values, apply_nested_records)
 
     if json.position
+      # Our incoming JSON wants to set the position.  That's fine
       set_position_in_list(json.position)
     end
 
