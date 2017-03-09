@@ -12,6 +12,7 @@ describe "Default Form Values" do
     @driver = Driver.get.login_to_repo($admin, @repo)
 
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "My Repository Preferences").click
 
     checkbox = @driver.find_element(:id => "preference_defaults__default_values_")

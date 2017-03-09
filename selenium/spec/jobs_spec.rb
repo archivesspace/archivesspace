@@ -27,6 +27,7 @@ describe "Jobs" do
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Background Jobs").click
 
 
@@ -61,6 +62,7 @@ describe "Jobs" do
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click
@@ -85,6 +87,7 @@ describe "Jobs" do
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click

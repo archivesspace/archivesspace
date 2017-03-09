@@ -19,7 +19,7 @@ describe "Context Sensitive Help" do
   it "displays a clickable tooltip for a field label" do
     # navigate to the Accession form
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     # click on a field label
 
