@@ -60,7 +60,6 @@
         $(self.rowsToMove).each(function (idx, selectedRow) {
             var waypoint = $(selectedRow).next();
 
-            /* THINKME: move this into a utility?  like "iterate child rows" */
             while (waypoint.hasClass('waypoint')) {
                 if (waypoint.hasClass('populated')) {
                     var startLevel = waypoint.data('level');
@@ -125,6 +124,42 @@
                 return false;
             }
 
+            if (event.shiftKey) {
+                var row = selection.closest('tr');
+                var lastSelection = self.rowsToMove[self.rowsToMove.length - 1]
+
+                if (lastSelection) {
+                    var start = $(lastSelection);
+                    var end = row;
+
+                    if (start.index() > end.index()) {
+                        /* Oops.  Swap them. */
+                        var tmp = end;
+                        end = start;
+                        start = tmp;
+                    }
+
+                    var rowsInRange = start.nextUntil(end).andSelf().add(end);
+                    var targetLevel = $(lastSelection).data('level');
+
+                    rowsInRange.each(function (i, row) {
+                        if ($(row).is('.largetree-node')) {
+                            if (!$(row).is('.multiselected') && $(row).data('level') === targetLevel) {
+                                $(row).find('.drag-handle').addClass('multiselected')
+                                self.rowsToMove.push(row);
+                            }
+                        }
+                    });
+
+                    self.rowsToMove = $.unique(self.rowsToMove);
+
+                    self.setDragHandleState();
+                }
+
+                return false;
+            }
+
+
             self.dragDelayTimer = setTimeout(function () {
                 /* Start a drag of one or more items */
                 var row = selection.closest('tr');
@@ -180,6 +215,8 @@
 
                 $(largetree.elt).find('.multiselected').removeClass('multiselected');
                 self.rowsToMove = [];
+
+                self.setDragHandleState();
             }
         });
 
@@ -292,6 +329,8 @@
                 } else {
                     self.rowsToMove = [];
                 }
+
+                self.setDragHandleState();
 
                 event.preventDefault();
                 return false;
