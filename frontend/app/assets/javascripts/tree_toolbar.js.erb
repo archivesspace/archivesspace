@@ -5,7 +5,10 @@ var SHARED_TOOLBAR_ACTIONS = [
         onRender: function(btn, node, tree, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 $(btn).addClass('active').addClass('btn-success');
-                tree.ajax_tree.blockout_form();
+
+                $(btn).text('<%= I18n.t('actions.reorder_active') %>');
+
+                tree.ajax_tree.hide_form();
             }
         },
         onToolbarRendered: function(btn, toolbarRenderer) {
@@ -22,17 +25,20 @@ var SHARED_TOOLBAR_ACTIONS = [
             $(event.target).toggleClass('btn-success');
 
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                tree.ajax_tree.blockout_form();
+                $(btn).text('<%= I18n.t('actions.reorder_active') %>');
+                tree.ajax_tree.hide_form();
                 $.scrollTo(0);
                 tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
-                $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).addClass('disabled');
+                $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).hide();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).show();
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
-                tree.ajax_tree.unblockout_form();
+                $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
+                tree.ajax_tree.show_form();
                 tree.resizer.reset();
-                $('.btn',toolbarRenderer.container).removeClass('disabled');
+                $('.btn',toolbarRenderer.container).show();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
+                $(btn).blur();
             }
         },
         isEnabled: function(node, tree, toolbarRenderer) {
