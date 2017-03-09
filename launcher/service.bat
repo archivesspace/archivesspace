@@ -1,20 +1,20 @@
 @echo off
 echo This program will attempt to set up a procrun windows service
 echo for ArchivesSpace.
-echo
+echo.
 echo Prerequisites:
 echo 1) Download procrun
 echo  ( http://commons.apache.org/proper/commons-daemon/procrun.html )
 echo and put the execuitables ( prunsrv.exe and prunmgr.exe ) 
 echo into your archivesspace directory.
-echo
-echo
+echo.
+echo.
 echo 2) You must have JAVA_HOME defined as a global variable, pointing 
 echo to your systems java home ( e.g. C:\Program Files\Java\jre7 ).
 echo To find this, you can use "where java" command. The home will be the
 echo directory above "bin\java.exe". 
-echo
-echo
+echo.
+echo.
 pause
 
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -92,9 +92,9 @@ goto end
 :installed
 
 
-echo
-echo
-echo
+echo.
+echo.
+echo.
 echo The service has been installed. There is now an
 echo ArchivesSpaceService execucitable and ArchivesSpaceServicew monitor.
 
@@ -105,12 +105,12 @@ echo ArchivesSpaceService //SS// Stop the service
 echo ArchivesSpaceService //US// Update service pamaters
 echo ArchivesSpaceSerivce //DS// Delete service
 
-echo
-echo
+echo.
+echo.
 echo ArchivesSpaceServicew Options:
 echo ArchivesSpaceServicew //ES// Start GUI service editor
 echo ArchivesSpaceServicew //MS// Monitor service (puts an icon in system tray)
-echo
+echo.
 echo Enjoy. 
 
 :end
