@@ -34,7 +34,7 @@ class LargeTree
     DB.open do |db|
       child_count = db[@node_table]
                     .filter(:root_record_id => @root_record.id,
-                                           :parent_id => nil)
+                            :parent_id => nil)
                     .filter(published_filter)
                     .count
 
@@ -122,6 +122,7 @@ class LargeTree
       (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq.each do |node_id|
         this_position = db[@node_type]
                         .filter(:parent_id => child_to_parent_map[node_id])
+                        .filter(:root_record_id => node_to_root_record_map[node_id])
                         .filter(published_filter)
                         .where { position <= node_to_position_map[node_id] }
                         .count
