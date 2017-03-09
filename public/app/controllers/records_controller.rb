@@ -141,7 +141,7 @@ class RecordsController < ApplicationController
   def resource_tree_node_from_root
     @root_uri = "/repositories/#{params[:repo_id]}/resources/#{params[:id]}"
 
-    render :json => Search.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_id])
+    render :json => Search.get_raw_record(@root_uri + '/tree/node_from_root_' + params[:node_ids][0])
   end
 
 
