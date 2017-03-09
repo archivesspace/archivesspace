@@ -21,7 +21,7 @@ describe "Agents" do
   it "reports errors and warnings when creating an invalid Person Agent" do
     @driver.find_element(:link, 'Create').click
     @driver.find_element(:link, 'Agent').click
-    @driver.find_element(:link, 'Person').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
   end
@@ -104,7 +104,6 @@ describe "Agents" do
 
 
   it "can save a person and view readonly view of person" do
-    begin
     @driver.find_element(:css => '#agent_person_contact_details .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
@@ -113,9 +112,6 @@ describe "Agents" do
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
-      rescue => e
-      binding.pry
-      end
   end
 
 
@@ -142,7 +138,6 @@ describe "Agents" do
 
 
   it "can add a related agent" do
-    begin
     @driver.find_element(:css => '#agent_person_related_agents .subrecord-form-heading .btn:not(.show-all)').click
     @driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
 
@@ -158,9 +153,6 @@ describe "Agents" do
     linked = @driver.find_element(:id, "_agents_people_#{@other_agent.id}").text.sub(/\n.*/, '')
 
     linked.should eq(@other_agent.names[0]['sort_name'])
-      rescue => e
-      binding.pry
-    end
   end
 
 
@@ -244,6 +236,9 @@ describe "Agents" do
     # Add a sub note
     assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
     notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
+
+    # Woah! Slow down, cowboy. Ensure the sub form is initialised.
+    notes[0].find_element(:css => ".subrecord-form-fields.initialised")
 
     # ensure sub note form displayed
     @driver.find_element(:id, "agent_notes__0__subnotes__2__publish_")

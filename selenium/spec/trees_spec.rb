@@ -107,12 +107,13 @@ describe "Tree UI" do
 
       @driver.find_element(:link, "Move").click
 
-      el = @driver.find_element_with_text("//a", /Down Into/)
-      @driver.mouse.move_to el
+      @driver.execute_script('$("#tree-toolbar .dropdown-submenu:visible").addClass("open")')
 
       @driver.find_element(:css => "ul.move-node-into-menu")
         .find_element(:xpath => ".//a[@data-tree_id='#{tree_node(@a1).tree_id}']")
         .click
+
+      @driver.execute_script('$("#tree-toolbar .dropdown-submenu:visible").removeClass("open")')
 
       tree_wait_for_spinner
     end
@@ -163,7 +164,7 @@ describe "Tree UI" do
     tree_click(tree_node(@a1))
 
     @driver.find_element(:css, ".delete-record.btn").click
-    @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "#confirmChangesModal #confirmButton")
 
     node = @driver.find_element(:id => tree_node(@r).tree_id)
     expect(node.attribute('class')).to include('current')
@@ -174,7 +175,7 @@ describe "Tree UI" do
     @driver.login_to_repo(@viewer_user, @repo)
     @driver.get_view_page(@r)
 
-    @driver.ensure_no_such_element(:link, 'Enable Reorder')
+    @driver.ensure_no_such_element(:link, 'Enable Reorder Mode')
     @driver.ensure_no_such_element(:css, '.largetree-node .drag-handle')
     @driver.login_to_repo($admin, @repo)
   end

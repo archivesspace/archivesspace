@@ -162,7 +162,7 @@
   </div>
 </nav>
 
-<div class="advanced-search-container container-fluid" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>hidden<% end %>>
+<div class="advanced-search-container container-fluid" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
 <%= render_aspace_partial :partial => "shared/advanced_search" %>
 </div>
 
