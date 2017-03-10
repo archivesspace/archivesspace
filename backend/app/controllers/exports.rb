@@ -48,7 +48,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    safe_filenmae(DigitalObject[params[:id]].digital_object_id, "_mets.xml"),
+                    safe_filename(DigitalObject[params[:id]].digital_object_id, "_mets.xml"),
                    "mimetype" => "application/xml"})
   end
 

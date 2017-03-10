@@ -67,7 +67,7 @@ class ExportsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        self.response.headers["Content-Type"] ||= meta['mimetype']
+        self.response.headers["Content-Type"] = meta['mimetype'] if meta['mimetype']
         self.response.headers["Content-Disposition"] = "attachment; filename=#{meta['filename']}"
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s
 
