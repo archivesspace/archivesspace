@@ -89,7 +89,7 @@ module TreeHelperMethods
   end
 
   def tree_enable_reorder_toggle
-    @driver.find_element(:link, 'Enable Reorder')
+    @driver.find_element(:link, 'Enable Reorder Mode')
   end
 
   def tree_container

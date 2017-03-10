@@ -174,7 +174,7 @@ describe "Tree UI" do
     @driver.login_to_repo(@viewer_user, @repo)
     @driver.get_view_page(@r)
 
-    @driver.ensure_no_such_element(:link, 'Enable Reorder')
+    @driver.ensure_no_such_element(:link, 'Enable Reorder Mode')
     @driver.ensure_no_such_element(:css, '.largetree-node .drag-handle')
     @driver.login_to_repo($admin, @repo)
   end
