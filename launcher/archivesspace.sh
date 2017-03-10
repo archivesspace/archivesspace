@@ -93,7 +93,7 @@ if [ "$ARCHIVESSPACE_LOGS" = "" ]; then
     ARCHIVESSPACE_LOGS="logs/archivesspace.out"
 fi
 
-export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
+export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
