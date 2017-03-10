@@ -283,9 +283,13 @@
                     var expand_next = function (done_callback) {
                         if (displayedNodes.length > 0) {
                             var node = displayedNodes.shift();
-                            self.expandNode(node, function () {
-                                expand_next(done_callback);
-                            });
+                            if (node.is('.root-row')) {
+                                done_callback();
+                            } else {
+                                self.expandNode(node, function () {
+                                    expand_next(done_callback);
+                                });
+                            }
                         } else {
                             done_callback();
                         }
