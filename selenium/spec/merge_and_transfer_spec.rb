@@ -34,6 +34,8 @@ describe "Merging and transfering resources" do
     @driver.find_element(:id, "transfer_ref_").select_option_with_text(@target_repo.repo_code)
     @driver.find_element(:css => ".transfer-button").click
     @driver.find_element(:css, "#confirmButton").click
+    @driver.wait_for_ajax
+
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Transfer Successful/)
 
     run_all_indexers
@@ -55,6 +57,7 @@ describe "Merging and transfering resources" do
     @driver.get_edit_page(@resource2)
 
     @driver.find_element(:link, "Merge").click
+    @driver.wait_for_ajax
 
     # spaces in the search string seem to through off the token search, so:
     search_string = @resource3.title.sub(/-\s.*/, "").strip
@@ -87,12 +90,14 @@ describe "Merging and transfering resources" do
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css, "button.transfer-button").click
+    @driver.wait_for_ajax
 
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Successfully transferred Archival Object/)
 
-    @driver.wait_for_ajax
     @driver.get_edit_page(@resource2)
+    @driver.wait_for_ajax
+
     (@aoset2 + @aoset3).each do |ao|
       assert(5) {
         @driver.find_element(:id => tree_node(ao).tree_id)
