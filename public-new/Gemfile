@@ -5,8 +5,9 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.1'
 # Use jdbcsqlite3 as the database for Active Record
 # gem 'activerecord-jdbcsqlite3-adapter'
-# Use Puma as the app server
-gem "puma", "3.6.2"
+
+gem "mizuno", "0.6.11"
+
 # use bootstrap's sass
 gem 'bootstrap-sass', '~> 3.3.6'
 # Use SCSS for stylesheets

@@ -18,7 +18,7 @@ gem 'tzinfo'
 gem "rufus-scheduler", "~> 2.0.24"
 gem "rufus-lru", "1.0.5"
 gem "net-ldap", "0.6.1"
-gem "puma", "3.6.2"
+gem "mizuno", "0.6.11"
 gem "i18n", ">= 0.6.4"
 
 gem "axlsx", "2.0.1"
