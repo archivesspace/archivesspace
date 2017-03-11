@@ -72,7 +72,7 @@ module TreeHelperMethods
 
   def tree_wait_for_spinner
     # no spinner ... yet!
-    #@driver.wait_for_spinner
+    @driver.wait_for_spinner
     @driver.wait_for_ajax
   end
 
@@ -84,8 +84,12 @@ module TreeHelperMethods
 
   def tree_disable_reorder_mode
     expect(tree_container.attribute('class')).to include('drag-enabled')
-    tree_enable_reorder_toggle.click
+    tree_disable_reorder_toggle.click
     expect(tree_container.attribute('class')).not_to include('drag-enabled')
+  end
+
+  def tree_disable_reorder_toggle
+    @driver.find_element(:link, 'Reorder Mode Active')
   end
 
   def tree_enable_reorder_toggle

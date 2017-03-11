@@ -141,22 +141,15 @@ class Driver
     self
   end
 
-  SPINNER_RETRIES = 10
+  SPINNER_RETRIES = 100
 
   def wait_for_spinner
     puts "    Awaiting spinner... (#{caller[0]})"
 
-    # The spinner's height is 100 when shown
     SPINNER_RETRIES.times do
-      height = self.execute_script("return $('#archives_tree_overlay').height()")
-      break if height != 0
-      sleep 0.2
-    end
-
-    # and zero when hidden
-    SPINNER_RETRIES.times do
-      height = self.execute_script("return $('#archives_tree_overlay').height()")
-      break if height == 0
+      is_spinner_visible = self.execute_script("return $('.spinner').is(':visible')")
+      is_blockout_visible = self.execute_script("return $('.blockout').is(':visible')")
+      break unless is_spinner_visible || is_blockout_visible
       sleep 0.2
     end
   end
