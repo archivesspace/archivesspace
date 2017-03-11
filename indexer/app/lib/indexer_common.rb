@@ -928,12 +928,10 @@ class CommonIndexer
       req = Net::HTTP::Post.new("#{solr_url.path}/update")
       req['Content-Type'] = 'application/json'
 
-      # We used to just set Content-Length based on batch.byte_count, but this
-      # broke on Windows.  Unclear why at this stage, but since chunked encoding
-      # works now we might as well use it.
-      req['Transfer-Encoding'] = 'chunked'
-
+      # Note: We call to_json_stream before asking for the count because this
+      # writes out the closing array and newline.
       stream = batch.to_json_stream
+      req['Content-Length'] = batch.byte_count
 
       req.body_stream = stream
 
