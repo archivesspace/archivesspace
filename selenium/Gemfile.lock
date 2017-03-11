@@ -55,6 +55,8 @@ GEM
     tilt (2.0.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2017.1)
+      tzinfo (>= 1.0.0)
     websocket (1.2.3)
 
 PLATFORMS
@@ -75,6 +77,7 @@ DEPENDENCIES
   rubyzip (= 1.0.0)
   selenium-webdriver (~> 2.53.0)
   sinatra (= 1.4.7)
+  tzinfo-data
 
 BUNDLED WITH
    1.12.5

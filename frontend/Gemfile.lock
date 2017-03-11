@@ -162,6 +162,8 @@ GEM
     tilt (2.0.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2017.1)
+      tzinfo (>= 1.0.0)
     uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
     useragent (0.16.8)
@@ -198,6 +200,7 @@ DEPENDENCIES
   simplecov (= 0.7.1)
   sprockets-rails (= 2.3.3)
   therubyrhino
+  tzinfo-data
   uglifier
   useragent
   zip-zip (= 0.3)

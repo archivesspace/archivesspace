@@ -4,6 +4,8 @@ gem 'rails', '5.0.1'
 gem "activesupport", "5.0.1"
 gem 'sprockets-rails', '2.3.3'
 
+gem 'tzinfo-data'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
