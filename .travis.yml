@@ -45,6 +45,7 @@ script:
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
+bundler_args: --retry 5
 addons:
   artifacts:
     debug: true
