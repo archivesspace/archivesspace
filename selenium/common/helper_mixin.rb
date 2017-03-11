@@ -27,6 +27,7 @@ module RepositoryHelperMethods
     create_repo = URI("#{$backend}/repositories")
 
     req = Net::HTTP::Post.new(create_repo.path)
+    req['Content-Type'] = 'text/json'
     req.body = "{\"repo_code\": \"#{code}\", \"name\": \"#{name}\"}"
 
     response = admin_backend_request(req)
