@@ -43,6 +43,8 @@ GEM
     thread_safe (0.3.5-java)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2017.1)
+      tzinfo (>= 1.0.0)
     websocket (1.2.3)
     zip-zip (0.3)
       rubyzip (>= 1.0.0)
@@ -63,6 +65,7 @@ DEPENDENCIES
   rspec-retry
   rubyzip (= 1.0.0)
   selenium-webdriver (~> 2.53.0)
+  tzinfo-data
   zip-zip (= 0.3)
 
 BUNDLED WITH
