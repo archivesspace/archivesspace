@@ -68,6 +68,10 @@
     <property name="build.home" location="."/>
     <property name="excluded-gem-groups" value="" />
 
+    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
+    </condition>
+
     <echo message="Fetching gems for ${gemfile}" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -76,7 +80,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="--1.9 gems/bin/bundle install --gemfile='${gemfile}' --no-deployment --without '${excluded-gem-groups}'" />
+      <arg line="--1.9 gems/bin/bundle install --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
     </java>
   </target>
 
@@ -179,7 +183,7 @@
       <arg line="--1.9 --debug -X-C ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} ${plugin-spec-dirs}" />
     </java>
   </target>
-  
+
   <!-- Run the tests from a plugin directory -->
   <target name="plugin:backend:test" depends="set-classpath" description="Run the unit test suite">
     <property name="spec" value=""/>
@@ -333,7 +337,7 @@
     </java>
   </target>
 
-  
+
   <target name="plugin:frontend:test" depends="set-classpath" description="Run the unit test suite">
     <property name="spec" value=""/>
     <property name="example" value=""/>
