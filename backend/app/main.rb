@@ -62,11 +62,11 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
 
-    set :server, :puma
+    set :server, :mizuno
   end
 
   configure :test do |config|
-    set :server, :puma
+    set :server, :mizuno
   end
 
 

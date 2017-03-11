@@ -382,7 +382,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="script/rails s Puma -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
       </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
@@ -856,7 +856,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="${rails-bin}/rails s Puma -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="${rails-bin}/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 
