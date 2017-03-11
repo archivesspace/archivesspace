@@ -133,6 +133,10 @@ def main
   if AppConfig[:enable_solr]
     java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
     java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
+
+    # Windows complains if this directory is missing.  Just create it if needed
+    # and move on with our lives.
+    FileUtils.mkdir_p(File.join(AppConfig[:solr_home_directory], "collection1", "conf"))
   end
 
   [:search_user_secret, :public_user_secret, :staff_user_secret].each do |property|
