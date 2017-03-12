@@ -184,9 +184,8 @@ describe "Resource instances and containers" do
       elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value').should eq("")
     }
 
-    elt.find_element(:css => '.dropdown-toggle.locations').click
+    @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
     @driver.wait_for_ajax
-
     @driver.scroll_into_view(elt.find_element(:css, "a.linker-create-btn")).click
 
     loc_modal = @driver.find_element(:id => 'top_container_container_locations__0__ref__modal')

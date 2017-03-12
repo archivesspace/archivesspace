@@ -31,7 +31,7 @@ describe "User Preferences" do
     }
 
     @driver.find_element(:link => 'Browse').click
-    @driver.find_element(:link => 'Accessions').click
+    @driver.click_and_wait_until_gone(:link => 'Accessions')
     @driver.find_element(:link => "Create Accession")
 
     cells = @driver.find_elements(:css, "table th")

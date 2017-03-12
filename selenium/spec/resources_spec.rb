@@ -55,7 +55,7 @@ describe "Resources and archival objects" do
     notes_toggle[0].click
     @driver.wait_for_ajax
 
-    @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class("initialised");
+    @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class("initialised")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
     assert(5) { @driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq(@accession.content_description) }
 
@@ -69,22 +69,16 @@ describe "Resources and archival objects" do
     @driver.clear_and_send_keys([:id, "resource_extents__0__number_"], "10")
     @driver.find_element(:id => "resource_extents__0__extent_type_").select_option("cassettes")
 
-
-    @driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
-    @driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
-
-    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
 
     # Success!
-    assert(5) {
-      @driver.find_element_with_text('//div', /Resource .* created/).should_not be_nil
-      @driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978")
-    }
+    @driver.find_element_with_text('//div', /Resource .* created/).should_not be_nil
+    @driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978")
   end
 
   it "reports errors and warnings when creating an invalid Resource" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Resource").click
+    @driver.click_and_wait_until_gone(:link, "Resource")
     @driver.find_element(:id, "resource_title_").clear
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
@@ -94,7 +88,7 @@ describe "Resources and archival objects" do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Type - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "warning")]', /Language - Property was missing/)
 
-    @driver.find_element(:css, "a.btn.btn-cancel").click
+    @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
 
 
@@ -104,7 +98,7 @@ describe "Resources and archival objects" do
     resource_regex = /^.*?\bPony\b.*?$/m
 
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Resource").click
+    @driver.click_and_wait_until_gone(:link, "Resource")
 
     @driver.clear_and_send_keys([:id, "resource_title_"],(resource_title))
     @driver.complete_4part_id("resource_id_%d_")
@@ -145,7 +139,7 @@ describe "Resources and archival objects" do
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     }.to_not raise_error
 
-    @driver.find_element(:css, "a.btn.btn-cancel").click
+    @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
 
 
@@ -165,11 +159,10 @@ describe "Resources and archival objects" do
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
-
     # click on another node
     tree_click(tree_node(@resource))
 
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.click_and_wait_until_gone(:id, "dismissChangesButton")
   end
 
 
@@ -189,37 +182,42 @@ describe "Resources and archival objects" do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/i)
 
     tree_click(tree_node(@resource))
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.click_and_wait_until_gone(:id, "dismissChangesButton")
   end
-  
+
   it "can create a new digital object instance with a note to a resource" do
     @driver.get_edit_page(@resource)
 
-    sleep(1)
-    @driver.find_element_with_text('//button', /Add Digital Object/).click
-    sleep(1)
+    # Wait for the form to load in
+    @driver.find_element(:css => "form#resource_form button[type='submit']")
 
-    @driver.find_element(:css => "#resource_instances_ .linker-wrapper a.btn").click
-    @driver.find_element(:css => "#resource_instances_ a.linker-create-btn").click
-    
-    @driver.clear_and_send_keys([:id, "digital_object_title_"],("digital_object_title"))
-    @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+    @driver.save_screenshot("/tmp/argh.png")
 
-    @driver.find_element(:css => '#digital_object_notes .subrecord-form-heading .btn.add-note').click
-    @driver.find_last_element(:css => '#digital_object_notes select.top-level-note-type').select_option_with_text("Summary")
+    @driver.find_element(:css => '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="digital-instance"]').click
 
-    @driver.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
+    elt = @driver.find_element(:css => "div[data-id-path='resource_instances__0__digital_object_']")
+
+    elt.find_element(:css => 'a.dropdown-toggle').click
+    elt.find_element(:css => 'a.linker-create-btn').click
+
+    modal = @driver.find_element(:css => '#resource_instances__0__digital_object__ref__modal')
+
+    modal.clear_and_send_keys([:id, "digital_object_title_"],("digital_object_title"))
+    modal.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
+
+    modal.find_element(:css => '#digital_object_notes .subrecord-form-heading .btn.add-note').click
+    modal.find_last_element(:css => '#digital_object_notes select.top-level-note-type').select_option_with_text("Summary")
+
+    modal.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], "Summary label")
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
 
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
     @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
 
-    @driver.find_element(:id, "createAndLinkButton").click
-    @driver.wait_for_ajax
-    @driver.find_element(:css => "form#resource_form button[type='submit']").click
-    @driver.wait_for_ajax
-    
+    modal.find_element(:id, "createAndLinkButton").click
+    @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
+
     @driver.find_element(:css, ".token-input-token .digital_object").click
 
     # so the subject is here now
@@ -258,25 +256,22 @@ describe "Resources and archival objects" do
       elements.any? {|elt| elt =~ /#{month}/}.should be_truthy
     end
 
-    @driver.find_element(:css, "a.btn.btn-cancel").click
+    @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
 
 
   it "can cancel edits to Archival Objects" do
     ao_id = @archival_object.uri.sub(/.*\//, '')
     @driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
-   
+
     # sanity check..
     tree_click(tree_node(@archival_object))
     pane_resize_handle = @driver.find_element(:css => ".ui-resizable-handle.ui-resizable-s")
-    10.times {
-      @driver.action.drag_and_drop_by(pane_resize_handle, 0, 30).perform
-    }
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "unimportant change")
 
     tree_click(tree_node(@resource))
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.click_and_wait_until_gone(:id, "dismissChangesButton")
   end
 
 
@@ -284,19 +279,25 @@ describe "Resources and archival objects" do
     ao_id = @archival_object.uri.sub(/.*\//, '')
     @driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit#tree::archival_object_#{ao_id}")
 
+    # Wait for the form to load in
+    @driver.find_element(:css => "form#archival_object_form button[type='submit']")
+
     @driver.find_element(:id, "archival_object_level_").select_option("item")
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "")
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
-    @driver.wait_for_ajax
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
+
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
     }.to_not raise_error
     tree_click(tree_node(@resource))
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.click_and_wait_until_gone(:id, "dismissChangesButton")
   end
 
   it "can update an existing Archival Object" do
     @driver.get_edit_page(@archival_object)
+
+    # Wait for the form to load in
+    @driver.find_element(:css => "form#archival_object_form button[type='submit']")
 
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
@@ -304,7 +305,7 @@ describe "Resources and archival objects" do
     assert(5) { @driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
     @driver.clear_and_send_keys([:id, "archival_object_title_"], @archival_object.title)
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
   end
 
 
@@ -341,7 +342,7 @@ describe "Resources and archival objects" do
     # so the subject is here now
     assert(5) { @driver.find_element(:css, "#archival_object_subjects_ ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
   end
-  
+
 
 
   it "can view a read only Archival Object" do

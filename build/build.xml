@@ -454,7 +454,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
+      <arg line="../build/gems/bin/rspec --fail-fast -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
   </target>
 

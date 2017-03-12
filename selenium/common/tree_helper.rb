@@ -40,7 +40,6 @@ module TreeHelperMethods
 
   def tree_click(node)
     @driver.find_element(:css => node.a_selector).click
-    @driver.wait_for_ajax
   end
 
   def tree_node_for_title(title)

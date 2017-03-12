@@ -191,7 +191,7 @@ describe "Notes" do
     @driver.navigate.to("#{$frontend}")
     # Create a resource
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Resource").click
+    @driver.click_and_wait_until_gone(:link, "Resource")
 
     @driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
     @driver.complete_4part_id("resource_id_%d_")
@@ -207,7 +207,7 @@ describe "Notes" do
     @driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
 
-    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
 
     # Give it a child AO
     @driver.click_and_wait_until_gone(:link, "Add Child")
@@ -230,7 +230,7 @@ describe "Notes" do
     @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
 
 
-    @driver.find_element(:css => '.btn.btn-cancel.btn-default').click
+    @driver.click_and_wait_until_gone(:css => '.btn.btn-cancel.btn-default')
   end
 
 
@@ -238,7 +238,7 @@ describe "Notes" do
     @driver.navigate.to("#{$frontend}")
 
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Digital Object").click
+    @driver.click_and_wait_until_gone(:link, "Digital Object")
 
     @driver.clear_and_send_keys([:id, "digital_object_title_"], "A digital object with notes")
     @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
@@ -254,7 +254,7 @@ describe "Notes" do
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
     @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
 
-    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
   end
 
 end

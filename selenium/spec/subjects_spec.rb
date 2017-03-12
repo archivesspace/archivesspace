@@ -18,7 +18,7 @@ describe "Subjects" do
 
   it "reports errors and warnings when creating an invalid Subject" do
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Subject').click
+    @driver.click_and_wait_until_gone(:link => 'Subject')
 
     @driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
 
@@ -38,7 +38,7 @@ describe "Subjects" do
     now = "#{$$}.#{Time.now.to_i}"
 
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Subject').click
+    @driver.click_and_wait_until_gone(:link => 'Subject')
     @driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click
 
     @driver.find_element(:id => "subject_source_").select_option("local")
@@ -56,7 +56,7 @@ describe "Subjects" do
     second = "second_#{SecureRandom.hex}"
 
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Subject').click
+    @driver.click_and_wait_until_gone(:link => 'Subject')
     @driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click
     @driver.find_element(:id => "subject_source_").select_option("local")
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], first)
@@ -87,7 +87,7 @@ describe "Subjects" do
     run_index_round
 
     @driver.find_element(:link => 'Browse').click
-    @driver.find_element(:link => 'Subjects').click
+    @driver.click_and_wait_until_gone(:link => 'Subjects')
 
     expect {
       @driver.find_element_with_text('//tr', /just a term really/)
@@ -99,7 +99,7 @@ describe "Subjects" do
     now = "#{$$}.#{Time.now.to_i}"
 
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Subject').click
+    @driver.click_and_wait_until_gone(:link => 'Subject')
 
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "My First New Term #{now}")
     @driver.find_element(:id => "subject_source_").select_option("local")
@@ -113,7 +113,7 @@ describe "Subjects" do
     run_index_round
 
     @driver.find_element(:link => 'Browse').click
-    @driver.find_element(:link => 'Subjects').click
+    @driver.click_and_wait_until_gone(:link => 'Subjects')
 
     @driver.find_element(:link => "Download CSV").click
     sleep(1)

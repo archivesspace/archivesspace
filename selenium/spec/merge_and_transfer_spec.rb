@@ -43,7 +43,7 @@ describe "Merging and transfering resources" do
     @driver.select_repo(@target_repo)
 
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Resources").click
+    @driver.click_and_wait_until_gone(:link, "Resources")
 
     @driver.find_element(:xpath => "//td[contains(text(), '#{@resource.title}')]")
 

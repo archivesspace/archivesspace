@@ -38,9 +38,6 @@ class Driver
     @driver = Selenium::WebDriver.for :firefox,:profile => profile
     @wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
     @driver.manage.window.maximize
-    @driver.manage.timeouts.implicit_wait = 120
-    @driver.manage.timeouts.script_timeout = 120
-    @driver.manage.timeouts.page_load = 120
   end
 
   def method_missing(meth, *args)
@@ -53,8 +50,7 @@ class Driver
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
-    @driver.find_element(:id, 'login').click
-    @driver.wait_for_ajax
+    @driver.click_and_wait_until_gone(:id, 'login')
 
     self
   end
@@ -106,6 +102,7 @@ class Driver
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
     @driver.find_element(:css, '.select-a-repository .btn-primary').click
+
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
@@ -117,6 +114,8 @@ class Driver
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
   end
 
 

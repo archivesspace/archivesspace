@@ -1,4 +1,5 @@
 require_relative 'factories'
+require 'pry'
 
 require_relative "../common"
 require_relative '../../indexer/app/lib/realtime_indexer'

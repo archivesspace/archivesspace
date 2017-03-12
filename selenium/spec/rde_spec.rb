@@ -70,8 +70,6 @@ describe "RDE" do
 
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
 
-    @driver.wait_for_ajax
-
     expect {
       tree_node_for_title('My AO, 2013')
       tree_node_for_title('Item')
@@ -178,7 +176,7 @@ describe "RDE" do
     modal.find_element(:css, ".btn.fill-column").click
     modal.find_element(:id, "basicFillTargetColumn").select_option("colLevel")
     modal.find_element(:id, "basicFillValue").select_option("item")
-    @driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+    @driver.find_element(:css, "#fill_basic .btn-primary").click
 
     # all should have item as the level
     modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
@@ -203,13 +201,13 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
     @driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # check the component id for each row matches the sequence
     modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
@@ -230,7 +228,7 @@ describe "RDE" do
     modal.find_element(:css, ".btn.reorder-columns").click
 
     # move Note Type 1 to the first position
-    modal.find_element(:id, "columnOrder").select_option("colNType1")
+    @driver.find_element(:css, '#rapidDataEntryModal #columnOrder').select_option("colNType1")
     24.times { modal.find_element(:id, "columnOrderUp").click }
 
     # move Instance Type to the second position
@@ -239,7 +237,7 @@ describe "RDE" do
     16.times { modal.find_element(:id, "columnOrderUp").click }
 
     # apply the new order
-    @driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
+    @driver.find_element(:css, "#columnReorderForm .btn-primary").click
 
     # check the first few headers now match the new order
     cells = modal.find_elements(:css, "table .fieldset-labels th")
@@ -413,7 +411,7 @@ describe "Digital Object RDE" do
     modal.find_element(:css, ".btn.fill-column").click
     modal.find_element(:id, "basicFillTargetColumn").select_option("colLabel")
     @driver.clear_and_send_keys([:id, "basicFillValue"], "NEW_LABEL")
-    @driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+    @driver.find_element(:css, "#fill_basic .btn-primary").click
 
     # all should have item as the level
     assert {
@@ -440,13 +438,13 @@ describe "Digital Object RDE" do
     @driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
     @driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     @driver.wait_for_ajax
 
@@ -479,7 +477,7 @@ describe "Digital Object RDE" do
     16.times { modal.find_element(:id, "columnOrderUp").click }
 
     # apply the new order
-    @driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
+    @driver.find_element(:css, "#columnReorderForm .btn-primary").click
 
     # check the first few headers now match the new order
     cells = modal.find_elements(:css, "table .fieldset-labels th")

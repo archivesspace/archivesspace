@@ -25,13 +25,13 @@ describe "Digital Objects" do
 
   it "reports errors and warnings when creating an invalid Digital Object" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Digital Object").click
+    @driver.click_and_wait_until_gone(:link, "Digital Object")
     @driver.find_element(:id, "digital_object_title_").clear
     @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
 
-    @driver.find_element(:css, "a.btn.btn-cancel").click
+    @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
 
 
@@ -39,7 +39,7 @@ describe "Digital Objects" do
 
   it "can create a digital_object with one file version" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Digital Object").click
+    @driver.click_and_wait_until_gone(:link, "Digital Object")
 
     @driver.clear_and_send_keys([:id, "digital_object_title_"],(digital_object_title))
     @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
@@ -86,7 +86,7 @@ describe "Digital Objects" do
     @driver.click_and_wait_until_gone(:id => "createPlusOne")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /you must provide/)
 
-    @driver.find_element(:css, "a.btn.btn-cancel").click
+    @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
 
 

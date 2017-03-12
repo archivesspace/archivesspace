@@ -39,12 +39,12 @@ describe "Record Lifecycle" do
 
     # make sure we can see suppressed records
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
-    @driver.find_element(:link, "My Repository Preferences").click
+    @driver.click_and_wait_until_gone(:link, "My Repository Preferences")
 
     elt = @driver.find_element(:xpath, '//input[@id="preference_defaults__show_suppressed_"]')
-    unless elt[@checked]
+    unless elt.attribute('checked')
       elt.click
-      @driver.find_element(:css => 'button[type="submit"]').click
+      @driver.click_and_wait_until_gone(:css => 'button[type="submit"]')
     end
 
     # Navigate to the Accession
@@ -52,7 +52,7 @@ describe "Record Lifecycle" do
 
     # Suppress the Accession
     @driver.find_element(:css, ".suppress-record.btn").click
-    @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "#confirmChangesModal #confirmButton")
 
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession.title} suppressed") }
     assert(5) { @driver.find_element(:css => "div.alert.alert-info").text.should eq('Accession is suppressed and cannot be edited') }
@@ -69,7 +69,7 @@ describe "Record Lifecycle" do
     @driver.login_to_repo(@archivist_user, @repo)
     # check the listing
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Accessions").click
+    @driver.click_and_wait_until_gone(:link, "Accessions")
 
     @driver.find_element_with_text('//h2', /Accessions/)
 
@@ -92,7 +92,7 @@ describe "Record Lifecycle" do
 
     # Unsuppress the Accession
     @driver.find_element(:css, ".unsuppress-record.btn").click
-    @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "#confirmChangesModal #confirmButton")
 
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession.title} unsuppressed") }
   end
@@ -105,7 +105,7 @@ describe "Record Lifecycle" do
 
     # Delete the accession
     @driver.find_element(:css, ".delete-record.btn").click
-    @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "#confirmChangesModal #confirmButton")
 
     #Ensure Accession no longer exists
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Accession #{@accession.title} deleted") }
@@ -135,7 +135,7 @@ describe "Record Lifecycle" do
 
     # Suppress the Digital Object
     @driver.find_element(:css, ".suppress-record.btn").click
-    @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "#confirmChangesModal #confirmButton")
 
     assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Digital Object #{@do.title} suppressed") }
     assert(5) { @driver.find_element(:css => "div.alert.alert-info").text.should eq('Digital Object is suppressed and cannot be edited') }

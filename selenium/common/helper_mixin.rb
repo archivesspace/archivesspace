@@ -61,6 +61,8 @@ module RepositoryHelperMethods
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
   end
 
 

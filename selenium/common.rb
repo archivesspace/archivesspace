@@ -87,7 +87,13 @@ def assert(times = nil, &block)
       retry
     else
       puts "Assert giving up"
-      raise $!
+
+      if ENV['ASPACE_TEST_WITH_PRY']
+        puts "Starting pry"
+        binding.pry
+      else
+        raise $!
+      end
     end
   end
 end
