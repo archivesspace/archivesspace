@@ -38,6 +38,9 @@ class Driver
     @driver = Selenium::WebDriver.for :firefox,:profile => profile
     @wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
     @driver.manage.window.maximize
+    @driver.manage.timeouts.implicit_wait = 120
+    @driver.manage.timeouts.script_timeout = 120
+    @driver.manage.timeouts.page_load = 120
   end
 
   def method_missing(meth, *args)
