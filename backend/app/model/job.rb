@@ -76,7 +76,10 @@ class Job < Sequel::Model(:job)
     if json.job_params == "null" 
       json.job_params = ""
     end
-    
+
+    # force a validation on the job
+    job = JSONModel(json.job['jsonmodel_type'].intern).from_hash(json.job)
+
     super(json, opts.merge(:time_submitted => Time.now,
                            :owner_id => opts.fetch(:user).id,
                            :job_type => json.job['jsonmodel_type'],
