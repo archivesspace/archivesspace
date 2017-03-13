@@ -40,6 +40,21 @@ describe 'job model and job runners' do
       end
 
     end
+
+    class HiddenJobRunner < JobRunner
+      register_for_job_type("hidden_job", :hidden => true)
+    end
+
+    class ConcurrentJobRunner < JobRunner
+      register_for_job_type("concurrent_job", :run_concurrently => true)
+    end
+
+    class PermissionJobRunner < JobRunner
+      register_for_job_type("permissions_job",
+                            :create_permissions => 'god_like',
+                            :cancel_permissions => ['death', 'destruction'])
+    end
+
   end
 
 
@@ -106,7 +121,55 @@ describe 'job model and job runners' do
 
 
     it 'can get the right runner for the job' do
-      JobRunner.for(job).class.to_s.should eq('NugatoryJobRunner')
+      JobRunner.for(job).class.should eq(NugatoryJobRunner)
+    end
+
+
+    it 'ensures only one runner can register for a job type' do
+      expect {
+        JobRunner.register_for_job_type('nugatory_job')
+      }.to raise_error(JobRunner::JobRunnerError)
+    end
+
+
+    it 'can give you the registered runner for a job type' do
+      runner = JobRunner.registered_runner_for('nugatory_job')
+      runner.type.should eq('nugatory_job')
+    end
+
+
+    it 'will give you the registered runner for a hidden job type' do
+      runner = JobRunner.registered_runner_for('hidden_job')
+      runner.type.should eq('hidden_job')
+    end
+
+
+    it 'knows if a job type allows concurrency' do
+      JobRunner.registered_runner_for('nugatory_job').run_concurrently.should be false
+      JobRunner.registered_runner_for('concurrent_job').run_concurrently.should be true
+    end
+
+
+    it 'knows the permissions required to create or cancel a job' do
+      runner = JobRunner.registered_runner_for('nugatory_job')
+      runner.create_permissions.should eq []
+      runner.cancel_permissions.should eq []
+
+      runner = JobRunner.registered_runner_for('permissions_job')
+      runner.create_permissions.should eq ['god_like']
+      runner.cancel_permissions.should eq ['death', 'destruction']
+    end
+
+
+    it 'can give you a list of registered job types and their permissions' do
+      types = JobRunner.registered_job_types
+      types['nugatory_job'][:create_permissions].should eq []
+    end
+
+
+    it 'will not tell you about hidden job types' do
+      types = JobRunner.registered_job_types
+      types['hidden_job'].should be_nil
     end
 
 
@@ -154,7 +217,6 @@ describe 'job model and job runners' do
 
 
           user = create(:user, :username => 'jobber')
-
 
           @job = Job.create_from_json(json,
                                       :repo_id => $repo_id,
