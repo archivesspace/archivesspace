@@ -44,9 +44,6 @@ a {
   float: none !important;
   }
 
-.emph { 
-      font-weight: bold;
-}
 .italic {
 	font-style: italic;
 }
@@ -694,6 +691,7 @@ span.head {
 
 .breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
 .breadcrumb * a {color: $breadcrumb-link;}
+.breadcrumb li br {display: none;}
 
 .acc_holder {
 	    margin-top: rem-calc(20);
