@@ -77,6 +77,9 @@
         if (rootNode.jsonmodel_type == 'classification') {
             row.find('a.record-title').attr('href', rootNode.uri + '/search');
         } else {
+            if ("<%= @resource_title %>".length > 0) {
+                row.find("a.record-title").html("<%= @resource_title %>");
+            }
             row.find('a.record-title').attr('href', rootNode.uri);
         }
     }

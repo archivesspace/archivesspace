@@ -23,7 +23,7 @@ describe "ArchivesSpace Public interface" do
 
   after(:each) do |example|
     if example.exception and ENV['SCREENSHOT_ON_ERROR']
-      SeleniumTest.save_screenshot
+      SeleniumTest.save_screenshot(@driver)
     end
   end
 

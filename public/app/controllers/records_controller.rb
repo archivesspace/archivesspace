@@ -5,12 +5,12 @@ class RecordsController < ApplicationController
   def resource
     resource = JSONModel(:resource).find(params[:id], :repo_id => params[:repo_id], "resolve[]" => ["subjects", "container_locations", "digital_object", "linked_agents", "related_accessions"])
     raise RecordNotFound.new if (!resource || !resource.publish)
-    breadcrumb_title = title_or_finding_aid_filing_title(resource) 
+    @resource_title = title_or_finding_aid_filing_title(resource)
     @resource = ResourceView.new(resource)
 
     @breadcrumbs = [
       [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"],
-      [breadcrumb_title, "#", "resource"]
+      [@resource_title, "#", "resource"]
     ]
   end
 
@@ -32,7 +32,11 @@ class RecordsController < ApplicationController
       if node['node']
         @breadcrumbs.push([node['title'], "#{AppConfig[:public_proxy_prefix]}#{node['node']}".gsub('//', '/'), 'archival_object'])
       else
-        @breadcrumbs.push([node['title'], "#{AppConfig[:public_proxy_prefix]}#{node['root_record_uri']}".gsub('//', '/'), 'resource'])
+        resource_uri = node['root_record_uri']
+        resource_id = JSONModel.parse_reference(resource_uri).fetch(:id)
+        resource = JSONModel(:resource).find(resource_id, :repo_id => params[:repo_id])
+        @resource_title = title_or_finding_aid_filing_title(resource)
+        @breadcrumbs.push([@resource_title, "#{AppConfig[:public_proxy_prefix]}#{node['root_record_uri']}".gsub('//', '/'), 'resource'])
       end
     end
 
