@@ -80,7 +80,7 @@ class LocationHoldingsReport < AbstractReport
     dataset = dataset
 	      .left_outer_join(:top_container_link_rlshp, :top_container_id => :top_container__id)
 	      .left_outer_join(:sub_container, :id => :top_container_link_rlshp__sub_container_id)
-	      .left_outer_join(:instance, :id => :sub_container__id)
+	      .left_outer_join(:instance, :id => :sub_container__instance_id)
 	      .left_outer_join(:archival_object, :id => :instance__archival_object_id)
 	      .left_outer_join(:resource, :id => :instance__resource_id)
 	      .left_outer_join(:accession, :id => :instance__accession_id)
