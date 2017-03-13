@@ -2,26 +2,6 @@ require_relative 'spec_helper'
 
 describe "ArchivesSpace Public interface" do
 
-  # Start the dev servers and Selenium
-  before(:all) do
-    state = Object.new.instance_eval do
-      @store = {}
-
-      def get_last_mtime(repo_id, record_type)
-        @store[[repo_id, record_type]].to_i || 0
-      end
-
-      def set_last_mtime(repo_id, record_type, time)
-        @store[[repo_id, record_type]] = time
-      end
-
-      self
-    end
-
-    @indexer = PeriodicIndexer.get_indexer(state)
-  end
-
-
   before(:all) do
     @repo = create(:repo, :publish => true)
     set_repo(@repo)
@@ -74,7 +54,7 @@ describe "ArchivesSpace Public interface" do
              :name => @test_repo_name_2,
              :publish => true)
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -120,7 +100,7 @@ describe "ArchivesSpace Public interface" do
 
 
     it "doesn't list an un-published records in the list" do
-      @indexer.run_index_round
+      run_index_round
 
       @driver.find_element(:link, "Collections").click
 
@@ -156,7 +136,7 @@ describe "ArchivesSpace Public interface" do
                           :title => "NO WAY", :id_0 => rand(1000).to_s,  :finding_aid_filing_title => "YeaBuddy",
                           :publish => true )
 
-      @indexer.run_index_round
+      run_index_round
 
       @driver.find_element(:link, "Collections").click
 
@@ -173,7 +153,7 @@ describe "ArchivesSpace Public interface" do
                :title => "Test Resource #{i}", :publish => true, :id_0 => "id#{i}")
       end
 
-      @indexer.run_index_round
+      run_index_round
 
       @driver.find_element(:link, "Collections").click
 
@@ -200,7 +180,7 @@ describe "ArchivesSpace Public interface" do
                                                               { :file_uri => "C:\\windozefilepaths.suck", :publish => true },
                                                               { :file_uri => "file:///C:\\uris.dont", :publish => true }
                                                              ])
-      @indexer.run_index_round
+      run_index_round
     end
 
     it "displayed the digital object correctly" do
@@ -232,7 +212,7 @@ describe "ArchivesSpace Public interface" do
                                           :publish => false,
                                           :resource => {:ref => @unpublished_resource.uri})
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -251,7 +231,7 @@ describe "ArchivesSpace Public interface" do
                                                       :value => "something",
                                                       :reference => ref_id,
                                                       :reference_text => index_link_text}]}])
-      @indexer.run_index_round
+      run_index_round
 
       @driver.get(URI.join($frontend, ao_with_note.uri))
       @driver.find_element(:link, index_link_text).click
@@ -304,7 +284,7 @@ describe "ArchivesSpace Public interface" do
                                                      ]
                                    )
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -353,7 +333,7 @@ describe "ArchivesSpace Public interface" do
                                                 ]
                                    )
 
-      @indexer.run_index_round
+      run_index_round
     end
 
     it "is visible when it is linked to a published resource" do
@@ -386,7 +366,7 @@ describe "ArchivesSpace Public interface" do
                                     :publish => true,
                                     :id_0 => "themeaningofdeathpapers")
 
-      @indexer.run_index_round
+      run_index_round
     end
 
     before(:each) do
