@@ -27,11 +27,15 @@ describe "Digital Objects" do
     @driver.find_element(:link, "Create").click
     @driver.click_and_wait_until_gone(:link, "Digital Object")
     @driver.find_element(:id, "digital_object_title_").clear
-    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
 
+    # cancel those changes (shows a new form)
     @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
+
+    # and jump back home so we can start again
+    @driver.go_home
   end
 
 
@@ -51,10 +55,10 @@ describe "Digital Objects" do
     @driver.clear_and_send_keys([:id, "digital_object_file_versions__0__file_uri_"], "/uri/for/this/file/version")
     @driver.clear_and_send_keys([:id , "digital_object_file_versions__0__file_size_bytes_"], '100')
 
-    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
 
     # The new Digital Object shows up on the tree
-    assert(5) { @driver.find_element(:css => "tr.root-row .title").text.strip.should match(/#{digital_object_title}/) }
+    @driver.find_element(:css => "tr.root-row .title").text.strip.should match(/#{digital_object_title}/)
   end
 
   it "can handle multiple file versions and file system and network path types" do
@@ -66,7 +70,7 @@ describe "Digital Objects" do
       i = idx + 1
       @driver.find_element(:css => "section#digital_object_file_versions_ > h3 > .btn:not(.show-all)").click
       @driver.clear_and_send_keys([:id, "digital_object_file_versions__#{i}__file_uri_"], uri)
-      @driver.find_element(:css => ".form-actions button[type='submit']").click
+      @driver.click_and_wait_until_gone(:css => ".form-actions button[type='submit']")
     end
     @driver.find_element(:link, "Close Record").click
     @driver.find_element_with_text('//h3', /File Versions/)
@@ -120,7 +124,7 @@ describe "Digital Objects" do
       if idx < 2
         @driver.click_and_wait_until_gone(:id => "createPlusOne")
       else
-        @driver.find_element(:css => "form#new_digital_object_component button[type='submit']").click
+        @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
       end
     end
 
