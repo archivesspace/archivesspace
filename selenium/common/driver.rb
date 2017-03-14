@@ -30,6 +30,12 @@ class Driver
     profile["browser.helperApps.neverAsk.saveToDisk"] = "application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed"
     profile['pdfjs.disabled'] = true
 
+    if java.lang.System.getProperty('os.name').downcase == 'linux'
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
+    else #osx
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
+    end
+
 
     if ENV['FIREFOX_PATH']
       Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
