@@ -50,13 +50,18 @@ class Driver
     @driver.send(meth, *args)
   end
 
-  def login(user)
+  def login(user, expect_fail = false)
     self.go_home
     @driver.wait_for_ajax
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
-    @driver.click_and_wait_until_gone(:id, 'login')
+
+    if expect_fail
+      @driver.find_element(:id, 'login').click
+    else
+      @driver.click_and_wait_until_gone(:id, 'login')
+    end
 
     self
   end
