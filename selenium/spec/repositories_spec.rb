@@ -65,8 +65,7 @@ describe "Repositories" do
   it "Cannot delete the currently selected repository" do
     run_index_round
     @driver.select_repo(@test_repo_code_1)
-    @driver.find_element(:link, 'System').click
-    @driver.click_and_wait_until_gone(:link, "Manage Repositories")
+    @driver.get("#{$frontend}/repositories")
     row = @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), 'Selected')]]")
     row.click_and_wait_until_gone(:link, 'Edit')
     @driver.ensure_no_such_element(:css, "button.delete-record")
@@ -84,8 +83,7 @@ describe "Repositories" do
 
     run_all_indexers
 
-    @driver.find_element(:link, 'System').click
-    @driver.click_and_wait_until_gone(:link, "Manage Repositories")
+    @driver.get("#{$frontend}/repositories")
     row = @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '#{@deletable_repo.repo_code}')]]")
     row.find_element(:link, 'Edit').click
 
@@ -99,8 +97,7 @@ describe "Repositories" do
 
 
   it "can create a second repository" do
-    @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Repositories").click
+    @driver.get("#{$frontend}/repositories")
     @driver.find_element(:link, "Create Repository").click
     @driver.clear_and_send_keys([:id, "repository_repository__repo_code_"], @test_repo_code_2)
     @driver.clear_and_send_keys([:id, "repository_repository__name_"], @test_repo_name_2)
@@ -127,11 +124,21 @@ describe "Repositories" do
 
   it "automatically refreshes the repository list when a new repo gets added" do
     repo = create(:repo)
+    success = false
 
-    assert(5) { 
+    Selenium::Config.retries.times do |try|
       @driver.navigate.refresh
+
       @driver.find_element(:link, 'Select Repository').click
-      @driver.find_element(:css, '.select-a-repository').select_option_with_text(repo.repo_code) 
-    }
+      res = @driver.execute_script("return $('option').filter(function (i, elt) { return $(elt).text() == '#{repo.repo_code}' }).length;")
+
+      if res == 1
+        success = true
+        break
+      end
+    end
+
+    success.should eq(true)
   end
+
 end
