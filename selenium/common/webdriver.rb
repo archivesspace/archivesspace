@@ -102,6 +102,12 @@ module Selenium
     class Driver
       include DriverMixin
 
+      def wait_for_dropdown
+        # Tried EVERYTHING to avoid needing this sleep.  Buest guess at the moment:
+        # JS hasn't been wired up to the click event and we get in too quickly.
+        sleep 0.5
+      end
+
       def wait_for_ajax
         max_ajax_sleep_seconds = 20
         ajax_sleep_duration = 0.05
@@ -194,6 +200,7 @@ return (
 
 
       alias :find_element_orig :find_element
+
       def find_element(*selectors)
         wait_for_ajax
 
@@ -229,6 +236,43 @@ return (
           end
         end
       end
+
+      def find_hidden_element(*selectors)
+        wait_for_ajax
+
+        try = 0
+        while true
+          begin
+            elt = find_element_orig(*selectors)
+
+            if elt.nil?
+              raise Selenium::WebDriver::Error::NoSuchElementError.new("Element not found")
+            end
+
+            return elt
+          rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
+            if try < Selenium::Config.retries
+              try += 1
+              $sleep_time += 0.5
+              sleep 0.5
+              if (try > 0) && (try % 5) == 0
+                puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
+                puts caller.take(10).join("\n")
+              end
+            else
+              puts "Failed to find #{selectors}"
+
+              if ENV['ASPACE_TEST_WITH_PRY']
+                puts "Starting pry"
+                binding.pry
+              else
+                raise e
+              end
+            end
+          end
+        end
+      end
+
 
 
       def find_last_element(*selectors)
@@ -382,10 +426,16 @@ return (
 
 
       def select_option(value)
+        self.click
+
         self.find_elements(:tag_name => "option").each do |option|
           if option.attribute("value") === value
-            option.click
-            return
+            Selenium::Config.retries.times do |try|
+              return if option.attribute('selected')
+
+              option.click
+              sleep 0.1
+            end
           end
         end
 
@@ -394,6 +444,7 @@ return (
 
 
       def select_option_with_text(value)
+        self.click
         self.find_elements(:tag_name => "option").each do |option|
           if option.text === value
             option.click

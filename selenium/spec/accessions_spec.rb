@@ -368,8 +368,7 @@ describe "Accessions" do
     @driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
-    sleep(2)
-
+    @driver.wait_for_dropdown
     @driver.find_element(:css, "a.linker-create-btn").click
 
     @driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)").click
@@ -382,6 +381,7 @@ describe "Accessions" do
 
     # Browse works too
     @driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:css, "a.linker-browse-btn").click
     @driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
     @driver.find_element(:css, ".modal-footer > button.btn.btn-cancel").click

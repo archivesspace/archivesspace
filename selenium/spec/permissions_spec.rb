@@ -31,6 +31,7 @@ describe "Permissions" do
   it "supports denying permission to edit Resources" do
     @driver.login_to_repo($admin, @repo)
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Groups")
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)

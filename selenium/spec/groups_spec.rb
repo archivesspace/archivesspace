@@ -22,6 +22,7 @@ describe "Groups" do
     @driver.select_repo(@repo_to_manage)
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)
@@ -36,6 +37,7 @@ describe "Groups" do
   it "can assign the test user to the viewers group of the first repository" do
     @driver.select_repo(@repo_to_view)
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-viewers/)
@@ -49,6 +51,7 @@ describe "Groups" do
 
   it "reports errors when attempting to create a Group with missing data" do
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
     @driver.find_element(:link, "Create Group").click
     @driver.find_element(:css => "form#new_group button[type='submit']").click
@@ -127,6 +130,7 @@ describe "Groups" do
 
     # change @can_manage_repo to a view only
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage User Access").click
 
     while true
@@ -176,6 +180,7 @@ describe "Groups" do
 
     # change @can_manage_repo to a view only
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage User Access").click
 
     while true

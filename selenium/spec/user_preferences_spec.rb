@@ -22,6 +22,7 @@ describe "User Preferences" do
 
   it "allows you to configure browse columns" do
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "My Repository Preferences").click
 
     @driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
