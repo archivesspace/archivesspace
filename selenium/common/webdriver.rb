@@ -447,8 +447,12 @@ return (
         self.click
         self.find_elements(:tag_name => "option").each do |option|
           if option.text === value
-            option.click
-            return
+            Selenium::Config.retries.times do |try|
+              return if option.attribute('selected')
+
+              option.click
+              sleep 0.1
+            end
           end
         end
 

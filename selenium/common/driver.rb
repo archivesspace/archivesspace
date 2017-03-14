@@ -112,7 +112,7 @@ class Driver
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-    @driver.find_element(:css, '.select-a-repository .btn-primary').click
+    @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
 
     if block_given?
       $test_repo_old = $test_repo

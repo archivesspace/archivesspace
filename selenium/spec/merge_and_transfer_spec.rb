@@ -67,7 +67,7 @@ describe "Merging and transfering resources" do
     @driver.find_element(:css, "button.merge-button").click
 
     @driver.find_element_with_text("//h3", /Merge into this record\?/)
-    @driver.find_element(:css, "button#confirmButton").click
+    @driver.click_and_wait_until_gone(:css, "button#confirmButton")
 
     (@aoset2 + @aoset3).each do |ao|
       assert(5) {
