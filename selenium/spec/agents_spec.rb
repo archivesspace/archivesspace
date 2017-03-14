@@ -237,6 +237,10 @@ describe "Agents" do
     assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
     notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
 
+    # Woah! Slow down, cowboy. Let's wait a brief moment to make sure the note 
+    # javascript has initialised the button event bindings
+    sleep 0.5
+
     # ensure sub note form displayed
     @driver.find_element(:id, "agent_notes__0__subnotes__2__publish_")
 
