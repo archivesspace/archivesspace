@@ -236,11 +236,9 @@ describe "Locations" do
       @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "1978*" )
       @driver.click_and_wait_until_gone(:css, ".sidebar input.text-filter-field + div button")
 
-      @driver.blocking_find_elements(:css, ".multiselect-column input").slice(0..7).each do |checkbox|
-        checkbox.click
+      (0..7).each do |i|
+        @driver.execute_script("$($('.multiselect-column input').get(#{i})).click()")
       end
-
-
 
       @driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled.edit-batch").click
       @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
@@ -270,9 +268,7 @@ describe "Locations" do
 
     it "can create locations with +1 stickyness" do
       @driver.navigate.to("#{$frontend}/locations")
-      @driver.find_element(:link, "Create Batch Locations").click
-
-      @driver.click_and_wait_until_gone(:css => "form#new_location_batch .btn-primary")
+      @driver.click_and_wait_until_gone(:link, "Create Batch Locations")
 
       @driver.clear_and_send_keys([:id, "location_batch_building_"], "555 Fake Street")
       @driver.clear_and_send_keys([:id, "location_batch_floor_"], "2nd")
@@ -284,8 +280,6 @@ describe "Locations" do
       @driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__label_"], "Shelf")
       @driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__start_"], "1")
       @driver.clear_and_send_keys([:id, "location_batch_coordinate_2_range__end_"], "4")
-
-      @driver.wait_for_ajax
 
       @driver.click_and_wait_until_gone(:css => "form#new_location_batch .createPlusOneBtn")
 
