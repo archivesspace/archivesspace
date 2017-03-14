@@ -1,6 +1,7 @@
 require_relative '../../selenium/spec/factories'
 require_relative "../../selenium/common"
 require_relative '../../indexer/app/lib/periodic_indexer'
+require_relative '../../indexer/app/lib/pui_indexer'
 
 
 $backend_port = TestUtils::free_port_from(3636)
@@ -28,6 +29,8 @@ RSpec.configure do |config|
   config.before(:suite) do
     selenium_init($backend_start_fn, $frontend_start_fn)
     SeleniumFactories.init
+    $indexer = PeriodicIndexer.new($backend, nil, 'Periodic')
+    $pui_indexer = PUIIndexer.new($backend, nil, 'PUI')
   end
 
   if ENV['ASPACE_TEST_WITH_PRY']
@@ -41,4 +44,9 @@ RSpec.configure do |config|
     end
   end
 
+end
+
+def run_index_round
+  $indexer.run_index_round
+  $pui_indexer.run_index_round
 end

@@ -51,10 +51,10 @@ end
 
 class PeriodicIndexer < CommonIndexer
 
-  def initialize(state = nil, indexer_name)
-    super(AppConfig[:backend_url])
+  def initialize(backend_url = nil, state = nil, indexer_name = nil)
+    super(backend_url || AppConfig[:backend_url])
 
-    @indexer_name = indexer_name
+    @indexer_name = indexer_name || 'PeriodicIndexer'
     @state = state || IndexState.new
 
     # A small window to account for the fact that transactions might be committed
@@ -259,7 +259,7 @@ class PeriodicIndexer < CommonIndexer
   end
 
   def self.get_indexer(state = nil, name = "Staff Indexer")
-    indexer = self.new(state, name)
+    indexer = self.new(AppConfig[:backend_url], state, name)
   end
 
   def fetch_records(type, ids, resolve)

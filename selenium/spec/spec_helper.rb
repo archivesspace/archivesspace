@@ -1,4 +1,5 @@
 require_relative 'factories'
+require 'pry'
 
 require_relative "../common"
 require_relative '../../indexer/app/lib/realtime_indexer'
@@ -60,7 +61,7 @@ RSpec.configure do |config|
     # runs indexers in the same thread as the tests if necessary
     if !ENV['ASPACE_INDEXER_URL']
       $indexer = RealtimeIndexer.new($backend, nil)
-      $period = PeriodicIndexer.new("periodic_indexer")
+      $period = PeriodicIndexer.new($backend, nil, "periodic_indexer")
     end
   end
 

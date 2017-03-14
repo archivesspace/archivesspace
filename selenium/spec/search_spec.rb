@@ -95,12 +95,7 @@ describe "Advanced Search" do
 
   it "is available via the navbar and renders when toggled" do
     @driver.find_element(:css => ".navbar .search-switcher").click
-
-    assert(10) {
-      advanced_search_form = @driver.find_element(:css => "form.advanced-search")
-      advanced_search_form.find_element(:id => "v0")
-      advanced_search_form.find_element(:css => ".btn-primary")
-    }
+    @driver.find_element(:css => ".search-switcher-hide")
   end
 
 

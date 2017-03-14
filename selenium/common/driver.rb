@@ -30,6 +30,12 @@ class Driver
     profile["browser.helperApps.neverAsk.saveToDisk"] = "application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed"
     profile['pdfjs.disabled'] = true
 
+    if java.lang.System.getProperty('os.name').downcase == 'linux'
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
+    else #osx
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
+    end
+
 
     if ENV['FIREFOX_PATH']
       Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
@@ -44,14 +50,18 @@ class Driver
     @driver.send(meth, *args)
   end
 
-  def login(user)
+  def login(user, expect_fail = false)
     self.go_home
     @driver.wait_for_ajax
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
-    @driver.find_element(:id, 'login').click
-    @driver.wait_for_ajax
+
+    if expect_fail
+      @driver.find_element(:id, 'login').click
+    else
+      @driver.click_and_wait_until_gone(:id, 'login')
+    end
 
     self
   end
@@ -102,7 +112,8 @@ class Driver
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-    @driver.find_element(:css, '.select-a-repository .btn-primary').click
+    @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
+
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
@@ -114,6 +125,8 @@ class Driver
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
   end
 
 
@@ -141,22 +154,15 @@ class Driver
     self
   end
 
-  SPINNER_RETRIES = 10
+  SPINNER_RETRIES = 100
 
   def wait_for_spinner
     puts "    Awaiting spinner... (#{caller[0]})"
 
-    # The spinner's height is 100 when shown
     SPINNER_RETRIES.times do
-      height = self.execute_script("return $('#archives_tree_overlay').height()")
-      break if height != 0
-      sleep 0.2
-    end
-
-    # and zero when hidden
-    SPINNER_RETRIES.times do
-      height = self.execute_script("return $('#archives_tree_overlay').height()")
-      break if height == 0
+      is_spinner_visible = self.execute_script("return $('.spinner').is(':visible')")
+      is_blockout_visible = self.execute_script("return $('.blockout').is(':visible')")
+      break unless is_spinner_visible || is_blockout_visible
       sleep 0.2
     end
   end

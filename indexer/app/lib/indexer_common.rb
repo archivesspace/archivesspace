@@ -9,6 +9,7 @@ require 'asutils'
 require 'jsonmodel'
 require 'jsonmodel_client'
 require 'config/config-distribution'
+require 'record_inheritance'
 
 require_relative 'index_batch'
 

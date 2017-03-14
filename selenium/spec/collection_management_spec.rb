@@ -17,7 +17,7 @@ describe "Collection Management" do
 
   it "should be fine with no records" do
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Collection Management").click
+    @driver.click_and_wait_until_gone(:link, "Collection Management")
     @driver.find_element(:css => ".alert.alert-info").text.should eq("No records found")
   end
 
@@ -25,7 +25,7 @@ describe "Collection Management" do
   it "is browseable even when its linked accession has no title" do
     # first create the title-less accession
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
     fourid = @driver.generate_4part_id
     @driver.complete_4part_id("accession_id_%d_", fourid)
     # @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -44,7 +44,7 @@ describe "Collection Management" do
     run_all_indexers
     # check the CM page
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Collection Management").click
+    @driver.click_and_wait_until_gone(:link, "Collection Management")
 
     expect {
       @driver.find_element(:xpath => "//td[contains(text(), '#{fourid[0]}')]")
@@ -63,7 +63,7 @@ describe "Collection Management" do
     expect {
       10.times {
         @driver.find_element(:link, "Browse").click
-        @driver.find_element(:link, "Collection Management").click
+        @driver.click_and_wait_until_gone(:link, "Collection Management")
         @driver.find_element_orig(:xpath => "//td[contains(text(), '#{fourid[0]}')]")
         run_index_round #keep indexing and refreshing till it disappears
         @driver.navigate.refresh
@@ -74,10 +74,12 @@ describe "Collection Management" do
 
 
   it "it should only allow numbers for some values" do
+    @driver.navigate.to("#{$frontend}")
+
     @accession_title = "Collection Management Test"
     # first create the title-less accession
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
     fourid = @driver.generate_4part_id
     @driver.complete_4part_id("accession_id_%d_", fourid)
     @driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)

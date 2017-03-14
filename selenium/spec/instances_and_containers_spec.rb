@@ -68,6 +68,7 @@ describe "Resource instances and containers" do
 
     # Now bulk update Letter E's ILD #
     @driver.find_element(:css => ".bulk-operation-toolbar:first-child a.dropdown-toggle").click
+    @driver.wait_for_dropdown
 
     @driver.find_element(:id => "bulkActionUpdateIlsHolding").click
 
@@ -101,6 +102,7 @@ describe "Resource instances and containers" do
 
     # Create a top container
     elt.find_element(:css => 'a.dropdown-toggle').click
+    @driver.wait_for_dropdown
     elt.find_element(:css => 'a.linker-create-btn').click
     modal = @driver.find_element(:css => '#resource_instances__0__sub_container__top_container__ref__modal')
 
@@ -109,6 +111,7 @@ describe "Resource instances and containers" do
 
     # Create a top container profile within the top container
     modal.find_element(:css => '.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
     modal.find_element(:css, "a.linker-create-btn").click
 
     profile_modal = @driver.find_element(:css => '#top_container_container_profile__ref__modal')
@@ -134,6 +137,7 @@ describe "Resource instances and containers" do
     }
 
     @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
+    @driver.wait_for_dropdown
     @driver.wait_for_ajax
     @driver.scroll_into_view(elt.find_element(:css, "a.linker-create-btn")).click
 
@@ -167,6 +171,7 @@ describe "Resource instances and containers" do
 
     # Create top container
     elt.find_element(:css => 'a.dropdown-toggle').click
+    @driver.wait_for_dropdown
     elt.find_element(:css => 'a.linker-create-btn').click
     modal = @driver.find_element(:css => '#accession_instances__0__sub_container__top_container__ref__modal')
 
@@ -184,9 +189,9 @@ describe "Resource instances and containers" do
       elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value').should eq("")
     }
 
-    elt.find_element(:css => '.dropdown-toggle.locations').click
+    @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
+    @driver.wait_for_dropdown
     @driver.wait_for_ajax
-
     @driver.scroll_into_view(elt.find_element(:css, "a.linker-create-btn")).click
 
     loc_modal = @driver.find_element(:id => 'top_container_container_locations__0__ref__modal')

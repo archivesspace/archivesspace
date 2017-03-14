@@ -117,7 +117,7 @@ namespace :servers do
 
       $indexer = RealtimeIndexer.new(ENV['ASPACE_BACKEND_URL'], nil)
       $last_sequence = 0
-      $period = PeriodicIndexer.new
+      $period = PeriodicIndexer.new(ENV['ASPACE_BACKEND_URL'], nil, 'Selenium Periodic Indexer')
 
       indexer = Sinatra.new {
         set :port, args[:port]

@@ -34,6 +34,9 @@ class Accession < JSONModel(:accession)
 
     prepare_for_clone(values)
 
+    # :CLONE, values
+    require 'pp';$stderr.puts("\n*** DEBUG #{(Time.now.to_f * 1000).to_i} [accession.rb:38 d435a9]: " + {%Q^:CLONE^ => :CLONE, %Q^values^ => values}.pretty_inspect + "\n")
+
     self.update(values)
   end
 
