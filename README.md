@@ -1,7 +1,7 @@
 ArchivesSpace README
 --------------------
 
-[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg)](https://travis-ci.org/archivesspace/archivesspace.svg)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg?branch=master)](https://travis-ci.org/archivesspace/archivesspace)[![Coverage Status](https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master)](https://coveralls.io/github/archivesspace/archivesspace?branch=master)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
 
 
 * [archivesspace.org](http://archivesspace.org)
@@ -70,7 +70,7 @@ ArchivesSpace directory is located.
 ## Start ArchivesSpace
 
 The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:
 
   - http://localhost:8089/ -- the backend
@@ -78,7 +78,7 @@ accessing the following URLs in your browser:
   - http://localhost:8081/ -- the public interface
   - http://localhost:8090/ -- the Solr admin console
 
-To start using the Staff interface application, log in using the adminstrator 
+To start using the Staff interface application, log in using the adminstrator
 account:
 
 * Username: `admin`
@@ -94,10 +94,10 @@ as creating and modifying user accounts.  **Be sure to change the
 
 The primary configuration for ArchivesSpace is done in the config/config.rb
 file. By default, this file contains the default settings, which are indicated
-by commented out lines ( indicated by the "#" in the file ). You can adjust these 
-settings by adding new lines that change the default and restarting 
-ArchivesSpace. Be sure that your new settings are not commented out 
-( i.e. do NOT start with a "#" ), otherwise the settings will not take effect. 
+by commented out lines ( indicated by the "#" in the file ). You can adjust these
+settings by adding new lines that change the default and restarting
+ArchivesSpace. Be sure that your new settings are not commented out
+( i.e. do NOT start with a "#" ), otherwise the settings will not take effect.
 
 # Running ArchivesSpace as a Unix daemon
 
@@ -126,18 +126,18 @@ that the system runs under, JVM options, and so on.
 
 # Running ArchivesSpace as a Windows Service
 
-Running ArchivesSpace as a Windows service requires some additional 
-configuration. 
+Running ArchivesSpace as a Windows service requires some additional
+configuration.
 
-You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
-provided a service.bat script that will attempt to configure 
-procrun for you (under `launcher\service.bat`). 
+You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
+provided a service.bat script that will attempt to configure
+procrun for you (under `launcher\service.bat`).
 
 To run this script, first you need to [download procrun](http://www.apache.org/dist/commons/daemon/binaries/windows/ ).
 Extract the files and copy the prunsrv.exe and prunmgr.exe to your
-ArchivesSpace directory. 
+ArchivesSpace directory.
 
-You also need to be sure that Java in your system path and also to set `JAVA_HOME` as a global environment variable. 
+You also need to be sure that Java in your system path and also to set `JAVA_HOME` as a global environment variable.
 To add Java to your path, edit you %PATH% environment variable to include the directory of
 your java executable ( it will be something like `C:\Program Files
 (x86)\Java\bin` ). To add `JAVA_HOME`, add a new system variable and put the
@@ -150,13 +150,13 @@ Be sure that the MySQL connector jar file is in the lib directory, in order for
 the service setup script to add it to the application's classpath.
 
 Lastly, for the service to shutdown cleanly, uncomment and change these lines in
-config/config.rb: 
+config/config.rb:
 
-    AppConfig[:use_jetty_shutdown_handler] = true 
+    AppConfig[:use_jetty_shutdown_handler] = true
     AppConfig[:jetty_shutdown_path] = "/xkcd"
 
 This enables a shutdown hook for Jetty to respond to when the shutdown action
-is taken. 
+is taken.
 
 You can now execute the batch script from your ArchivesSpace root directory from
 the command line with `launcher\service.bat`. This  will configure the service and
@@ -173,13 +173,13 @@ system tray with:
 
 To execute the service from the command line, you can invoke:
 
-    ArchivesSpaceService.exe //ES// 
+    ArchivesSpaceService.exe //ES//
 
 Log output will be placed in your ArchivesSpace log directory.
 
 Please see the [procrun
 documentation](http://commons.apache.org/proper/commons-daemon/procrun.html)
-for more information. 
+for more information.
 
 # Running ArchivesSpace with a custom configuration file
 
@@ -208,7 +208,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
          $ cd lib
-         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar 
+         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar
 
 Note that the version of the MySQL connector may be different by the
 time you read this.
@@ -249,7 +249,7 @@ ArchivesSpace requires.  Run this with:
     scripts/setup-database.sh  # or setup-database.bat under Windows
 
 You can now follow the instructions in the "Getting Started" section to start
-your ArchivesSpace application. 
+your ArchivesSpace application.
 
 
 # Backup and recovery
@@ -336,7 +336,7 @@ permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
     mysql -uarchivesspace -p < mysqldump.sql
-    
+
 (change the username as required and enter your password when
 prompted).
 
@@ -375,10 +375,10 @@ For example:
 
      mkdir -p /path/to/archivesspace/data/solr_index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \
            /path/to/archivesspace/data/solr_index/index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \
            /path/to/archivesspace/data/
 
 
@@ -443,7 +443,7 @@ Here is a minimal example of an LDAP configuration:
 
 With this configuration, ArchivesSpace performs authentication by
 connecting to `ldap://ldap.example.com:389/`, binding anonymously,
-searching the `ou=people,dc=example,dc=com` tree for `uid = <username>`. 
+searching the `ou=people,dc=example,dc=com` tree for `uid = <username>`.
 
 If the user is found, ArchivesSpace authenticates them by
 binding using the password specified.  Finally, the `:attribute_map`
@@ -523,7 +523,7 @@ architecture notes, is published at
 
 # Contributing
 
-Contributors are welcome! Please read about our [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information. 
+Contributors are welcome! Please read about our [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information.
 
 # License
 
