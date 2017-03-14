@@ -79,6 +79,7 @@ describe "Space Calculator" do
     @driver.navigate.to("#{$frontend}/top_containers/#{@top_container.id}/edit")
     @driver.find_element(:css => "#top_container_container_locations_ .subrecord-form-heading .btn").click
     @driver.find_element(:css => "#top_container_container_locations_ .linker-wrapper .btn.locations").click
+    @driver.wait_for_dropdown
     @driver.find_element(:link => "Find with Space Calculator").click
 
     @driver.find_element(:id, "spaceCalculatorModal")
