@@ -155,15 +155,14 @@ describe "Enumeration Management" do
 
   it "lets you see how many times the term has been used and search for it" do
     @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Controlled Value Lists").click
     run_index_round
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
-    @driver.wait_for_ajax
+
     @driver.find_element(:link, "1 related item.")
-
-
   end
 
   it "lets you suppress an enumeration value" do
