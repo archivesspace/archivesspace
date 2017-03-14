@@ -10,7 +10,7 @@ module DriverMixin
 
     begin
       try = 0
-      while element.displayed? || self.find_element_orig(*selector)
+      while element.displayed?
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1
