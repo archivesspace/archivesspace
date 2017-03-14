@@ -207,7 +207,8 @@ return (
         try = 0
         while true
           begin
-            elt = find_elements(*selectors).find {|elt| elt.displayed?}
+            matched = find_elements(*selectors)
+            elt = matched.find {|elt| elt.displayed?}
 
             if elt.nil?
               raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
