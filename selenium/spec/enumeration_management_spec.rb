@@ -16,7 +16,8 @@ describe "Enumeration Management" do
 
   it "lets you add a new value to an enumeration" do
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
@@ -37,7 +38,7 @@ describe "Enumeration Management" do
     manna = @driver.find_element_with_text('//tr', /manna/)
     manna.find_element(:link, 'Delete').click
 
-    @driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#delete_enumeration button[type='submit']")
 
     @driver.find_element_with_text('//div', /Value Deleted/)
 
@@ -76,7 +77,8 @@ describe "Enumeration Management" do
 
   it "lets you set a default enumeration (date_type)" do
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Date Type (date_type)")
@@ -117,7 +119,8 @@ describe "Enumeration Management" do
 
   it "lets you add a new value to an enumeration, reorder it and then you can use it" do
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
@@ -156,7 +159,7 @@ describe "Enumeration Management" do
   it "lets you see how many times the term has been used and search for it" do
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
     run_index_round
 
     enum_select = @driver.find_element(:id => "enum_selector")
@@ -167,6 +170,7 @@ describe "Enumeration Management" do
 
   it "lets you suppress an enumeration value" do
     @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
