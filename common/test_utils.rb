@@ -84,6 +84,8 @@ module TestUtils
       java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
     end
 
+    java_opts += " -Xmx300m"
+
     pid = Process.spawn({'JAVA_OPTS' => java_opts},
                         "#{base}/../build/run", *build_args)
 
@@ -104,6 +106,8 @@ module TestUtils
     if ENV['GEM_HOME']
       build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
     end
+
+    java_opts += " -Xmx800m"
 
     pid = Process.spawn({'JAVA_OPTS' => java_opts, 'TEST_MODE' => "true"},
                         "#{base}/../build/run", *build_args)
