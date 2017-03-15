@@ -14,7 +14,7 @@ module DriverMixin
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1
-          sleep 0.5
+          sleep 0.1
           puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
         else
           raise "Failed to remove: #{selector.inspect}"
@@ -201,8 +201,8 @@ return (
           rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
             if try < Selenium::Config.retries
               try += 1
-              $sleep_time += 0.5
-              sleep 0.5
+              $sleep_time += 0.1
+              sleep 0.1
               if (try > 0) && (try % 5) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
@@ -237,8 +237,8 @@ return (
           rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
             if try < Selenium::Config.retries
               try += 1
-              $sleep_time += 0.5
-              sleep 0.5
+              $sleep_time += 0.1
+              sleep 0.1
               if (try > 0) && (try % 5) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
@@ -330,8 +330,8 @@ return (
         rescue Selenium::WebDriver::Error::StaleElementReferenceError
           if tries < Selenium::Config.retries
             tries += 1
-            $sleep_time += 0.5
-            sleep 0.5
+            $sleep_time += 0.1
+            sleep 0.1
 
             retry
           end
@@ -490,8 +490,8 @@ return (
             return nil
           end
 
-          $sleep_time += 0.5
-          sleep 0.5
+          $sleep_time += 0.1
+          sleep 0.1
           if (try > 0) && (try % 10) == 0
             puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..."
             puts caller.take(10).join("\n")
@@ -520,7 +520,7 @@ return (
             if try < Selenium::Config.retries
               try += 1
               $sleep_time += 0.1
-              sleep 0.5
+              sleep 0.1
               if (try > 0) && (try % 5) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
