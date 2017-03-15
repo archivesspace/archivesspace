@@ -46,7 +46,7 @@ class Repository < Sequel::Model(:repository)
                                                  "view_repository", "delete_archival_record", "suppress_archival_record",
                                                  "manage_subject_record", "manage_agent_record", "manage_vocabulary_record",
                                                  "manage_rde_templates", "manage_container_record", "manage_container_profile_record",
-                                                 "manage_location_profile_record", "import_records"]
+                                                 "manage_location_profile_record", "import_records", "cancel_job"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -86,7 +86,7 @@ class Repository < Sequel::Model(:repository)
                          :group_code => "repository-basic-data-entry",
                          :description => "Basic Data Entry users of the #{repo_code} repository",
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
-                                                 "update_digital_object_record"]
+                                                 "update_digital_object_record", "create_job"]
                        },
                        {
                          :group_code => "repository-viewers",

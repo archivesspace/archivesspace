@@ -562,7 +562,7 @@ FactoryGirl.define do
   end
 
   factory :json_job, class: JSONModel(:job) do
-    job_type { ['import_job', 'find_and_replace_job', 'print_to_pdf_job'].sample }
+    job { build(:json_import_job) }
   end
 
   factory :json_import_job, class: JSONModel(:import_job) do

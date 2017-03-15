@@ -1,20 +1,11 @@
-require_relative 'job_runner'
-
 class FindAndReplaceRunner < JobRunner
 
-
-  def self.instance_for(job)
-    if job.job_type == "find_and_replace_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
+  register_for_job_type('find_and_replace_job',
+                        :create_permissions => :manage_repository,
+                        :cancel_permissions => :manage_repository)
 
 
   def run
-    super
-
     job_data = @json.job
 
     terminal_error = nil
