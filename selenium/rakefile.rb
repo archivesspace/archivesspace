@@ -21,7 +21,7 @@ namespace :integration do
     cores = ENV['cores'] || "2"
     dir = ENV['dir'] || 'spec'
 
-    parallel_spec_opts = ["--type", "rspec", "--pattern", pattern]
+    parallel_spec_opts = ["--type", "rspec", "--suffix", pattern]
 
     if ENV['only_group']
       parallel_spec_opts << "--only-group" << ENV['only_group']
@@ -43,7 +43,7 @@ namespace :integration do
     ENV['ASPACE_INDEXER_URL'] = "http://localhost:#{indexer_port}"
 
     begin
-      ParallelTests::CLI.new.run(parallel_spec_opts + ["--test-options", "--format 'ParallelFormatterOut' --format 'ParallelFormatterHTML'", "-n", cores, dir])
+      ParallelTests::CLI.new.run(parallel_spec_opts + ["--test-options", "--fail-fast --format 'ParallelFormatterOut' --format 'ParallelFormatterHTML'", "-n", cores, dir])
 
     ensure
       if standalone
