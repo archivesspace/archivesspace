@@ -15,7 +15,7 @@ module DriverMixin
           try += 1
           $sleep_time += 0.1
           sleep 0.1
-          puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
+          puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 20) == 0
         else
           raise "Failed to remove: #{selector.inspect}"
         end
@@ -203,7 +203,7 @@ return (
               try += 1
               $sleep_time += 0.1
               sleep 0.1
-              if (try > 0) && (try % 5) == 0
+              if (try > 0) && (try % 20) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
               end
@@ -239,7 +239,7 @@ return (
               try += 1
               $sleep_time += 0.1
               sleep 0.1
-              if (try > 0) && (try % 5) == 0
+              if (try > 0) && (try % 20) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
               end
@@ -521,7 +521,7 @@ return (
               try += 1
               $sleep_time += 0.1
               sleep 0.1
-              if (try > 0) && (try % 5) == 0
+              if (try > 0) && (try % 20) == 0
                 puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
                 puts caller.take(10).join("\n")
               end
