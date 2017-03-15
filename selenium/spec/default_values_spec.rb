@@ -13,7 +13,7 @@ describe "Default Form Values" do
 
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, "My Repository Preferences").click
+    @driver.click_and_wait_until_gone(:link, "My Repository Preferences")
 
     checkbox = @driver.find_element(:id => "preference_defaults__default_values_")
 
@@ -38,6 +38,8 @@ describe "Default Form Values" do
     @driver.clear_and_send_keys([:id, "accession_title_"], "DEFAULT TITLE")
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Defaults Updated/)
 
     @driver.get("#{$frontend}/accessions/new")
 
