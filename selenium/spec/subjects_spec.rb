@@ -17,8 +17,12 @@ describe "Subjects" do
   end
 
   it "reports errors and warnings when creating an invalid Subject" do
+    @driver.get($frontend)
+
     @driver.find_element(:link => 'Create').click
     @driver.click_and_wait_until_gone(:link => 'Subject')
+
+    @driver.find_element(:css => '#subject_terms_.initialised')
 
     @driver.find_element(:css => '#subject_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
 
@@ -37,12 +41,14 @@ describe "Subjects" do
   it "can create a new Subject" do
     now = "#{$$}.#{Time.now.to_i}"
 
+    @driver.get($frontend)
+
     @driver.find_element(:link => 'Create').click
     @driver.click_and_wait_until_gone(:link => 'Subject')
+
     @driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click
 
     @driver.find_element(:id => "subject_source_").select_option("local")
-
 
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
     @driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "really")
@@ -51,12 +57,16 @@ describe "Subjects" do
   end
 
   xit "can reorder the terms and have them maintain order" do
+    @driver.get($frontend)
 
     first = "first_#{SecureRandom.hex}"
     second = "second_#{SecureRandom.hex}"
 
     @driver.find_element(:link => 'Create').click
     @driver.click_and_wait_until_gone(:link => 'Subject')
+
+    @driver.find_element(:css => '#subject_terms_.initialised')
+
     @driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click
     @driver.find_element(:id => "subject_source_").select_option("local")
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], first)
@@ -91,6 +101,8 @@ describe "Subjects" do
   end
 
   it "can present a browse list of Subjects" do
+    @driver.get($frontend)
+
     run_index_round
 
     @driver.find_element(:link => 'Browse').click
@@ -103,6 +115,8 @@ describe "Subjects" do
   
 
   it "can use plus+1 submit to quickly add another" do
+    @driver.get($frontend)
+
     now = "#{$$}.#{Time.now.to_i}"
 
     @driver.find_element(:link => 'Create').click
