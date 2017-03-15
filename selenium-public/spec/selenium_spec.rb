@@ -32,7 +32,7 @@ describe "ArchivesSpace Public interface" do
 
   describe "Homepage" do
 
-    xit "is visible" do
+    it "is visible" do
       @driver.find_element_with_text('//h3', /Welcome to ArchivesSpace./)
     end
 
@@ -60,14 +60,14 @@ describe "ArchivesSpace Public interface" do
     end
 
 
-    xit "lists all available repositories" do
-      @driver.find_element(:link, "Repositories").click
+    it "lists all available repositories" do
+      @driver.click_and_wait_until_gone(:link, "Repositories")
       @driver.find_element_with_text('//a', /#{@test_repo_code_1}/)
       @driver.find_element_with_text('//a', /#{@test_repo_code_2}/)
     end
 
-    xit "shows Title (default)  in the sort pulldown" do
-      @driver.find_element(:link, "Repositories").click
+    it "shows Title (default)  in the sort pulldown" do
+      @driver.click_and_wait_until_gone(:link, "Repositories")
       @driver.find_element(:xpath, "//a/span[ text() = 'Title Ascending']").click
       @driver.find_element(:link, "Title" )
       @driver.ensure_no_such_element(:link, "Term")
@@ -98,25 +98,25 @@ describe "ArchivesSpace Public interface" do
                             :title => "Unpublished Resource", :publish => false, :id_0 => "unpublished")
       @published = create(:resource,
                           :title => "Published Resource", :publish => true, :id_0 => "published", :notes => notes)
+
+      run_index_round
     end
 
 
-    xit "doesn't list an un-published records in the list" do
-      @indexer.run_index_round
-
-      @driver.find_element(:link, "Collections").click
+    it "doesn't list an un-published records in the list" do
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
       @driver.find_element(:link, @published.title)
       @driver.ensure_no_such_element(:link, @unpublished.title)
     end
 
 
-    xit "throws a 404 when trying to access an un-processed resource" do
+    it "throws a 404 when trying to access an un-processed resource" do
       @driver.get(URI.join($frontend, @unpublished.uri))
       @driver.find_element_with_text('//h2', /Record Not Found/)
     end
 
-    xit "shows a record that is published" do
+    it "shows a record that is published" do
 
       @driver.get(URI.join($frontend, @published.uri))
 
@@ -131,7 +131,7 @@ describe "ArchivesSpace Public interface" do
     end
 
 
-    xit "uses the finding_aid_title if there is one" do
+    it "uses the finding_aid_title if there is one" do
 
 
       @published = create(:resource,
@@ -140,16 +140,16 @@ describe "ArchivesSpace Public interface" do
 
       run_index_round
 
-      @driver.find_element(:link, "Collections").click
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
-      @driver.find_element(:link, "YeaBuddy").click
+      @driver.click_and_wait_until_gone(:link, "YeaBuddy")
 
       @driver.find_element_with_text('//li', /YeaBuddy/ )
       @driver.find_element_with_text('//h2', /YeaBuddy/ )
 
     end
 
-    xit "offers pagination when there are more than 10" do
+    it "offers pagination when there are more than 10" do
       11.times.each do |i|
         create(:resource,
                :title => "Test Resource #{i}", :publish => true, :id_0 => "id#{i}")
@@ -157,15 +157,15 @@ describe "ArchivesSpace Public interface" do
 
       run_index_round
 
-      @driver.find_element(:link, "Collections").click
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
-      @driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('1')
 
-      @driver.find_element(:link, '2').click
-      @driver.find_element(:css, '.pagination .active a').text.should eq('2')
+      @driver.click_and_wait_until_gone(:link, '2')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('2')
 
-      @driver.find_element(:link, '1').click
-      @driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      @driver.click_and_wait_until_gone(:link, '1')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('1')
       @driver.find_element(:link, '2')
     end
 
@@ -185,7 +185,7 @@ describe "ArchivesSpace Public interface" do
       run_index_round
     end
 
-    xit "displayed the digital object correctly" do
+    it "displayed the digital object correctly" do
       @driver.get(URI.join($frontend, @published_digital_object.uri))
       @driver.find_element_with_text('//h2', /#{@published_digital_object.title}/)
       @driver.find_element_with_text('//h3', /File Versions/)
@@ -218,7 +218,7 @@ describe "ArchivesSpace Public interface" do
     end
 
 
-    xit "renders index notes as links when they contain ref_ids of other components" do
+    it "renders index notes as links when they contain ref_ids of other components" do
       index_link_text = "a sweet link"
       ref_id = @published_archival_object.ref_id
 
@@ -236,13 +236,13 @@ describe "ArchivesSpace Public interface" do
       run_index_round
 
       @driver.get(URI.join($frontend, ao_with_note.uri))
-      @driver.find_element(:link, index_link_text).click
+      @driver.click_and_wait_until_gone(:link, index_link_text)
       @driver.find_element_with_text('//li', /#{@published_resource_filing_title}/ )
       @driver.find_element_with_text('//h2', /#{@published_archival_object.title}/)
     end
 
 
-    xit "is visible in the published resource children list and can be viewed" do
+    it "is visible in the published resource children list and can be viewed" do
       @driver.get(URI.join($frontend, @published_resource.uri))
 
       @driver.find_element(:link, @published_archival_object.title)
@@ -252,7 +252,7 @@ describe "ArchivesSpace Public interface" do
     end
 
 
-    xit "doesn't allow viewing of an unpublished archival object" do
+    it "doesn't allow viewing of an unpublished archival object" do
       @driver.get(URI.join($frontend, @unpublished_archival_object.uri))
       @driver.find_element_with_text('//h2', /Record Not Found/)
     end
@@ -290,8 +290,8 @@ describe "ArchivesSpace Public interface" do
     end
 
 
-    xit "published are visible in the names search results" do
-      @driver.find_element(:link, "Names").click
+    it "published are visible in the names search results" do
+      @driver.click_and_wait_until_gone(:link, "Names")
 
       @driver.find_element(:link, @published_agent.names.first['sort_name'])
       assert(5) {
@@ -299,21 +299,21 @@ describe "ArchivesSpace Public interface" do
       }
     end
 
-    xit "linked records show for an agent search" do
-      @driver.find_element(:link, @published_agent.names.first['sort_name']).click
+    it "linked records show for an agent search" do
+      @driver.click_and_wait_until_gone(:link, @published_agent.names.first['sort_name'])
       @driver.find_element(:link, @published_resource.title)
       @driver.ensure_no_such_element(:xpath, "//*[text()[contains( '1234 Fake St')]]")
       @driver.ensure_no_such_element(:css, '#contacts')
     end
 
-    xit "linked record shows published agents in the list" do
-      @driver.find_element(:link, @published_resource.title).click
+    it "linked record shows published agents in the list" do
+      @driver.click_and_wait_until_gone(:link, @published_resource.title)
       @driver.find_element(:link, @published_agent.names.first['sort_name'])
       @driver.ensure_no_such_element(:link, @unpublished_agent.names.first['sort_name'])
     end
 
-    xit "shows the Agent Name in the sort pulldown" do
-      @driver.find_element(:link, "Names").click
+    it "shows the Agent Name in the sort pulldown" do
+      @driver.click_and_wait_until_gone(:link, "Names")
       @driver.find_element(:xpath, "//a/span[ text()  = 'Agent Name Ascending']").click
       @driver.find_element(:link, "Agent Name" )
       @driver.ensure_no_such_element(:link, "Title")
@@ -338,17 +338,17 @@ describe "ArchivesSpace Public interface" do
       run_index_round
     end
 
-    xit "is visible when it is linked to a published resource" do
-      @driver.find_element(:link, "Subjects").click
+    it "is visible when it is linked to a published resource" do
+      @driver.click_and_wait_until_gone(:link, "Subjects")
       @driver.find_element(:link, @linked_subject.title)
     end
 
-    xit "is not visible when it not linked to a published resource" do
+    it "is not visible when it not linked to a published resource" do
       @driver.ensure_no_such_element(:link, @not_linked_subject.title)
     end
 
-    xit "shows the Term  in the sort pulldown" do
-      @driver.find_element(:link, "Subjects").click
+    it "shows the Term  in the sort pulldown" do
+      @driver.click_and_wait_until_gone(:link, "Subjects")
       @driver.find_element(:xpath, "//a/span[ text()  = 'Terms Ascending']").click
       @driver.find_element(:link, "Terms" )
       @driver.ensure_no_such_element(:link, "Title")
@@ -372,28 +372,30 @@ describe "ArchivesSpace Public interface" do
     end
 
     before(:each) do
-      @driver.find_element(:css, 'a span[class="icon-home"]').click
+      @driver.click_and_wait_until_gone(:css, 'a span[class="icon-home"]')
     end
 
-    xit "finds the published resource with a basic search" do
+    it "finds the published resource with a basic search" do
       @driver.clear_and_send_keys([:class, 'input-large'], "The meaning of life papers")
-      @driver.find_element(:id, "global-search-button").click
+      @driver.click_and_wait_until_gone(:id, "global-search-button")
       @driver.find_element(:link, "The meaning of life papers")
     end
 
-    xit "finds the published resource with an advanced search (default AND)" do
+    it "finds the published resource with an advanced search (default AND)" do
       @driver.find_element(:link, 'Show Advanced Search').click
 
       @driver.clear_and_send_keys([:id, 'v0'], "meaning")
       @driver.clear_and_send_keys([:id, 'v1'], "life")
       @driver.clear_and_send_keys([:id, 'v2'], "papers")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
+
       @driver.find_element(:link, "The meaning of life papers")
       @driver.ensure_no_such_element(:link, "The meaning of death papers")
     end
 
-    xit "finds the published resources with an OR advanced search" do
+    it "finds the published resources with an OR advanced search" do
       @driver.find_element(:link, 'Show Advanced Search').click
 
       @driver.clear_and_send_keys([:id, 'v0'], "meaning")
@@ -401,14 +403,15 @@ describe "ArchivesSpace Public interface" do
       @driver.find_element(:id => "op2").select_option("OR")
       @driver.clear_and_send_keys([:id, 'v2'], "death")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
 
       ["The meaning of life papers", "The meaning of death papers"].each do |title|
         @driver.find_element(:link, title)
       end
     end
 
-    xit "finds the appropriate published resource with a NOT advanced search" do
+    it "finds the appropriate published resource with a NOT advanced search" do
       @driver.find_element(:link, 'Show Advanced Search').click
 
       @driver.clear_and_send_keys([:id, 'v0'], "meaning")
@@ -416,7 +419,9 @@ describe "ArchivesSpace Public interface" do
       @driver.find_element(:id => "op2").select_option("NOT")
       @driver.clear_and_send_keys([:id, 'v2'], "death")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
+
       @driver.find_element(:link, "The meaning of life papers")
       @driver.ensure_no_such_element(:link, "The meaning of death papers")
     end
