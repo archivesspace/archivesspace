@@ -57,24 +57,35 @@ describe "Locations" do
   it "lists the new location in the browse list" do
     run_index_round
 
+    @driver.get($frontend)
+
     @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Locations")
+
 
     @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
   it "allows the new location to be viewed in non-edit mode" do
+    @driver.get($frontend)
+
     @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Locations")
     @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "129*" )
     @driver.click_and_wait_until_gone(:css, ".sidebar input.text-filter-field + div button")
     @driver.click_and_wait_until_gone(:link, "Edit")
     assert(5) { @driver.find_element(:css, '.record-pane h2').text.should match(/129 W\. 81st St/) }
   end
-  
+
   it "allows creation of a location with plus one stickies" do
+    @driver.get($frontend)
+
     @driver.find_element(:link, "Create").click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Location").click
+
     @driver.click_and_wait_until_gone(:link, "Single Location")
     @driver.clear_and_send_keys([:id, "location_building_"], "123 Fake St")
     @driver.clear_and_send_keys([:id, "location_floor_"], "13")
@@ -110,8 +121,8 @@ describe "Locations" do
     @driver.logout.login(@archivist_user)
 
     @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Locations")
-
 
     @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
@@ -143,6 +154,7 @@ describe "Locations" do
     }
 
     @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Locations")
 
     expect {
