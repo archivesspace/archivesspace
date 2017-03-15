@@ -143,7 +143,7 @@ describe "Locations" do
   end
 
 
-  it "lists the location in different repositories", :retry => 2, :retry_wait => 10 do
+  it "lists the location in different repositories" do
     repo = create(:repo)
 
     @driver.logout.login($admin)

@@ -77,7 +77,7 @@ describe "Digital Objects" do
     @driver.find_element(:link, "Edit").click
   end
 
-  it "reports errors if adding a child with no title to a Digital Object", :retry => 2, :retry_wait => 10 do
+  it "reports errors if adding a child with no title to a Digital Object" do
     @driver.get_edit_page(@do2)
     @driver.find_element(:link, "Add Child").click
     @driver.wait_for_ajax
@@ -96,7 +96,7 @@ describe "Digital Objects" do
 
   # Digital Object Component Nodes in Tree
 
-  it "can populate the digital object component tree", :retry => 2, :retry_wait => 10 do
+  it "can populate the digital object component tree" do
     @driver.get_edit_page(@do2)
     @driver.find_element(:link, "Add Child").click
     @driver.wait_for_ajax

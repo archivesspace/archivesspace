@@ -119,7 +119,7 @@ describe "Notes" do
   end
 
 
-  it "can add a top-level bibliography too", :retry => 2, :retry_wait => 10 do
+  it "can add a top-level bibliography too" do
     
     @driver.get_edit_page(@resource)
 
@@ -168,7 +168,7 @@ describe "Notes" do
   end
 
 
-  it "can add a deaccession record", :retry => 2, :retry_wait => 10 do
+  it "can add a deaccession record" do
     @driver.get_edit_page(@resource)
 
     @driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn:not(.show-all)').click
@@ -187,7 +187,7 @@ describe "Notes" do
   end
 
 
-  it "can attach notes to archival objects", :retry => 2, :retry_wait => 10 do
+  it "can attach notes to archival objects" do
     @driver.navigate.to("#{$frontend}")
     # Create a resource
     @driver.find_element(:link, "Create").click
@@ -234,7 +234,7 @@ describe "Notes" do
   end
 
 
-  it "can attach special notes to digital objects", :retry => 2, :retry_wait => 10 do
+  it "can attach special notes to digital objects" do
     @driver.navigate.to("#{$frontend}")
 
     @driver.find_element(:link, "Create").click

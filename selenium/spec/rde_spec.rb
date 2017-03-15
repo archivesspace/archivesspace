@@ -191,7 +191,7 @@ describe "RDE" do
     modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
   end
 
-  it "can perform a sequence fill", :retry => 2, :retry_wait => 10 do
+  it "can perform a sequence fill" do
     modal = @driver.find_element(:id => "rapidDataEntryModal")
 
     modal.find_element(:css, ".btn.fill-column").click
