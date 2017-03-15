@@ -114,6 +114,7 @@ module SeleniumTest
     # Send a copy of any screenshots to hudmol from Travis.  Feel free to zap
     # this if/when HM isn't development partner anymore!
     if ENV['TRAVIS']
+      puts "Uploading screenshot..."
       # Send it back to the hudmol devserver
       system('curl', '-H', 'Content-Type: application/octet-stream',
              '--data-binary', "@#{outfile}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
@@ -122,5 +123,7 @@ module SeleniumTest
       system('curl', '-H', 'Content-Type: application/octet-stream',
              '--data-binary', "@#{ENV['INTEGRATION_LOGFILE']}", 'http://aspace.hudmol.com/cgi-bin/store.cgi')
     end
+
+      puts "save_screenshot complete"
   end
 end
