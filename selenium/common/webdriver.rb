@@ -131,7 +131,6 @@ module Selenium
       end
 
       def find_paginated_element(*selectors)
-
         start_page = self.current_url
 
         try = 0
@@ -148,7 +147,7 @@ module Selenium
 
           rescue Selenium::WebDriver::Error::NoSuchElementError
             puts "#{test_group_prefix}find_element failed: trying to turn the page"
-            self.find_element_orig(:css => "a[title='Next']").click
+            click_and_wait_until_element_gone(self.find_element_orig(:css => "a[title='Next']"))
             retry
           rescue Selenium::WebDriver::Error::NoSuchElementError
             if try < Selenium::Config.retries
