@@ -21,6 +21,7 @@ describe "Locations" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Location").click
     @driver.click_and_wait_until_gone(:link, "Single Location")
+    @driver.find_element(:css, "h2").text.should eq("New Location Location")
   end
 
 
