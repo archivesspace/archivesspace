@@ -131,34 +131,18 @@ module Selenium
       end
 
       def find_paginated_element(*selectors)
-        start_page = self.current_url
-
         try = 0
         while true
-
           begin
-            elt = self.find_element_orig(*selectors)
-
-            if not elt.displayed?
-              raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
-            end
-
+            elt = self.find_element(*selectors)
             return elt
-
           rescue Selenium::WebDriver::Error::NoSuchElementError
             puts "#{test_group_prefix}find_element failed: trying to turn the page"
-            click_and_wait_until_element_gone(self.find_element_orig(:css => "a[title='Next']"))
-            retry
-          rescue Selenium::WebDriver::Error::NoSuchElementError
-            if try < Selenium::Config.retries
-              try += 1
-              sleep 0.5
-              self.navigate.to(start_page)
-              if (try > 0) && (try % 5) == 0
-                puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..."
-                puts caller.take(10).join("\n")
-              end
-            else
+
+            begin
+              click_and_wait_until_element_gone(self.find_element_orig(:css => "a[title='Next']"))
+            rescue Selenium::WebDriver::Error::NoSuchElementError
+              puts "Failed to turn the page!"
               raise Selenium::WebDriver::Error::NoSuchElementError.new(selectors.inspect)
             end
           end
@@ -429,13 +413,18 @@ return (
         self.click
 
         self.find_elements(:tag_name => "option").each do |option|
-          if option.attribute("value") === value
-            Selenium::Config.retries.times do |try|
-              return if option.attribute('selected')
+          begin
+            if option.attribute("value") === value
+              Selenium::Config.retries.times do |try|
+                return if option.attribute('selected')
 
-              option.click
-              sleep 0.1
+                option.click
+                sleep 0.1
+              end
             end
+          rescue Selenium::WebDriver::Error::StaleElementReferenceError
+            # Assume that the click triggered a reload!
+            return
           end
         end
 
