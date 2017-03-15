@@ -107,7 +107,7 @@ module TestUtils
       build_args << "-Dgem_home=#{ENV['GEM_HOME']}"
     end
 
-    java_opts += " -Xmx800m"
+    java_opts += " -Xmx1512m"
 
     pid = Process.spawn({'JAVA_OPTS' => java_opts, 'TEST_MODE' => "true"},
                         "#{base}/../build/run", *build_args)
