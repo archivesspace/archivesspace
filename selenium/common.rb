@@ -109,6 +109,14 @@ module SeleniumTest
   def self.save_screenshot(driver)
     outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
     puts "Saving screenshot to #{outfile}"
+
+    Thread.new do
+      sleep 5
+      mypid = java.lang.management.ManagementFactory.getRuntimeMXBean.getName.split('@')[0]
+
+      system("kill", "-3", mypid)
+    end
+
     driver.save_screenshot(outfile)
 
     # Send a copy of any screenshots to hudmol from Travis.  Feel free to zap
