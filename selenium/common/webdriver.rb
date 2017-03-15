@@ -564,6 +564,10 @@ return (
         end
       end
 
+
+      def execute_script(script, *args)
+        bridge.execute_script(script, args)
+      end
     end
   end
 end
