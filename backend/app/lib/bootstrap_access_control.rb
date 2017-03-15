@@ -167,6 +167,14 @@ class ArchivesSpaceService
                       "The ability to cancel a queued or running importer job",
                       :level => "repository")
 
+    Permission.define("create_job",
+                      "The ability to create background jobs",
+                      :level => "repository")
+
+    Permission.define("cancel_job",
+                      "The ability to cancel background jobs",
+                      :level => "repository")
+
 
     # Updates and deletes to locations, subjects and agents are a bit funny: they're
     # global objects, but users are granted permission to modify them by being

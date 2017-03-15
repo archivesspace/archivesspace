@@ -1,26 +1,20 @@
-require_relative 'job_runner'
-require_relative 'reports/report_response'
-require_relative 'reports/report_helper'
+require_relative '../reports/report_response'
+require_relative '../reports/report_helper'
 require 'json'
+
 class ReportRunner < JobRunner
   
   include JSONModel
 
+  register_for_job_type('report_job')
 
-  def self.instance_for(job)
-    if job.job_type == "report_job"
-      self.new(job)
-    else
-      nil
-    end
-  end
 
   def self.reports
    ReportManager.registered_reports
   end
 
+
   def run
-    super
     @job.write_output("Generating report")
     file = ASUtils.tempfile("report_job_")
     begin 
