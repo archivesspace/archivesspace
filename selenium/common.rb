@@ -109,12 +109,7 @@ module SeleniumTest
   def self.save_screenshot(driver)
     outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
     puts "Saving screenshot to #{outfile}"
-    if driver.is_a?(Selenium::WebDriver::Element) 
-      driver = driver.send(:bridge)
-      File.open(outfile, 'wb') { |f| f << driver.getScreenshot.unpack("m")[0] } 
-    else
-      driver.save_screenshot(outfile)
-    end
+    driver.save_screenshot(outfile)
 
     # Send a copy of any screenshots to hudmol from Travis.  Feel free to zap
     # this if/when HM isn't development partner anymore!
