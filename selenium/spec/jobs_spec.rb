@@ -85,12 +85,23 @@ describe "Jobs" do
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, "Background Jobs").click
+    @driver.click_and_wait_until_gone(:link, "Background Jobs")
 
     @driver.find_element(:link, "Create Job").click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Reports')
 
     @driver.find_element(:xpath => "//button[@data-report = 'repository_report']").click
+
+    # wait for the slow fade to finish and all sibling items to be removed
+    sleep(2)
+
+    job_type = @driver.execute_script("return $('#report_job_jsonmodel_type_').val()")
+    expect(job_type).to eq('report_job')
+
+    report_type = @driver.execute_script("return $('#report_type_').val()")
+    expect(report_type).to eq('repository_report')
+
     @driver.find_element(:id => "report_job_format").select_option("csv")
     @driver.click_and_wait_until_element_gone(@driver.find_element_with_text("//button", /Queue Job/))
 
