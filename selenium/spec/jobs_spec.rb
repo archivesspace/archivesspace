@@ -81,7 +81,6 @@ describe "Jobs" do
   end
   
   it "can create a report job" do
-    system("rm -f #{File.join(Dir.tmpdir, '*.csv')}")
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
@@ -92,15 +91,10 @@ describe "Jobs" do
     @driver.click_and_wait_until_gone(:link, 'Reports')
 
     @driver.find_element(:xpath => "//button[@data-report = 'repository_report']").click
-    sleep(2) 
     @driver.find_element(:id => "report_job_format").select_option("csv")
-    @driver.find_element_with_text("//button", /Queue Job/).click
+    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text("//button", /Queue Job/))
 
-    expect {
-      @driver.find_element_with_text("//h2", /report_job/)
-    }.to_not raise_error
-
-     @driver.find_element(:link, "Download Report")
+    @driver.find_element_with_text("//h2", /report_job/)
   end
 
 end

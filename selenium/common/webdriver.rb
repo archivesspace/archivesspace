@@ -492,7 +492,7 @@ return (
 
           $sleep_time += 0.1
           sleep 0.1
-          if (try > 0) && (try % 10) == 0
+          if (try > 0) && (try % 20) == 0
             puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..."
             puts caller.take(10).join("\n")
           end
