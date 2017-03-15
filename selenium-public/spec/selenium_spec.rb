@@ -1,7 +1,5 @@
 require_relative 'spec_helper'
 
-# FIXME! disable all tests until pui_indexer is
-# setup for these tests
 describe "ArchivesSpace Public interface" do
 
   before(:all) do
