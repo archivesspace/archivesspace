@@ -118,6 +118,7 @@ describe "Enumeration Management" do
   end
 
   it "lets you add a new value to an enumeration, reorder it and then you can use it" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
@@ -157,6 +158,7 @@ describe "Enumeration Management" do
   end
 
   it "lets you see how many times the term has been used and search for it" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
@@ -169,6 +171,7 @@ describe "Enumeration Management" do
   end
 
   it "lets you suppress an enumeration value" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
