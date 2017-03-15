@@ -18,27 +18,12 @@
     </div>
     <div class="span9">
 
-      <% show_term = lambda do |term| %>
-        <li><%= link_to("#{term['identifier']}. #{term['title']}",
-                        {
-                          :controller => :search,
-                          :action => :search,
-                          :term_map => {term['record_uri'] => term['title']}.to_json
-                        }.merge(params_for_search({
-                          "add_filter_term" => {"classification_uris" => term['record_uri']}.to_json
-                        }))) %></li>
-        <% if !term['children'].empty? %>
-          <ul>
-            <% term['children'].each do |node| %>
-              <% show_term.call(node) %>
-            <% end %>
-          </ul>
-        <% end %>
-      <% end %>
+      <%= render_aspace_partial :partial => "components", :locals => {
+          :record_type => "classification",
+          :root_uri => @classification.uri,
+          :current_node_uri => @classification.uri,
+      } %>
 
-      <ul>
-        <% show_term.call(@tree_view['whole_tree']) %>
-      </ul>
     </div>
   </div>
 </div>
