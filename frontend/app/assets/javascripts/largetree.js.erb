@@ -580,6 +580,11 @@
            (based on our scroll position) */
         var allWaypoints = self.elt.find('.waypoint');
 
+        if (allWaypoints.length == 0) {
+            done_callback();
+            return;
+        }
+
         var scrollPercent = self.elt.scrollTop() / self.elt.find('table.root').height();
         var startIdx = Math.floor(scrollPercent * allWaypoints.length);
 

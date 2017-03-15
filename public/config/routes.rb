@@ -21,6 +21,19 @@ ArchivesSpacePublic::Application.routes.draw do
       get "repositories/:repo_id/resources/:id/tree/node"  => 'records#resource_tree_node'
       get "repositories/:repo_id/resources/:id/tree/node_from_root"  => 'records#resource_tree_node_from_root'
 
+      get "repositories/:repo_id/digital_objects/:id/tree/root"  => 'records#digital_object_tree_root'
+      get "repositories/:repo_id/digital_objects/:id/tree/waypoint"  => 'records#digital_object_tree_waypoint'
+      get "repositories/:repo_id/digital_objects/:id/tree/node"  => 'records#digital_object_tree_node'
+      get "repositories/:repo_id/digital_objects/:id/tree/node_from_root"  => 'records#digital_object_tree_node_from_root'
+
+      get "repositories/:repo_id/classifications/:id/tree/root"  => 'records#classification_tree_root'
+      get "repositories/:repo_id/classifications/:id/tree/waypoint"  => 'records#classification_tree_waypoint'
+      get "repositories/:repo_id/classifications/:id/tree/node"  => 'records#classification_tree_node'
+      get "repositories/:repo_id/classifications/:id/tree/node_from_root"  => 'records#classification_tree_node_from_root'
+
+      get "repositories/:repo_id/classifications/:id/search"  => 'records#classification_search'
+      get "repositories/:repo_id/classification_terms/:id/search"  => 'records#classification_term_search'
+
       match 'repositories' => 'search#repository', :via => [:get]
       match 'subjects/:id' => 'search#subject', :via => [:get]
       root :to => "site#index"

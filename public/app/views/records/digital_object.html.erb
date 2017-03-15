@@ -49,7 +49,8 @@
         <%= render_aspace_partial :partial => "components", :locals => {
               :record_type => "digital_object",
               :root_uri => @digital_object.uri,
-              :show_search => true
+              :show_search => true,
+              :current_node_uri => @digital_object.uri,
             } %>
 
       </fieldset>
