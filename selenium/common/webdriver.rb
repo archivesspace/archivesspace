@@ -23,6 +23,8 @@ module DriverMixin
     rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
       # Great!  It's gone.
     end
+
+    wait_for_page_ready
   end
 
 
@@ -39,6 +41,19 @@ module DriverMixin
         end
       end
     rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
+    end
+
+    wait_for_page_ready
+  end
+
+
+  def wait_for_page_ready
+    loop do
+      ready_state = execute_script("return document.readyState")
+      jquery_state = execute_script("return typeof jQuery != 'undefined' && !jQuery.active")
+      break if ready_state == 'complete' && jquery_state
+      puts "Waiting for document.readyState to become 'complete' and jQuery to be ready"
+      sleep 0.1
     end
   end
 
