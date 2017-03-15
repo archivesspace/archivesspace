@@ -32,8 +32,7 @@ describe "Jobs" do
 
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("find_and_replace_job")
+    @driver.click_and_wait_until_gone(:link, 'Batch Find and Replace (Beta)')
 
     token_input = @driver.find_element(:id,"token-input-find_and_replace_job_ref_")
     token_input.clear
@@ -66,8 +65,7 @@ describe "Jobs" do
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
+    @driver.click_and_wait_until_gone(:link, 'Print To PDF')
 
     token_input = @driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
     token_input.clear
@@ -91,8 +89,7 @@ describe "Jobs" do
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("report_job")
+    @driver.click_and_wait_until_gone(:link, 'Reports')
 
     @driver.find_element(:xpath => "//button[@data-report = 'repository_report']").click
     sleep(2) 
