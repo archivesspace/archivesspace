@@ -31,7 +31,7 @@ module DriverMixin
 
     begin
       Selenium::Config.retries.times do |try|
-        break unless element.displayed?
+        break unless element.displayed? || self.find_element_orig(*selector)
         sleep 0.1
 
         if try == Selenium::Config.retries - 1

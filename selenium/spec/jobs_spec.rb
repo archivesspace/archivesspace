@@ -100,18 +100,7 @@ describe "Jobs" do
       @driver.find_element_with_text("//h2", /report_job/)
     }.to_not raise_error
 
-     sleep(5)
-     @driver.find_element(:link, "Download Report").click
-     sleep(1)
-
-     assert(30) {
-      glob = Dir.glob(File.join( Dir.tmpdir,"*.csv" ))
-      raise "Retry assert as CSV file not found" if glob.empty?
-
-      glob.length.should eq(1)
-     }
-
-     IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)
+     @driver.find_element(:link, "Download Report")
   end
 
 end
