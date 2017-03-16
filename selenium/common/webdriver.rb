@@ -559,7 +559,7 @@ return (
 
 
       def execute_script(script, *args)
-        bridge.execute_script(script, args)
+        bridge.execute_script(script, *args)
       end
 
       def blocking_find_elements(*args)
