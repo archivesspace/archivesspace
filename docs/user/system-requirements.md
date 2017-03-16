@@ -4,7 +4,7 @@ layout: en
 permalink: /user/system-requirements/ 
 ---
 
-* Java 1.6 or higher; Java 1.7 or 1.8 recommended.
+* Java 1.7 or 1.8.
 * At least 1024 MB RAM allocated to the application
 * A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 

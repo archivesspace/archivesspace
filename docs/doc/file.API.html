@@ -230,7 +230,7 @@ endpoint, with :user_name and :password parameters being supplied.</p>
 for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.</p>
 
 <h1 id="archivesspace-rest-api">ArchivesSpace REST API</h1>
-<p>As of 2017-02-15 10:09:29 -0500 the following REST endpoints exist in the master branch of the development repository:</p>
+<p>As of 2017-03-16 15:23:37 -0400 the following REST endpoints exist in the master branch of the development repository:</p>
 
 <h2 id="get-agentscorporateentities">GET /agents/corporate_entities</h2>
 
@@ -289,38 +289,36 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_corporate_entity&#8221;,
 &#8220;agent_contacts&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;agent_contact&#8221;,
 &#8220;telephones&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;telephone&#8221;,
-&#8220;number_type&#8221;:&#8221;business&#8221;,
-&#8220;number&#8221;:&#8221;606 216 167 3224&#8221;}],
-&#8220;name&#8221;:&#8221;Name Number 505&#8221;,
-&#8220;city&#8221;:&#8221;RL702510Q&#8221;,
-&#8220;post_code&#8221;:&#8221;A757C825I&#8221;,
-&#8220;email&#8221;:&#8221;YFX590Q&#8221;,
-&#8220;email_signature&#8221;:&#8221;FE628X813&#8221;}],
+&#8220;number_type&#8221;:&#8221;home&#8221;,
+&#8220;number&#8221;:&#8221;8381 4044 3485&#8221;}],
+&#8220;name&#8221;:&#8221;Name Number 506&#8221;,
+&#8220;address_3&#8221;:&#8221;JGQR77&#8221;,
+&#8220;fax&#8221;:&#8221;I775MJP&#8221;}],
 &#8220;linked_agent_roles&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;range&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;1982-06-23&#8221;,
-&#8220;end&#8221;:&#8221;1982-06-23&#8221;,
-&#8220;expression&#8221;:&#8221;51O38397X&#8221;}],
+&#8220;begin&#8221;:&#8221;1989-09-14&#8221;,
+&#8220;end&#8221;:&#8221;1989-09-14&#8221;,
+&#8220;expression&#8221;:&#8221;O729192PI&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_corporate_entity&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;rda&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 504&#8221;,
-&#8220;subordinate_name_1&#8221;:&#8221;509330MYY&#8221;,
-&#8220;subordinate_name_2&#8221;:&#8221;R961PD360&#8221;,
-&#8220;number&#8221;:&#8221;VUMAI&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT w - 422&#8221;,
-&#8220;dates&#8221;:&#8221;949842890I189&#8221;,
-&#8220;qualifier&#8221;:&#8221;VF7DL&#8221;,
+&#8220;rules&#8221;:&#8221;local&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 505&#8221;,
+&#8220;subordinate_name_1&#8221;:&#8221;HFYLP&#8221;,
+&#8220;subordinate_name_2&#8221;:&#8221;810764CUF&#8221;,
+&#8220;number&#8221;:&#8221;452A223956467&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT t - 422&#8221;,
+&#8220;dates&#8221;:&#8221;XMBOS&#8221;,
+&#8220;qualifier&#8221;:&#8221;55923993VA&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-468.com&#8221;,
-&#8220;source&#8221;:&#8221;nad&#8221;}],
+&#8220;source&#8221;:&#8221;local&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_corporate_entity&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/corporate_entities&#8221;</p>
@@ -398,38 +396,36 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;agent_corporate_entity&#8221;,
 &#8220;agent_contacts&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;agent_contact&#8221;,
 &#8220;telephones&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;telephone&#8221;,
-&#8220;number_type&#8221;:&#8221;business&#8221;,
-&#8220;number&#8221;:&#8221;606 216 167 3224&#8221;}],
-&#8220;name&#8221;:&#8221;Name Number 505&#8221;,
-&#8220;city&#8221;:&#8221;RL702510Q&#8221;,
-&#8220;post_code&#8221;:&#8221;A757C825I&#8221;,
-&#8220;email&#8221;:&#8221;YFX590Q&#8221;,
-&#8220;email_signature&#8221;:&#8221;FE628X813&#8221;}],
+&#8220;number_type&#8221;:&#8221;home&#8221;,
+&#8220;number&#8221;:&#8221;8381 4044 3485&#8221;}],
+&#8220;name&#8221;:&#8221;Name Number 506&#8221;,
+&#8220;address_3&#8221;:&#8221;JGQR77&#8221;,
+&#8220;fax&#8221;:&#8221;I775MJP&#8221;}],
 &#8220;linked_agent_roles&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;range&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;1982-06-23&#8221;,
-&#8220;end&#8221;:&#8221;1982-06-23&#8221;,
-&#8220;expression&#8221;:&#8221;51O38397X&#8221;}],
+&#8220;begin&#8221;:&#8221;1989-09-14&#8221;,
+&#8220;end&#8221;:&#8221;1989-09-14&#8221;,
+&#8220;expression&#8221;:&#8221;O729192PI&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_corporate_entity&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;rda&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 504&#8221;,
-&#8220;subordinate_name_1&#8221;:&#8221;509330MYY&#8221;,
-&#8220;subordinate_name_2&#8221;:&#8221;R961PD360&#8221;,
-&#8220;number&#8221;:&#8221;VUMAI&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT w - 422&#8221;,
-&#8220;dates&#8221;:&#8221;949842890I189&#8221;,
-&#8220;qualifier&#8221;:&#8221;VF7DL&#8221;,
+&#8220;rules&#8221;:&#8221;local&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 505&#8221;,
+&#8220;subordinate_name_1&#8221;:&#8221;HFYLP&#8221;,
+&#8220;subordinate_name_2&#8221;:&#8221;810764CUF&#8221;,
+&#8220;number&#8221;:&#8221;452A223956467&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT t - 422&#8221;,
+&#8220;dates&#8221;:&#8221;XMBOS&#8221;,
+&#8220;qualifier&#8221;:&#8221;55923993VA&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-468.com&#8221;,
-&#8220;source&#8221;:&#8221;nad&#8221;}],
+&#8220;source&#8221;:&#8221;local&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_corporate_entity&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/corporate_entities/1&#8221;</p>
@@ -463,24 +459,24 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;1975-05-24&#8221;,
-&#8220;end&#8221;:&#8221;1975-05-24&#8221;,
-&#8220;expression&#8221;:&#8221;55K849MJ&#8221;}],
+&#8220;begin&#8221;:&#8221;2009-06-16&#8221;,
+&#8220;end&#8221;:&#8221;2009-06-16&#8221;,
+&#8220;expression&#8221;:&#8221;488H880J511&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_family&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;family_name&#8221;:&#8221;Name Number 506&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT d - 423&#8221;,
-&#8220;dates&#8221;:&#8221;364P798MV&#8221;,
-&#8220;qualifier&#8221;:&#8221;815551YIG&#8221;,
-&#8220;prefix&#8221;:&#8221;435J425444289&#8221;,
+&#8220;rules&#8221;:&#8221;local&#8221;,
+&#8220;family_name&#8221;:&#8221;Name Number 507&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT l - 423&#8221;,
+&#8220;dates&#8221;:&#8221;583P646669437&#8221;,
+&#8220;qualifier&#8221;:&#8221;96834C697753&#8221;,
+&#8220;prefix&#8221;:&#8221;124TOA531&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-469.com&#8221;,
-&#8220;source&#8221;:&#8221;local&#8221;}],
+&#8220;source&#8221;:&#8221;naf&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_family&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/families&#8221;</p>
@@ -550,24 +546,24 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;1975-05-24&#8221;,
-&#8220;end&#8221;:&#8221;1975-05-24&#8221;,
-&#8220;expression&#8221;:&#8221;55K849MJ&#8221;}],
+&#8220;begin&#8221;:&#8221;2009-06-16&#8221;,
+&#8220;end&#8221;:&#8221;2009-06-16&#8221;,
+&#8220;expression&#8221;:&#8221;488H880J511&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_family&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;family_name&#8221;:&#8221;Name Number 506&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT d - 423&#8221;,
-&#8220;dates&#8221;:&#8221;364P798MV&#8221;,
-&#8220;qualifier&#8221;:&#8221;815551YIG&#8221;,
-&#8220;prefix&#8221;:&#8221;435J425444289&#8221;,
+&#8220;rules&#8221;:&#8221;local&#8221;,
+&#8220;family_name&#8221;:&#8221;Name Number 507&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT l - 423&#8221;,
+&#8220;dates&#8221;:&#8221;583P646669437&#8221;,
+&#8220;qualifier&#8221;:&#8221;96834C697753&#8221;,
+&#8220;prefix&#8221;:&#8221;124TOA531&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-469.com&#8221;,
-&#8220;source&#8221;:&#8221;local&#8221;}],
+&#8220;source&#8221;:&#8221;naf&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_family&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/families/1&#8221;</p>
@@ -649,24 +645,24 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
 &#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2002-07-23&#8221;,
-&#8220;end&#8221;:&#8221;2002-07-23&#8221;,
-&#8220;expression&#8221;:&#8221;SQA374D&#8221;}],
+&#8220;begin&#8221;:&#8221;1971-03-17&#8221;,
+&#8220;end&#8221;:&#8221;1971-03-17&#8221;,
+&#8220;expression&#8221;:&#8221;U0866WT&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_person&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;source&#8221;:&#8221;nad&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 507&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT m - 424&#8221;,
+&#8220;rules&#8221;:&#8221;rda&#8221;,
+&#8220;source&#8221;:&#8221;local&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 508&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT v - 424&#8221;,
 &#8220;name_order&#8221;:&#8221;direct&#8221;,
-&#8220;number&#8221;:&#8221;WAAYL&#8221;,
-&#8220;dates&#8221;:&#8221;NMHSV&#8221;,
-&#8220;qualifier&#8221;:&#8221;CIA622835&#8221;,
-&#8220;fuller_form&#8221;:&#8221;A29954496O&#8221;,
-&#8220;title&#8221;:&#8221;391864551V282&#8221;,
+&#8220;number&#8221;:&#8221;90WRFF&#8221;,
+&#8220;dates&#8221;:&#8221;O611UPO&#8221;,
+&#8220;qualifier&#8221;:&#8221;Q146JX945&#8221;,
+&#8220;fuller_form&#8221;:&#8221;T712YW621&#8221;,
+&#8220;title&#8221;:&#8221;419913231IN&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-470.com&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_person&#8221;}&#8217; \
@@ -739,24 +735,24 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
 &#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2002-07-23&#8221;,
-&#8220;end&#8221;:&#8221;2002-07-23&#8221;,
-&#8220;expression&#8221;:&#8221;SQA374D&#8221;}],
+&#8220;begin&#8221;:&#8221;1971-03-17&#8221;,
+&#8220;end&#8221;:&#8221;1971-03-17&#8221;,
+&#8220;expression&#8221;:&#8221;U0866WT&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_person&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;aacr&#8221;,
-&#8220;source&#8221;:&#8221;nad&#8221;,
-&#8220;primary_name&#8221;:&#8221;Name Number 507&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT m - 424&#8221;,
+&#8220;rules&#8221;:&#8221;rda&#8221;,
+&#8220;source&#8221;:&#8221;local&#8221;,
+&#8220;primary_name&#8221;:&#8221;Name Number 508&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT v - 424&#8221;,
 &#8220;name_order&#8221;:&#8221;direct&#8221;,
-&#8220;number&#8221;:&#8221;WAAYL&#8221;,
-&#8220;dates&#8221;:&#8221;NMHSV&#8221;,
-&#8220;qualifier&#8221;:&#8221;CIA622835&#8221;,
-&#8220;fuller_form&#8221;:&#8221;A29954496O&#8221;,
-&#8220;title&#8221;:&#8221;391864551V282&#8221;,
+&#8220;number&#8221;:&#8221;90WRFF&#8221;,
+&#8220;dates&#8221;:&#8221;O611UPO&#8221;,
+&#8220;qualifier&#8221;:&#8221;Q146JX945&#8221;,
+&#8220;fuller_form&#8221;:&#8221;T712YW621&#8221;,
+&#8220;title&#8221;:&#8221;419913231IN&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-470.com&#8221;}],
 &#8220;related_agents&#8221;:[],
 &#8220;agent_type&#8221;:&#8221;agent_person&#8221;}&#8217; \
@@ -837,19 +833,19 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2014-10-31&#8221;,
-&#8220;end&#8221;:&#8221;2014-10-31&#8221;,
-&#8220;expression&#8221;:&#8221;D820768OV&#8221;}],
+&#8220;begin&#8221;:&#8221;1990-01-09&#8221;,
+&#8220;end&#8221;:&#8221;1990-01-09&#8221;,
+&#8220;expression&#8221;:&#8221;52JPIH&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_software&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;rda&#8221;,
-&#8220;software_name&#8221;:&#8221;Name Number 508&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT i - 425&#8221;}],
+&#8220;rules&#8221;:&#8221;aacr&#8221;,
+&#8220;software_name&#8221;:&#8221;Name Number 509&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT w - 425&#8221;}],
 &#8220;agent_type&#8221;:&#8221;agent_software&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/software&#8221;</p>
 
@@ -939,19 +935,19 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;rights_statements&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;dates_of_existence&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;bulk&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;existence&#8221;,
-&#8220;begin&#8221;:&#8221;2014-10-31&#8221;,
-&#8220;end&#8221;:&#8221;2014-10-31&#8221;,
-&#8220;expression&#8221;:&#8221;D820768OV&#8221;}],
+&#8220;begin&#8221;:&#8221;1990-01-09&#8221;,
+&#8220;end&#8221;:&#8221;1990-01-09&#8221;,
+&#8220;expression&#8221;:&#8221;52JPIH&#8221;}],
 &#8220;names&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;name_software&#8221;,
 &#8220;use_dates&#8221;:[],
 &#8220;authorized&#8221;:false,
 &#8220;is_display_name&#8221;:false,
 &#8220;sort_name_auto_generate&#8221;:true,
-&#8220;rules&#8221;:&#8221;rda&#8221;,
-&#8220;software_name&#8221;:&#8221;Name Number 508&#8221;,
-&#8220;sort_name&#8221;:&#8221;SORT i - 425&#8221;}],
+&#8220;rules&#8221;:&#8221;aacr&#8221;,
+&#8220;software_name&#8221;:&#8221;Name Number 509&#8221;,
+&#8220;sort_name&#8221;:&#8221;SORT w - 425&#8221;}],
 &#8220;agent_type&#8221;:&#8221;agent_software&#8221;}&#8217; \
   &#8220;http://localhost:8089//agents/software/1&#8221;</p>
 
@@ -1001,7 +997,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;304926HLE&#8221;&#8217; \
+  -d &#8216;&#8220;XPB388T&#8221;&#8217; \
   &#8220;http://localhost:8089//batch_delete&#8221;</p>
 
 <p>```</p>
@@ -1323,13 +1319,13 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;container_profile&#8221;,
-&#8220;name&#8221;:&#8221;SVFDL&#8221;,
-&#8220;url&#8221;:&#8221;DDP324793&#8221;,
-&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
-&#8220;extent_dimension&#8221;:&#8221;width&#8221;,
-&#8220;depth&#8221;:&#8221;11&#8221;,
-&#8220;height&#8221;:&#8221;20&#8221;,
-&#8220;width&#8221;:&#8221;84&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;B23QPL&#8221;,
+&#8220;url&#8221;:&#8221;VQO234L&#8221;,
+&#8220;dimension_units&#8221;:&#8221;centimeters&#8221;,
+&#8220;extent_dimension&#8221;:&#8221;depth&#8221;,
+&#8220;depth&#8221;:&#8221;96&#8221;,
+&#8220;height&#8221;:&#8221;68&#8221;,
+&#8220;width&#8221;:&#8221;62&#8221;}&#8217; \
   &#8220;http://localhost:8089//container_profiles&#8221;</p>
 
 <p>```</p>
@@ -1401,13 +1397,13 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;container_profile&#8221;,
-&#8220;name&#8221;:&#8221;SVFDL&#8221;,
-&#8220;url&#8221;:&#8221;DDP324793&#8221;,
-&#8220;dimension_units&#8221;:&#8221;feet&#8221;,
-&#8220;extent_dimension&#8221;:&#8221;width&#8221;,
-&#8220;depth&#8221;:&#8221;11&#8221;,
-&#8220;height&#8221;:&#8221;20&#8221;,
-&#8220;width&#8221;:&#8221;84&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;B23QPL&#8221;,
+&#8220;url&#8221;:&#8221;VQO234L&#8221;,
+&#8220;dimension_units&#8221;:&#8221;centimeters&#8221;,
+&#8220;extent_dimension&#8221;:&#8221;depth&#8221;,
+&#8220;depth&#8221;:&#8221;96&#8221;,
+&#8220;height&#8221;:&#8221;68&#8221;,
+&#8220;width&#8221;:&#8221;62&#8221;}&#8217; \
   &#8220;http://localhost:8089//container_profiles/1&#8221;</p>
 
 <p>```</p>
@@ -1543,11 +1539,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location_profile&#8221;,
-&#8220;name&#8221;:&#8221;544GGWJ&#8221;,
-&#8220;dimension_units&#8221;:&#8221;inches&#8221;,
-&#8220;depth&#8221;:&#8221;36&#8221;,
-&#8220;height&#8221;:&#8221;94&#8221;,
-&#8220;width&#8221;:&#8221;36&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;733234908IR&#8221;,
+&#8220;dimension_units&#8221;:&#8221;millimeters&#8221;,
+&#8220;depth&#8221;:&#8221;66&#8221;,
+&#8220;height&#8221;:&#8221;82&#8221;,
+&#8220;width&#8221;:&#8221;7&#8221;}&#8217; \
   &#8220;http://localhost:8089//location_profiles&#8221;</p>
 
 <p>```</p>
@@ -1619,11 +1615,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location_profile&#8221;,
-&#8220;name&#8221;:&#8221;544GGWJ&#8221;,
-&#8220;dimension_units&#8221;:&#8221;inches&#8221;,
-&#8220;depth&#8221;:&#8221;36&#8221;,
-&#8220;height&#8221;:&#8221;94&#8221;,
-&#8220;width&#8221;:&#8221;36&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;733234908IR&#8221;,
+&#8220;dimension_units&#8221;:&#8221;millimeters&#8221;,
+&#8220;depth&#8221;:&#8221;66&#8221;,
+&#8220;height&#8221;:&#8221;82&#8221;,
+&#8220;width&#8221;:&#8221;7&#8221;}&#8217; \
   &#8220;http://localhost:8089//location_profiles/1&#8221;</p>
 
 <p>```</p>
@@ -1650,12 +1646,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;functions&#8221;:[],
-&#8220;building&#8221;:&#8221;192 W 7th Street&#8221;,
-&#8220;floor&#8221;:&#8221;12&#8221;,
-&#8220;room&#8221;:&#8221;9&#8221;,
-&#8220;area&#8221;:&#8221;Front&#8221;,
-&#8220;barcode&#8221;:&#8221;11010010010000000000&#8221;,
-&#8220;temporary&#8221;:&#8221;reading_room&#8221;}&#8217; \
+&#8220;building&#8221;:&#8221;135 E 5th Street&#8221;,
+&#8220;floor&#8221;:&#8221;4&#8221;,
+&#8220;room&#8221;:&#8221;8&#8221;,
+&#8220;area&#8221;:&#8221;Back&#8221;,
+&#8220;barcode&#8221;:&#8221;11000010000010111011&#8221;,
+&#8220;temporary&#8221;:&#8221;loan&#8221;}&#8217; \
   &#8220;http://localhost:8089//locations&#8221;</p>
 
 <p>```</p>
@@ -1718,12 +1714,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;location&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;functions&#8221;:[],
-&#8220;building&#8221;:&#8221;192 W 7th Street&#8221;,
-&#8220;floor&#8221;:&#8221;12&#8221;,
-&#8220;room&#8221;:&#8221;9&#8221;,
-&#8220;area&#8221;:&#8221;Front&#8221;,
-&#8220;barcode&#8221;:&#8221;11010010010000000000&#8221;,
-&#8220;temporary&#8221;:&#8221;reading_room&#8221;}&#8217; \
+&#8220;building&#8221;:&#8221;135 E 5th Street&#8221;,
+&#8220;floor&#8221;:&#8221;4&#8221;,
+&#8220;room&#8221;:&#8221;8&#8221;,
+&#8220;area&#8221;:&#8221;Back&#8221;,
+&#8220;barcode&#8221;:&#8221;11000010000010111011&#8221;,
+&#8220;temporary&#8221;:&#8221;loan&#8221;}&#8217; \
   &#8220;http://localhost:8089//locations/1&#8221;</p>
 
 <p>```</p>
@@ -2227,14 +2223,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;use_restrictions&#8221;:false,
 &#8220;linked_agents&#8221;:[],
 &#8220;instances&#8221;:[],
-&#8220;id_0&#8221;:&#8221;A852YJN&#8221;,
-&#8220;id_1&#8221;:&#8221;L961564165709&#8221;,
-&#8220;id_2&#8221;:&#8221;676352GMB&#8221;,
-&#8220;id_3&#8221;:&#8221;O205NI193&#8221;,
+&#8220;id_0&#8221;:&#8221;430DUE885&#8221;,
+&#8220;id_1&#8221;:&#8221;JHWO884&#8221;,
+&#8220;id_2&#8221;:&#8221;R149U298H&#8221;,
+&#8220;id_3&#8221;:&#8221;24W809VN&#8221;,
 &#8220;title&#8221;:&#8221;Accession Title: 353&#8221;,
 &#8220;content_description&#8221;:&#8221;Description: 260&#8221;,
 &#8220;condition_description&#8221;:&#8221;Description: 261&#8221;,
-&#8220;accession_date&#8221;:&#8221;2013-05-01&#8221;}&#8217; \
+&#8220;accession_date&#8221;:&#8221;2000-07-22&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2332,14 +2328,14 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;use_restrictions&#8221;:false,
 &#8220;linked_agents&#8221;:[],
 &#8220;instances&#8221;:[],
-&#8220;id_0&#8221;:&#8221;A852YJN&#8221;,
-&#8220;id_1&#8221;:&#8221;L961564165709&#8221;,
-&#8220;id_2&#8221;:&#8221;676352GMB&#8221;,
-&#8220;id_3&#8221;:&#8221;O205NI193&#8221;,
+&#8220;id_0&#8221;:&#8221;430DUE885&#8221;,
+&#8220;id_1&#8221;:&#8221;JHWO884&#8221;,
+&#8220;id_2&#8221;:&#8221;R149U298H&#8221;,
+&#8220;id_3&#8221;:&#8221;24W809VN&#8221;,
 &#8220;title&#8221;:&#8221;Accession Title: 353&#8221;,
 &#8220;content_description&#8221;:&#8221;Description: 260&#8221;,
 &#8220;condition_description&#8221;:&#8221;Description: 261&#8221;,
-&#8220;accession_date&#8221;:&#8221;2013-05-01&#8221;}&#8217; \
+&#8220;accession_date&#8221;:&#8221;2000-07-22&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2403,7 +2399,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;LY215Q313&#8221;&#8217; \
+  -d &#8216;&#8220;TNJOB&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/accessions/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2638,7 +2634,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;restrictions_apply&#8221;:false,
 &#8220;instances&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;ref_id&#8221;:&#8221;OTS180671&#8221;,
+&#8220;ref_id&#8221;:&#8221;D669891RS&#8221;,
 &#8220;level&#8221;:&#8221;item&#8221;,
 &#8220;title&#8221;:&#8221;Archival Object Title: 354&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects&#8221;</p>
@@ -2772,7 +2768,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;restrictions_apply&#8221;:false,
 &#8220;instances&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;ref_id&#8221;:&#8221;OTS180671&#8221;,
+&#8220;ref_id&#8221;:&#8221;D669891RS&#8221;,
 &#8220;level&#8221;:&#8221;item&#8221;,
 &#8220;title&#8221;:&#8221;Archival Object Title: 354&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1&#8221;</p>
@@ -2810,7 +2806,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;N806725PT&#8221;&#8217; \
+  -d &#8216;&#8220;G627O407657&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/archival_objects/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -2988,7 +2984,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/batch_imports&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;NT196A915&#8221;&#8217; \
+  -d &#8216;&#8220;AEI24849&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/batch_imports&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3175,7 +3171,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;SG576233U&#8221;&#8217; \
+  -d &#8216;&#8220;848QG733A&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classification_terms/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3315,7 +3311,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;publish&#8221;:true,
 &#8220;path_from_root&#8221;:[],
 &#8220;linked_records&#8221;:[],
-&#8220;identifier&#8221;:&#8221;DP351NG&#8221;,
+&#8220;identifier&#8221;:&#8221;206323P150131&#8221;,
 &#8220;title&#8221;:&#8221;Classification Title: 355&#8221;,
 &#8220;description&#8221;:&#8221;Description: 262&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications&#8221;</p>
@@ -3377,7 +3373,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;publish&#8221;:true,
 &#8220;path_from_root&#8221;:[],
 &#8220;linked_records&#8221;:[],
-&#8220;identifier&#8221;:&#8221;DP351NG&#8221;,
+&#8220;identifier&#8221;:&#8221;206323P150131&#8221;,
 &#8220;title&#8221;:&#8221;Classification Title: 355&#8221;,
 &#8220;description&#8221;:&#8221;Description: 262&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications/1&#8221;</p>
@@ -3441,7 +3437,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;NQNEW&#8221;&#8217; \
+  -d &#8216;&#8220;476NO650L&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/classifications/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3503,11 +3499,11 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;N457FEH&#8221;&#8217; \
+  -d &#8216;&#8220;JTEQN&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/component_transfers&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;633LXBI&#8221;&#8217; \
+  -d &#8216;&#8220;UHKUK&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/component_transfers&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -3570,7 +3566,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/default_values/:record_type&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;364TUPW&#8221;&#8217; \
+  -d &#8216;&#8220;B816RQP&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/default_values/:record_type&#8221;</p>
 
 <p>```</p>
@@ -3633,7 +3629,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;component_id&#8221;:&#8221;R796XM133&#8221;,
+&#8220;component_id&#8221;:&#8221;380941SM934&#8221;,
 &#8220;title&#8221;:&#8221;Digital Object Component Title: 358&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components&#8221;</p>
 
@@ -3715,7 +3711,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[],
 &#8220;notes&#8221;:[],
-&#8220;component_id&#8221;:&#8221;R796XM133&#8221;,
+&#8220;component_id&#8221;:&#8221;380941SM934&#8221;,
 &#8220;title&#8221;:&#8221;Digital Object Component Title: 358&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components/1&#8221;</p>
 
@@ -3802,7 +3798,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;O914WM760&#8221;&#8217; \
+  -d &#8216;&#8220;424W132AU&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_object_components/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4010,29 +4006,29 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
 &#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;91&#8221;,
-&#8220;extent_type&#8221;:&#8221;reels&#8221;}],
+&#8220;number&#8221;:&#8221;13&#8221;,
+&#8220;extent_type&#8221;:&#8221;volumes&#8221;}],
 &#8220;dates&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;file_uri&#8221;:&#8221;317BEVE&#8221;,
-&#8220;use_statement&#8221;:&#8221;audio-clip&#8221;,
-&#8220;xlink_actuate_attribute&#8221;:&#8221;none&#8221;,
-&#8220;xlink_show_attribute&#8221;:&#8221;embed&#8221;,
+&#8220;file_uri&#8221;:&#8221;135IO95G&#8221;,
+&#8220;use_statement&#8221;:&#8221;image-thumbnail&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onRequest&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;none&#8221;,
 &#8220;file_format_name&#8221;:&#8221;pdf&#8221;,
-&#8220;file_format_version&#8221;:&#8221;882UA214490&#8221;,
-&#8220;file_size_bytes&#8221;:49,
-&#8220;checksum&#8221;:&#8221;973LTAD&#8221;,
-&#8220;checksum_method&#8221;:&#8221;sha-256&#8221;}],
+&#8220;file_format_version&#8221;:&#8221;UWJ509Y&#8221;,
+&#8220;file_size_bytes&#8221;:23,
+&#8220;checksum&#8221;:&#8221;343RL166X&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-384&#8221;}],
 &#8220;restrictions&#8221;:false,
 &#8220;notes&#8221;:[],
 &#8220;linked_instances&#8221;:[],
 &#8220;title&#8221;:&#8221;Digital Object Title: 357&#8221;,
-&#8220;language&#8221;:&#8221;aym&#8221;,
-&#8220;digital_object_id&#8221;:&#8221;G783FLC&#8221;}&#8217; \
+&#8220;language&#8221;:&#8221;lah&#8221;,
+&#8220;digital_object_id&#8221;:&#8221;620PU24293&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4094,29 +4090,29 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
 &#8220;portion&#8221;:&#8221;part&#8221;,
-&#8220;number&#8221;:&#8221;91&#8221;,
-&#8220;extent_type&#8221;:&#8221;reels&#8221;}],
+&#8220;number&#8221;:&#8221;13&#8221;,
+&#8220;extent_type&#8221;:&#8221;volumes&#8221;}],
 &#8220;dates&#8221;:[],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;file_versions&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;file_version&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;file_uri&#8221;:&#8221;317BEVE&#8221;,
-&#8220;use_statement&#8221;:&#8221;audio-clip&#8221;,
-&#8220;xlink_actuate_attribute&#8221;:&#8221;none&#8221;,
-&#8220;xlink_show_attribute&#8221;:&#8221;embed&#8221;,
+&#8220;file_uri&#8221;:&#8221;135IO95G&#8221;,
+&#8220;use_statement&#8221;:&#8221;image-thumbnail&#8221;,
+&#8220;xlink_actuate_attribute&#8221;:&#8221;onRequest&#8221;,
+&#8220;xlink_show_attribute&#8221;:&#8221;none&#8221;,
 &#8220;file_format_name&#8221;:&#8221;pdf&#8221;,
-&#8220;file_format_version&#8221;:&#8221;882UA214490&#8221;,
-&#8220;file_size_bytes&#8221;:49,
-&#8220;checksum&#8221;:&#8221;973LTAD&#8221;,
-&#8220;checksum_method&#8221;:&#8221;sha-256&#8221;}],
+&#8220;file_format_version&#8221;:&#8221;UWJ509Y&#8221;,
+&#8220;file_size_bytes&#8221;:23,
+&#8220;checksum&#8221;:&#8221;343RL166X&#8221;,
+&#8220;checksum_method&#8221;:&#8221;sha-384&#8221;}],
 &#8220;restrictions&#8221;:false,
 &#8220;notes&#8221;:[],
 &#8220;linked_instances&#8221;:[],
 &#8220;title&#8221;:&#8221;Digital Object Title: 357&#8221;,
-&#8220;language&#8221;:&#8221;aym&#8221;,
-&#8220;digital_object_id&#8221;:&#8221;G783FLC&#8221;}&#8217; \
+&#8220;language&#8221;:&#8221;lah&#8221;,
+&#8220;digital_object_id&#8221;:&#8221;620PU24293&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4178,7 +4174,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;J483815123490&#8221;&#8217; \
+  -d &#8216;&#8220;CNE240Q&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4307,7 +4303,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;UJ183SQ&#8221;&#8217; \
+  -d &#8216;&#8220;BE441NM&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/digital_objects/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4546,17 +4542,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;event&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;external_documents&#8221;:[],
-&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/271&#8221;,
-&#8220;role&#8221;:&#8221;recipient&#8221;}],
+&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/272&#8221;,
+&#8220;role&#8221;:&#8221;implementer&#8221;}],
 &#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/97&#8221;,
 &#8220;role&#8221;:&#8221;transfer&#8221;}],
 &#8220;date&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1972-10-09&#8221;,
-&#8220;end&#8221;:&#8221;1972-10-09&#8221;,
-&#8220;expression&#8221;:&#8221;A861955VW&#8221;},
-&#8220;event_type&#8221;:&#8221;accumulation&#8221;}&#8217; \
+&#8220;begin&#8221;:&#8221;2007-04-29&#8221;,
+&#8220;end&#8221;:&#8221;2007-04-29&#8221;,
+&#8220;expression&#8221;:&#8221;488QFEV&#8221;},
+&#8220;event_type&#8221;:&#8221;acknowledgement_received&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/events&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4641,17 +4637,17 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   -d &#8216;{ &#8220;jsonmodel_type&#8221;:&#8221;event&#8221;,
 &#8220;external_ids&#8221;:[],
 &#8220;external_documents&#8221;:[],
-&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/271&#8221;,
-&#8220;role&#8221;:&#8221;recipient&#8221;}],
+&#8220;linked_agents&#8221;:[{ &#8220;ref&#8221;:&#8221;/agents/people/272&#8221;,
+&#8220;role&#8221;:&#8221;implementer&#8221;}],
 &#8220;linked_records&#8221;:[{ &#8220;ref&#8221;:&#8221;/repositories/2/accessions/97&#8221;,
 &#8220;role&#8221;:&#8221;transfer&#8221;}],
 &#8220;date&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;range&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1972-10-09&#8221;,
-&#8220;end&#8221;:&#8221;1972-10-09&#8221;,
-&#8220;expression&#8221;:&#8221;A861955VW&#8221;},
-&#8220;event_type&#8221;:&#8221;accumulation&#8221;}&#8217; \
+&#8220;begin&#8221;:&#8221;2007-04-29&#8221;,
+&#8220;end&#8221;:&#8221;2007-04-29&#8221;,
+&#8220;expression&#8221;:&#8221;488QFEV&#8221;},
+&#8220;event_type&#8221;:&#8221;acknowledgement_received&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/events/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4797,7 +4793,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;description&#8221;:&#8221;Description: 267&#8221;,
 &#8220;member_usernames&#8221;:[],
 &#8220;grants_permissions&#8221;:[],
-&#8220;group_code&#8221;:&#8221;286NLKP&#8221;}&#8217; \
+&#8220;group_code&#8221;:&#8221;IOH983I&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/groups&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -4837,7 +4833,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;description&#8221;:&#8221;Description: 267&#8221;,
 &#8220;member_usernames&#8221;:[],
 &#8220;grants_permissions&#8221;:[],
-&#8220;group_code&#8221;:&#8221;286NLKP&#8221;}&#8217; \
+&#8220;group_code&#8221;:&#8221;IOH983I&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/groups/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -5717,53 +5713,53 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
 &#8220;portion&#8221;:&#8221;whole&#8221;,
-&#8220;number&#8221;:&#8221;52&#8221;,
-&#8220;extent_type&#8221;:&#8221;photographic_slides&#8221;}],
+&#8220;number&#8221;:&#8221;73&#8221;,
+&#8220;extent_type&#8221;:&#8221;sheets&#8221;}],
 &#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1971-12-27&#8221;,
-&#8220;end&#8221;:&#8221;1971-12-27&#8221;,
-&#8220;expression&#8221;:&#8221;EKH852A&#8221;}],
+&#8220;begin&#8221;:&#8221;1970-01-14&#8221;,
+&#8220;end&#8221;:&#8221;1970-01-14&#8221;,
+&#8220;expression&#8221;:&#8221;HJEHB&#8221;}],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;restrictions&#8221;:false,
 &#8220;revision_statements&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;revision_statement&#8221;,
-&#8220;date&#8221;:&#8221;B465QMH&#8221;,
-&#8220;description&#8221;:&#8221;KW695NG&#8221;}],
+&#8220;date&#8221;:&#8221;ST63957922&#8221;,
+&#8220;description&#8221;:&#8221;IDAS22&#8221;}],
 &#8220;instances&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;microform&#8221;,
+&#8220;instance_type&#8221;:&#8221;audio&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;frame&#8221;,
-&#8220;indicator_1&#8221;:&#8221;37-577&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11110010000001000100&#8221;,
-&#8220;container_extent&#8221;:&#8221;38&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;cubic_feet&#8221;}},
+&#8220;type_1&#8221;:&#8221;reel&#8221;,
+&#8220;indicator_1&#8221;:&#8221;036-826-4532-411&#8221;,
+&#8220;barcode_1&#8221;:&#8221;01001111110001100010&#8221;,
+&#8220;container_extent&#8221;:&#8221;99&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;linear_feet&#8221;}},
 { &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;moving_images&#8221;,
+&#8220;instance_type&#8221;:&#8221;maps&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;folder&#8221;,
-&#8220;indicator_1&#8221;:&#8221;77-780&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11100111110101100011&#8221;,
-&#8220;container_extent&#8221;:&#8221;7&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;terabytes&#8221;}}],
+&#8220;type_1&#8221;:&#8221;case&#8221;,
+&#8220;indicator_1&#8221;:&#8221;803-024-14-17&#8221;,
+&#8220;barcode_1&#8221;:&#8221;11001001100111110100&#8221;,
+&#8220;container_extent&#8221;:&#8221;51&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;cassettes&#8221;}}],
 &#8220;deaccessions&#8221;:[],
 &#8220;related_accessions&#8221;:[],
 &#8220;classifications&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">95</emph>&#8221;,
-&#8220;id_0&#8221;:&#8221;751445PG125&#8221;,
-&#8220;level&#8221;:&#8221;recordgrp&#8221;,
-&#8220;language&#8221;:&#8221;sad&#8221;,
-&#8220;ead_id&#8221;:&#8221;AJCVI&#8221;,
-&#8220;finding_aid_date&#8221;:&#8221;I918316RB&#8221;,
-&#8220;finding_aid_language&#8221;:&#8221;3782428LU&#8221;,
-&#8220;ead_location&#8221;:&#8221;IN145HW&#8221;}&#8217; \
+&#8220;id_0&#8221;:&#8221;V653A172N&#8221;,
+&#8220;level&#8221;:&#8221;class&#8221;,
+&#8220;language&#8221;:&#8221;chg&#8221;,
+&#8220;finding_aid_description_rules&#8221;:&#8221;rad&#8221;,
+&#8220;ead_id&#8221;:&#8221;849397R117N&#8221;,
+&#8220;finding_aid_date&#8221;:&#8221;N491VTF&#8221;,
+&#8220;ead_location&#8221;:&#8221;T175IYW&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -5839,53 +5835,53 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;linked_events&#8221;:[],
 &#8220;extents&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;extent&#8221;,
 &#8220;portion&#8221;:&#8221;whole&#8221;,
-&#8220;number&#8221;:&#8221;52&#8221;,
-&#8220;extent_type&#8221;:&#8221;photographic_slides&#8221;}],
+&#8220;number&#8221;:&#8221;73&#8221;,
+&#8220;extent_type&#8221;:&#8221;sheets&#8221;}],
 &#8220;dates&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;date&#8221;,
-&#8220;date_type&#8221;:&#8221;single&#8221;,
+&#8220;date_type&#8221;:&#8221;bulk&#8221;,
 &#8220;label&#8221;:&#8221;creation&#8221;,
-&#8220;begin&#8221;:&#8221;1971-12-27&#8221;,
-&#8220;end&#8221;:&#8221;1971-12-27&#8221;,
-&#8220;expression&#8221;:&#8221;EKH852A&#8221;}],
+&#8220;begin&#8221;:&#8221;1970-01-14&#8221;,
+&#8220;end&#8221;:&#8221;1970-01-14&#8221;,
+&#8220;expression&#8221;:&#8221;HJEHB&#8221;}],
 &#8220;external_documents&#8221;:[],
 &#8220;rights_statements&#8221;:[],
 &#8220;linked_agents&#8221;:[],
 &#8220;restrictions&#8221;:false,
 &#8220;revision_statements&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;revision_statement&#8221;,
-&#8220;date&#8221;:&#8221;B465QMH&#8221;,
-&#8220;description&#8221;:&#8221;KW695NG&#8221;}],
+&#8220;date&#8221;:&#8221;ST63957922&#8221;,
+&#8220;description&#8221;:&#8221;IDAS22&#8221;}],
 &#8220;instances&#8221;:[{ &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;microform&#8221;,
+&#8220;instance_type&#8221;:&#8221;audio&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;frame&#8221;,
-&#8220;indicator_1&#8221;:&#8221;37-577&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11110010000001000100&#8221;,
-&#8220;container_extent&#8221;:&#8221;38&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;cubic_feet&#8221;}},
+&#8220;type_1&#8221;:&#8221;reel&#8221;,
+&#8220;indicator_1&#8221;:&#8221;036-826-4532-411&#8221;,
+&#8220;barcode_1&#8221;:&#8221;01001111110001100010&#8221;,
+&#8220;container_extent&#8221;:&#8221;99&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;linear_feet&#8221;}},
 { &#8220;jsonmodel_type&#8221;:&#8221;instance&#8221;,
 &#8220;is_representative&#8221;:false,
-&#8220;instance_type&#8221;:&#8221;moving_images&#8221;,
+&#8220;instance_type&#8221;:&#8221;maps&#8221;,
 &#8220;container&#8221;:{ &#8220;jsonmodel_type&#8221;:&#8221;container&#8221;,
 &#8220;container_locations&#8221;:[],
-&#8220;type_1&#8221;:&#8221;folder&#8221;,
-&#8220;indicator_1&#8221;:&#8221;77-780&#8221;,
-&#8220;barcode_1&#8221;:&#8221;11100111110101100011&#8221;,
-&#8220;container_extent&#8221;:&#8221;7&#8221;,
-&#8220;container_extent_type&#8221;:&#8221;terabytes&#8221;}}],
+&#8220;type_1&#8221;:&#8221;case&#8221;,
+&#8220;indicator_1&#8221;:&#8221;803-024-14-17&#8221;,
+&#8220;barcode_1&#8221;:&#8221;11001001100111110100&#8221;,
+&#8220;container_extent&#8221;:&#8221;51&#8221;,
+&#8220;container_extent_type&#8221;:&#8221;cassettes&#8221;}}],
 &#8220;deaccessions&#8221;:[],
 &#8220;related_accessions&#8221;:[],
 &#8220;classifications&#8221;:[],
 &#8220;notes&#8221;:[],
 &#8220;title&#8221;:&#8221;Resource Title: <emph render="italic">95</emph>&#8221;,
-&#8220;id_0&#8221;:&#8221;751445PG125&#8221;,
-&#8220;level&#8221;:&#8221;recordgrp&#8221;,
-&#8220;language&#8221;:&#8221;sad&#8221;,
-&#8220;ead_id&#8221;:&#8221;AJCVI&#8221;,
-&#8220;finding_aid_date&#8221;:&#8221;I918316RB&#8221;,
-&#8220;finding_aid_language&#8221;:&#8221;3782428LU&#8221;,
-&#8220;ead_location&#8221;:&#8221;IN145HW&#8221;}&#8217; \
+&#8220;id_0&#8221;:&#8221;V653A172N&#8221;,
+&#8220;level&#8221;:&#8221;class&#8221;,
+&#8220;language&#8221;:&#8221;chg&#8221;,
+&#8220;finding_aid_description_rules&#8221;:&#8221;rad&#8221;,
+&#8220;ead_id&#8221;:&#8221;849397R117N&#8221;,
+&#8220;finding_aid_date&#8221;:&#8221;N491VTF&#8221;,
+&#8220;ead_location&#8221;:&#8221;T175IYW&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -5970,7 +5966,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;EOJ842356&#8221;&#8217; \
+  -d &#8216;&#8220;KHBWJ&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1/accept_children&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6123,7 +6119,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;X209M859M&#8221;&#8217; \
+  -d &#8216;&#8220;RFFX652&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/resources/1/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6328,12 +6324,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;container_locations&#8221;:[],
 &#8220;series&#8221;:[],
 &#8220;collection&#8221;:[],
-&#8220;indicator&#8221;:&#8221;OTUY708&#8221;,
-&#8220;type&#8221;:&#8221;folder&#8221;,
-&#8220;barcode&#8221;:&#8221;TYRL6&#8221;,
-&#8220;ils_holding_id&#8221;:&#8221;XEJ964F&#8221;,
-&#8220;ils_item_id&#8221;:&#8221;LFC532V&#8221;,
-&#8220;exported_to_ils&#8221;:&#8221;2017-02-15T10:04:26-05:00&#8221;}&#8217; \
+&#8220;indicator&#8221;:&#8221;DAVGR&#8221;,
+&#8220;type&#8221;:&#8221;case&#8221;,
+&#8220;barcode&#8221;:&#8221;DYGWV&#8221;,
+&#8220;ils_holding_id&#8221;:&#8221;F954FYR&#8221;,
+&#8220;ils_item_id&#8221;:&#8221;MC886P687&#8221;,
+&#8220;exported_to_ils&#8221;:&#8221;2017-03-16T15:19:05-04:00&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6370,12 +6366,12 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;container_locations&#8221;:[],
 &#8220;series&#8221;:[],
 &#8220;collection&#8221;:[],
-&#8220;indicator&#8221;:&#8221;OTUY708&#8221;,
-&#8220;type&#8221;:&#8221;folder&#8221;,
-&#8220;barcode&#8221;:&#8221;TYRL6&#8221;,
-&#8220;ils_holding_id&#8221;:&#8221;XEJ964F&#8221;,
-&#8220;ils_item_id&#8221;:&#8221;LFC532V&#8221;,
-&#8220;exported_to_ils&#8221;:&#8221;2017-02-15T10:04:26-05:00&#8221;}&#8217; \
+&#8220;indicator&#8221;:&#8221;DAVGR&#8221;,
+&#8220;type&#8221;:&#8221;case&#8221;,
+&#8220;barcode&#8221;:&#8221;DYGWV&#8221;,
+&#8220;ils_holding_id&#8221;:&#8221;F954FYR&#8221;,
+&#8220;ils_item_id&#8221;:&#8221;MC886P687&#8221;,
+&#8220;exported_to_ils&#8221;:&#8221;2017-03-16T15:19:05-04:00&#8221;}&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6460,7 +6456,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/container_profile&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;611F12UJ&#8221;&#8217; \
+  -d &#8216;&#8220;CWHKJ&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/container_profile&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6496,7 +6492,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/ils_holding_id&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;SQ337E840&#8221;&#8217; \
+  -d &#8216;&#8220;X651JIX&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/ils_holding_id&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6532,7 +6528,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/location&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;749V408FK&#8221;&#8217; \
+  -d &#8216;&#8220;S727J722963&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/batch/location&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6562,7 +6558,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;496416MYQ&#8221;&#8217; \
+  -d &#8216;&#8220;B427HEC&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/bulk/barcodes&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6592,7 +6588,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;519IM823347&#8221;&#8217; \
+  -d &#8216;&#8220;664Q397L576&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/top_containers/bulk/locations&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -6666,7 +6662,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;839698G130619&#8221;&#8217; \
+  -d &#8216;&#8220;E372UYH&#8221;&#8217; \
   &#8220;http://localhost:8089//repositories/:repo_id/transfer&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7169,8 +7165,8 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;external_documents&#8221;:[],
 &#8220;vocabulary&#8221;:&#8221;/vocabularies/157&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-476.com&#8221;,
-&#8220;scope_note&#8221;:&#8221;400L68798109&#8221;,
-&#8220;source&#8221;:&#8221;aat&#8221;}&#8217; \
+&#8220;scope_note&#8221;:&#8221;BNF988F&#8221;,
+&#8220;source&#8221;:&#8221;tgn&#8221;}&#8217; \
   &#8220;http://localhost:8089//subjects&#8221;</p>
 
 <p>```</p>
@@ -7262,8 +7258,8 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; &#8220;http://localhost:
 &#8220;external_documents&#8221;:[],
 &#8220;vocabulary&#8221;:&#8221;/vocabularies/157&#8221;,
 &#8220;authority_id&#8221;:&#8221;http://www.example-476.com&#8221;,
-&#8220;scope_note&#8221;:&#8221;400L68798109&#8221;,
-&#8220;source&#8221;:&#8221;aat&#8221;}&#8217; \
+&#8220;scope_note&#8221;:&#8221;BNF988F&#8221;,
+&#8220;source&#8221;:&#8221;tgn&#8221;}&#8217; \
   &#8220;http://localhost:8089//subjects/1&#8221;</p>
 
 <p>```</p>
@@ -7383,11 +7379,11 @@ JSONModel(:user) &lt;request body&gt; -- The record to create
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;U898SXE&#8221;&#8217; \
+  -d &#8216;&#8220;DESAW&#8221;&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;ARES968&#8221;&#8217; \
+  -d &#8216;&#8220;I921LHO&#8221;&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7395,7 +7391,7 @@ JSONModel(:user) &lt;request body&gt; -- The record to create
 &#8220;groups&#8221;:[],
 &#8220;is_admin&#8221;:false,
 &#8220;username&#8221;:&#8221;username_21&#8221;,
-&#8220;name&#8221;:&#8221;Name Number 514&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;Name Number 515&#8221;}&#8217; \
   &#8220;http://localhost:8089//users&#8221;</p>
 
 <p>```</p>
@@ -7458,7 +7454,7 @@ JSONModel(:user) &lt;request body&gt; -- The updated record
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;IK342YW&#8221;&#8217; \
+  -d &#8216;&#8220;SXR231J&#8221;&#8217; \
   &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7466,7 +7462,7 @@ JSONModel(:user) &lt;request body&gt; -- The updated record
 &#8220;groups&#8221;:[],
 &#8220;is_admin&#8221;:false,
 &#8220;username&#8221;:&#8221;username_21&#8221;,
-&#8220;name&#8221;:&#8221;Name Number 514&#8221;}&#8217; \
+&#8220;name&#8221;:&#8221;Name Number 515&#8221;}&#8217; \
   &#8220;http://localhost:8089//users/1&#8221;</p>
 
 <p>```</p>
@@ -7540,7 +7536,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 <p>```shell</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;613G627727S&#8221;&#8217; \
+  -d &#8216;&#8220;TPOJK&#8221;&#8217; \
   &#8220;http://localhost:8089//users/1/groups&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7606,7 +7602,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
   &#8220;http://localhost:8089//users/:username/login&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
-  -d &#8216;&#8220;GB555ND&#8221;&#8217; \
+  -d &#8216;&#8220;36EM961U&#8221;&#8217; \
   &#8220;http://localhost:8089//users/:username/login&#8221;</p>
 
 <p>curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; \
@@ -7794,7 +7790,7 @@ curl -H &#8220;X-ArchivesSpace-Session: $SESSION&#8221; -X DELETE &#8220;http://
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3 Documentation Generated on Wed Feb 15 10:09:56 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
