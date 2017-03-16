@@ -84,7 +84,7 @@ module TestUtils
       java_opts += " -Daspace.config.solr_url=http://localhost:#{config[:solr_port]}"
     end
 
-    java_opts += " -Xmx300m"
+    java_opts += " -Xmx600m"
 
     pid = Process.spawn({'JAVA_OPTS' => java_opts},
                         "#{base}/../build/run", *build_args)
