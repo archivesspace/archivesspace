@@ -300,7 +300,7 @@ FactoryGirl.define do
   factory :json_top_container, class: JSONModel(:top_container) do
     indicator { generate(:alphanumstr) }
     type { generate(:container_type) }
-    barcode { generate(:alphanumstr)[0..4] }
+    barcode { SecureRandom.hex }
     ils_holding_id { generate(:alphanumstr) }
     ils_item_id { generate(:alphanumstr) }
     exported_to_ils { Time.now.iso8601 }
