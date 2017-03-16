@@ -99,7 +99,6 @@ class PUIIndexer < PeriodicIndexer
     resource_uris.each do |resource_uri|
       json = JSONModel::HTTP.get_json(resource_uri + '/ordered_records')
 
-      # FIXME: need to arrange for these records to be deleted when their parent collection is
       batch << {
         'id' => "#{resource_uri}/ordered_records",
         'parent_id' => resource_uri,
