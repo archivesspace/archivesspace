@@ -5,9 +5,9 @@
     "type" => "object",
     "properties" => {
 
-      "comparator" => {"type" => "string", "enum" => ["greater_than", "lesser_than", "equal"]},
+      "comparator" => {"type" => "string", "enum" => ["greater_than", "lesser_than", "equal", "empty"]},
       "field" => {"type" => "string", "ifmissing" => "error"},
-      "value" => {"type" => "date", "ifmissing" => "error"},
+      "value" => {"type" => "date"},
       "negated" => {"type" => "boolean", "default" => false},
 
     },
