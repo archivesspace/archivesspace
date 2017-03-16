@@ -483,7 +483,7 @@ return (
 
 
       def find_last_element(*selectors)
-        result = find_elements(*selectors)
+        result = blocking_find_elements(*selectors)
 
         result[result.length - 1]
       end
