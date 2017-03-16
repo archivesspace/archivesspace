@@ -52,7 +52,6 @@ module DriverMixin
       ready_state = execute_script("return document.readyState")
       jquery_state = execute_script("return typeof jQuery != 'undefined' && !jQuery.active")
       break if ready_state == 'complete' && jquery_state
-      puts "Waiting for document.readyState to become 'complete' and jQuery to be ready"
       sleep 0.1
     end
   end

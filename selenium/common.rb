@@ -22,7 +22,7 @@ $sleep_time = 0.0
 module Selenium
   module Config
     def self.retries
-      100
+      200
     end
   end
 end
