@@ -146,7 +146,6 @@ class ClassificationsController < ApplicationController
     render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/root")
   end
 
-  # FIXME: bad name on frontend and backend.  Really a path or something?
   def node_from_root
     classification_uri = JSONModel(:classification).uri_for(params[:id])
 

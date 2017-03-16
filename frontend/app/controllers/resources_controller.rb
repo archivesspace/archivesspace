@@ -106,7 +106,6 @@ class ResourcesController < ApplicationController
     render :json => pass_through_json("#{resource_uri}/tree/root")
   end
 
-  # FIXME: bad name on frontend and backend.  Really a path or something?
   def node_from_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 

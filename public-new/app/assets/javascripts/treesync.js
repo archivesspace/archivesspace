@@ -101,7 +101,6 @@
 
 
     TreeSync.prototype.uriForTreeId = function(tree_id) {
-        // FIXME Can this moved somewhere else? TreeIds?
         var parsed_tree_id = TreeIds.parse_tree_id(tree_id);
         return '/repositories/'+this.repo_id+'/'+parsed_tree_id.type + 's/'+parsed_tree_id.id;
     };

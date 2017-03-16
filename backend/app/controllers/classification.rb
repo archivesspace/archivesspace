@@ -77,7 +77,6 @@ class ArchivesSpaceService < Sinatra::Base
 
   ## Trees!
 
-  # MIGRATION NOTE/QUESTION: Anyone using the /tree endpoint outside of aspace core?
   Endpoint.get('/repositories/:repo_id/classifications/:id/tree/root')
     .description("Fetch tree information for the top-level classification record")
     .params(["id", :id],

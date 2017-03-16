@@ -85,9 +85,6 @@ class LargeTree
     end
   end
 
-  # FIXME: maybe waypoint_path_from_root is a better name?
-  #
-  # {"108803":[{"node":null,"offset":0},{"node":"/repositories/2/archival_objects/108515","offset":0}]}
   def node_from_root(node_ids, repo_id)
     child_to_parent_map = {}
     node_to_position_map = {}

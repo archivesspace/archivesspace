@@ -275,7 +275,6 @@ class DigitalObjectsController < ApplicationController
     render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/root")
   end
 
-  # FIXME: bad name on frontend and backend.  Really a path or something?
   def node_from_root
     digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
 
