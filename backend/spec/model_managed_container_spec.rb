@@ -457,14 +457,13 @@ describe 'Managed Container model' do
       end
 
       it "throws exception when attempt to update to an invalid barcode" do
-
-        stub_barcode_length(4, 6)
-
         container1_json = create(:json_top_container)
         container2_json = create(:json_top_container)
 
         original_barcode_1 = TopContainer[container1_json.id].barcode
         original_barcode_2 = TopContainer[container2_json.id].barcode
+
+        stub_barcode_length(4, 6)
 
         barcode_data = {}
         barcode_data[container1_json.uri] = "7777777"
