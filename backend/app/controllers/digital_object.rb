@@ -97,7 +97,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
-    .returns([200, "TODO"]) \
+    .returns([200, TreeDocs::ROOT_DOCS]) \
   do
     json_response(large_tree_for_digital_object.root)
   end
@@ -110,7 +110,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
-    .returns([200, "TODO"]) \
+    .returns([200, TreeDocs::WAYPOINT_DOCS]) \
   do
     offset = params[:offset]
 
@@ -131,7 +131,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["node_uri", String, "The URI of the Digital Object Component record of interest"],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
-    .returns([200, "TODO"]) \
+    .returns([200, TreeDocs::NODE_DOCS]) \
   do
     digital_object_component_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
 
@@ -145,7 +145,7 @@ class ArchivesSpaceService < Sinatra::Base
             ["node_ids", [Integer], "The IDs of the Digital Object Component records of interest"],
             ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
     .permissions([:view_repository])
-    .returns([200, "TODO"]) \
+    .returns([200, TreeDocs::NODE_FROM_ROOT_DOCS]) \
   do
     json_response(large_tree_for_digital_object.node_from_root(params[:node_ids], params[:repo_id]))
   end

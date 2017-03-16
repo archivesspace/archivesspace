@@ -1,4 +1,52 @@
-# TODO: Some documentation on what's going on
+# What's the big idea?
+#
+# ArchivesSpace has some big trees in it, and sometimes they look a lot like big
+# sticks.  Back in the dark ages, we used JSTree for our trees, which in general
+# is perfectly cromulent.  We recognized the risk of having some very large
+# collections, so dutifully configured JSTree to lazily load subtrees as the
+# user expanded them (avoiding having to load the full tree into memory right
+# away).
+#
+# However, time makes fools of us all.  The JSTree approach works fine if your
+# tree is fairly well balanced, but that's not what things look like in the real
+# world.  Some trees have a single root node and tens of thousands of records
+# directly underneath it.  Lazy loading at the subtree level doesn't save you
+# here: as soon as you expand that (single) node, you're toast.
+#
+# This "large tree" business is a way around all of this.  It's effectively a
+# hybrid of trees and pagination, except we call the pages "waypoints" for
+# reasons known only to me.  So here's the big idea:
+#
+#  * You want to show a tree.  You ask the API to give you the root node.
+#
+#  * The root node tells you whether or not it has children, how many children,
+#    and how many waypoints that works out to.
+#
+#  * Each waypoint is a fixed-size page of nodes.  If the waypoint size is set
+#    to 200, a node with 1,000 children would have 5 waypoints underneath it.
+#
+#  * So, to display the records underneath the root node, you fetch the root
+#    node, then fetch the first waypoint to get the first N nodes.  If you need
+#    to show more nodes (i.e. if the user has scrolled down), you fetch the
+#    second waypoint, and so on.
+#
+#  * The records underneath the root might have their own children, and they'll
+#    have their own waypoints that you can fetch in the same way.  It's nodes,
+#    waypoints and turtles the whole way down.
+#
+# All of this interacts with the largetree.js code in the staff and public
+# interfaces.  You open a resource record, and largetree.js fetches the root
+# node and inserts placeholders for each waypoint underneath it.  As the user
+# scrolls towards a placeholder, the code starts building tracks ahead of the
+# train, fetching that waypoint and rendering the records it contains.  When a
+# user expands a node to view its children, that process repeats again (the node
+# is fetched, waypoint placeholders inserted, etc.).
+#
+# The public interface runs the same code as the staff interface, but with a
+# small twist: it fetches its nodes and waypoints from Solr, rather than from
+# the live API.  We hit the API endpoints at indexing time and store them as
+# Solr documents, effectively precomputing all of the bits of data we need when
+# displaying trees.
 
 require 'mixed_content_parser'
 
