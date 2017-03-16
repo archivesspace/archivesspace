@@ -482,6 +482,14 @@ return (
       end
 
 
+      def blocking_find_elements(*selectors)
+        # Hit with find_element first to invoke our usual retry logic
+        find_element(*selectors)
+
+        find_elements(*selectors).select {|elt| elt.displayed?}
+      end
+
+
       def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
         Selenium::Config.retries.times do |try|
           matches = self.find_elements(:xpath => xpath)
@@ -560,10 +568,6 @@ return (
 
       def execute_script(script, *args)
         bridge.execute_script(script, *args)
-      end
-
-      def blocking_find_elements(*args)
-        bridge.blocking_find_elements(*args)
       end
     end
   end
