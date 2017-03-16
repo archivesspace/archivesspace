@@ -86,19 +86,9 @@ describe "Enumeration Management" do
     # Wait for the table of enumerations to load
     @driver.find_element(:css, '.enumeration-list')
 
-    while true
-      inclusive_dates = @driver.find_element_with_text('//tr', /Inclusive Dates/)
-      default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
-
-      if default_btn[0]
-        default_btn[0].click
-        # Keep looping until the 'Set as Default' button is gone
-        @driver.wait_for_ajax
-        sleep 3
-      else
-        break
-      end
-    end
+    inclusive_dates = @driver.find_element_with_text('//tr', /Inclusive Dates/)
+    default_btn = inclusive_dates.find_element(:link, 'Set as Default')
+    @driver.click_and_wait_until_element_gone(default_btn)
 
     @driver.find_element(:link, "Create").click
     @driver.click_and_wait_until_gone(:link, "Accession")
