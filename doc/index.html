@@ -61,7 +61,7 @@
 
       <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
 
-<p><a href="https://travis-ci.org/archivesspace/archivesspace.svg"><img src="https://travis-ci.org/archivesspace/archivesspace.svg" alt="Build Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a></p>
+<p><a href="https://travis-ci.org/archivesspace/archivesspace"><img src="https://travis-ci.org/archivesspace/archivesspace.svg?branch=master" alt="Build Status" /></a><a href="https://coveralls.io/github/archivesspace/archivesspace?branch=master"><img src="https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master" alt="Coverage Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a></p>
 
 <ul>
   <li><a href="http://archivesspace.org">archivesspace.org</a></li>
@@ -76,7 +76,7 @@
 <h1 id="system-requirements">System requirements</h1>
 
 <ul>
-  <li>Java 1.6 or higher; Java 1.7 or 1.8 recommended.</li>
+  <li>Java 1.7 or 1.8.</li>
   <li>At least 1024 MB RAM allocated to the application</li>
   <li>A <a href="https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers">supported browser</a></li>
 </ul>
@@ -136,7 +136,7 @@ ArchivesSpace directory is located.</p>
 <h2 id="start-archivesspace">Start ArchivesSpace</h2>
 
 <p>The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:</p>
 
 <ul>
@@ -146,7 +146,7 @@ accessing the following URLs in your browser:</p>
   <li>http://localhost:8090/ &#8211; the Solr admin console</li>
 </ul>
 
-<p>To start using the Staff interface application, log in using the adminstrator 
+<p>To start using the Staff interface application, log in using the adminstrator
 account:</p>
 
 <ul>
@@ -164,9 +164,9 @@ as creating and modifying user accounts.  <strong>Be sure to change the
 
 <p>The primary configuration for ArchivesSpace is done in the config/config.rb
 file. By default, this file contains the default settings, which are indicated
-by commented out lines ( indicated by the &#8220;#&#8221; in the file ). You can adjust these 
-settings by adding new lines that change the default and restarting 
-ArchivesSpace. Be sure that your new settings are not commented out 
+by commented out lines ( indicated by the &#8220;#&#8221; in the file ). You can adjust these
+settings by adding new lines that change the default and restarting
+ArchivesSpace. Be sure that your new settings are not commented out
 ( i.e. do NOT start with a &#8220;#&#8221; ), otherwise the settings will not take effect.</p>
 
 <h1 id="running-archivesspace-as-a-unix-daemon">Running ArchivesSpace as a Unix daemon</h1>
@@ -199,18 +199,18 @@ that the system runs under, JVM options, and so on.</p>
 
 <h1 id="running-archivesspace-as-a-windows-service">Running ArchivesSpace as a Windows Service</h1>
 
-<p>Running ArchivesSpace as a Windows service requires some additional 
+<p>Running ArchivesSpace as a Windows service requires some additional
 configuration.</p>
 
-<p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
-provided a service.bat script that will attempt to configure 
+<p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
+provided a service.bat script that will attempt to configure
 procrun for you (under <code>launcher\service.bat</code>).</p>
 
 <p>To run this script, first you need to <a href="http://www.apache.org/dist/commons/daemon/binaries/windows/">download procrun</a>.
 Extract the files and copy the prunsrv.exe and prunmgr.exe to your
 ArchivesSpace directory.</p>
 
-<p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable. 
+<p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable.
 To add Java to your path, edit you %PATH% environment variable to include the directory of
 your java executable ( it will be something like <code>C:\Program Files
 (x86)\Java\bin</code> ). To add <code>JAVA_HOME</code>, add a new system variable and put the
@@ -225,7 +225,7 @@ the service setup script to add it to the application&#8217;s classpath.</p>
 <p>Lastly, for the service to shutdown cleanly, uncomment and change these lines in
 config/config.rb:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_jetty_shutdown_handler</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> 
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_jetty_shutdown_handler</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:jetty_shutdown_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/xkcd&quot;</span>
 </code></pre>
 
@@ -248,7 +248,7 @@ system tray with:</p>
 
 <p>To execute the service from the command line, you can invoke:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_ES constant id'>ES</span><span class='div op'>/</span><span class='regexp val'>/ 
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_ES constant id'>ES</span><span class='div op'>/</span><span class='regexp val'>/
 </span></code></pre>
 
 <p>Log output will be placed in your ArchivesSpace log directory.</p>
@@ -282,7 +282,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:</p>
 
 <pre class="code ruby"><code class="ruby">     $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_lib identifier id'>lib</span>
-     $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/central.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.39</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.39</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span> 
+     $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_Oq constant id'>Oq</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/central.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.39</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.39</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
 </code></pre>
 
 <p>Note that the version of the MySQL connector may be different by the
@@ -457,10 +457,10 @@ indexer to remember what it last indexed.</li>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span>
 
- <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='integer val'>.20130709084008464</span> \ 
-       <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span><span class='div op'>/</span><span class='rubyid_index identifier id'>index</span>
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_snapshot identifier id'>snapshot</span><span class='integer val'>.20130709084008464</span> \
+       <span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span><span class='rubyid_solr_index identifier id'>solr_index</span><span class='div op'>/</span><span class='rubyid_index identifier id'>index</span>
 
- <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_indexer_state identifier id'>indexer_state</span> \ 
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/unpacked/</span><span class='rubyid_zip identifier id'>zip</span><span class='div op'>/</span><span class='rubyid_solr identifier id'>solr</span><span class='dot token'>.</span><span class='rubyid_backup identifier id'>backup</span><span class='minus op'>-</span><span class='integer val'>26475</span><span class='minus op'>-</span><span class='integer val'>1373323208</span><span class='div op'>/</span><span class='rubyid_indexer_state identifier id'>indexer_state</span> \
        <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_data identifier id'>data</span><span class='div op'>/</span>
 </code></pre>
 
@@ -621,7 +621,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3 Documentation Generated on Wed Feb 15 10:09:52 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:00 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.0 (ruby-1.9.3).
 </div>
