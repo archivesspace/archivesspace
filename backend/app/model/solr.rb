@@ -55,7 +55,7 @@ class Solr
 
         "(#{subqueries})"
       else
-        AdvancedQueryString.new(advanced_query).to_solr_s
+        AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
       end
     end
 

@@ -1,8 +1,9 @@
 require 'time'
 
 class AdvancedQueryString
-  def initialize(query)
+  def initialize(query, use_literal)
     @query = query
+    @use_literal = use_literal
   end
 
   def to_solr_s
@@ -12,6 +13,10 @@ class AdvancedQueryString
   end
 
   private
+
+  def use_literal?
+    @use_literal
+  end
 
   def empty_solr_s
     if negated?
@@ -46,7 +51,7 @@ class AdvancedQueryString
       end
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
-    elsif @query["jsonmodel_type"] == "field_query" && @query["literal"]
+    elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
       "(\"#{solr_escape(@query['value'])}\")"
     else
       "(#{@query['value']})"
