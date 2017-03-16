@@ -46,7 +46,9 @@ describe "Subjects" do
     @driver.find_element(:link => 'Create').click
     @driver.click_and_wait_until_gone(:link => 'Subject')
 
-    @driver.find_element(:css => "form #subject_terms_ button:not(.show-all)").click
+    @driver.find_element(:css => "#subject_terms_.initialised")
+
+    @driver.find_element(:css => "form #subject_terms_.initialised button:not(.show-all)").click
 
     @driver.find_element(:id => "subject_source_").select_option("local")
 

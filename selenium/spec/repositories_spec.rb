@@ -85,7 +85,7 @@ describe "Repositories" do
 
     @driver.get("#{$frontend}/repositories")
     row = @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '#{@deletable_repo.repo_code}')]]")
-    row.find_element(:link, 'Edit').click
+    @driver.click_and_wait_until_element_gone(row.find_element(:link, 'Edit'))
 
     @driver.find_element(:css, ".delete-record.btn").click
     @driver.clear_and_send_keys([:id, 'deleteRepoConfim'], @deletable_repo.repo_code )
@@ -98,7 +98,7 @@ describe "Repositories" do
 
   it "can create a second repository" do
     @driver.get("#{$frontend}/repositories")
-    @driver.find_element(:link, "Create Repository").click
+    @driver.click_and_wait_until_gone(:link, "Create Repository")
     @driver.clear_and_send_keys([:id, "repository_repository__repo_code_"], @test_repo_code_2)
     @driver.clear_and_send_keys([:id, "repository_repository__name_"], @test_repo_name_2)
     @driver.click_and_wait_until_gone(:css => "form#new_repository button[type='submit']")
