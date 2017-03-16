@@ -74,7 +74,7 @@ describe "Digital Objects" do
     end
     @driver.find_element(:link, "Close Record").click
     @driver.find_element_with_text('//h3', /File Versions/)
-    @driver.find_element(:link, "Edit").click
+    @driver.click_and_wait_until_gone(:link, "Edit")
   end
 
   it "reports errors if adding a child with no title to a Digital Object" do

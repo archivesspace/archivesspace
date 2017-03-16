@@ -26,7 +26,8 @@ describe "Groups" do
     @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)
-    row.find_element(:link, 'Edit').click
+    edit_link = row.find_element(:link, 'Edit')
+    @driver.click_and_wait_until_element_gone(edit_link)
 
     @driver.clear_and_send_keys([:id, 'new-member'],(@user.username))
     @driver.find_element(:id, 'add-new-member').click
@@ -86,7 +87,9 @@ describe "Groups" do
 
 
   it "can edit a Group" do
-    @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
+    row = @driver.find_element_with_text('//tr', /goo/)
+    edit_link = row.find_element(:link, "Edit")
+    @driver.click_and_wait_until_element_gone(edit_link)
     @driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
     @driver.click_and_wait_until_gone(:css => "form#new_group button[type='submit']")
     expect {
@@ -140,7 +143,7 @@ describe "Groups" do
       user_row = @driver.find_element_with_text('//tr', /#{@user.username}/, true, true)
 
       if user_row
-        user_row.find_element(:link, "Edit Groups").click
+        @driver.click_and_wait_until_element_gone(user_row.find_element(:link, "Edit Groups"))
         break
       end
 
@@ -162,7 +165,7 @@ describe "Groups" do
     # check only the viewer group
     @driver.find_element_with_text('//tr', /repository-viewers/).find_element(:css, 'input').click
 
-    @driver.find_element(:id, "create_account").click
+    @driver.click_and_wait_until_gone(:id, "create_account")
 
     @driver.logout
   end

@@ -136,7 +136,7 @@ describe "Locations" do
       @driver.ensure_no_such_element(:link, "Edit")
     }
 
-    @driver.find_element(:link, "View").click
+    @driver.click_and_wait_until_gone(:link, "View")
 
     assert(20) {
       @driver.ensure_no_such_element(:link, "Edit")

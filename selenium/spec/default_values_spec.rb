@@ -33,7 +33,8 @@ describe "Default Form Values" do
   it "will let an admin create default accession values" do
     @driver.get("#{$frontend}/accessions")
 
-    @driver.find_element_with_text("//a", /Edit Default Values/).click
+    button = @driver.find_element_with_text("//a", /Edit Default Values/)
+    @driver.click_and_wait_until_element_gone(button)
 
     @driver.clear_and_send_keys([:id, "accession_title_"], "DEFAULT TITLE")
 
