@@ -68,16 +68,18 @@ class Driver
 
 
   def logout
-    tries = 2
+    tries = 5
     begin
       @driver.manage.delete_all_cookies
       @driver.navigate.to @frontend
       @driver.find_element(:link, "Sign In")
     rescue Exception => e
       if tries > 0
+        puts "logout failed... try again! #{tries} tries left."
         tries -=1
         retry
       else
+        puts 'logout failed... no more trying'
         raise e
       end
     end
