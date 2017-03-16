@@ -206,6 +206,7 @@ describe "Resources and archival objects" do
     modal.clear_and_send_keys([:id, "digital_object_title_"],("digital_object_title"))
     modal.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
 
+    @driver.execute_script("$('#digital_object_notes.initialised .subrecord-form-heading .btn.add-note').focus()")
     modal.find_element(:css => '#digital_object_notes.initialised .subrecord-form-heading .btn.add-note').click
     modal.find_last_element(:css => '#digital_object_notes select.top-level-note-type').select_option_with_text("Summary")
 
