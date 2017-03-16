@@ -372,12 +372,19 @@ en:
     messages:
       defaults_updated: Defaults Updated
 
+  tree:
+    drag_and_drop_actions:
+      before: Add Items Before
+      after: Add Items After
+      as_child: Add Items as Children 
+
   errors:
     sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
+    error_tree_pane_ajax: An error occurred loading this form.
 
   accession:
     _frontend:
@@ -466,6 +473,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+      tree:
+        new_record_title: New Archival Object
 
   classification:
     _frontend:
@@ -496,6 +505,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Classification Term
+      tree:
+        new_record_title: New Classification Term
 
   collection_management: &collection_management_attributes
     _frontend:
@@ -568,6 +579,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Digital Object Component
+      tree:
+        new_record_title: New Digital Object Component
 
   enumeration:
     _frontend:

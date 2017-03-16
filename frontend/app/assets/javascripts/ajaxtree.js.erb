@@ -72,7 +72,6 @@ AjaxTree.prototype.handleHashChange = function(event) {
 AjaxTree.prototype.loadPaneForId = function(tree_id) {
     var self = this;
 
-    // TODO insertLoadingMessage();
     var params = {};
     params.inline = true;
     params[self.tree.large_tree.root_node_type + '_id'] = self.tree.large_tree.root_uri;
@@ -81,7 +80,6 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
     var row_type = parsed.type;
     var row_id = parsed.id;
 
-    // FIXME: nicer way to get the controller path?
     var url = APP_PATH+row_type + 's' + '/' + row_id;
 
     if (!self.tree.large_tree.read_only) {
@@ -109,8 +107,7 @@ AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
             callback();
         },
         error: function(obj, errorText, errorDesc) {
-            // FIXME I18n message
-            $("#object_container").html("<div class='alert alert-error'><p>An error occurred loading this form.</p><pre>"+errorDesc+"</pre></div>");
+            $("#object_container").html("<div class='alert alert-error'><p><%= I18n.t('errors.error_tree_pane_ajax') %></p><pre>"+errorDesc+"</pre></div>");
         }
     });
 }
@@ -146,8 +143,6 @@ AjaxTree.prototype.setup_ajax_form = function() {
 
             $(document).trigger("loadedrecordform.aspace", [self.$pane]);
 
-            // FIXME better way to be sure?
-            //if ($form.data('formErrors')) {
             if ($form.find('.error').length > 0) {
                 self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
                 self.on_form_changed();
@@ -177,8 +172,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
             $.scrollTo("header");
         },
         error: function(obj, errorText, errorDesc) {
-            // FIXME I18n message
-            self.$pane.prepend("<div class='alert alert-error'><p>An error occurred saving this record.</p><pre>"+errorDesc+"</pre></div>");
+            self.$pane.prepend("<div class='alert alert-error'><p><%= I18n.t('errors.error_tree_pane_ajax')%></p><pre>"+errorDesc+"</pre></div>");
             self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
             $(".btn-primary", $form).removeAttr("disabled");
         }
@@ -209,6 +203,18 @@ AjaxTree.prototype.setup_ajax_form = function() {
     return $form;
 };
 
+AjaxTree.prototype.title_for_new_node = function() {
+    if (this.tree.root_record_type == 'resource') {
+        return "<%= I18n.t('archival_object._frontend.tree.new_record_title') %>";
+    } else if (this.tree.root_record_type == 'classification') {
+        return "<%= I18n.t('classification_term._frontend.tree.new_record_title') %>";
+    } else if (this.tree.root_record_type == 'digital_object') {
+        return "<%= I18n.t('digital_object_component._frontend.tree.new_record_title') %>";
+    } else {
+        throw 'title_for_new_node does not support: ' + this.tree.root_record_type;
+    }
+};
+
 AjaxTree.prototype.add_new_after = function(node, level) {
     var self = this;
 
@@ -231,7 +237,9 @@ AjaxTree.prototype.add_new_after = function(node, level) {
     var $indentor = $('<span>').addClass('indentor');
     $indentor.append($('<span>').addClass('glyphicon glyphicon-asterisk'));
     $indentor.appendTo($titleCell);
-    $titleCell.append($('<span tabindex="0">').addClass('record-title').text('New Record')); // FIXME I18n
+    $titleCell.append($('<span tabindex="0">')
+              .addClass('record-title')
+              .text(self.title_for_new_node()));
     $titleCell.appendTo($new_tr);
     $('<td>').attr('colspan', colspan).appendTo($new_tr);
     node.removeClass('current');
@@ -250,7 +258,7 @@ AjaxTree.prototype.add_new_after = function(node, level) {
     // add the new row at the end of the target level
     if (level > node.data('level')) {
         /* We're adding a new child */
-        parent_id = node_uri_parts.id
+        parent_id = node_uri_parts.id;
 
         if (node.data('child_count') == 0) {
             /* Adding a child to a currently childless element */
@@ -337,19 +345,10 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
     var $form = $("form", self.$pane);
     var current_tree_id = self.tree.large_tree.current_tree_id;
 
-//    var node = tree.get_node(target);
-//    var targetNodeEl = tree.get_node(node, true);
-
     var d = $.Deferred();
 
-//    var parentIdFornew;
-//    if (targetNodeEl.attr("id") === "new") {
-//        parentIdFornew = targetNodeEl.parents("li:first").attr("id");
-//    }
-
     // open save your changes modal
-    // FIXME I18n
-    AS.openCustomModal("saveYourChangesModal", "Save Your Changes", AS.renderTemplate("save_changes_modal_template"));
+    AS.openCustomModal("saveYourChangesModal", "<%= I18n.t('save_changes_modal.save') %>", AS.renderTemplate("save_changes_modal_template"));
 
     $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
         $('.btn', '#saveYourChangesModal').addClass('disabled');

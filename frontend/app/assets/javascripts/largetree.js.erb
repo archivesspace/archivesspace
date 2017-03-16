@@ -6,7 +6,6 @@
     /************************************************************************/
     var TreeIds = {}
 
-    /* FIXME: Figure out how to get rid of plural stuff and hopefully all of this... */
     TreeIds.uri_to_tree_id = function (uri) {
         var parts = TreeIds.uri_to_parts(uri);
         return parts.type + '_' + parts.id;

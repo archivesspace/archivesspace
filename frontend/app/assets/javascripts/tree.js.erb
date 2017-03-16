@@ -24,6 +24,8 @@
 
         self.toolbar_renderer = new TreeToolbarRenderer(self, toolbar_container);
 
+        self.root_record_type = root_record_type;
+
         self.large_tree = new LargeTree(self.datasource, 
                                         tree_container,
                                         root_uri,
