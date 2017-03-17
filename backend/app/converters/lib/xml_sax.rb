@@ -169,6 +169,8 @@ module ASpaceImport
         @node_shadow = nil
         @empty_node = false
 
+        node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
+
         if self.respond_to?("_closing_#{@node_name}")
           self.send("_closing_#{@node_name}", node)
         end
