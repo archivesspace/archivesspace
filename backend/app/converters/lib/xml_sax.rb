@@ -31,8 +31,8 @@ module ASpaceImport
         end
 
         def ignore(path)
-          with(path) { @ignore = true }
-          and_in_closing(path) { @ignore = false }
+          with(path) {|*| @ignore = true }
+          and_in_closing(path) {|*| @ignore = false }
         end
         
 

@@ -14,6 +14,11 @@ describe 'EAD converter' do
   let (:test_doc_1) {
     src = <<ANEAD
 <ead>
+  <frontmatter>
+    <titlepage>
+      <titleproper>A test resource</titleproper>
+    </titlepage>
+  </frontmatter>
   <archdesc level="collection" audience="internal">
     <did>
       <unittitle>一般行政文件 [2]</unittitle>
