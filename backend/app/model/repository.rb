@@ -1,5 +1,6 @@
 class Repository < Sequel::Model(:repository)
   include ASModel
+  include Publishable
 
   set_model_scope :global
   corresponds_to JSONModel(:repository)
@@ -45,7 +46,7 @@ class Repository < Sequel::Model(:repository)
                                                  "view_repository", "delete_archival_record", "suppress_archival_record",
                                                  "manage_subject_record", "manage_agent_record", "manage_vocabulary_record",
                                                  "manage_rde_templates", "manage_container_record", "manage_container_profile_record",
-                                                 "manage_location_profile_record", "import_records"]
+                                                 "manage_location_profile_record", "import_records", "cancel_job"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -85,7 +86,7 @@ class Repository < Sequel::Model(:repository)
                          :group_code => "repository-basic-data-entry",
                          :description => "Basic Data Entry users of the #{repo_code} repository",
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
-                                                 "update_digital_object_record"]
+                                                 "update_digital_object_record", "create_job"]
                        },
                        {
                          :group_code => "repository-viewers",
@@ -145,6 +146,23 @@ class Repository < Sequel::Model(:repository)
 
   def display_string
     "#{name} (#{repo_code})"
+  end
+
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    reindex_required = self.publish != (json['publish'] ? 1 : 0)
+
+    result = super
+    reindex_repository_records if reindex_required
+    result
+  end
+
+  def reindex_repository_records
+    ASModel.all_models.each do |model|
+      if model.model_scope(true) == :repository && model.publishable?
+        model.update_mtime_for_repo_id(self.id)
+      end
+    end
   end
 
 end

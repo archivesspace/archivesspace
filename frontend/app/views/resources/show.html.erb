@@ -1,11 +1,4 @@
 <%= setup_context :object => @resource %>
 
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
-
-<div class="row">
-  <div class="col-md-12">
-    <%= render_aspace_partial :partial => "shared/tree", :locals => {:root_record => @resource, :read_only => true} %>
-  </div>
-</div>
-
-<div id="object_container"></div>
+<%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @resource, :read_only => true} %>

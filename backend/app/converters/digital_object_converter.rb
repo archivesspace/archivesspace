@@ -25,11 +25,6 @@ class DigitalObjectConverter < Converter
   end
 
 
-  def self.profile
-    "Convert Digital Object Records from a CSV file"
-  end
-
-
   def self.configure
     {
       # 1. Map the cell data to schemas or handlers

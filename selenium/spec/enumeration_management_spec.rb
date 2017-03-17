@@ -16,7 +16,8 @@ describe "Enumeration Management" do
 
   it "lets you add a new value to an enumeration" do
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
@@ -25,7 +26,9 @@ describe "Enumeration Management" do
     @driver.find_element(:css, '.enumeration-list')
 
     @driver.find_element(:link, 'Create Value').click
-    @driver.clear_and_send_keys([:id, "enumeration_value_"], "manna\n")
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], "manna")
+
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     @driver.find_element_with_text('//td', /^manna$/)
   end
@@ -35,7 +38,7 @@ describe "Enumeration Management" do
     manna = @driver.find_element_with_text('//tr', /manna/)
     manna.find_element(:link, 'Delete').click
 
-    @driver.find_element(:css => "form#delete_enumeration button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#delete_enumeration button[type='submit']")
 
     @driver.find_element_with_text('//div', /Value Deleted/)
 
@@ -49,11 +52,13 @@ describe "Enumeration Management" do
 
     # create enum A
     @driver.find_element(:link, 'Create Value').click
-    @driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_a}\n")
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_a}")
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     # create enum B
     @driver.find_element(:link, 'Create Value').click
-    @driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_b}\n")
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], "#{enum_b}")
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     # merge enum B into A
     @driver.find_element(:xpath, "//a[contains(@href, \"#{enum_b}\")][contains(text(), \"Merge\")]").click
@@ -72,7 +77,8 @@ describe "Enumeration Management" do
 
   it "lets you set a default enumeration (date_type)" do
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Date Type (date_type)")
@@ -80,22 +86,12 @@ describe "Enumeration Management" do
     # Wait for the table of enumerations to load
     @driver.find_element(:css, '.enumeration-list')
 
-    while true
-      inclusive_dates = @driver.find_element_with_text('//tr', /Inclusive Dates/)
-      default_btn = inclusive_dates.find_elements(:link, 'Set as Default')
-
-      if default_btn[0]
-        default_btn[0].click
-        # Keep looping until the 'Set as Default' button is gone
-        @driver.wait_for_ajax
-        sleep 3
-      else
-        break
-      end
-    end
+    inclusive_dates = @driver.find_element_with_text('//tr', /Inclusive Dates/)
+    default_btn = inclusive_dates.find_element(:link, 'Set as Default')
+    @driver.click_and_wait_until_element_gone(default_btn)
 
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     @driver.find_element(:css => '#accession_dates_ .subrecord-form-heading .btn:not(.show-all)').click
 
@@ -112,8 +108,10 @@ describe "Enumeration Management" do
   end
 
   it "lets you add a new value to an enumeration, reorder it and then you can use it" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
@@ -122,18 +120,14 @@ describe "Enumeration Management" do
     @driver.find_element(:css, '.enumeration-list')
 
     @driver.find_element(:link, 'Create Value').click
-    @driver.clear_and_send_keys([:id, "enumeration_value_"], "IMPORTANT.\n")
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], "IMPORTANT.")
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     @driver.find_element_with_text('//td', /^IMPORTANT\.$/)
 
-    # lets move important up the list
-    3.times do
-      @driver.find_element_with_text('//tr', /IMPORTANT/).find_element(:css, '.position-up').click
-    end
-
     # now lets make sure it's there
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     cm_accession_title = "CM Punk TEST"
     @driver.clear_and_send_keys([:id, "accession_title_"], cm_accession_title)
@@ -145,9 +139,6 @@ describe "Enumeration Management" do
     #now add collection management
     @driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
 
-    # our new value should be #1!
-    @driver.find_element(:id => "accession_collection_management__processing_priority_").text.each_line.first.chomp.should eq("IMPORTANT.")
-
     @driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
@@ -157,21 +148,23 @@ describe "Enumeration Management" do
   end
 
   it "lets you see how many times the term has been used and search for it" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
     run_index_round
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
-    @driver.wait_for_ajax
+
     @driver.find_element(:link, "1 related item.")
-
-
   end
 
   it "lets you suppress an enumeration value" do
+    @driver.get($frontend)
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Controlled Value Lists").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
@@ -179,23 +172,22 @@ describe "Enumeration Management" do
     # Wait for the table of enumerations to load
     @driver.find_element(:css, '.enumeration-list')
 
+    # Wait for click event to be bound to the Create Value link
+    @driver.wait_for_dropdown
     @driver.find_element(:link, 'Create Value').click
-    @driver.clear_and_send_keys([:id, "enumeration_value_"], "fooman\n")
+
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], "fooman")
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
 
     foo = @driver.find_element_with_text('//tr', /fooman/)
-    foo.find_element(:link, "Suppress").click
+    @driver.click_and_wait_until_element_gone(foo.find_element(:link, "Suppress"))
 
-    assert(5) {
-      @driver.find_element_with_text('//tr', /fooman/).find_element(:link, "Unsuppress").should_not be_nil
-    }
-    
-    assert(5) {
-      @driver.find_element_with_text('//tr', /fooman/).find_elements(:link, 'Delete').length.should eq(0)
-    }
+    @driver.find_element_with_text('//tr', /fooman/).find_element(:link, "Unsuppress").should_not be_nil
+    @driver.find_element_with_text('//tr', /fooman/).find_elements(:link, 'Delete').length.should eq(0)
 
     # now lets make sure it's there
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     cm_accession_title = "CM Punk TEST2"
     @driver.clear_and_send_keys([:id, "accession_title_"], cm_accession_title)

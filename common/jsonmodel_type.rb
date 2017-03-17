@@ -23,9 +23,17 @@ class JSONModelType
   end
 
 
+  # If a JSONModel is extended, make its schema and record type class variables
+  # available on the subclass too.
+  def self.inherited(child)
+    child.instance_variable_set(:@schema, schema)
+    child.instance_variable_set(:@record_type, record_type)
+  end
+
+
   # Return the JSON schema that defines this JSONModel class
   def self.schema
-    find_ancestor_class_instance(:@schema)
+    @schema
   end
 
 
@@ -38,7 +46,7 @@ class JSONModelType
   # Return the type of this JSONModel class (a keyword like
   # :archival_object)
   def self.record_type
-    find_ancestor_class_instance(:@record_type)
+    @record_type
   end
 
 
@@ -144,7 +152,8 @@ class JSONModelType
 
     if uri =~ /#{pattern}\/#{ID_REGEXP}(\#.*)?$/
       return id_to_int($1)
-    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/tree$/
+    elsif uri =~ /#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/(tree|ordered_records)$/
+      # FIXME: gross hardcoding...
       return id_to_int($1)
     else
       if noerror
@@ -417,25 +426,6 @@ class JSONModelType
 
 
   private
-
-  # If this class is subclassed, we won't be able to see our class instance
-  # variables unless we explicitly look up the inheritance chain.
-  def self.find_ancestor_class_instance(variable)
-    @ancestor_instance_variables ||= Atomic.new({})
-
-    if !@ancestor_instance_variables.value[variable]
-      self.ancestors.each do |clz|
-        val = clz.instance_variable_get(variable)
-        if val
-          @ancestor_instance_variables.update {|vs| vs.merge({variable => val})}
-          break
-        end
-      end
-    end
-
-    @ancestor_instance_variables.value[variable]
-  end
-
 
   # Define accessors for all variable names listed in 'attributes'
   def self.define_accessors(attributes)

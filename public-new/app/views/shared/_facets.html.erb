@@ -1,0 +1,65 @@
+<%# displaying chosen facet(s) (if any) and facets %>
+
+<div class="filters">
+ <% unless @filters.blank? && @search.filters_blank? %>
+    <h3><%= t('search_results.filtered_by')%> </h3> 
+       <ul>
+        <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
+	  <% unless f_q['v'].blank? %>
+	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %> 
+	       <a href="<%= f_q['uri'] %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
+          <% end %>
+        <% end %>
+      <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
+      <% 
+	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
+	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
+      %>
+      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.from_to', {:begin=> from_year, :end => to_year  })%>
+	  <a href="<%= @page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")%>" 
+	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
+      </span></li>
+      </ul>
+  <% end  %> 
+   <% @filters.each do |k,h|  %>
+    <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
+<a href="<%= h['uri']%>" 
+title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></li>
+   <% end %>
+ </ul>
+ <% end %>
+</div>
+
+<% if @search[:dates_within] || @search[:text_within] %>
+<h3><%= t('search_results.filter.head') %></h3>
+ <div class="filter_more">
+   <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>
+    <%= render partial: 'shared/hidden_params' %>
+    <% if @search[:text_within] %>
+      <div class="form-group">
+       <%= hidden_field_tag('sort', "") %>
+        <%= label_tag(:filter_q1, t('actions.search_within'), :class => 'sr-only') %>
+ <%= text_field_tag('filter_q[]', nil,:id => 'filter_q1', :placeholder =>  t('actions.search_within'), :class=> "form-control") %>
+      </div>
+    <% end %>
+    <% if @search.search_dates_within? %>
+      <div class="form-group">
+	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
+	:class=>"form-control") %>
+	<span class="inline-label">--</span>
+	<%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+	<%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+	:placeholder => t('search_results.filter.to')) %>
+      </div>
+      <% else %>
+        <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year]) %>
+        <%= hidden_field_tag(:filter_to_year, @search[:filter_to_year]) %>
+    <% end %>
+
+   <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
+  <% end %>
+ </div>
+
+<% end %>
+<%= render partial: 'shared/only_facets' %>

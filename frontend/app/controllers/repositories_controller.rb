@@ -5,7 +5,7 @@ class RepositoriesController < ApplicationController
                       "transfer_repository" => [:transfer, :run_transfer],
                       "delete_repository" => [:delete]
 
-  before_filter :refresh_repo_list, :only => [:show, :new]
+  before_action :refresh_repo_list, :only => [:show, :new]
 
 
   def index

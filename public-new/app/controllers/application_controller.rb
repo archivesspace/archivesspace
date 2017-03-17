@@ -1,51 +1,39 @@
-require 'memoryleak'
+class ApplicationController < ActionController::Base
+  include ManipulateNode
+  helper_method :process_mixed_content
+  helper_method :strip_mixed_content
+  helper_method :inheritance
+
+  include HandleFaceting
+  helper_method :get_pretty_facet_value
+  helper_method :fetch_only_facets
+  helper_method :strip_facets
+
+  include Searchable
+  helper_method :set_up_search
+  helper_method :process_search_results
+  helper_method :handle_results
+  helper_method :process_results
+
+  include JsonHelper
+  helper_method :process_json_notes
+  helper_method :get_note
 
 
-class ApplicationController < ActionController::API
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  # protect_from_forgery with: :exception
 
-  before_filter :establish_session
-  before_filter :assign_repositories
-
-  rescue_from RecordNotFound, :with => :handle_404
+  protect_from_forgery with: :exception
 
 
-  def handle_404
-    if env["REQUEST_PATH"] =~ /^\/api/
-      render :json => {:error => "not-found"}.to_json, :status => 404
-    else
-      render "errors/404"
+  # Allow overriding of templates via the local folder(s)
+  if not ASUtils.find_local_directories.blank?
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
+      prepend_view_path(template_override_directory)
     end
   end
 
 
-  def establish_session
-    begin
-      Thread.current[:backend_session] = BackendSession.get_active_session
-    rescue Exception => e
-      render :json => {:error => e.to_s}.to_json, :status => 404
-    end
-  end
-
-  def reestablish_session
-    begin
-      Thread.current[:backend_session] = nil
-      BackendSession.refresh_active_session
-
-      establish_session
-      redirect_to request.url
-    rescue Exception => e
-      render :json => {:error => e.to_s}.to_json, :status => 404
-    end
-  end
-
-
-  protected
-
-  def assign_repositories
-    @repositories = MemoryLeak::Resources.get(:repository)
+  def archivesspace
+    ArchivesSpaceClient.new
   end
 
 end

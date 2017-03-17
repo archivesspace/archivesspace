@@ -79,6 +79,7 @@ describe "Space Calculator" do
     @driver.navigate.to("#{$frontend}/top_containers/#{@top_container.id}/edit")
     @driver.find_element(:css => "#top_container_container_locations_ .subrecord-form-heading .btn").click
     @driver.find_element(:css => "#top_container_container_locations_ .linker-wrapper .btn.locations").click
+    @driver.wait_for_dropdown
     @driver.find_element(:link => "Find with Space Calculator").click
 
     @driver.find_element(:id, "spaceCalculatorModal")
@@ -99,10 +100,20 @@ describe "Space Calculator" do
   end
 
   it "can select a location from the calculator results to populate the Container's Location field" do
+    # a row with space exists
     row = @driver.find_element(:css => "#tabledSearchResults tr.has-space")
-    row.find_element(:id => "linker-item__locations_#{@location.id}").click
 
-    @driver.find_element(:css => "#spaceCalculatorModal .modal-footer #addSelectedButton").click
+    # clicking the row will select the row
+    @driver.execute_script("$('#tabledSearchResults tr.has-space td:first').click()");
+
+    # the radio should be checked
+    expect(@driver.execute_script("return $('#linker-item__locations_#{@location.id}').is(':checked')")).to be_truthy
+
+    # and the row selected
+    expect(row.attribute('class')).to include('selected')
+
+    # the add button will now be enabled
+    @driver.find_element(:css => "#spaceCalculatorModal .modal-footer #addSelectedButton:not([disabled])").click
     @driver.find_element(:css, "#top_container_container_locations_ ul.token-input-list").text.should match(/#{Regexp.quote(@location.title)}/)
     @driver.find_element(:css => ".record-pane .form-actions .btn.btn-primary").click
   end

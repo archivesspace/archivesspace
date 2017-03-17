@@ -1,5 +1,22 @@
 require_relative 'webdriver'
 
+# Increase Selenium's HTTP read timeout from the default of 60.  Address
+# Net::ReadTimeout errors on Travis.
+module Selenium
+  module WebDriver
+    module Remote
+      module Http
+        class Default < Common
+          def read_timeout
+            120
+          end
+        end
+      end
+    end
+  end
+end
+
+
 class Driver
 
   def self.get(frontend = $frontend)
@@ -19,11 +36,22 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
     profile = Selenium::WebDriver::Firefox::Profile.new
+    FileUtils.rm("/tmp/firefox_console", :force => true)
+    profile["webdriver.log.file"] = "/tmp/firefox_console"
+
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    profile["webdriver.log.level"] = "ALL"
     profile["browser.download.dir"] = Dir.tmpdir
     profile["browser.download.folderList"] = 2
     profile["browser.helperApps.alwaysAsk.force"] = false
     profile["browser.helperApps.neverAsk.saveToDisk"] = "application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed"
     profile['pdfjs.disabled'] = true
+
+    if java.lang.System.getProperty('os.name').downcase == 'linux'
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
+    else #osx
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
+    end
 
 
     if ENV['FIREFOX_PATH']
@@ -39,30 +67,36 @@ class Driver
     @driver.send(meth, *args)
   end
 
-  def login(user)
+  def login(user, expect_fail = false)
     self.go_home
     @driver.wait_for_ajax
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
-    @driver.find_element(:id, 'login').click
-    @driver.wait_for_ajax
+
+    if expect_fail
+      @driver.find_element(:id, 'login').click
+    else
+      @driver.click_and_wait_until_gone(:id, 'login')
+    end
 
     self
   end
 
 
   def logout
-    tries = 2
+    tries = 5
     begin
       @driver.manage.delete_all_cookies
       @driver.navigate.to @frontend
       @driver.find_element(:link, "Sign In")
     rescue Exception => e
       if tries > 0
+        puts "logout failed... try again! #{tries} tries left."
         tries -=1
         retry
       else
+        puts 'logout failed... no more trying'
         raise e
       end
     end
@@ -97,7 +131,8 @@ class Driver
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-    @driver.find_element(:css, '.select-a-repository .btn-primary').click
+    @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
+
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
@@ -109,6 +144,8 @@ class Driver
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
   end
 
 
@@ -136,13 +173,16 @@ class Driver
     self
   end
 
+  SPINNER_RETRIES = 100
+
   def wait_for_spinner
-    # This will take 50ms to turn up then linger for 1 second, so we should see it.
-    begin
-      find_element(:css, ".spinner")
-      wait_until_gone(:css, ".spinner")
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      # Assume we just missed it...
+    puts "    Awaiting spinner... (#{caller[0]})"
+
+    SPINNER_RETRIES.times do
+      is_spinner_visible = self.execute_script("return $('.spinner').is(':visible')")
+      is_blockout_visible = self.execute_script("return $('.blockout').is(':visible')")
+      break unless is_spinner_visible || is_blockout_visible
+      sleep 0.2
     end
   end
 

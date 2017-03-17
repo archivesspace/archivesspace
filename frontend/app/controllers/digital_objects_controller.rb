@@ -1,6 +1,6 @@
 class DigitalObjectsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree],
+  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root],
                       "update_digital_object_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
@@ -148,7 +148,6 @@ class DigitalObjectsController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  @refresh_tree_node = true
                   flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
                   render_aspace_partial :partial => "edit_inline"
                 })
@@ -202,6 +201,7 @@ class DigitalObjectsController < ApplicationController
     flash.clear
 
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
     @children = DigitalObjectChildren.new
     @exceptions = []
 
@@ -211,6 +211,7 @@ class DigitalObjectsController < ApplicationController
 
   def add_children
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
 
     if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
 
@@ -267,6 +268,45 @@ class DigitalObjectsController < ApplicationController
     flash[:success] = I18n.t("digital_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object => digital_object))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
+
+  def tree_root
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/root")
+  end
+
+  def node_from_root
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node_from_root",
+                                             'node_ids[]' => params[:node_ids])
+  end
+
+  def tree_node
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node",
+                                             :node_uri => node_uri)
+  end
+
+  def tree_waypoint
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/waypoint",
+                                             :parent_node => node_uri,
+                                             :offset => params[:offset])
+  end
+
 
 
   private

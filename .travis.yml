@@ -22,10 +22,11 @@ env:
   - TASK=dist
 before_install:
 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
-  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x1700x24
+  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x10240x24
 - export DISPLAY=:99.0
 before_script:
-- (cd /tmp; wget 'https://ftp.mozilla.org/pub/firefox/releases/47.0.1/linux-x86_64/en-US/firefox-47.0.1.tar.bz2'; tar xvjf firefox-47.0.1.tar.bz2)
+- free -m
+- (cd /tmp; wget 'https://ftp.mozilla.org/pub/firefox/releases/52.0/linux-x86_64/en-US/firefox-52.0.tar.bz2'; tar xvjf firefox-52.0.tar.bz2)
 - sleep 3
 - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar );
   fi
@@ -33,7 +34,7 @@ before_script:
   fi
 - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
   character set utf8;"; fi
-- 'export JAVA_OPTS="-Xmx1G $JAVA_OPTS"'
+- 'export JAVA_OPTS="-Xmx512m -verbose:gc $JAVA_OPTS"'
 - 'export PATH="/tmp/firefox:$PATH"'
 - firefox --version
 branches:
@@ -44,6 +45,7 @@ script:
 notifications:
   irc: irc.freenode.org#archivesspace
   email: false
+bundler_args: --retry 5
 addons:
   artifacts:
     debug: true
@@ -54,4 +56,7 @@ addons:
     - $( ls /var/tmp/*.html | tr "\n" ":" )
     - $( ls /var/log/mysql/* | tr "\n" ":" )
     - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
-sudo: false
+sudo: true
+after_failure:
+- if [[ -e "/tmp/firefox_console" ]]; then cat /tmp/firefox_console; fi
+- dmesg | tail -500

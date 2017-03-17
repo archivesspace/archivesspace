@@ -1,9 +1,15 @@
+require 'advanced_query_builder'
+
 module EnumerationHelper
 
-  def enumeration_simple_filter_params( relationships, value ) 
-    pattern = %r{(\+|\-|\&\&|\|\||\!|\(|\)|\{|\}|\[|\]|\^|\"|\~|\*|\?|\ |\:|\\)}
-    value.gsub!(pattern) { |match| '\\' + match } 
-    relationships.map { |rel| "#{rel}_enum_s:#{value}"  }.join(" OR ") 
+  def enumeration_advanced_query(relationships, value)
+    query = AdvancedQueryBuilder.new
+
+    relationships.each do |rel|
+      query.or("#{rel}_enum_s", value)
+    end
+
+    query.build.to_json
   end
 
 end

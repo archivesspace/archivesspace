@@ -96,11 +96,11 @@ describe 'Tree positioning' do
     #
     # However, things go wrong when we take this position, load it into a
     # JSONModel and expose it through the API.  The API and frontend work with
-    # absolute positions, where setting a record to position = 2 always means
+    # logical positions, where setting a record to position = 2 always means
     # "this is the third item in the list".  If the frontend takes the second
     # record (with a position of '5' in the DB) and updates it, it passes
     # 'position = 5' back through to the backend.  The backend then assumes this
-    # '5' is an absolute '5', so it adjusts it to be relative to the other
+    # '5' is an logical '5', so it adjusts it to be relative to the other
     # numbers it has.  Since it appears that the frontend wanted the second
     # record to be moved to position 5, and since there are only three records,
     # it moves the record to the end of the list.

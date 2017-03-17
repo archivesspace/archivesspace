@@ -27,7 +27,7 @@ describe "System Information" do
 
   end
 
-  it "should let the admin see this", :retry => 2, :retry_wait => 10 do
+  it "should let the admin see this" do
     @driver.login_to_repo($admin, @repo)
 
     @driver.find_element(:link, "System").click

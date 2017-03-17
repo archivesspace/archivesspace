@@ -436,7 +436,7 @@ describe 'JSON model' do
 
     threads << Thread.new do
       1000.times do
-        build(:json_archival_object)
+        build(:json_agent_person)
       end
 
       :ok

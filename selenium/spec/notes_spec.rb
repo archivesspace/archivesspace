@@ -18,7 +18,7 @@ describe "Notes" do
 
 
   after(:all) do
-    @driver.logout.quit
+    @driver.quit
   end
 
 
@@ -119,7 +119,7 @@ describe "Notes" do
   end
 
 
-  it "can add a top-level bibliography too", :retry => 2, :retry_wait => 10 do
+  it "can add a top-level bibliography too" do
     
     @driver.get_edit_page(@resource)
 
@@ -157,7 +157,7 @@ describe "Notes" do
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setSelection({line: 0, ch: 0}, {line: 0, ch: 3})")
 
     # select a tag to wrap the text
-    assert(5) { @driver.find_element(:css => "select.mixed-content-wrap-action").select_option("blockquote") }
+    @driver.find_element(:css => "select.mixed-content-wrap-action").select_option("blockquote")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
     @driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<blockquote>ABC</blockquote>")
@@ -168,7 +168,7 @@ describe "Notes" do
   end
 
 
-  it "can add a deaccession record", :retry => 2, :retry_wait => 10 do
+  it "can add a deaccession record" do
     @driver.get_edit_page(@resource)
 
     @driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn:not(.show-all)').click
@@ -187,11 +187,11 @@ describe "Notes" do
   end
 
 
-  it "can attach notes to archival objects", :retry => 2, :retry_wait => 10 do
+  it "can attach notes to archival objects" do
     @driver.navigate.to("#{$frontend}")
     # Create a resource
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Resource").click
+    @driver.click_and_wait_until_gone(:link, "Resource")
 
     @driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
     @driver.complete_4part_id("resource_id_%d_")
@@ -207,7 +207,7 @@ describe "Notes" do
     @driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
 
-    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
 
     # Give it a child AO
     @driver.click_and_wait_until_gone(:link, "Add Child")
@@ -230,19 +230,15 @@ describe "Notes" do
     @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
 
 
-    @driver.find_element(:link, "Revert Changes").click
-
-
-    # Skip over "Save Your Changes" dialog i.e. don't save AO.
-    @driver.find_element(:id, "dismissChangesButton").click
+    @driver.click_and_wait_until_gone(:css => '.btn.btn-cancel.btn-default')
   end
 
 
-  it "can attach special notes to digital objects", :retry => 2, :retry_wait => 10 do
+  it "can attach special notes to digital objects" do
     @driver.navigate.to("#{$frontend}")
 
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Digital Object").click
+    @driver.click_and_wait_until_gone(:link, "Digital Object")
 
     @driver.clear_and_send_keys([:id, "digital_object_title_"], "A digital object with notes")
     @driver.clear_and_send_keys([:id, "digital_object_digital_object_id_"],(Digest::MD5.hexdigest("#{Time.now}")))
@@ -258,7 +254,7 @@ describe "Notes" do
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
     @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
 
-    @driver.find_element(:css => "form#new_digital_object button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
   end
 
 end

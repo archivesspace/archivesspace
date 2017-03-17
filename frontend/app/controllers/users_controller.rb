@@ -4,9 +4,9 @@ class UsersController < ApplicationController
                       "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
                       :public => [:new, :create]
 
-  before_filter :account_self_service, :only => [:new, :create]
-  before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
-  before_filter :user_needs_to_be_a_user, :only => [:show]
+  before_action :account_self_service, :only => [:new, :create]
+  before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
+  before_action :user_needs_to_be_a_user, :only => [:show]
 
 
   def index

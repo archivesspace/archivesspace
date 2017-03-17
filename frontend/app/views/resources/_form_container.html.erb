@@ -8,6 +8,7 @@
 
 <%= form.hidden_input "related_accession" %>
 <%= hidden_field_tag "id", @resource.id %>
+<%= hidden_field_tag "uri", @resource.uri %>
 
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 

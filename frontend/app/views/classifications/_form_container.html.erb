@@ -7,6 +7,7 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <%= hidden_field_tag "id", @classification.id %>
+<%= hidden_field_tag "uri", @classification.uri %>
 
 <fieldset>
   <% define_template("classification", jsonmodel_definition(:classification)) do |form| %>

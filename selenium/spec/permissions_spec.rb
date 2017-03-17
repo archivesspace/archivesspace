@@ -12,18 +12,18 @@ describe "Permissions" do
 
 
   after(:all) do
-    @driver.logout.quit
+    @driver.quit
   end
 
 
   it "allows archivists to edit major record types by default" do
     @driver.login_to_repo(@archivist, @repo)
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Accession').click
+    @driver.click_and_wait_until_gone(:link => 'Accession')
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Resource').click
+    @driver.click_and_wait_until_gone(:link => 'Resource')
     @driver.find_element(:link => 'Create').click
-    @driver.find_element(:link => 'Digital Object').click
+    @driver.click_and_wait_until_gone(:link => 'Digital Object')
     @driver.logout
   end
 
@@ -31,12 +31,13 @@ describe "Permissions" do
   it "supports denying permission to edit Resources" do
     @driver.login_to_repo($admin, @repo)
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
-    @driver.find_element(:link, "Manage Groups").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Groups")
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)
-    row.find_element(:link, 'Edit').click
+    row.click_and_wait_until_gone(:link, 'Edit')
     @driver.find_element(:xpath, '//input[@id="update_resource_record"]').click
-    @driver.find_element(:css => 'button[type="submit"]').click
+    @driver.click_and_wait_until_gone(:css => 'button[type="submit"]')
     @driver.login_to_repo(@archivist, @repo)
     @driver.find_element(:link => 'Create').click
     @driver.ensure_no_such_element(:link, "Resource")

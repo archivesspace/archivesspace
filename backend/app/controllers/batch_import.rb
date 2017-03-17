@@ -51,7 +51,8 @@ class ArchivesSpaceService < Sinatra::Base
       # Wrap the import in a transaction if the DB supports MVCC
       begin
         DB.open(DB.supports_mvcc?,
-                :retry_on_optimistic_locking_fail => true) do
+                :retry_on_optimistic_locking_fail => true,
+                :isolation_level => :committed) do
           last_error = nil
 
           File.open(env['batch_import_file']) do |stream|

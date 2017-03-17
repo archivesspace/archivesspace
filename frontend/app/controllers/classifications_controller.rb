@@ -1,6 +1,6 @@
 class ClassificationsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree],
+  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root],
                       "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
                       "delete_classification_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
@@ -82,7 +82,6 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id){
-      @refresh_tree_node = true
     flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
     render_aspace_partial :partial => "edit_inline"
     })
@@ -139,6 +138,44 @@ class ClassificationsController < ApplicationController
     flash.keep # keep the flash... just in case this fires before the form is loaded
 
     render :json => fetch_tree
+  end
+
+  def tree_root
+    classification_uri = JSONModel(:classification).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/root")
+  end
+
+  def node_from_root
+    classification_uri = JSONModel(:classification).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/node_from_root",
+                                             'node_ids[]' => params[:node_ids])
+  end
+
+  def tree_node
+    classification_uri = JSONModel(:classification).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/node",
+                                             :node_uri => node_uri)
+  end
+
+  def tree_waypoint
+    classification_uri = JSONModel(:classification).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/waypoint",
+                                             :parent_node => node_uri,
+                                             :offset => params[:offset])
   end
 
 

@@ -10,7 +10,7 @@ classpath << Dir.glob(File.join(Rails.root, "..", "build", "jruby*complete*.jar"
 $rake_cmd = ["java",
              "-XX:MaxPermSize=128m", "-Xmx256m",
              "-cp", classpath.join(java.io.File.pathSeparator),
-             "org.jruby.Main", "--1.9", "-X-C", "-S", "rake"]
+             "org.jruby.Main", "-X-C", "-S", "rake"]
 
 
 namespace :assets do

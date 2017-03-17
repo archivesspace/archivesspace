@@ -70,16 +70,14 @@ describe "RDE" do
 
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
 
-    @driver.wait_for_ajax
-
     expect {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My AO, 2013/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Item/)
+      tree_node_for_title('My AO, 2013')
+      tree_node_for_title('Item')
     }.not_to raise_error
   end
 
   it "can access the RDE form when editing an archival object" do
-    @driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
+    @driver.find_element(:css, "tr.largetree-node.indent-level-1 a.record-title").click
     @driver.wait_for_ajax
 
     expect {
@@ -120,9 +118,10 @@ describe "RDE" do
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
     @driver.wait_for_ajax
 
+
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1, 2013/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2, 2013/)
+      tree_node_for_title('Child 1, 2013')
+      tree_node_for_title('Child 2, 2013')
     }
   end
 
@@ -177,7 +176,7 @@ describe "RDE" do
     modal.find_element(:css, ".btn.fill-column").click
     modal.find_element(:id, "basicFillTargetColumn").select_option("colLevel")
     modal.find_element(:id, "basicFillValue").select_option("item")
-    @driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+    @driver.find_element(:css, "#fill_basic .btn-primary").click
 
     # all should have item as the level
     modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
@@ -192,7 +191,7 @@ describe "RDE" do
     modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
   end
 
-  it "can perform a sequence fill", :retry => 2, :retry_wait => 10 do
+  it "can perform a sequence fill" do
     modal = @driver.find_element(:id => "rapidDataEntryModal")
 
     modal.find_element(:css, ".btn.fill-column").click
@@ -202,13 +201,13 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
     @driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # check the component id for each row matches the sequence
     modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
@@ -226,40 +225,20 @@ describe "RDE" do
   it "can perform a column reorder" do
     modal = @driver.find_element(:id => "rapidDataEntryModal")
 
+    old_position = modal.find_elements(:css, "table .fieldset-labels th").index {|cell| cell.attribute("id") === "colLevel"}
+
     modal.find_element(:css, ".btn.reorder-columns").click
 
-    # move Note Type 1 to the first position
-    modal.find_element(:id, "columnOrder").select_option("colNType1")
-    24.times { modal.find_element(:id, "columnOrderUp").click }
-
-    # move Instance Type to the second position
-    modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
-    modal.find_element(:id, "columnOrder").select_option("colIType")
-    16.times { modal.find_element(:id, "columnOrderUp").click }
+    # Move Level Of Description down
+    @driver.find_element(:css, '#rapidDataEntryModal #columnOrder').select_option("colLevel")
+    modal.find_element(:id, "columnOrderDown").click
 
     # apply the new order
     @driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
 
-    # check the first few headers now match the new order
-    cells = modal.find_elements(:css, "table .fieldset-labels th")
-    cells[2].attribute("id").should eq("colNType1")
-    cells[3].attribute("id").should eq("colIType")
-    cells[4].attribute("id").should eq("colOtherLevel")
+    new_position = modal.find_elements(:css, "table .fieldset-labels th").index {|cell| cell.attribute("id") === "colLevel"}
 
-    # check the section headers are correct
-    cells = modal.find_elements(:css, "table .sections th")
-    cells[2].text.should eq("Notes")
-    cells[2].attribute("colspan").should eq("1")
-    cells[3].text.should eq("Instance")
-    cells[3].attribute("colspan").should eq("1")
-    cells[4].text.should eq("Basic Information")
-    cells[4].attribute("colspan").should eq("5")
-
-    # check the form fields match the headers
-    cells = modal.find_elements(:css, "table tbody tr:first-child td")
-    cells[2].find_element(:id, "archival_record_children_children__0__notes__0__type_")
-    cells[3].find_element(:id, "archival_record_children_children__0__instances__0__instance_type_")
-    cells[4].find_element(:id, "archival_record_children_children__0__other_level_")
+    old_position.should be < new_position
   end
 end
 
@@ -334,13 +313,14 @@ describe "Digital Object RDE" do
 
     @driver.wait_for_ajax
 
+
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /My DO/)
+      tree_node_for_title('My DO')
     }
   end
 
   it "can access the RDE form when editing an digital object" do
-    @driver.find_element(:css, "#archives_tree_toolbar .btn-next-tree-node").click
+    @driver.find_element(:css, "tr.largetree-node.indent-level-1 a.record-title").click
     @driver.wait_for_ajax
 
     @driver.find_element(:id, "digital_object_component_title_")
@@ -364,8 +344,8 @@ describe "Digital Object RDE" do
     @driver.wait_for_ajax
 
     assert(5) {
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 1/)
-      @driver.find_element_with_text("//div[@id='archives_tree']//li//span", /Child 2/)
+      tree_node_for_title('Child 1')
+      tree_node_for_title('Child 2')
     }
   end
 
@@ -411,7 +391,7 @@ describe "Digital Object RDE" do
     modal.find_element(:css, ".btn.fill-column").click
     modal.find_element(:id, "basicFillTargetColumn").select_option("colLabel")
     @driver.clear_and_send_keys([:id, "basicFillValue"], "NEW_LABEL")
-    @driver.click_and_wait_until_gone(:css, "#fill_basic .btn-primary")
+    @driver.find_element(:css, "#fill_basic .btn-primary").click
 
     # all should have item as the level
     assert {
@@ -438,13 +418,13 @@ describe "Digital Object RDE" do
     @driver.clear_and_send_keys([:id, "sequenceFillPrefix"], "ABC")
     @driver.clear_and_send_keys([:id, "sequenceFillFrom"], "1")
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "5")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
-    @driver.click_and_wait_until_gone(:css, "#fill_sequence .btn-primary")
+    @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     @driver.wait_for_ajax
 
@@ -460,45 +440,6 @@ describe "Digital Object RDE" do
     modal.find_element(:id, "digital_record_children_children__8__title_").attribute("value").should eq("ABC9")
     modal.find_element(:id, "digital_record_children_children__9__title_").attribute("value").should eq("ABC10")
 
-  end
-
-  it "can perform a column reorder" do
-    modal = @driver.find_element(:id => "rapidDataEntryModal")
-
-    modal.find_element(:css, ".btn.reorder-columns").click
-
-    # move Note Type 1 to the first position
-    modal.find_element(:id, "columnOrder").select_option("colNType1")
-    26.times { modal.find_element(:id, "columnOrderUp").click }
-
-    # move Instance Type to the second position
-    modal.find_element(:id, "columnOrder").select_option("colNType1") # deselect Note Type 1
-    modal.find_element(:id, "columnOrder").select_option("colFUri")
-    16.times { modal.find_element(:id, "columnOrderUp").click }
-
-    # apply the new order
-    @driver.click_and_wait_until_gone(:css, "#columnReorderForm .btn-primary")
-
-    # check the first few headers now match the new order
-    cells = modal.find_elements(:css, "table .fieldset-labels th")
-    cells[1].attribute("id").should eq("colNType1")
-    cells[2].attribute("id").should eq("colFUri")
-    cells[3].attribute("id").should eq("colLabel")
-
-    # check the section headers are correct
-    cells = modal.find_elements(:css, "table .sections th")
-    cells[1].text.should eq("Notes")
-    cells[1].attribute("colspan").should eq("1")
-    cells[2].text.should eq("File Version")
-    cells[2].attribute("colspan").should eq("1")
-    cells[3].text.should eq("Basic Information")
-    cells[3].attribute("colspan").should eq("5")
-
-    # check the form fields match the headers
-    cells = modal.find_elements(:css, "table tbody tr:first-child td")
-    cells[1].find_element(:id, "digital_record_children_children__0__notes__0__type_")
-    cells[2].find_element(:id, "digital_record_children_children__0__file_versions__0__file_uri_")
-    cells[3].find_element(:id, "digital_record_children_children__0__label_")
   end
 
 end

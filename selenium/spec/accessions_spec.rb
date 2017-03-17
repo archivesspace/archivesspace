@@ -35,10 +35,9 @@ describe "Accessions" do
     @driver.quit
   end
 
-
   it "can spawn an accession from an existing accession" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     @driver.clear_and_send_keys([:id, "accession_title_"], "Charles Darwin's paperclip collection")
     @driver.complete_4part_id("accession_id_%d_")
@@ -73,9 +72,14 @@ describe "Accessions" do
     # save
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
 
+    @driver.wait_for_ajax
+
     # Spawn an accession from the accession we just created
     @driver.find_element(:link, "Spawn").click
-    @driver.find_element(:link, "Accession").click
+
+    @driver.click_and_wait_until_gone(:link, "Accession")
+
+    @driver.find_element_with_text('//div', /This Accession has been spawned from/)
 
     @driver.clear_and_send_keys([:id, "accession_title_"], "Charles Darwin's second paperclip collection")
     @driver.complete_4part_id("accession_id_%d_")
@@ -101,7 +105,7 @@ describe "Accessions" do
 
   it "can create an Accession" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
     @driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
     @driver.complete_4part_id("accession_id_%d_", @shared_4partid)
     @driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
@@ -134,23 +138,22 @@ describe "Accessions" do
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
     }.to_not raise_error
+
     # cancel first to back out bad change
-    @driver.find_element(:link, "Cancel").click
+    @driver.click_and_wait_until_gone(:link => "Cancel")
   end
 
 
   it "can edit an Accession and two Extents" do
     # add the first extent
     @driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
-
-    @driver.clear_and_send_keys([:id, 'accession_extents__0__number_'], "5")
     @driver.find_element(:id => "accession_extents__0__extent_type_").select_option("volumes")
+    @driver.clear_and_send_keys([:id, 'accession_extents__0__number_'], "5")
 
     # add the second extent
     @driver.find_element(:css => '#accession_extents_ .subrecord-form-heading .btn:not(.show-all)').click
-    @driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
     @driver.find_element(:id => "accession_extents__1__extent_type_").select_option("cassettes")
-
+    @driver.clear_and_send_keys([:id, 'accession_extents__1__number_'], "10")
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
@@ -222,7 +225,7 @@ describe "Accessions" do
 
   it "shows an error if you try to reuse an identifier" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
     @driver.clear_and_send_keys([:id, "accession_title_"], @accession_title)
     @driver.complete_4part_id("accession_id_%d_", @shared_4partid)
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -238,7 +241,7 @@ describe "Accessions" do
 
   it "can create an Accession with some dates" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     # populate mandatory fields
     @driver.clear_and_send_keys([:id, "accession_title_"], @dates_accession_title)
@@ -305,7 +308,7 @@ describe "Accessions" do
 
   it "can create an Accession with some external documents" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     # populate mandatory fields
     @driver.clear_and_send_keys([:id, "accession_title_"], @exdocs_accession_title)
@@ -365,8 +368,7 @@ describe "Accessions" do
     @driver.find_element(:css => '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
-    sleep(2)
-
+    @driver.wait_for_dropdown
     @driver.find_element(:css, "a.linker-create-btn").click
 
     @driver.find_element(:css, ".modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)").click
@@ -379,6 +381,7 @@ describe "Accessions" do
 
     # Browse works too
     @driver.find_element(:css => '#accession_subjects_ .dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:css, "a.linker-browse-btn").click
     @driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
     @driver.find_element(:css, ".modal-footer > button.btn.btn-cancel").click
@@ -435,7 +438,7 @@ describe "Accessions" do
     run_index_round
     # check the CM page
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Collection Management").click
+    @driver.click_and_wait_until_gone(:link, "Collection Management")
 
     expect {
       @driver.find_element(:xpath => "//td[contains(text(), '#{@coll_mgmt_accession.title}')]")
@@ -454,7 +457,7 @@ describe "Accessions" do
     expect {
       10.times {
         @driver.find_element(:link, "Browse").click
-        @driver.find_element(:link, "Collection Management").click
+        @driver.click_and_wait_until_gone(:link, "Collection Management")
         @driver.find_element_orig(:xpath => "//td[contains(text(), '#{@coll_mgmt_accession.title}')]")
 
         run_index_round #keep indexing and refreshing till it disappears
@@ -468,7 +471,7 @@ describe "Accessions" do
   it "can create an accession which is linked to another accession" do   
     @driver.go_home
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     # populate mandatory fields
     @driver.clear_and_send_keys([:id, "accession_title_"], "linked_accession_#{@me}")
@@ -499,7 +502,7 @@ describe "Accessions" do
     run_index_round
 
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Accessions").click
+    @driver.click_and_wait_until_gone(:link, "Accessions")
     expect {
       @driver.find_element_with_text('//td', /#{@accession_title}/)
       @driver.find_element_with_text('//td', /#{@dates_accession_title}/)
@@ -517,7 +520,7 @@ describe "Accessions" do
     run_index_round
 
     @driver.find_element(:link, "Browse").click
-    @driver.find_element(:link, "Accessions").click
+    @driver.click_and_wait_until_gone(:link, "Accessions")
 
     @driver.blocking_find_elements(:css, ".multiselect-column input").each do |checkbox|
       checkbox.click

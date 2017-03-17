@@ -152,7 +152,7 @@ describe 'Resource model' do
     expect { resource.update_from_json(json) }.to_not raise_error
   end
 
-  it "defaults the representative image to the first 'image-service' file_version it is linked to through it's instances" do
+  it "defaults the representative image to the first 'image-service' file_version it is linked to through its instances" do
     uris = ["http://foo.com/bar1", "http://foo.com/bar2", "http://foo.com/bar3"]
 
     do1 = create(:json_digital_object, {

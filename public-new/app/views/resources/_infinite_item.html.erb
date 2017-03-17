@@ -1,0 +1,44 @@
+<div class="information" style="overflow: hidden;">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => false} } %>
+</div>
+
+<% scopecontent_note = @result.note('scopecontent') %>
+<% if scopecontent_note %>
+  <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
+<% end %>
+
+<% accessrestrict_note = @result.note('accessrestrict') %>
+<% if accessrestrict_note %>
+  <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => false} %>
+<% end %>
+
+<% unless @result.dates.blank? %>
+  <h4><%= t('resource._public.dates') %></h4>
+  <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+<% end %>
+
+<% unless @result.extents.blank? %>
+  <h4><%= t('resource._public.extent') %></h4>
+  <% @result.extents.each do |ext| %>
+    <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
+      <%= ext['display']%>
+    </p>
+  <% end %>
+<% end %>
+
+<% unless @result.agents.blank? %>
+  <h4><%= t('pui_agent.related') %></h4>
+  <%= render partial: 'shared/present_list', locals: {:list => @result.agents, :list_clss => 'agents_list'} %>
+<% end %>
+
+<% if @result['language'] %>
+  <dl class="dl-horizontal">
+    <dt><%= t('resource._public.finding_aid.language')%></dt>
+    <dd><%= @result['language'].upcase %></dd>
+  </dl>
+<% else %>
+  <% langmaterial_note = @result.note('langmaterial') %>
+  <% if langmaterial_note %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+  <% end %>
+<% end %>

@@ -24,3 +24,6 @@
 # IDE config folders
 /.idea
 
+# Hide shared tree resources
+/vendor/assets/javascripts/largetree.js.erb
+/vendor/assets/stylesheets/archivesspace/largetree.scss

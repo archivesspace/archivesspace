@@ -405,21 +405,27 @@ class StreamingImport
     # transaction is committed.
     #
     # So, do some sneaky updates here to set the mtimes to right now.
+    #
+    # Note: Under Derby (where imports run without transactions), this has a
+    # pretty good chance of deadlocking with an indexing thread that is
+    # currently trying to index these records.  But since Derby imports aren't
+    # running within a transaction, we don't care anyway!
 
-    records_by_type = {}
+    if DB.supports_mvcc?
+      records_by_type = {}
 
-    @logical_urls.values.compact.each do |uri|
-      ref = JSONModel.parse_reference(uri)
+      @logical_urls.values.compact.each do |uri|
+        ref = JSONModel.parse_reference(uri)
 
-      records_by_type[ref[:type]] ||= []
-      records_by_type[ref[:type]] << ref[:id]
+        records_by_type[ref[:type]] ||= []
+        records_by_type[ref[:type]] << ref[:id]
+      end
+
+      records_by_type.each do |type, ids|
+        model = model_for(type)
+        model.update_mtime_for_ids(ids)
+      end
     end
-
-    records_by_type.each do |type, ids|
-      model = model_for(type)
-      model.update_mtime_for_ids(ids)
-    end
-
   end
 
 

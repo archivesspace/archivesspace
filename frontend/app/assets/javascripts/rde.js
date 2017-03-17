@@ -5,7 +5,7 @@
 
 $(function() {
 
-  $.fn.init_rapid_data_entry_form = function($modal, $node) {
+  $.fn.init_rapid_data_entry_form = function($modal, uri) {
     $(this).each(function() {
       var $rde_form = $(this);
       var $table = $("table#rdeTable", $rde_form);
@@ -70,7 +70,7 @@ $(function() {
         COLUMN_ORDER = null;
 
         // reload the form
-        $(document).triggerHandler("rdeload.aspace", [$node, $modal]);
+        $(document).triggerHandler("rdeload.aspace", [uri, $modal]);
       });
 
       $modal.on("click", ".add-row", function(event) {
@@ -1269,13 +1269,15 @@ $(function() {
     $("select.selectpicker", $modal).selectpicker();
   };
 
-  $(document).bind("rdeload.aspace", function(event, $node, $modal) {
+  $(document).bind("rdeload.aspace", function(event, uri, $modal) {
+    var path = uri.replace(/^\/repositories\/[0-9]+\//, '');
+
     $.ajax({
-      url: APP_PATH+$node.attr("rel")+"s/"+$node.data("id")+"/rde",
+      url: APP_PATH+path+"/rde",
       success: function(data) {
         $(".rde-wrapper", $modal).replaceWith("<div class='modal-body'></div>");
         $(".modal-body", $modal).replaceWith(data);
-        $("form", "#rapidDataEntryModal").init_rapid_data_entry_form($modal, $node);
+        $("form", "#rapidDataEntryModal").init_rapid_data_entry_form($modal, uri);
       }
     });
   });
@@ -1283,7 +1285,7 @@ $(function() {
   $(document).bind("rdeshow.aspace", function(event, $node, $button) {
     var $modal = AS.openCustomModal("rapidDataEntryModal", $button.text(), AS.renderTemplate("modal_content_loading_template"), 'full', {keyboard: false}, $button);
 
-    $(document).triggerHandler("rdeload.aspace", [$node, $modal]);
+    $(document).triggerHandler("rdeload.aspace", [$node.data('uri'), $modal]);
   });
 
 });
