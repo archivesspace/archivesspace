@@ -31,25 +31,19 @@ describe 'Session model' do
   end
 
 
-  it "knows its age" do
-    allow(Time).to receive(:now) { Time.at(0) }
-    s = Session.new
-    allow(Time).to receive(:now) { Time.at(10) }
-    s.age.should eq(10)
-  end
-
-
   it "becomes young again when touched" do
-    allow(Time).to receive(:now) { Time.at(0) }
+    first_time = Time.at(0)
+    next_time = Time.at(10)
+
     s = Session.new
-    allow(Time).to receive(:now) { Time.at(10) }
-    s.touch
-    allow(Time).to receive(:now) { Time.at(100) }
-    s.age.should eq(90)
-    allow(Time).to receive(:now) { Time.at(110) }
-    s.touch
-    allow(Time).to receive(:now) { Time.at(111) }
-    s.age.should eq(1)
+
+    s.touch; Session.touch_pending_sessions(first_time)
+    first_age = Session.find(s.id).age
+
+    s.touch; Session.touch_pending_sessions(next_time)
+    next_age = Session.find(s.id).age
+
+    (next_age - first_age).abs.should eq(10)
   end
 
 

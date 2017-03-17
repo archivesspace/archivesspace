@@ -1,5 +1,6 @@
 require 'uri'
 require 'barcode_check'
+require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
@@ -216,7 +217,7 @@ class TopContainersController < ApplicationController
     return {} if uri.blank?
 
     return {
-      "filter_term[]" => [{"collection_uri_u_sstr" => uri}.to_json]
+      'filter' => AdvancedQueryBuilder.new.and('collection_uri_u_sstr', uri, 'text', true).build.to_json
     }
   end
 
@@ -226,34 +227,53 @@ class TopContainersController < ApplicationController
                                                       'type[]' => ['top_container']
                                                     })
 
-    filter_terms = []
-    simple_filters = []
+    builder = AdvancedQueryBuilder.new
 
-    filter_terms.push({'collection_uri_u_sstr' => params['collection_resource']['ref']}.to_json) if params['collection_resource']
-    filter_terms.push({'collection_uri_u_sstr' => params['collection_accession']['ref']}.to_json) if params['collection_accession']
+    if params['collection_resource']
+      builder.and('collection_uri_u_sstr', params['collection_resource']['ref'], 'text', literal = true)
+    end
 
-    filter_terms.push({'container_profile_uri_u_sstr' => params['container_profile']['ref']}.to_json) if params['container_profile']
-    filter_terms.push({'location_uri_u_sstr' => params['location']['ref']}.to_json) if params['location']
+    if params['collection_accession']
+      builder.and('collection_uri_u_sstr', params['collection_accession']['ref'], 'text', literal = true)
+    end
+
+    if params['container_profile']
+      builder.and('container_profile_uri_u_sstr', params['container_profile']['ref'], 'text', literal = true)
+    end
+
+    if params['location']
+      builder.and('location_uri_u_sstr', params['location']['ref'], 'text', literal = true)
+    end
+
     unless params['exported'].blank?
-      filter_terms.push({'exported_u_sbool' => (params['exported'] == "yes" ? true : false)}.to_json)
-    end
-    unless params['empty'].blank?
-      filter_terms.push({'empty_u_sbool' => (params['empty'] == "yes" ? true : false)}.to_json)
-    end
-    unless params['barcodes'].blank?
-      simple_filters.push(ASUtils.wrap(params['barcodes'].split(" ")).map{|barcode|
-        "barcode_u_sstr:#{barcode}"
-      }.join(" OR "))
+      builder.and('exported_u_sbool',
+                  (params['exported'] == "yes" ? 'true' : 'false'),
+                  'boolean')
     end
 
-    if simple_filters.empty? && filter_terms.empty? && params['q'].blank?
+    unless params['empty'].blank?
+      builder.and('empty_u_sbool', (params['empty'] == "yes" ? 'true' : 'false'), 'boolean')
+    end
+
+    unless params['barcodes'].blank?
+      barcode_query = AdvancedQueryBuilder.new
+
+      ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
+        barcode_query.or('barcode_u_sstr', barcode)
+      end
+
+      unless barcode_query.empty?
+        builder.and(barcode_query)
+      end
+    end
+
+    if builder.empty? && params['q'].blank?
       raise MissingFilterException.new
     end
 
-    unless filter_terms.empty? && simple_filters.empty?
+    unless builder.empty?
       search_params = search_params.merge({
-                                            "filter_term[]" => filter_terms,
-                                            "simple_filter[]" => simple_filters
+                                            "filter" => builder.build.to_json,
                                           })
     end
 

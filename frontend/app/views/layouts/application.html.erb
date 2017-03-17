@@ -3,7 +3,7 @@
 <head>
   <title><%= I18n.t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%= favicon_link_tag %>
+  <link href="<%= AppConfig[:frontend_proxy_prefix] %>favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <%= include_theme_css %>
   <%= csrf_meta_tags %>
 
@@ -35,7 +35,7 @@
   <![endif]-->
 
   <% ASUtils.find_local_directories('frontend/views/layout_head.html.erb').each do |layout| %>
-    <% if File.exists?(layout) %>
+    <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
       <%= render :file => layout %>
       <!-- End plugin layout -->

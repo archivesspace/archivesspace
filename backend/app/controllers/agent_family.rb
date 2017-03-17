@@ -46,7 +46,8 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:agent)"],
              [404, "Not found"]) \
   do
-    json_response(resolve_references(AgentFamily.to_jsonmodel(AgentFamily.get_or_die(params[:id])),
+    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    json_response(resolve_references(AgentFamily.to_jsonmodel(AgentFamily.get_or_die(params[:id]), opts),
                                      params[:resolve]))
   end
 

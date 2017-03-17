@@ -1,4 +1,6 @@
 require 'securerandom'
+require_relative 'ancestor_listing'
+
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -20,7 +22,6 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Events
   include Publishable
   include ReindexTopContainers
-  include ArchivalObjectSeries
   include RightsRestrictionNotes
   include MapToAspaceContainer
   include RepresentativeImages
@@ -60,6 +61,13 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
                   display_string
                 }
+
+
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+    AncestorListing.add_ancestors(objs, jsons)
+    jsons
+  end
 
   def validate
     validates_unique([:root_record_id, :ref_id],

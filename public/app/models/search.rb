@@ -22,18 +22,18 @@ class Search
   end
 
 
-  def self.tree_view(record_uri)
-    response = JSONModel::HTTP::get_json("/search/published_tree", :node_uri => record_uri)
+  def self.get_raw_record(uri)
+    begin
+      json_str = JSONModel::HTTP::get_json("/search/records",
+                                           "uri[]" => ASUtils.wrap(uri))
+                 .fetch('results')
+                 .fetch(0)
+                 .fetch('json')
 
-    return nil if not response
-
-    tree_view = ASUtils.json_parse(response["tree_json"])
-
-    if response['whole_tree_json']
-      tree_view['whole_tree'] = ASUtils.json_parse(response['whole_tree_json'])
+      ASUtils.json_parse(json_str)
+    rescue
+      raise "Record not found: #{uri}"
     end
-
-    tree_view
   end
 
 end

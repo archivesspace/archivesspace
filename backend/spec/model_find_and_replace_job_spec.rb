@@ -1,10 +1,7 @@
 require 'spec_helper'
-require_relative '../app/lib/find_and_replace_runner'
-require_relative '../app/lib/background_job_queue'
 
 def find_and_replace_job(resource_uri)
   json = build(:json_job,
-               :job_type => 'find_and_replace_job',
                :job => build(:json_find_and_replace_job,
                              :find => "/foo/",
                              :replace => "bar",
@@ -45,17 +42,16 @@ describe 'Find and Replace job model' do
 
 
   it "ensures that the target property exists in the target schema" do
-    skip("this seems to not be working when run in the suite?") 
     resource1 = a_resource
 
     json = find_and_replace_job(resource1.uri)
-    json.job['property'] = "WHATEVER"
+    json.job['property'] = "NON-EXISTENT-PROPERTY!!!"
     user = create_nobody_user
 
     expect {
-      job = Job.create_from_json(json,
-                                 :repo_id => $repo_id,
-                                 :user => user)
+      Job.create_from_json(json,
+                           :repo_id => $repo_id,
+                           :user => user)
     }.to raise_error(JSONModel::ValidationException)
   end
 

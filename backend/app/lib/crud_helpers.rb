@@ -99,7 +99,10 @@ module CrudHelpers
   def listing_response(dataset, model)
 
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
-    jsons = model.sequel_to_jsonmodel(objs).map {|json|
+
+    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+
+    jsons = model.sequel_to_jsonmodel(objs, opts).map {|json|
       if json.is_a?(JSONModelType)
         json.to_hash(:trusted)
       else

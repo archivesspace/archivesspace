@@ -311,7 +311,7 @@ class ContainerManagementConversion
             @job.add_file(file) 
             
             @job.write_output("Finished container conversion for repository #{repo.id}")
-            @job.finish(:completed)
+            @job.finish!(:completed)
           end 
           
         end

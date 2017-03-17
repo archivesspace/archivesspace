@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe "Search" do
 
   before(:all) do
-    @repo = create(:repo, :repo_code => "search_test_#{Time.now.to_i}")
+    @repo = create(:repo, :repo_code => "search_test_#{Time.now.to_i}", :publish => true)
     set_repo @repo
 
     @accession = create(:accession,
@@ -55,7 +55,9 @@ end
 describe "Advanced Search" do
 
   before(:all) do
-    @repo = create(:repo, :repo_code => "adv_search_test_#{Time.now.to_i}")
+    @repo = create(:repo,
+                   :repo_code => "adv_search_test_#{Time.now.to_i}",
+                   :publish => true)
     set_repo @repo
 
     @keywords = (0..9).to_a.map { SecureRandom.hex }
@@ -93,12 +95,7 @@ describe "Advanced Search" do
 
   it "is available via the navbar and renders when toggled" do
     @driver.find_element(:css => ".navbar .search-switcher").click
-
-    assert(10) {
-      advanced_search_form = @driver.find_element(:css => "form.advanced-search")
-      advanced_search_form.find_element(:id => "v0")
-      advanced_search_form.find_element(:css => ".btn-primary")
-    }
+    @driver.find_element(:css => ".search-switcher-hide")
   end
 
 

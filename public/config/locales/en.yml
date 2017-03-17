@@ -169,3 +169,8 @@ en:
   record_tree:
     record_tree_tab: Record Tree
     search_tab: Search Components
+    
+  classification:
+    _public:
+      section:
+        components: Terms

@@ -1,5 +1,8 @@
 require 'selenium-webdriver'
 
+require 'pry'
+
+
 module DriverMixin
   def click_and_wait_until_gone(*selector)
     element = self.find_element(*selector)
@@ -7,7 +10,7 @@ module DriverMixin
 
     begin
       try = 0
-      while self.find_element_orig(*selector).equal? element
+      while element.displayed?
         if try < Selenium::Config.retries
           try += 1
           $sleep_time += 0.1
@@ -15,6 +18,24 @@ module DriverMixin
           puts "click_and_wait_until_gone: #{try} hits selector '#{selector}'.  Retrying..." if (try % 5) == 0
         else
           raise "Failed to remove: #{selector.inspect}"
+        end
+      end
+    rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
+      # Great!  It's gone.
+    end
+  end
+
+
+  def click_and_wait_until_element_gone(element)
+    element.click
+
+    begin
+      Selenium::Config.retries.times do |try|
+        break unless element.displayed? || self.find_element_orig(*selector)
+        sleep 0.1
+
+        if try == Selenium::Config.retries - 1
+          puts "wait_until_element_gone never saw element go: #{element.inspect}"
         end
       end
     rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
@@ -41,17 +62,9 @@ module DriverMixin
 
 
   def clear_and_send_keys(selector, keys)
-    Selenium::Config.retries.times do
-      begin
-        elt = self.find_element_orig(*selector)
-        elt.clear
-        elt.send_keys(keys)
-        break
-      rescue
-        $sleep_time += 0.1
-        sleep 0.3
-      end
-    end
+    elt = self.find_element(*selector)
+    elt.clear
+    elt.send_keys(keys)
   end
 end
 
@@ -89,16 +102,28 @@ module Selenium
     class Driver
       include DriverMixin
 
+      def wait_for_dropdown
+        # Tried EVERYTHING to avoid needing this sleep.  Buest guess at the moment:
+        # JS hasn't been wired up to the click event and we get in too quickly.
+        sleep 0.5
+      end
+
       def wait_for_ajax
+        max_ajax_sleep_seconds = 20
+        ajax_sleep_duration = 0.05
+
+        max_tries = max_ajax_sleep_seconds / ajax_sleep_duration
+
         try = 0
         while (self.execute_script("return document.readyState") != "complete" or
                not self.execute_script("return window.$ == undefined || $.active == 0"))
-          if (try > Selenium::Config.retries)
+          if (try > max_tries)
             puts "Retry limit hit on wait_for_ajax.  Going ahead anyway."
             break
           end
 
-          sleep(0.5)
+          $sleep_time += ajax_sleep_duration
+          sleep(ajax_sleep_duration)
           try += 1
         end
 
@@ -106,7 +131,6 @@ module Selenium
       end
 
       def find_paginated_element(*selectors)
-
         start_page = self.current_url
 
         try = 0
@@ -123,14 +147,17 @@ module Selenium
 
           rescue Selenium::WebDriver::Error::NoSuchElementError
             puts "#{test_group_prefix}find_element failed: trying to turn the page"
-            self.find_element_orig(:css => "a[title='Next']").click
+            click_and_wait_until_element_gone(self.find_element_orig(:css => "a[title='Next']"))
             retry
           rescue Selenium::WebDriver::Error::NoSuchElementError
             if try < Selenium::Config.retries
               try += 1
               sleep 0.5
               self.navigate.to(start_page)
-              puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
+              if (try > 0) && (try % 5) == 0
+                puts "#{test_group_prefix}find_paginated_element: #{try} misses on selector '#{selectors}'.  Retrying..."
+                puts caller.take(10).join("\n")
+              end
             else
               raise Selenium::WebDriver::Error::NoSuchElementError.new(selectors.inspect)
             end
@@ -172,15 +199,17 @@ return (
 
 
       alias :find_element_orig :find_element
+
       def find_element(*selectors)
         wait_for_ajax
 
         try = 0
         while true
           begin
-            elt = find_element_orig(*selectors)
+            matched = find_elements(*selectors)
+            elt = matched.find {|elt| elt.displayed?}
 
-            if not elt.displayed?
+            if elt.nil?
               raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
             end
 
@@ -190,15 +219,60 @@ return (
               try += 1
               $sleep_time += 0.5
               sleep 0.5
-              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
-
+              if (try > 0) && (try % 5) == 0
+                puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
+                puts caller.take(10).join("\n")
+              end
             else
               puts "Failed to find #{selectors}"
-              raise e
+
+              if ENV['ASPACE_TEST_WITH_PRY']
+                puts "Starting pry"
+                binding.pry
+              else
+                raise e
+              end
             end
           end
         end
       end
+
+      def find_hidden_element(*selectors)
+        wait_for_ajax
+
+        try = 0
+        while true
+          begin
+            elt = find_element_orig(*selectors)
+
+            if elt.nil?
+              raise Selenium::WebDriver::Error::NoSuchElementError.new("Element not found")
+            end
+
+            return elt
+          rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
+            if try < Selenium::Config.retries
+              try += 1
+              $sleep_time += 0.5
+              sleep 0.5
+              if (try > 0) && (try % 5) == 0
+                puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
+                puts caller.take(10).join("\n")
+              end
+            else
+              puts "Failed to find #{selectors}"
+
+              if ENV['ASPACE_TEST_WITH_PRY']
+                puts "Starting pry"
+                binding.pry
+              else
+                raise e
+              end
+            end
+          end
+        end
+      end
+
 
 
       def find_last_element(*selectors)
@@ -212,7 +286,7 @@ return (
         # Hit with find_element first to invoke our usual retry logic
         find_element(*selectors)
 
-        find_elements(*selectors)
+        find_elements(*selectors).select {|elt| elt.displayed?}
       end
 
 
@@ -352,10 +426,16 @@ return (
 
 
       def select_option(value)
+        self.click
+
         self.find_elements(:tag_name => "option").each do |option|
           if option.attribute("value") === value
-            option.click
-            return
+            Selenium::Config.retries.times do |try|
+              return if option.attribute('selected')
+
+              option.click
+              sleep 0.1
+            end
           end
         end
 
@@ -364,10 +444,15 @@ return (
 
 
       def select_option_with_text(value)
+        self.click
         self.find_elements(:tag_name => "option").each do |option|
           if option.text === value
-            option.click
-            return
+            Selenium::Config.retries.times do |try|
+              return if option.attribute('selected')
+
+              option.click
+              sleep 0.1
+            end
           end
         end
 
@@ -418,7 +503,10 @@ return (
 
           $sleep_time += 0.5
           sleep 0.5
-          puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..." if (try > 0) && (try % 10) == 0
+          if (try > 0) && (try % 10) == 0
+            puts "find_element_with_text: #{try} misses on selector ':xpath => #{xpath}'.  Retrying..."
+            puts caller.take(10).join("\n")
+          end
         end
 
         return nil if noError
@@ -432,9 +520,9 @@ return (
         try = 0
         while true
           begin
-            elt = find_element_orig(*selectors)
+            elt = find_elements(*selectors).find {|elt| elt.displayed?}
 
-            if not elt.displayed?
+            if elt.nil?
               raise Selenium::WebDriver::Error::NoSuchElementError.new("Not visible (yet?)")
             end
 
@@ -444,8 +532,10 @@ return (
               try += 1
               $sleep_time += 0.1
               sleep 0.5
-              puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..." if (try > 0) && (try % 5) == 0
-
+              if (try > 0) && (try % 5) == 0
+                puts "#{test_group_prefix}find_element: #{try} misses on selector '#{selectors}'.  Retrying..."
+                puts caller.take(10).join("\n")
+              end
             else
               puts "Failed to find #{selectors}"
 

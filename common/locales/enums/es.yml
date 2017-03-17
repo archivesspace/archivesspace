@@ -1397,12 +1397,6 @@
       novalue: Ningún valor definido
     user_defined_enum_4:
       novalue: Ningún valor definido
-    job_type:
-      print_to_pdf_job: Imprimir en PDF
-      import_job: Importar Datos
-      find_and_replace_job: Busca y reemplaza en bloque (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
     dimension_units:
       inches: Pulgadas
       feet: Pies

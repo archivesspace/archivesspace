@@ -9,7 +9,7 @@ describe "Groups" do
     @user = create_user
 
     # wait for notification to fire (which can take up to 5 seconds)
-    @driver = Driver.get.login($admin)    
+    @driver = Driver.get.login($admin)
   end
 
 
@@ -22,6 +22,7 @@ describe "Groups" do
     @driver.select_repo(@repo_to_manage)
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-archivists/)
@@ -29,13 +30,14 @@ describe "Groups" do
 
     @driver.clear_and_send_keys([:id, 'new-member'],(@user.username))
     @driver.find_element(:id, 'add-new-member').click
-    @driver.find_element(:css => 'button[type="submit"]').click
+    @driver.click_and_wait_until_gone(:css => 'button[type="submit"]')
   end
 
 
   it "can assign the test user to the viewers group of the first repository" do
     @driver.select_repo(@repo_to_view)
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
 
     row = @driver.find_element_with_text('//tr', /repository-viewers/)
@@ -43,19 +45,20 @@ describe "Groups" do
 
     @driver.clear_and_send_keys([:id, 'new-member'],(@user.username))
     @driver.find_element(:id, 'add-new-member').click
-    @driver.find_element(:css => 'button[type="submit"]').click
+    @driver.click_and_wait_until_gone(:css => 'button[type="submit"]')
   end
 
 
   it "reports errors when attempting to create a Group with missing data" do
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage Groups").click
     @driver.find_element(:link, "Create Group").click
     @driver.find_element(:css => "form#new_group button[type='submit']").click
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
     }.to_not raise_error
-    @driver.find_element(:link, "Cancel").click
+    @driver.click_and_wait_until_gone(:link, "Cancel")
   end
 
 
@@ -64,7 +67,7 @@ describe "Groups" do
     @driver.clear_and_send_keys([:id, 'group_group_code_'], "goo")
     @driver.clear_and_send_keys([:id, 'group_description_'], "Goo group to group goo")
     @driver.find_element(:id, "view_repository").click
-    @driver.find_element(:css => "form#new_group button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_group button[type='submit']")
     expect {
       @driver.find_element_with_text('//tr', /goo/)
     }.to_not raise_error
@@ -78,14 +81,14 @@ describe "Groups" do
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
     }.to_not raise_error
-    @driver.find_element(:link, "Cancel").click
+    @driver.click_and_wait_until_gone(:link, "Cancel")
   end
 
 
   it "can edit a Group" do
     @driver.find_element_with_text('//tr', /goo/).find_element(:link, "Edit").click
     @driver.clear_and_send_keys([:id, 'group_description_'], "Group to gather goo")
-    @driver.find_element(:css => "form#new_group button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form#new_group button[type='submit']")
     expect {
       @driver.find_element_with_text('//tr', /Group to gather goo/)
     }.to_not raise_error
@@ -107,7 +110,7 @@ describe "Groups" do
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], @user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], @user.password)
-    @driver.find_element(:id, 'login').click
+    @driver.click_and_wait_until_gone(:id, 'login')
 
     assert(5) { @driver.find_element(:css => "span.user-label").text.should match(/#{@user.username}/) }
   end
@@ -127,6 +130,7 @@ describe "Groups" do
 
     # change @can_manage_repo to a view only
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage User Access").click
 
     while true
@@ -176,6 +180,7 @@ describe "Groups" do
 
     # change @can_manage_repo to a view only
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Manage User Access").click
 
     while true

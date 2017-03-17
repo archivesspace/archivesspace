@@ -1,93 +1,80 @@
-ArchivesSpacePublic::Application.routes.draw do
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  [AppConfig[:public_proxy_prefix], AppConfig[:public_prefix]].uniq.each do |prefix|
-
-    scope prefix do
-
-      root "site#index"
-
-      match 'api/repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
-      match 'api/repositories/:repo_id/archival_objects/:id' => 'records#archival_object', :via => [:get]
-      match 'api/repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
-      match 'api/repositories/:repo_id/digital_objects/:id' => 'records#digital_object', :via => [:get]
-      match 'api/repositories/:repo_id/classifications/:id/tree' => 'trees#classification', :via => [:get]
-
-      match 'api/repositories/:repo_id/classifications/:id' => 'records#classification', :via => [:get]
-      match 'api/repositories/:repo_id/classification_terms/:id' => 'records#classification_term', :via => [:get]
-
-      match 'api/people/:id' => 'records#agent_person', :via => [:get]
-
-      match 'api/subjects/:id' => 'records#subject', :via => [:get]
-
-
-      match 'api/repositories/:repo_id' => 'records#repository', :via => [:get]
-
-
-      match 'api/trees' => 'trees#fetch', :via => [:get]
-
-      match 'api/search' => 'search#search', :via => [:get]
-      match 'api/advanced_search' => 'search#advanced_search', :via => [:get]
-
-      match 'api/(*url)' => "site#bad_request", :via => [:get]
-
-      get '/(*url)' => "site#index"
+  get '/', to: 'welcome#show' #'index#index'
+  get '/welcome', to: 'welcome#show'
+  post '/cite', to: 'cite#show'
+  get 'objects/search' => 'objects#search'
+  post 'objects/search' => 'objects#search'
+  get 'objects' => 'objects#index'
+  post 'objects' => 'objects#index'
+  get 'accessions/search' => 'accessions#search'
+  post 'accessions/search' => 'accessions#search'
+  get 'accessions' => 'accessions#index'
+  post 'accessions' => 'accessions#index'
+  get 'classifications/search' => 'classifications#search'
+  post 'classifications/search' => 'classifications#search'
+  get 'classifications' => 'classifications#index'
+  post 'classifications' => 'classifications#index'
+  get 'fill_request' => 'requests#make_request'
+  post 'fill_request' => 'requests#make_request'
+  get 'subjects/search' => 'subjects#search'
+  post 'subjects/search' => 'subjects#search'
+  get "subjects/:id" => 'subjects#show'
+  get 'subjects' => 'subjects#index'
+  post 'subjects' => 'subjects#index'
+  get 'agents/search' => 'agents#search'
+  post 'agents/search' => 'agents#search'
+  get "agents/:eid/:id" => 'agents#show'
+  get 'agents' => 'agents#index'
 
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  get  "repositories/:rid/top_containers/:id" => 'containers#show'
+  post  "repositories/:rid/top_containers/:id" => 'containers#show'
+  get 'repositories/resources' => 'resources#index'
+  get  "repositories/:rid/accessions/:id" => 'accessions#show'
+  post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
+  get  "repositories/:rid/classifications/:id" => 'classifications#show'
+  get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
+  get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
+  get "repositories/:rid/resources/:id"  => 'resources#show'
+  get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
+  get "repositories/:rid/:obj_type/:id" => 'objects#show'
+  get  "repositories/:rid/classifications/" => 'classifications#index'
+  post  "repositories/:rid/classifications/" => 'classifications#index'
+  get "repositories/:rid/resources" => 'resources#index'
+  post "repositories/:rid/resources" => 'resources#index' 
+  get  "repositories/:rid/search" => 'search#search'
+  post "repositories/:rid/search" => 'search#search'
+  get "repositories/:rid/agents" => 'agents#index'
+  post "repositories/:rid/agents" => 'agents#index'
+  get "repositories/:rid/subjects" => 'subjects#index'
+  post "repositories/:rid/subjects" => 'subjects#index'
+  get "repositories/:rid/objects" => 'objects#index'
+  post "repositories/:rid/objects" => 'objects#index'
+  post "repositories/:rid/records" => 'objects#index'
+  get "repositories/:id" => 'repositories#show'
+  post "repositories/:id" => 'repositories#show'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  get "repositories/:rid/resources/:id/to-infinity-and-beyond"  => 'resources#infinite'
+  get "repositories/:rid/resources/:id/infinite/waypoints"  => 'resources#waypoints'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get "repositories/:rid/resources/:id/tree/root"  => 'resources#tree_root'
+  get "repositories/:rid/resources/:id/tree/waypoint"  => 'resources#tree_waypoint'
+  get "repositories/:rid/resources/:id/tree/node"  => 'resources#tree_node'
+  get "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
+  get "repositories/:rid/digital_objects/:id/tree/waypoint"  => 'digital_objects#tree_waypoint'
+  get "repositories/:rid/digital_objects/:id/tree/node"  => 'digital_objects#tree_node'
+  get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  get "repositories/:rid/classifications/:id/tree/root"  => 'classifications#tree_root'
+  get "repositories/:rid/classifications/:id/tree/waypoint"  => 'classifications#tree_waypoint'
+  get "repositories/:rid/classifications/:id/tree/node"  => 'classifications#tree_node'
+  get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-    end
-  end
+  get '/repositories', to: 'repositories#index'
+  get '/search', to: 'search#search'
 end

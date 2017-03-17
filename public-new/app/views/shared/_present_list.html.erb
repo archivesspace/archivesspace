@@ -1,0 +1,39 @@
+<% if list.kind_of? Hash
+   list.each do |k,v| %>
+   <h4><%= k %></h4>
+   <ul class="<%= list_clss %>">
+   <% v.each do |item | %>
+     <li>
+     <% unless item['inherit'].blank? %>
+	<%= item['inherit'].html_safe %>
+     <% end %>
+     <% unless item['uri'].blank? %>
+     <a href="<%= item['uri'] %>">
+     <% end %>
+     <%= item['title'] %>
+     <% unless item['uri'].blank? %>
+     </a>
+     <% end %>
+     </li>
+   <% end %>
+   </ul>
+  <% end %>
+<% else %>
+  <ul class="<%= list_clss %>">
+    <% list.each do |item| %>
+     <li>
+       <% if item.kind_of? Hash %>
+        <% unless item['uri'].blank? %>
+         <a href="<%= item['uri'] %>">
+        <% end %>
+        <%= item['title'] %>
+        <% unless item['uri'].blank? %>
+         </a>
+        <% end %>
+       <% else %>
+         <%= item %>
+       <% end %>
+     </li>
+    <% end %>
+  </ul>
+ <% end %>

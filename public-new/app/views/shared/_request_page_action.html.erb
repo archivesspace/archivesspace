@@ -1,0 +1,11 @@
+<% if defined?(@request) %>
+  <%= form_tag "#{@request[:request_uri]}/request", :id => 'request_sub' do |f| %>
+    <%= render partial: 'shared/request_hiddens' %>
+    <button type="submit" class="btn page_action request  btn-default" title="<%= t('actions.request') %>">
+      <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
+  <% end %>
+<% else %>
+  <button class="btn btn-default page_action request" disabled="true">
+    <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %>
+  </button>
+<% end %>

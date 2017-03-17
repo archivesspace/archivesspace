@@ -30,7 +30,7 @@ class ASpaceGems
     ASUtils.find_local_directories.each do |plugin|
       gemdir = File.join(plugin, "gems")
 
-      if gemdir && Dir.exists?(gemdir)
+      if gemdir && Dir.exist?(gemdir)
         gem_paths << gemdir
       end
     end

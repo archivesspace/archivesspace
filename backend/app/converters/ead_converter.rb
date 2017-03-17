@@ -25,10 +25,6 @@ class EADConverter < Converter
   end
 
 
-  def self.profile
-    "Convert EAD To ArchivesSpace JSONModel records"
-  end
-
   # We override this to skip nodes that are often very deep
   # We can safely assume ead, c, and archdesc will have children,
   # which greatly helps the performance.
@@ -102,11 +98,11 @@ class EADConverter < Converter
     ignore "titlepage"
 
     # addresses https://archivesspace.atlassian.net/browse/AR-1282
-    with 'eadheader' do
+    with 'eadheader' do |*|
       set :finding_aid_status, att('findaidstatus')
     end
 
-    with 'archdesc' do
+    with 'archdesc' do |*|
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
       set :publish, att('audience') != 'internal'
@@ -116,7 +112,7 @@ class EADConverter < Converter
 
     # c, c1, c2, etc...
     (0..12).to_a.map {|i| "c" + (i+100).to_s[1..-1]}.push('c').each do |c|
-      with c do
+      with c do |*|
         make :archival_object, {
           :level => att('level') || 'otherlevel',
           :other_level => att('otherlevel'),
@@ -178,8 +174,7 @@ class EADConverter < Converter
       end
     end
 
-
-    with "archdesc/note" do
+    with "archdesc/note" do |*|
       make :note_multipart, {
         :type => 'odd',
         :persistent_id => att('id'),
@@ -194,8 +189,7 @@ class EADConverter < Converter
       end
     end
 
-
-    with "langmaterial" do
+    with "langmaterial" do |*|
       # first, assign the primary language to the ead
       langmaterial = Nokogiri::XML::DocumentFragment.parse(inner_xml)
       langmaterial.children.each do |child|
@@ -255,11 +249,10 @@ class EADConverter < Converter
       end
     end
 
-    with 'physdesc' do
+    with 'physdesc' do |*|
       physdesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
 
       extent_number_and_type = nil
-
       dimensions = []
       physfacets = []
       container_summaries = []
@@ -342,7 +335,7 @@ class EADConverter < Converter
     end
 
 
-    with 'bibliography' do
+    with 'bibliography' do |*|
       make :note_bibliography
       set :persistent_id, att('id')
       set :publish, att('audience') != 'internal'
@@ -350,7 +343,7 @@ class EADConverter < Converter
     end
 
 
-    with 'index' do
+    with 'index' do |*|
       make :note_index
       set :persistent_id, att('id')
       set :publish, att('audience') != 'internal'
@@ -363,13 +356,13 @@ class EADConverter < Converter
         set :label,  format_content( inner_xml )
       end
 
-      with "#{x}/p" do
+      with "#{x}/p" do |*|
         set :content, format_content( inner_xml )
       end
     end
 
 
-    with 'bibliography/bibref' do
+    with 'bibliography/bibref' do |*|
       set :items, inner_xml
     end
 
@@ -397,7 +390,7 @@ class EADConverter < Converter
     end
 
     # this is very imperfect.
-    with 'indexentry/ref' do
+    with 'indexentry/ref' do |*|
         make :note_index_item, {
           :type => 'name',
           :value => inner_xml,
@@ -454,12 +447,12 @@ class EADConverter < Converter
     end
 
 
-    with 'notestmt/note' do
+    with 'notestmt/note' do |*|
       append :finding_aid_note, format_content( inner_xml )
     end
 
 
-    with 'chronlist' do
+    with 'chronlist' do |*|
       if  ancestor(:note_multipart)
         left_overs = insert_into_subnotes
       else
@@ -486,20 +479,20 @@ class EADConverter < Converter
     end
 
 
-    with 'chronitem' do
+    with 'chronitem' do |*|
       context_obj.items << {}
     end
 
 
     %w(eventgrp/event chronitem/event).each do |path|
-      with path do
+      with path do |*|
         context_obj.items.last['events'] ||= []
         context_obj.items.last['events'] << format_content( inner_xml )
       end
     end
 
 
-    with 'list' do
+    with 'list' do |*|
 
       if  ancestor(:note_multipart)
         left_overs = insert_into_subnotes
@@ -560,17 +553,17 @@ class EADConverter < Converter
     end
 
 
-    with 'list/item' do
+    with 'list/item' do |*|
       set :items, inner_xml if context == :note_orderedlist
     end
 
 
-    with 'publicationstmt/date' do
+    with 'publicationstmt/date' do |*|
       set :finding_aid_date, inner_xml if context == :resource
     end
 
 
-    with 'date' do
+    with 'date' do |*|
       if context == :note_chronology
         date = inner_xml
         context_obj.items.last['event_date'] = date
@@ -578,7 +571,7 @@ class EADConverter < Converter
     end
 
 
-    with 'head' do
+    with 'head' do |*|
       if context == :note_multipart
         set :label, format_content( inner_xml )
       elsif context == :note_chronology
@@ -588,7 +581,7 @@ class EADConverter < Converter
 
 
     # example of a 1:many tag:record relation (1+ <container> => 1 instance with 1 container)
-    with 'container' do
+    with 'container' do |*|
         @containers ||= {}
 
         # we've found that the container has a parent att and the parent is in
@@ -649,38 +642,38 @@ class EADConverter < Converter
     end
 
 
-    with 'author' do
+    with 'author' do |*|
       set :finding_aid_author, inner_xml
     end
 
 
-    with 'descrules' do
+    with 'descrules' do |*|
       set :finding_aid_description_rules, format_content( inner_xml )
     end
 
 
-    with 'eadid' do
+    with 'eadid' do |*|
       set :ead_id, inner_xml
       set :ead_location, att('url')
     end
 
 
-    with 'editionstmt' do
+    with 'editionstmt' do |*|
       set :finding_aid_edition_statement, format_content( inner_xml )
     end
 
 
-    with 'seriesstmt' do
+    with 'seriesstmt' do |*|
       set :finding_aid_series_statement, format_content( inner_xml )
     end
 
 
-    with 'sponsor' do
+    with 'sponsor' do |*|
       set :finding_aid_sponsor, format_content( inner_xml )
     end
 
 
-    with 'titleproper' do
+    with 'titleproper' do |*|
       type = att('type')
       case type
       when 'filing'
@@ -690,54 +683,54 @@ class EADConverter < Converter
       end
     end
 
-    with 'subtitle' do
+    with 'subtitle' do |*|
       set :finding_aid_subtitle, format_content( inner_xml )
     end
 
-    with 'langusage' do
+    with 'langusage' do |*|
       set :finding_aid_language, format_content( inner_xml )
     end
 
 
-    with 'revisiondesc/change' do
+    with 'revisiondesc/change' do |*|
       make :revision_statement
       set ancestor(:resource), :revision_statements, proxy
     end
 
-    with 'revisiondesc/change/item' do
+    with 'revisiondesc/change/item' do |*|
       set :description, format_content( inner_xml )
     end
 
-    with 'revisiondesc/change/date' do
+    with 'revisiondesc/change/date' do |*|
       set :date, format_content( inner_xml )
     end
 
-    with 'origination/corpname' do
+    with 'origination/corpname' do |*|
       make_corp_template(:role => 'creator')
     end
 
 
-    with 'controlaccess/corpname' do
+    with 'controlaccess/corpname' do |*|
       make_corp_template(:role => 'subject')
     end
 
 
-    with 'origination/famname' do
+    with 'origination/famname' do |*|
       make_family_template(:role => 'creator')
     end
 
 
-    with 'controlaccess/famname' do
+    with 'controlaccess/famname' do |*|
       make_family_template(:role => 'subject')
     end
 
 
-    with 'origination/persname' do
+    with 'origination/persname' do |*|
       make_person_template(:role => 'creator')
     end
 
 
-    with 'controlaccess/persname' do
+    with 'controlaccess/persname' do |*|
       make_person_template(:role => 'subject')
     end
 
@@ -749,7 +742,7 @@ class EADConverter < Converter
       'occupation' => 'occupation',
       'subject' => 'topical'
       }.each do |tag, type|
-        with "controlaccess/#{tag}" do
+        with "controlaccess/#{tag}" do |*|
           make :subject, {
             :terms => {'term' => inner_xml, 'term_type' => type, 'vocabulary' => '/vocabularies/1'},
             :vocabulary => '/vocabularies/1',
@@ -761,7 +754,7 @@ class EADConverter < Converter
      end
 
 
-    with 'dao' do
+    with 'dao' do |*|
       make :instance, {
           :instance_type => 'digital_object'
         } do |instance|
@@ -786,7 +779,7 @@ class EADConverter < Converter
 
     end
 
-    with 'daodesc' do
+    with 'daodesc' do |*|
       make :note_digital_object, {
              :type => 'note',
              :persistent_id => att('id'),
@@ -797,7 +790,7 @@ class EADConverter < Converter
       end
     end
 
-    with 'daogrp' do
+    with 'daogrp' do |*|
       title = att('title')
 
       unless title

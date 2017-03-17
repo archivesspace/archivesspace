@@ -82,6 +82,11 @@ ArchivesSpace::Application.routes.draw do
       match 'digital_objects/:id/suppress' => 'digital_objects#suppress', :via => [:post]
       match 'digital_objects/:id/unsuppress' => 'digital_objects#unsuppress', :via => [:post]
 
+      match 'digital_objects/:id/tree/root' => 'digital_objects#tree_root', :via => [:get]
+      match 'digital_objects/:id/tree/node' => 'digital_objects#tree_node', :via => [:get]
+      match 'digital_objects/:id/tree/node_from_root' => 'digital_objects#node_from_root', :via => [:get]
+      match 'digital_objects/:id/tree/waypoint' => 'digital_objects#tree_waypoint', :via => [:get]
+
       match 'digital_object_components/validate_rows' => 'digital_object_components#validate_rows', :via => [:post]
       match 'digital_object_components/defaults' => 'digital_object_components#defaults', :via => [:get]
       match 'digital_object_components/defaults' => 'digital_object_components#update_defaults', :via => [:post]
@@ -109,7 +114,12 @@ ArchivesSpace::Application.routes.draw do
       match 'resources/:id/accept_children' => 'resources#accept_children', :via => [:post]
       match 'resources/:id/merge' => 'resources#merge', :via => [:post]
       match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
-      match 'resources/:id/tree' => 'resources#tree', :via => [:get]
+
+      match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
+      match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
+      match 'resources/:id/tree/node_from_root' => 'resources#node_from_root', :via => [:get]
+      match 'resources/:id/tree/waypoint' => 'resources#tree_waypoint', :via => [:get]
+
       match 'resources/:id/suppress' => 'resources#suppress', :via => [:post]
       match 'resources/:id/unsuppress' => 'resources#unsuppress', :via => [:post]
       match 'resources/:id/models_in_graph' => 'resources#models_in_graph', :via => [:get]
@@ -121,6 +131,11 @@ ArchivesSpace::Application.routes.draw do
       match 'classifications/:id/delete' => 'classifications#delete', :via => [:post]
       match 'classifications/:id/accept_children' => 'classifications#accept_children', :via => [:post]
       match 'classifications/:id/tree' => 'classifications#tree', :via => [:get]
+
+      match 'classifications/:id/tree/root' => 'classifications#tree_root', :via => [:get]
+      match 'classifications/:id/tree/node' => 'classifications#tree_node', :via => [:get]
+      match 'classifications/:id/tree/node_from_root' => 'classifications#node_from_root', :via => [:get]
+      match 'classifications/:id/tree/waypoint' => 'classifications#tree_waypoint', :via => [:get]
 
       match 'classification_terms/defaults' => 'classification_terms#defaults', :via => [:get]
       match 'classification_terms/defaults' => 'classification_terms#update_defaults', :via => [:post]

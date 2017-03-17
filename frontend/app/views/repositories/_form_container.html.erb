@@ -5,6 +5,7 @@
     <section id="all_fields">
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
+      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <hr/>
       <%= form.label_and_textfield "org_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textfield "parent_institution_name" %>

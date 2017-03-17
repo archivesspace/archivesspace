@@ -1,3 +1,6 @@
+<%= javascript_include_tag 'largetree' %>
+<%= stylesheet_link_tag "archivesspace/largetree" %>
+
 <% show_search = defined?(:show_search) ? show_search : false %>
 
 <section id="components" data-show-search="<%= show_search %>">
@@ -10,9 +13,7 @@
     <li class="components-search"><a href="#components_search"><span class="icon icon-search"></span> <%= I18n.t("record_tree.search_tab") %></a></li>
   </ul>
   <div class="tab-content">
-    <div id="components_record_tree" class="tab-pane active">
-      <ul class="record-tree" data-root-uri="<%= root_uri %>"></ul>
-    </div>
+    <div id="components_record_tree" class="largetree-container tab-pane active"></div>
     <div id="components_search" class="tab-pane">
       <%= form_tag url_for(:controller => :search, :action => :search, :format => :js) do %>
         <%= hidden_field_tag "root_record", root_uri %>
@@ -43,3 +44,63 @@
 <div id="template_record_tree_loading"><!--
   <li><%= image_tag "archivesspace/record_tree_loading.gif" %></li>
 --></div>
+
+<script>
+
+    function SimpleRenderer() {
+        this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+
+        this.rootTemplate = $('<tr> ' +
+            '  <td class="no-drag-handle"></td>' +
+            '  <td class="title"></td>' +
+            '</tr>');
+
+        this.nodeTemplate = $('<tr> ' +
+            '  <td class="drag-handle"></td>' +
+            '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon icon-chevron-right" /></button></span> </td>' +
+            '</tr>');
+    }
+
+    SimpleRenderer.prototype.endpoint_marker = function () {
+        return this.endpointMarkerTemplate.clone(true);
+    }
+
+    SimpleRenderer.prototype.get_root_template = function () {
+        return this.rootTemplate.clone(false);
+    }
+
+    SimpleRenderer.prototype.get_node_template = function () {
+        return this.nodeTemplate.clone(false);
+    };
+
+    SimpleRenderer.prototype.add_root_columns = function (row, rootNode) {
+        if (rootNode.jsonmodel_type == 'classification') {
+            row.find('a.record-title').attr('href', rootNode.uri + '/search');
+        } else {
+            if ("<%= @resource_title %>".length > 0) {
+                row.find("a.record-title").html("<%= @resource_title %>");
+            }
+            row.find('a.record-title').attr('href', rootNode.uri);
+        }
+    }
+
+    SimpleRenderer.prototype.add_node_columns = function (row, node) {
+        if (node.jsonmodel_type == 'classification_term') {
+            row.find('a.record-title').attr('href', node.uri + '/search');
+        } else {
+            row.find('a.record-title').attr('href', node.uri);
+        }
+    };
+
+    var root_uri = '<%= root_uri %>';
+    var tree = new LargeTree(new TreeDataSource(root_uri + '/tree'),
+        $('#components_record_tree'),
+        root_uri,
+        true,
+        new SimpleRenderer(),
+        function() {
+            var tree_id = TreeIds.uri_to_tree_id('<%= current_node_uri %>');
+            tree.setCurrentNode(tree_id);
+        },
+        $.noop);
+</script>

@@ -16,6 +16,8 @@
       "image_url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       "contact_persons" => {"type" => "string", "maxLength" => 65000},
 
+      "publish" => {"type" => "boolean"},
+
       "display_string" => {"type" => "string", "readonly" => true},
 
       "agent_representation" => {

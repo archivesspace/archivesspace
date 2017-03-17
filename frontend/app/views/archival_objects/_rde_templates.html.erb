@@ -97,6 +97,8 @@
         </div>
         <div class="error-summary-list"></div>
       </div>
+
+      <%= form.hidden_input "resource[ref]", @resource_uri %>
     </td>
     <td data-col="colLevel" class="form-group"><%= form.select "level", form.possible_options_for("level", true) %></td>
     <td data-col="colOtherLevel" class="form-group"><%= form.textfield "other_level" %></td>

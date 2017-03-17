@@ -122,6 +122,10 @@ module Exceptions
           json_response({:error => "Repository not empty"}, 409)
         end
 
+        error Sinatra::NotFound do
+          json_response({:error => request.env['sinatra.error']}, 404)
+        end
+
         error NotFoundException do
           json_response({:error => request.env['sinatra.error']}, 404)
         end

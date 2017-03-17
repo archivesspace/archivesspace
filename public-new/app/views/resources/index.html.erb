@@ -1,0 +1,10 @@
+<div class="row">
+<h2><%= (@repo_name != '' ? "#{@repo_name}: " : '') %><%= @results['total_hits'] %> <%= (@results['total_hits'] == 1 ? t('resource._singular'): t('resource._plural')) %></h2>
+<div class="col-sm-9">
+<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
+    <% @results['results'].each do |result| %>
+    <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false, :no_repo => !@repo_name.blank?}} %>
+    <% end %>
+<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
+</div>
+</div> 

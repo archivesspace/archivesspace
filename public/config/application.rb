@@ -8,8 +8,6 @@ require 'java'
 require 'config/config-distribution'
 require 'asutils'
 
-require "rails_config_bug_workaround"
-
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -19,6 +17,11 @@ end
 
 module ArchivesSpacePublic
   class Application < Rails::Application
+
+    def self.extend_aspace_routes(routes_file)
+      ArchivesSpacePublic::Application.config.paths['config/routes.rb'].concat([routes_file])
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -47,21 +50,22 @@ module ArchivesSpacePublic
     # THIS DOESN'T WORK FOR DISTRIBUTED WAR... NEED TO SETUP LOCALE SHARING
     #config.i18n.load_path += Dir[Rails.root.join('..', 'frontend','config', 'locales', '**', '*.{rb,yml}')]
 
-    config.i18n.default_locale = AppConfig[:locale]
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
-      config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+      I18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
     # Override with any local locale files
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Allow overriding of the i18n locales via the local folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
-        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
+        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
+
+    config.i18n.default_locale = AppConfig[:locale]
 
     # config.i18n.default_locale = :de
 
@@ -111,7 +115,7 @@ end
 # Load plugin init.rb files (if present)
 ASUtils.find_local_directories('public').each do |dir|
   init_file = File.join(dir, "plugin_init.rb")
-  if File.exists?(init_file)
+  if File.exist?(init_file)
     load init_file
   end
 end

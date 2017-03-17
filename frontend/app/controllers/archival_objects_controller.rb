@@ -47,8 +47,6 @@ class ArchivalObjectsController < ApplicationController
                                       I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
                                       I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
 
-                  @refresh_tree_node = true
-
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -76,8 +74,6 @@ class ArchivalObjectsController < ApplicationController
                     I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
                     I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
                   flash.now[:success] = success_message
-
-                  @refresh_tree_node = true
 
                   render_aspace_partial :partial => "edit_inline"
                 })
@@ -172,6 +168,7 @@ class ArchivalObjectsController < ApplicationController
 
   def rde
     @parent = JSONModel(:archival_object).find(params[:id])
+    @resource_uri = @parent['resource']['ref']
     @children = ArchivalObjectChildren.new
     @exceptions = []
 
@@ -181,6 +178,7 @@ class ArchivalObjectsController < ApplicationController
 
   def add_children
     @parent = JSONModel(:archival_object).find(params[:id])
+    @resource_uri = @parent['resource']['ref']
 
     if params[:archival_record_children].blank? or params[:archival_record_children]["children"].blank?
 
