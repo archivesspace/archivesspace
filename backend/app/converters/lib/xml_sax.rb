@@ -168,10 +168,8 @@ module ASpaceImport
       def handle_closer(node)
         @node_shadow = nil
         @empty_node = false
-        node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
-    
+
         if self.respond_to?("_closing_#{@node_name}")
-          $stderr.puts "HI!" 
           self.send("_closing_#{@node_name}", node)
         end
 
