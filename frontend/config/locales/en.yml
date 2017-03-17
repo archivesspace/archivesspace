@@ -227,6 +227,7 @@ en:
       equal: equals
       greater_than: greater than
       lesser_than: less than
+      empty: unassigned
     boolean_field:
       true_value: "True"
       false_value: "False"
@@ -238,6 +239,11 @@ en:
     index_switcher:
       show: Show Advanced Search
       hide: Hide Advanced Search
+    text_operator:
+      contains: contains
+      empty: is empty
+    enum_field:
+      empty: unassigned
 
   become-user:
     become-user: Become User

@@ -51,6 +51,10 @@ class AdvancedQueryBuilder
     elsif query_data["type"] == "boolean"
       JSONModel(:boolean_field_query).from_hash(query_data)
     else
+      if query_data["type"] == "enum" && query_data["value"].blank?
+        query_data["comparator"] = "empty"
+      end
+
       query = JSONModel(:field_query).from_hash(query_data)
 
       if query_data["type"] == "enum"

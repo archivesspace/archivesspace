@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'cgi'
 
 $dummy_data = <<EOF
   {
@@ -57,7 +58,7 @@ describe 'Solr model' do
     query = Solr::Query.create_keyword_search("hello world").
                         pagination(1, 10).
                         set_repo_id(@repo_id).
-      									set_excluded_ids(%w(alpha omega)).
+                        set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
                         highlighting
 
@@ -79,6 +80,24 @@ describe 'Solr model' do
     response['this_page'].should eq(1)
     response['last_page'].should eq(1)
     response['results'][0]['title'].should eq("A Resource")
+  end
+
+  it "adjusts date searches for the local timezone" do
+    test_time = Time.parse('2000-01-01')
+
+    advanced_query = {
+      "query" => {
+        "jsonmodel_type" => "date_field_query",
+        "comparator" => "equal",
+        "field" => "create_time",
+        "value" => test_time.strftime('%Y-%m-%d'),
+        "negated" => false
+      }
+    }
+
+    query = Solr::Query.create_advanced_search(advanced_query)
+
+    CGI.unescape(query.pagination(1, 10).to_solr_url.to_s).should include(test_time.utc.iso8601)
   end
 
 end

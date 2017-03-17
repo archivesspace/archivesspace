@@ -527,4 +527,38 @@ module JSONModel::Validations
     end
   end
 
+
+  def self.check_field_query(hash)
+    errors = []
+
+    if (!hash.has_key?("value") || hash["value"].empty?) && hash["comparator"] != "empty"
+      errors << ["value", "Must specify either a value or use the 'empty' comparator"]
+    end
+
+    errors
+  end
+
+  if JSONModel(:field_query)
+    JSONModel(:field_query).add_validation("check_field_query") do |hash|
+      check_field_query(hash)
+    end
+  end
+
+
+  def self.check_date_field_query(hash)
+    errors = []
+
+    if (!hash.has_key?("value") || hash["value"].empty?) && hash["comparator"] != "empty"
+      errors << ["value", "Must specify either a value or use the 'empty' comparator"]
+    end
+
+    errors
+  end
+
+  if JSONModel(:date_field_query)
+    JSONModel(:date_field_query).add_validation("check_date_field_query") do |hash|
+      check_field_query(hash)
+    end
+  end
+
 end
