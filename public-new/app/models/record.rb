@@ -74,7 +74,8 @@ class Record
   end
 
   def parse_identifier
-    json.dig('_composite_identifier') || json.dig('component_id') ||  json.dig('id_0')
+    json.dig('_composite_identifier') || json.dig('component_id') ||
+        ([json.dig('id_0'), json.dig('id_1'), json.dig('id_2'), json.dig('id_3')].select { |x| not(x.nil?) && not(x.empty?) }).join('-')
   end
 
   def parse_container_display
