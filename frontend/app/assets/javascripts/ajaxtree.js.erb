@@ -92,6 +92,8 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
 AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
     var self = this;
 
+    var initial_location = window.location.hash;
+
     self.blockout_form();
 
     $.ajax({
@@ -99,6 +101,10 @@ AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
         type: 'GET',
         data: params,
         success: function(html) {
+            if (window.location.hash != initial_location) {
+                return;
+            }
+
             self.$pane.html(html);
             if (!self.tree.large_tree.read_only) {
                 self.setup_ajax_form();
