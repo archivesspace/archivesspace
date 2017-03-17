@@ -7,7 +7,7 @@ matrix:
   fast_finish: true
 env:
   global:
-  - INTEGRATION_LOGFILE=/dev/stdout
+  - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
   - DISPLAY=:99.0
   - SCREENSHOT_ON_ERROR=1
   matrix:

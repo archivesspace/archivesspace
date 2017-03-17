@@ -170,7 +170,10 @@ describe "Locations" do
     end
 
     it "displays error messages upon invalid batch" do
+      @driver.get($frontend)
+
       @driver.find_element(:link, "Browse").click
+      @driver.wait_for_dropdown
       @driver.click_and_wait_until_gone(:link, "Locations")
       @driver.click_and_wait_until_gone(:link, "Create Batch Locations")
 
