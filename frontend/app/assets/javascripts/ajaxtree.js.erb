@@ -63,6 +63,11 @@ AjaxTree.prototype.handleHashChange = function(event) {
 
     self.check_for_form_changes(tree_id, function() {
         self.tree.large_tree.setCurrentNode(tree_id);
+
+        if (tree.current().is(':not(.root-row)')) {
+            tree.large_tree.expandNode(tree.current());
+        }
+
         self.loadPaneForId(tree_id);
     });
 
