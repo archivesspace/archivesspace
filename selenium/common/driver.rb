@@ -1,5 +1,22 @@
 require_relative 'webdriver'
 
+# Increase Selenium's HTTP read timeout from the default of 60.  Address
+# Net::ReadTimeout errors on Travis.
+module Selenium
+  module WebDriver
+    module Remote
+      module Http
+        class Default < Common
+          def read_timeout
+            120
+          end
+        end
+      end
+    end
+  end
+end
+
+
 class Driver
 
   def self.get(frontend = $frontend)
