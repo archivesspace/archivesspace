@@ -1,0 +1,1258 @@
+fr:
+  actions:
+    add: Ajouter
+    add_event: Ajouter événement
+    automate: Générer automatiquement
+    batch: Lot
+    browse: Parcourir
+    cancel: Annuler
+    close: Fermer
+    continue: Continuer
+    confirm: Confirmer
+    confirm_removal: Confirmer élimination
+    container_labels: Télécharger étiquettes de containers
+    create: Créer
+    cut: Couper
+    defaults: Valeurs par défaut
+    edit: Editer
+    edit_batch: Editer Lot
+    edit_groups: Editer Groupes
+    edit_default_values: Editer Valeurs par défaut
+    edit_default_archival_object_values: Editer Composants par défaut
+    export: Exporter
+    view: Affichage
+    spawn: Hériter
+    show_all: Montrer tout
+    transfer_record: Transférer
+    link_to: Lier à
+    add_prefix: Ajouter
+    merge_confirm_title: Fusionner avec cette notice?
+    merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à ce sujet."
+    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent."
+    merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
+    move: Déplacer
+    move_up_a_level: Un niveau plus haut
+    move_up: Haut
+    move_down: Bas
+    move_down_into: Bas dans...
+    paste: Coller
+    remove: Supprimer
+    refresh_page: Rafaîchir la page
+    new_prefix: Nouveau
+    save_prefix: Sauvegarder
+    save_plus_one: "+1"
+    save_anyway: Sauvegarder quand même
+    select: Sélectionner
+    set_default: Définir comme défaut
+    suppress: Bloquer
+    suppress_confirm_title: Bloquer cette notice?
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la basde de donnée, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
+    transfer: Transférer
+    transfer_confirm_title: Transférer cette notice?
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers le dépôt selectionné"
+    transfer_successful: Transfert réussi.  L'apparition des notices dans le dépôt cible peut tarder, le temps qu'une réindexation ait lieu.
+    transfer_failed: Echec du transfert
+    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'exemplaires"
+    unset_default: Désactiver défaut
+    unsuppress: Débloquer
+    unsuppress_confirm_title: Débloquer cette notice?
+    unsuppress_confirm_message: "faux"
+    unable_to_move_message: "La notice n'a pas pu être déplacée"
+    move_ordering_problem_message: "Problème de rangement occasionné par le déplacement de notice"
+    delete: Supprimer
+    delete_confirm_title: "Supprimer cette notice? %{title}"
+    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer la notice de la base de données, avec toutes les références faites aux autres notices.</p>"
+    delete_repository_confirm_title: "Supprimer ce dépôt? %{name}"
+    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>dépôt</strong> et toutes les notices associées, avec toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_multiple: Supprimer notices
+    delete_multiple_confirm_title: Supprimer notices?
+    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer les notices de la base de données, avec toutes les références faites aux autres notices.</p>"
+    edit_multiple: Editer notices
+    edit_multiple_confirm_title: Editer notices?
+    edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples notices.</p>"
+    export_eac: Télécharger EAC-CPF
+    export_ead: Télécharger EAD
+    export_mods: Télécharger MODS
+    export_mets: Télécharger METS
+    export_marc: Télécharger MARCXML
+    export_dc: Télécharger DC
+    export_csv: Télécharger CSV
+    loading: Chargement en cours...
+    revert: Défaire les changements
+    finish_editing: Fermer notice
+    merge: Fusionner
+    form_changes_message: "<small><span class='muted'>Vous avez des modifications non enregistrées</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>Vous avez des modifications non enregistrées - Sauvegardez ou revenez à la barre d'outils Accès et à l'arborescence des notices</span></small>"
+    publish: Publier tout
+    publish_confirm_title: Publier?
+    publish_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
+    view_search_results: Aller aux résultats de la recherche
+    view_published: Voir publiés
+    print_to_pdf: Imprimer Ressource en PDF
+    resource_to_pdf: Ressource à imprimer
+    download_pdf: Télécharger PDF
+    download_report: Télécharger rapport
+    click_to_show: Cliquez pour charger les notices.
+
+  database_warning:
+    message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démos. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
+  
+  states:
+    auto_generated: Généré automatiquement à la sauvegarde
+
+  export_options:
+    include_unpublished: Inclure non publié
+    include_daos: Inclure balises &lt;dao&gt;
+    numbered_cs: Utiliser balises numérotées &lt;c&gt;
+    print_pdf: Imprimer en PDF
+
+  pagination:
+    first: Premier
+    last: Dernier
+    previous: "&#171;"
+    previous_label: Précédent
+    next: "&#187;"
+    next_label: Suivant
+    summary_prefix: Montrant
+    summary_offset_connector: "-"
+    summary_total_connector: de
+    summary_suffix: Résultats
+    page_prefix: Page
+    page_connector: de
+
+  search_results:
+    title: Résultats de la recherche
+    no_results: Aucune notice trouvée
+    no_results_prefix: Pas de résultat pour
+    result_type: Type de notice
+    result_title: Titre
+    result_identifier: Identifiant
+    filtered_by: Filtré par
+    modified: Modifié en dernier par
+    created: Créé par
+    text_placeholder: Filtrer par texte
+    clear_all: Tout effacer
+    component_switch: Montrer composants
+    filter:
+      query: Texte
+      subjects: Sujet
+      primary_type: Type de notice
+      digital_object_type: Type
+      level: Niveau
+      classification_path: Classification
+      accession_date_year: Date de collecte
+      creators: Producteur
+      source: Source
+      rules: Règles
+      parent_type: Type de notice
+      processing_priority: Priorité de traitement
+      processing_status: Statut
+      publish: Publié
+      temporary: Temporaire
+      outcome: Résultat
+      event_type: Type
+      first_term_type: Type de terme (premier)
+      classification_uri: Classification
+      location_uris: Emplacement
+      agents: Agent
+      creators: Producteur
+      fullrecord: Mot-clé
+      subjects_text: Sujet
+      title: Titre
+      creators_text: Producteur
+      notes: Notes
+      container_profile_width_u_sstr: Largeur
+      container_profile_height_u_sstr: Hauteur
+      container_profile_depth_u_sstr: Profondeur
+      container_profile_dimension_units_u_sstr: Unités de mesure
+      building: Bâtiment
+      floor: Niveau
+      room: Pièce
+      area: Aire
+      location_profile_display_string_u_ssort: Profil d'emplacement
+      location_profile_width_u_sstr: Largeur
+      location_profile_height_u_sstr: Hauteur
+      location_profile_depth_u_sstr: Profondeur
+      location_profile_dimension_units_u_sstr: Unités de mesure
+    help:
+      row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
+
+
+  search_sorting:
+    sort_by: "Classer par"
+    and: "et"
+    asc: Ascendant
+    desc: Descendant
+    relevance: Pertinence
+    title_sort: Titre
+    user_mtime: Modifié
+    primary_type: Type de notice
+    processing_priority: Priorité de traitement
+    processing_status: Statut
+    parent_id: Type de notice
+    create_time: Créé
+    authority_id: Identifiant d'autorité
+    source: Source
+    rules: Règles
+    outcome: Résultat
+    event_type: Type
+    identifier: Identifiant
+    select: Sélectionner
+    building: Bâtiment
+    floor: Niveau
+    room: Pièce
+    area: Aire
+    resource_type: Type de Ressource
+    acquisition_type: Type d'acquisition
+    accession_date: Date de collecte
+    restrictions_apply: Des restrictions s'appliquent
+    access_restrictions: Restrictions d'accès
+    use_restrictions: Restrictions d'utilisation
+    level: Niveau de description
+    language: Langue
+    restrictions: Restrictions
+    ead_id: Identifiant EAD
+    finding_aid_status: Statut de l'instrument de recherche
+    digital_object_id: Identifiant d'objet numérique
+    digital_object_type: Type d'objet numérique
+    publish: Publier
+    location_profile_display_string_u_ssort: Profile d'emplacement
+
+  advanced_search:
+    operator:
+      AND: Et
+      OR: Ou
+      NOT: Pas
+    date_operator:
+      equal: égal à
+      greater_than: plus grand que
+      lesser_than: moins que
+    boolean_field:
+      true_value: "Vrai"
+      false_value: "Faux"
+    button_text: Recherche
+    reset: Réinitialiser
+    nav_switcher:
+      show: Montrer Avancé
+      hide: Cacher Avancé
+    index_switcher:
+      show: Montrer Recherche avancée
+      hide: Cacher Recherche avancée
+
+  become-user:
+    become-user: Devenir utilisateur
+    failed: Echec de changement d'utilisateur
+    success: Changement d'utilisateur réussi
+
+  navbar:
+    become-user: Devenir utilisateur
+    brand: ArchivesSpace
+    create: Créer
+    import: Importer
+    import_eac: Fichier EAC
+    import_ead: Fichier EAD
+    import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML (sujets et agents uniquement)
+    import_accession_csv: Collecte CSV
+    import_digital_object_csv: Objet numérique CSV
+    search_all: Toutes les notices
+    search_placeholder: Chercher dans toutes les notices
+    search_button_title: Chercher dans toutes les notices
+    show_advanced_search_button_title: Montrer Recherche avancée
+    hide_advanced_search_button_title: Cacher Recherche avancée
+    plugins: Plug-ins
+    repositories_manage: Gérer dépôts
+    manage_groups: Gérer groupes
+    manage_users: Gérer utilisateurs
+    manage_container_profiles: Gérer profiles de containers
+    manage_location_profiles: Gérer profiles d'emplacements
+    manage_top_containers: Gérer Top Containers
+    manage_enumerations: Gérer listes de valeurs contrôlées
+    user_global_preferences: Mes préférences globales
+    user_repo_preferences: Mes préférences de dépôt
+    repo_preferences: Préférences par défaut de l'utilisateur
+    manage_user_access: Gérer accès utilisateur
+    logout: Déconnexion
+    login: Connexion
+    login_expired_link: Svp %{link} de nouveau.
+    login_fail: Echec de la tentative de connexion
+    login_success: Connexion réussie. Redirection...
+    register: S'inscrire maintenant
+    register_prefix: Besoin d'un compte?
+    list_reports: Rapports
+    global_admin: Système
+    system_info: Infos système
+  session:
+    gone: Votre session backend n'a pas été trouvée
+    expired: Votre session a expiré pour cause d'inactivité
+    inline_login_title: Session expirée
+
+  batch_delete:
+    archival_records:
+      success: Notices supprimées
+      error: "Pas moyen de supprimer notices:"
+    subjects:
+      success: Sujets supprimés
+      error: "Pas moyen de supprimer sujets:"
+    agents:
+      success: Agents supprimés
+      error: "Pas moyen de supprimer agents:"
+    locations:
+      success: Emplacements supprimés
+      error: "Pas moyen de supprimer emplacements:"
+
+  browser_support:
+    bronze: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
+    unknown: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
+
+  welcome:
+    heading: Bienvenue sur ArchivesSpace
+    message: Votre gestionnaire d'archives convivial.
+    message_logged_in: Votre gestionnaire d'archives convivial.
+
+  breadcrumb:
+    home: Page d'accueil
+
+  save_changes_modal:
+    body: Vous avez des modifications en suspens.  Veuillez sauvegarder ou abandonner ces modifications pour continuer.
+    save: Sauvegarder les modifications
+    dismiss: Abandonner les modifications
+
+  linker:
+    link_to_prefix: Lier à
+    create_and_link_to_prefix: Créer et lier à
+    hint_text: Tapez pour rechercher des notices disponibles...
+    placeholder: Tapez pour rechercher des notices disponibles...
+    no_results: Pas de résultats correspondants.  Essayez 'Parcourir'.
+    searching: Recherche en cours...
+    delete: "&times;"
+
+  mixed_content:
+    wrap_prefix: "Mettre en forme avec:"
+    help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments ou surlignez du texte à mettre en forme"
+
+  import:
+    eac_title: Importer un fichier EAC
+    ead_title: Importer un fichier EAD
+    marcxml_title: Importer un fichier MARCXML
+    marcxml_subjects_and_agents_title: Importer sujets et agents à partir d'un fichier MARCXML
+    accession_csv_title: Importer des notices de collectes à partir d'un fichier CSV
+    digital_object_csv_title: Importer des notices d'objets numériques à partir d'un fichier CSV
+    import_report: Importer un rapport
+    import_another: Importer un autre fichier
+    file_select: Sélectionnez un fichier à téléverser
+    submit: Import
+    submit_busy_message: Importation en cours...
+    messages:
+      missing_repo: Vous devez sélectionner un dépôt avant d'importer
+      missing_file: Veuillez sélectionner un fichier EAD à téléverser
+      error_prefix: Erreur d'importation de fichier
+      complete: Import effectué
+
+  default_values:
+    form_title:
+      archival_object: Valeurs par défaut d'une notice composant
+      resource: Valeurs par défaut d'une notice Ressource
+      accession: Valeurs par défaut d'une notice collecte
+      subject: Valeurs par défaut d'une notice sujet
+      agent_person: Valeurs par défaut d'une notice agent (personne)
+      agent_family: Valeurs par défaut d'une notice agent (famille)
+      agent_corporate_entity: Valeurs par défaut d'une notice agent (personne morale)
+      agent_software: Valeurs par défaut d'une notice agent (logiciel)
+      digital_object: Valeurs par défaut d'un objet numérique
+      digital_object_component: Valeurs par défaut d'un objet numérique composant
+      location: Valeurs par défaut d'une notice d'emplacement
+      event: Valeurs par défaut d'une notice événement
+      classification: Valeurs par défaut d'une notice de classification
+      classification_term: Valeurs par défaut d'un terme de classification
+    messages:
+      defaults_updated: Valeurs par défaut actualisées
+
+  errors:
+    sidebar_label: Erreurs et avertissements
+    error_403: Pas moyen d'accéder à la page
+    error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
+    error_404: Notice pas trouvée
+    error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
+
+  accession:
+    _frontend:
+      messages:
+        created: Collecte <strong>%{accession.display_string}</strong> créée
+        unsuppressed: Collecte <strong>%{accession.display_string}</strong> débloquée
+        updated: Collecte <strong>%{accession.display_string}</strong> actualisée
+        suppressed: Collecte <strong>%{accession.display_string}</strong> bloquée
+        suppressed_info: Collecte bloquée, ne pouvant pas être éditée
+        deleted: Collecte <strong>%{accession.display_string}</strong> supprimée
+        transfer_description: Transférer cette collecte vers...
+        transfer_target: Sélectionnez un dépôt vers lequel opérer le transfert
+        spawned: "Cette collecte a été générée à partir de la collecte <strong>%{accession.display_string}</strong>"
+      section:
+        basic_information: Information de base
+      action:
+        create: Créer Collecte
+        save: Sauvegarder Collecte
+
+  agent: &agent_attributes
+    _frontend:
+      messages:
+        created: Agent créé
+        updated: Agent sauvegardé
+        deleted: Agent supprimé
+        merge_description: Sélectionner ci-dessous les agents à fusionner
+        merged: Agent(s) fusionné(s)
+        please_select_a_agent_to_merge: Sélectionner un agent
+      section:
+        basic_information: Information de base
+        dates_of_existence: Dates d'existence
+        name: Formes de nom
+        contacts: Détails de contact
+        search_embedded: Notices liée
+      action:
+        create: Créer agent
+
+  agent_contact:
+    _frontend:
+      action:
+        add: Ajouter agent
+
+  telephone:
+    _frontend:
+      action:
+        add: Ajouter numéro de téléphone
+
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Sauvegarder personne morale
+
+  agent_family:
+    _frontend:
+      action:
+        save: Sauvegarder famille
+
+  agent_person:
+    _frontend:
+      action:
+        save: Sauvegarder individu
+
+  agent_software:
+    _frontend:
+      action:
+        save: Sauvegarder logiciel
+
+  archival_object:
+    _frontend:
+      messages:
+        created: Document d'archives <strong>%{archival_object.display_string}</strong> de la ressource <strong>%{resource.title}</strong> créé
+        created_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong> créé en tant que fils de <strong>%{parent.display_string}</strong> de la ressource <strong>%{resource.title}</strong>
+        updated: Document d'archives <strong>%{archival_object.display_string}</strong> actualisé
+        updated_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong> actualisé
+        please_select_a_resource_for_transfer: Veuillez choisir une ressource
+        transfer_success: Document d'archives <strong>%{archival_object.display_string}</strong> transféré avec succès vers la ressource <strong>%{resource.title}</strong>
+        transfer_error: "Le transfert du document d'archives n'a pas pu se faire, en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
+        deleted: "Document d'archives <strong>%{archival_object.display_string}</strong> supprimé"
+        unsuppressed: Document d'archives <strong>%{archival_object.title}</strong> débloqué
+        suppressed: Document d'archives <strong>%{archival_object.title}</strong> bloqué
+        suppressed_info: Document d'archives bloqué, ne peut être édité
+        has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a un parent non publié.
+      section:
+        basic_information: Information de base
+      action:
+        add_child: Ajouter fils
+        add_sibling: Ajouter frère
+        save: Sauvegarder document d'archives
+
+  classification:
+    _frontend:
+      messages:
+        created: "Classification <strong>%{classification.title}</strong> créé"
+        updated: "Classification <strong>%{classification.title}</strong> actualisée"
+        deleted: "Classification <strong>%{classification.title}</strong> supprimée"
+      section:
+        basic_information: Information de base
+        search_embedded: Notices liéess
+      action:
+        add_child: Ajouter fils
+        create: Créer classification
+        save: Sauvegarder classification
+        add: Ajouter classification
+
+  classification_term:
+    _frontend:
+      messages:
+        created: "Terme de classification <strong>%{classification_term.title}</strong> créé"
+        created_with_parent: "Terme de classification <strong>%{classification_term.title}</strong> créé"
+        updated: "Terme de classification <strong>%{classification_term.title}</strong> actualisé"
+        deleted: "Terme de classification <strong>%{classification_term.title}</strong> supprimé"
+      section:
+        basic_information: Information de base
+        search_embedded: Notices liéess
+      action:
+        add_child: Ajouter fils
+        add_sibling: Ajouter frère
+        save: Sauvegarder terme
+
+  collection_management: &collection_management_attributes
+    _frontend:
+      title_prefix: Traitement
+      action:
+        add: Ajouter champs de gestion de collection
+
+  container:
+    _frontend:
+      action:
+        add: Ajouter container
+
+  container_location:
+    _frontend:
+      action:
+        add: Ajouter emplacement
+
+  date:
+    _frontend:
+      action:
+        add: Ajouter date
+
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Ajouter date
+
+  deaccession:
+    _frontend:
+      action:
+        add: Ajouter aliénation
+
+  digital_object:
+    _frontend:
+      messages:
+        created: "Objet numérique <strong>%{digital_object.title}</strong> crée"
+        updated: "Objet numérique <strong>%{digital_object.title}</strong> actualisé"
+        deleted: "Objet numérique <strong>%{digital_object.title}</strong> supprimé"
+        published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses sous-notices et ses composants ont été publiés"
+        merge_description: Sélectionner ci-dessous des objects numériques à fusionner dans
+        please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
+        merged: Objet(s) numérique(s) fusionné(s)
+        transfer_description: Transférer cette ressource dans...
+        transfer_target: Sélectionner un dépôt cible pour le transfert
+        unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
+        suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
+        suppressed_info: Objet numérique bloqué, ne pouvant être édité
+      section:
+        basic_information: Information de base
+      action:
+        add_child: Ajouter fils
+        create: Créer objet numérique
+        save: Sauvegarder objet numérique
+        rapid_data_entry: Saisie rapide de données
+
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> créé comme fils de <strong>%{parent.display_string}</strong> sur l'objet numérique <strong>%{digital_object.title}</strong>
+        created: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> créé sur l'objet numérique <strong>%{digital_object.title}</strong>
+        updated_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> actualisé
+        updated: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> actualisé
+        deleted: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> supprimé
+        unsuppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> débloqué
+        suppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong> bloqué
+        suppressed_info: Composant d'objet numérique bloqué, ne pouvant être édité
+        has_unpublished_ancestor: Attention! Cette notice a un ancêtre non publié.
+      section:
+        basic_information: Information de base
+      action:
+        add_child: Ajouter fils
+        add_sibling: Ajouter frère
+        save: Sauvegarder composant d'objet numérique
+
+  enumeration:
+    _frontend:
+      messages:
+        value_updated: Valeur actualisée
+        deleted: Valeur supprimée
+        delete_error: Pas moyen de supprimer la valeur
+        delete_conflict: "La valeur étant actuellement référencée par une notice, ne peut être supprimée"
+        default_set: Ensemble de valeurs par défaut
+        created: Valeur crée
+        create_error: Echec de la création de valeur
+        merged: Valeur fusionnée
+        merge_tip: Cette valeur peut être fusionnée avec une autre
+        merge_error: Echec de la fusion de valeurs
+        no_selection: Veuillez sélectionner une liste de valeurs contrôlées
+        name_selector: Nom de liste
+        name_selector_tooltip: |
+            <p>La liste contrôlée à éditer.</p>
+        no_name_provided: Sélectionner une liste de valeurs avant de créer une nouvelle valeur
+      action:
+        create_value: Créer valeur
+        delete_value: Supprimer valeur
+        merge_value: Fusionner valeur
+
+  event:
+    _frontend:
+      messages:
+        created: Evénement créé
+        updated: Evénement sauvegardé
+        deleted: Evénement supprimé
+        suppressed_info: Evénement bloqué, ne pouvant être édité
+      section:
+        basic_information: Information de base
+        date: Date/heure événement
+      action:
+        save: Sauvegarder événement
+        create: Créer événement
+
+  extent:
+    _frontend:
+      action:
+        add: Ajoute dimension
+
+  external_document:
+    _frontend:
+      action:
+        add: Ajouter document externe
+
+  file_version:
+    _frontend:
+      action:
+        add: Ajouter version de fichier
+        make_representative: Make Representative
+
+  group:
+    _frontend:
+      action:
+        create: Créer goupe
+        save: Sauvegarder groupe
+
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Veuillez sélectionner un type d'instance
+      action:
+        add_digital_object: Ajouter objet numérique
+        add: Ajouter instance
+
+  linked_agent:
+    _frontend:
+      action:
+        add: Ajouter lien agent
+
+  linked_record:
+    _frontend:
+      action:
+        add: Ajouter lien notice
+
+  location:
+    _frontend:
+      messages:
+        created: Emplacement créé
+        updated: Emplacement actualisé
+        deleted: Emplacement supprimé
+      section:
+        basic_information: Information de base
+        search_embedded: Notices liées
+      action:
+        add_child: Ajouter sous-composant
+        add_sibling: Ajouter frère
+        create: Créer emplacement
+        batch: Créer lot d'emplacements
+        batch_edit: Editer lot d'emplacements
+        save: Sauvegarder emplacement
+        single: Emplacement unique
+        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cet emplacement est actuellement lié à un ou plusieurs exemplaires, il ne peut être supprimé.</p>"
+        show_space_calculator: Trouver avec le calculateur d'espace
+
+  location_batch:
+    _frontend:
+      section:
+        location: Emplacement de base
+        ranges: Plage de coordonnées
+      messages:
+        created: "<strong>%{number_created} Emplacement</strong> créé"
+        updated: "<strong>%{number_created} Emplacement</strong> actualisé"
+        location_batch_info: "Définir les valeurs de base qui seront appliquées à tous les emplacements générés à partir de la <strong>plage de coordonnées</strong> ci-dessous."
+        location_batch_update_info: "Veuillez saisir ci-dessous les valeurs souhaitées."
+        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans l'<strong>emplacement de base</strong> ci-dessus sera remplacé par les valeurs générées par la plage ci-dessous.  Un maximum de %{max_range} emplacements sera créé."
+        number_to_create: Nombre d'emplacements
+        warning: En fonction de la taille de vos plages, ce processus peut prendre minutes à s'effectuer.
+      action:
+        create: Créer emplacements
+        update: Actualiser emplacements
+        preview: Aperçu emplacements
+        preview_short: Aperçu
+        creating: Lot en cours...
+
+  name:
+    _frontend:
+      section:
+        use_date: Date(s) de pertinence de nom
+      action:
+        add: Ajouter forme de nom
+        make_authorized: Faire nom normatif
+        make_display_name: Faire nom d'affichage
+
+  note:
+    _frontend:
+      preview:
+        raw: Texte
+        raw_title: Le contenu brut de la note
+        parsed: Formaté
+        parsed_title: Commment la note sera rendue dans l'application publique
+      messages:
+        select_a_note_type: "<em>Veuillez sélectionner un type de note</em>"
+      action:
+        add: Ajouter note
+        add_content_item: Ajouter élément de contenu
+        add_note_orderedlist: Ajouter élément
+        add_sub_note: Ajouter sous-note
+        add_note_index_item: Ajouter élément
+        add_note_chronology_item: Ajouter élément
+        add_event: Ajouter élément
+        add_note_bibliography_item: Ajouer élément
+        add_note_outline_level_item: Ajouter élément
+        add_note_outline_level_level: Ajouter niveau
+        note_definedlist_item: Ajouter élément
+        expand: Développer
+        collapse: Réduire
+        apply_note_order: Appliquer l'ordre de notes standard
+
+  related_accession:
+    _frontend:
+      action:
+        add: Ajouter collecte associée
+
+  related_agent:
+    _frontend:
+      messages:
+        select_a_type: "<em>Sélectionner un type de relation</em>"
+      action:
+        add: Ajouter agent associé
+
+  related_resource:
+    _frontend:
+      action:
+        add: Ajouter ressource associée
+
+  revision_statement:
+    _frontend:
+      action:
+        add: Ajouter déclaration de révision
+
+  repository:
+    _frontend:
+      messages:
+        created: Dépôt créé
+        updated: Dépôt sauvegardé
+        deleted: Dépôt supprimé
+        selected: Dépôt actuellement sélectionné
+        selected_short: Sélectionné
+        changed: Le dépôt <strong>%{repository.repo_code}</strong> est maintenant activé
+        create_first_repository: "Pour créer votre premier dépôt, cliquer dans le menu <strong>système</strong> ci-dessus, puis <strong>Gérer dépôts</strong>."
+        no_access_to_repositories: "<p>Vous n'avez accès à aucun dépôt.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
+        continue_with_transfer: Continuer avec le transfert?
+        transfer_failed: Le transfert n'a pas pu être effectué en raison des erreurs suivantes
+        transfer_target: Sélectionnez un dépôt vers lequel transférer
+        transfer_warning: <strong>Avertissement:</strong> transférer ce dépôt va déplacer <strong>toutes</strong> ses notices dans le dépôt sélectionné.  <strong>Cette opération ne peut être annulée</strong>
+        cannot_delete_nonempty: Ne peut être supprimé - dépôt non vide
+      section:
+        all_fields: Champs dépôt
+        transfer: Transfert dépôt
+      action:
+        select: Sélectionner dépôt
+        create: Créer dépôt
+        save: Sauvegarder dépôt
+        create: Créer dépôt
+
+  resource:
+    _frontend:
+      messages:
+        created: "Ressource <strong>%{resource.title}</strong> créée"
+        updated: "Ressource <strong>%{resource.title}</strong> actualisée"
+        spawned: "Une nouvelle ressource a été générée depuis Collecte <strong>%{accession.display_string}</strong>"
+        deleted: "Resource <strong>%{resource.title}</strong> deleted"
+        published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
+        merge_description: Sélectionner ci-dessous les ressources à fusionner dans
+        please_select_a_resource_to_merge: Veuillez sélectionner une ressource
+        merged: Ressource(s) fusionnée(s)
+        transfer_description: Transférer cette ressource vers...
+        transfer_target: Sélectionner un dépôt vers lequel opérer le transfert
+        unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
+        suppressed: Ressource <strong>%{resource.title}</strong> bloquée
+        suppressed_info: Ressource bloquée, non éditable
+      section:
+        basic_information: Basic Information
+        finding_aid: Finding Aid Data
+      action:
+        add_child: Add Child
+        rapid_data_entry: Rapid Data Entry
+        create: Create Resource
+        save: Save Resource
+        delete_multiple: Delete Resources
+
+  preference:
+    _frontend:
+      messages:
+        updated: "Preferences updated"
+
+  rights_statement:
+    _frontend:
+      action:
+        add: Add Rights Statement
+
+  term:
+    _frontend:
+      messages:
+        preview_pending: Subject Preview
+      action:
+        add: Add Term/Subdivision
+
+  transfer:
+    ref: Destination Repository
+
+  subject:
+    _frontend:
+      messages:
+        created: Subject Created
+        updated: Subject Saved
+        deleted: Subject Deleted
+        merged: Subject(s) Merged
+        merge_description: Select subjects below to merge into
+        please_select_a_subject_to_merge: Please select a subject
+      section:
+        basic_information: Basic Information
+        terms: Terms and Subdivisions
+        search_embedded: Linked Records
+      action:
+        create: Create Subject
+        save: Save Subject
+        add: Add Subject
+
+  user:
+    _frontend:
+      messages:
+        access_denied: Access denied. Login as the admin user to perform this action.
+        created: User Created
+        updated: User Saved
+        deleted: User Deleted
+        error_update: User not saved
+        error_create: User not created
+        group_not_required: User is an administrator or system user, group selection is not required.
+      section:
+        manage_access: Manage User Access
+        account: Account
+        edit_account: Edit Account
+        edit_account_submit: Update Account
+      action:
+        create_account: Create Account
+        update_account: Update Account
+        create: Create User
+
+  user_defined:
+    _frontend:
+      action:
+        add: Add User Defined Fields
+
+  use_date:
+    _frontend:
+      action:
+        add: Add Use Date
+
+  rde:
+    date_type: Date Type
+    instance_type: Instance Type
+    column_label: Column
+    sections:
+      basic_information: Basic Information
+      date: Date
+      extent: Extent
+      instance: Instance
+      notes: Notes
+      file_version: File Version
+    actions:
+      add_row: Add Row
+      add_rows: Add Rows
+      submit: Save Rows
+      reset: Reset
+      showhide_prefix: "Columns:"
+      showhide_suffix: visible
+      showhide_none: All Columns Filtered
+      fill_toggle: Fill Column
+      reorder_toggle: Reorder Columns
+      validate_rows: Validate Rows
+      inline_errors_toggle: View Inline Errors
+      save_template: Save as Template
+      select_template: Choose Template
+      manage_templates: Remove Templates
+    fill_column:
+      basic: Basic
+      sequence: Sequence
+      fill_value: Fill Value
+      select_a_column: Please select a column
+      apply_basic_fill: Apply Fill
+      apply_sequence_fill: Apply Sequence
+      sequence_count_warning: There are more rows than there are items in the sequence.
+      preview_sequence: Preview Sequence Values
+      sequence_summary: "%{count} items in the sequence:"
+      sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
+      sequence_from_required: From is required
+      sequence_to_required: To is required
+    reorder_columns:
+      apply_order: Apply Column Order
+    save_template:
+      save_template: Save Template
+      template_name: Template name
+      confirm_removal: Confirm Removal
+    templates:
+      listing: Templates
+      no_templates: No templates defined
+    default_template: Default Template
+    messages:
+      error_prefix: Row
+      success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
+      no_rows: Please enter values for at least one row
+      rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
+      rows_no_errors: "All rows are valid"
+      error_summary_header: "Errors in row:"
+      select_prompt: Apply an RDE Template
+    help:
+      keyboard_shortcuts: |
+                  <div><strong>Keyboard Shortcuts</strong></div>
+                  <div class="row"><small><span class="span3">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
+                  <div class="row"><small><span class="span3">Create a new row (from last row):</span> SHIFT + Return</small></div>
+      sticky_columns: |
+                  <div><strong>Sticky Columns</strong></div>
+                  <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
+                  <div><small>Clicking <strong>Add Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
+      fill_column: |
+                  <div><strong>Fill Column - Basic</strong></div>
+                  <div><small>To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.</small></div>
+                  <br/>
+                  <div><strong>Fill Column - Sequence</strong></div>
+                  <div><small>To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
+      resize_and_reorder_columns: |
+                  <div><strong>Reorder Columns</strong></div>
+                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong></small></div>
+      reset: |
+                  <div><strong>Reset Form</strong></div>
+                  <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
+  update_monitor:
+    save_failed: <strong>Failed to save your changes</strong>
+    stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
+    other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
+    repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
+  job:
+    _frontend:
+      audit_data: Audit Data
+      actions:
+        create: Create Job
+        save: Queue Job
+        new: New Background Job
+        cancel: Cancel Job
+        add_file: Add file
+        follow_log: Follow Log
+      section:
+        basic_information: Basic Information
+        status: Job Status
+        logs: Log
+        generated_uris: New & Modified Records
+        active_jobs: Active Jobs
+        archived_jobs: Archived Jobs
+        files: Files
+      messages:
+        status_changed_running: The job has started running. Refreshing Page...
+        status_changed_completed: The job has completed.
+        status_changed_failed: The job has failed.
+        status_changed_canceled: The job has been canceled.
+        no_active_jobs: There are no active jobs.
+        no_archived_jobs: There are no archived jobs.
+        upload_successful: Upload Successful. Redirecting to Job page...
+        import_type_missing: Please select an Import Type
+        queue_position_next: This import is next in the queue.
+        queue_position: "This import is %{position} in the queue."
+        drag_and_drop_hint: Drag and drop files here
+        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
+        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        report_instructions: Choose a report to run by using the <b>Select</b> button. 
+
+  shortcuts:
+    quick_reference_window: "Quick Reference: Keyboard Shortcuts"
+    actions:
+      this_reference: "This shortcut reference"
+      close_modal: "Close a modal window (e.g., this one)"
+      toggle_shortcuts: "Enable / disable keyboard shortcuts"
+      save_record: "Save the record being edited"
+      close_record: "Close a record being edited"
+      open_browse: "Open Browse menu"
+      open_create: "Open Create menu"
+                    
+  instance_container:
+    container: Container
+
+  sub_container:
+    top_container: Top Container
+    top_container_tooltip: |
+        <p>REQUIRED FIELD. The highest level container in which the described material is housed.</p>
+        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
+    type_2: Child Type
+    type_2_tooltip: |
+        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    indicator_2: Child Indicator
+    indicator_2_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    type_3: Grandchild Type
+    type_3_tooltip: |
+        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    indicator_3: Grandchild Indicator
+    indicator_3_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
+    _singular: Sub Container
+    _plural: Sub Containers
+    _frontend:
+      action:
+        add: Add Container Instance
+
+  top_container:
+    container_profile: Container Profile
+    container_profile_tooltip: |
+        <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
+    indicator: Indicator
+    indicator_tooltip: |
+        <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
+    barcode: Barcode
+    barcode_tooltip: |
+        <p>Used to record the barcode that uniquely identifies the highest level container.</p>
+    type: Container Type
+    type_tooltip: |
+        <p>The type of the highest level container.	
+        <p>Values in this Controlled Value List may be modified.</p>
+    ils_holding_id: ILS Holding ID
+    ils_holding_id_tooltip: |
+        <p>Identifier of associated holding record in the library ILS</p>
+    ils_item_id: ILS Item ID
+    ils_item_id_tooltip: |
+        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
+    exported_to_ils: Exported to ILS
+    not_exported: Not exported
+    restricted: Restricted?
+    parent: Parent Container
+
+    managed_container_2_type: Child Container Type
+    managed_container_2_type_tooltip: |
+        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_2_indicator: Child Container Indicator
+    managed_container_2_indicator_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    managed_container_3_type: Grandchild Container Type
+    managed_container_3_type_tooltip: |
+        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator_tooltip: |
+        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
+    barcode_length_for_this_repository: "Barcode length for this repository:"
+    characters: characters
+
+    batch_delete:
+      success: Top Containers successfully deleted
+      error: There was a problem deleting Top Containers
+
+    _singular: Top Container
+    _plural: Top Containers
+
+    _frontend:
+      section:
+        active_restrictions: Active Restrictions
+        linked_records: Linked Records
+        basic_information: Container Information
+      action:
+        add: Add Top Container
+        create: Create a Top Container
+        save: Save Top Container
+      messages:
+        created: Top Container Created
+        updated: Top Container Updated
+        filter_required: Please provide a filter
+        max_results_limit_reached: Not all results have been listed. Please refine your search.
+        max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
+        results_summary: "Matching results: <strong>%{num_found}</strong>"
+        bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        bulk_action_success: Top Containers successfully updated
+        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        no_active_restrictions: No Active Restrictions
+      bulk_operations:
+        title: Bulk Operations
+        collection_singular: Resource/Accession
+        collection_plural: Resources/Accessions
+        collection_resource_singular: Resource
+        collection_resource_plural: Resources
+        collection_accession_singular: Accession
+        collection_accession_plural: Accessions
+        series: Series
+        current_location: Current Location
+        keyword_criteria: Keyword
+        barcodes_criteria: Barcode(s)
+        exported_to_ils_true: "Yes"
+        exported_to_ils_false: "No"
+        empty: Unassociated containers
+        empty_true: "Yes"
+        empty_false: "No"
+        search: Search
+        update_ils_holding_ids: Update ILS Holding IDs
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_container_profiles: Update Container Profiles
+        update_container_profiles_help: Choose a Container Profile for all selected containers.
+        update_locations_singular: "Update Locations: Single Location"
+        update_locations_singular_help: Choose a Location for all selected containers.
+        update_locations_multiple: "Update Locations: Multiple Locations"
+        update_locations_multiple_help: Choose a Location for each selected container.
+        rapid_barcode_entry: Rapid Barcode Entry
+        rapid_barcode_entry_existing_barcode: Existing Barcode
+        rapid_barcode_entry_new_barcode: New Barcode
+        batch_delete: Delete Top Containers
+        batch_delete_help: Delete all selected containers.
+        update_n_records: "Update %{n} records"
+        delete_n_records: "Delete %{n} records"
+        update_locations_current_location: Current Location
+        update_locations_new_location: New Location
+
+  container_profile:
+    _singular: Container Profile
+    _plural: Container Profiles
+    _frontend:
+      action:
+        save: Save Container Profile
+        edit: Edit Container Profile
+        create: Create Container Profile
+        space_calculator: Space Calculator
+      messages:
+        created: Container Profile Created
+        updated: Container Profile Updated
+      section:
+        basic_information: Basic Information
+    name: Name
+    name_tooltip: |
+        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>  
+        <p>Examples:</p>
+        <ul>
+        <li>document box</li>
+        <li>Paige 15</li>
+        <li>small card file box</li>
+        </ul>
+    url: URL
+    url_tooltip: |
+        <p>A hyperlink for an external description of the container.</p>
+    dimension_units: Dimension Units
+    dimension_units_tooltip: |
+        <p>Unit of measurement for dimensions.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
+    extent_dimension: Extent Dimension
+    extent_dimension_tooltip: |
+        <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
+    extent_dimension_depth: Depth
+    extent_dimension_depth_tooltip: |
+        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    extent_dimension_height: Height
+    extent_dimension_height_tooltip: |
+        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    extent_dimension_width: Width
+    extent_dimension_width_tooltip: |
+        <p>Numeric value for the width (side to side dimension) of the container.</p>
+    depth: Depth
+    depth_tooltip: |
+        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    height: Height
+    height_tooltip: |
+        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    width: Width
+    width_tooltip: |
+        <p>Numeric value for the width (side to side dimension) of the container.</p>
+    stacking_limit: Stacking Limit
+    stacking_limit_tooltip: |
+        <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
+
+  rights_restriction:
+    begin: Restriction Begin
+    begin_tooltip: |
+        <p>For a time-bound restriction, the beginning date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+    end: Restriction End
+    end_tooltip: |
+        <p>For a time-bound restriction, the ending date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+    local_access_restriction_type: Local Access Restriction Type
+    local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
+    local_access_restriction_type_tooltip: |
+        <p>For restrictions that are not time-bound, an indication of the reason for the restriction.</p>
+        <p>Values in this Controlled Value List may be modified.</p>
+    linked_records: Linked Record
+    restriction_note_type: Note Type
+
+  extent_calculator:
+    no_object_message: Please specify an object to run the extent calculator on.
+    report_title: Calculated Extent Report
+    container_profile_header: Container Profile
+    count_header: Count
+    extent_header: Extent
+    no_profile: <span class="text-error">NO PROFILE</span>
+    all_containers_label: All Containers
+    timestamp_label: Report generated at
+    extent_record_header: Extent Record
+    create_extent: Create Extent
+    calculate_extent: Calculate Extent
+    create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
+    waiting_for_report_message: Calculating extent ...
+    container_summary_type:
+      _singular: container
+      _plural: containers
+
+  location_profile:
+    _singular: Location Profile
+    _plural: Locations Profiles
+    _frontend:
+      action:
+        save: Save Location Profile
+        edit: Edit Location Profile
+        create: Create Location Profile
+      messages:
+        created: Location Profile Created
+        updated: Location Profile Updated
+        fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
+      section:
+        basic_information: Basic Information
+    name: Name
+    dimension_units: Dimension Units
+    depth: Depth
+    height: Height
+    width: Width
+
+  space_calculator:
+    modal_title: Space Calculator
+    modal_loading: Loading...
+    message_container_profile_required: The Space Calculator requires a Container Profile to be set.
+    message_locations_required: The Space Calculator requires one or more locations to be set.
+    message_select_locations: "Check for space in the following Location(s):"
+    message_no_locations_with_space: No locations with space found
+    message_total_spaces: "Total number of spaces available for this container type: %{total_spaces}"
+    message_total_containers: "Total number of containers of this type found at these locations: %{total_containers}"
+    message_loading: Loading...
+    count: Space Available (of container type)
+    reason: Calculator Result
+    calculate_space: Check for Space
+    locations_without_space_details: Review locations without space
+    by_locations: By Location(s)
+    by_building: By Building
+    result_filter: Filter Results
+    summary:
+      locations_with_space: "Locations with space available: <strong>%{count}</strong>"
+      locations_without_space: "Locations with no space available: <strong>%{count}</strong>"
+      uncalculatable_locations: "Unable to calculate: <strong>%{count}</strong>"
+    view_all_toggle: Show locations without space
+    reason:
+      location_lacks_a_profile: Location lacks a profile
+      location_lacks_dimension_data: Location profile lacks dimension data
+      container_is_bigger: Container is bigger than the location in at least one dimension
+      container_at_location_lacks_profile: At least one of the containers currently at the location lacks a profile
+      containers_at_location_dont_fit: The containers currently at the location don't fit
+      location_cannot_fit_container: The location cannot currently fit any containers of this type
