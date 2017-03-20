@@ -44,6 +44,11 @@
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
+  <% unless @result.classifications.blank? %>
+    <% x= render partial: 'shared/present_list', locals: {:list => @result.classifications, :list_clss => 'classifications_list'} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('classification._plural'),
+                                                           :p_id => 'classifications_list', :p_body => x} %>
+  <% end %>
 	<% unless @result.agents.blank? %>
 	  <% x= render partial: 'shared/present_list', locals: {:list => @result.agents, :list_clss => 'agents_list'} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
