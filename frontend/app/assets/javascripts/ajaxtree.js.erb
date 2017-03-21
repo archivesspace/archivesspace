@@ -24,6 +24,23 @@ function AjaxTree(tree, $pane) {
             tree.large_tree.expandNode(tree.current());
         }
     });
+
+    tree.large_tree.elt.on('click', 'a.record-title', function (e) {
+        var row = $(this).closest('tr');
+        if (row.is('.current') && row.find('.expandme').css('visibility') !== 'hidden') {
+            /* We've clicked on the title of the current row, which also has children. */
+            if (row.find('.expandme .expanded').length > 0) {
+                /* It was expanded, so we collapse it. */
+                tree.large_tree.collapseNode(tree.current());
+            } else {
+                /* It was collapsed, so we expand it. */
+                tree.large_tree.expandNode(tree.current());
+            }
+        }
+
+        return true;
+    });
+
     this.loadPaneForId(tree_id);
     this.setupHashChange();
 }
