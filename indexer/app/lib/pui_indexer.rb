@@ -266,10 +266,12 @@ class PUIIndexer < PeriodicIndexer
 
     LargeTreeDocIndexer.new(batch).add_largetree_docs(tree_uris)
 
-    log "Indexed #{batch.length} additional PUI records in repository #{repository.repo_code}"
+    if batch.length > 0
+      log "Indexed #{batch.length} additional PUI records in repository #{repository.repo_code}"
 
-    index_batch(batch)
-    send_commit
+      index_batch(batch)
+      send_commit
+    end
 
     checkpoints.each do |repository, type, start|
       @state.set_last_mtime(repository.id, type, start)
