@@ -3,7 +3,7 @@ class SearchController < ApplicationController
   DEFAULT_SEARCH_FACET_TYPES = ['repository','primary_type', 'subjects', 'agents']
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
   DEFAULT_TYPES =  %w{archival_object digital_object agent resource repository accession classification subject}

@@ -604,6 +604,12 @@ class CommonIndexer
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      doc['ancestors'] = ASUtils.wrap(record['record']['ancestors']).map {|ancestor|
+        ancestor.fetch('ref')
+      }
+    }
+
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
