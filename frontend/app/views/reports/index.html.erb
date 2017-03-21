@@ -6,7 +6,7 @@
       <h2>Reports</h2>
 
       <div class="accordion" id="reportListing">
-        <% @report_data["reports"].values.each do | report | %>
+        <% @report_data["reports"].values.sort {|x,y| I18n.t("reports.#{x['code']}.title") <=> I18n.t("reports.#{y['code']}.title") }.each do | report | %>
           <div class="panel panel-default">
             <div class="panel-heading">
               <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
