@@ -32,7 +32,7 @@ describe "Events" do
 
   it "creates an event and links it to an agent and an agent as a source" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Event").click
+    @driver.click_and_wait_until_gone(:link, "Event")
     @driver.find_element(:id, "event_event_type_").select_option('accession')
     @driver.find_element(:id, "event_outcome_").select_option("pass")
     @driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's another lie: all test subjects perished.")
@@ -70,23 +70,22 @@ describe "Events" do
     }
     run_all_indexers
 
-    expect {
-      assert(10) {
-        @driver.find_element(:link, "Browse").click
-        @driver.find_element(:link, "Agents").click
+    @driver.get($frontend)
 
-        @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Geddy*" )
-        @driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
-        @driver.find_element_with_text('//tr', /Geddy/).find_element(:link, 'View').click
+    @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Agents")
 
-        @driver.find_element_with_text('//td', /accession/)
-      }
-    }.not_to raise_error
+    @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Geddy*" )
+    @driver.click_and_wait_until_gone(:css, ".sidebar input.text-filter-field + div button")
+    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text('//tr', /Geddy/).find_element(:link, 'View'))
+
+    @driver.find_element_with_text('//td', /accession/)
   end
 
   it "creates an event and links it to an agent and accession" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Event").click
+    @driver.click_and_wait_until_gone(:link, "Event")
     @driver.find_element(:id, "event_event_type_").select_option('virus_check')
     @driver.find_element(:id, "event_outcome_").select_option("pass")
     @driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")

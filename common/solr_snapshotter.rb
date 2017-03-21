@@ -25,7 +25,7 @@ class SolrSnapshotter
 
     victims.each do |backup_dir|
 
-      if File.exists?(File.join(backup_dir, "indexer_state"))
+      if File.exist?(File.join(backup_dir, "indexer_state"))
         log(:info, "Expiring old Solr snapshot: #{backup_dir}")
         FileUtils.rm_rf(backup_dir)
       else

@@ -1,5 +1,10 @@
+# Note: ASUtils gets pulled in all over the place, and in some places prior to
+# any gems having been loaded.  Be careful about loading gems here, as the gem
+# path might not yet be configured.  For example, loading the 'json' gem can
+# cause you to pull in the version that ships with JRuby, rather than the one in
+# your Gemfile.
+
 require 'java'
-require 'json'
 require 'tmpdir'
 require 'tempfile'
 require 'config/config-distribution'
@@ -79,11 +84,18 @@ module ASUtils
 
 
   def self.find_base_directory(root = nil)
-    [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
+    # JRuby 9K seems to be adding this strange suffix...
+    #
+    # Example: /pat/to/archivesspace/backend/uri:classloader:
+    this_dir = __dir__.gsub(/uri:classloader:\z/, '')
+
+    res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
-     File.join(*[File.dirname(__FILE__), "..", root].compact)].find {|dir|
-      dir && Dir.exists?(dir)
+     File.join(*[this_dir, "..", root].compact)].find {|dir|
+      dir && Dir.exist?(dir)
     }
+
+    res
   end
 
 
@@ -166,7 +178,7 @@ EOF
   def self.load_plugin_gems(context)
     ASUtils.find_local_directories.each do |plugin|
       gemfile = File.join(plugin, 'Gemfile')
-      if File.exists?(gemfile)
+      if File.exist?(gemfile)
         context.instance_eval(File.read(gemfile))
       end
     end
@@ -184,14 +196,28 @@ EOF
     end
   end
 
-  # find a nested key inside a hash
-  def self.search_nested(hash,key)
-    if hash.respond_to?(:key?) && hash.key?(key)
-      hash[key]
-    elsif hash.respond_to?(:each)
-      obj = nil
-      hash.find{ |*a| obj=self.search_nested(a.last,key) }
-      obj 
+  # Recursively find any hash entry whose key is in `keys`.  When we find a
+  # match, call `block` with the key and value as arguments.
+  #
+  # Skips descending into any hash entry whose key is in `ignore_keys` (allowing
+  # us to avoid walking '_resolved' subtrees, for example)
+  def self.search_nested(elt, keys, ignore_keys = [], &block)
+    if elt.respond_to?(:key?)
+      keys.each do |key|
+        if elt.key?(key)
+          block.call(key, elt.fetch(key))
+        end
+      end
+
+      elt.each.each do |next_key, value|
+        unless ignore_keys.include?(next_key)
+          search_nested(value, keys, ignore_keys, &block)
+        end
+      end
+    elsif elt.respond_to?(:each)
+      elt.each do |value|
+        search_nested(value, keys, ignore_keys, &block)
+      end
     end
   end
 

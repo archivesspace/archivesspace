@@ -82,8 +82,21 @@
                 <% if user_can?('update_classification_record') %>
                   <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
                 <% end %>
-                <li class="divider"></li>
-                <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :new %></li>
+
+                <% if user_can?('create_job') %>
+                  <li class="divider"></li>
+
+                  <li class="dropdown-submenu">
+                    <a href="javascript:void(0);"><%= I18n.t("job._singular") %></a>
+                    <ul class="dropdown-menu">
+                      <% job_types.each do |type, perms| %>
+                        <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
+                          <li><%= link_to I18n.t("job.types.#{type}"), :controller => :jobs, :action => :new, :job_type => type %></li>
+                        <% end %> 
+                      <% end %> 
+                    </ul>
+                  </li>
+                <% end %>
               </ul>
             </li>
           <% end %>
@@ -102,11 +115,14 @@
         <ul class="nav navbar-nav pull-right">
           <li class="repo-container">
             <div class="btn-group">
-              <button class="btn btn-default navbar-btn">
+              <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
                 <span class="repository-label has-popover" data-trigger="hover" data-placement="bottom" data-html='true' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                   <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
+                  <% unless current_repo.publish %>
+                    <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
+                  <% end %>
                 </span>
-              </button>
+              </a>
               <div class="btn-group">
                 <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
                 <ul class="dropdown-menu pull-right">
@@ -159,7 +175,7 @@
   </div>
 </nav>
 
-<div class="advanced-search-container container-fluid" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>hidden<% end %>>
+<div class="advanced-search-container container-fluid" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
 <%= render_aspace_partial :partial => "shared/advanced_search" %>
 </div>
 

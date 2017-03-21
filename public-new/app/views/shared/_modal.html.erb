@@ -1,0 +1,18 @@
+<%# handles modals.  Requires: modal_id, title, modal_body, button_text %>
+<div class="modal fade" id="<%=modal_id %>" tabindex="-1" role="dialog" aria-labelledby="<%= modal_id%>Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="<%= modal_id%>Label"><%= title %></h4>
+      </div>
+      <div class="modal-body">
+        <%= modal_body %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary action-btn"></button>
+      </div>
+    </div>
+  </div>
+</div>

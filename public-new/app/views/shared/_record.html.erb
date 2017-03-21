@@ -1,0 +1,21 @@
+
+   <% unless rec.dates.blank? %>
+    <h5><%= t('resource._public.dates') %></h5>
+    <%= render partial: 'shared/dates', locals: {:dates => rec.dates} %>
+   <% end %>
+    <% unless rec.extents.blank? %>
+      <h5><%= t('resource._public.extent') %></h5>
+       <% rec.extents.each do |ext| %> 
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
+	  <%= ext['display']%>
+	</p>
+      <% end %>
+    <% end %>
+
+<% %w{ inventory disposition content_description provenance access_date access_restrictions_note use_restrictions_note}.each do  |k| %>
+
+  <% if !rec.notes[k].blank? %>
+   <span class="inline-label"><%= t("enumeration_names.#{k}") %></span>
+     <p class="<%= k %>"><%= process_mixed_content(rec.notes[k]) %></p>
+   <% end %>
+<% end %>

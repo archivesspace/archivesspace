@@ -52,11 +52,6 @@ describe 'Classification models' do
                                              :parent => {'ref' => term.uri})
 
     classification.tree['children'][0]['children'][0]['title'].should eq(second_term.title)
-
-    expect {
-      ClassificationTerm.resequence( classification.repo_id )
-    }.to_not raise_error
-
   end
 
 
@@ -124,7 +119,7 @@ describe 'Classification models' do
                                           :identifier => "id#{i}")
     end
 
-    terms.last.update_position_only(nil, 0)
+    terms.last.set_parent_and_position(terms.last.parent_id, 0)
 
     titles = classification.tree['children'].map {|e| e['title']}
 

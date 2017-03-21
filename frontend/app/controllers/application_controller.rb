@@ -14,23 +14,23 @@ class ApplicationController < ActionController::Base
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
-    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exists?(dir) }.each do |template_override_directory|
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
       prepend_view_path(template_override_directory)
     end
   end
 
   # Note: This should be first!
-  before_filter :store_user_session
+  before_action :store_user_session
 
-  before_filter :determine_browser_support
+  before_action :determine_browser_support
 
-  before_filter :refresh_permissions
+  before_action :refresh_permissions
 
-  before_filter :refresh_preferences
+  before_action :refresh_preferences
 
-  before_filter :load_repository_list
+  before_action :load_repository_list
 
-  before_filter :unauthorised_access
+  before_action :unauthorised_access
 
   def self.permission_mappings
     Array(@permission_mappings)
@@ -50,12 +50,12 @@ class ApplicationController < ActionController::Base
   def self.set_access_control(permission_mappings)
     @permission_mappings = permission_mappings
 
-    skip_before_filter :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
+    skip_before_action :unauthorised_access, :only => Array(permission_mappings.values).flatten.uniq
 
     permission_mappings.each do |permission, actions|
       next if permission === :public
 
-      before_filter(:only => Array(actions)) {|c| user_must_have(permission)}
+      before_action(:only => Array(actions)) {|c| user_must_have(permission)}
     end
   end
 
@@ -397,6 +397,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def cleanup_params_for_schema(params_hash, schema)
+    # We're expecting a HashWithIndifferentAccess...
+    if params_hash.respond_to?(:to_unsafe_hash)
+      params_hash = params_hash.to_unsafe_hash
+    end
+
     fix_arrays = proc do |hash, schema|
       result = hash.clone
 
@@ -498,7 +503,7 @@ class ApplicationController < ActionController::Base
   end
 
   def params_for_backend_search
-    params_for_search = params.select{|k,v| ["page", "q", "type", "sort", "exclude", "filter_term", "simple_filter"].include?(k) and not v.blank?}
+    params_for_search = params.select{|k,v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
@@ -511,10 +516,10 @@ class ApplicationController < ActionController::Base
       params_for_search["filter_term[]"] = Array(params_for_search["filter_term"]).reject{|v| v.blank?}
       params_for_search.delete("filter_term")
     end
-    
-    if params_for_search["simple_filter"]
-      params_for_search["simple_filter[]"] = Array(params_for_search["simple_filter"]).reject{|v| v.blank?}
-      params_for_search.delete("simple_filter")
+
+    if params_for_search["aq"]
+      # Just validate it
+      params_for_search["aq"] = JSONModel(:advanced_query).from_json(params_for_search["aq"]).to_json
     end
 
     if params_for_search["exclude"]
@@ -557,7 +562,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :default_advanced_search_queries
   def default_advanced_search_queries
-    [{"i" => 0, "type" => "text"}]
+    [{"i" => 0, "type" => "text", "comparator" => "contains"}]
   end
 
 
@@ -565,7 +570,7 @@ class ApplicationController < ActionController::Base
   def advanced_search_queries
     return default_advanced_search_queries if !params["advanced"]
 
-    indexes = params.keys.collect{|k| k[/^v(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
+    indexes = params.keys.collect{|k| k[/^f(?<index>[\d]+)/, "index"]}.compact.sort{|a,b| a.to_i <=> b.to_i}
 
     return default_advanced_search_queries if indexes.empty?
 
@@ -578,6 +583,11 @@ class ApplicationController < ActionController::Base
         "type" => params["t#{i}"]
       }
 
+      if query["type"] == "text"
+        query["comparator"] = params["top#{i}"]
+        query["empty"] = query["comparator"] == "empty" 
+      end
+
       if query["op"] === "NOT"
         query["op"] = "AND"
         query["negated"] = true
@@ -585,10 +595,16 @@ class ApplicationController < ActionController::Base
 
       if query["type"] == "date"
         query["comparator"] = params["dop#{i}"]
+        query["empty"] = query["comparator"] == "empty"
       end
 
       if query["type"] == "boolean"
-        query["value"] = query["value"] == "true"
+        query["value"] = query["value"] == "empty" ? "empty" : query["value"] == "true"
+        query["empty"] = query["value"] == "empty" 
+      end
+
+      if query["type"] == "enum"
+        query["empty"] = query["value"].blank?
       end
 
       query

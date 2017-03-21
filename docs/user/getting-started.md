@@ -45,7 +45,7 @@ ArchivesSpace directory is located.
 ## Start ArchivesSpace
 
 The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:
 
   - http://localhost:8089/ -- the backend
@@ -53,7 +53,7 @@ accessing the following URLs in your browser:
   - http://localhost:8081/ -- the public interface
   - http://localhost:8090/ -- the Solr admin console
 
-To start using the Staff interface application, log in using the adminstrator 
+To start using the Staff interface application, log in using the adminstrator
 account:
 
 * Username: `admin`

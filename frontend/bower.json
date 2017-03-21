@@ -19,7 +19,6 @@
   ],
   "dependencies": {
     "jquery.hotkeys": "git@github.com:jeresig/jquery.hotkeys.git#~0.2.0",
-    "jstree": "git@github.com:vakata/jstree#~3.2.1",
     "lodash": "~3.6.0",
     "jquery.scrollTo": "~2.1.0",
     "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
@@ -38,16 +37,6 @@
         "mapping": [
           {
             "bower_components/jquery.hotkeys/jquery.hotkeys.js": "../jquery.hotkeys.js"
-          }
-        ]
-      },
-      "jstree": {
-        "mapping": [
-          {
-            "bower_components/jstree/dist/jstree.js": "../jstree.js"
-          },
-          {
-            "bower_components/jstree/dist/themes/default/style.css": "style.css.less"
           }
         ]
       },

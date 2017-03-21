@@ -2,7 +2,7 @@
       <% if !record.suppressed %>
         <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
           <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "#{record_type}_#{record.id}"}, :class => "btn btn-sm btn-primary" %>
+            <%= link_to I18n.t("actions.edit"), {:action => :edit, :id => record.id, :anchor => "tree::#{record_type}_#{record.id}"}, :class => "btn btn-sm btn-primary" %>
           </div>
         <% end %>
       <% end %>

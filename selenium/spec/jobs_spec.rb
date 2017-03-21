@@ -27,12 +27,12 @@ describe "Jobs" do
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Background Jobs").click
 
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("find_and_replace_job")
+    @driver.click_and_wait_until_gone(:link, 'Batch Find and Replace (Beta)')
 
     token_input = @driver.find_element(:id,"token-input-find_and_replace_job_ref_")
     token_input.clear
@@ -61,11 +61,11 @@ describe "Jobs" do
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
+    @driver.wait_for_dropdown
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("print_to_pdf_job")
+    @driver.click_and_wait_until_gone(:link, 'Print To PDF')
 
     token_input = @driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
     token_input.clear
@@ -81,37 +81,31 @@ describe "Jobs" do
   end
   
   it "can create a report job" do
-    system("rm -f #{File.join(Dir.tmpdir, '*.csv')}")
     run_index_round
 
     @driver.find_element(:css, '.repo-container .btn.dropdown-toggle').click
-    @driver.find_element(:link, "Background Jobs").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Background Jobs")
 
     @driver.find_element(:link, "Create Job").click
-
-    @driver.find_element(:id => "job_job_type_").select_option("report_job")
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Reports')
 
     @driver.find_element(:xpath => "//button[@data-report = 'repository_report']").click
-    sleep(2) 
+
+    # wait for the slow fade to finish and all sibling items to be removed
+    sleep(2)
+
+    job_type = @driver.execute_script("return $('#report_job_jsonmodel_type_').val()")
+    expect(job_type).to eq('report_job')
+
+    report_type = @driver.execute_script("return $('#report_type_').val()")
+    expect(report_type).to eq('repository_report')
+
     @driver.find_element(:id => "report_job_format").select_option("csv")
-    @driver.find_element_with_text("//button", /Queue Job/).click
+    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text("//button", /Queue Job/))
 
-    expect {
-      @driver.find_element_with_text("//h2", /report_job/)
-    }.to_not raise_error
-
-     sleep(5)
-     @driver.find_element(:link, "Download Report").click
-     sleep(1)
-
-     assert(30) {
-      glob = Dir.glob(File.join( Dir.tmpdir,"*.csv" ))
-      raise "Retry assert as CSV file not found" if glob.empty?
-
-      glob.length.should eq(1)
-     }
-
-     IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)
+    @driver.find_element_with_text("//h2", /report_job/)
   end
 
 end

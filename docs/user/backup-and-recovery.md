@@ -86,7 +86,7 @@ permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
     mysql -uarchivesspace -p < mysqldump.sql
-    
+
 (change the username as required and enter your password when
 prompted).
 
@@ -125,10 +125,10 @@ For example:
 
      mkdir -p /path/to/archivesspace/data/solr_index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \
            /path/to/archivesspace/data/solr_index/index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \
            /path/to/archivesspace/data/
 
 

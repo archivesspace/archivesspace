@@ -14,10 +14,11 @@ describe "Users and authentication" do
 
 
   it "fails logins with invalid credentials" do
-    @driver.login(OpenStruct.new(:username => "oopsie", 
-                                 :password => "daisy"))
+    @driver.login(OpenStruct.new(:username => "oopsie",
+                                 :password => "daisy"),
+                  expect_fail = true)
 
-    assert(5) { @driver.find_element(:css => "p.alert-danger").text.should eq('Login attempt failed') }
+    @driver.find_element(:css => "p.alert-danger").text.should eq('Login attempt failed')
 
     @driver.find_element(:link, "Sign In").click
   end

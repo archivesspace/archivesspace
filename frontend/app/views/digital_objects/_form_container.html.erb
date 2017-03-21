@@ -2,6 +2,8 @@
 
 <fieldset>
 
+  <%= hidden_field_tag "uri", @digital_object.uri %>
+
   <% define_template "digital_object", jsonmodel_definition(:digital_object) do |form| %>
     <section id="basic_information">
       <h3>

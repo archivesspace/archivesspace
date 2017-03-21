@@ -173,7 +173,7 @@ class DBMigrator
   PLUGIN_MIGRATION_DIRS = {}
   AppConfig[:plugins].each do |plugin|
     mig_dir = ASUtils.find_local_directories("migrations", plugin).shift
-    if mig_dir && Dir.exists?(mig_dir)
+    if mig_dir && Dir.exist?(mig_dir)
       PLUGIN_MIGRATIONS << plugin
       PLUGIN_MIGRATION_DIRS[plugin] = mig_dir
     end

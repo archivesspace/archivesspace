@@ -19,7 +19,7 @@
           <% end %>
         </span>
       </td>
-      <td><%= I18n.t("job.job_type_#{job["job_type"]}", :default => job["job_type"]) %></td>
+      <td><%= I18n.t("job.types.#{job["job_type"]}", :default => job["job_type"]) %></td>
       <td>
         <% if job['job_type'] == 'import_job' %>
           <%= job['job']["filenames"].join("<br/>").html_safe %>

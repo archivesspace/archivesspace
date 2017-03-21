@@ -24,10 +24,11 @@ def url(uri)
 end
 
 
-def do_post(s, url)
+def do_post(s, url, content_type = 'application/x-www-form-urlencoded')
   Net::HTTP.start(url.host, url.port) do |http|
     req = Net::HTTP::Post.new(url.request_uri)
     req.body = s
+    req['Content-Type'] = content_type
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
 
     r = http.request(req)
@@ -84,7 +85,8 @@ def run_tests(opts)
 
   puts "Create a test user"
   r = do_post({:username => test_user, :name => test_user}.to_json,
-              url("/users?password=testuser"))
+              url("/users?password=testuser"),
+              'text/json')
   r[:body]['status'] == 'Created' or fail("Test user creation", r)
 
 
@@ -109,7 +111,8 @@ def run_tests(opts)
                 :name => "Test #{$me}",
                 :description => "integration test repository #{$$}"
               }.to_json,
-              url("/repositories"))
+              url("/repositories"),
+              'text/json')
 
   repo_id = r[:body]["id"] or fail("Repository creation", r)
 
@@ -120,7 +123,8 @@ def run_tests(opts)
                 :name => "Another Test #{$me}",
                 :description => "another integration test repository #{$$}"
               }.to_json,
-              url("/repositories"))
+              url("/repositories"),
+              'text/json')
 
   second_repo_id = r[:body]["id"] or fail("Second repository creation", r)
 
@@ -131,7 +135,8 @@ def run_tests(opts)
                 :title => "integration test accession #{$$}",
                 :accession_date => "2011-01-01"
               }.to_json,
-              url("/repositories/#{repo_id}/accessions"))
+              url("/repositories/#{repo_id}/accessions"),
+              'text/json')
 
   acc_id = r[:body]["id"] or fail("Accession creation", r)
 
@@ -151,7 +156,8 @@ def run_tests(opts)
                 :external_ids => [{'source' => 'mark', 'external_id' => 'rhubarb'}],
                 :accession_date => "2011-01-01"
               }.to_json,
-              url("/repositories/#{second_repo_id}/accessions"))
+              url("/repositories/#{second_repo_id}/accessions"),
+              'text/json')
 
   r[:body]["id"] or fail("Second accession creation", r)
 
@@ -162,7 +168,8 @@ def run_tests(opts)
                 :terms => [],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
-              url("/subjects"))
+              url("/subjects"),
+              'text/json')
   r[:status] === "400" or fail("Invalid subject check", r)
 
 
@@ -176,7 +183,8 @@ def run_tests(opts)
                           ],
                 :vocabulary => "/vocabularies/1"
               }.to_json,
-              url("/subjects"))
+              url("/subjects"),
+              'text/json')
 
   subject_id = r[:body]["id"] or fail("Subject creation", r)
 
@@ -191,7 +199,8 @@ def run_tests(opts)
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }.to_json,
-              url("/repositories/#{repo_id}/resources"))
+              url("/repositories/#{repo_id}/resources"),
+              'text/json')
 
   coll_id = r[:body]["id"] or fail("Resource creation", r)
 
@@ -204,29 +213,10 @@ def run_tests(opts)
                 :resource => {'ref' => "/repositories/#{repo_id}/resources/#{coll_id}"},
                 :level => "item"
               }.to_json,
-              url("/repositories/#{repo_id}/archival_objects"))
+              url("/repositories/#{repo_id}/archival_objects"),
+              'text/json')
 
   ao_id = r[:body]["id"] or fail("Archival Object creation", r)
-
-
-  puts "Create a standalone archival object"
-  r = do_post({
-                :ref_id => "test#{$me}",
-                :title => "integration test archival object #{$$} - standalone",
-                :subjects => [{"ref" => "/subjects/#{subject_id}"}],
-                :level => "item"
-              }.to_json,
-              url("/repositories/#{repo_id}/archival_objects"))
-
-  standalone_ao_id = r[:body]["id"] or fail("Standalone Archival Object creation", r)
-
-
-  puts "Retrieve the archival object with subjects resolved"
-  r = do_get(url("/repositories/#{repo_id}/archival_objects/#{ao_id}?resolve[]=subjects"))
-  r[:body]["subjects"][0]["_resolved"]["terms"][0]["term"] == "Some term #{$me}" or
-    fail("Archival object fetch", r)
-
-
 
 
   puts "Catch reference errors in batch imports"
@@ -240,7 +230,8 @@ def run_tests(opts)
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }].to_json,
-              url("/repositories/#{repo_id}/batch_imports"))
+              url("/repositories/#{repo_id}/batch_imports"),
+              'text/json')
 
   r[:body].last["errors"] or fail("Catch reference errors", r)
 
@@ -255,7 +246,8 @@ def run_tests(opts)
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }].to_json,
-              url("/repositories/#{repo_id}/batch_imports"))
+              url("/repositories/#{repo_id}/batch_imports"),
+              'text/json')
 
   r[:body].last["saved"] or fail("Rollback reference errors", r)
 

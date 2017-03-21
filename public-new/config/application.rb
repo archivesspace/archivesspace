@@ -1,22 +1,20 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
-require "rails"
-# Pick the frameworks you want:
-# require "active_model/railtie"
-# require "active_job/railtie"
-# require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-# require "action_view/railtie"
-require "sprockets/railtie"
-require "rails/test_unit/railtie"
+require 'rails'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
+require 'action_mailer/railtie'
 
-require 'java'
-require 'config/config-distribution'
 require 'asutils'
+require_relative 'initializers/plugins'
 
-require "rails_config_bug_workaround"
+# Maybe we won't need these?
 
+# DISABLED BY MST # require 'active_record/railtie'
+# DISABLED BY MST # require 'active_job/railtie'
+# DISABLED BY MST # require 'action_cable/engine'
+# DISABLED BY MST # require 'rails/test_unit/railtie'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -28,56 +26,60 @@ module ArchivesSpacePublic
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    config.assets.enabled = true
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
-
-
-    # config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
-
-    config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix].sub(/\/$/, '')
-
-
-    config.i18n.default_locale = AppConfig[:locale]
+    # Add plugin controllers and models
+    config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
+    config.paths["app/models"].concat(ASUtils.find_local_directories("public/models"))
 
     # Load the shared 'locales'
-    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exists?(dir) }.each do |locales_directory|
-      config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
+    ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
+      I18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
-    # Override with any local locale files
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
-    # Allow overriding of the i18n locales via the local folder(s)
+    # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exists?(dir) }.each do |locales_override_directory|
-        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
+        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
-    config.encoding = "utf-8"
+    # Add template static assets to the path
+    if not ASUtils.find_local_directories.blank?
+      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
+        config.assets.paths.unshift(static_directory)
+      end
+    end
 
-    config.filter_parameters += [:password]
+    # add fonts to the asset path
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
-    config.active_support.escape_html_entities_in_json = true
+    # mailer configuration
+    if AppConfig[:pui_email_enabled]
+      config.action_mailer.delivery_method = AppConfig[:pui_email_delivery_method]
+      config.action_mailer.perform_deliveries = AppConfig[:pui_email_perform_deliveries]
+      config.action_mailer.raise_delivery_errors = AppConfig[:pui_email_raise_delivery_errors]
 
-    config.assets.enabled = true
+      if config.action_mailer.delivery_method == :sendmail
+        if AppConfig.has_key? :pui_email_sendmail_settings
+          config.action_mailer.smtp_settings = AppConfig[:pui_email_sendmail_settings]
+        end
+      end
+      if config.action_mailer.delivery_method == :smtp
+        config.action_mailer.smtp_settings = AppConfig[:pui_email_smtp_settings]
+      end
+    else
+      config.action_mailer.delivery_method = :test
+      config.action_mailer.perform_deliveries = false
+    end
 
-    AppConfig.load_into(config)
   end
+end
 
-  class SessionGone < StandardError
+# Load plugin init.rb files (if present)
+ASUtils.find_local_directories('public').each do |dir|
+  init_file = File.join(dir, "plugin_init.rb")
+  if File.exist?(init_file)
+    load init_file
   end
-
-
-  class SessionExpired < StandardError
-  end
-
 end

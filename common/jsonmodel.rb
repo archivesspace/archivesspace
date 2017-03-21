@@ -137,7 +137,7 @@ module JSONModel
 
       schema = File.join(dir, "#{schema_name}.rb")
 
-      if File.exists?(schema)
+      if File.exist?(schema)
         return File.open(schema).read
       end
     end
@@ -163,7 +163,6 @@ module JSONModel
 
   def self.load_schema(schema_name)
     if not @@models[schema_name]
-
       old_verbose = $VERBOSE
       $VERBOSE = nil
       src = schema_src(schema_name)
@@ -228,7 +227,7 @@ module JSONModel
       end
 
       ASUtils.find_local_directories("schemas/#{schema_name}_ext.rb").
-              select {|path| File.exists?(path)}.
+              select {|path| File.exist?(path)}.
               each do |schema_extension|
         entry[:schema]['properties'] = ASUtils.deep_merge(entry[:schema]['properties'],
                                                           eval(File.open(schema_extension).read))

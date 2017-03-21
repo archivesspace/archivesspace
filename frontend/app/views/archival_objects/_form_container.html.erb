@@ -10,8 +10,9 @@
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "archival_object[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "resource" %>
-  <%= form.hidden_input "position" %>
+
   <%= hidden_field_tag "id", @archival_object.id %>
+  <%= hidden_field_tag "uri", @archival_object.uri %>
 
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
     <section id="basic_information">
@@ -34,8 +35,8 @@
         <%= form.label_and_textfield "other_level", :required => true %>
         <%= form.label_and_select "language", form.possible_options_for("language", true) %>
         <div class="form-group">
-          <%= form.label "publish" %>
-          <div class="controls">
+          <%= form.label "publish", :class => 'control-label col-sm-2' %>
+          <div class="checkbox col-sm-9">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>
             <% if form.obj["has_unpublished_ancestor"] %>
               <span class="help-inline"><span class="text-info"><%= I18n.t("archival_object._frontend.messages.has_unpublished_ancestor") %></span></span>

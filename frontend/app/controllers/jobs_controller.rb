@@ -13,7 +13,6 @@ class JobsController < ApplicationController
 
   def new
     @job = JSONModel(:job).new._always_valid!
-    @job_types = job_types
     @import_types = import_types
     @report_data = JSONModel::HTTP::get_json("/reports")
 
@@ -23,16 +22,7 @@ class JobsController < ApplicationController
 
   def create
 
-    job_data = case params['job']['job_type']
-               when 'find_and_replace_job'
-                 params['find_and_replace_job']
-               when 'print_to_pdf_job'
-                 params['print_to_pdf_job']
-               when 'report_job'
-                 params['report_job']
-               when 'import_job'
-                 params['import_job']
-               end
+    job_data = params[params['job']['job_type']]
 
     # Knock out the _resolved parameter because it's often very large
     # and clean up the job data to match the schema types.
@@ -50,7 +40,6 @@ class JobsController < ApplicationController
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
-      @job_types = job_types
       @import_types = import_types
       @job_type = params['job']['job_type']
 
@@ -131,9 +120,6 @@ class JobsController < ApplicationController
     [Integer(params[:page] || 1), 1].max
   end
 
-  def job_types
-    Job.available_types.map {|e| [I18n.t("enumerations.job_type.#{e}"), e] unless e.blank?  }.compact
-  end
 
   def import_types
     Job.available_import_types.map {|e| [I18n.t("import_job.import_type_#{e['name']}", default: e['name'] ), e['name']]}

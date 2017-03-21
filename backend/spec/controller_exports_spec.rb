@@ -72,13 +72,12 @@ describe 'Exports controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      ao = create(:json_archival_object, {:title => "archival object: #{name}",
+                                          :resource => {:ref => resource.uri}})
       if not aos.empty?
         ao.parent = {:ref => aos.last.uri}
         ao.publish = false
       end
-
-      ao.resource = {:ref => resource.uri}
 
       ao.save
       aos << ao
@@ -97,13 +96,13 @@ describe 'Exports controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      ao = create(:json_archival_object, {:title => "archival object: #{name}",
+                                          :resource => {:ref => resource.uri}})
+
       if not aos.empty?
         ao.parent = {:ref => aos.last.uri}
         ao.publish = false
       end
-
-      ao.resource = {:ref => resource.uri}
 
       ao.save
       aos << ao
@@ -153,6 +152,39 @@ describe 'Exports controller' do
     get "/repositories/#{$repo_id}/digital_objects/dublin_core/#{dig.id}.xml"
     resp = last_response.body
     resp.should match(/<title>#{dig.title}<\/title>/)
+  end
+
+
+  it "gives you metadata for any kind of export" do
+    # agent exports
+    agent = create(:json_agent_person).id
+    check_metadata("archival_contexts/people/#{agent}.xml")
+    agent = create(:json_agent_family).id
+    check_metadata("archival_contexts/families/#{agent}.xml")
+    agent = create(:json_agent_corporate_entity).id
+    check_metadata("archival_contexts/corporate_entities/#{agent}.xml")
+    agent = create(:json_agent_software).id
+    check_metadata("archival_contexts/softwares/#{agent}.xml")
+
+    # resource exports
+    res = create(:json_resource, :publish => true).id
+    check_metadata("resource_descriptions/#{res}.xml")
+    check_metadata("resources/marc21/#{res}.xml")
+    check_metadata("resource_labels/#{res}.tsv")
+
+    # digital object exports
+    dig = create(:json_digital_object).id
+    check_metadata("digital_objects/mods/#{dig}.xml")
+    check_metadata("digital_objects/mets/#{dig}.xml")
+    check_metadata("digital_objects/dublin_core/#{dig}.xml")
+  end
+
+
+  def check_metadata(export_uri)
+    get "/repositories/#{$repo_id}/#{export_uri}/metadata"
+    resp = ASUtils.json_parse(last_response.body)
+    resp.has_key?('mimetype').should be true
+    resp.has_key?('filename').should be true
   end
 
 end

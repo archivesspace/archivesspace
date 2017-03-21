@@ -27,6 +27,7 @@ module RepositoryHelperMethods
     create_repo = URI("#{$backend}/repositories")
 
     req = Net::HTTP::Post.new(create_repo.path)
+    req['Content-Type'] = 'text/json'
     req.body = "{\"repo_code\": \"#{code}\", \"name\": \"#{name}\"}"
 
     response = admin_backend_request(req)
@@ -48,7 +49,8 @@ module RepositoryHelperMethods
 
     $driver.find_element(:link, 'Select Repository').click
     $driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-    $driver.find_element(:css, '.select-a-repository .btn-primary').click
+    $driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
+
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
@@ -60,6 +62,8 @@ module RepositoryHelperMethods
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    $driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
   end
 
 

@@ -2,28 +2,8 @@ require_relative 'spec_helper'
 
 describe "ArchivesSpace Public interface" do
 
-  # Start the dev servers and Selenium
   before(:all) do
-    state = Object.new.instance_eval do
-      @store = {}
-
-      def get_last_mtime(repo_id, record_type)
-        @store[[repo_id, record_type]].to_i || 0
-      end
-
-      def set_last_mtime(repo_id, record_type, time)
-        @store[[repo_id, record_type]] = time
-      end
-
-      self
-    end
-
-    @indexer = PeriodicIndexer.get_indexer(state)
-  end
-
-
-  before(:all) do
-    @repo = create(:repo)
+    @repo = create(:repo, :publish => true)
     set_repo(@repo)
 
     @driver = Driver.new.go_home
@@ -43,7 +23,7 @@ describe "ArchivesSpace Public interface" do
 
   after(:each) do |example|
     if example.exception and ENV['SCREENSHOT_ON_ERROR']
-      SeleniumTest.save_screenshot
+      SeleniumTest.save_screenshot(@driver)
     end
   end
 
@@ -67,23 +47,25 @@ describe "ArchivesSpace Public interface" do
 
       create(:repo,
              :repo_code => @test_repo_code_1,
-             :name => @test_repo_name_1)
+             :name => @test_repo_name_1,
+             :publish => true)
       create(:repo,
              :repo_code => @test_repo_code_2,
-             :name => @test_repo_name_2)
+             :name => @test_repo_name_2,
+             :publish => true)
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
     it "lists all available repositories" do
-      @driver.find_element(:link, "Repositories").click
+      @driver.click_and_wait_until_gone(:link, "Repositories")
       @driver.find_element_with_text('//a', /#{@test_repo_code_1}/)
       @driver.find_element_with_text('//a', /#{@test_repo_code_2}/)
     end
 
     it "shows Title (default)  in the sort pulldown" do
-      @driver.find_element(:link, "Repositories").click
+      @driver.click_and_wait_until_gone(:link, "Repositories")
       @driver.find_element(:xpath, "//a/span[ text() = 'Title Ascending']").click
       @driver.find_element(:link, "Title" )
       @driver.ensure_no_such_element(:link, "Term")
@@ -114,13 +96,13 @@ describe "ArchivesSpace Public interface" do
                             :title => "Unpublished Resource", :publish => false, :id_0 => "unpublished")
       @published = create(:resource,
                           :title => "Published Resource", :publish => true, :id_0 => "published", :notes => notes)
+
+      run_index_round
     end
 
 
     it "doesn't list an un-published records in the list" do
-      @indexer.run_index_round
-
-      @driver.find_element(:link, "Collections").click
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
       @driver.find_element(:link, @published.title)
       @driver.ensure_no_such_element(:link, @unpublished.title)
@@ -154,11 +136,11 @@ describe "ArchivesSpace Public interface" do
                           :title => "NO WAY", :id_0 => rand(1000).to_s,  :finding_aid_filing_title => "YeaBuddy",
                           :publish => true )
 
-      @indexer.run_index_round
+      run_index_round
 
-      @driver.find_element(:link, "Collections").click
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
-      @driver.find_element(:link, "YeaBuddy").click
+      @driver.click_and_wait_until_gone(:link, "YeaBuddy")
 
       @driver.find_element_with_text('//li', /YeaBuddy/ )
       @driver.find_element_with_text('//h2', /YeaBuddy/ )
@@ -171,17 +153,17 @@ describe "ArchivesSpace Public interface" do
                :title => "Test Resource #{i}", :publish => true, :id_0 => "id#{i}")
       end
 
-      @indexer.run_index_round
+      run_index_round
 
-      @driver.find_element(:link, "Collections").click
+      @driver.click_and_wait_until_gone(:link, "Collections")
 
-      @driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('1')
 
-      @driver.find_element(:link, '2').click
-      @driver.find_element(:css, '.pagination .active a').text.should eq('2')
+      @driver.click_and_wait_until_gone(:link, '2')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('2')
 
-      @driver.find_element(:link, '1').click
-      @driver.find_element(:css, '.pagination .active a').text.should eq('1')
+      @driver.click_and_wait_until_gone(:link, '1')
+      expect(@driver.find_element(:css, '.pagination .active a').text).to eq('1')
       @driver.find_element(:link, '2')
     end
 
@@ -198,7 +180,7 @@ describe "ArchivesSpace Public interface" do
                                                               { :file_uri => "C:\\windozefilepaths.suck", :publish => true },
                                                               { :file_uri => "file:///C:\\uris.dont", :publish => true }
                                                              ])
-      @indexer.run_index_round
+      run_index_round
     end
 
     it "displayed the digital object correctly" do
@@ -230,7 +212,7 @@ describe "ArchivesSpace Public interface" do
                                           :publish => false,
                                           :resource => {:ref => @unpublished_resource.uri})
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
@@ -249,10 +231,10 @@ describe "ArchivesSpace Public interface" do
                                                       :value => "something",
                                                       :reference => ref_id,
                                                       :reference_text => index_link_text}]}])
-      @indexer.run_index_round
+      run_index_round
 
       @driver.get(URI.join($frontend, ao_with_note.uri))
-      @driver.find_element(:link, index_link_text).click
+      @driver.click_and_wait_until_gone(:link, index_link_text)
       @driver.find_element_with_text('//li', /#{@published_resource_filing_title}/ )
       @driver.find_element_with_text('//h2', /#{@published_archival_object.title}/)
     end
@@ -302,12 +284,12 @@ describe "ArchivesSpace Public interface" do
                                                      ]
                                    )
 
-      @indexer.run_index_round
+      run_index_round
     end
 
 
     it "published are visible in the names search results" do
-      @driver.find_element(:link, "Names").click
+      @driver.click_and_wait_until_gone(:link, "Names")
 
       @driver.find_element(:link, @published_agent.names.first['sort_name'])
       assert(5) {
@@ -316,20 +298,20 @@ describe "ArchivesSpace Public interface" do
     end
 
     it "linked records show for an agent search" do
-      @driver.find_element(:link, @published_agent.names.first['sort_name']).click
+      @driver.click_and_wait_until_gone(:link, @published_agent.names.first['sort_name'])
       @driver.find_element(:link, @published_resource.title)
       @driver.ensure_no_such_element(:xpath, "//*[text()[contains( '1234 Fake St')]]")
       @driver.ensure_no_such_element(:css, '#contacts')
     end
 
     it "linked record shows published agents in the list" do
-      @driver.find_element(:link, @published_resource.title).click
+      @driver.click_and_wait_until_gone(:link, @published_resource.title)
       @driver.find_element(:link, @published_agent.names.first['sort_name'])
       @driver.ensure_no_such_element(:link, @unpublished_agent.names.first['sort_name'])
     end
 
     it "shows the Agent Name in the sort pulldown" do
-      @driver.find_element(:link, "Names").click
+      @driver.click_and_wait_until_gone(:link, "Names")
       @driver.find_element(:xpath, "//a/span[ text()  = 'Agent Name Ascending']").click
       @driver.find_element(:link, "Agent Name" )
       @driver.ensure_no_such_element(:link, "Title")
@@ -351,11 +333,11 @@ describe "ArchivesSpace Public interface" do
                                                 ]
                                    )
 
-      @indexer.run_index_round
+      run_index_round
     end
 
     it "is visible when it is linked to a published resource" do
-      @driver.find_element(:link, "Subjects").click
+      @driver.click_and_wait_until_gone(:link, "Subjects")
       @driver.find_element(:link, @linked_subject.title)
     end
 
@@ -364,7 +346,7 @@ describe "ArchivesSpace Public interface" do
     end
 
     it "shows the Term  in the sort pulldown" do
-      @driver.find_element(:link, "Subjects").click
+      @driver.click_and_wait_until_gone(:link, "Subjects")
       @driver.find_element(:xpath, "//a/span[ text()  = 'Terms Ascending']").click
       @driver.find_element(:link, "Terms" )
       @driver.ensure_no_such_element(:link, "Title")
@@ -384,16 +366,16 @@ describe "ArchivesSpace Public interface" do
                                     :publish => true,
                                     :id_0 => "themeaningofdeathpapers")
 
-      @indexer.run_index_round
+      run_index_round
     end
 
     before(:each) do
-      @driver.find_element(:css, 'a span[class="icon-home"]').click
+      @driver.click_and_wait_until_gone(:css, 'a span[class="icon-home"]')
     end
 
     it "finds the published resource with a basic search" do
       @driver.clear_and_send_keys([:class, 'input-large'], "The meaning of life papers")
-      @driver.find_element(:id, "global-search-button").click
+      @driver.click_and_wait_until_gone(:id, "global-search-button")
       @driver.find_element(:link, "The meaning of life papers")
     end
 
@@ -404,7 +386,9 @@ describe "ArchivesSpace Public interface" do
       @driver.clear_and_send_keys([:id, 'v1'], "life")
       @driver.clear_and_send_keys([:id, 'v2'], "papers")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
+
       @driver.find_element(:link, "The meaning of life papers")
       @driver.ensure_no_such_element(:link, "The meaning of death papers")
     end
@@ -417,7 +401,8 @@ describe "ArchivesSpace Public interface" do
       @driver.find_element(:id => "op2").select_option("OR")
       @driver.clear_and_send_keys([:id, 'v2'], "death")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
 
       ["The meaning of life papers", "The meaning of death papers"].each do |title|
         @driver.find_element(:link, title)
@@ -432,7 +417,9 @@ describe "ArchivesSpace Public interface" do
       @driver.find_element(:id => "op2").select_option("NOT")
       @driver.clear_and_send_keys([:id, 'v2'], "death")
 
-      @driver.find_element_with_text("//button", /Search/).click
+      search_button = @driver.find_element_with_text("//button", /Search/)
+      @driver.click_and_wait_until_element_gone(search_button)
+
       @driver.find_element(:link, "The meaning of life papers")
       @driver.ensure_no_such_element(:link, "The meaning of death papers")
     end

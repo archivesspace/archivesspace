@@ -1,0 +1,5 @@
+en:
+  reports:
+    repository_report:
+      title: Repository Report
+      description: Report on repository records

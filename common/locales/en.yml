@@ -1422,6 +1422,8 @@ en:
       manage_container_record: delete/bulk update top container records
       manage_container_profile_record: create/update/delete container profile records
       manage_location_profile_record: create/update/delete location profile records
+      create_job: create and run a background job
+      cancel_job: cancel a background job
     _singular: Group
     _plural: Groups
 
@@ -1607,6 +1609,10 @@ en:
         <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
     _singular: Repository
     _plural: Repositories
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
+
 
   term: &term_attributes
     # tooltips not displaying
@@ -1851,18 +1857,6 @@ en:
     _plural: Defaults
 
   reports:
-    CreatedAccessionsReport: Created Accessions
-    UnprocessedAccessionsReport: Unprocessed Accessions
-    LocationHoldingsReport: Location Holdings
-    location_holdings:
-      report_title: Report on containers shelved at one or more locations
-      repository_report_type: Repository
-      building_report_type: Building
-      single_location_report_type: Single Location
-      location_range_report_type: Range of Locations
-      search_range: Report on a range of locations
-      start_range: First location
-      end_range: Last location
     parameters:
       from: From
       from_tooltip:
@@ -1926,6 +1920,13 @@ en:
     _singular: Background Job
     _plural: Background Jobs
     job_type: Job Type
+    types:
+      print_to_pdf_job: Print To PDF 
+      import_job: Import Data
+      find_and_replace_job: Batch Find and Replace (Beta)
+      report_job: Reports
+      container_conversion_job: Reports
+      unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -1940,7 +1941,7 @@ en:
 
   import_job:
     _singular: Import Job
-    filenames: Import Files
+    filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
     import_type_accession_csv: Accession CSV

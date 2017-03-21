@@ -1,0 +1,20 @@
+<div id="main-content" class="row">
+
+  <div class="information col-sm-12">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    <%= render partial: 'shared/breadcrumbs' %>
+  </div>
+  <div class="col-sm-9">
+
+  <br/>
+  <%= render partial: 'shared/record', locals: {:rec => @result} %>
+  <%= render partial: 'shared/record_innards' %>
+
+  </div>
+<!-- <%= @result.pretty_inspect.html_safe %> -->
+    <%# nothing at the moment %>
+  <!-- div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+
+  </div -->
+
+</div>

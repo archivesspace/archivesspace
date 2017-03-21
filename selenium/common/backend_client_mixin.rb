@@ -115,6 +115,7 @@ module BackendClientMethods
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
+    req['Content-Type'] = 'text/json'
     req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
 
     admin_backend_request(req)
@@ -143,6 +144,7 @@ module BackendClientMethods
     group['member_usernames'] = [user]
 
     req = Net::HTTP::Post.new(uri)
+    req['Content-Type'] = 'text/json'
     req.body = group.to_json
 
     admin_backend_request(req)

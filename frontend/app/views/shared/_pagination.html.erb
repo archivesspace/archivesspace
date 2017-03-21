@@ -13,13 +13,15 @@
     <ul class="pagination pagination-sm">
       <% if not page_range.cover?(1) %>
         <li>
-          <%= link_to I18n.t("pagination.first"), params.merge(:page => 1) %>
+            <%= link_to_merge_params I18n.t("pagination.first"), :page => 1 %>
         </li>
       <% end %>
 
       <% if @search_data['this_page'] > 1 %>
         <li>
-          <%= link_to I18n.t("pagination.previous").html_safe, params.merge(:page => @search_data['this_page'] - 1), :title => I18n.t("pagination.previous_label") %>
+            <%= link_to_merge_params(I18n.t("pagination.previous").html_safe,
+                                     {:page => @search_data['this_page'] - 1},
+                                     {:title => I18n.t("pagination.previous_label")}) %>
         </li>
       <% else  %>
         <li class="disabled"><a href="#"><%= I18n.t("pagination.previous").html_safe %></a></li>
@@ -30,21 +32,23 @@
           <li class="active"><a href="#"><%= i %></a></li>
         <% else %>
           <li>
-            <%= link_to i, params.merge(:page => i) %>
+            <%= link_to_merge_params i, :page => i %>
           </li>
         <% end %>
       <% end %>
 
       <% if @search_data['this_page'] != @search_data['last_page'] %>
         <li>
-          <%= link_to I18n.t("pagination.next").html_safe, params.merge(:page => @search_data['this_page'] + 1), :title => I18n.t("pagination.next_label") %>
+            <%= link_to_merge_params(I18n.t("pagination.next").html_safe,
+                                     {:page => @search_data['this_page'] + 1},
+                                     {:title => I18n.t("pagination.next_label")}) %>
         </li>
       <% else %>
         <li class="disabled"><a href="#"><%= I18n.t("pagination.next").html_safe %></a></li>
       <% end %>
       <% if not page_range.cover?(@search_data['last_page']) %>
         <li>
-          <%= link_to I18n.t("pagination.last"), params.merge(:page => @search_data['last_page']) %>
+            <%= link_to_merge_params I18n.t("pagination.last"), :page => @search_data['last_page'] %>
         </li>
       <% end %>
     </ul>

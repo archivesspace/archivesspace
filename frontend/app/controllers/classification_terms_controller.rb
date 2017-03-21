@@ -37,8 +37,6 @@ class ClassificationTermsController < ApplicationController
                                       I18n.t("classification_term._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => @classification_term['parent']['_resolved'])) :
                                       I18n.t("classification_term._frontend.messages.created", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
 
-                  @refresh_tree_node = true
-
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -65,8 +63,6 @@ class ClassificationTermsController < ApplicationController
                     I18n.t("classification_term._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => parent)) :
                     I18n.t("classification_term._frontend.messages.updated", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
                   flash.now[:success] = success_message
-
-                  @refresh_tree_node = true
 
                   render_aspace_partial :partial => "edit_inline"
                 })

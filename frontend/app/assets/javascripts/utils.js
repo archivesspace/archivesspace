@@ -139,13 +139,23 @@ $(function() {
     scope = scope || $(document.body);
     $(".date-field:not(.initialised)", scope).each(function() {
       var $dateInput = $(this);
-      $dateInput.wrap("<div class='input-group date'></div>");
+
+      if ($dateInput.parent().is(".input-group")) {
+        $dateInput.parent().addClass("date");
+      } else {
+        $dateInput.wrap("<div class='input-group date'></div>");
+      }
+
       $dateInput.addClass("initialised");
 
-      var $addon = "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
+      var $addon = $("<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>");
       $dateInput.after($addon);
 
-      $dateInput.parent(".date").datepicker($dateInput.data());
+      $dateInput.datepicker($dateInput.data());
+
+      $addon.on("click", function() {
+        $dateInput.focus().select();
+      });
     });
   };
   initDateFields();
@@ -195,9 +205,7 @@ $(function() {
     scope = scope || $(document.body);
     $(".has-popover:not(.initialised)", scope)
       .popover(popoverOptions)
-      .click(function(e) {
-        e.preventDefault();
-      }).addClass("initialised");
+      .addClass("initialised");
   };
   initPopovers();
   $(document).bind("loadedrecordform.aspace init.popovers", function(event, $container) {

@@ -218,9 +218,9 @@
   <% else %>
     <div class="subrecord-form-fields">
       <div class="form-group required">
-        <label class="control-label"><%= I18n.t("note.note_type") %></label>
-        <div class="controls">
-          <select class="multipart-note-type">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control multipart-note-type">
             <option></option>
             <% multipart_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
               <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
@@ -291,9 +291,9 @@
   <% else %>
     <div class="subrecord-form-fields">
       <div class="form-group required">
-        <label class="control-label"><%= I18n.t("note.note_type") %></label>
-        <div class="controls">
-          <select class="bioghist-note-type">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control bioghist-note-type">
             <option></option>
             <% bioghist_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
               <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>

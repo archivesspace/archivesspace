@@ -14,6 +14,10 @@ class IndexBatch
     @closed = false
 
     @filestore = ASUtils.tempfile('index_batch')
+
+    # Don't mess up our line breaks under Windows!
+    @filestore.binmode
+
     self.write("[\n")
   end
 
@@ -78,7 +82,9 @@ class IndexBatch
   def to_json_stream
     self.close
     @filestore.close
-    File.open(@filestore.path, "r")
+
+    # Open with "b" to avoid converting \n to \r\n on Windows
+    File.open(@filestore.path, "rb")
   end
 
 

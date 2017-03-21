@@ -1,93 +1,50 @@
-require 'advanced_search'
-require 'advanced_query_builder'
-
 class SearchController < ApplicationController
 
-  DETAIL_TYPES = ['accession', 'resource', 'archival_object', 'digital_object',
-                  'digital_object_component', 'classification',
-                  'agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity']
-
-  VIEWABLE_TYPES = ['agent', 'repository', 'subject'] + DETAIL_TYPES
-
-  FACETS = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
-
+  DEFAULT_SEARCH_FACET_TYPES = ['repository','primary_type', 'subjects', 'agents']
+  DEFAULT_SEARCH_OPTS = {
+#    'sort' => 'title_sort asc',
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'facet.mincount' => 1
+  }
+  DEFAULT_TYPES =  %w{archival_object digital_object agent resource repository accession classification subject}
 
 
   def search
+    @repo_id = params.fetch(:rid, nil)
+    repo_url = "/repositories/#{@repo_id}"
+    @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
 
-    set_search_criteria
-
-    @search_data = Search.all(@criteria, @repositories)
-
-    render :json => @search_data
-  end
-
-
-  def advanced_search
-    set_advanced_search_criteria
-
-    @search_data = Search.all(@criteria, @repositories)
-
-    render :json => @search_data
-  end
-
-
-  private
-
-  def set_search_criteria
-    @criteria = params.select{|k,v|
-      ["page", "page_size", "q", "type", "sort",
-       "filter_term", "root_record", "format"].include?(k) and not v.blank?
-    }
-
-    @criteria["page"] ||= 1
-    @criteria["sort"] = "title_sort asc" unless @criteria["sort"] or @criteria["q"] or params["advanced"].present?
-
-    if @criteria["filter_term"]
-      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}
-      @criteria.delete("filter_term")
+    search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
+    search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_repository::\"#{repo_url}\""] if @repo_id
+    begin
+      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
+#NOTE the redirect back here on error!
+    rescue Exception => error
+      flash[:error] = error
+      redirect_back(fallback_location: '/' ) and return
     end
-
-    if params[:type].blank?
-      @criteria['type[]'] = DETAIL_TYPES
+    page = Integer(params.fetch(:page, "1"))
+    Rails.logger.debug("base search: #{@base_search}")
+    Rails.logger.debug("query: #{@query}")
+   
+    @results = archivesspace.advanced_search(@base_search, page, @criteria)
+    @counts = archivesspace.get_types_counts(DEFAULT_TYPES)
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: @base_search)
     else
-      @criteria['type[]'] = Array(params[:type]).keep_if {|t| VIEWABLE_TYPES.include?(t)}
-      @criteria.delete("type")
-    end
-
-    @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = FACETS
-
-    @criteria['hl'] = true
-  end
-
-  def set_advanced_search_criteria
-    set_search_criteria
-
-    terms = (0..2).collect{|i|
-      term = search_term(i)
-
-      if term and term["op"] === "NOT"
-        term["op"] = "AND"
-        term["negated"] = true
+      process_search_results(@base_search)
+      unless @pager.one_page?
+        @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+        @search[:text_within] = true
       end
-
-      term
-    }.compact
-
-    if not terms.empty?
-      @criteria["aq"] = AdvancedQueryBuilder.new(terms, :public).build_query.to_json
-      @criteria['facet[]'] = FACETS
-    end
-
-    @criteria['hl'] = true
-  end
-
-  def search_term(i)
-    if not params["v#{i}"].blank?
-      { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
+      @sort_opts = []
+      all_sorts = Search.get_sort_opts
+      all_sorts.keys.each do |type|
+        @sort_opts.push(all_sorts[type])
+      end
+      render 'search/search_results'
     end
   end
-
 
 end

@@ -1,37 +1,38 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.22.2'
+gem 'rails', '5.0.1'
+gem "activesupport", "5.0.1"
+gem 'sprockets-rails', '2.3.3'
+gem "nokogiri", "1.7.0.1"
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'coffee-script', '= 2.3.0'
-  gem 'coffee-script-source', '= 1.8.0'
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'coffee-script'
+gem 'coffee-script-source'
 
-  gem 'uglifier', '>= 1.0.3'
-  gem 'therubyrhino'
-  gem 'less-rails', '~> 2.6.0'
+gem 'uglifier'
+gem 'therubyrhino'
+gem 'less-rails'
 
-end
-
-gem 'jquery-rails', '~> 3.1.0'
-gem "json", "1.8.0"
+gem 'jquery-rails'
+gem "json", "1.8.6"
 gem 'json-schema', '1.0.10'
-gem "jruby-jars", "= 1.7.21"
+gem "jruby-jars", "= 9.1.8.0"
 
 gem 'atomic', '= 1.0.1'
-gem "puma", "2.8.2"
-
-
+gem "mizuno", "0.6.11"
 
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
 
 group :development, :test do
-  gem 'rspec', '~> 3.3.0'
+  gem 'rspec'
   gem 'rspec-rails'
-  gem 'factory_girl', "~> 4.1.0"
+  gem 'factory_girl'
 end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 # Allow plugins to provide their own Gemfiles too.

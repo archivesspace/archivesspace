@@ -42,7 +42,9 @@
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"}]},
       },
-      
+
+      "used_within_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+
       "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
 
       "publish" => {"type" => "boolean"},

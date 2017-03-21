@@ -20,22 +20,5 @@
          </div>
       </div>
     </div>
-    <% if @refresh_tree_node
-         node_data = {
-           'id' => @digital_object.id,
-           'uri' => @digital_object.uri,
-           'title' => @digital_object.title,
-           'level' => I18n.t("enumerations.digital_object_level.#{@digital_object.level}", :default => @digital_object.level),
-           'jsonmodel_type' => @digital_object.jsonmodel_type,
-           'node_type' => @digital_object.jsonmodel_type,
-           'file_versions' => @digital_object.file_versions,
-           'digital_object_type' => I18n.t("enumerations.digital_object_digital_object_type.#{@digital_object.digital_object_type}", :default => @digital_object.digital_object_type),
-           'replace_new_node' => false
-         }
-    %>
-      <script>
-        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
-      </script>
-    <% end %>
   <% end %>
 <% end %>

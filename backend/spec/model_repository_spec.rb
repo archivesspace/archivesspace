@@ -89,7 +89,7 @@ it "can identify and report conflicting identifiers" do
                                                                         :name => "electric boogaloo"))
     JSONModel.set_repository(repo.id)
     a_resource = create(:json_resource, { :extents => [build(:json_extent)] }) 
-    accession = create(:json_accession, :repo_id => repo.id,
+    accession = create(:json_accession,
                         :related_resources => [ {:ref => a_resource.uri } ])
     dobj = create(:json_digital_object ) 
     create(:json_digital_object_component, 
