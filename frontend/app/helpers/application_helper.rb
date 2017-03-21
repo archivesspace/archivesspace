@@ -5,22 +5,22 @@ module ApplicationHelper
   def include_controller_js
     scripts = ""
 
-    scripts += javascript_include_tag "#{controller.controller_name}" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.js.erb")
 
-    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
+    scripts += javascript_include_tag "#{controller.controller_name}.#{controller.action_name}" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.#{controller.action_name}.js.erb")
 
     if ["new", "create", "edit", "update"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.crud.js.erb")
     end
 
     if ["batch_create"].include?(controller.action_name)
-      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
+      scripts += javascript_include_tag "#{controller.controller_name}.batch" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.batch.js.erb")
     end
 
     if ["defaults", "update_defaults"].include?(controller.action_name)
       ctrl_name = controller.controller_name == 'archival_objects' ? 'resources' : controller.controller_name
 
-      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exists?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
+      scripts += javascript_include_tag "#{ctrl_name}.crud" if File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{ctrl_name}.crud.js.erb")
     end
 
 
@@ -28,11 +28,23 @@ module ApplicationHelper
   end
 
   def include_theme_css
-    css = ""
-    css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap", :media => "all")
-    css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
-    css.html_safe
+    begin
+      css = ""
+      css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/bootstrap", :media => "all")
+      css += stylesheet_link_tag("themes/#{ArchivesSpace::Application.config.frontend_theme}/application", :media => "all")
+      css.html_safe
+    rescue
+      # On app startup in dev mode, the above call triggers the LESS stylesheets
+      # to compile, and there seems to be a problem with two threads doing this
+      # concurrently.  If things go badly, just retry.
+
+      Rails.logger.warn("Retrying include_theme_css: #{$!}")
+
+      sleep 1
+      retry
+    end
   end
+
 
   def set_title(title)
     @title = title
@@ -134,6 +146,11 @@ module ApplicationHelper
     end
 
     @current_repo
+  end
+
+
+  def job_types
+    MemoryLeak::Resources.get(:job_types)
   end
 
 
@@ -304,6 +321,17 @@ module ApplicationHelper
       end
     end
   
+  end
+
+  # Merge new_params into params and generate a link.
+  #
+  # Intended to avoid security issues associated with passing user-generated
+  # `params` as the `opts` for link_to (which allows them to set the host,
+  # controller, etc.)
+  def link_to_merge_params(label, new_params, html_options = {})
+    link_to(label,
+            url_for + "?" + URI.encode_www_form(params.except(:controller, :action, :format).merge(new_params)),
+            html_options)
   end
 
 end

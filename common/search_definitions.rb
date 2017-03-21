@@ -11,10 +11,8 @@ AdvancedSearch.define_field(:name => 'suppressed', :type => :boolean, :visibilit
 AdvancedSearch.define_field(:name => 'create_time', :type => :date, :visibility => [:staff], :solr_field => 'create_time')
 AdvancedSearch.define_field(:name => 'user_mtime', :type => :date, :visibility => [:staff], :solr_field => 'user_mtime')
 
-AdvancedSearch.define_field(:name => 'system_mtime', :type => :date, :visibility => [:api], :solr_field => 'system_mtime')
-AdvancedSearch.define_field(:name => 'last_modified_by', :type => :text, :visibility => [:api], :solr_field => 'last_modified_by')
-
 
 AdvancedSearch.set_default(:text, 'keyword')
 AdvancedSearch.set_default(:boolean, 'published')
 AdvancedSearch.set_default(:date, 'create_time')
+

@@ -1,0 +1,8 @@
+<div class="noscript citation">
+  <blockquote><p><%= @cite %></p></blockquote>
+<% unless @url.blank? %>
+  <p>
+    <i class="fa fa-hand-o-left"  aria-hidden="true"></i> <a href="<%= @url %>"><%= t('actions.backup') %></a>
+  </p>
+<% end %>
+</div>

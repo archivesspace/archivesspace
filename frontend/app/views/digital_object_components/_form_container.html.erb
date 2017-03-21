@@ -11,8 +11,9 @@
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "digital_object_component[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "digital_object" %>
-  <%= form.hidden_input "position" %>
+
   <%= hidden_field_tag "id", @digital_object_component.id %>
+  <%= hidden_field_tag "uri", @digital_object_component.uri %>
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
@@ -24,8 +25,8 @@
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
       <div class="form-group">
-        <%= form.label "publish" %>
-        <div class="controls">
+        <%= form.label "publish", :class => 'control-label col-sm-2' %>
+        <div class="checkbox col-sm-9">
           <%= form.checkbox "publish", {}, user_prefs["publish"] %>
           <% if form.obj["has_unpublished_ancestor"] %>
             <span class="help-inline"><span class="text-info"><%= I18n.t("digital_object_component._frontend.messages.has_unpublished_ancestor") %></span></span>

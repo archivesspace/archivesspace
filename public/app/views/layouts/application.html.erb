@@ -5,7 +5,9 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <%= favicon_link_tag %>
+  <link href="<%= AppConfig[:public_proxy_prefix] %>favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+  <%= javascript_include_tag 'jquery' %>
 
   <% if ENV["TEST_MODE"] %>
     <script>
@@ -25,7 +27,7 @@
   <%= csrf_meta_tags %>
 
   <% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |layout| %>
-    <% if File.exists?(layout) %>
+    <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
       <%= render :file => layout %>
       <!-- End plugin layout -->

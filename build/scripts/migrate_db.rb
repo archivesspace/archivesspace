@@ -14,7 +14,7 @@ if ARGV.length > 0 and ARGV[0] == "nuke"
   if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
     dir = $1
 
-    if File.directory?(dir) and File.exists?(File.join(dir, "seg0"))
+    if File.directory?(dir) and File.exist?(File.join(dir, "seg0"))
       puts "Nuking demo database: #{dir}"
       sleep(5)
       FileUtils.rm_rf(dir)
@@ -33,7 +33,7 @@ begin
       DBMigrator.nuke_database(db)
 
       indexer_state = File.join(AppConfig[:data_directory], "indexer_state")
-      if Dir.exists? (indexer_state)
+      if Dir.exist? (indexer_state)
         FileUtils.rm_rf(indexer_state)
       end
 

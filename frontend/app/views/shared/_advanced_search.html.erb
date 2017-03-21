@@ -14,6 +14,7 @@
 
   options_for_enums = Hash[values_for[:enum].map {|op|
     options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
+    options << [I18n.t("advanced_search.enum_field.empty"), '']
     [op.field, options]
   }]
 
@@ -34,7 +35,7 @@
       var container = $(".enum-select-container" + index);
       container.empty();
 
-      var value_select = $('<select name="v' + index + '" id="v' + index + '" />');
+      var value_select = $('<select name="v' + index + '" id="v' + index + '" class="form-control" />');
 
       $(advanced_search_enum_values[selected_enum]).each(function (idx, op) {
           var label = op[0];
@@ -45,6 +46,16 @@
 
           if (value === existing_selection) {
               option.attr('selected', 'selected');
+          } else if(value == '' && existing_selection == null) {
+              option.attr('selected', 'selected');
+          }
+
+          // enter a separator before the empty "unassigned" option
+          if (value == '') {
+            var separator = $('<option>');
+            separator.prop('disabled', true);
+            separator.text("\u2500\u2500\u2500\u2500\u2500");
+            value_select.append(separator);
           }
 
           value_select.append(option);
@@ -58,17 +69,61 @@
   }
 
   $(document).bind("initadvancedsearchrow.aspace", function (event, field_data, row) {
+      function handleEmptyValueOption(value) {
+        var input = row.find('#v' + field_data.index);
+        if (value == 'empty') {
+          input.val('').prop("disabled", true);
+        } else {
+          input.prop("disabled", false);
+        }
+        input.trigger('change');
+      };
+
+      function handleTextFieldChange($field, $operator) {
+        if ($field.val() == "keyword") {
+          $operator.find("option:selected").prop("selected", false);
+          $operator.find("option[value='contains']").prop("selected", true);
+          $operator.find("option[value='empty']").prop("disabled", true);
+          $operator.find("option[value='empty']").hide();
+        } else {
+          $operator.find("option[value='empty']").prop("disabled", false);
+          $operator.find("option[value='empty']").show();
+        }
+
+        $operator.trigger("change");
+      };
+
       if (field_data.type == 'enum') {
           var field_select = row.find('#f' + field_data.index);
           var selected_enum = field_select.val();
           var value_select = row.find('#v' + field_data.index);
-
+  
           field_select.on('change', function () {
-              create_select($(this).val(), field_data.index);
+            create_select($(this).val(), field_data.index);
           });
-
+  
           create_select(selected_enum, field_data.index, field_data.query.value);
+      } else if (field_data.type == 'text') {
+        var operator = row.find('#top' + field_data.index);
+        handleEmptyValueOption($(":selected", operator).val());
+        operator.on("change", function() {
+          handleEmptyValueOption($(":selected", operator).val());
+        });
+
+        var field_select = row.find('#f' + field_data.index);
+        field_select.on("change", function(event) {
+          handleTextFieldChange(field_select, operator);
+        });
+        handleTextFieldChange(field_select, operator);
+
+      } else if (field_data.type == 'date') {
+        var operator = row.find('#dop' + field_data.index);
+        handleEmptyValueOption($(":selected", operator).val());
+        operator.on("change", function() {
+          handleEmptyValueOption($(":selected", operator).val());
+        });
       }
+
   });
 </script>
 
@@ -111,7 +166,15 @@
     </select>
   </div>
   <div class="col-md-6">
-    <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control'%>
+    <div class="input-group">
+      <div class="input-group-addon">
+        <select name="top${index}" id="top${index}">
+          <option value="contains" {if query.comparator == "contains" || query.comparator == null}selected{/if}><%= I18n.t("advanced_search.text_operator.contains") %></option>
+          <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.text_operator.empty") %></option>
+        </select>
+      </div>
+      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control'%>
+    </div>
   </div>
 --></div>
 
@@ -124,15 +187,15 @@
     </select>
   </div>
   <div class="col-md-6 advanced-search-date-fields">
-    <div class="col-md-4">
-      <select name="dop${index}" id="dop${index}" class="form-control">
-        <% values_for_date_comparators.each do |op| %>
-          <option value="<%= op[1] %>" {if query.comparator == "<%= op[1] %>"}selected{/if}><%= op[0] %></option>
-        <% end %>
-      </select>
-    </div>
-    <div class="col-md-8">
-        <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
+    <div class="input-group">
+      <div class="input-group-addon">
+        <select name="dop${index}" id="dop${index}">
+          <% values_for_date_comparators.each do |op| %>
+            <option value="<%= op[1] %>" {if query.comparator == "<%= op[1] %>"}selected{/if}><%= op[0] %></option>
+          <% end %>
+        </select>
+      </div>
+      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
     </div>
   </div>
 --></div>
@@ -157,7 +220,7 @@
 
 <div id="template_advanced_search_enum_fields"><!--
   <div class="col-md-3">
-    <select name="f${index}" id="f${index}" class="form-control"<% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+    <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:enum].each do |op| %>
         <%= emit_option(op) %>
       <% end %>
@@ -168,8 +231,6 @@
     </div>
   </div>
 --></div>
-
-
 
 <%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>

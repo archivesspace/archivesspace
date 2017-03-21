@@ -1,6 +1,6 @@
 class GenerateAccessionIdentifiersController < ApplicationController
 
-  skip_before_filter :unauthorised_access
+  skip_before_action :unauthorised_access
 
   def generate
     response = JSONModel::HTTP::post_form('/plugins/generate_accession_identifiers/next')

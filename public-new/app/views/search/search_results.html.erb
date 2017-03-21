@@ -1,0 +1,41 @@
+<% results_type = (defined?(@results_type) ? @results_type : t('search_results.results')) %>
+<div class="row">
+     <%= render partial: 'shared/breadcrumbs' %>
+  <% if defined?(@search_title) %>
+  <h1><%= @search_title %></h1>
+  <% end %>
+
+  <% unless defined?(@no_statement) %>
+  <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
+  <% end %>
+
+  <h2><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
+         :end => @results['offset_last'], :total => @results['total_hits'] })  %></h2>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-3 pull-right">
+    <a name="filter" title="<%= t('internal_links.filter') %>"></a>
+  <%= render partial: 'shared/facets' %>
+  </div>
+  <div class="col-sm-9">
+    <a name="main" title="<%= t('internal_links.main') %>"></a>
+    <div class="row"><div class="col-sm-9">
+    <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+    </div>
+    <%= render partial: 'shared/sorter' %>
+      
+</div>
+    <div class="row"><div class="col-sm-9">
+
+    <% @results.records.each do |result| %>
+      <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+    <% end %>
+    </div></div>
+    <div class="row"><div class="col-sm-9">
+    <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+    </div></div>
+  </div>
+
+</div>

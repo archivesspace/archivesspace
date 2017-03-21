@@ -93,6 +93,9 @@ en:
     download_pdf: Download PDF
     download_report: Download Report
     click_to_show: Please click to load records. 
+    rapid_data_entry: Rapid Data Entry
+    enable_reorder: Enable Reorder Mode
+    reorder_active: Reorder Mode Active
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -227,6 +230,7 @@ en:
       equal: equals
       greater_than: greater than
       lesser_than: less than
+      empty: unassigned
     boolean_field:
       true_value: "True"
       false_value: "False"
@@ -238,6 +242,11 @@ en:
     index_switcher:
       show: Show Advanced Search
       hide: Hide Advanced Search
+    text_operator:
+      contains: contains
+      empty: is empty
+    enum_field:
+      empty: unassigned
 
   become-user:
     become-user: Become User
@@ -282,6 +291,7 @@ en:
     list_reports: Reports
     global_admin: System
     system_info: System Information
+    unpublished: Unpublished
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -368,12 +378,19 @@ en:
     messages:
       defaults_updated: Defaults Updated
 
+  tree:
+    drag_and_drop_actions:
+      before: Add Items Before
+      after: Add Items After
+      as_child: Add Items as Children 
+
   errors:
     sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
+    error_tree_pane_ajax: An error occurred loading this form.
 
   accession:
     _frontend:
@@ -462,6 +479,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+      tree:
+        new_record_title: New Archival Object
 
   classification:
     _frontend:
@@ -492,6 +511,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Classification Term
+      tree:
+        new_record_title: New Classification Term
 
   collection_management: &collection_management_attributes
     _frontend:
@@ -545,7 +566,6 @@ en:
         add_child: Add Child
         create: Create Digital Object
         save: Save Digital Object
-        rapid_data_entry: Rapid Data Entry
 
   digital_object_component:
     _frontend:
@@ -565,6 +585,8 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Digital Object Component
+      tree:
+        new_record_title: New Digital Object Component
 
   enumeration:
     _frontend:
@@ -785,7 +807,6 @@ en:
         finding_aid: Finding Aid Data
       action:
         add_child: Add Child
-        rapid_data_entry: Rapid Data Entry
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources

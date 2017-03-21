@@ -1,3 +1,9 @@
+
+$sans-font: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$serif-font: 'Roboto Slab', serif;
+$font-family-sans-serif: $sans-font;
+$font-family-serif: $serif-font;
+
 $fi-path: "foundation-icon-fonts";
 
 /* Bootstrap icons only */
@@ -7,12 +13,9 @@ $icon-font-svg-id: "";
 $bootstrap-sass-asset-helper: false;
 
 
-$sans-font: 'PT Sans', sans-serif;
-/* $sans-font: 'Roboto Slab', serif; */
-$serif-font: 'Roboto Slab', serif;
 
 $row-width: 100%;
 
-
-
 $body-font-family: $sans-font;
+
+$text-color: $darkest;

@@ -9,8 +9,10 @@ ArchivesSpacePublic::Application.configure do
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
+  config.eager_load = true
+
   # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
@@ -22,12 +24,10 @@ ArchivesSpacePublic::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
-  # config.threadsafe!
-
   # DEVELOPMENT ONLY - Allow overriding of the static resources via the local folder(s)
   # N.B. that is supported by the launcher.rb when in production
   if not ASUtils.find_local_directories.blank?
-    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
+    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
       config.assets.paths.unshift(static_directory)
     end
   end

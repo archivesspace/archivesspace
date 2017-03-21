@@ -63,7 +63,7 @@ class ASpaceEnvironment
 
   def self.download_demo_db
 
-    if File.exists?(File.join(Dir.tmpdir, 'data'))
+    if File.exist?(File.join(Dir.tmpdir, 'data'))
       puts "Data directory already exists at #{File.join(Dir.tmpdir, 'data')}."
       AppConfig[:data_directory] = File.join(Dir.tmpdir, 'data')
       return
@@ -77,7 +77,7 @@ class ASpaceEnvironment
       end
     end
 
-    if File.exists?(zip_file)
+    if File.exist?(zip_file)
       puts "Extracting data to #{Dir.tmpdir} directory"
       Zip::File.open(zip_file) do |zf|
         zf.each do |entry|

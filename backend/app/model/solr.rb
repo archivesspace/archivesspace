@@ -39,41 +39,24 @@ class Solr
     end
 
 
-    def self.construct_advanced_query_string(advanced_query)
+    def self.construct_advanced_query_string(advanced_query, use_literal = false)
       if advanced_query.has_key?('subqueries')
-        subqueries = advanced_query['subqueries'].map {|subq|
-          construct_advanced_query_string(subq)
-        }.join(" #{advanced_query['op']} ")
+        clauses = advanced_query['subqueries'].map {|subq|
+          construct_advanced_query_string(subq, use_literal)
+        }
+
+        # Solr doesn't allow purely negative expression groups, so we add a
+        # match all query to compensate when we hit one of these.
+        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
+          clauses << '*:*'
+        end
+
+        subqueries = clauses.join(" #{advanced_query['op']} ")
 
         "(#{subqueries})"
       else
-        prefix = advanced_query['negated'] ? "-" : ""
-        field = AdvancedSearch.solr_field_for(advanced_query['field'])
-
-        if advanced_query["jsonmodel_type"] == "date_field_query"
-          if advanced_query["comparator"] == "lesser_than"
-            value = "[* TO #{advanced_query["value"]}T00:00:00Z-1MILLISECOND]"
-          elsif advanced_query["comparator"] == "greater_than"
-            value = "[#{advanced_query["value"]}T00:00:00Z+1DAY TO *]"
-          else # advanced_query["comparator"] == "equal"
-            value = "[#{advanced_query["value"]}T00:00:00Z TO #{advanced_query["value"]}T00:00:00Z+1DAY-1MILLISECOND]"
-          end
-        elsif advanced_query["jsonmodel_type"] == "field_query" && advanced_query["literal"]
-          value = "(\"#{solr_escape(advanced_query['value'])}\")"
-        else
-          value = "(#{advanced_query['value']})"
-        end
-
-        "#{prefix}#{field}:#{value}"
+        AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
       end
-    end
-
-
-    SOLR_CHARS = '+-&|!(){}[]^"~*?:\\/'
-
-    def self.solr_escape(s)
-      pattern = Regexp.quote(SOLR_CHARS)
-      s.gsub(/([#{pattern}])/, '\\\\\1')
     end
 
 
@@ -165,23 +148,11 @@ class Solr
     end
 
 
-    def set_filter_terms(filter_terms)
-      unless Array(filter_terms).empty?
-        filter_terms.map{|str| ASUtils.json_parse(str)}.each{|json|
-          json.each {|facet, term|
-            add_solr_param(:fq, self.class.term_query(facet.strip, term.to_s.strip))
-          }
-        }
-      end
-
-      self
-    end
-    
-    def set_simple_filters(filter_terms)
-      unless Array(filter_terms).empty?
-        filter_terms.map{|str| 
-          add_solr_param(:fq, str.strip )
-        }
+    def set_filter(advanced_query)
+      if advanced_query
+        query_string = self.class.construct_advanced_query_string(advanced_query['query'],
+                                                                  use_literal = true)
+        add_solr_param(:fq, query_string)
       end
 
       self
@@ -194,10 +165,12 @@ class Solr
     end
 
 
-    def set_facets(fields)
+    def set_facets(fields, mincount = 0)
       if fields
         @facet_fields = fields
       end
+
+      @facet_mincount = mincount
 
       self
     end
@@ -261,6 +234,7 @@ class Solr
       unless @facet_fields.empty?
         add_solr_param(:"facet.field", @facet_fields)
         add_solr_param(:"facet.limit", AppConfig[:solr_facet_limit])
+        add_solr_param(:"facet.mincount", @facet_mincount)
       end
 
       if @query_type == :edismax
@@ -327,7 +301,7 @@ class Solr
         result['total_hits'] = json['response']['numFound']
 
         result['results'] = json['response']['docs'].map {|doc|
-          doc['uri'] = doc['id']
+          doc['uri'] ||= doc['id']
           doc['jsonmodel_type'] = doc['primary_type']
           doc
         }

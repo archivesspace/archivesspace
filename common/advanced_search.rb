@@ -18,7 +18,7 @@ class AdvancedSearch
   def self.solr_field_for(field)
     load_definitions
     field = @fields.fetch(field.to_s) do
-      raise "Unrecognized search field: #{field}"
+      return field
     end
 
     field.solr_field
@@ -30,7 +30,7 @@ class AdvancedSearch
       require 'search_definitions'
 
       ASUtils.find_local_directories("search_definitions.rb").each do |file|
-        if File.exists?(file)
+        if File.exist?(file)
           load File.absolute_path(file)
         end
       end

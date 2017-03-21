@@ -6,34 +6,50 @@ class AbstractReport
   attr_accessor :repo_id
   attr_accessor :format
   attr_accessor :params
+  attr_accessor :db
+  attr_accessor :orientation
+  attr_reader :job
 
-  def initialize(params, job)
+  def initialize(params, job, db)
     # sanity check, please. 
     params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
     @format = params[:format] if params.has_key?(:format) && params[:format] != "" 
     @params = params 
     @job = job
+    @db = db
+  end
+
+  def title
+    I18n.t("reports.#{code}.title", :default => code)
+  end
+
+  def new_subreport(subreport_model, params)
+    subreport_model.new(params.merge(:format => 'html'), job, db)
   end
 
   def get_binding
     binding
   end
 
-  def title
-    self.class.name
-  end
-
   def report
     self
   end
 
+  def headers
+    query.columns.map(&:to_s)
+  end
+
   def template
-    :'reports/_listing'
+    'generic_listing.erb'
   end
 
   def layout
     AppConfig[:report_page_layout]
+  end
+
+  def orientation
+    "portrait"
   end
 
   def processor
@@ -44,24 +60,27 @@ class AbstractReport
     @job.owner
   end
 
-  def query(db)
+  def query(db = @db)
     raise "Please specify a query to return your reportable results"
   end
 
-  def scope_by_repo_id(dataset)
-    dataset.where(:repo_id => @repo_id)
+  def each(db = @db)
+    dataset = query
+    dataset.where(:repo_id => @repo_id) if @repo_id
+
+    dataset.each do |row|
+      yield(Hash[(headers + processor.keys).uniq.map { |h|
+        val = (processor.has_key?(h))?processor[h].call(row):row[h.intern]
+        [h, val]
+      }])
+    end
   end
 
-  def each
-    DB.open do |db|
-      dataset = query(db)
-      dataset = scope_by_repo_id(dataset) if @repo_id
-      dataset.each do |row|
-        yield(Hash[headers.map { |h|
-          val = (processor.has_key?(h))?processor[h].call(row):row[h.intern]
-          [h, val]
-        }])
-      end
-    end
+  def code
+    self.class.code
+  end
+
+  def self.code
+    self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
   end
 end

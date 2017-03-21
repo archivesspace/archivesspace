@@ -61,7 +61,7 @@ describe "User management" do
     @driver.logout.login($admin)
 
     @driver.find_element(:link, 'System').click
-    @driver.find_element(:link, "Manage Users").click
+    @driver.click_and_wait_until_gone(:link, "Manage Users")
 
     @driver.find_paginated_element(:xpath => "//td[contains(text(), '#{@test_user.username}')]/following-sibling::td/div/a").click
 
