@@ -149,6 +149,13 @@ class ApplicationController < ActionController::Base
 
 
   def handle_accept_children(target_jsonmodel)
+    unless params[:children]
+      # Nothing to do
+      return render :json => {
+                      :position => params[:index].to_i
+                    }
+    end
+
     response = JSONModel::HTTP.post_form(target_jsonmodel.uri_for(params[:id]) + "/accept_children",
                                          "children[]" => params[:children],
                                          "position" => params[:index].to_i)
