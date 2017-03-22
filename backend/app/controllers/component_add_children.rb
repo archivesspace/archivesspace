@@ -170,6 +170,21 @@ class ArchivesSpaceService < Sinatra::Base
       position = params[:position]
       parent_id = (target_class == child_class) ? params[:id] : nil
 
+      if target_class == child_class
+        # If any of the children being dropped is an ancestor of the current node,
+        # that's not OK.  No being your own grandfather!
+        ancestor = target
+        loop do
+          break unless ancestor.parent_id
+
+          ancestor = target_class.get_or_die(ancestor.parent_id)
+
+          if params[:children].include?(ancestor.uri)
+            raise ConflictException.new("Can't make a parent into its own child")
+          end
+        end
+      end
+
       # This has been flipped.  Due to changes in the tree_nodes, the values should
       # be processed using the lowest to highest.  This reverses the previous process
       # Does this cause any undo problems?
