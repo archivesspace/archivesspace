@@ -6,11 +6,11 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "archival_object", jsonmodel_definition(:archival_object) do |readonly, archival_object| %>
-        <h2><%= archival_object.display_string %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
+        <h2><%= clean_mixed_content(archival_object.display_string) %> <span class="label label-info"><%= I18n.t("archival_object._singular") %></span></h2>
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= I18n.t("archival_object._frontend.section.basic_information") %></h3>
-          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_and_textarea "title" , :field_opts => { :clean => true, :escape => false } %>
           <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
           <%= readonly.label_and_textfield "component_id" %>
           <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
