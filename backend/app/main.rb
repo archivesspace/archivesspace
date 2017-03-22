@@ -12,6 +12,11 @@ end
 require_relative 'lib/bootstrap'
 ASpaceEnvironment.init
 
+
+require 'archivesspace_thread_dump'
+ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump_backend.txt"))
+
+
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'

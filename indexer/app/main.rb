@@ -6,6 +6,9 @@ require_relative 'lib/periodic_indexer'
 require_relative 'lib/realtime_indexer'
 require_relative 'lib/pui_indexer'
 
+require 'archivesspace_thread_dump'
+ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump_indexer.txt"))
+
 class ArchivesSpaceIndexer < Sinatra::Base
 
   def self.main
