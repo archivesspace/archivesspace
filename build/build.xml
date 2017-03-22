@@ -255,6 +255,9 @@
     <delete dir="integration.tmp" />
     <delete dir="${java.io.tmpdir}/winstone.${user.name}" />
     <mkdir dir="${java.io.tmpdir}/winstone.${user.name}" />
+
+    <mkdir dir="../build/solr_home/collection1/conf" />
+
     <parallel>
       <daemons>
         <java
