@@ -120,19 +120,27 @@ describe "Tree UI" do
 
     tree_disable_reorder_mode
 
-    2.times {|i|
-      tree_click(tree_node(@a1))
+    tree_click(tree_node(@a1))
 
-      [@a2, @a3].each do |child_ao|
-        parent = @driver.find_element(:id => tree_node(@a1).tree_id)
-        expect(parent.attribute('class')).to include('indent-level-1')
+    [@a2, @a3].each do |child_ao|
+      parent = @driver.find_element(:id => tree_node(@a1).tree_id)
+      expect(parent.attribute('class')).to include('indent-level-1')
 
-        child = @driver.find_element(:id => tree_node(child_ao).tree_id)
-        expect(child.attribute('class')).to include('indent-level-2')
-      end
+      child = @driver.find_element(:id => tree_node(child_ao).tree_id)
+      expect(child.attribute('class')).to include('indent-level-2')
+    end
 
-      @driver.navigate.refresh if i == 0
-    }
+    # refresh the page and make sure they're still visible
+    @driver.navigate.refresh
+
+    [@a2, @a3].each do |child_ao|
+      parent = @driver.find_element(:id => tree_node(@a1).tree_id)
+      expect(parent.attribute('class')).to include('indent-level-1')
+
+      child = @driver.find_element(:id => tree_node(child_ao).tree_id)
+      expect(child.attribute('class')).to include('indent-level-2')
+    end
+
 
     # now move them back
     tree_enable_reorder_mode
