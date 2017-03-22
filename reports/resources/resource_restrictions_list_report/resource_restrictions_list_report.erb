@@ -16,7 +16,8 @@
 <% @report.each do |resource| %>
   <% next if resource.fetch('restrictionsApply') != 1 %>
 
-  <div class="report-record"<%= t('identifier_prefix') %> <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
+  <div class="report-record">
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(resource.fetch('resourceIdentifier')) %></div>
     <div class="record-title"><%= h resource.fetch('title') %></div>
 
     <dl>
