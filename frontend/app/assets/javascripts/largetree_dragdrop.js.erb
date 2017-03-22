@@ -67,6 +67,18 @@
 
         /* Highlight selected rows */
         $('.multiselected', self.largetree.elt).closest('tr').addClass('multiselected-row');
+
+        self.refreshAnnotations();
+    };
+
+    LargeTreeDragDrop.prototype.refreshAnnotations = function() {
+        var self = this;
+
+        self.large_tree.elt.find('.drag-annotation').remove();
+        self.rowsToMove.map(function (elt, idx) {
+            var $annotation = $('<div>').addClass('drag-annotation').text(idx + 1);
+            $annotation.appendTo($(elt).find('td:first'));
+        });
     };
 
     LargeTreeDragDrop.prototype.handleMultiSelect = function (selection) {
@@ -180,7 +192,7 @@
                                  .css('left', largetree.elt.offset().left);
 
                 self.dragIndicator.empty().hide();
-                self.dragIndicator.append($('<ul />').append(self.rowsToMove.map(function (elt, idx) {
+                self.dragIndicator.append($('<ol />').append(self.rowsToMove.map(function (elt, idx) {
                     return $('<li />').text($(elt).find('.title').text());
                 })));
 
