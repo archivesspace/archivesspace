@@ -41,7 +41,7 @@
 
 
         if (!read_only) {
-            self.dragdrop = self.large_tree.addPlugin(new LargeTreeDragDrop());
+            self.dragdrop = self.large_tree.addPlugin(new LargeTreeDragDrop(self.large_tree));
         }
     };
 
