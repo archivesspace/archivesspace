@@ -8,7 +8,7 @@ class Record
               :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier
+              :identifier, :classifications
 
   attr_accessor :criteria 
 
@@ -38,6 +38,7 @@ class Record
     @resolved_top_container = parse_top_container
     @repository_information = parse_repository_info
     @subjects = parse_subjects
+    @classifications = parse_classifications
     @agents = parse_agents(subjects)
     @extents = parse_extents
   end
@@ -206,6 +207,24 @@ class Record
 
     return_arr
   end
+
+
+  def parse_classifications
+    return_arr = []
+
+    ASUtils.wrap(json['classifications']).each do |c|
+      unless c['_resolved'].blank?
+        classification = record_from_resolved_json(c['_resolved'])
+        return_arr << {
+          'title' => classification.display_string,
+          'uri' => classification.uri
+        }
+      end
+    end
+
+    return_arr
+  end
+
 
   def title_and_uri(in_h, inh_struct = nil)
     ret_val = nil
