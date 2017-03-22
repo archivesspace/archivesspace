@@ -175,28 +175,39 @@ var SHARED_TOOLBAR_ACTIONS = [
                     .text('<%= I18n.t('actions.move_down_into') %>'));
                 $options.append($li);
 
-                // add nearest siblings to dropdown list
-                // 1 up and 1 below
-                var $siblings = $('<ul>').addClass('dropdown-menu').addClass('move-node-into-menu');
-                if ($prevAtLevel.length > 0) {
+                var $siblingsMenu = $('<ul>').addClass('dropdown-menu').addClass('move-node-into-menu');
+
+                var $siblingsAbove = $.makeArray(node.prevAll('.largetree-node.indent-level-'+level));
+                var $siblingsBelow = $.makeArray(node.nextAll('.largetree-node.indent-level-'+level));
+
+                var NUMBER_OF_SIBLINGS_TO_LIST = 20;
+                var HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST = parseInt(NUMBER_OF_SIBLINGS_TO_LIST/2);
+                var $siblingsToAddToMenu = [];
+                if ($siblingsAbove.length > HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST && $siblingsBelow.length > HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST) {
+                    $siblingsToAddToMenu = $.merge($siblingsAbove.slice(0, HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST ).reverse(),
+                                                   $siblingsBelow.slice(0, HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST));
+                } else if ($siblingsAbove.length > HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST) {
+                    $siblingsToAddToMenu = $.merge($siblingsAbove.slice(0, NUMBER_OF_SIBLINGS_TO_LIST - $siblingsBelow.length).reverse(),
+                                                   $siblingsBelow);
+                } else if ($siblingsBelow.length > HALF_THE_NUMBER_OF_SIBLINGS_TO_LIST) {
+                    $siblingsToAddToMenu = $.merge($siblingsAbove.reverse(),
+                                                   $siblingsBelow.slice(0, NUMBER_OF_SIBLINGS_TO_LIST - $siblingsAbove.length));
+                } else {
+                    $siblingsToAddToMenu = $.merge($siblingsAbove.reverse(), $siblingsBelow);
+                }
+
+                for (var i = 0; i < $siblingsToAddToMenu.length; i++) {
+                    var $sibling = $($siblingsToAddToMenu[i]);
                     var $subli = $('<li>');
                     $subli.append($('<a>').attr('href', 'javascript:void(0);')
                         .addClass('move-node move-node-down-into')
-                        .attr('data-uri', $prevAtLevel.data('uri'))
-                        .attr('data-tree_id', $prevAtLevel.attr('id'))
-                        .text($prevAtLevel.find('.record-title').text().trim()));
-                    $siblings.append($subli);
+                        .attr('data-uri', $sibling.data('uri'))
+                        .attr('data-tree_id', $sibling.attr('id'))
+                        .text($sibling.find('.record-title').text().trim()));
+                    $siblingsMenu.append($subli);
                 }
-                if ($nextAtLevel.length > 0) {
-                    var $subli = $('<li>');
-                    $subli.append($('<a>').attr('href', 'javascript:void(0);')
-                        .addClass('move-node move-node-down-into')
-                        .attr('data-uri', $nextAtLevel.data('uri'))
-                        .attr('data-tree_id', $nextAtLevel.attr('id'))
-                        .text($nextAtLevel.find('.record-title').text().trim()));
-                    $siblings.append($subli);
-                }
-                $siblings.appendTo($li);
+
+                $siblingsMenu.appendTo($li);
             }
             $options.appendTo(btn.closest('.btn-group'));
 
