@@ -130,6 +130,13 @@
     LargeTree.prototype.reparentNodes = function (new_parent, nodes, position) {
         var self = this;
 
+        if (!self.isReparentAllowed(nodes, new_parent)) {
+            // This move is not allowed!
+            return {
+                'done' : $.noop
+            };
+        }
+
         var scrollPosition = self.elt.scrollTop();
         var loadingMask = self.displayLoadingMask(scrollPosition)
 
@@ -880,6 +887,39 @@
             this.displayNode(this.current_tree_id, callback);
         }
     };
+
+    LargeTree.prototype.isReparentAllowed = function(nodes_to_move, target_node) {
+        var self = this;
+
+        if (target_node.is('.root-row')) {
+            // always able to drop onto root node
+            return true;
+        }
+
+        var uris_to_check = [];
+        uris_to_check.push(target_node.data('uri'));
+        var level = target_node.data('level') - 1;
+        var row = target_node;
+        while (level > 0) {
+            row = row.prevAll('.largetree-node.indent-level-' + level + ':first');
+            uris_to_check.push(row.data('uri'));
+            level -= 1;
+        }
+
+        var isAllowed = true;
+
+        $(nodes_to_move).each(function (idx, selectedRow) {
+            var uri = $(selectedRow).data('uri');
+            if ($.inArray(uri, uris_to_check) >= 0) {
+                isAllowed = false;
+                return;
+            }
+        });
+
+        return isAllowed;
+
+    };
+
 
     exports.LargeTree = LargeTree;
     exports.TreeDataSource = TreeDataSource;

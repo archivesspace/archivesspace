@@ -5,7 +5,7 @@
     var HOTSPOT_HEIGHT = 200;
     var AUTO_SCROLL_SPEED = 200;
 
-    function LargeTreeDragDrop() {
+    function LargeTreeDragDrop(large_tree) {
         this.dragActive = false;
         this.dragIndicator = $('<div class="tree-drag-indicator" />');
         this.rowsToMove = [];
@@ -18,37 +18,12 @@
         this.autoScrollTimer = undefined;
 
         this.lastCursorPosition = undefined;
+
+        this.large_tree = large_tree;
     }
 
     LargeTreeDragDrop.prototype.isDropAllowed = function(target_node) {
-        var self = this;
-
-        if (target_node.is('.root-row')) {
-            // always able to drop onto root node
-            return true;
-        }
-
-        var uris_to_check = [];
-        uris_to_check.push(target_node.data('uri'));
-        var level = target_node.data('level') - 1;
-        var row = target_node;
-        while (level > 0) {
-            row = row.prevAll('.largetree-node.indent-level-' + level + ':first');
-            uris_to_check.push(row.data('uri'));
-            level -= 1;
-        }
-
-        var isAllowed = true;
-
-        $(self.rowsToMove).each(function (idx, selectedRow) {
-            var uri = $(selectedRow).data('uri');
-            if ($.inArray(uri, uris_to_check) >= 0) {
-                isAllowed = false;
-                return;
-            }
-        });
-
-        return isAllowed;
+        return this.large_tree.isReparentAllowed(this.rowsToMove, target_node);
     };
 
     LargeTreeDragDrop.prototype.setDragHandleState = function () {
@@ -230,6 +205,9 @@
 
                 /* Not attempting to expand something */
                 $(event.target).closest('.expandme').length === 0 &&
+
+                /* Not attempting to click a toolbar action */
+                $(event.target).closest('#tree-toolbar').length === 0 &&
 
                 /* Not using the resize handle */
                 $(event.target).closest('.ui-resizable-handle').length === 0) {
