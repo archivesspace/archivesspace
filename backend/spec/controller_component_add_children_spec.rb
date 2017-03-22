@@ -96,4 +96,20 @@ describe 'Component Add Children controllers' do
   end
 
 
+  it "won't let you be your own grandparent" do
+    parent = create(:json_archival_object, :resource => {:ref => resource.uri})
+    child = create(:json_archival_object,
+                   :resource => {:ref => resource.uri},
+                   :parent => {:ref => parent.uri})
+    grandchild = create(:json_archival_object,
+                        :resource => {:ref => resource.uri},
+                        :parent => {:ref => child.uri})
+
+
+    response = JSONModel::HTTP::post_form("#{grandchild.uri}/accept_children", {"children[]" => [parent.uri], "position" => 0})
+
+    response.status.should eq(409)
+  end
+
+
 end
