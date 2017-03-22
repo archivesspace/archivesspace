@@ -103,7 +103,9 @@
    <field name="digital_object_id" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Archival Objects store the URI of the resource they belong to (if any) -->
+   <!-- and the URIs for all ancestors in order of parent back up to the Resource -->
    <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ancestors" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Digital Object properties required for facets -->
    <field name="digital_object_type" type="string" indexed="true" stored="true" multiValued="false"/>

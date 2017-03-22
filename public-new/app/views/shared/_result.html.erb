@@ -30,25 +30,39 @@
             r_name = result['_resolved_repository']['json']['name'] || ''
 	  end
        %>
-       <% unless !r_uri && !r_name %>
-       <div> <strong><%= t('context') %>: </strong>
-	 <span  class="repo_name">
-	 <a href="<%= r_uri%>"><%= r_name%></a></span>
-	 <% unless props.fetch(:no_res, false) || result['_resolved_resource'].blank? || result['_resolved_resource']['json'].blank? || !result['_resolved_resource']['json']['publish'] %>
-       / <span class="resource_name">
-	 <a href="<%= result['_resolved_resource']['json']['uri']%>"><%= process_mixed_content(result['_resolved_resource']['json']['title']).html_safe %></a> 
-	 </span>
-	 <% end %>
-       </div>
-       <% end %>
-      <% end %>
+    <% end %>
+
+    <% if result.resolved_repository %>
+      <div class="result_context">
+        <strong><%= t('context') %>: </strong>
+        <span  class="repo_name">
+          <%= link_to result.resolved_repository.fetch('name'), result.resolved_repository.fetch('uri') %>
+        </span>
+ 
+        <% if result.respond_to?(:ancestors) && result.ancestors %>
+          <% result.ancestors.each do |ancestor| %>
+            /
+            <span class="ancestor">
+            <%= link_to ancestor.fetch('title'), ancestor.fetch('uri') %> 
+            </span>
+          <% end %>
+        <% else %>
+          <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
+            / 
+            <span class="resource_name">
+              <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, result.resolved_resource.fetch('uri') %>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
 
 
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
        <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
        <% end %>
-     </div>					  
-
-   <% if !props.fetch(:full,false) %>
    </div>
-   <% end %>
+
+<% if !props.fetch(:full,false) %>
+   </div>
+<% end %>

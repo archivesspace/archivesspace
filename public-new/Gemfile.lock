@@ -45,6 +45,9 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.3)
+    childprocess (0.6.2)
+      ffi (~> 1.0, >= 1.0.11)
+    choice (0.2.0)
     clipboard-rails (1.5.16)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -80,6 +83,11 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     minitest (5.10.1)
+    mizuno (0.6.11)
+      childprocess (>= 0.2.6)
+      choice (>= 0.1.0)
+      ffi (>= 1.0.0)
+      rack (>= 1.0.0)
     nio4r (1.2.1-java)
     nokogiri (1.7.0.1-java)
     pry (0.10.4-java)
@@ -89,7 +97,6 @@ GEM
       spoon (~> 0.0)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
-    puma (3.6.2-java)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -167,8 +174,8 @@ DEPENDENCIES
   font-awesome-sass
   jquery-rails
   listen
+  mizuno (= 0.6.11)
   pry-rails
-  puma (= 3.6.2)
   rails (= 5.0.1)
   sass-rails (= 5.0.5)
   therubyrhino

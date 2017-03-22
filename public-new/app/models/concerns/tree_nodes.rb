@@ -20,6 +20,16 @@ module TreeNodes
     crumbs
   end
 
+  def ancestors
+    ancestor_uris = raw.fetch('ancestors', nil)
+
+    return [] if ancestor_uris.blank?
+
+    ASUtils.wrap(ancestor_uris.reverse.map{|uri| 
+      ASUtils.wrap(raw['_resolved_ancestors'].fetch(uri, nil)).first
+    }).compact
+  end
+
   private
 
   def id
