@@ -68,6 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("**", "spec", "*.rb")
 
     set :server, :mizuno
+    set :server_settings, {:reuse_address => true}
   end
 
   configure :test do |config|

@@ -2,4 +2,18 @@
 
 require_relative 'config/environment'
 
+module Rack
+  class Server
+    alias :options_pre_mizuno :options
+
+    # It seems like there should be an easier way to pass options to the
+    # underlying server, but I'm yet to find it.  So here's this.
+    def options
+      result = options_pre_mizuno
+      result[:reuse_address] = true
+      result
+    end
+  end
+end
+
 run Rails.application
