@@ -86,6 +86,8 @@ var SHARED_TOOLBAR_ACTIONS = [
 
                     $('.paste-selection', toolbarRenderer.container).removeClass('disabled');
                 }
+
+                tree.dragdrop.resetState();
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;

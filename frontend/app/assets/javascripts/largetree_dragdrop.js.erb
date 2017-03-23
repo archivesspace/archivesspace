@@ -356,7 +356,6 @@
 
                 /* Deselect everything */
                 self.resetState();
-                $(largetree.elt).find('.multiselected').removeClass('multiselected');
 
                 self.handleMultiSelect($(event.target));
             }
@@ -368,6 +367,8 @@
 
     LargeTreeDragDrop.prototype.resetState = function () {
         var self = this;
+
+        $(self.largetree.elt).find('.multiselected').removeClass('multiselected');
 
         self.rowsToMove = [];
 
