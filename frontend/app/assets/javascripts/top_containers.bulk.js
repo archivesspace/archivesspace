@@ -33,11 +33,13 @@ BulkContainerSearch.prototype.perform_search = function(data) {
     data: data,
     type: "post",
     success: function(html) {
+      $.rails.enableFormElements(self.$search_form);
       self.$results_container.html(html);
       self.setup_table_sorter();
       self.update_button_state();
     },
     error: function(jqXHR, textStatus, errorThrown) {
+      $.rails.enableFormElements(self.$search_form);
       var html = AS.renderTemplate("template_bulk_operation_error_message", {message: jqXHR.responseText})
       self.$results_container.html(html);
       self.update_button_state();
