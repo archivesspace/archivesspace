@@ -148,7 +148,6 @@
             <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type])  %> </h2>
 
             <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
-
             <% form.emit_template("job") %>
 
             <div id="uploadProgress" class="progress progress-striped active" style="display: none;">
@@ -160,6 +159,8 @@
             </div>
 
             <div class="form-actions">
+              &nbsp;
+              <hr>
               <div class="btn-group">
                 <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
               </div>
