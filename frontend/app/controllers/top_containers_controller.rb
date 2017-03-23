@@ -247,12 +247,12 @@ class TopContainersController < ApplicationController
 
     unless params['exported'].blank?
       builder.and('exported_u_sbool',
-                  (params['exported'] == "yes" ? 'true' : 'false'),
+                  (params['exported'] == "yes" ? true : false),
                   'boolean')
     end
 
     unless params['empty'].blank?
-      builder.and('empty_u_sbool', (params['empty'] == "yes" ? 'true' : 'false'), 'boolean')
+      builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
     end
 
     unless params['barcodes'].blank?
