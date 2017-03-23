@@ -102,8 +102,10 @@
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
 
     <div class="form-group">
-      <label class="col-sm-3 control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['report_type'] %></div>
+      <label class="col-sm-3 control-label"><%= I18n.t("report_job.report_type")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("reports.#{job['report_type']}.title", :default => job['report_type']) %></div>
+      <label class="col-sm-3 control-label"><%= I18n.t("report_job.format")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("reports.formats.#{job['format']}", :default => job['format']) %></div>
     </div>
 
 <% end %>
