@@ -77,8 +77,8 @@
         if (rootNode.jsonmodel_type == 'classification') {
             row.find('a.record-title').attr('href', rootNode.uri + '/search');
         } else {
-            if ("<%= @resource_title %>".length > 0) {
-                row.find("a.record-title").html("<%= @resource_title %>");
+            if (<%= !@resource_title.blank? %>) {
+                row.find("a.record-title").html("<%== escape_javascript(@resource_title) %>");
             }
             row.find('a.record-title').attr('href', rootNode.uri);
         }
@@ -89,6 +89,9 @@
             row.find('a.record-title').attr('href', node.uri + '/search');
         } else {
             row.find('a.record-title').attr('href', node.uri);
+        }
+        if (node.parsed_title) {
+            row.find('a.record-title').html(node.parsed_title)
         }
     };
 

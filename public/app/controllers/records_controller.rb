@@ -30,7 +30,7 @@ class RecordsController < ApplicationController
     node_from_root = Search.get_raw_record(@resource_uri + '/tree/node_from_root_' + @archival_object.id.to_s)
     ASUtils.wrap(node_from_root.fetch(@archival_object.id.to_s)).each do |node|
       if node['node']
-        @breadcrumbs.push([node['title'], "#{AppConfig[:public_proxy_prefix]}#{node['node']}".gsub('//', '/'), 'archival_object'])
+        @breadcrumbs.push([node['parsed_title'], "#{AppConfig[:public_proxy_prefix]}#{node['node']}".gsub('//', '/'), 'archival_object'])
       else
         resource_uri = node['root_record_uri']
         resource_id = JSONModel.parse_reference(resource_uri).fetch(:id)
@@ -40,7 +40,7 @@ class RecordsController < ApplicationController
       end
     end
 
-    @breadcrumbs.push([@archival_object.display_string, "#", "archival_object"])
+    @breadcrumbs.push([MixedContentParser.parse(@archival_object.display_string, '/'), "#", "archival_object"])
   end
 
 
@@ -72,13 +72,13 @@ class RecordsController < ApplicationController
     node_from_root = Search.get_raw_record(@digital_object_uri + '/tree/node_from_root_' + @digital_object_component.id.to_s)
     ASUtils.wrap(node_from_root.fetch(@digital_object_component.id.to_s)).each do |node|
       if node['node']
-        @breadcrumbs.push([node['title'], "#{AppConfig[:public_proxy_prefix]}#{node['node']}".gsub('//', '/'), 'digital_object_component'])
+        @breadcrumbs.push([node['parsed_title'], "#{AppConfig[:public_proxy_prefix]}#{node['node']}".gsub('//', '/'), 'digital_object_component'])
       else
-        @breadcrumbs.push([node['title'], "#{AppConfig[:public_proxy_prefix]}#{node['root_record_uri']}".gsub('//', '/'), 'digital_object'])
+        @breadcrumbs.push([node['parsed_title'], "#{AppConfig[:public_proxy_prefix]}#{node['root_record_uri']}".gsub('//', '/'), 'digital_object'])
       end
     end
 
-    @breadcrumbs.push([@digital_object_component.display_string, "#", "digital_object_component"])
+    @breadcrumbs.push([MixedContentParser.parse(@digital_object_component.display_string, '/'), "#", "digital_object_component"])
   end
 
   def classification
