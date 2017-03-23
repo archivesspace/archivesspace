@@ -98,6 +98,17 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.delete('/repositories/:repo_id/jobs/:id')
+    .description("Delete a Job")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:cancel_job])
+    .returns([200, :deleted]) \
+  do
+    handle_delete(Job, params[:id])
+  end
+
+
   Endpoint.get('/repositories/:repo_id/jobs')
     .description("Get a list of Jobs for a Repository")
     .params(["repo_id", :repo_id])
