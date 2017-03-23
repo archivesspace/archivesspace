@@ -1939,6 +1939,10 @@ en:
     owner: Owner
     show_description: Show Description
 
+  report_job:
+    report_type: Report Type
+    format: Format
+
   import_job:
     _singular: Import Job
     filenames: Files
