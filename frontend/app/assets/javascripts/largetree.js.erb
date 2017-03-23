@@ -132,6 +132,10 @@
 
         if (!self.isReparentAllowed(nodes, new_parent)) {
             // This move is not allowed!
+            // alert user
+            AS.openQuickModal("<%= I18n.t('largetree.reparent_error.title') %>",
+                              "<%= I18n.t('largetree.reparent_error.message') %>")
+
             return {
                 'done' : $.noop
             };
