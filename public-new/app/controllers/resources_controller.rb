@@ -164,7 +164,7 @@ class ResourcesController <  ApplicationController
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = uri
+      @uri = @root_uri
       @back_url = request.referer || ''
       render  'shared/not_found'
     end
