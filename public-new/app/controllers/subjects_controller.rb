@@ -7,6 +7,7 @@ class SubjectsController <  ApplicationController
   DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents  used_within_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
    }
   DEFAULT_SUBJ_SEARCH_PARAMS = {
@@ -107,7 +108,6 @@ Rails.logger.debug("we hit search!")
     @base_search = "#{uri}?"
     search_opts =  default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
     search_opts['fq']=[qry]
-    search_opts['resolve[]']  = ['repository:id', 'resource:id@compact_resource']
     set_up_search(DEFAULT_SUBJ_TYPES, DEFAULT_SUBJ_FACET_TYPES, search_opts, params, qry)
    # we do this to compensate for the way @base_search gets munged in the setup
     @base_search= @base_search.sub("q=#{qry}", '')

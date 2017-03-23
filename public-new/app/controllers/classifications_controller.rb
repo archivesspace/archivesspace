@@ -9,7 +9,7 @@ class ClassificationsController <  ApplicationController
   DEFAULT_CL_FACET_TYPES = %w{primary_type subjects agents repository resource}
   DEFAULT_CL_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
   DEFAULT_CL_SEARCH_PARAMS = {

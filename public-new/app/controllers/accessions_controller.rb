@@ -9,7 +9,7 @@ class AccessionsController <  ApplicationController
   DEFAULT_AC_FACET_TYPES = %w{primary_type subjects agents repository}
   DEFAULT_AC_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
   DEFAULT_AC_SEARCH_PARAMS = {
