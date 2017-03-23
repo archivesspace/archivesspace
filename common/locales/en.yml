@@ -1995,4 +1995,4 @@ en:
   largetree:
     reparent_error:
       title: Unable to perform move
-      message: The move has been disallowed as a parent cannot become it's own child.
+      message: The move has been disallowed as a parent cannot become its own child.
