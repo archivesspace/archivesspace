@@ -86,6 +86,8 @@ var SHARED_TOOLBAR_ACTIONS = [
 
                     $('.paste-selection', toolbarRenderer.container).removeClass('disabled');
                 }
+
+                tree.dragdrop.resetState();
             },
             isEnabled: function(node, tree, toolbarRenderer) {
                 return true;
@@ -118,6 +120,7 @@ var SHARED_TOOLBAR_ACTIONS = [
 
                 tree.large_tree.reparentNodes(current, rowsToPaste, current.data('child_count')).done(function() {
                     $('.cut', tree.large_tree.elt).removeClass('cut');
+                    toolbarRenderer.reset();
                 });
             },
             isEnabled: function(node, tree, toolbarRenderer) {
@@ -214,21 +217,29 @@ var SHARED_TOOLBAR_ACTIONS = [
             $options.on('click', '.move-node-up-level', function(event) {
                 // move node to last child of parent
                 var $new_parent = node.prevAll('.indent-level-'+(level-2)+":first");
-                tree.large_tree.reparentNodes($new_parent, node, $new_parent.data('child_count'));
+                tree.large_tree.reparentNodes($new_parent, node, $new_parent.data('child_count')).done(function() {
+                    toolbarRenderer.reset();
+                });
             }).on('click', '.move-node-up', function(event) {
                 // move node above nearest sibling
                 var $parent = node.prevAll('.indent-level-'+(level-1)+":first");
                 var $prev = node.prevAll('.indent-level-'+(level)+":first");
-                tree.large_tree.reparentNodes($parent, node, $prev.data('position'));
+                tree.large_tree.reparentNodes($parent, node, $prev.data('position')).done(function() {
+                    toolbarRenderer.reset();
+                });
             }).on('click', '.move-node-down', function(event) {
                 // move node below nearest sibling
                 var $parent = node.prevAll('.indent-level-'+(level-1)+":first");
                 var $next = node.nextAll('.indent-level-'+(level)+":first");
-                tree.large_tree.reparentNodes($parent, node, $next.data('position')+1);
+                tree.large_tree.reparentNodes($parent, node, $next.data('position')+1).done(function() {
+                    toolbarRenderer.reset();
+                });
             }).on('click', '.move-node-down-into', function(event) {
                 // move node to last child of sibling
                 var $parent = $('#'+$(this).data('tree_id'));
-                tree.large_tree.reparentNodes($parent, node, $parent.data('child_count'));
+                tree.large_tree.reparentNodes($parent, node, $parent.data('child_count')).done(function() {
+                    toolbarRenderer.reset();
+                });
             });
 
             btn.attr('data-toggle', 'dropdown');

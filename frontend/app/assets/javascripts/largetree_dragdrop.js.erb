@@ -356,7 +356,6 @@
 
                 /* Deselect everything */
                 self.resetState();
-                $(largetree.elt).find('.multiselected').removeClass('multiselected');
 
                 self.handleMultiSelect($(event.target));
             }
@@ -368,6 +367,8 @@
 
     LargeTreeDragDrop.prototype.resetState = function () {
         var self = this;
+
+        $(self.largetree.elt).find('.multiselected').removeClass('multiselected');
 
         self.rowsToMove = [];
 
@@ -438,7 +439,7 @@
 
         self.menu.on('click', '.add-items-before', function() {
             self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position')).done(function() {
-                self.resetState()
+                self.resetState();
             });
         }).on('click', '.add-items-as-children', function() {
             self.largetree.reparentNodes(dropTarget, self.rowsToMove, dropTarget.data('child_count')).done(function() {

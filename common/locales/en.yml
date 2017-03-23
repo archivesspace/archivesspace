@@ -1991,3 +1991,8 @@ en:
 
   resource_component:
     _singular: Resource Component
+
+  largetree:
+    reparent_error:
+      title: Unable to perform move
+      message: The move has been disallowed as a parent cannot become its own child.
