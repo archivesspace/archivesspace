@@ -10,7 +10,7 @@ class AdvancedQueryBuilder
     if field_or_subquery.is_a?(AdvancedQueryBuilder)
       push_subquery('AND', field_or_subquery)
     else
-      raise "Missing value" unless value
+      raise "Missing value" if value.nil?
       push_term('AND', field_or_subquery, value, type, literal, negated)
     end
 
