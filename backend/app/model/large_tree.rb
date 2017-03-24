@@ -90,7 +90,8 @@ class LargeTree
 
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
-                                                      "jsonmodel_type" => @root_table.to_s)
+                                                      "jsonmodel_type" => @root_table.to_s,
+                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
