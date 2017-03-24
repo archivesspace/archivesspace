@@ -1,5 +1,5 @@
 <%
-   record_title = @archival_object.title
+   record_title = MixedContentParser.parse(@archival_object.title, '/')
    set_title(record_title)
 %>
 <%= render_aspace_partial(:partial => 'title_pane',
