@@ -43,7 +43,7 @@
           <% result.ancestors.each do |ancestor| %>
             /
             <span class="ancestor">
-            <%= link_to ancestor.fetch('title'), ancestor.fetch('uri') %> 
+            <%= link_to process_mixed_content(ancestor.fetch('title')).html_safe, ancestor.fetch('uri') %>
             </span>
           <% end %>
         <% else %>
