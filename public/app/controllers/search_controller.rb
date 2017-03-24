@@ -69,6 +69,8 @@ class SearchController < ApplicationController
       @criteria.delete("filter_term")
     end
 
+    apply_filters(@criteria)
+
     if params[:type].blank?
       @criteria['type[]'] = DETAIL_TYPES
     else
@@ -104,6 +106,19 @@ class SearchController < ApplicationController
   def search_term(i)
     if not params["v#{i}"].blank?
       { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
+    end
+  end
+
+  def apply_filters(criteria)
+    queries = AdvancedQueryBuilder.new
+
+    Array(criteria['filter_term[]']).each do |json_filter|
+      filter = ASUtils.json_parse(json_filter)
+      queries.and(filter.keys[0], filter.values[0])
+    end
+
+    unless queries.empty?
+      criteria['filter'] = queries.build.to_json
     end
   end
 
