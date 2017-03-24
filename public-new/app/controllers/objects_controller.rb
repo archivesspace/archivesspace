@@ -11,7 +11,7 @@ class ObjectsController <  ApplicationController
   
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1,
     'sort' =>  'title_sort asc'
   }

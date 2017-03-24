@@ -23,7 +23,7 @@ module TreeNodes
   def ancestors
     ancestor_uris = raw.fetch('ancestors', nil)
 
-    return [] if ancestor_uris.blank?
+    return [] if ancestor_uris.blank? || raw['_resolved_ancestors'].nil?
 
     ASUtils.wrap(ancestor_uris.reverse.map{|uri| 
       ASUtils.wrap(raw['_resolved_ancestors'].fetch(uri, nil)).first
