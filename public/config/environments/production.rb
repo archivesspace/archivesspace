@@ -57,6 +57,7 @@ ArchivesSpacePublic::Application.configure do
   config.assets.precompile = [Proc.new {|file|
     file =~ /.*\.js$/ or
       file =~ /.*\.(png|jpg|gif)$/ or
+      file =~ /archivesspace\/largetree\.css$/ or
       file =~ /themes\/.*\/(application|bootstrap).css/
   }]
 
