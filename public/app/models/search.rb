@@ -32,7 +32,7 @@ class Search
 
       ASUtils.json_parse(json_str)
     rescue
-      raise "Record not found: #{uri}"
+      raise RecordNotFound.new("Record not found: #{uri}")
     end
   end
 
