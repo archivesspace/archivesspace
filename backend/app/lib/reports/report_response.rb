@@ -144,12 +144,21 @@ EOS
       # Each token is then wrapped in a span, ensuring that we don't go too
       # long without having a spot to break a word if needed.
       #
+      at_start_of_word = true
+
       escaped.scan(/[\s]|&.*;|[^\s]{1,5}/).map {|token|
         if token.start_with?("&") || token =~ /\A[\s]\Z/
           # Don't mess with &amp; and friends, nor whitespace
+          at_start_of_word = (token == ' ')
+
           token
         else
-          "<span>#{token}</span>"
+          if at_start_of_word
+            at_start_of_word = false
+            "<span class=\"wordstart\">#{token}</span>"
+          else
+            "<span>#{token}</span>"
+          end
         end
       }.join("")
     else
@@ -205,7 +214,13 @@ EOS
         end
       end
 
-      doc.to_xhtml
+      result = doc.to_xhtml(:save_with => 0)
+
+      # Remove any spaces Nokogiri inserted between spans that are inter-word
+      # breaks.  Avoids funny output like "event ually".
+      result.gsub!('</span> <span>', '</span><span>')
+
+      result
     end
 
   end
