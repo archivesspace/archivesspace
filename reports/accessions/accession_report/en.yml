@@ -16,6 +16,7 @@ en:
       bulk_begin_date: Bulk Begin Date
       bulk_end_date: Bulk End Date
       date_expression: Date Expression
+      description_section: Description
       names: Names
       subjects: Subjects
       acquisitions: Acquisitions
