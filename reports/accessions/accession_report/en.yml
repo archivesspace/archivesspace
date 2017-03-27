@@ -2,7 +2,7 @@ en:
   reports:
     accession_report:
       title: Accession Report
-      description: Report on Accession records
+      description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
       number_of_accessions: Number of accessions
       identifier_prefix: Accession
       accession_date: Accession Date
@@ -20,7 +20,6 @@ en:
       subjects: Subjects
       acquisitions: Acquisitions
       retention: Retention
-      description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
       condition: Condition
       inventory: Inventory
       disposition: Disposition
