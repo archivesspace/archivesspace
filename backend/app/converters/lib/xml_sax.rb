@@ -275,9 +275,9 @@ module ASpaceImport
             if property_type[0].match /list$/
               obj.send("#{property}").push(filtered_value)
             else
-              if obj.send("#{property}")
-                Log.warn("Setting a property that has already been set")
-              end
+              # if obj.send("#{property}")
+              #   Log.warn("Setting a property that has already been set")
+              # end
               obj.send("#{property}=", filtered_value)
             end
           end
