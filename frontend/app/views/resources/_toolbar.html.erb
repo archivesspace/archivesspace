@@ -24,11 +24,7 @@
       </li>
       <li><%= link_to I18n.t("actions.export_marc"), {:controller => :exports, :action => :download_marc, :id => @resource.id} %></li>
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
-      <% if user_can?('create_job') %>
-        <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-          <li><%= link_to I18n.t("actions.print_to_pdf"), {:controller => :jobs,  :action => :new, :job_type => 'print_to_pdf_job'}, :target => "_blank" %></li>
-        <% end %>
-      <% end %>
+      <li><%= link_to I18n.t("actions.print_to_pdf"), {:controller => :jobs,  :action => :new, :job_type => 'print_to_pdf_job'}, :target => "_blank" %></li>
     <% end %>
   <% end %>
 
