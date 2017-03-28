@@ -18,7 +18,7 @@ class ResourcesController <  ApplicationController
   }
 
   DEFAULT_RES_SEARCH_OPTS = {
-    'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
 
