@@ -216,7 +216,7 @@ class RecordsController < ApplicationController
       :term_map => {classification.uri => classification.title}.to_json
     }.merge(params_for_search({
                                 "add_filter_term" => {
-                                  "classification_uri" => classification.uri
+                                  "classification_uris" => classification.uri
                                 }.to_json
                               }))
 
@@ -234,7 +234,7 @@ class RecordsController < ApplicationController
       :term_map => { classification_term.uri => classification_term.title }.to_json
     }.merge(params_for_search({
                                 "add_filter_term" => {
-                                  "classification_uri" => classification_term.uri
+                                  "classification_uris" => classification_term.uri
                                 }.to_json
                               }))
 
