@@ -129,6 +129,7 @@
     component_id_tooltip: |
         <p>Un identificador único para el componente objeto Digital.</p>
     dates: Fechas
+    has_unpublished_ancestor: ¿Tiene una serie/subserie por encima sin publicar?
     _singular: Componente de objeto digital
     _plural: Componentes de objeto digital
 

@@ -129,6 +129,7 @@ en:
     component_id_tooltip: |
         <p>A unique identifier for the Digital Object Component.</p>
     dates: Dates
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Digital Object Component
     _plural: Digital Object Components
 
