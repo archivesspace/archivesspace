@@ -22,7 +22,7 @@ describe "Agents" do
     @driver.find_element(:link, 'Create').click
     @driver.find_element(:link, 'Agent').click
     @driver.click_and_wait_until_gone(:link, 'Person')
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
   end
 
@@ -30,7 +30,7 @@ describe "Agents" do
   it "reports an error when neither Source nor Rules is provided" do
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], @hendrix)
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
@@ -44,7 +44,7 @@ describe "Agents" do
     rules_select = @driver.find_element(:id => "agent_names__0__rules_")
     rules_select.select_option("local")
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "warning")]', /^Source - is required if there is an 'authority id'$/i)
   end
 
@@ -79,7 +79,7 @@ describe "Agents" do
   it "throws an error if no sort name is provided and auto gen is false" do
     @driver.find_element(:id, "agent_names__0__sort_name_auto_generate_").click
     @driver.clear_and_send_keys([:id, "agent_names__0__sort_name_"], "")
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
   end
 
@@ -94,7 +94,7 @@ describe "Agents" do
 
   it "can add a secondary name and validations match index of name form" do
     @driver.find_element(:css => '#agent_person_names .subrecord-form-heading .btn:not(.show-all)').click
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
 
@@ -131,7 +131,7 @@ describe "Agents" do
 
   it "reports errors when updating a Person Agent with invalid data" do
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], @hendrix)
   end
@@ -147,7 +147,7 @@ describe "Agents" do
     token_input.send_keys(@other_agent.names.first['sort_name'])
     @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
     linked = @driver.find_element(:id, "_agents_people_#{@other_agent.id}").text.sub(/\n.*/, '')
@@ -273,7 +273,7 @@ describe "Agents" do
   it "returns agents in search results and shows their types correctly" do
 
     @driver.clear_and_send_keys([:id, "global-search-box"], @hendrix)
-    @driver.find_element(:id => 'global-search-button').click
+    @driver.click_and_wait_until_gone(:id => 'global-search-button')
 
     @driver.find_element_with_text('//td', /My Custom Sort Name/)
     @driver.find_element_with_text('//td', /Person/)
