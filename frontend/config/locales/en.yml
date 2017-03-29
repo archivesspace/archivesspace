@@ -624,6 +624,7 @@ en:
       action:
         save: Save Event
         create: Create Event
+    linked_agents: Agent Links
 
   extent:
     _frontend:
