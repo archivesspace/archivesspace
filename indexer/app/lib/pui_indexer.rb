@@ -70,6 +70,7 @@ class PUIIndexer < PeriodicIndexer
         doc['types'] << 'pui'
         doc['types'] << "pui_#{doc['primary_type']}"
         doc['types'] << 'pui_record'
+        doc['types'] << 'pui_only'
       end
     }
 

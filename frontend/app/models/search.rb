@@ -45,7 +45,7 @@ class Search
 
     # The staff interface shouldn't show records that were only created for the
     # Public User Interface.
-    queries.and('types', 'pui_record', 'text', literal = true, negated = true)
+    queries.and('types', 'pui_only', 'text', literal = true, negated = true)
 
     criteria['filter'] = queries.build.to_json
   end
