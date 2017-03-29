@@ -76,11 +76,17 @@
         this.node_selected_callback = node_selected_callback;
         this.populateWaypointHooks = [];
 
+        this.errorHandler = $.noop;
+
         this.initEventHandlers();
         this.renderRoot(function () {
             tree_loaded_callback();
         });
     }
+
+    LargeTree.prototype.setGeneralErrorHandler = function (callback) {
+        this.errorHandler = callback;
+    };
 
     LargeTree.prototype.currentlyLoading = function () {
         this.progressIndicator.css('visibility', 'visible');
@@ -444,13 +450,17 @@
             debugger;
         }
 
-        self.source.fetchNode(row.data('uri')).done(function (node) {
-            self.appendWaypoints(row, row.data('uri'), node.waypoints, node.waypoint_size, row.data('level') + 1);
+        self.source.fetchNode(row.data('uri'))
+            .done(function (node) {
+                self.appendWaypoints(row, row.data('uri'), node.waypoints, node.waypoint_size, row.data('level') + 1);
 
-            if (done_callback) {
-                done_callback();
-            }
-        });
+                if (done_callback) {
+                    done_callback();
+                }
+            })
+            .fail(function () {
+                self.errorHandler.apply(self, ['fetch_node_failed'].concat([].slice.call(arguments)));
+            });
     };
 
     LargeTree.prototype.collapseNode = function (row, done_callback) {
@@ -780,6 +790,7 @@
         return $.ajax(this.urlFor("root"),
                       {
                           method: "GET",
+                          dataType: 'json',
                       })
                 .done(function (rootNode) {
                     self.cachePrecomputedWaypoints(rootNode);
@@ -796,6 +807,7 @@
         return $.ajax(this.urlFor("node"),
                       {
                           method: "GET",
+                          dataType: 'json',
                           data: {
                               /* THINKME: Should rename node to node_uri?  S */
                               node: uri,
@@ -804,7 +816,6 @@
                 .done(function (node) {
                     self.cachePrecomputedWaypoints(node);
                 });
-
     };
 
     TreeDataSource.prototype.fetchPathFromRoot = function (node_id) {
@@ -813,6 +824,7 @@
         return $.ajax(this.urlFor("node_from_root"),
                       {
                           method: "GET",
+                          dataType: 'json',
                           data: {
                               node_ids: [node_id],
                           }
@@ -832,6 +844,7 @@
             return $.ajax(this.urlFor("waypoint"),
                           {
                               method: "GET",
+                              dataType: 'json',
                               data: {
                                   node: uri,
                                   offset: offset,

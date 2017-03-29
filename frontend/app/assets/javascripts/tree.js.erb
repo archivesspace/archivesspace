@@ -43,6 +43,13 @@
         if (!read_only) {
             self.dragdrop = self.large_tree.addPlugin(new LargeTreeDragDrop(self.large_tree));
         }
+
+        self.large_tree.setGeneralErrorHandler(function (failure_type) {
+            if (failure_type === 'fetch_node_failed') {
+                /* This can happen when the user was logged out behind the scenes. */
+                $('#tree-unexpected-failure').slideDown();
+            }
+        });
     };
 
 
