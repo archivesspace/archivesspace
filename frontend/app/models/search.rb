@@ -43,9 +43,11 @@ class Search
       queries.and(filter.keys[0], filter.values[0])
     end
 
-    unless queries.empty?
-      criteria['filter'] = queries.build.to_json
-    end
+    # The staff interface shouldn't show records that were only created for the
+    # Public User Interface.
+    queries.and('types', 'pui_record', 'text', literal = true, negated = true)
+
+    criteria['filter'] = queries.build.to_json
   end
 
 end
