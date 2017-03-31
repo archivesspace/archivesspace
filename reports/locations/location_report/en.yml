@@ -7,8 +7,8 @@ en:
       floor: Floor
       room: Room
       area: Area
-      coodinates: Coordinates
+      coordinates: Coordinates
       barcode: Barcode
-      classificaion_number: Classification number
+      classification_number: Classification number
       accessions: Accessions
       resources: Resources
