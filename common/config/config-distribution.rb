@@ -46,7 +46,7 @@ class AppConfig
 
   def self.dump_sanitized
     Hash[@@parameters.map {|k, v|
-           if k.to_s =~ /secret/
+           if k.to_s =~ /(password|secret)/
              [k, "[SECRET]"]
            elsif v.is_a? (Proc)
              [k, v.call]
