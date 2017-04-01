@@ -80,7 +80,7 @@ class JobRunner
 
 
   def self.registered_runner_for(type)
-    @@runners.fetch(type, false)
+    @@runners.fetch(type) { raise NotFoundException.new("No runner found for #{type}") }
   end
 
 
