@@ -302,15 +302,15 @@ fr:
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Mètres cubes
-      files: Fichiers
+      files: Dossiers
       gigabytes: Gigabytes
-      leaves: Feuillets
+      leaves: Pages
       linear_feet: Mètres linéaires
       megabytes: Megabytes
       photographic_prints: Impressions photographiques
       photographic_slides: Diapositives
       reels: Bobines
-      sheets: Sheets
+      sheets: Feuilles
       terabytes: Terabytes
       volumes: Volumes
     collection_management_processing_priority:
@@ -389,7 +389,7 @@ fr:
     resource_finding_aid_description_rules:
       aacr: Anglo-American Cataloguing Rules
       cco: Cataloging Cultural Objects
-      dacs: "Describing Archives: A Content Standard (DACS)
+      dacs: "Describing Archives: A Content Standard (DACS)"
       rad: Rules for Archival Description
       isadg: International Standard for Archival Description - General (ISADG)
     resource_finding_aid_status:
@@ -412,7 +412,7 @@ fr:
       realia: Realia
       text: Texte
     accession_acquisition_type:
-      deposit: Dépôt
+      deposit: Versement
       gift: Don
       purchase: Achat
       transfer: Transfert
@@ -433,6 +433,7 @@ fr:
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU  
       tgn: Getty Thesaurus of Geographic Names
     event_outcome:
       pass: Réussite
@@ -973,7 +974,7 @@ fr:
     archival_record_level:
       class: Classe
       collection: Collection
-      file: Fichier
+      file: Dossier
       fonds: Fonds
       item: Pièce
       otherlevel: Autre niveau
@@ -1063,12 +1064,12 @@ fr:
       AZ: Azerbaïjan
       BS: Bahamas
       BH: Bahrain
-      BD: Bangladesh
+      BD: Bengladesh
       BB: Barbades
       BY: Biélorussie
       BE: Belgique
       BZ: Belize
-      BJ: Benin
+      BJ: Bénin
       BM: Bermudes
       BT: Bhoutan
       BO: Bolivie
@@ -1087,7 +1088,7 @@ fr:
       CA: Canada
       CV: Cap Vert
       KY: Iles Caïman
-      CF: Central African Republic
+      CF: République Centrafricaine
       TD: Tchad
       CL: Chili
       CN: Chine
@@ -1132,11 +1133,11 @@ fr:
       GI: Gibraltar
       GR: Grèce
       GL: Greenland
-      GD: Grenada
+      GD: Grenade
       GP: Guadeloupe
       GU: Guam
       GT: Guatemala
-      GG: Guernsey
+      GG: Guernesey
       GN: Guinée
       GW: Guinée-Bissau
       GY: Guyane
@@ -1148,11 +1149,11 @@ fr:
       HU: Hongrie
       IS: Islande
       IN: Inde
-      ID: Indonesie
-      IR: "Iran, Islamic Republic of"
+      ID: Indonésie
+      IR: "Iran, République islamique de"
       IQ: Irak
       IE: Irelande
-      IM: Isle of Man
+      IM: Ile of Man
       IL: Israël
       IT: Italie
       JM: Jamaïque
@@ -1160,7 +1161,7 @@ fr:
       JE: Jersey
       JO: Jordanie
       KZ: Kazakhstan
-      KE: Kenia
+      KE: Kénia
       KI: Kiribati
       KP: "Corée, République démocratique de"
       KR: "Corée, République de"
@@ -1169,31 +1170,31 @@ fr:
       LA: "République Démocratique du Laos"
       LV: Létonie
       LB: Liban
-      LS: Lesotho
+      LS: Lésotho
       LR: Libéria
       LY: Libie
       LI: Liechtenstein
       LT: Lituanie
       LU: Luxembourg
       MO: Macao
-      MK: "Macedonie, Former Yugoslav Republic of"
+      MK: "Macédonie, Ex-République yougoslave de"
       MG: Madagascar
       MW: Malawi
       MY: Malaisie
       MV: Maldives
       ML: Mali
       MT: Malte
-      MH: Marshall Islands
+      MH: Iles Marshall
       MQ: Martinique
       MR: Mauritanie
       MU: Maurice
       YT: Mayotte
       MX: Mexico
-      FM: "Micronesie, Federated States of"
+      FM: "Micronésie, Etats fédérés de"
       MD: "Moldavie"
       MC: Monaco
       MN: Mongolie
-      ME: Montenegro
+      ME: Monténégro
       MS: Montserrat
       MA: Maroc
       MZ: Mozambique
@@ -1231,7 +1232,7 @@ fr:
       RW: Rwanda
       BL: Saint Barthélemy
       SH: "Sainte Hélène, Ascension et Tristan da Cunha"
-      KN: Saint Kitts and Nevis
+      KN: Saint Kitts et Nevis
       LC: Saint Lucia
       MF: Saint Martin (Partie française)
       PM: Saint Pierre et Miquelon
@@ -1248,7 +1249,7 @@ fr:
       SX: Saint Martin (partie néerlandaise)
       SK: Slovaquie
       SI: Slovénie
-      SB: Iles Saloman
+      SB: Iles Salomon
       SO: Somalie
       ZA: Afrique du Sud
       GS: South Georgia and the South Sandwich Islands
@@ -1257,13 +1258,13 @@ fr:
       LK: Sri Lanka
       SD: Soudan
       SR: Surinam
-      SJ: Svalbard and Jan Mayen
+      SJ: Svalbard et Jan Mayen
       SZ: Swaziland
       SE: Suède
       CH: Suisse
       SY: République arabe de Syrie
-      TW: "Taiwan, Province de China"
-      TJ: Tajikistan
+      TW: "Taiwan, Province de Chine"
+      TJ: Tadjikistan
       TZ: "Tanzanie, République unie de"
       TH: Thaïlande
       TL: Timor-Leste
@@ -1276,9 +1277,9 @@ fr:
       TM: Turkmenistan
       TC: Turks and Caicos Islands
       TV: Tuvalu
-      UG: Uganda
+      UG: Ouganda
       UA: Ukraine
-      AE: Emirats arabes unis
+      AE: Emirats Arabes Unis
       GB: Royaume-Uni
       US: Etats-Unis
       UM: United States Minor Outlying Islands
@@ -1308,48 +1309,48 @@ fr:
       function: Fonction
       geographic: Géographique
       genre_form: "Genre / Forme"
-      occupation: Occupation
+      occupation: Activité
       style_period: "Style / Période"
       technique: Technique
       temporal: Temporel
-      topical: Topical
+      topical: Sujet
       uniform_title: Titre uniforme
     _note_types: &note_type_definitions
       accessrestrict: Conditions d'accès
       accruals: Accroissements
-      acqinfo: Source d'acquisition immédiate
+      acqinfo: Informations sur les modalités d'entrée
       altformavail: Existence et emplacement de copies
       appraisal: Evaluation
       arrangement: Classement
       bibliography: Bibliographie
       bioghist: Biographique / Historique
-      custodhist: Note d'histoire archivistique
-      fileplan: File Plan
+      custodhist: Historique de la conservation
+      fileplan: Plan de classement
       index: Index
-      odd: Général
-      otherfindaid: Autres instruments de recherche
-      originalsloc: Existence et emplacement d'originaux
-      phystech: Caractéristiques physiques et réquisits techniques
+      odd: Autres données descriptives
+      otherfindaid: Autre instrument de recherche
+      originalsloc: Existence et lieux de conservaation d'originaux
+      phystech: Caractéristiques matérielles et contraintes techniques
       prefercite: Référence privilégiée
-      processinfo: Information de traitement
-      relatedmaterial: Documents d'archive associés
-      scopecontent: Portée et contenu
-      separatedmaterial: Matériel séparé
+      processinfo: Information sur le traitement
+      relatedmaterial: Documents en relation
+      scopecontent: Présentation du contenu
+      separatedmaterial: Documents séparés
       userestrict: Conditions d'utilisation
       dimensions: Dimensions
-      legalstatus: Statut légal
+      legalstatus: Statut juridique
       summary: Résumé
       edition: Edition
-      extent: Etendue
+      extent: Importance matérielle
       note: Note générale
       inscription: Inscription
       langmaterial: Langue des documents
       physdesc: Description physique
-      relatedmaterial: Related Materials
-      abstract: Abstract
+      relatedmaterial: Documents en relation
+      abstract: Résumé
       physloc: Emplacement physique
       materialspec: Détails matériels spécifiques
-      physfacet: Apparence physique
+      physfacet: Particularité physique
     note_digital_object_type:
       <<: *note_type_definitions
     note_multipart_type:
@@ -1357,9 +1358,9 @@ fr:
     note_singlepart_type:
       <<: *note_type_definitions
     linked_agent_role:
-      creator: Producteur d'archives
+      creator: Auteur
       source: Source
-      subject: Sujet
+      subject: Matière
     agent_relationship_associative_relator:
       is_associative_with: Associative with Related
     agent_relationship_earlierlater_relator:
@@ -1378,16 +1379,16 @@ fr:
     accession_sibling_relator_type:
       bound_with: "Relation de \"Relié avec\""
     agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: Is Subordinate to Related
-      is_superior_of: Is Superior of Related
+      is_subordinate_to: Est subordonné à l'agent mis en relation
+      is_superior_of: Est supérieur à l'agent mis en relation
     note_index_item_type:
       name: Nom
       person: Personne
       family: Famille
       corporate_entity: Personne morale
-      subject: Sujet
+      subject: Matière
       function: Fonction
-      occupation: Occupation
+      occupation: Activité
       title: Titre
       geographic_name: Nom géographique
     user_defined_enum_1:
@@ -1400,94 +1401,94 @@ fr:
       novalue: Aucune valeur définie
     job_type:
       print_to_pdf_job: Imprimer en PDF
-      import_job: Import Data
-      find_and_replace_job: Batch Find and Replace (Beta)
+      import_job: Importer données
+      find_and_replace_job: Trouver et remplacer partout (Beta)
       report_job: Reports
       container_conversion_job: Reports
     dimension_units:
       inches: Inches
       feet: Feet
       yards: Yards
-      millimeters: Millimeters
-      centimeters: Centimeters
-      meters: Meters
+      millimeters: Millimètres
+      centimeters: Centimètres
+      meters: Mètres
     restriction_type:
-      RestrictedSpecColl: 1 - Donor/university imposed access restriction
-      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
-      RestrictedFragileSpecColl: 3 - Restricted fragile
-      InProcessSpecColl: 4 - Restricted in-process
-      ColdStorageBrbl: 5 - Other
+      RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le dépôt
+      RestrictedFragileSpecColl: 3 - Non consultable fragile
+      InProcessSpecColl: 4 - Non consultable en cours de traitement
+      ColdStorageBrbl: 5 - Autre
     location_function_type:
-      av_materials: Audiovisual Materials
-      arrivals: Arrivals
-      shared: Shared
+      av_materials: Documents audiovisuels
+      arrivals: Arrivées
+      shared: Partagés
 
 
   enumeration_names:
-    accession_acquisition_type: Accession Acquisition Type
-    accession_parts_relator: Accession Parts Relator
-    accession_parts_relator_type: Accession Parts Relator Type
-    accession_sibling_relator: "Accession Sibling Relator"
-    accession_sibling_relator_type: Accession Sibling Relator Type
-    accession_resource_type: Accession Resource Type
-    agent_contact_salutation: Agent Contact Salutation
-    agent_relationship_associative_relator: Agent Relationship Associative Relator
-    agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
-    agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
-    archival_record_level: Archival Record Level
-    collection_management_processing_priority: Collection Management Processing Priority
-    collection_management_processing_status: Collection Management Processing Status
+    accession_acquisition_type: Type d'acquisition de la collecte
+    accession_parts_relator: Rapport entre parties de collecte
+    accession_parts_relator_type: Type de rapport entre parties de collecte
+    accession_sibling_relator: "Rapport entre collectes soeurs"
+    accession_sibling_relator_type: Type de rapport entre collectes soeurs
+    accession_resource_type: Type de ressource de la collecte
+    agent_contact_salutation: Formule de salutation de l'agent contact
+    agent_relationship_associative_relator: Agent Relationship Rapport associatif
+    agent_relationship_earlierlater_relator: Agent Relationship Rapport de succession dans le temps
+    agent_relationship_parentchild_relator: Agent Relationship Rapport de génération
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Rapport de hiérarchie
+    archival_record_level: Niveau de notice archivistique
+    collection_management_processing_priority: Collection Management Priorité de traitement
+    collection_management_processing_status: Collection Management Etat de traitement
     container_location_status: Container Location Status
-    container_type: Container Type
-    country_iso_3166: Country ISO 3166
-    date_calendar: Date Calendar
-    date_certainty: Date Certainty
-    date_era: Date Era
-    date_label: Date Label
-    date_type: Date Type
-    deaccession_scope: Deaccession Scope
-    digital_object_digital_object_type: Digital Object Digital Object Type
-    digital_object_level: Digital Object Level
-    event_event_type: Event Event Type
-    event_outcome: Event Outcome
-    extent_extent_type: Extent Extent Type
-    extent_portion: Extent Portion
-    file_version_checksum_methods: File Version Checksum Methods
-    file_version_file_format_name: File Version File Format Name
-    file_version_use_statement: File Version Use Statement
-    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
-    file_version_xlink_show_attribute: File Version Xlink Show Attribute
+    container_type: Type de contenant
+    country_iso_3166: Pays ISO 3166
+    date_calendar: Calendrier
+    date_certainty: Certitude de la date
+    date_era: Ere
+    date_label: Etiquette de date
+    date_type: Type de date
+    deaccession_scope: Portée de l'aliénation
+    digital_object_digital_object_type: Digital Object Type d'objet numérique
+    digital_object_level: Objet numérique Niveau
+    event_event_type: Evénement Type d'événement
+    event_outcome: Résultat d'événement
+    extent_extent_type: Importance matérielle Type de mesure
+    extent_portion: Importance matérielle Portion
+    file_version_checksum_methods: Version de fichier Méthode de contrôle de somme
+    file_version_file_format_name: Version de fichier Nom de format de fichier
+    file_version_use_statement: Version de fichier Mention d'utilisation
+    file_version_xlink_actuate_attribute: Version de fichier Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Version de fichier Xlink Show Attribute
     instance_instance_type: Instance Instance Type
-    language_iso639_2: Language ISO 639-2
-    linked_agent_archival_record_relators: Linked Agent Archival Record Relators
-    linked_agent_event_roles: Linked Agent Event Roles
-    linked_agent_role: Linked Agent Role
-    linked_event_archival_record_roles: Linked Event Archival Record Roles
-    location_temporary: Location Temporary
-    name_person_name_order: Name Person Name Order
-    name_rule: Name Rule
-    name_source: Name Source
-    note_bibliography_type: Note Bibliography Type
-    note_digital_object_type: Note Digital Object Type
-    note_index_item_type: Note Index Item Type
-    note_index_type: Note Index Type
-    note_multipart_type: Note Multipart Type
-    note_orderedlist_enumeration: Note Orderedlist Enumeration
-    note_singlepart_type: Note Singlepart Type
-    telephone_number_type: Telephone Number Type 
-    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
-    resource_finding_aid_status: Resource Finding Aid Status
-    resource_resource_type: Resource Resource Type
-    rights_statement_ip_status: Rights Statement IP Status
-    rights_statement_rights_type: Rights Statement Rights Type
-    subject_source: Subject Source
-    subject_term_type: Subject Term Type
-    user_defined_enum_1: User Defined Enum 1
-    user_defined_enum_2: User Defined Enum 2
-    user_defined_enum_3: User Defined Enum 3
-    user_defined_enum_4: User Defined Enum 4
-    job_type: Job Type
-    dimension_units: Dimension Units
-    restriction_type: Local Access Restriction Type
-    location_function_type: Location Function Type
+    language_iso639_2: Langue ISO 639-2
+    linked_agent_archival_record_relators: Agent mis en relation Rapports de notices archivistiques
+    linked_agent_event_roles: Agent mis en relation Rôles d'événement
+    linked_agent_role: Rôle de l'agent mis en relation
+    linked_event_archival_record_roles: Evénement mis en relation Rôles de notice archivistique
+    location_temporary: Emplacement temporaire
+    name_person_name_order: Nom de personne Ordre du nom
+    name_rule: Règles de nom
+    name_source: Source de nom
+    note_bibliography_type: Type de note Bibliographie
+    note_digital_object_type: Type de note Objet numérique
+    note_index_item_type: Type de note Item d'index
+    note_index_type: Type de note Index
+    note_multipart_type: Type de note Multipartite
+    note_orderedlist_enumeration: Note Enumération en liste hiérarchique
+    note_singlepart_type: Type de note Simple
+    telephone_number_type: Type de numéro de téléphone
+    resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
+    resource_finding_aid_status: Instrument de recherche de la ressource Statut
+    resource_resource_type: Ressource Type de ressource
+    rights_statement_ip_status: Mention de droits Statut de la propriété intellectuelle
+    rights_statement_rights_type: Mention de droits Type de droits
+    subject_source: Source mot-matière
+    subject_term_type: Type de mot-matière
+    user_defined_enum_1: Défini par l'utilisateur Enum 1
+    user_defined_enum_2: Défini par l'utilisateur Enum 2
+    user_defined_enum_3: Défini par l'utilisateur Enum 3
+    user_defined_enum_4: Défini par l'utilisateur Enum 4
+    job_type: Type de job
+    dimension_units: Unités de mesure
+    restriction_type: Consultation locale Type de restriction
+    location_function_type: Emplacement Type de fonction

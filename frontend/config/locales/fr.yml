@@ -46,13 +46,13 @@ fr:
     set_default: Définir comme défaut
     suppress: Bloquer
     suppress_confirm_title: Bloquer cette notice?
-    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la basde de donnée, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de de donnée, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
     transfer_confirm_message: "La notice '%{target}' sera transférée vers le dépôt selectionné"
     transfer_successful: Transfert réussi.  L'apparition des notices dans le dépôt cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
-    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'exemplaires"
+    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
@@ -95,7 +95,7 @@ fr:
     click_to_show: Cliquez pour charger les notices.
 
   database_warning:
-    message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démos. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
+    message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
   
   states:
     auto_generated: Généré automatiquement à la sauvegarde
@@ -135,7 +135,7 @@ fr:
     component_switch: Montrer composants
     filter:
       query: Texte
-      subjects: Sujet
+      subjects: Mot-matière
       primary_type: Type de notice
       digital_object_type: Type
       level: Niveau
@@ -157,7 +157,7 @@ fr:
       agents: Agent
       creators: Producteur
       fullrecord: Mot-clé
-      subjects_text: Sujet
+      subjects_text: Mot-matière
       title: Titre
       creators_text: Producteur
       notes: Notes
@@ -264,8 +264,8 @@ fr:
     repositories_manage: Gérer dépôts
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
-    manage_container_profiles: Gérer profiles de containers
-    manage_location_profiles: Gérer profiles d'emplacements
+    manage_container_profiles: Gérer profils de containers
+    manage_location_profiles: Gérer profils d'emplacements
     manage_top_containers: Gérer Top Containers
     manage_enumerations: Gérer listes de valeurs contrôlées
     user_global_preferences: Mes préférences globales
@@ -278,7 +278,7 @@ fr:
     login_fail: Echec de la tentative de connexion
     login_success: Connexion réussie. Redirection...
     register: S'inscrire maintenant
-    register_prefix: Besoin d'un compte?
+    register_prefix: Créer un compte?
     list_reports: Rapports
     global_admin: Système
     system_info: Infos système
@@ -434,7 +434,7 @@ fr:
   agent_person:
     _frontend:
       action:
-        save: Sauvegarder individu
+        save: Sauvegarder personne physique
 
   agent_software:
     _frontend:
@@ -487,7 +487,7 @@ fr:
         deleted: "Terme de classification <strong>%{classification_term.title}</strong> supprimé"
       section:
         basic_information: Information de base
-        search_embedded: Notices liéess
+        search_embedded: Notices liées
       action:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
@@ -572,7 +572,7 @@ fr:
         value_updated: Valeur actualisée
         deleted: Valeur supprimée
         delete_error: Pas moyen de supprimer la valeur
-        delete_conflict: "La valeur étant actuellement référencée par une notice, ne peut être supprimée"
+        delete_conflict: "La valeur étant actuellement référencée par une notice, elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
         created: Valeur crée
         create_error: Echec de la création de valeur
@@ -606,7 +606,7 @@ fr:
   extent:
     _frontend:
       action:
-        add: Ajoute dimension
+        add: Ajouter dimension
 
   external_document:
     _frontend:
@@ -660,7 +660,7 @@ fr:
         batch_edit: Editer lot d'emplacements
         save: Sauvegarder emplacement
         single: Emplacement unique
-        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cet emplacement est actuellement lié à un ou plusieurs exemplaires, il ne peut être supprimé.</p>"
+        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cet emplacement est actuellement lié à une ou plusieurs instance(s), il ne peut être supprimé.</p>"
         show_space_calculator: Trouver avec le calculateur d'espace
 
   location_batch:
@@ -737,7 +737,7 @@ fr:
   revision_statement:
     _frontend:
       action:
-        add: Ajouter déclaration de révision
+        add: Ajouter mention de révision
 
   repository:
     _frontend:
@@ -748,10 +748,10 @@ fr:
         selected: Dépôt actuellement sélectionné
         selected_short: Sélectionné
         changed: Le dépôt <strong>%{repository.repo_code}</strong> est maintenant activé
-        create_first_repository: "Pour créer votre premier dépôt, cliquer dans le menu <strong>système</strong> ci-dessus, puis <strong>Gérer dépôts</strong>."
+        create_first_repository: "Pour créer votre premier dépôt, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer dépôts</strong>."
         no_access_to_repositories: "<p>Vous n'avez accès à aucun dépôt.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
-        transfer_failed: Le transfert n'a pas pu être effectué en raison des erreurs suivantes
+        transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
         transfer_target: Sélectionnez un dépôt vers lequel transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce dépôt va déplacer <strong>toutes</strong> ses notices dans le dépôt sélectionné.  <strong>Cette opération ne peut être annulée</strong>
         cannot_delete_nonempty: Ne peut être supprimé - dépôt non vide
@@ -781,158 +781,158 @@ fr:
         suppressed: Ressource <strong>%{resource.title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
       section:
-        basic_information: Basic Information
-        finding_aid: Finding Aid Data
+        basic_information: Information de base
+        finding_aid: Données de l'instrument de recherche
       action:
-        add_child: Add Child
+        add_child: Ajouter Child
         rapid_data_entry: Rapid Data Entry
-        create: Create Resource
-        save: Save Resource
-        delete_multiple: Delete Resources
+        create: Créer Resource
+        save: Sauvegarder Resource
+        delete_multiple: Supprimer Resources
 
   preference:
     _frontend:
       messages:
-        updated: "Preferences updated"
+        updated: "Préférences actualisées"
 
   rights_statement:
     _frontend:
       action:
-        add: Add Rights Statement
+        add: Ajouter déclaration de droits
 
   term:
     _frontend:
       messages:
-        preview_pending: Subject Preview
+        preview_pending: Aperçu mot-matière
       action:
-        add: Add Term/Subdivision
+        add: Ajouter Terme/Subdivision
 
   transfer:
-    ref: Destination Repository
+    ref: Dépôt cible
 
   subject:
     _frontend:
       messages:
-        created: Subject Created
-        updated: Subject Saved
-        deleted: Subject Deleted
-        merged: Subject(s) Merged
-        merge_description: Select subjects below to merge into
-        please_select_a_subject_to_merge: Please select a subject
+        created: Mot-matière créé
+        updated: Mot-matière sauvegardé
+        deleted: Mot-matière supprimé
+        merged: Mot(s)-matière(s) Merged
+        merge_description: Select mots-matières below to merge into
+        please_select_a_subject_to_merge: Please select a mot-matière
       section:
-        basic_information: Basic Information
+        basic_information: Information de base
         terms: Terms and Subdivisions
         search_embedded: Linked Records
       action:
-        create: Create Subject
-        save: Save Subject
-        add: Add Subject
+        create: Créer mot-matière
+        save: Sauvegarder mot-matière
+        add: Ajouter mot-matière
 
   user:
     _frontend:
       messages:
         access_denied: Access denied. Login as the admin user to perform this action.
-        created: User Created
-        updated: User Saved
-        deleted: User Deleted
-        error_update: User not saved
-        error_create: User not created
-        group_not_required: User is an administrator or system user, group selection is not required.
+        created: Utilisateur créé
+        updated: Utilisateur sauvegardé
+        deleted: Utilisateur supprimé
+        error_update: Utilisateur not saved
+        error_create: Utilisateur not created
+        group_not_required: Utilisateur is an administrator or system user, group selection is not required.
       section:
-        manage_access: Manage User Access
-        account: Account
-        edit_account: Edit Account
-        edit_account_submit: Update Account
+        manage_access: Gérer accès utilisateur
+        account: Compte
+        edit_account: Editer compte
+        edit_account_submit: Actualiser compte
       action:
-        create_account: Create Account
-        update_account: Update Account
-        create: Create User
+        create_account: Créer compte
+        update_account: Actualiser compte
+        create: Créer utilisateur
 
   user_defined:
     _frontend:
       action:
-        add: Add User Defined Fields
+        add: Ajouter utilisateur Defined Fields
 
   use_date:
     _frontend:
       action:
-        add: Add Use Date
+        add: Ajouter date de pertence
 
   rde:
-    date_type: Date Type
-    instance_type: Instance Type
-    column_label: Column
+    date_type: Type de date
+    instance_type: Type d'instance
+    column_label: Colonne
     sections:
-      basic_information: Basic Information
+      basic_information: Information de base
       date: Date
-      extent: Extent
+      extent: Importance matérielle
       instance: Instance
       notes: Notes
-      file_version: File Version
+      file_version: Version de fichier
     actions:
-      add_row: Add Row
-      add_rows: Add Rows
-      submit: Save Rows
-      reset: Reset
-      showhide_prefix: "Columns:"
+      add_row: Ajouter rangée
+      add_rows: Ajouter rangées
+      submit: Sauvegarder rangées
+      reset: Réinitialiser
+      showhide_prefix: "Colonnes:"
       showhide_suffix: visible
-      showhide_none: All Columns Filtered
-      fill_toggle: Fill Column
-      reorder_toggle: Reorder Columns
-      validate_rows: Validate Rows
-      inline_errors_toggle: View Inline Errors
-      save_template: Save as Template
-      select_template: Choose Template
-      manage_templates: Remove Templates
+      showhide_none: Toutes les colonnes filtrées
+      fill_toggle: Remplir colonne
+      reorder_toggle: Réordonner colonnes
+      validate_rows: Valider rangées
+      inline_errors_toggle: Voir Inline Errors
+      save_template: Sauvegarder comme modèle
+      select_template: Choisir modèle
+      manage_templates: Supprimer modèles
     fill_column:
       basic: Basic
-      sequence: Sequence
-      fill_value: Fill Value
-      select_a_column: Please select a column
-      apply_basic_fill: Apply Fill
-      apply_sequence_fill: Apply Sequence
+      sequence: Séquence
+      fill_value: Remplir Valeur
+      select_a_column: Veuillez sélectionner une colonne
+      apply_basic_fill: Appliquer remplir
+      apply_sequence_fill: Appliquer Séquence
       sequence_count_warning: There are more rows than there are items in the sequence.
-      preview_sequence: Preview Sequence Values
-      sequence_summary: "%{count} items in the sequence:"
+      preview_sequence: Aperçu valeurs de séquence
+      sequence_summary: "%{count} items dans la séquence:"
       sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
       sequence_from_required: From is required
       sequence_to_required: To is required
     reorder_columns:
-      apply_order: Apply Column Order
+      apply_order: Appliquer ordre de colonne
     save_template:
-      save_template: Save Template
-      template_name: Template name
-      confirm_removal: Confirm Removal
+      save_template: Sauvegarder modèle
+      template_name: Nome de modèle
+      confirm_removal: Confirmer suppression
     templates:
-      listing: Templates
-      no_templates: No templates defined
-    default_template: Default Template
+      listing: Modèles
+      no_templates: Aucun modèle défini
+    default_template: Modèle par défaut
     messages:
-      error_prefix: Row
-      success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
-      no_rows: Please enter values for at least one row
-      rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
-      rows_no_errors: "All rows are valid"
-      error_summary_header: "Errors in row:"
+      error_prefix: Rangée
+      success: "<div class='alert alert-success'>Fils créé. Rafraîchissement en cours...</div>"
+      no_rows: Veuillez saisir des valeurs pour au moins une rangée
+      rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ de rangée pour visualiser les erreurs pour cette rangée"
+      rows_no_errors: "Toutes les rangées sont valides"
+      error_summary_header: "Erreurs dans rangée:"
       select_prompt: Apply an RDE Template
     help:
       keyboard_shortcuts: |
-                  <div><strong>Keyboard Shortcuts</strong></div>
+                  <div><strong>Raccourçis clavier</strong></div>
                   <div class="row"><small><span class="span3">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
                   <div class="row"><small><span class="span3">Create a new row (from last row):</span> SHIFT + Return</small></div>
       sticky_columns: |
-                  <div><strong>Sticky Columns</strong></div>
+                  <div><strong>Sticky colonnes</strong></div>
                   <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
-                  <div><small>Clicking <strong>Add Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
+                  <div><small>Clicking <strong>Ajouter Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
       fill_column: |
-                  <div><strong>Fill Column - Basic</strong></div>
-                  <div><small>To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.</small></div>
+                  <div><strong>Remplir colonne - Basic</strong></div>
+                  <div><small>To fill a column with a single value, click <strong>remplir colonne</strong> and under the <strong>Basic</strong> tab select the target <strong>colonne</strong>, enter the desired <strong>remplir Value</strong> and click <strong>Apply remplir</strong>.</small></div>
                   <br/>
-                  <div><strong>Fill Column - Sequence</strong></div>
-                  <div><small>To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
+                  <div><strong>Remplir colonne - Sequence</strong></div>
+                  <div><small>To apply a sequence to a column, click <strong>Remplir colonne</strong> and under the <strong>Sequence</strong> tab select the target <strong>colonne</strong> and complete the <strong>remplir Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
       resize_and_reorder_columns: |
-                  <div><strong>Reorder Columns</strong></div>
-                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong></small></div>
+                  <div><strong>Reorder colonnes</strong></div>
+                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply colonne Order</strong></small></div>
       reset: |
                   <div><strong>Reset Form</strong></div>
                   <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
@@ -945,14 +945,14 @@ fr:
     _frontend:
       audit_data: Audit Data
       actions:
-        create: Create Job
+        create: Créer Job
         save: Queue Job
-        new: New Background Job
+        new: nouveau Background Job
         cancel: Cancel Job
-        add_file: Add file
+        add_file: Ajouter file
         follow_log: Follow Log
       section:
-        basic_information: Basic Information
+        basic_information: Information de base
         status: Job Status
         logs: Log
         generated_uris: New & Modified Records
@@ -981,10 +981,10 @@ fr:
       this_reference: "This shortcut reference"
       close_modal: "Close a modal window (e.g., this one)"
       toggle_shortcuts: "Enable / disable keyboard shortcuts"
-      save_record: "Save the record being edited"
+      save_record: "Sauvegarder the record being edited"
       close_record: "Close a record being edited"
       open_browse: "Open Browse menu"
-      open_create: "Open Create menu"
+      open_create: "Open Créer menu"
                     
   instance_container:
     container: Container
@@ -992,19 +992,19 @@ fr:
   sub_container:
     top_container: Top Container
     top_container_tooltip: |
-        <p>REQUIRED FIELD. The highest level container in which the described material is housed.</p>
-        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
+        <p>CHAMP OBLIGATOIRE. The highest level container in which the described material is housed.</p>
+        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Créer function.</p>
     type_2: Child Type
     type_2_tooltip: |
         <p>The type of the second-level container in which the described material is housed.</p> 
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_2: Child Indicator
     indicator_2_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
         <p>The type of the third-level container in which the described material is housed.</p> 
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_3: Grandchild Indicator
     indicator_3_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
@@ -1012,22 +1012,22 @@ fr:
     _plural: Sub Containers
     _frontend:
       action:
-        add: Add Container Instance
+        add: Ajouter Container Instance
 
   top_container:
-    container_profile: Container Profile
+    container_profile: Profil container
     container_profile_tooltip: |
         <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
     indicator: Indicator
     indicator_tooltip: |
-        <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
+        <p>CHAMP OBLIGATOIRE. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
     barcode: Barcode
     barcode_tooltip: |
         <p>Used to record the barcode that uniquely identifies the highest level container.</p>
     type: Container Type
     type_tooltip: |
         <p>The type of the highest level container.	
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
         <p>Identifier of associated holding record in the library ILS</p>
@@ -1042,14 +1042,14 @@ fr:
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
         <p>The type of the second-level container in which the described material is housed.</p> 
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_2_indicator: Child Container Indicator
     managed_container_2_indicator_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     managed_container_3_type: Grandchild Container Type
     managed_container_3_type_tooltip: |
         <p>The type of the third-level container in which the described material is housed.</p> 
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_3_indicator: Grandchild Container Indicator
     managed_container_3_indicator_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
@@ -1069,12 +1069,12 @@ fr:
         linked_records: Linked Records
         basic_information: Container Information
       action:
-        add: Add Top Container
-        create: Create a Top Container
-        save: Save Top Container
+        add: Ajouter Top Container
+        create: Créer a Top Container
+        save: Sauvegarder Top Container
       messages:
-        created: Top Container Created
-        updated: Top Container Updated
+        created: Top Container créé
+        updated: Top Container actualisé
         filter_required: Please provide a filter
         max_results_limit_reached: Not all results have been listed. Please refine your search.
         max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
@@ -1103,39 +1103,39 @@ fr:
         search: Search
         update_ils_holding_ids: Update ILS Holding IDs
         update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
-        update_container_profiles: Update Container Profiles
-        update_container_profiles_help: Choose a Container Profile for all selected containers.
-        update_locations_singular: "Update Locations: Single Location"
+        update_container_profiles: Actualiser Container Profiles
+        update_container_profiles_help: Choose a Profil container for all selected containers.
+        update_locations_singular: "Actualiser Locations: Single Location"
         update_locations_singular_help: Choose a Location for all selected containers.
-        update_locations_multiple: "Update Locations: Multiple Locations"
+        update_locations_multiple: "Actualiser Locations: Multiple Locations"
         update_locations_multiple_help: Choose a Location for each selected container.
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
-        rapid_barcode_entry_new_barcode: New Barcode
-        batch_delete: Delete Top Containers
-        batch_delete_help: Delete all selected containers.
-        update_n_records: "Update %{n} records"
-        delete_n_records: "Delete %{n} records"
+        rapid_barcode_entry_new_barcode: nouveau Barcode
+        batch_delete: Supprimer Top Containers
+        batch_delete_help: Supprimer all selected containers.
+        update_n_records: "Actualiser %{n} records"
+        delete_n_records: "Supprimer %{n} records"
         update_locations_current_location: Current Location
-        update_locations_new_location: New Location
+        update_locations_new_location: Nouvel emplacemnt
 
   container_profile:
-    _singular: Container Profile
+    _singular: Profil container
     _plural: Container Profiles
     _frontend:
       action:
-        save: Save Container Profile
-        edit: Edit Container Profile
-        create: Create Container Profile
+        save: Sauvegarder Profil container
+        edit: Editer Profil container
+        create: Créer Profil container
         space_calculator: Space Calculator
       messages:
-        created: Container Profile Created
-        updated: Container Profile Updated
+        created: Profil container créé
+        updated: Profil container actualisé
       section:
-        basic_information: Basic Information
+        basic_information: Information de base
     name: Name
     name_tooltip: |
-        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>  
+        <p>CHAMP OBLIGATOIRE. The name of the container profile. May be generic or specific.</p>  
         <p>Examples:</p>
         <ul>
         <li>document box</li>
@@ -1148,8 +1148,8 @@ fr:
     dimension_units: Dimension Units
     dimension_units_tooltip: |
         <p>Unit of measurement for dimensions.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    extent_dimension: Extent Dimension
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
+    extent_dimension: Importance matérielle Dimension
     extent_dimension_tooltip: |
         <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
     extent_dimension_depth: Depth
@@ -1185,42 +1185,42 @@ fr:
     local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
     local_access_restriction_type_tooltip: |
         <p>For restrictions that are not time-bound, an indication of the reason for the restriction.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     linked_records: Linked Record
     restriction_note_type: Note Type
 
   extent_calculator:
     no_object_message: Please specify an object to run the extent calculator on.
-    report_title: Calculated Extent Report
-    container_profile_header: Container Profile
-    count_header: Count
-    extent_header: Extent
+    report_title: Rapport de calcul d'importance matérielle
+    container_profile_header: Profil container
+    count_header: Total
+    extent_header: Importance matérielle
     no_profile: <span class="text-error">NO PROFILE</span>
-    all_containers_label: All Containers
-    timestamp_label: Report generated at
-    extent_record_header: Extent Record
-    create_extent: Create Extent
-    calculate_extent: Calculate Extent
-    create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
-    waiting_for_report_message: Calculating extent ...
+    all_containers_label: Tous les Containers
+    timestamp_label: Rapport généré à
+    extent_record_header: Notice Importance matérielle
+    create_extent: Créer importance matérielle
+    calculate_extent: Calculer importance matérielle
+    create_extent_record_message: Lancer le calcul d'importance matérielle en mode édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
+    waiting_for_report_message: Calculer importance matérielle...
     container_summary_type:
       _singular: container
       _plural: containers
 
   location_profile:
-    _singular: Location Profile
-    _plural: Locations Profiles
+    _singular: Profil d'emplacement
+    _plural: Profils d'emplacements
     _frontend:
       action:
-        save: Save Location Profile
-        edit: Edit Location Profile
-        create: Create Location Profile
+        save: Sauvegarder profil d'emplacement
+        edit: Editer profil d'emplacement
+        create: Créer profil d'emplacement
       messages:
-        created: Location Profile Created
-        updated: Location Profile Updated
+        created: Profil d'emplacement créé
+        updated: Profil d'emplacement actualisé
         fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
       section:
-        basic_information: Basic Information
+        basic_information: Information de base
     name: Name
     dimension_units: Dimension Units
     depth: Depth
@@ -1230,7 +1230,7 @@ fr:
   space_calculator:
     modal_title: Space Calculator
     modal_loading: Loading...
-    message_container_profile_required: The Space Calculator requires a Container Profile to be set.
+    message_container_profile_required: The Space Calculator requires a Profil container to be set.
     message_locations_required: The Space Calculator requires one or more locations to be set.
     message_select_locations: "Check for space in the following Location(s):"
     message_no_locations_with_space: No locations with space found

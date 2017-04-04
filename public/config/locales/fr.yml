@@ -51,7 +51,7 @@ fr:
       subjects_text: Sujet
       title: Intitulé
       creators_text: Producteur
-      scope: Périmètre
+      scope: Présentation du contenu
       notes: Notes
       source: Source
       agents: Agents
@@ -82,7 +82,7 @@ fr:
 
   errors:
     error_404: Record Not Found
-    error_404_message: "La notice à laquelle vous tentez d'accéder n'exite pas ou a été supprimée."
+    error_404_message: "La notice à laquelle vous tentez d'accéder n'existe pas ou a été supprimée."
     backend_down: Pas moyen de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
 
@@ -138,7 +138,7 @@ fr:
   digital_object: &digital_object_attributes
     _public:
       section:
-        components: Componsants
+        components: Composants
         summary: Résumé
       messages:
         no_components: L'objet numérique n'a pas de composants
