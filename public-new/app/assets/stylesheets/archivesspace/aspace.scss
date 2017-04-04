@@ -291,6 +291,11 @@ a {
   }
 }
 
+.dates-is-single-date {
+    list-style-type: none;
+    padding: 0;
+}
+
 .record-image {
   float: right;
   padding: rem-calc(20);
