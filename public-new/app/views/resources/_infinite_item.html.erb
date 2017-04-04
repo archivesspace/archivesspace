@@ -34,7 +34,7 @@
 <% if @result['language'] %>
   <dl class="dl-horizontal">
     <dt><%= t('resource._public.finding_aid.language')%></dt>
-    <dd><%= @result['language'].upcase %></dd>
+    <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
   </dl>
 <% else %>
   <% langmaterial_note = @result.note('langmaterial') %>
