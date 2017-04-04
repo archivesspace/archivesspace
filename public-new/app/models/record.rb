@@ -8,7 +8,7 @@ class Record
               :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier, :classifications
+              :identifier, :classifications, :level
 
   attr_accessor :criteria 
 
@@ -27,6 +27,8 @@ class Record
     @primary_type = raw['primary_type']
     @uri = raw['uri']
     @identifier = parse_identifier
+
+    @level = raw['level']
 
     @display_string = parse_full_title
     @container_display = parse_container_display
