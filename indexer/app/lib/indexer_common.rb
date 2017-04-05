@@ -657,6 +657,11 @@ class CommonIndexer
   end
 
 
+  def records_with_children
+    @@records_with_children || []
+  end
+
+
   def add_extra_documents_hook(&block)
     @extra_documents_hooks << block
   end
@@ -734,7 +739,7 @@ class CommonIndexer
   end
 
 
-  def delete_records(records)
+  def delete_records(records, opts = {})
 
     return if records.empty?
 
@@ -744,7 +749,7 @@ class CommonIndexer
     # Delete the ID plus any documents that were the child of that ID
     delete_request = {:delete => records.map {|id|
         [{"id" => id},
-         {'query' => "parent_id:\"#{id}\""}]}.flatten(1)
+         {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":\"#{id}\""}]}.flatten(1)
     }
 
     @delete_hooks.each do |hook|
@@ -908,7 +913,7 @@ class CommonIndexer
   end
 
 
-  def index_batch(batch, timing = IndexerTiming.new)
+  def index_batch(batch, timing = IndexerTiming.new, opts = {})
     timing.time_block(:batch_hooks_ms) do
       # Allow hooks to operate on the entire batch if desired
       @batch_hooks.each_with_index do |hook|
@@ -919,7 +924,7 @@ class CommonIndexer
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
       records_with_children = batch.map {|e|
-        if @@records_with_children.include?(e['primary_type'].to_s)
+        if self.records_with_children.include?(e['primary_type'].to_s)
           "\"#{e['id']}\""
         end
       }.compact
@@ -927,7 +932,7 @@ class CommonIndexer
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")
         req['Content-Type'] = 'application/json'
-        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
+        req.body = {:delete => {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 
