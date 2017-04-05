@@ -25,10 +25,10 @@ class SystemInfoController < ApplicationController
       @log = open( URI.join(AppConfig[:backend_url], "/system/log" ),
                 "X-ArchivesSpace-Session" => Thread.current[:backend_session] ).read 
     else
-      @log = Rails.logger.backlog
+      @log = Rails.logger.backlog_and_flush
     end
 
-    render :text => @log
+    render :plain => @log
 
   end
 

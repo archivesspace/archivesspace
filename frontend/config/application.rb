@@ -75,6 +75,8 @@ module ArchivesSpace
 
     config.i18n.default_locale = AppConfig[:locale]
 
+    config.logger = ASpaceLogger.new($stderr)
+
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
