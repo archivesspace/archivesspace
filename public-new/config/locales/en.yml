@@ -62,7 +62,7 @@ en:
     note: Note to the staff 
     visit: "Submit a request to visit %{repo_name} to view <strong>%{archival_object}</strong>"
     submit: Submit Request
-    submitted: Thank you, your request has been submitted.  You will soon recieve an email with a copy of your request. 
+    submitted: Thank you, your request has been submitted.  You will soon receive an email with a copy of your request. 
     errors:
       name: Please enter your name
       email: Please enter a valid email address
