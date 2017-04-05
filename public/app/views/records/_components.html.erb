@@ -8,6 +8,12 @@
     <%= I18n.t("#{record_type}._public.section.components") %>
   </h3>
 
+  <div id="tree-unexpected-failure" style="display:none" aria-hidden="true">
+    <div class="alert alert-warning">
+        <%= I18n.t("record_tree.error_message") %>
+    </div>
+  </div>
+
   <ul class="nav nav-tabs hide" id="componentsTab">
     <li class="active"><a href="#components_record_tree"><%= I18n.t("record_tree.record_tree_tab") %></a></li>
     <li class="components-search"><a href="#components_search"><span class="icon icon-search"></span> <%= I18n.t("record_tree.search_tab") %></a></li>
@@ -133,4 +139,10 @@
             tree.setCurrentNode(tree_id);
         },
         $.noop);
+
+    tree.setGeneralErrorHandler(function (failure_type) {
+        if (failure_type === 'fetch_node_failed') {
+            $('#tree-unexpected-failure').slideDown().attr('aria-hidden', 'false');
+        }
+    });
 </script>
