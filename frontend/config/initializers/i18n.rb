@@ -33,9 +33,14 @@ module I18n
   end
 
 
-  def self.t(*args)
-    results =  self.t_raw(*args)
-    results.nil? ? "" : results.html_safe
+  def self.t(input, options = {})
+    begin
+      results =  self.t_raw(input, options.merge(:raise => true))
+
+      results.nil? ? "" : results.html_safe
+    rescue I18n::MissingTranslationData => e
+      e.to_s
+    end
   end
 
 end
