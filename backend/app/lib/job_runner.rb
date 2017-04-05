@@ -54,7 +54,7 @@ class JobRunner
 
   def self.register_for_job_type(type, opts = {})
     @@runners ||= {}
-    if @@runners.has_key?(type)
+    if !opts.fetch(:allow_reregister, false) && @@runners.has_key?(type)
       raise JobRunnerError.new("Attempting to register #{self} for job type #{type} " +
                                "- already handled by #{@@runners[type]}")
     end
