@@ -234,7 +234,6 @@ class PeriodicIndexer < CommonIndexer
     end
 
     if did_something
-      log("Committing all deletes")
       send_commit
     end
 
