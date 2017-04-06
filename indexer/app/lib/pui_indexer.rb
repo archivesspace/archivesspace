@@ -270,7 +270,7 @@ class PUIIndexer < PeriodicIndexer
     if batch.length > 0
       log "Indexed #{batch.length} additional PUI records in repository #{repository.repo_code}"
 
-      index_batch(batch, IndexerTiming.new, :parent_id_field => 'pui_parent_id')
+      index_batch(batch, nil, :parent_id_field => 'pui_parent_id')
       send_commit
     end
 

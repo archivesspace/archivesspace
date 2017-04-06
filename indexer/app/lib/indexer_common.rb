@@ -254,21 +254,6 @@ class CommonIndexer
 
   def configure_doc_rules
 
-    add_delete_hook { |records, delete_request|
-      records.each do |rec|
-        if rec.include?("_collection_management")
-          delete_request[:delete] ||= []
-          delete_request[:delete] <<  {"id" => rec}
-          delete_request[:delete] <<  {'query' => "parent_id:\"#{rec.split("#").first}\""}
-        end
-
-        if rec.match(/repositories\/\d+\/collection_management\//)
-          delete_request[:delete] << {'query' => "cm_uri:\"#{rec}\""}
-        end
-      end
-     }
-
-
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
@@ -618,7 +603,7 @@ class CommonIndexer
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
-          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'id' => cm['uri'],
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
@@ -914,6 +899,8 @@ class CommonIndexer
 
 
   def index_batch(batch, timing = IndexerTiming.new, opts = {})
+    timing ||= IndexerTiming.new
+
     timing.time_block(:batch_hooks_ms) do
       # Allow hooks to operate on the entire batch if desired
       @batch_hooks.each_with_index do |hook|

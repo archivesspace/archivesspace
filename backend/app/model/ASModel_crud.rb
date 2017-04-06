@@ -162,15 +162,6 @@ module ASModel
 
           # Tell the nested record to clear its own nested records
           Array(self.send(nested_record_defn[:association][:name])).each do |nested_record|
-
-            # not stoked on this ,but some one_to_one's (collection_management
-            # ) get indexed with an id that refs the parent. so we need to
-            # tombstone the uri that points back to the parent uri
-            if nested_record_defn[:association][:type] == :one_to_one
-              context_uri =  "#{self.uri}##{self.class.to_s.downcase}_#{nested_record.class.to_s.underscore}"
-              Tombstone.create(:uri => context_uri)
-            end
-            
             nested_record.delete
           end
         elsif nested_record_defn[:association][:type] === :many_to_many
