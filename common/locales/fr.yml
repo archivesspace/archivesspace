@@ -195,8 +195,8 @@ fr:
     coordinate_1_range: Plage de coordonnées 1
     coordinate_2_range: Plage de coordonnées 2
     coordinate_3_range: Plage de coordonnées 3
-    start: Borne inférieur de la fourchette
-    end: Borne supérieure de la fourchette
+    start: Borne inf. 
+    end: Borne sup.
     _singular: Localisations en lot
     _plural: Localisations en lot
 
