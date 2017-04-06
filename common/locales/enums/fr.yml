@@ -114,7 +114,7 @@ fr:
       enj: Juridiction promulgatrice
       eng: Ingénieur
       egr: Graveur
-      etr: Etcher
+      etr: Graveur à l'eau-forte
       evp: Lieu de l'événement
       exp: Expert
       fac: Facsimilist
@@ -180,8 +180,8 @@ fr:
       org: Originator
       oth: Autre
       own: Propriétaire
-      pan: Panelist
-      ppm: Papermaker
+      pan: Panéliste
+      ppm: Papetier
       pta: Patent applicant
       pth: Patentee
       pat: Patron
@@ -190,16 +190,16 @@ fr:
       pht: Photographe
       ptf: Plaignant
       ptt: Plaignant-appellant
-      pte: Plaingant-appellé
+      pte: Plaignant-appellé
       plt: Platemaker
-      pra: Praeses
-      pre: Presentateur
+      pra: Président
+      pre: Présentateur
       prt: Imprimeur
       pop: Imprimeur des planches
       prm: Graveur
       prc: Process contact
       pro: Producteur
-      prn: Production company
+      prn: Compagnie de production
       pmn: Production manager
       prs: Production designer
       prd: Production personnel
@@ -212,12 +212,12 @@ fr:
       pbl: Editeur
       pbd: Directeur de publication
       ppt: Marrionnettiste
-      rdd: Radio director
-      rpc: Radio producer
+      rdd: Directeur de radio
+      rpc: Producteur de radio
       rcp: Recipient
-      rce: Recording engineer
+      rce: Ingénieur du son
       rcd: Recordist
-      red: Redaktor
+      red: Rédacteur
       ren: Renderer
       rpt: Reporter
       rps: Repository
@@ -232,25 +232,25 @@ fr:
       rsr: Restorationist
       rev: Reviewer
       rbr: Rubricator
-      sce: Scenarist
-      sad: Scientific advisor
+      sce: Scénariste
+      sad: Conseiller scientifique
       scr: Scribe
-      scl: Sculptor
+      scl: Sculpteur
       spy: Second party
-      sec: Secretary
+      sec: Secrétaire
       sll: Seller
-      std: Set designer
+      std: Décorateur
       stg: Setting
       sgn: Signer
-      sng: Singer
-      sds: Sound designer
+      sng: Chanteur
+      sds: Ingénieur du son
       spk: Speaker
       spn: Sponsor
-      sgd: Stage director
-      stm: Stage manager
-      stn: Standards body
+      sgd: Metteur en scène
+      stm: Régisseur
+      stn: Organisme de normalisation
       str: Stereotyper
-      stl: Storyteller
+      stl: Conteur
       sht: Supporting host
       srv: Surveyor
       tch: Professeur
@@ -258,9 +258,9 @@ fr:
       tld: Directeur de TV
       tlp: Producteur de TV
       ths: Thesis advisor
-      trc: Transcriber
+      trc: Transcripteur
       trl: Traducteur
-      tyd: Type designer
+      tyd: Créateur de caractères
       tyg: Typographe
       uvp: University place
       vdg: Videographer
@@ -1319,7 +1319,7 @@ fr:
       accessrestrict: Conditions d'accès
       accruals: Accroissements
       acqinfo: Informations sur les modalités d'entrée
-      altformavail: Existence et emplacement de copies
+      altformavail: Existence et localisation de copies
       appraisal: Evaluation
       arrangement: Classement
       bibliography: Bibliographie
@@ -1329,7 +1329,7 @@ fr:
       index: Index
       odd: Autres données descriptives
       otherfindaid: Autre instrument de recherche
-      originalsloc: Existence et lieux de conservaation d'originaux
+      originalsloc: Existence et lieux de conservation d'originaux
       phystech: Caractéristiques matérielles et contraintes techniques
       prefercite: Référence privilégiée
       processinfo: Information sur le traitement
@@ -1348,7 +1348,7 @@ fr:
       physdesc: Description physique
       relatedmaterial: Documents en relation
       abstract: Résumé
-      physloc: Emplacement physique
+      physloc: Localisation physique
       materialspec: Détails matériels spécifiques
       physfacet: Particularité physique
     note_digital_object_type:
@@ -1465,7 +1465,7 @@ fr:
     linked_agent_event_roles: Agent mis en relation Rôles d'événement
     linked_agent_role: Rôle de l'agent mis en relation
     linked_event_archival_record_roles: Evénement mis en relation Rôles de notice archivistique
-    location_temporary: Emplacement temporaire
+    location_temporary: Localisation temporaire
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom
     name_source: Source de nom
@@ -1488,7 +1488,7 @@ fr:
     user_defined_enum_2: Défini par l'utilisateur Enum 2
     user_defined_enum_3: Défini par l'utilisateur Enum 3
     user_defined_enum_4: Défini par l'utilisateur Enum 4
-    job_type: Type de job
-    dimension_units: Unités de mesure
+    job_type: Type de tâche
+    dimension_units: Unités de dimensions
     restriction_type: Consultation locale Type de restriction
-    location_function_type: Emplacement Type de fonction
+    location_function_type: Localisation Type de fonction
