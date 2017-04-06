@@ -660,7 +660,7 @@ fr:
         batch_edit: Editer lot de localisations
         save: Sauvegarder localisation
         single: Localisation unique
-        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cette localisation est actuellement liée à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
+        delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée.</strong>.</p><p> Si cette localisation est actuellement liée à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
         show_space_calculator: Trouver avec le calculateur d'espace
 
   location_batch:
@@ -918,12 +918,12 @@ fr:
     help:
       keyboard_shortcuts: |
                  <div><strong>Raccourcis clavier</strong></div>
-                  <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span>SHIFT + Arrow Keys</small></div>
-                  <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> SHIFT + Return</small></div>
+                  <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span> MAJ + touches flèches</small></div>
+                  <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> MAJ + Entrée</small></div>
       sticky_columns: |
                   <div><strong>Colonnes collantes</strong></div>
                   <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
-                  <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; Le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
+                  <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
       fill_column: |
                   <div><strong>Remplir colonne - Basic</strong></div>
                   <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
@@ -932,10 +932,10 @@ fr:
                   <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
       resize_and_reorder_columns: |
                   <div><strong>Réordonner colonnes</strong></div>
-                  <div><small>Click <strong>Réordonner colonnes</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply colonne Order</strong></small></div>
+                  <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
       reset: |
-                  <div><strong>Reset formulaire</strong></div>
-                  <div><small>Cliquer <strong>Reset</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
+                  <div><strong>Réinitialiser formulaire</strong></div>
+                  <div><small>Cliquer <strong>Réinitialiser</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
   update_monitor:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
     stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez rafraîchir la page pour accéder à la dernière version.
@@ -1081,7 +1081,7 @@ fr:
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
         bulk_action_success: Top contenants actualisés avec succès
-        bulk_action_success_info: Attention: un certain temps peut s'écouler avant que les modifications soient répercutées dans les résultats de la recherche.
+        bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
@@ -1218,7 +1218,7 @@ fr:
       messages:
         created: Profil de localisation créé
         updated: Profil de localisation actualisé
-        fields_required_for_calculator: Attention: unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.      
+        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.      
         section:
         basic_information: Information de base
     name: Name
