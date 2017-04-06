@@ -15,9 +15,9 @@ fr:
     integer_1: Entier 1
     integer_2: Entier 2
     integer_3: Entier 3
-    real_1: Real 1
-    real_2: Real 2
-    real_3: Real 3
+    real_1: Réel 1
+    real_2: Réel 2
+    real_3: Réel 3
     string_1: Chaîne de caractères 1
     string_2: Chaîne de caractères 2
     string_3: Chaîne de caractères 3
@@ -28,11 +28,11 @@ fr:
     text_4: Texte 4
     text_5: Texte 5
     date_1: Date 1
-    date_1_inline_help: e.g. YYYY-MM-DD
+    date_1_inline_help: par ex. AAAA-MM-JJ
     date_2: Date 2
-    date_2_inline_help: e.g. YYYY-MM-DD
+    date_2_inline_help: par ex. AAAA-MM-JJ
     date_3: Date 3
-    date_3_inline_help: e.g. YYYY-MM-DD
+    date_3_inline_help: par ex. AAAA-MM-JJ
     enum_1: Valeur contrôlée 1
     enum_2: Valeur contrôlée 2
     enum_3: Valeur contrôlée 3
@@ -129,6 +129,7 @@ fr:
     component_id_tooltip: |
         <p>Un identifiant unique pour le composant d'objet numérique.</p>
     dates: Dates
+    has_unpublished_ancestor: A un ancêtre non publié?
     _singular: Composant d'objet numérique
     _plural: Composants d'objet numérique
 
@@ -1086,6 +1087,7 @@ fr:
 
   date_type_bulk:
     <<: *date_attributes
+
   date_type_inclusive:
     <<: *date_attributes
 
@@ -1114,14 +1116,19 @@ fr:
     accession_date: Date de collecte
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle la collecte a eu lieu. N'est pas nécessairement la date de création de la notice.</p>
+        <p>CHAMP REQUIS. Date à laquelle la collecte a eu lieu. N'est pas 
+        nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
         <p>Le numéro d'une notice de collecte spécifique dans la base de donnée interne.</p>
     identifier: Identifiant
     id_0: Identifiant
+    id_1: Identifiant 2
+    id_2: Identifiant 3
+    id_3: Identifiant 4
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une collecte au sein du dépôt.</p>
+        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une collecte au sein du 
+        dépôt.</p> 
         <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
         identifiant de collecte en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
@@ -1419,6 +1426,8 @@ fr:
       manage_container_record: supprimer/actualiser en masse notices top contenants
       manage_container_profile_record: créer/actualiser/supprimer notices de profils contenants
       manage_location_profile_record: créer/actualiser/supprimer notices de profils localisations
+      create_job: créer et lancer une tâche d'arrière-plan
+      cancel_job: annuler une tâche d'arrière-plan
     _singular: Groupe
     _plural: Groupes
 
@@ -1604,6 +1613,10 @@ fr:
         <p>Un URL ou un autre identifiant de localisation de fichier pointant vers un fichier contenant un outil de marquage à utiliser dans l'instrument d'aide en ligne du dépôt. Un logo ou un sceau universitaire constituent des outils typiques de marquage.</p>
     _singular: Dépôt
     _plural: Dépôts
+    publish: Publier?
+    publish_tooltip: |
+        <p>Détermine si ce dépôt et les notices qu'il peut contenir ains seront publiés sur les interfaces publiques.</p>
+
 
   term: &term_attributes
     # tooltips not displaying
@@ -1848,18 +1861,6 @@ fr:
     _plural: Valeurs par défaut
 
   reports:
-    CreatedAccessionsReport: Collectes crées
-    UnprocessedAccessionsReport: Collectes non traitées
-    LocationHoldingsReport: Qu'est-ce qui contient quoi?
-    location_holdings:
-      report_title: Rapport sur les contenants entreposés dans une ou plusieurs localisation.
-      repository_report_type: Dépôt
-      building_report_type: Bâtiment
-      single_location_report_type: Localisation unique
-      location_range_report_type: Plage de localisations
-      search_range: Rapport sur une plage de localisations
-      start_range: Première localisation
-      end_range: Dernière localisation
     parameters:
       from: A partir de
       from_tooltip:
@@ -1885,6 +1886,7 @@ fr:
     did_not_match_regular_expression: Ne correspond pas à l'expression régulière %{regexp}
     too_few_characters: Doit comporter au moins %{min_length} caractères
     too_many_characters: Doit comporter au plus %{max_length} caractères
+    max_length_is_50_characters: Ne doit pas excéder 50 caractères
     too_few_items: Un minimum de %{min_items} item(s) est requis
     invalid_value: Valeur invalide '%{value}'. Doit être comprise dans '%{valid_set}'
     wrong_type: Doit être du type %{desired_type} (vous avez entré %{actual_type})
@@ -1923,6 +1925,13 @@ fr:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
+    types:
+      print_to_pdf_job: Imprimer en PDF
+      import_job: Importer données
+      find_and_replace_job: Rechercher et remplacer en masse (Bêta)
+      report_job: Rapports
+      container_conversion_job: Rapports
+      unknown_job_type: Type de tâche inconnu
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente
@@ -1934,6 +1943,10 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
+
+  report_job:
+    report_type: Type de rapport
+    format: Format
 
   import_job:
     _singular: Importer tâche
@@ -1987,3 +2000,8 @@ fr:
 
   resource_component:
     _singular: Composant ressource
+
+  largetree:
+    reparent_error:
+      title: Pas moyen d'effectuer le déplacement
+      message: Le déplacement a été refusé car un parent ne peut devenir son propre fils.

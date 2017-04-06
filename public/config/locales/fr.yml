@@ -48,7 +48,7 @@ fr:
       repository: Dépôt
       creators: Producteur
       fullrecord: Mot-clé
-      subjects_text: Mot-matière
+      subjects_text: Sujet
       title: Intitulé
       creators_text: Producteur
       scope: Présentation du contenu
@@ -169,3 +169,9 @@ fr:
   record_tree:
     record_tree_tab: Arborescence des notices
     search_tab: Montrer composants
+    error_message: Pas moyen de rappatrier la hiérarchie. Veuillez réessayer dans un moment ou contacter l'administrateur du site.
+    
+  classification:
+    _public:
+      section:
+        components: Termes

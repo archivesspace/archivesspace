@@ -1,0 +1,31 @@
+en:
+  reports:
+    accession_report:
+      title: Accession Report
+      description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
+      number_of_accessions: Number of accessions
+      identifier_prefix: Accession
+      accession_date: Accession Date
+      extent: Extent
+      container: Container
+      deaccessions: Deaccessions
+      locations: Locations
+      general_note: General Note
+      begin_date: Begin Date
+      end_date: End Date
+      bulk_begin_date: Bulk Begin Date
+      bulk_end_date: Bulk End Date
+      date_expression: Date Expression
+      description_section: Description
+      names: Names
+      subjects: Subjects
+      acquisitions: Acquisitions
+      retention: Retention
+      condition: Condition
+      inventory: Inventory
+      disposition: Disposition
+      restrictions_apply: Retrictions Apply?
+      access_restrictions_note: Access Restrictions Note
+      user_restrictions_note: Use Restrictions Note
+      rights_transferred: Rights Transferred?
+      rights_transferred_note: Rights Transferred Note

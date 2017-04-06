@@ -32,9 +32,9 @@ fr:
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
     move: Déplacer
     move_up_a_level: Un niveau plus haut
-    move_up: Haut
-    move_down: Bas
-    move_down_into: Bas dans...
+    move_up: Vers le haut
+    move_down: Vers le bas
+    move_down_into: Vers le bas dans...
     paste: Coller
     remove: Supprimer
     refresh_page: Rafaîchir la page
@@ -93,6 +93,9 @@ fr:
     download_pdf: Télécharger PDF
     download_report: Télécharger rapport
     click_to_show: Cliquez pour charger les notices.
+    rapid_data_entry: Saisie rapide de données
+    enable_reorder: Basculer en mode réordonner
+    reorder_active: Mode réordonner activé
 
   database_warning:
     message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
@@ -227,6 +230,7 @@ fr:
       equal: égal à
       greater_than: plus grand que
       lesser_than: moins que
+      vide: non assigné
     boolean_field:
       true_value: "Vrai"
       false_value: "Faux"
@@ -238,6 +242,11 @@ fr:
     index_switcher:
       show: Montrer Recherche avancée
       hide: Cacher Recherche avancée
+    text_operator:
+      contains: contient
+      empty: est vide
+    enum_field:
+      empty: non attribué
 
   become-user:
     become-user: Devenir utilisateur
@@ -245,7 +254,7 @@ fr:
     success: Changement d'utilisateur réussi
 
   navbar:
-    become-user: Devenir utilisateur
+    become-user: Passer utilisateur
     brand: ArchivesSpace
     create: Créer
     import: Importer
@@ -282,6 +291,7 @@ fr:
     list_reports: Rapports
     global_admin: Système
     system_info: Infos système
+    unpublished: Non publié
   session:
     gone: Votre session backend n'a pas été trouvée
     expired: Votre session a expiré pour cause d'inactivité
@@ -368,12 +378,20 @@ fr:
     messages:
       defaults_updated: Valeurs par défaut actualisées
 
+  tree:
+    drag_and_drop_actions:
+      before: Ajouter items avant
+      after: Ajouter items après
+      as_child: Ajouter items comme fils
+    unexpected_failure: Oups! Pas moyen de récupérer cette arborescence. Veuillez rafraîchir la page.
+
   errors:
     sidebar_label: Erreurs et avertissements
     error_403: Pas moyen d'accéder à la page
     error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
     error_404: Notice pas trouvée
     error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
+    error_tree_pane_ajax: Une erreur s'est produite en chargeant ce formulaire.
 
   accession:
     _frontend:
@@ -462,6 +480,8 @@ fr:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
         save: Sauvegarder document d'archives
+      tree:
+        new_record_title: Nouvel objet archivistique
 
   classification:
     _frontend:
@@ -492,6 +512,8 @@ fr:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
         save: Sauvegarder terme
+      tree:
+        new_record_title: Nouveau terme de classification
 
   collection_management: &collection_management_attributes
     _frontend:
@@ -545,7 +567,6 @@ fr:
         add_child: Ajouter fils
         create: Créer objet numérique
         save: Sauvegarder objet numérique
-        rapid_data_entry: Saisie rapide de données
 
   digital_object_component:
     _frontend:
@@ -565,6 +586,8 @@ fr:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
         save: Sauvegarder composant d'objet numérique
+      tree:
+        new_record_title: Nouveau composant d'objet numérique
 
   enumeration:
     _frontend:
@@ -602,6 +625,7 @@ fr:
       action:
         save: Sauvegarder événement
         create: Créer événement
+    linked_agents: Liens agent
 
   extent:
     _frontend:
@@ -617,7 +641,7 @@ fr:
     _frontend:
       action:
         add: Ajouter version de fichier
-        make_representative: Make Representative
+        make_representative: Rendre représentatif
 
   group:
     _frontend:
@@ -788,7 +812,6 @@ fr:
         rapid_data_entry: Saisie rapide de données
         create: Créer ressource
         save: Sauvegarder ressource
-        delete_multiple: Supprimer ressources
 
   preference:
     _frontend:
@@ -983,8 +1006,8 @@ fr:
       toggle_shortcuts: "Activer / désactiver raccourcis clavier"
       save_record: "Sauvegarder la notice en cours d'édition"
       close_record: "Fermer une notice en cours d'édition"
-      open_browse: "Ouvrir menu de navigation"
-      open_create: "Ouvrir menu de création"
+      open_browse: "Ouvrir menu parcourir"
+      open_create: "Ouvrir menu créer"
                     
   instance_container:
     container: Contenant
@@ -1124,9 +1147,9 @@ fr:
     _plural: Profils de contenants
     _frontend:
       action:
-        save: Sauvegarder Profil de contenant
-        edit: Editer Profil de contenant
-        create: Créer Profil de contenant
+        save: Sauvegarder profil de contenant
+        edit: Editer profil de contenant
+        create: Créer profil de contenant
         space_calculator: Calculateur d'espace
       messages:
         created: Profil de contenant créé
@@ -1149,7 +1172,7 @@ fr:
     dimension_units_tooltip: |
         <p>Unité de mesure pour l'importance matérielle.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    extent_dimension: Importance matérielle
+    extent_dimension: Dimensions physiques
     extent_dimension_tooltip: |
         <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
     extent_dimension_depth: Profondeur
@@ -1198,7 +1221,7 @@ fr:
     no_profile: <span class="text-error">PAS DE PROFIL</span>
     all_containers_label: Tous les contenants
     timestamp_label: Rapport généré à
-    extent_record_header: Notice Importance matérielle
+    extent_record_header: Notice d'importance matérielle
     create_extent: Créer importance matérielle
     calculate_extent: Calculer importance matérielle
     create_extent_record_message: Lancer le calcul d'importance matérielle en mode édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
