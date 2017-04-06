@@ -15,10 +15,10 @@ fr:
     cut: Couper
     defaults: Valeurs par défaut
     edit: Editer
-    edit_batch: Editer Lot
-    edit_groups: Editer Groupes
-    edit_default_values: Editer Valeurs par défaut
-    edit_default_archival_object_values: Editer Composants par défaut
+    edit_batch: Editer lot
+    edit_groups: Editer groupes
+    edit_default_values: Editer valeurs par défaut
+    edit_default_archival_object_values: Editer composants par défaut
     export: Exporter
     view: Affichage
     spawn: Hériter
@@ -709,7 +709,7 @@ fr:
         add_note_index_item: Ajouter élément
         add_note_chronology_item: Ajouter élément
         add_event: Ajouter élément
-        add_note_bibliography_item: Ajouer élément
+        add_note_bibliography_item: Ajouter élément
         add_note_outline_level_item: Ajouter élément
         add_note_outline_level_level: Ajouter niveau
         note_definedlist_item: Ajouter élément
@@ -757,7 +757,7 @@ fr:
         cannot_delete_nonempty: Ne peut être supprimé - dépôt non vide
       section:
         all_fields: Champs dépôt
-        transfer: Transfert dépôt
+        transfer: Transférer dépôt
       action:
         select: Sélectionner dépôt
         create: Créer dépôt
@@ -770,7 +770,7 @@ fr:
         created: "Ressource <strong>%{resource.title}</strong> créée"
         updated: "Ressource <strong>%{resource.title}</strong> actualisée"
         spawned: "Une nouvelle ressource a été générée depuis Collecte <strong>%{accession.display_string}</strong>"
-        deleted: "Resource <strong>%{resource.title}</strong> deleted"
+        deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
         published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
@@ -786,9 +786,9 @@ fr:
       action:
         add_child: Ajouter fils
         rapid_data_entry: Saisie rapide de données
-        create: Créer Resource
-        save: Sauvegarder Resource
-        delete_multiple: Supprimer Resources
+        create: Créer ressource
+        save: Sauvegarder ressource
+        delete_multiple: Supprimer ressources
 
   preference:
     _frontend:
@@ -805,7 +805,7 @@ fr:
       messages:
         preview_pending: Aperçu mot-matière
       action:
-        add: Ajouter Terme/Subdivision
+        add: Ajouter terme/subdivision
 
   transfer:
     ref: Dépôt cible
@@ -890,7 +890,7 @@ fr:
       fill_value: Remplir Valeur
       select_a_column: Veuillez sélectionner une colonne
       apply_basic_fill: Appliquer remplir
-      apply_sequence_fill: Appliquer Séquence
+      apply_sequence_fill: Appliquer séquence
       sequence_count_warning: Il y a plus de rangées que d'items dans la séquence.
       preview_sequence: Aperçu valeurs de séquence
       sequence_summary: "%{count} items dans la séquence:"
@@ -914,7 +914,7 @@ fr:
       rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ de rangée pour visualiser les erreurs pour cette rangée"
       rows_no_errors: "Toutes les rangées sont valides"
       error_summary_header: "Erreurs dans rangée:"
-      select_prompt: Apply an RDE Template
+      select_prompt: Appliquer un modèle RDE
     help:
       keyboard_shortcuts: |
                  <div><strong>Raccourcis clavier</strong></div>

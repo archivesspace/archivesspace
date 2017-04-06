@@ -69,7 +69,7 @@ fr:
     collection_management_tooltip: |
         <p>Information supplémentaire, à usage purement interne, concernant la façon dont les documents décrits seront, ou ont été traités.</p>
     classification_tooltip: |
-        <p>Utilisé pour relier les documents décrits à une classification ou à un terme de classification (par ex. un système de groupage des notices) géré à l'intérieur de l'application.</p>
+        <p>Utilisé pour relier les documents décrits à une classification ou à une convention de classification (par ex. un système de groupes d'archives) géré à l'intérieur de l'application.</p>
     user_defined_tooltip: |
         <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre section de l'application.</p>
 
@@ -1679,192 +1679,192 @@ fr:
         <p>Département de l'utilisateur.</p>
     additional_contact: Information complémentaire contact
     additional_contact_tooltip: |
-        <p>Additional contact information for the user, or information such as the user's work schedule.</p>
-    is_admin: Grant system administrator permissions
+        <p>Information supplémentaire de contact pour l'utilisateur, ou une information comme le programme de travail de l'utilisateur.</p>
+    is_admin: Concéder des permissions d'administrateur système
     is_admin_tooltip: |
-        <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
-    _singular: User
-    _plural: Users
+        <p>Sert à indiquer si l'utilisateur doit avoir des privilèges d'administration relativement à l'application.</p>
+    _singular: Utilisateur
+    _plural: Utilisateurs
 
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
-        <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
+        <p>Une note au sujet du catalogage de l'entité archivistique (collecte, ressource, objet numérique), incluant la provision d'identifiants d'enregistrement catalogue.</p>
         <p>Exemples:</p>
         <ul>
-        <li>Catalog record number: 21345672</li>
+        <li>Numéro d'enregistrement catalogue: 21345672</li>
         </ul>
-    processing_hours_per_foot_estimate: Processing hrs/unit Estimate
+    processing_hours_per_foot_estimate: Vitesse de traitement en h/unités
     processing_hours_per_foot_estimate_tooltip: |
-        <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
-    processing_total_extent: Processing Total Extent
+        <p>Le temps que le dépôt estime nécessaire pour traiter une unité de matériel archivistique (par ex. un mètre linéaire ou item dans le cas d'objets numériques).  L'estimation peut ou non prendre en compte la production d'instruments de recherche, d'enregistrements catalogue et d'autres produits d'accès.</p>
+    processing_total_extent: Importance totale du matériel à traiter
     processing_total_extent_tooltip: |
-        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
-    processing_total_extent_type: Extent Type
+        <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linaires, items, etc) du matériel à traiter.</p>
+    processing_total_extent_type: Type d'importance
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
-    processing_hours_total: Total Processing Hours
-    processing_hours_total_short: Total hours
+    processing_hours_total: Durée totale de traitement
+    processing_hours_total_short: Total en heures
     processing_hours_total_tooltip: |
-        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent". The value can be overwritten to reflect the actual processing time and not a value based on the estimated processing hrs/unit value.</p>
-    processing_plan: Processing Plan
+        <p>Le résultat numérique du produit de "vitesse de traitement en h/m" par "importance totale du traitement". La valeur peut être corrigée pour refléter le traitement effectif plutôt que la valeur basée sur la vitesse estimée en h/unités.</p>
+    processing_plan: Plan de traitement
     processing_plan_tooltip: |
-        <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
+        <p>Pour saisir un plan de traitement de l'unité archivistique. Le plan peut inclure un schéma de classement de l'unité archivistique, ainsi que des instructions relatives au traitement d'objets particuliers dans l'unité archivistique.  Le plan peut aussi assigner des missions spécifiques à différents personnels du dépôt.</p>
         <p>Exemples:</p>
         <ul>
-        <li>Arrange subject files alphabetically and project files chronologically.</li>
-        <li>Margaret's students will create descriptive records.</li>
-        <li>Project manager will review, output, and load the encoded finding aid.</li>
+        <li>Classe alphabétiquement les dossiers thématiques et chronologiquement les dossiers de projets.</li>
+        <li>Les étudiants de Margaret créeront des notices descriptives.</li>
+        <li>Le Responsable de projet passera en revue, produira et chargera l'instrument de recherche encodé.</li>
         </ul>
-    processing_priority: Processing Priority
+    processing_priority: Priorité de traitement
     processing_priority_tooltip: |
-        <p>Indicates the priority assigned to processing of an archival unit.</p>
+        <p>Indique la priorité assignée au traitement d'une unité archivistique.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
         <p>Exemples:</p>
         <ul>
-        <li>High</li>
-        <li>Medium</li>
-        <li>Low</li>
+        <li>Haute</li>
+        <li>Moyenne</li>
+        <li>Basse</li>
         </ul>
-    processing_started_date: Processing Started Date
-    processing_status: Processing Status
+    processing_started_date: Date de début de traitement
+    processing_status: Statut de traitement
     processing_status_tooltip: |
-        <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
+        <p>Pour indiquer l'état actuel de traitement d'une unité archivistique (collecte, ressource, ou objet numérique).</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
         <p>Exemples:</p>
         <ul>
-        <li>New</li>
-        <li>In Progress</li>
-        <li>Completed</li>
+        <li>Nouveau</li>
+        <li>En cours</li>
+        <li>Effectué</li>
         </ul>
-    processing_funding_source: Funding Source
+    processing_funding_source: Source de financement
     processing_funding_source_tooltip: |
-        <p>Used to indicate the source of funding the processing of the described materials.</p>
-    processors: Processors
+        <p>Sert à indiquer la source de financement pour le traitement des documents décrits.</p>
+    processors: Agent de traitement
     processors_tooltip: |
-        <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
-    rights_determined: Rights determined?
+        <p>Pour lister le personnel chargé de traiter l'unité archivistique (collecte, ressource, ou objets numériques).</p>
+    rights_determined: Droits déterminés?
     rights_determined_tooltip: |
-        <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
-    rights_determined_true: Yes
-    rights_determined_false: No
+        <p>Indiquer si les droits relatifs à une unité archivistique (collect, ressource, ou objet numérique) ont été déterminés et une notice de droits créée et liée à l'unité archivistique.</p>
+    rights_determined_true: Oui
+    rights_determined_false: Non
     parent: Parent
-    _singular: Collection Management
-    _plural: Collection Management
+    _singular: Gestion de collection
+    _plural: Gestion de collection
 
 
   enumeration:
     # tooltips not displaying
-    name: Name
+    name: Nom
     name_tooltip: |
-        <p>The name of the Controlled Value List of to which you wish to add a value.</p>
-    value: Value
+        <p>Le nom de la liste de valeurs contrôlées à laquelle vous voulez ajouter une valeur.</p>
+    value: Valeur
     value_tooltip: |
-        <p>The value for the Controlled Value List you wish to add or edit.</p>
-        <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
-    translation: Translation
+        <p>La valeur de la liste de valeurs contrôlées que vous souhaitez ajouter ou modifier.</p>
+        <p>Autant que possible, les valeurs devraient être en bas de casse et avoir des tirets bas ("_") au lieu d'espaces. Les traductions devraient être ajoutées aux fichiers locaux.</p>
+    translation: Traduction
     position: Position
-    suppress: Suppress
-    unsuppress: Unsuppress
-    merge_into: Merge Into
-    _singular: Controlled Value List
-    _plural: Controlled Value lists
+    suppress: Bloquer
+    unsuppress: Débloquer
+    merge_into: Fusionner dans
+    _singular: Liste de valeurs contrôlées
+    _plural: Listes de valeurs contrôlées
 
   classification:
     _singular: Classification
     _plural: Classifications
     identifier: Identifiant
-    title: Title
+    title: Titre
     description: Description
-    creator: Creator
+    creator: Créateur
     id_separator: /
 
   classification_term:
-    _singular: Classification Term
-    _plural: Classification Terms
+    _singular: Terme de classification
+    _plural: Termes de classification
     identifier: Identifiant
-    title: Title
+    title: Titre
     description: Description
-    creator: Creator
+    creator: Créateur
 
   preference: &preference_attributes
-    defaults: Defaults
-    global: Global Preference Defaults
-    global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
-    repo: User Preference Defaults
-    repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
-    user_global: My Global Preferences
-    user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
+    defaults: Valeurs par défaut
+    global: Valeurs par défaut de préférences globales
+    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par les préférences propres d'un utilisateur.
+    repo: Valeurs par défauts des préférences utilisateur
+    repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le dépôt actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
+    user_global: Mes préférences globales
+    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par vos propres préférences pour un dépôt.
     user_repo: My Repository Preferences
     user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
     _singular: Preferences
     _plural: Preferences
 
   defaults: &defaults_attributes
-    general_section: General Settings
-    show_suppressed: Show Suppressed?
-    show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
+    general_section: Configuration générale
+    show_suppressed: Montrer bloqués?
+    show_suppressed_tooltip: Montrer ou non dans l'explorateur les notices bloquées que vous avez la permission de voir.
     publish: Publier?
-    publish_tooltip: Whether to publish new records by default.
-    default_values: Pre-populate Records?
-    default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
-    accession_browse_section: Accession Browse Columns
-    accession_browse_column_1: Column 1
-    accession_browse_column_1_tooltip: The field to show in column 1.
+    publish_tooltip: Publier ou non par défaut les nouvelles notices.
+    default_values: Pré-remplir notices?
+    default_values_tooltip: Pré-remplir ou non une nouvelle notice collecte ou ressource avec des valeurs par défaut.
+    accession_browse_section: Colonnes d'exploration collecte
+    accession_browse_column_1: Colonne 1
+    accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
     accession_browse_column_2: Column 2
-    accession_browse_column_2_tooltip: The field to show in column 2.
+    accession_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
     accession_browse_column_3: Column 3
-    accession_browse_column_3_tooltip: The field to show in column 3.
+    accession_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
     accession_browse_column_4: Column 4
-    accession_browse_column_4_tooltip: The field to show in column 4.
+    accession_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
     accession_browse_column_5: Column 5
-    accession_browse_column_5_tooltip: The field to show in column 5.
-    resource_browse_section: Resource Browse Columns
+    accession_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    resource_browse_section: Colonnes d'exploration ressource
     resource_browse_column_1: Column 1
-    resource_browse_column_1_tooltip: The field to show in column 1.
+    resource_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
     resource_browse_column_2: Column 2
-    resource_browse_column_2_tooltip: The field to show in column 2.
+    resource_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
     resource_browse_column_3: Column 3
-    resource_browse_column_3_tooltip: The field to show in column 3.
+    resource_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
     resource_browse_column_4: Column 4
-    resource_browse_column_4_tooltip: The field to show in column 4.
+    resource_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
     resource_browse_column_5: Column 5
-    resource_browse_column_5_tooltip: The field to show in column 5.
-    digital_object_browse_section: Digital_Object Browse Columns
+    resource_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    digital_object_browse_section: Colonnes d'exploration object numérique
     digital_object_browse_column_1: Column 1
-    digital_object_browse_column_1_tooltip: The field to show in column 1.
+    digital_object_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
     digital_object_browse_column_2: Column 2
-    digital_object_browse_column_2_tooltip: The field to show in column 2.
+    digital_object_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
     digital_object_browse_column_3: Column 3
-    digital_object_browse_column_3_tooltip: The field to show in column 3.
+    digital_object_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
     digital_object_browse_column_4: Column 4
-    digital_object_browse_column_4_tooltip: The field to show in column 4.
+    digital_object_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
     digital_object_browse_column_5: Column 5
-    digital_object_browse_column_5_tooltip: The field to show in column 5.
-    note_order_section: Note Order
-    accept_default_message: '> Accept Default:'
-    no_value: '[no value]'
-    _singular: Defaults
-    _plural: Defaults
+    digital_object_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    note_order_section: Ordres des notes
+    accept_default_message: '> Accepter défaut:'
+    no_value: '[pas de valeur]'
+    _singular: Valeurs par défaut
+    _plural: Valeurs par défaut
 
   reports:
-    CreatedAccessionsReport: Created Accessions
-    UnprocessedAccessionsReport: Unprocessed Accessions
-    LocationHoldingsReport: Location Holdings
+    CreatedAccessionsReport: Collectes crées
+    UnprocessedAccessionsReport: Collectes non traitées
+    LocationHoldingsReport: Qu'est-ce qui contient quoi?
     location_holdings:
-      report_title: Report on contenants shelved at one or more locations
-      repository_report_type: Repository
-      building_report_type: Building
-      single_location_report_type: Single Location
-      location_range_report_type: Range of Locations
-      search_range: Report on a range of locations
-      start_range: First location
-      end_range: Last location
+      report_title: Rapport sur les contenants entreposés dans une ou plusieurs localisation.
+      repository_report_type: Dépôt
+      building_report_type: Bâtiment
+      single_location_report_type: Localisation unique
+      location_range_report_type: Plage de localisations
+      search_range: Rapport sur une plage de localisations
+      start_range: Première localisation
+      end_range: Dernière localisation
     parameters:
-      from: From
+      from: A partir de
       from_tooltip:
-      to: To
-      locations: Locations
+      to: Jusqu'à
+      locations: Localisations
     formats:
       json: JSON
       csv: CSV
@@ -1873,87 +1873,87 @@ fr:
       html: HTML
 
   validation_errors:
-    agent_must_be_unique: Agent records cannot be identical
-    missing_required_property: Property is required but was missing
-    missing_property: Property was missing
-    not_a_valid_date: Not a valid date
-    must_not_be_before_begin: must not be before begin
-    is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
-    is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
-    is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given
+    agent_must_be_unique: Des notices d'agents ne peuvent être identiques
+    missing_required_property: Propriété requise qui manquait
+    missing_property: Propriété qui manquait
+    not_a_valid_date: N'est pas une date valide
+    must_not_be_before_begin: ne doit pas être avant début
+    is_required_unless_a_begin_or_end_date_is_given: est requis à moins qu'une date de début ou de fin ne soit donnée
+    is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression ou date de fin ne soit donnée
+    is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression ou date de début ne soit donnée
 
-    did_not_match_regular_expression: Did not match regular expression %{regexp}
-    too_few_characters: Must be at least %{min_length} characters
-    too_many_characters: Must be %{max_length} characters or fewer
-    too_few_items: At least %{min_items} item(s) is required
-    invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
-    wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
-    must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
-    id_already_in_use: That ID is already in use
-    username_already_in_use: Username '%{username}' is already in use
-    cant_be_empty: can't be empty
-    password_did_not_match: Entered value didn't match password
-    group_code_already_in_use: Group code must be unique within a repository
-    one_or_more_required_(or_enter_a_title): one or more required (or enter a Title)
-    must_not_be_an_empty_string_(or_enter_a_date): must not be an empty string (or enter a Date)
-    is_required_when__source__is_blank: is required when 'Source' is blank
-    is_required_when__rules__is_blank: is required when 'Rules' is blank
-    is_required_if_there_is_an_authority_id: is required if there is an 'Authority ID'
-    you_must_provide_a_label__title_or_date: you must provide a Label, Title or Date
+    did_not_match_regular_expression: Ne correspond pas à l'expression régulière %{regexp}
+    too_few_characters: Doit comporter au moins %{min_length} caractères
+    too_many_characters: Doit comporter au plus %{max_length} caractères
+    too_few_items: Un minimum de %{min_items} item(s) est requis
+    invalid_value: Valeur invalide '%{value}'. Doit être comprise dans '%{valid_set}'
+    wrong_type: Doit être du type %{desired_type} (vous avez entré %{actual_type})
+    must_be_one_of: Le type doit être compris dans %{allowed_types} (vous avez entré %{actual_type})
+    id_already_in_use: Cet identifiant existe déjà
+    username_already_in_use: Le nom d'utilisateur '%{username}' existe déjà
+    cant_be_empty: ne peut pas être vide
+    password_did_not_match: La valeur saisie ne correspond pas au mot de passe
+    group_code_already_in_use: Un code de groupe doit être unique dans un dépôt
+    one_or_more_required_(or_enter_a_title): un ou plus requis (ou bien entrez un titre)
+    must_not_be_an_empty_string_(or_enter_a_date): ne doit pas être une chaîne de caractères vide (ou bien entrez une date)
+    is_required_when__source__is_blank: est requis quand 'source' est laissé blanc
+    is_required_when__rules__is_blank: est requis quand 'règles' est laissé blanc
+    is_required_if_there_is_an_authority_id: est requis s'il y a un 'identifiant d'autorité'
+    you_must_provide_a_label__title_or_date: vous devez fournir un label, un titre ou une date
     location_fields_error: >
-      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator
-    location_must_be_unique_within_a_record: Must be unique within a record
-    location_cannot_be_deleted_if_linked: Location Record is currently linked to one or more Instance records and cannot be deleted. Please link these instances to new locations before deleting the location record.
-    cannot_be_previous_if_location_is_not_temporary: Cannot transfer to previous if the location is not temporary.
-    authority_id_must_be_unique: Authority ID is already in use
-    either_type_1_or_barcode_is_required: A contenant must contain Contenant 1 Type or Barcode.
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Must be a number with no more than nine digits and five decimal places.
-    container_2_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
-    container_3_requires_both_a_type_and_indicator: You must provide an Indicator if you provide a Type
-    container_2_is_required_if_container_3_is_provided: You must provide a Child Contenant if you provide a Grandchild Contenant
-    a_barcode_must_be_unique_within_a_repository: A barcode must be unique within a repository
-    container_profile_name_not_unique: Contenant Profile name must be unique
-    must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
-    length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
-    is_required_if_status_is_previous: is required if 'Status' is 'Previous'
-    location_profile_name_not_unique: Location Profile name must be unique
-    must_be_a_positive_integer: Must be a positive integer
+      Vous devez spécifier un code-barres ou une classification, ou les deux, comme labe de coordonnée 1 et indicateur de coordonnée 1
+    location_must_be_unique_within_a_record: Doit être unique dans une notice
+    location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de nouvelles localisation avant d'effectuer la suppression.
+    cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la localisation n'est pas temporaire.
+    authority_id_must_be_unique: Identifiant d'autorité déjà utilisé
+    either_type_1_or_barcode_is_required: Un contenant doit contenir un type de contenant 1 ou un code-barres.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne comprenant pas plus de 9 chiffres et 5 décimales.
+    container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
+    container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
+    container_2_is_required_if_container_3_is_provided: Vous devez fournir un contenant fils si vous fournissez un contenant petit-fils
+    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du dépôt
+    container_profile_name_not_unique: Un nom de profil contenant doit être unique
+    must_be_a_number_with_no_more_than_2_decimal_places: Doit être un nombre à 2 décimales au plus
+    length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la fourchette définie dans la configuration
+    is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
+    location_profile_name_not_unique: Un nom de profil localisation doit être unique
+    must_be_a_positive_integer: Doit être un entier positif
 
   job:
-    _singular: Background Job
-    _plural: Background Jobs
-    job_type: Job Type
-    status: Status
-    status_completed: Completed
-    status_queued: Queued
-    status_running: Running
-    status_failed: Failed
-    status_canceled: Canceled
-    time_submitted: Time Submitted
-    time_started: Time Started
-    time_finished: Time Completed
+    _singular: Tâche d'arrière-plan
+    _plural: Tâches d'arrière-plan
+    job_type: Type de tâche
+    status: Statut
+    status_completed: Effectuée
+    status_queued: Mise en attente
+    status_running: En cours
+    status_failed: Ratée
+    status_canceled: Annulée
+    time_submitted: Heure de soumission
+    time_started: Heure de commencement
+    time_finished: Heure d'achèvement
     owner: Owner
-    show_description: Show Description
+    show_description: Montrer description
 
   import_job:
-    _singular: Import Job
-    filenames: Import Files
-    import_type: Import Type
+    _singular: Importer tâche
+    filenames: Importer fichers
+    import_type: Importer type
     import_type_ead_xml: EAD
-    import_type_accession_csv: Accession CSV
-    import_type_digital_object_csv: Digital Object CSV
+    import_type_accession_csv: Collecte CSV
+    import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
-    import_type_marcxml: MarcXML (Resource)
-    import_type_marcxml_accession: MarcXML (Accession)
-    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    import_type_marcxml: MarcXML (Ressource)
+    import_type_marcxml_accession: MarcXML (Collecte)
+    import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)
 
   find_and_replace_job:
-    _singular: Find and Replace Job
-    find: String to find
-    replace: Replacement string
-    jsonmodel_type: Record or subrecord type
-    record_type: Record or subrecord type
-    property: Target property
+    _singular: Tâche chercher et remplacer
+    find: Chaîne de caractères à trouver
+    replace: Chaîne de caractères à substituer 
+    jsonmodel_type: Type de notice ou de sous-notice
+    record_type: Type de notice ou de sous-notice
+    property: Propriété cible
 
   print_to_pdf_job:
     include_unpublished: Inclure ce qui n'est pas publié
@@ -1962,14 +1962,14 @@ fr:
     type:
       text: Texte
       date: Date
-      boolean: Boolean
+      boolean: Booléen
       controlled_value: Valeur contrôlée
     text:
       keyword: Mot-clé
       title: Intitulé
       creators: Créateur
       notes: Notes
-      subjects: Vedette-matière
+      subjects: Sujets
       identifier: Identifiant
     boolean:
       published: Publié?
