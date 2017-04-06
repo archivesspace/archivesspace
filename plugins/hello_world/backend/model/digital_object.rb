@@ -1,2 +1,0 @@
-DigitalObject.include(HelloWorlds)
-

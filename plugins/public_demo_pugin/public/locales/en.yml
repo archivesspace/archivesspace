@@ -1,8 +1,0 @@
-en:
-  plugin:
-    pugs:
-      footer: PugsSpace - Barry 2016
-      header: PugsSpace
-      menu_label: Pugs
-      resource_action: URL Pug
-      archival_object_action: Alert Pug

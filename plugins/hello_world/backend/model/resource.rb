@@ -1,2 +1,0 @@
-Resource.include(HelloWorlds)
-
