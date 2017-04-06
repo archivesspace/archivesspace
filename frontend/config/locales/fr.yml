@@ -10,7 +10,7 @@ fr:
     continue: Continuer
     confirm: Confirmer
     confirm_removal: Confirmer élimination
-    container_labels: Télécharger étiquettes de containers
+    container_labels: Télécharger étiquettes de contenants
     create: Créer
     cut: Couper
     defaults: Valeurs par défaut
@@ -88,7 +88,7 @@ fr:
     publish_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
     view_search_results: Aller aux résultats de la recherche
     view_published: Voir publiés
-    print_to_pdf: Imprimer Ressource en PDF
+    print_to_pdf: Imprimer ressource en PDF
     resource_to_pdf: Ressource à imprimer
     download_pdf: Télécharger PDF
     download_report: Télécharger rapport
@@ -153,7 +153,7 @@ fr:
       event_type: Type
       first_term_type: Type de terme (premier)
       classification_uri: Classification
-      location_uris: Emplacement
+      location_uris: Localisation
       agents: Agent
       creators: Producteur
       fullrecord: Mot-clé
@@ -169,7 +169,7 @@ fr:
       floor: Niveau
       room: Pièce
       area: Aire
-      location_profile_display_string_u_ssort: Profil d'emplacement
+      location_profile_display_string_u_ssort: Profil de localisation
       location_profile_width_u_sstr: Largeur
       location_profile_height_u_sstr: Hauteur
       location_profile_depth_u_sstr: Profondeur
@@ -216,7 +216,7 @@ fr:
     digital_object_id: Identifiant d'objet numérique
     digital_object_type: Type d'objet numérique
     publish: Publier
-    location_profile_display_string_u_ssort: Profile d'emplacement
+    location_profile_display_string_u_ssort: Profil de localisation
 
   advanced_search:
     operator:
@@ -265,7 +265,7 @@ fr:
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
     manage_container_profiles: Gérer profils de containers
-    manage_location_profiles: Gérer profils d'emplacements
+    manage_location_profiles: Gérer profils de localisations
     manage_top_containers: Gérer Top Containers
     manage_enumerations: Gérer listes de valeurs contrôlées
     user_global_preferences: Mes préférences globales
@@ -292,14 +292,14 @@ fr:
       success: Notices supprimées
       error: "Pas moyen de supprimer notices:"
     subjects:
-      success: Sujets supprimés
-      error: "Pas moyen de supprimer sujets:"
+      success: Mots-matières supprimés
+      error: "Pas moyen de supprimer mots-matières:"
     agents:
       success: Agents supprimés
       error: "Pas moyen de supprimer agents:"
     locations:
-      success: Emplacements supprimés
-      error: "Pas moyen de supprimer emplacements:"
+      success: Localisations supprimées
+      error: "Pas moyen de supprimer localisations:"
 
   browser_support:
     bronze: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
@@ -315,8 +315,8 @@ fr:
 
   save_changes_modal:
     body: Vous avez des modifications en suspens.  Veuillez sauvegarder ou abandonner ces modifications pour continuer.
-    save: Sauvegarder les modifications
-    dismiss: Abandonner les modifications
+    save: Sauvegarder modifications
+    dismiss: Abandonner modifications
 
   linker:
     link_to_prefix: Lier à
@@ -361,7 +361,7 @@ fr:
       agent_software: Valeurs par défaut d'une notice agent (logiciel)
       digital_object: Valeurs par défaut d'un objet numérique
       digital_object_component: Valeurs par défaut d'un objet numérique composant
-      location: Valeurs par défaut d'une notice d'emplacement
+      location: Valeurs par défaut d'une notice de localisation
       event: Valeurs par défaut d'une notice événement
       classification: Valeurs par défaut d'une notice de classification
       classification_term: Valeurs par défaut d'un terme de classification
@@ -507,7 +507,7 @@ fr:
   container_location:
     _frontend:
       action:
-        add: Ajouter emplacement
+        add: Ajouter localisation
 
   date:
     _frontend:
@@ -646,40 +646,40 @@ fr:
   location:
     _frontend:
       messages:
-        created: Emplacement créé
-        updated: Emplacement actualisé
-        deleted: Emplacement supprimé
+        created: Localisation créée
+        updated: Localisation actualisée
+        deleted: Localisation supprimée
       section:
         basic_information: Information de base
         search_embedded: Notices liées
       action:
         add_child: Ajouter sous-composant
         add_sibling: Ajouter frère
-        create: Créer emplacement
-        batch: Créer lot d'emplacements
-        batch_edit: Editer lot d'emplacements
-        save: Sauvegarder emplacement
-        single: Emplacement unique
-        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cet emplacement est actuellement lié à une ou plusieurs instance(s), il ne peut être supprimé.</p>"
+        create: Créer localisation
+        batch: Créer lot de localisations
+        batch_edit: Editer lot de localisations
+        save: Sauvegarder localisation
+        single: Localisation unique
+        delete_confirm_message: "<p>Attention! <strong>cette opération ne peut être annulée.</strong>.</p><p> Si cette localisation est actuellement liée à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
         show_space_calculator: Trouver avec le calculateur d'espace
 
   location_batch:
     _frontend:
       section:
-        location: Emplacement de base
+        location: Localisation de base
         ranges: Plage de coordonnées
       messages:
-        created: "<strong>%{number_created} Emplacement</strong> créé"
-        updated: "<strong>%{number_created} Emplacement</strong> actualisé"
-        location_batch_info: "Définir les valeurs de base qui seront appliquées à tous les emplacements générés à partir de la <strong>plage de coordonnées</strong> ci-dessous."
+        created: "<strong>%{number_created} Localisation</strong> créée"
+        updated: "<strong>%{number_created} Localisation</strong> actualisée"
+        location_batch_info: "Définir les valeurs de base qui seront appliquées à toutes les localisations générées à partir de la <strong>plage de coordonnées</strong> ci-dessous."
         location_batch_update_info: "Veuillez saisir ci-dessous les valeurs souhaitées."
-        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans l'<strong>emplacement de base</strong> ci-dessus sera remplacé par les valeurs générées par la plage ci-dessous.  Un maximum de %{max_range} emplacements sera créé."
-        number_to_create: Nombre d'emplacements
+        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation de base</strong> ci-dessus sera remplacé par les valeurs générées par la plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
+        number_to_create: Nombre de localisations
         warning: En fonction de la taille de vos plages, ce processus peut prendre minutes à s'effectuer.
       action:
-        create: Créer emplacements
-        update: Actualiser emplacements
-        preview: Aperçu emplacements
+        create: Créer localisations
+        update: Actualiser localisations
+        preview: Aperçu localisations
         preview_short: Aperçu
         creating: Lot en cours...
 
@@ -689,8 +689,8 @@ fr:
         use_date: Date(s) de pertinence de nom
       action:
         add: Ajouter forme de nom
-        make_authorized: Faire nom normatif
-        make_display_name: Faire nom d'affichage
+        make_authorized: Convertir en nom normatif
+        make_display_name: Convertir en nom d'affichage
 
   note:
     _frontend:
@@ -784,8 +784,8 @@ fr:
         basic_information: Information de base
         finding_aid: Données de l'instrument de recherche
       action:
-        add_child: Ajouter Child
-        rapid_data_entry: Rapid Data Entry
+        add_child: Ajouter fils
+        rapid_data_entry: Saisie rapide de données
         create: Créer Resource
         save: Sauvegarder Resource
         delete_multiple: Supprimer Resources
@@ -798,7 +798,7 @@ fr:
   rights_statement:
     _frontend:
       action:
-        add: Ajouter déclaration de droits
+        add: Ajouter mention de droits
 
   term:
     _frontend:
@@ -816,13 +816,13 @@ fr:
         created: Mot-matière créé
         updated: Mot-matière sauvegardé
         deleted: Mot-matière supprimé
-        merged: Mot(s)-matière(s) Merged
-        merge_description: Select mots-matières below to merge into
-        please_select_a_subject_to_merge: Please select a mot-matière
+        merged: Mot(s)-matière(s) fusionné(s)
+        merge_description: Sélectionner ci-dessous mots-matières à fusionner dans
+        please_select_a_subject_to_merge: Veuillez sélectionner un mot-matière
       section:
         basic_information: Information de base
-        terms: Terms and Subdivisions
-        search_embedded: Linked Records
+        terms: Termes et subdivisions
+        search_embedded: Notices reliées
       action:
         create: Créer mot-matière
         save: Sauvegarder mot-matière
@@ -831,13 +831,13 @@ fr:
   user:
     _frontend:
       messages:
-        access_denied: Access denied. Login as the admin user to perform this action.
+        access_denied: Accès refusé. Passer administrateur pour accomplir cette opération.
         created: Utilisateur créé
         updated: Utilisateur sauvegardé
         deleted: Utilisateur supprimé
-        error_update: Utilisateur not saved
-        error_create: Utilisateur not created
-        group_not_required: Utilisateur is an administrator or system user, group selection is not required.
+        error_update: Utilisateur non sauvegardé
+        error_create: Utilisateur non créé
+        group_not_required: L'utilisateur est un administrateur ou un utilisateur système, il n'est pas nécessaire de sélectionner un groupe.
       section:
         manage_access: Gérer accès utilisateur
         account: Compte
@@ -851,12 +851,12 @@ fr:
   user_defined:
     _frontend:
       action:
-        add: Ajouter utilisateur Defined Fields
+        add: Ajouter champs définis par utilisateur
 
   use_date:
     _frontend:
       action:
-        add: Ajouter date de pertence
+        add: Ajouter date de pertinence
 
   rde:
     date_type: Type de date
@@ -885,18 +885,18 @@ fr:
       select_template: Choisir modèle
       manage_templates: Supprimer modèles
     fill_column:
-      basic: Basic
+      basic: Basique
       sequence: Séquence
       fill_value: Remplir Valeur
       select_a_column: Veuillez sélectionner une colonne
       apply_basic_fill: Appliquer remplir
       apply_sequence_fill: Appliquer Séquence
-      sequence_count_warning: There are more rows than there are items in the sequence.
+      sequence_count_warning: Il y a plus de rangées que d'items dans la séquence.
       preview_sequence: Aperçu valeurs de séquence
       sequence_summary: "%{count} items dans la séquence:"
-      sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
-      sequence_from_required: From is required
-      sequence_to_required: To is required
+      sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs de séquence sont:"
+      sequence_from_required: A partir de est requis
+      sequence_to_required: Jusqu'à est requis
     reorder_columns:
       apply_order: Appliquer ordre de colonne
     save_template:
@@ -917,66 +917,66 @@ fr:
       select_prompt: Apply an RDE Template
     help:
       keyboard_shortcuts: |
-                  <div><strong>Raccourçis clavier</strong></div>
-                  <div class="row"><small><span class="span3">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
-                  <div class="row"><small><span class="span3">Create a new row (from last row):</span> SHIFT + Return</small></div>
+                 <div><strong>Raccourcis clavier</strong></div>
+                  <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span>SHIFT + Arrow Keys</small></div>
+                  <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> SHIFT + Return</small></div>
       sticky_columns: |
-                  <div><strong>Sticky colonnes</strong></div>
-                  <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
-                  <div><small>Clicking <strong>Ajouter Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
+                  <div><strong>Colonnes collantes</strong></div>
+                  <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
+                  <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; Le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
       fill_column: |
                   <div><strong>Remplir colonne - Basic</strong></div>
-                  <div><small>To fill a column with a single value, click <strong>remplir colonne</strong> and under the <strong>Basic</strong> tab select the target <strong>colonne</strong>, enter the desired <strong>remplir Value</strong> and click <strong>Apply remplir</strong>.</small></div>
+                  <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
                   <br/>
-                  <div><strong>Remplir colonne - Sequence</strong></div>
-                  <div><small>To apply a sequence to a column, click <strong>Remplir colonne</strong> and under the <strong>Sequence</strong> tab select the target <strong>colonne</strong> and complete the <strong>remplir Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
+                  <div><strong>Remplir colonne - Séquence</strong></div>
+                  <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
       resize_and_reorder_columns: |
-                  <div><strong>Reorder colonnes</strong></div>
-                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply colonne Order</strong></small></div>
+                  <div><strong>Réordonner colonnes</strong></div>
+                  <div><small>Click <strong>Réordonner colonnes</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply colonne Order</strong></small></div>
       reset: |
-                  <div><strong>Reset Form</strong></div>
-                  <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
+                  <div><strong>Reset formulaire</strong></div>
+                  <div><small>Cliquer <strong>Reset</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
   update_monitor:
-    save_failed: <strong>Failed to save your changes</strong>
-    stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
-    other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
-    repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
+    save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
+    stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez rafraîchir la page pour accéder à la dernière version.
+    other_editors: "Cette notice est actuellement éditée par un autre utilisateur.  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
+    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de dépôt actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon dépôt."
   job:
     _frontend:
       audit_data: Audit Data
       actions:
-        create: Créer Job
-        save: Queue Job
-        new: nouveau Background Job
-        cancel: Cancel Job
-        add_file: Ajouter file
-        follow_log: Follow Log
+        create: Créer job
+        save: Mettre la tâche en file d'attente
+        new: nouvelle tâche d'arrière-plan
+        cancel: Annuler tâche
+        add_file: Ajouter fichier
+        follow_log: Suivre log
       section:
         basic_information: Information de base
-        status: Job Status
+        status: Statut de la tâche
         logs: Log
-        generated_uris: New & Modified Records
-        active_jobs: Active Jobs
-        archived_jobs: Archived Jobs
+        generated_uris: Notices nouvelles & modifiées
+        active_jobs: Tâches actives
+        archived_jobs: Tâches archivées
         files: Files
       messages:
-        status_changed_running: The job has started running. Refreshing Page...
-        status_changed_completed: The job has completed.
-        status_changed_failed: The job has failed.
-        status_changed_canceled: The job has been canceled.
-        no_active_jobs: There are no active jobs.
-        no_archived_jobs: There are no archived jobs.
-        upload_successful: Upload Successful. Redirecting to Job page...
-        import_type_missing: Please select an Import Type
-        queue_position_next: This import is next in the queue.
-        queue_position: "This import is %{position} in the queue."
-        drag_and_drop_hint: Drag and drop files here
-        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
-        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
-        report_instructions: Choose a report to run by using the <b>Select</b> button. 
+        status_changed_running: La tâche a démarré. Page en cours de rafraîchissement...
+        status_changed_completed: La tâche s'est effectuée.
+        status_changed_failed: La tâche a échoué.
+        status_changed_canceled: La tâche a été annulée.
+        no_active_jobs: Pas de tâche active.
+        no_archived_jobs: Pas de tâches archivées.
+        upload_successful: Téléversement réussi. Redirection vers la page de tâche...
+        import_type_missing: Veuillez sélectionner un type d'import
+        queue_position_next: Cet import est le prochain dans la queue.
+        queue_position: "Cet import est le %{position} dans queue."
+        drag_and_drop_hint: Glissez-déplacez des fichiers ici
+        find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
+        find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
+        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>sélectionner</b>. 
 
   shortcuts:
-    quick_reference_window: "Quick Reference: Keyboard Shortcuts"
+    quick_reference_window: "Référence rapide: raccouris clavier"
     actions:
       this_reference: "This shortcut reference"
       close_modal: "Close a modal window (e.g., this one)"
@@ -1208,16 +1208,16 @@ fr:
       _plural: containers
 
   location_profile:
-    _singular: Profil d'emplacement
-    _plural: Profils d'emplacements
+    _singular: Profil de localisation
+    _plural: Profils de localisations
     _frontend:
       action:
-        save: Sauvegarder profil d'emplacement
-        edit: Editer profil d'emplacement
-        create: Créer profil d'emplacement
+        save: Sauvegarder profil de localisation
+        edit: Editer profil de localisation
+        create: Créer profil de localisation
       messages:
-        created: Profil d'emplacement créé
-        updated: Profil d'emplacement actualisé
+        created: Profil de localisation créé
+        updated: Profil de localisation actualisé
         fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
       section:
         basic_information: Information de base
