@@ -306,30 +306,30 @@ fr:
       gigabytes: Gigabytes
       leaves: Pages
       linear_feet: Mètres linéaires
-      megabytes: Megabytes
+      megabytes: Mégabytes
       photographic_prints: Impressions photographiques
       photographic_slides: Diapositives
       reels: Bobines
       sheets: Feuilles
-      terabytes: Terabytes
+      terabytes: Térabytes
       volumes: Volumes
     collection_management_processing_priority:
       none: Non spécifié
       high: Haut
-      medium: Milieu
+      medium: Moyen
       low: Bas
     collection_management_processing_status:
       none: Non spécifié
-      new: Nouveau
+      new: Nouvelle
       in_progress: En cours
-      completed: Achevé
+      completed: Achevée
     date_era:
       ce: ce
     date_calendar:
-      gregorian: Gregorien
+      gregorian: Grégorien
     digital_object_digital_object_type:
       cartographic: Cartographique
-      mixed_materials: Matériel varié
+      mixed_materials: Matériel divers
       moving_image: Image animée
       notated_music: Musique notée
       software_multimedia: logiciel, Multimedia
@@ -359,7 +359,7 @@ fr:
       compression: Compression
       contribution: Contribution
       component_transfer: Component Transfer
-      copyright_transfer: Copyright Transfer
+      copyright_transfer: Transfert de droits d'auteur
       custody_transfer: Transfert de conservation
       deaccession: Aliénation
       decompression: Décompression
@@ -377,7 +377,7 @@ fr:
       processing_in_progress: Traitement en cours
       processing_completed: Traité
       publication: Publication
-      replication: Duplication
+      replication: Reproduction
       rights_transferred: Droits transférés
       validation: Validation
       virus_check: Virus Check
@@ -385,7 +385,7 @@ fr:
       collection: Collection
       publications: Publications
       papers: Papiers
-      records: Notices
+      records: Registres
     resource_finding_aid_description_rules:
       aacr: Anglo-American Cataloguing Rules
       cco: Cataloging Cultural Objects
@@ -420,7 +420,7 @@ fr:
       collection: Collection
       publications: Publications
       papers: Papiers
-      records: Notices
+      records: Registres
     subject_source:
       aat: "Art & Architecture Thesaurus"
       cash: Canadian Subject Headings
@@ -487,122 +487,122 @@ fr:
       sha-512: SHA-512
     language_iso639_2:
       aar: Afar
-      abk: Abkhazien
-      ace: Achinese
+      abk: Abkhaze
+      ace: Aceh
       ach: Acoli
-      ada: Adangme
-      ady: Adyghe; Adygei
-      afa: Langues Afro-Asiatiques
+      ada: Adangmé
+      ady: Adyghé
+      afa: Langues afro-asiatiques
       afh: Afrihili
       afr: Afrikaans
-      ain: Ainu
+      ain: Aïnou
       aka: Akan
       akk: Akkadien
-      alb: Albanien
-      ale: Aleut
-      alg: Langues algonquines
-      alt: Southern Altai
-      amh: Amharic
+      alb: Albanais
+      ale: Aléoute
+      alg: Langues algonquiennes
+      alt: Altaï du Sud
+      amh: Amharique
       ang: "Anglais, ancien (ca.450-1100)"
       anp: Angika
       apa: Apache languages
       ara: Arabe
-      arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)
+      arc: Araméen d'empire (700-300 BCE)
       arg: Aragonais
-      arm: Armenien
+      arm: Arménien
       arn: Mapudungun; Mapuche
       arp: Arapaho
-      art: Artificial languages
+      art: Langues artificielles
       arw: Arawak
-      asm: Assamese
-      ast: Asturian; Bable; Leonese; Asturleonese
-      ath: Athapascan languages
-      aus: Australian languages
-      ava: Avaric
-      ave: Avestan
+      asm: Assamais
+      ast: Asturien, bable, léonais, asturoléonais
+      ath: Langues athapascanes
+      aus: Langues australienes
+      ava: Avar
+      ave: Avestique
       awa: Awadhi
       aym: Aymara
-      aze: Azerbaijani
-      bad: Banda languages
-      bai: Bamileke languages
-      bak: Bashkir
-      bal: Baluchi
+      aze: Azéri
+      bad: Langues banda
+      bai: Langues bamilékées
+      bak: Bachkir
+      bal: Baloutche
       bam: Bambara
       ban: Balinais
       baq: Basque
       bas: Basa
-      bat: Baltic languages
-      bej: Beja; Bedawiyet
-      bel: Belarusian
+      bat: Langues baltes
+      bej: Bedja
+      bel: Biélorusse
       bem: Bemba
       ben: Bengali
-      ber: Berber languages
-      bho: Bhojpuri
-      bih: Bihari languages
+      ber: Langues berbères
+      bho: Bhodjpouri
+      bih: Bihari
       bik: Bikol
-      bin: Bini; Edo
-      bis: Bislama
+      bin: Bini; edo
+      bis: Bichelamar, bêche-de-mer
       bla: Siksika
-      bnt: Bantu (Other)
-      bos: Bosnian
-      bra: Braj
+      bnt: Langues bantoues (autres)
+      bos: Bosniaque
+      bra: Braj basha
       bre: Breton
-      btk: Batak languages
-      bua: Buriat
-      bug: Buginese
+      btk: Langues batak
+      bua: Bouriate
+      bug: Bugi
       bul: Bulgare
-      bur: Burmese
-      byn: Blin; Bilin
+      bur: Birman
+      byn: Blin; Bilen
       cad: Caddo
-      cai: Central American Indian languages
+      cai: Langues indiennes d'Amérique centrale
       car: Galibi Carib
-      cat: Catalan; Valencian
-      cau: Caucasian languages
-      ceb: Cebuano
+      cat: Catalan
+      cau: Langues caucasiennes
+      ceb: Cébouano
       cel: Langues celtiques
       cha: Chamorro
       chb: Chibcha
-      che: Chechen
-      chg: Chagatai
+      che: Tchétchène
+      chg: Djaghataï
       chi: Chinois
-      chk: Chuukese
+      chk: Chuuk
       chm: Mari
       chn: Chinook jargon
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Slavon ecclésiastique, Slavon ancien; Old Bulgarian; Old Church Slavonic
-      chv: Chuvash
+      chu: Slavon d'église, vieux slave, slavon liturgique, vieux bulgare
+      chv: Tchouvache
       chy: Cheyenne
-      cmc: Chamic languages
+      cmc: Langues chames
       cop: Copte
-      cor: Cornish
-      cos: Corsican
-      cpe: "Creoles and pidgins, English-based"
-      cpf: "Creoles and pidgins, French-based"
-      cpp: "Creoles and pidgins, Portuguese-based"
+      cor: Cornique
+      cos: Corse
+      cpe: "Créoles et pidgins basés sur l'anglais"
+      cpf: "Créoles et pidgins basés sur le français"
+      cpp: "Créoles et pidgins basés sur le portugais"
       cre: Cree
-      crh: Crimean Tatar; Crimean Turkish
-      crp: Creoles and pidgins
-      csb: Kashubian
-      cus: Cushitic languages
+      crh: Tatar de Crimée
+      crp: Créoles et pidgins
+      csb: Cachoube
+      cus: Langues couchitiques
       cze: Tchèque
       dak: Dakota
       dan: Danois
       dar: Dargwa
-      day: Land Dayak languages
+      day: Langues Land Dayak
       del: Delaware
-      den: Slave (Athapascan)
+      den: Slavey (Athapascan)
       dgr: Dogrib
       din: Dinka
-      div: Divehi; Dhivehi; Maldivian
+      div: Maldivien
       doi: Dogri
-      dra: Dravidian languages
-      dsb: Lower Sorbian
-      dua: Duala
+      dra: Langues dravidiennes
+      dsb: Bas-sorabe
+      dua: Douala
       dum: "Néerlandais, moyen (ca.1050-1350)"
       dut: Néerlandais, Flammand
-      dyu: Dyula
+      dyu: Dioula
       dzo: Dzongkha
       efi: Efik
       egy: Egyptien (ancien)
@@ -610,35 +610,35 @@ fr:
       elx: Elamite
       eng: Anglais
       enm: "Anglais, moyen (1100-1500)"
-      epo: Esperanto
+      epo: Espéranto
       est: Estonien
-      ewe: Ewe
+      ewe: Ewé
       ewo: Ewondo
       fan: Fang
-      fao: Faroese
+      fao: Féroïen
       fat: Fanti
-      fij: Fijian
+      fij: Fidjien
       fil: Filipino; Pilipino
       fin: Finnois
-      fiu: Finno-Ugrian languages
+      fiu: Langues finno-ougriennes
       fon: Fon
       fre: Français
       frm: "Francois, moyen (ca.1400-1600)"
       fro: "Français, ancien (842-ca.1400)"
-      frr: Northern Frisian
-      frs: Eastern Frisian
-      fry: Western Frisian
-      ful: Fulah
-      fur: Friulian
+      frr: Frison septentrional
+      frs: Frison oriental
+      fry: Frison occidental
+      ful: Peul
+      fur: Frioulan
       gaa: Ga
       gay: Gayo
       gba: Gbaya
       gem: Langues germaniques
-      geo: Georgien
-      ger: German
-      gez: Geez
-      gil: Gilbertese
-      gla: Gaëlique, Gaëlique écossais
+      geo: Géorgien
+      ger: Allemand
+      gez: Guèze
+      gil: Gilbertin
+      gla: Gaélique, Gaélique écossais
       gle: Irlandais
       glg: Galicien
       glv: Manx
@@ -646,331 +646,331 @@ fr:
       goh: "Allemand, ancien haut (ca.750-1050)"
       gon: Gondi
       gor: Gorontalo
-      got: Gothic
-      grb: Grebo
-      grc: "Grec, ancien (to 1453)"
+      got: Gothique
+      grb: Grébo
+      grc: "Grec, ancien (jusqu'à 1453)"
       gre: "Grec, moderne (1453-)"
       grn: Guarani
-      gsw: Suisse allemand, alémanique, Alsacien
-      guj: Gujarati
+      gsw: Suisse allemand, alémanique, alsacien
+      guj: Goudjrati
       gwi: Gwich'in
-      hai: Haida
-      hat: Haitian; Haitian Creole
-      hau: Hausa
-      haw: Hawaiian
-      heb: Hebreu
-      her: Herero
-      hil: Hiligaynon
+      hai: Haïda
+      hat: Haïtien; créole haïtien
+      hau: Haoussa
+      haw: Hawaïen
+      heb: Hébreu
+      her: Héréro
+      hil: Hiligaïnon
       him: Himachali languages; Western Pahari languages
       hin: Hindi
       hit: Hittite
       hmn: Hmong; Mong
-      hmo: Hiri Motu
-      hrv: Croatian
-      hsb: Upper Sorbian
-      hun: Hungarian
-      hup: Hupa
+      hmo: Hiri Motou
+      hrv: Croate
+      hsb: Haut-sorabe
+      hun: Hongrois
+      hup: Houpa
       iba: Iban
       ibo: Igbo
-      ice: Icelandic
+      ice: Islandais
       ido: Ido
-      iii: Sichuan Yi; Nuosu
-      ijo: Ijo languages
+      iii: Yi de Sichuan
+      ijo: Langues ijo
       iku: Inuktitut
       ile: Interlingue; Occidental
-      ilo: Iloko
-      ina: Interlingua (International Auxiliary Language Association)
-      inc: Indic languages
-      ind: Indonesian
-      ine: Indo-European languages
-      inh: Ingush
+      ilo: Ilocano
+      ina: Interlingua (langue auxiliaire internationale)
+      inc: Langues indo-aryennes
+      ind: Indonésien
+      ine: Langues indo-européennes
+      inh: Ingouche
       ipk: Inupiaq
-      ira: Iranian languages
-      iro: Iroquoian languages
-      ita: Italian
-      jav: Javanese
+      ira: Langues iraniennes
+      iro: Langues iroquoises
+      ita: Italien
+      jav: Javanais
       jbo: Lojban
-      jpn: Japanese
-      jpr: Judeo-Persian
-      jrb: Judeo-Arabic
+      jpn: Japonais
+      jpr: Judéo-Perse
+      jrb: Judéo-Arabe
       kaa: Kara-Kalpak
       kab: Kabyle
       kac: Kachin; Jingpho
-      kal: Kalaallisut; Greenlandic
+      kal: Groenlandais
       kam: Kamba
       kan: Kannada
-      kar: Karen languages
+      kar: Langues karens
       kas: Kashmiri
       kau: Kanuri
       kaw: Kawi
       kaz: Kazakh
-      kbd: Kabardian
+      kbd: Kabarde
       kha: Khasi
-      khi: Khoisan languages
-      khm: Central Khmer
-      kho: Khotanese; Sakan
-      kik: Kikuyu; Gikuyu
-      kin: Kinyarwanda
-      kir: Kirghiz; Kyrgyz
-      kmb: Kimbundu
+      khi: Langues khoïsan
+      khm: Khmer central
+      kho: Khotanais; Sakan
+      kik: Kikouyou
+      kin: Rwanda
+      kir: Kirghize
+      kmb: Kimboundou
       kok: Konkani
-      kom: Komi
+      kom: Kom
       kon: Kongo
-      kor: Korean
-      kos: Kosraean
-      kpe: Kpelle
-      krc: Karachay-Balkar
-      krl: Karelian
-      kro: Kru languages
-      kru: Kurukh
-      kua: Kuanyama; Kwanyama
-      kum: Kumyk
-      kur: Kurdish
-      kut: Kutenai
-      lad: Ladino
+      kor: Coréen
+      kos: Kosraéen
+      kpe: Kpellé
+      krc: Karachaï-Balkar
+      krl: Carélien
+      kro: Langues krou
+      kru: Kouroukh
+      kua: Kuanyama; kwanyama
+      kum: Koumyk
+      kur: Kurde
+      kut: Koutenai
+      lad: Judéo-espagnol
       lah: Lahnda
       lam: Lamba
       lao: Lao
       lat: Latin
-      lav: Latvian
-      lez: Lezghian
-      lim: Limburgan; Limburger; Limburgish
+      lav: Letton
+      lez: Lezghien
+      lim: Limbourgeois
       lin: Lingala
-      lit: Lithuanian
+      lit: Lituanien
       lol: Mongo
       loz: Lozi
-      ltz: Luxembourgish; Letzeburgesch
+      ltz: Luxembourgeois
       lua: Luba-Lulua
       lub: Luba-Katanga
       lug: Ganda
       lui: Luiseno
-      lun: Lunda
-      luo: Luo (Kenya and Tanzania)
-      lus: Lushai
-      mac: Macedonian
-      mad: Madurese
+      lun: Lounda
+      luo: Luo (Kénya et Tanzanie)
+      lus: Lousaï
+      mac: Macédonien
+      mad: Madurais
       mag: Magahi
-      mah: Marshallese
-      mai: Maithili
-      mak: Makasar
+      mah: Marshallais
+      mai: Maïthili
+      mak: Makassar
       mal: Malayalam
-      man: Mandingo
+      man: Mandinge
       mao: Maori
-      map: Austronesian languages
-      mar: Marathi
-      mas: Masai
-      may: Malay
+      map: Langues austronésiennes
+      mar: Marathe
+      mas: Massaï
+      may: Malais
       mdf: Moksha
       mdr: Mandar
       men: Mende
-      mga: "Irish, Middle (900-1200)"
+      mga: "Irlandais, moyen (900-1200)"
       mic: Mi'kmaq; Micmac
-      min: Minangkabau
-      mis: Uncoded languages
-      mkh: Mon-Khmer languages
-      mlg: Malagasy
-      mlt: Maltese
-      mnc: Manchu
+      min: Minangkabao
+      mis: Langues non codées
+      mkh: Langues môn-khmer
+      mlg: Malgache
+      mlt: Maltais
+      mnc: Mandchou
       mni: Manipuri
-      mno: Manobo languages
+      mno: Langues manobo
       moh: Mohawk
-      mon: Mongolian
-      mos: Mossi
-      mul: Multiple languages
-      mun: Munda languages
+      mon: Mongol
+      mos: Moré
+      mul: Multilingue
+      mun: Langues mounda
       mus: Creek
-      mwl: Mirandese
-      mwr: Marwari
-      myn: Mayan languages
-      myv: Erzya
-      nah: Nahuatl languages
-      nai: North American Indian languages
-      nap: Neapolitan
+      mwl: Mirandais
+      mwr: Marvari
+      myn: Langues mayas
+      myv: Erza
+      nah: Langues nahuatl
+      nai: Langues indiennes d'Amérique du Nord
+      nap: Napolitain
       nau: Nauru
       nav: Navajo; Navaho
-      nbl: "Ndebele, South; South Ndebele"
-      nde: "Ndebele, North; North Ndebele"
+      nbl: "Ndébélé du Sud"
+      nde: "Ndébélié du Nord"
       ndo: Ndonga
-      nds: "Low German; Low Saxon; German, Low; Saxon, Low"
-      nep: Nepali
-      new: Nepal Bhasa; Newari
+      nds: "Bas-allemand; Bas-Saxon"
+      nep: Népalais
+      new: Nepal Bhasa; Néwari
       nia: Nias
-      nic: Niger-Kordofanian languages
-      niu: Niuean
-      nno: "Norwegian Nynorsk; Nynorsk, Norwegian"
-      nob: "Norwegian Bokmål; Bokmål, Norwegian"
+      nic: Langues nigéro-congolaises
+      niu: Niué
+      nno: "Norvégien nynorsk"
+      nob: "Norvégien bokmål"
       nog: Nogai
-      non: "Norse, Old"
-      nor: Norwegian
+      non: "Vieux norrois"
+      nor: Norvégien
       nqo: N'Ko
-      nso: Pedi; Sepedi; Northern Sotho
-      nub: Nubian languages
-      nwc: Classical Newari; Old Newari; Classical Nepal Bhasa
+      nso: Pedi; Sepedi; Sotho du Nord
+      nub: Langues nubiennes
+      nwc: Newari classique; Old Newari; Classical Nepal Bhasa
       nya: Chichewa; Chewa; Nyanja
-      nym: Nyamwezi
-      nyn: Nyankole
+      nym: Nyamwézi
+      nyn: Nyankolé
       nyo: Nyoro
-      nzi: Nzima
-      oci: Occitan (post 1500); Provençal
+      nzi: Nzéma
+      oci: Occitan (après 1500); provençal
       oji: Ojibwa
       ori: Oriya
       orm: Oromo
       osa: Osage
-      oss: Ossetian; Ossetic
-      ota: "Turkish, Ottoman (1500-1928)"
-      oto: Otomian languages
-      paa: Papuan languages
+      oss: Ossète
+      ota: "Turc ottoman (1500-1928)"
+      oto: Langues otomi
+      paa: Langues papoues
       pag: Pangasinan
-      pal: Pahlavi
+      pal: Pèhlevî
       pam: Pampanga; Kapampangan
-      pan: Panjabi; Punjabi
+      pan: Penjabi
       pap: Papiamento
       pau: Palauan
-      peo: "Persian, Old (ca.600-400 B.C.)"
-      per: Persian
-      phi: Philippine languages
-      phn: Phoenician
+      peo: "Vieux perse (ca.600-400 B.C.)"
+      per: Persan
+      phi: Langues Philippines
+      phn: Phénician
       pli: Pali
-      pol: Polish
-      pon: Pohnpeian
-      por: Portuguese
-      pra: Prakrit languages
-      pro: "Provençal, Old (to 1500)"
-      pus: Pushto; Pashto
-      qaa-qtz: "Reserved for local use"
-      que: Quechua
+      pol: Polonais
+      pon: Pohnpei
+      por: Portuguais
+      pra: Langues prâkrit
+      pro: "Provençal ancien, occitan ancien (jusqu'à 1500)"
+      pus: Pachto; Pashtou
+      qaa-qtz: "Reservé pour utilisation locale"
+      que: Quéchua
       raj: Rajasthani
       rap: Rapanui
-      rar: Rarotongan; Cook Islands Maori
-      roa: Romance languages
-      roh: Romansh
-      rom: Romany
-      rum: Romanian; Moldavian; Moldovan
-      run: Rundi
-      rup: Aromanian; Arumanian; Macedo-Romanian
-      rus: Russian
-      sad: Sandawe
+      rar: Rarotongien; māori des îles Cook
+      roa: Langues romanes
+      roh: Romanche
+      rom: Romani, tsigane
+      rum: Roumain, moldave
+      run: Roundi
+      rup: Aroumain; macédo-roumain
+      rus: Russe
+      sad: Sandawé
       sag: Sango
-      sah: Yakut
-      sai: South American Indian (Other)
-      sal: Salishan languages
-      sam: Samaritan Aramaic
+      sah: Iakoute
+      sai: Langues indiennes d'Amérique du Sud (autres)
+      sal: Langues salishennes
+      sam: Araméen samaritain
       san: Sanskrit
       sas: Sasak
       sat: Santali
-      scn: Sicilian
-      sco: Scots
-      sel: Selkup
-      sem: Semitic languages
-      sga: "Irish, Old (to 900)"
-      sgn: Sign Languages
+      scn: Sicilien
+      sco: Scots, écossais
+      sel: Selkoupe
+      sem: Langues sémitiques
+      sga: "Irlandais ancien (jusqu'à 900)"
+      sgn: Langues des signes
       shn: Shan
       sid: Sidamo
-      sin: Sinhala; Sinhalese
-      sio: Siouan languages
-      sit: Sino-Tibetan languages
-      sla: Slavic languages
-      slo: Slovak
-      slv: Slovenian
-      sma: Southern Sami
-      sme: Northern Sami
-      smi: Sami languages
-      smj: Lule Sami
-      smn: Inari Sami
+      sin: Singhalais
+      sio: Langues sioux
+      sit: Langues sino-tibétaines
+      sla: Langues slaves
+      slo: Slovaque
+      slv: Slovène
+      sma: Sâme du Sud
+      sme: Sâme du Nord
+      smi: Langues sâmes
+      smj: Sâme de Lule
+      smn: Sâme d'Inari
       smo: Samoan
-      sms: Skolt Sami
+      sms: Sâme skolt
       sna: Shona
       snd: Sindhi
-      snk: Soninke
-      sog: Sogdian
+      snk: Soninké
+      sog: Sogdien
       som: Somali
-      son: Songhai languages
-      sot: "Sotho, Southern"
+      son: Langues songhai
+      sot: "Sotho du Sud"
       spa: Espagnol; Castillan
-      srd: Sardinian
+      srd: Sarde
       srn: Sranan Tongo
-      srp: Serbian
-      srr: Serer
-      ssa: Nilo-Saharan languages
+      srp: Serbe
+      srr: Sérère
+      ssa: Langues nilo-sahariennes
       ssw: Swati
       suk: Sukuma
-      sun: Sundanese
-      sus: Susu
-      sux: Sumerian
+      sun: Soundanais
+      sus: Soussou
+      sux: Sumérien
       swa: Swahili
       swe: Suédois
-      syc: Classical Syriac
+      syc: Syriaque classique
       syr: Syriaque
       tah: Tahitien
-      tai: Tai languages
-      tam: Tamil
+      tai: Langues tai
+      tam: Tamoul
       tat: Tatar
-      tel: Telugu
-      tem: Timne
-      ter: Tereno
-      tet: Tetum
-      tgk: Tajik
+      tel: Télougou
+      tem: Timné
+      ter: Téréno
+      tet: Tétun
+      tgk: Tadjik
       tgl: Tagalog
-      tha: Thai
-      tib: Tibetan
-      tig: Tigre
-      tir: Tigrinya
+      tha: Thaï
+      tib: Tibétain
+      tig: Tigré
+      tir: Tigrigna
       tiv: Tiv
-      tkl: Tokelau
+      tkl: Tokélaouéen
       tlh: Klingon; tlhIngan-Hol
       tli: Tlingit
-      tmh: Tamashek
+      tmh: Tamachek
       tog: Tonga (Nyasa)
-      ton: Tonga (Tonga Islands)
+      ton: Tonga (Iles Tonga)
       tpi: Tok Pisin
-      tsi: Tsimshian
+      tsi: Tsimchian
       tsn: Tswana
       tso: Tsonga
-      tuk: Turkmen
+      tuk: Turkmène
       tum: Tumbuka
-      tup: Tupi languages
-      tur: Turkish
-      tut: Altaic languages
-      tvl: Tuvalu
-      twi: Twi
-      tyv: Tuvinian
-      udm: Udmurt
+      tup: Langues tupi
+      tur: Turc
+      tut: Langues altaïques
+      tvl: Touvalouéen
+      twi: Tchi
+      tyv: Touvain
+      udm: Oudmourte
       uga: Ugaritique
-      uig: Uighur; Uyghur
-      ukr: Ukrainian
+      uig: Ouïgour
+      ukr: Ukrainien
       umb: Umbundu
       und: Indéterminé
-      urd: Urdu
-      uzb: Uzbek
-      vai: Vai
+      urd: Ourdou
+      uzb: Ouzbek
+      vai: Vaï
       ven: Venda
-      vie: Vietnamese
+      vie: Vietnamien
       vol: Volapük
-      vot: Votic
-      wak: Wakashan languages
-      wal: Walamo
+      vot: Vote
+      wak: Langues wakashennes
+      wal: Wolaitta, wolaytta
       war: Waray
       was: Washo
       wel: Gallois
-      wen: Sorbian languages
+      wen: Langues sorabes
       wln: Wallon
       wol: Wolof
-      xal: Kalmyk; Oirat
+      xal: Kalmouk; Oïrat
       xho: Xhosa
       yao: Yao
-      yap: Yapese
+      yap: Yapois
       yid: Yiddish
-      yor: Yoruba
-      ypk: Yupik languages
-      zap: Zapotec
-      zbl: Blissymbols; Blissymbolics; Bliss
-      zen: Zenaga
+      yor: Yorouba
+      ypk: Langues yupik
+      zap: Zapotèque
+      zbl: Smboles Bliss, Bliss
+      zen: Zénaga
       zha: Zhuang; Chuang
-      znd: Zande languages
+      znd: Langues zandé
       zul: Zoulou
-      zun: Zuni
-      zxx: No linguistic content; Not applicable
-      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
+      zun: Zuñi
+      zxx: Pas de contenu linguistique, non applicable
+      zza: Zaza, dimili, dimli, kirdki, kirmanjki, zazaki
     archival_record_level:
       class: Classe
       collection: Collection
