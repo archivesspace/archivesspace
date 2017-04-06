@@ -3,8 +3,6 @@ table {
   thead {
     #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
     th {
-      white-space: nowrap;
-
       &.highlighted {
         #gradient > .vertical(#f0f7fa, #dcf1fa);
       }
@@ -176,4 +174,8 @@ table.table-spreadsheet {
     padding-left: 2%;
     padding-right: 2%;
   }
+}
+
+.table > thead > tr > th {
+    vertical-align: top;
 }
