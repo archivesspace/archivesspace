@@ -7,6 +7,21 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
+      "parent" => {
+        "type" => "object",
+        "subtype" => "ref",
+        "readonly" => "true",
+        "properties" => {
+          "ref" => {"type" => [{ "type" => "JSONModel(:resource) uri"},
+                               { "type" => "JSONModel(:digital_object) uri"},
+                               { "type" => "JSONModel(:accession) uri" }]},
+          "_resolved" => {
+            "type" => "object",
+            "readonly" => "true"
+          }
+        },
+      },
+
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
       "processing_hours_per_foot_estimate" => {"type" => "string", "maxLength" => 255, "required" => false},

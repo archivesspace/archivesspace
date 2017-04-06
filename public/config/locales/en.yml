@@ -56,7 +56,7 @@ en:
       source: Source
       agents: Agents
       agents_text: Agents
-      classification_uri: Classification
+      classification_uris: Classification
       linked_agent_roles: Role
 
   search_sorting:
@@ -169,6 +169,7 @@ en:
   record_tree:
     record_tree_tab: Record Tree
     search_tab: Search Components
+    error_message: Unable to retrieve the record hierarchy. Please try again soon or contact the site administrator.
     
   classification:
     _public:

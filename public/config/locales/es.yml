@@ -56,7 +56,7 @@
       source: Fuente
       agents: Autoridades
       agents_text: Autoridades
-      classification_uri: Clasificación
+      classification_uris: Clasificación
       linked_agent_roles: Función
 
   search_sorting:

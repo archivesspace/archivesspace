@@ -254,21 +254,6 @@ class CommonIndexer
 
   def configure_doc_rules
 
-    add_delete_hook { |records, delete_request|
-      records.each do |rec|
-        if rec.include?("_collection_management")
-          delete_request[:delete] ||= []
-          delete_request[:delete] <<  {"id" => rec}
-          delete_request[:delete] <<  {'query' => "parent_id:\"#{rec.split("#").first}\""}
-        end
-
-        if rec.match(/repositories\/\d+\/collection_management\//)
-          delete_request[:delete] << {'query' => "cm_uri:\"#{rec}\""}
-        end
-      end
-     }
-
-
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
@@ -618,7 +603,7 @@ class CommonIndexer
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
-          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'id' => cm['uri'],
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
@@ -654,6 +639,11 @@ class CommonIndexer
 
   def record_has_children(record_type)
     @@records_with_children << record_type.to_s
+  end
+
+
+  def records_with_children
+    @@records_with_children || []
   end
 
 
@@ -734,7 +724,7 @@ class CommonIndexer
   end
 
 
-  def delete_records(records)
+  def delete_records(records, opts = {})
 
     return if records.empty?
 
@@ -744,7 +734,7 @@ class CommonIndexer
     # Delete the ID plus any documents that were the child of that ID
     delete_request = {:delete => records.map {|id|
         [{"id" => id},
-         {'query' => "parent_id:\"#{id}\""}]}.flatten(1)
+         {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":\"#{id}\""}]}.flatten(1)
     }
 
     @delete_hooks.each do |hook|
@@ -908,7 +898,9 @@ class CommonIndexer
   end
 
 
-  def index_batch(batch, timing = IndexerTiming.new)
+  def index_batch(batch, timing = IndexerTiming.new, opts = {})
+    timing ||= IndexerTiming.new
+
     timing.time_block(:batch_hooks_ms) do
       # Allow hooks to operate on the entire batch if desired
       @batch_hooks.each_with_index do |hook|
@@ -919,7 +911,7 @@ class CommonIndexer
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
       records_with_children = batch.map {|e|
-        if @@records_with_children.include?(e['primary_type'].to_s)
+        if self.records_with_children.include?(e['primary_type'].to_s)
           "\"#{e['id']}\""
         end
       }.compact
@@ -927,7 +919,7 @@ class CommonIndexer
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")
         req['Content-Type'] = 'application/json'
-        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
+        req.body = {:delete => {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 

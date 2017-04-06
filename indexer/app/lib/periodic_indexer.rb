@@ -213,7 +213,7 @@ class PeriodicIndexer < CommonIndexer
     # Give subclasses a place to hang custom behavior.
   end
 
-  def handle_deletes
+  def handle_deletes(opts = {})
     start = Time.now
     last_mtime = @state.get_last_mtime('_deletes', 'deletes')
     did_something = false
@@ -224,17 +224,18 @@ class PeriodicIndexer < CommonIndexer
 
       if !deletes['results'].empty?
         did_something = true
-        deletes['results'] = deletes['results'].delete_if { |rec| rec.match(/(#{@@records_with_children.join('|')})/) }
       end
 
-      delete_records(deletes['results'])
+      delete_records(deletes['results'], opts)
 
       break if deletes['last_page'] <= page
 
       page += 1
     end
 
-    send_commit if did_something
+    if did_something
+      send_commit
+    end
 
     @state.set_last_mtime('_deletes', 'deletes', start)
   end
