@@ -1,4 +1,4 @@
-fr:
+﻿fr:
   enumerations:
     linked_event_archival_record_roles:
       source: Source
@@ -10,7 +10,7 @@ fr:
       adi: Directeur artistique
       adp: Adaptateur
       anl: Analyste
-      anm: Animateur
+      anm: Auteur de l'animation
       ann: Annotateur
       ape: Appellee
       apl: Appellant
@@ -20,25 +20,25 @@ fr:
       acp: Copiste d'art
       art: Artiste
       ard: Directeur artistique
-      asg: Cessionnaire
+      asg: Détenteur de l’autorisation d’imprimer ou de publier
       asn: Nom associé
       att: Nom attribué
-      auc: Commissaire priseur
+      auc: Commissaire-priseur
       aut: Auteur
-      aqt: Auteur dans les citations ou les extraits de texte
+      aqt: Auteur des citations ou des fragments textuels
       aft: Auteur de la postface, du colophon, etc.
-      aud: Auteur de dialogue
+      aud: Dialoguiste
       aui: Auteur d'introduction, etc.
       aus: Auteur du scénario, etc.
       ato: Autographeur
-      ant: Bibliographic antecedent
+      ant: Antécédent bibliographique
       bnd: Relieur
-      bdd: Binding designer
+      bdd: Maquettiste de la reliure
       blw: Blurb writer
       bkd: Maquettiste
       bkp: Book producer
-      bjd: Maquettiste de jaquette
-      bpd: Bookplate designer
+      bjd: Concepteur de la jaquette
+      bpd: Concepteur de l’ex-libris
       bsl: Libraire
       brl: Braille embosser
       brd: Diffuseur
@@ -55,7 +55,7 @@ fr:
       clt: Collotyper
       clr: Coloriste
       cmm: Commentateur
-      cwt: Commentateur du texte écrit
+      cwt: Auteur du commentaire
       com: Compilateur
       cpl: Plaignant
       cpt: Plaignant-requérant
@@ -63,10 +63,10 @@ fr:
       cmp: Compositeur
       cmt: Compositeur
       ccp: Concepteur
-      cnd: Conducteur
+      cnd: Chef d’orchestre
       con: Conservateur
       csl: Consultant
-      csp: Consultant d'un projet
+      csp: Consultant de projet
       cos: Contestant
       cot: Contestant-requérant
       coe: Contestant-appellee
@@ -82,39 +82,39 @@ fr:
       cst: Concepteur de costumes
       cou: Court governed
       crt: Court reporter
-      cov: Maqettiste de couverture
+      cov: Maquettiste de couverture
       cre: Producteur
-      cur: Curateur d'une exposition
-      dnc: Danceur
+      cur: Commissaire d’exposition
+      dnc: Danseur
       dtc: Data contributor
       dtm: Data manager
       dte: Dédicataire
       dto: Dédicateur
       dfd: Prévenu
-      dft: Prévenu-appellant
+      dft: Prévenu-appelant
       dfe: Prévenu-appelé
-      dgg: Degree grantor
+      dgg: Organisme de soutenance
       dgs: Degree supervisor
       dln: Délinéateur
       dpc: Représenté
       dpt: Déposant
       dsr: Designer
-      drt: Directeur
-      dis: Dissertant
+      drt: Metteur en scène ou réalisateur
+      dis: Candidat
       dbp: Distribution place
       dst: Distributeur
       dnr: Donateur
       drm: Draftsman
       dub: Auteur présumé
-      edt: Editeur
-      edc: Editeur de compilation
-      edm: Editeur d'images en mouvement
-      elg: Electricien
+      edt: Éditeur scientifique
+      edc: Éditeur de compilation
+      edm: Éditeur d'images en mouvement
+      elg: Électricien
       elt: Electrotyper
       enj: Juridiction promulgatrice
       eng: Ingénieur
       egr: Graveur
-      etr: Graveur à l'eau-forte
+      etr: Aquafortiste
       evp: Lieu de l'événement
       exp: Expert
       fac: Facsimilist
@@ -126,24 +126,24 @@ fr:
       fmk: Cinéaste
       fpy: First party
       frg: Faussaire
-      fmo: Propriétaire précédent
+      fmo: Ancien possesseur
       fnd: Bienfaiteur
       gis: Geographic information specialist
-      grt: Graphiste
-      hnr: Lauréat
+      grt: Technicien graphique
+      hnr: Personne honorée
       hst: Hôte
       his: Institution hôte
       ilu: Enlumineur
       ill: Illustrateur
-      ins: Souscripteur
+      ins: Auteur de l’envoi
       itr: Instrumentiste
-      ive: Interviewé
+      ive: Personne interviewée
       ivr: Intervieweur
       inv: Inventeur
-      isb: Organisme d'émission
+      isb: Collectivité éditrice
       jud: Juge
       jug: Jurisdiction governed
-      lbr: Laboratoroire
+      lbr: Laboratoire
       ldr: Directeur de laboratoire
       lsa: Architecte paysagiste
       led: Lead
@@ -155,8 +155,8 @@ fr:
       let: Libelee-appellant
       lee: Libelee-appellee
       lbt: Librettiste
-      lse: Gérant
-      lso: Bailleur de licence
+      lse: Détenteur de licence
+      lso: Concédant de licence
       lgd: Eclairagiste
       ltg: Lithographe
       lyr: Parolier
@@ -166,24 +166,24 @@ fr:
       mrk: Markup editor
       med: Medium
       mdc: Metadata contact
-      mte: Graveur de métal
+      mte: Graveur sur métal
       mtk: Minute taker
-      mod: Moderateur
-      mon: Contrôleur
+      mod: Modérateur
+      mon: Moniteur
       mcp: Music copyist
       msd: Directeur musical
       mus: Musicien
       nrt: Narrateur
       osp: Présentateur à l'écran
       opn: Opposant
-      orm: Organisateur de meeting
-      org: Originator
+      orm: Organisateur de réunion
+      org: Instigateur
       oth: Autre
       own: Propriétaire
       pan: Panéliste
-      ppm: Papetier
-      pta: Patent applicant
-      pth: Patentee
+      ppm: Fabricant du papier
+      pta: Demandeur de brevet
+      pth: Titulaire de brevet
       pat: Patron
       prf: Interprète
       pma: Permitting agency
@@ -195,57 +195,57 @@ fr:
       pra: Président
       pre: Présentateur
       prt: Imprimeur
-      pop: Imprimeur des planches
+      pop: Imprimeur de gravures
       prm: Graveur
       prc: Process contact
       pro: Producteur
       prn: Compagnie de production
       pmn: Production manager
-      prs: Production designer
-      prd: Production personnel
+      prs: Directeur artistique
+      prd: Membre de l’équipe de production
       prp: Production place
       prg: Programmeur
-      pdr: Directeur de projet
-      pfr: Correcteur de textes
+      pdr: Gestionnaire de projet
+      pfr: Correcteur sur épreuves
       prv: Fournisseur
       pup: Lieu d'édition
-      pbl: Editeur
+      pbl: Éditeur commercial
       pbd: Directeur de publication
       ppt: Marrionnettiste
       rdd: Directeur de radio
       rpc: Producteur de radio
-      rcp: Recipient
+      rcp: Destinataire de lettres
       rce: Ingénieur du son
       rcd: Recordist
       red: Rédacteur
       ren: Renderer
       rpt: Reporter
       rps: Repository
-      rth: Research team head
-      rtm: Research team member
-      res: Researcher
+      rth: Responsable de l’équipe de recherche
+      rtm: Membre de l’équipe de recherche
+      res: Chercheur
       rsp: Respondent
       rst: Respondent-appellant
       rse: Respondent-appellee
       rpy: Responsible party
       rsg: Restager
       rsr: Restorationist
-      rev: Reviewer
-      rbr: Rubricator
+      rev: Responsable du compte-rendu critique
+      rbr: Rubricateur
       sce: Scénariste
       sad: Conseiller scientifique
-      scr: Scribe
+      scr: Copiste
       scl: Sculpteur
       spy: Second party
       sec: Secrétaire
       sll: Seller
       std: Décorateur
       stg: Setting
-      sgn: Signer
+      sgn: Signataire
       sng: Chanteur
       sds: Ingénieur du son
       spk: Speaker
-      spn: Sponsor
+      spn: Parraineur
       sgd: Metteur en scène
       stm: Régisseur
       stn: Organisme de normalisation
@@ -257,19 +257,19 @@ fr:
       tcd: Directeur technique
       tld: Directeur de TV
       tlp: Producteur de TV
-      ths: Thesis advisor
+      ths: Directeur de thèse
       trc: Transcripteur
       trl: Traducteur
-      tyd: Créateur de caractères
+      tyd: Concepteur de caractères
       tyg: Typographe
       uvp: University place
       vdg: Videographer
       vac: Donneur de voix
-      voc: Chanteur
+      voc: Exécutant vocal
       wit: Témoin
       wde: Graveur sur bois
       wdc: Woodcutter
-      wam: Writer of accompanying material
+      wam: Auteur du matériel d’accompagnement
       wac: Writer of added commentary
       wal: Writer of added lyrics
       wat: Writer of added text
@@ -358,7 +358,7 @@ fr:
       collection: Collection
       compression: Compression
       contribution: Contribution
-      component_transfer: Component Transfer
+      component_transfer: Transfert de composant
       copyright_transfer: Transfert de droits d'auteur
       custody_transfer: Transfert de conservation
       deaccession: Aliénation
@@ -404,7 +404,7 @@ fr:
       computer_disks: Disques durs
       digital_object: Objet numérique
       digital_object_link: Lien d'objet numérique
-      graphic_materials: Matériel graphique
+      graphic_materials: Documents iconographiques
       maps: Cartes
       microform: Microforme
       mixed_materials: Matériel varié
@@ -1018,16 +1018,16 @@ fr:
       whole: Tout
       part: Partie
     file_version_xlink_actuate_attribute:
-      none: aucun
-      other: autre
+      none: none
+      other: other
       onLoad: onLoad
       onRequest: onRequest
     file_version_xlink_show_attribute:
-      new: nouveau
-      replace: remplacer
-      embed: insérer
-      other: autre
-      none: aucun
+      new: new
+      replace: replace
+      embed: embed
+      other: other
+      none: none
     file_version_file_format_name:
       aiff: Audio Interchange File Format
       avi: Audio/Video Interleaved Format
@@ -1362,15 +1362,15 @@ fr:
       source: Source
       subject: Matière
     agent_relationship_associative_relator:
-      is_associative_with: Associative with Related
+      is_associative_with: Associative avec relié
     agent_relationship_earlierlater_relator:
-      is_earlier_form_of: Earlier Form of Related
-      is_later_form_of: Later Form of Related
+      is_earlier_form_of: Forme antérieure de relié
+      is_later_form_of: Forme ultérieure de relié
     agent_relationship_parentchild_relator:
-      is_child_of: Fils d'associé
-      is_parent_of: Parent d'associé
+      is_child_of: Fils de relié
+      is_parent_of: Parent de relié
     accession_sibling_relator:
-      sibling_of: Frère de
+      sibling_of: Soeur de
     accession_parts_relator:
       forms_part_of: Fait partie de
       has_part: Has Part
@@ -1379,8 +1379,8 @@ fr:
     accession_sibling_relator_type:
       bound_with: "Relation de \"Relié avec\""
     agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: Est subordonné à l'agent mis en relation
-      is_superior_of: Est supérieur à l'agent mis en relation
+      is_subordinate_to: Est le subordonné de l'agent relié
+      is_superior_of: Est le supérieur de l'agent relié
     note_index_item_type:
       name: Nom
       person: Personne
@@ -1402,7 +1402,7 @@ fr:
     job_type:
       print_to_pdf_job: Imprimer en PDF
       import_job: Importer données
-      find_and_replace_job: Trouver et remplacer partout (Beta)
+      find_and_replace_job: Trouver et remplacer partout (Bêta)
       report_job: Reports
       container_conversion_job: Reports
     dimension_units:
@@ -1432,14 +1432,14 @@ fr:
     accession_sibling_relator_type: Type de rapport entre collectes soeurs
     accession_resource_type: Type de ressource de la collecte
     agent_contact_salutation: Formule de salutation de l'agent contact
-    agent_relationship_associative_relator: Agent Relationship Rapport associatif
-    agent_relationship_earlierlater_relator: Agent Relationship Rapport de succession dans le temps
-    agent_relationship_parentchild_relator: Agent Relationship Rapport de génération
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Rapport de hiérarchie
+    agent_relationship_associative_relator: Relation agents Rapport associatif
+    agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps
+    agent_relationship_parentchild_relator: Relation agents Rapport de génération
+    agent_relationship_subordinatesuperior_relator: Relation agents Rapport de hiérarchie
     archival_record_level: Niveau de notice archivistique
-    collection_management_processing_priority: Collection Management Priorité de traitement
-    collection_management_processing_status: Collection Management Etat de traitement
-    container_location_status: Container Location Status
+    collection_management_processing_priority: Gestion de collection Priorité de traitement
+    collection_management_processing_status: Gestion de collection Etat de traitement
+    container_location_status: Localisation contenant Statut
     container_type: Type de contenant
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
@@ -1448,7 +1448,7 @@ fr:
     date_label: Etiquette de date
     date_type: Type de date
     deaccession_scope: Portée de l'aliénation
-    digital_object_digital_object_type: Digital Object Type d'objet numérique
+    digital_object_digital_object_type: Objet numérique Type d'objet numérique
     digital_object_level: Objet numérique Niveau
     event_event_type: Evénement Type d'événement
     event_outcome: Résultat d'événement
@@ -1461,10 +1461,10 @@ fr:
     file_version_xlink_show_attribute: Version de fichier Xlink Show Attribute
     instance_instance_type: Instance Instance Type
     language_iso639_2: Langue ISO 639-2
-    linked_agent_archival_record_relators: Agent mis en relation Rapports de notices archivistiques
-    linked_agent_event_roles: Agent mis en relation Rôles d'événement
-    linked_agent_role: Rôle de l'agent mis en relation
-    linked_event_archival_record_roles: Evénement mis en relation Rôles de notice archivistique
+    linked_agent_archival_record_relators: Agent relié Rapports de notices archivistiques
+    linked_agent_event_roles: Agent relié Rôles d'événement
+    linked_agent_role: Rôle de l'agent relié
+    linked_event_archival_record_roles: Evénement relié Rôles de notice archivistique
     location_temporary: Localisation temporaire
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom

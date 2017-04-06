@@ -309,9 +309,9 @@ fr:
         <p>La date et l'heure à laquelle, ou l'intervalle de dates et heures pendant lequel l'événement s'est produit.</p>
         <p>Si la date/heure unique ou la date/heure de début date/time ou de fin est inconnue, saisir "inconnu" dans le champ de formulaire date.</p>
     linked_agents_tooltip: |
-        <p>SOUS-NOTICE REQUISE: Associe un ou plusiers agents en tant que participant à cet événement.</p>
+        <p>SOUS-NOTICE REQUISE. Associe un ou plusieurs agents en tant que participant à cet événement.</p>
     linked_records_tooltip: |
-        <p>SOUS-NOTICE REQUISE: Associe des collectes, des objets numériques ou des ressources à cet événement.</p>
+        <p>SOUS-NOTICE REQUISE. Associe des collectes, des objets numériques ou des ressources à cet événement.</p>
     types:
       accession: Collecte
       accumulation: Archivage
@@ -359,7 +359,7 @@ fr:
         <p>Utilisé pour spécifier si une déclaration de mesure se rapporte à l'ensemble ou à la partie d'une agrégation ou d'un objet décrit.</p>
     description: Description
     description_tooltip: |
-        <p>CHAMP OBLIGATOIRE: Description des documents aliénés.</p>
+        <p>CHAMP OBLIGATOIRE. Description des documents aliénés.</p>
         <p>Exemples:</p>
         <ul>
         <li>Périodiques, journaux, coupures de journaux, registres de comptes familiaux.</li>
@@ -905,11 +905,11 @@ fr:
     indicator_3_tooltip: *container_indicator_tooltip
     container_extent: Dimensions du contenant
     container_extent_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: les dimensions du contenant ou des contenants décrits, ordinairement en linaire ou en unités de volume (par ex. mètre linaire, mètre cube). A ne pas confondre avec une sous-notice importance matérielle.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Les dimensions du contenant ou des contenants décrits, ordinairement en linéaire ou en unités de volume (par ex. mètre linéaire, mètre cube). A ne pas confondre avec une sous-notice importance matérielle.</p>
         <p>Requis si le Type de mesure de contenant est spécifié.</p>
     container_extent_type: Type de mesure du contenant
     container_extent_type_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.
         <p>Requis si les dimensions du contenant sont spécifiées.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
         <p>Voir DACS 2.5</p>
@@ -1031,7 +1031,7 @@ fr:
   date: &date_attributes
     label: Label
     label_tooltip: |
-        <p>CHAMP OBLIGATOIRE: Décrit le type d'activité marqué par la date.</p>
+        <p>CHAMP OBLIGATOIRE. Décrit le type d'activité marqué par la date.</p>
         <p>Voir DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
@@ -1039,7 +1039,7 @@ fr:
     date_type_message: Sélectionne un type pour saisir une date ou une fourchette de date normalisée 
     expression: Expression
     expression_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
         <p>Voir DACS 2.4</p>
         <p>Exemples:</p>
         <ul>
@@ -1114,22 +1114,22 @@ fr:
     accession_date: Date de collecte
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS: Date à laquelle la collecte a eu lieu. N'est pas nécessairement la date de création de la notice.</p>
+        <p>CHAMP REQUIS. Date à laquelle la collecte a eu lieu. N'est pas nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
         <p>Le numéro d'une notice de collecte spécifique dans la base de donnée interne.</p>
     identifier: Identifiant
     id_0: Identifiant
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE:  L'identifiant unique d'une collecte au sein d'un dépôt.</p>
-        <p>Dans ArchivesSpace, quatres champs sont prévus pour répartir un
+        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une collecte au sein du dépôt.</p>
+        <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
         identifiant de collecte en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
         Le premier champ au moins doit être renseigné pour avoir une  notice de collecte valide.</p>
         <p>On peut recourir à des valeurs par défaut pour remplir des composants
         invariables, présents dans tous les numéros de collectes.</p>
         <p>Voir DACS 5.2.5</p>
-    content_description: Description du contenu
+    content_description: Présentation du contenu
     content_description_tooltip: |
         <p>Une description des types de documents et des contenus topiques
         de la collecte.</p>
@@ -1138,10 +1138,10 @@ fr:
         <p>Dix cartons de documents, comprenant des notes prises sur le terrain, des journaux intimes,
         et des brouillons de cartes documentant les 10 années pendant lesquelles Mr. Smith's 10 résida
         au ranch Otay Mesa.</p>
-    condition_description: Condition Description
+    condition_description: Etat de conservation
     condition_description_tooltip: |
-        <p>A description of the physical condition of the contents of the
-        accession, including any special handling requirements.</p>
+        <p>Une description de l'état physique des documents collectés, 
+        avec les éventuelles précautions à prendre pour la manipulation.</p>
         <p>Exemples:</p>
         <p>Les cartes de la boîte 4 sont friables et plusieurs sont couvertes de moisissures.
         Il est recommandé de porter un masque durant la manipulation.</p>
@@ -1156,17 +1156,17 @@ fr:
         <p>Un champ de note fourre-tout pour toute information ne rentrant pas dans les champs expressément définis.</p>
     inventory: Inventaire
     inventory_tooltip: |
-      <p>Une liste des contenants et de leur contenu constituant une collecte. Dans le AT, la zone de liste peut être composée dans la champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
+      <p>Une liste des contenants et de leur contenu constituant une collecte. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
         <p>Exemple:</p>
         <ul>
-        <li>Boîte 1:   Journeaux intimes</li>
+        <li>Boîte 1:   Journaux intimes</li>
         <li>Boîte 2:   Lettres à la famille de Mr. Smith</li>
         <li>Boîte 3:   Pièces comptables relatives aux employés du ranch</li>
         <li>Boîte 4:   Brouillons de cartes de ranch</li>
         </ul>
     provenance: Provenance
     provenance_tooltip: |
-       <p>Une note indiquant la provenance d'une collecte, sous forme d'histoire de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
+       <p>Une note indiquant la provenance d'une collecte, sous forme d'historique de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
        <p>Voir DACS 5.1-5.2</p>
     retention_rule: Règle de conservation
     retention_rule_tooltip: |
@@ -1477,7 +1477,7 @@ fr:
         <p>Sert à enregistrer des données administratives concernant l'instance de description archivistique, généralement en vue de l'export de la description en Encoded Archival Description (EAD).</p>
     finding_aid_title: Titre de l'instrument de recherche
     finding_aid_title_tooltip: |
-        <p>Titre (bibliographique) pour l'instrument de rechercher associé à cette ressource.</p>
+        <p>Titre (bibliographique) pour l'instrument de recherche associé à cette ressource.</p>
         <p>Exemples:</p>
         <ul>
         <li>Registre de la collection de Jason Twirly</li>
