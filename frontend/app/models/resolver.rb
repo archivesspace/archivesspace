@@ -59,7 +59,7 @@ class Resolver
     elsif @jsonmodel_type === "collection_management"
       cm = JSONModel(:collection_management).find(@id)
       parent = JSONModel.parse_reference(cm['parent']['ref'])
-      uri_properties[:controller] = parent[:type]
+      uri_properties[:controller] = parent[:type].to_s.pluralize.intern
       uri_properties[:id] = parent[:id]
       uri_properties[:anchor] = "collection_management"
     end
