@@ -264,9 +264,9 @@ fr:
     repositories_manage: Gérer dépôts
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
-    manage_container_profiles: Gérer profils de containers
+    manage_container_profiles: Gérer profils de contenants
     manage_location_profiles: Gérer profils de localisations
-    manage_top_containers: Gérer Top Containers
+    manage_top_containers: Gérer Top contenants
     manage_enumerations: Gérer listes de valeurs contrôlées
     user_global_preferences: Mes préférences globales
     user_repo_preferences: Mes préférences de dépôt
@@ -407,7 +407,7 @@ fr:
         dates_of_existence: Dates d'existence
         name: Formes de nom
         contacts: Détails de contact
-        search_embedded: Notices liée
+        search_embedded: Notices liées
       action:
         create: Créer agent
 
@@ -502,7 +502,7 @@ fr:
   container:
     _frontend:
       action:
-        add: Ajouter container
+        add: Ajouter contenant
 
   container_location:
     _frontend:
@@ -976,57 +976,57 @@ fr:
         report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>sélectionner</b>. 
 
   shortcuts:
-    quick_reference_window: "Référence rapide: raccouris clavier"
+    quick_reference_window: "Référence rapide: raccourcis clavier"
     actions:
-      this_reference: "This shortcut reference"
-      close_modal: "Close a modal window (e.g., this one)"
-      toggle_shortcuts: "Enable / disable keyboard shortcuts"
-      save_record: "Sauvegarder the record being edited"
-      close_record: "Close a record being edited"
-      open_browse: "Open Browse menu"
-      open_create: "Open Créer menu"
+      this_reference: "Ce référence de raccourci"
+      close_modal: "Fermer une fenêtre (par ex. celle-ci)"
+      toggle_shortcuts: "Activer / désactiver raccourcis clavier"
+      save_record: "Sauvegarder la notice en cours d'édition"
+      close_record: "Fermer une notice en cours d'édition"
+      open_browse: "Ouvrir menu de navigation"
+      open_create: "Ouvrir menu de création"
                     
   instance_container:
-    container: Container
+    container: Contenant
 
   sub_container:
-    top_container: Top Container
+    top_container: Top contenant
     top_container_tooltip: |
-        <p>CHAMP OBLIGATOIRE. The highest level container in which the described material is housed.</p>
-        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Créer function.</p>
-    type_2: Child Type
+        <p>CHAMP OBLIGATOIRE. Le conditionnement de plus haut niveau renfermant le matériel décrit.</p>
+        <p>Peut être sélectionné dans une liste de top contenants, en utilisant le type en avant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
+    type_2: Type fils
     type_2_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Le type de contenant de second niveau renfermant les documents décrits.</p> 
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    indicator_2: Child Indicator
+    indicator_2: Indicateur fils
     indicator_2_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
-    type_3: Grandchild Type
+        <p>Une expression alphanumérique indiquant l'identifiant du contenant de second niveau, pouvant aussi indiquer sa position dans une séquence de contenants de même type. Des plages de contenants de second niveau sont aussi permises, par ex. chemises 1-16.</p>
+    type_3: Type petit-fils
     type_3_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Le type du contenant de niveau 3 renfermant les documents décrits.</p> 
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    indicator_3: Grandchild Indicator
+    indicator_3: Indicateur petit-fils
     indicator_3_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
-    _singular: Sub Container
-    _plural: Sub Containers
+        <p>Une expression alphanumérique indiquant l'identifiant du contenant de niveau 3, pouvant aussi indiquer sa position dans une séquence de contenants de même typeof such contenants. Des plages de contenants de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
+    _singular: Sous-contenant
+    _plural: Sous-contenants
     _frontend:
       action:
-        add: Ajouter Container Instance
+        add: Ajouter instance de contenant
 
   top_container:
-    container_profile: Profil container
+    container_profile: Profil contenant
     container_profile_tooltip: |
-        <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
-    indicator: Indicator
+        <p>Une description des caractéristiques d'un certain type de conditionnement, y compris ses dimensions.</p>
+    indicator: Indicateur
     indicator_tooltip: |
-        <p>CHAMP OBLIGATOIRE. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
-    barcode: Barcode
+        <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du contenant de plus haut niveau, pouvant être aussi sa position dans une séquence de contenants.</p>
+    barcode: Code-barres
     barcode_tooltip: |
-        <p>Used to record the barcode that uniquely identifies the highest level container.</p>
-    type: Container Type
+      <p>Sert à enregistrer le code-barres identifiant de manière unique le contenant de plus haut niveau.</p>
+    type: Type de contenant
     type_tooltip: |
-        <p>The type of the highest level container.	
+        <p>Le type du contenant de plus haut niveau.
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1034,169 +1034,169 @@ fr:
     ils_item_id: ILS Item ID
     ils_item_id_tooltip: |
         <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
-    exported_to_ils: Exported to ILS
-    not_exported: Not exported
-    restricted: Restricted?
-    parent: Parent Container
+    exported_to_ils: Exporté vers ILS
+    not_exported: Non exporté
+    restricted: Soumis à des restrictions?
+    parent: Contenant parent
 
-    managed_container_2_type: Child Container Type
+    managed_container_2_type: Type de contenant fils
     managed_container_2_type_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>Le type du contenant de niveau 2 renfermant les documents décrits.</p> 
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_2_indicator: Child Container Indicator
+    managed_container_2_indicator: Indicateur de contenant fils
     managed_container_2_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
-    managed_container_3_type: Grandchild Container Type
+        <p>Une expression alpha numérique indiquant l'identifiant du contenant de niveau 2, pouvant aussi indiquer sa position dans une séquence de contenants identiques. Des plages de contenants sont aussi permises, par ex. chemises 1-16.</p>
+    managed_container_3_type: Tye de contenant petit-fils
     managed_container_3_type_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>Le type de contenant de niveau 3 renfermant les documents décrits.</p> 
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator: Indicateur de contenant petit-fils
     managed_container_3_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
-    barcode_length_for_this_repository: "Barcode length for this repository:"
-    characters: characters
+      <p>Une expression alphanumérique indiquant l'identifiant du contenant de niveau 3, pouvant aussi indiquer sa position dans une séquence de contenants identiques. Des plages de contenants sont aussi permises, par ex. chemises 1-16.</p>
+    barcode_length_for_this_repository: "Longueur de code-barres pour ce dépôt:"
+    characters: caractères
 
     batch_delete:
-      success: Top Containers successfully deleted
-      error: There was a problem deleting Top Containers
+      success: Suppression des top contenants réussie
+      error: Problème rencontré pendant la suppression des top contenants
 
-    _singular: Top Container
-    _plural: Top Containers
+    _singular: Top contenant
+    _plural: Top contenants
 
     _frontend:
       section:
-        active_restrictions: Active Restrictions
-        linked_records: Linked Records
-        basic_information: Container Information
+        active_restrictions: Restrictions en vigueur
+        linked_records: Notices liées
+        basic_information: Information de contenant
       action:
-        add: Ajouter Top Container
-        create: Créer a Top Container
-        save: Sauvegarder Top Container
+        add: Ajouter top contenant
+        create: Créer top contenant
+        save: Sauvegarder top contenant
       messages:
-        created: Top Container créé
-        updated: Top Container actualisé
-        filter_required: Please provide a filter
-        max_results_limit_reached: Not all results have been listed. Please refine your search.
-        max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
-        results_summary: "Matching results: <strong>%{num_found}</strong>"
-        bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
-        bulk_action_success: Top Containers successfully updated
-        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
-        no_active_restrictions: No Active Restrictions
+        created: Top contenant créé
+        updated: Top contenant actualisé
+        filter_required: Veuillez choisir un filtre
+        max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez affiner votre recherche.
+        max_results_limit_details: "Montrer <strong>%{visible}</strong> sur <strong>%{num_found}</strong> résultats correspondants"
+        results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
+        bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
+        bulk_action_success: Top contenants actualisés avec succès
+        bulk_action_success_info: Attention: un certain temps peut s'écouler avant que les modifications soient répercutées dans les résultats de la recherche.
+        no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
-        title: Bulk Operations
-        collection_singular: Resource/Accession
-        collection_plural: Resources/Accessions
-        collection_resource_singular: Resource
-        collection_resource_plural: Resources
-        collection_accession_singular: Accession
-        collection_accession_plural: Accessions
-        series: Series
-        current_location: Current Location
-        keyword_criteria: Keyword
-        barcodes_criteria: Barcode(s)
-        exported_to_ils_true: "Yes"
-        exported_to_ils_false: "No"
-        empty: Unassociated containers
-        empty_true: "Yes"
-        empty_false: "No"
-        search: Search
-        update_ils_holding_ids: Update ILS Holding IDs
+        title: Opérations en masse
+        collection_singular: Ressource/Collecte
+        collection_plural: Ressources/Collectes
+        collection_resource_singular: Ressource
+        collection_resource_plural: Ressources
+        collection_accession_singular: Collecte
+        collection_accession_plural: Collectes
+        series: Série
+        current_location: Localisation actuelle
+        keyword_criteria: Mot-clé
+        barcodes_criteria: Code(s)-barres
+        exported_to_ils_true: "Oui"
+        exported_to_ils_false: "Non"
+        empty: Contenants non associés
+        empty_true: "Oui"
+        empty_false: "Non"
+        search: Recherche
+        update_ils_holding_ids: Actualiser ILS Holding IDs
         update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
-        update_container_profiles: Actualiser Container Profiles
-        update_container_profiles_help: Choose a Profil container for all selected containers.
-        update_locations_singular: "Actualiser Locations: Single Location"
-        update_locations_singular_help: Choose a Location for all selected containers.
-        update_locations_multiple: "Actualiser Locations: Multiple Locations"
-        update_locations_multiple_help: Choose a Location for each selected container.
-        rapid_barcode_entry: Rapid Barcode Entry
-        rapid_barcode_entry_existing_barcode: Existing Barcode
-        rapid_barcode_entry_new_barcode: nouveau Barcode
-        batch_delete: Supprimer Top Containers
-        batch_delete_help: Supprimer all selected containers.
-        update_n_records: "Actualiser %{n} records"
-        delete_n_records: "Supprimer %{n} records"
-        update_locations_current_location: Current Location
-        update_locations_new_location: Nouvel emplacemnt
+        update_container_profiles: Actualiser profils de contenants
+        update_container_profiles_help: Choisir un profil de contenant pour tous les contenants sélectionnés.
+        update_locations_singular: "Actualiser localisations: localisation unique"
+        update_locations_singular_help: Choisir une localisation pour tous les contenants sélectionnés.
+        update_locations_multiple: "Actualiser localisations: localisations multiples"
+        update_locations_multiple_help: Choisir une localisation pour chaque contenant sélectionné.
+        rapid_barcode_entry: Saisie rapide de code-barres
+        rapid_barcode_entry_existing_barcode: Code-barres existant
+        rapid_barcode_entry_new_barcode: Nouveau code-barres
+        batch_delete: Supprimer Top contenants
+        batch_delete_help: Supprimer tous les contenants sélectionnés.
+        update_n_records: "Actualiser %{n} notices"
+        delete_n_records: "Supprimer %{n} notices"
+        update_locations_current_location: Localisation actuelle
+        update_locations_new_location: Nouvelle localisation
 
   container_profile:
-    _singular: Profil container
-    _plural: Container Profiles
+    _singular: Profil de contenant
+    _plural: Profils de contenants
     _frontend:
       action:
-        save: Sauvegarder Profil container
-        edit: Editer Profil container
-        create: Créer Profil container
-        space_calculator: Space Calculator
+        save: Sauvegarder Profil de contenant
+        edit: Editer Profil de contenant
+        create: Créer Profil de contenant
+        space_calculator: Calculateur d'espace
       messages:
-        created: Profil container créé
-        updated: Profil container actualisé
+        created: Profil de contenant créé
+        updated: Profil de contenant actualisé
       section:
         basic_information: Information de base
-    name: Name
+    name: Nom
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. The name of the container profile. May be generic or specific.</p>  
-        <p>Examples:</p>
+        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de contenants. Peut être générique ou spécifique.</p>  
+        <p>Exemples:</p>
         <ul>
-        <li>document box</li>
-        <li>Paige 15</li>
-        <li>small card file box</li>
+        <li>Boîte d'archivage</li>
+        <li>Page 15</li>
+        <li>Petite boîte à fiches</li>
         </ul>
     url: URL
     url_tooltip: |
-        <p>A hyperlink for an external description of the container.</p>
-    dimension_units: Dimension Units
+        <p>Un lien hypertexte pour une description externe du contenant.</p>
+    dimension_units: Unité de mesure
     dimension_units_tooltip: |
-        <p>Unit of measurement for dimensions.</p>
+        <p>Unité de mesure pour l'importance matérielle.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    extent_dimension: Importance matérielle Dimension
+    extent_dimension: Importance matérielle
     extent_dimension_tooltip: |
-        <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
-    extent_dimension_depth: Depth
+        <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
+    extent_dimension_depth: Profondeur
     extent_dimension_depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
-    extent_dimension_height: Height
+        <p>Une valeur numérique pour la profondeur du contenant.</p>
+    extent_dimension_height: Hauteur
     extent_dimension_height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
-    extent_dimension_width: Width
+        <p>Une valeur numérique pour la hauteur du contenant.</p>
+    extent_dimension_width: Largeur
     extent_dimension_width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
-    depth: Depth
+        <p>Une valeur numérique pour la largeur du contenant.</p>
+    depth: Profondeur
     depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
-    height: Height
+        <p>Une valeur numérique pour la profondeur du contenant.</p>
+    height: Hauteur
     height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
-    width: Width
+        <p>Une valeur numérique pour la hauteur du contenant.</p>
+    width: Largeur
     width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
-    stacking_limit: Stacking Limit
+        <p>Une valeur numérique pour la largeur du contenant.</p>
+    stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-        <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
+        <p>Le nombre de ces contenants pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
 
   rights_restriction:
-    begin: Restriction Begin
+    begin: Début de la restriction
     begin_tooltip: |
-        <p>For a time-bound restriction, the beginning date for a restriction on access. Will be disassociated from the containers once it expires.</p>
-    end: Restriction End
+        <p>Pour une restriction temporaire, date de début de la restriction d'accès. Sera dissociée des contenants à expiration.</p>
+    end: Fin de la restriction
     end_tooltip: |
-        <p>For a time-bound restriction, the ending date for a restriction on access. Will be disassociated from the containers once it expires.</p>
-    local_access_restriction_type: Local Access Restriction Type
-    local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
+        <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des contenants une fois expirée.</p>
+    local_access_restriction_type: Type de restriction de consultation locale
+    local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) / Command (Mac) pour sélectionner des options multiples ou pour déselectionner un option"
     local_access_restriction_type_tooltip: |
-        <p>For restrictions that are not time-bound, an indication of the reason for the restriction.</p>
+        <p>Pour les restrictions indépendantes du temps, une indication de la raison de la restriction.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    linked_records: Linked Record
-    restriction_note_type: Note Type
+    linked_records: Notice liée
+    restriction_note_type: Type de note
 
   extent_calculator:
-    no_object_message: Please specify an object to run the extent calculator on.
+    no_object_message: Veuillez spécifier un objet sur lequel lancer le calculateur d'importance maltérielle.
     report_title: Rapport de calcul d'importance matérielle
-    container_profile_header: Profil container
+    container_profile_header: Profil de contenant
     count_header: Total
     extent_header: Importance matérielle
-    no_profile: <span class="text-error">NO PROFILE</span>
-    all_containers_label: Tous les Containers
+    no_profile: <span class="text-error">PAS DE PROFIL</span>
+    all_containers_label: Tous les contenants
     timestamp_label: Rapport généré à
     extent_record_header: Notice Importance matérielle
     create_extent: Créer importance matérielle
@@ -1204,8 +1204,8 @@ fr:
     create_extent_record_message: Lancer le calcul d'importance matérielle en mode édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
     waiting_for_report_message: Calculer importance matérielle...
     container_summary_type:
-      _singular: container
-      _plural: containers
+      _singular: contenant
+      _plural: contenants
 
   location_profile:
     _singular: Profil de localisation
@@ -1218,41 +1218,41 @@ fr:
       messages:
         created: Profil de localisation créé
         updated: Profil de localisation actualisé
-        fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
-      section:
+        fields_required_for_calculator: Attention: unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.      
+        section:
         basic_information: Information de base
     name: Name
-    dimension_units: Dimension Units
-    depth: Depth
-    height: Height
-    width: Width
+    dimension_units: Unités de dimension
+    depth: Profondeur
+    height: Hauteur
+    width: Largeur
 
   space_calculator:
-    modal_title: Space Calculator
-    modal_loading: Loading...
-    message_container_profile_required: The Space Calculator requires a Profil container to be set.
-    message_locations_required: The Space Calculator requires one or more locations to be set.
-    message_select_locations: "Check for space in the following Location(s):"
-    message_no_locations_with_space: No locations with space found
-    message_total_spaces: "Total number of spaces available for this container type: %{total_spaces}"
-    message_total_containers: "Total number of containers of this type found at these locations: %{total_containers}"
-    message_loading: Loading...
-    count: Space Available (of container type)
-    reason: Calculator Result
-    calculate_space: Check for Space
-    locations_without_space_details: Review locations without space
-    by_locations: By Location(s)
-    by_building: By Building
-    result_filter: Filter Results
+    modal_title: Calculateur d'espace
+    modal_loading: Chargement en cours...
+    message_container_profile_required: Le caculateur d'espace nécessite qu'un profil de contenant soit défini.
+    message_locations_required: Le calculateur d'espace nécessite qu'une ou plusieurs localisations soient définies.
+    message_select_locations: "Vérifier l'espace dans la ou les localisation(s) suivante(s):"
+    message_no_locations_with_space: Aucune localisation présentant de l'espace n'a été trouvée
+    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de contenant: %{total_spaces}"
+    message_total_containers: "Nombre total de contenants de ce type trouvés dans ces localisations: %{total_containers}"
+    message_loading: Chargement en cours...
+    count: Espace disponible (de type de contenant)
+    reason: Résultat du calcul
+    calculate_space: Vérification de l'espace
+    locations_without_space_details: Passer en revue les localisations sans espace
+    by_locations: Par localisation(s)
+    by_building: Par bâtiment
+    result_filter: Filtrer résultats
     summary:
-      locations_with_space: "Locations with space available: <strong>%{count}</strong>"
-      locations_without_space: "Locations with no space available: <strong>%{count}</strong>"
-      uncalculatable_locations: "Unable to calculate: <strong>%{count}</strong>"
-    view_all_toggle: Show locations without space
+      locations_with_space: "Localisation ayant de l'espace disponible: <strong>%{count}</strong>"
+      locations_without_space: "Localisation sans espace disponible: <strong>%{count}</strong>"
+      uncalculatable_locations: "Pas moyen de calculer: <strong>%{count}</strong>"
+    view_all_toggle: Montrer localisations sans espace
     reason:
-      location_lacks_a_profile: Location lacks a profile
-      location_lacks_dimension_data: Location profile lacks dimension data
-      container_is_bigger: Container is bigger than the location in at least one dimension
-      container_at_location_lacks_profile: At least one of the containers currently at the location lacks a profile
-      containers_at_location_dont_fit: The containers currently at the location don't fit
-      location_cannot_fit_container: The location cannot currently fit any containers of this type
+      location_lacks_a_profile: Localisation manquant d'un profil
+      location_lacks_dimension_data: Profil de localisation manquant de données de dimensions
+      container_is_bigger: Contenant excédant la capacité de la localisation dans au moins une dimension
+      container_at_location_lacks_profile: Au moins un des contenants actuellement dans la localisation manque d'un profil
+      containers_at_location_dont_fit: Le contenant actuellement dans la localisation ne convient pas
+      location_cannot_fit_container: La localisation ne convient actuellement à aucun contenant de ce type

@@ -48,7 +48,7 @@ fr:
       repository: Dépôt
       creators: Producteur
       fullrecord: Mot-clé
-      subjects_text: Sujet
+      subjects_text: Mot-matière
       title: Intitulé
       creators_text: Producteur
       scope: Présentation du contenu
@@ -78,10 +78,10 @@ fr:
     outcome: Résultat
     event_type: Type
     identifier: Identifiant
-    select: Selectionner
+    select: Sélectionner
 
   errors:
-    error_404: Record Not Found
+    error_404: Notice pas trouvée
     error_404_message: "La notice à laquelle vous tentez d'accéder n'existe pas ou a été supprimée."
     backend_down: Pas moyen de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
