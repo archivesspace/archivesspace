@@ -12,9 +12,9 @@
         "subtype" => "ref",
         "readonly" => "true",
         "properties" => {
-          "ref" => [ { "type" => "JSONModel(:resource) uri"},
-                     { "type" => "JSONModel(:digital_object) uri"},
-                     { "type" => "JSONModel(:accession) uri" }],
+          "ref" => {"type" => [{ "type" => "JSONModel(:resource) uri"},
+                               { "type" => "JSONModel(:digital_object) uri"},
+                               { "type" => "JSONModel(:accession) uri" }]},
           "_resolved" => {
             "type" => "object",
             "readonly" => "true"

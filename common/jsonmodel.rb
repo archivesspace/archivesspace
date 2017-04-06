@@ -233,10 +233,37 @@ module JSONModel
                                                           eval(File.open(schema_extension).read))
       end
 
+      validate_schema(entry[:schema])
+
       self.create_model_for(schema_name, entry[:schema])
     end
   end
 
+  # Look for any obvious errors in our schema
+  def self.validate_schema(schema)
+    check_valid_refs(schema['properties'])
+    schema
+  end
+
+  def self.check_valid_refs(properties)
+    if properties.is_a?(Hash)
+      properties.each do |key, value|
+        if key == 'ref'
+          unless value.is_a?(Hash)
+            raise "ref value should be an object.  Got type: #{value.class}"
+          end
+        else
+          check_valid_refs(value)
+        end
+      end
+    elsif properties.is_a?(Array)
+      properties.each do |elt|
+        check_valid_refs(elt)
+      end
+    else
+      # Scalar...
+    end
+  end
 
   def self.init(opts = {})
 
