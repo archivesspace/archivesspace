@@ -176,6 +176,8 @@ module TreeNodes
       set_position_in_list(json.position)
     end
 
+    self.class.ensure_consistent_tree(obj)
+
     trigger_index_of_child_nodes
 
     obj
@@ -301,6 +303,17 @@ module TreeNodes
       Kernel.const_get(node_record_type.camelize)
     end
 
+    def ensure_consistent_tree(obj)
+      if obj.parent_id
+        parent_root_record_id = node_model.filter(:id => obj.parent_id).get(:root_record_id)
+        unless obj.root_record_id == parent_root_record_id
+          raise "Consistency check failed: " \
+                "#{node_model} #{obj.id} is in #{root_model} #{obj.root_record_id}," \
+                " but its parent is in #{root_model} #{parent_root_record_id}."
+        end
+      end
+    end
+
     def create_from_json(json, extra_values = {})
       obj = nil
 
@@ -320,6 +333,8 @@ module TreeNodes
       if json.position && !migration
         obj.set_position_in_list(json.position)
       end
+
+      ensure_consistent_tree(obj)
 
       obj
     end

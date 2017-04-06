@@ -301,4 +301,18 @@ describe 'ArchivalObject model' do
     }.to_not raise_error
   
   end
+
+  it "won't let you set your parent to a resource that you're not in" do
+    resource_a = create(:json_resource)
+    resource_b = create(:json_resource)
+    parent_in_resource_a = create(:json_archival_object, :resource => {:ref => resource_a.uri})
+
+    expect {
+    create(:json_archival_object,
+           :parent => {:ref => parent_in_resource_a.uri},
+           # absurd!
+           :resource => {:ref => resource_b.uri})
+    }.to raise_error(RuntimeError, /Consistency check failed/)
+  end
+
 end
