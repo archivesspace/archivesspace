@@ -1699,7 +1699,7 @@ fr:
         <p>Le temps que le dépôt estime nécessaire pour traiter une unité de matériel archivistique (par ex. un mètre linéaire ou item dans le cas d'objets numériques).  L'estimation peut ou non prendre en compte la production d'instruments de recherche, d'enregistrements catalogue et d'autres produits d'accès.</p>
     processing_total_extent: Importance totale du matériel à traiter
     processing_total_extent_tooltip: |
-        <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linaires, items, etc) du matériel à traiter.</p>
+        <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linéaires, items, etc) du matériel à traiter.</p>
     processing_total_extent_type: Type d'importance
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
