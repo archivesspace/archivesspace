@@ -227,9 +227,24 @@ DigitalObjectRenderer.prototype.build_node_title = function(node) {
 
 function ClassificationRenderer() {
     BaseRenderer.call(this);
-}
+};
 
 ClassificationRenderer.prototype = BaseRenderer.prototype;
+
+ClassificationRenderer.prototype.add_root_columns = function (row, rootNode) {
+    var title = this.build_title(rootNode);
+    row.find('.title .record-title').text(title).attr('title', title);
+};
+
+ClassificationRenderer.prototype.add_node_columns = function (row, node) {
+    var title = this.build_title(node);
+    row.find('.title .record-title').text(title).attr('title', title);
+};
+
+ClassificationRenderer.prototype.build_title = function(node) {
+    return [node.identifier, node.title].join('. ');
+};
+
 
 
 var EnumerationTranlations = {};
