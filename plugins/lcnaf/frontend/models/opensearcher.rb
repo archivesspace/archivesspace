@@ -38,19 +38,20 @@ class OpenSearcher
       lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
 
-      response = Net::HTTP.get_response(uri)
-      if response.code != '200'
-        raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+      HTTPRequest.new.get(uri) do |response|
+        if response.code != '200'
+          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+        end
+
+        doc = Nokogiri::XML.parse(response.body) do |config|
+          config.default_xml.noblanks
+        end
+
+        doc.remove_namespaces!
+        doc.encoding = 'utf-8'
+
+        tempfile.write(doc.root)
       end
-
-      doc = Nokogiri::XML.parse(response.body) do |config|
-        config.default_xml.noblanks
-      end
-
-      doc.remove_namespaces!
-      doc.encoding = 'utf-8'
-
-      tempfile.write(doc.root)
     end
 
     tempfile.write("\n</collection>")
@@ -71,25 +72,27 @@ class OpenSearcher
 
     uri.query = URI.encode_www_form(params)
 
-    response = Net::HTTP.get_response(uri)
-
-    if response.code != '200'
-      raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
-    end
-
-    results = OpenSearchResultSet.new(response.body, query)
-
-    results.entries.each do |entry|
-      marc_uri = URI("#{entry['uri']}.marcxml.xml")
-      response = Net::HTTP.get_response(marc_uri)
+    results = HTTPRequest.new.get(uri) do |response|
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
       end
 
-      entry['xml'] = response.body.force_encoding("iso-8859-1").encode('utf-8')
+      OpenSearchResultSet.new(response.body, query)
+    end
+
+    results.entries.each do |entry|
+      marc_uri = URI("#{entry['uri']}.marcxml.xml")
+
+      HTTPRequest.new.get(marc_uri) do |response|
+        if response.code != '200'
+          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+        end
+
+        entry['xml'] = response.body.force_encoding("iso-8859-1").encode('utf-8')
+      end
     end
 
     results
   end
-  
+
 end
