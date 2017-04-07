@@ -38,13 +38,13 @@ class SRUSearcher
                                   'startRecord' => start_record)
     uri.query = URI.encode_www_form(params)
 
-    response = Net::HTTP.get_response(uri)
-
-    if response.code != '200'
-      raise SRUSearchException.new("Error during SRU search: #{response.body}")
+    HTTPRequest.new.get(uri) do |response|
+      if response.code != '200'
+        raise SRUSearchException.new("Error during SRU search: #{response.body}")
+      end
+      File.open("/tmp/sru.txt", "a+") { |a| a << uri.to_s + "\n" + response.body }
+      SRUResultSet.new(response.body, sru_query, page, records_per_page)
     end
-    File.open("/tmp/sru.txt", "a+") { |a| a << uri.to_s + "\n" + response.body }
-    SRUResultSet.new(response.body, sru_query, page, records_per_page)
   end
 
 
