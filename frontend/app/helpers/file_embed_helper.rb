@@ -3,7 +3,7 @@ module FileEmbedHelper
   def uri_or_string(link)
     begin
       link.gsub!(/\\/, '/') # for windows uris
-      link = "file://#{link}" unless link.match(/^(http|file)/)
+      link = "file://#{link}" if link.match(/^[a-zA-Z]:/)
       URI(link) 
     rescue URI::InvalidURIError => e
       link
