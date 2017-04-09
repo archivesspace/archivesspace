@@ -330,7 +330,7 @@ module ApplicationHelper
   # controller, etc.)
   def link_to_merge_params(label, new_params, html_options = {})
     link_to(label,
-            url_for + "?" + URI.encode_www_form(params.except(:controller, :action, :format).to_h.merge(new_params)),
+            url_for + "?" + URI.encode_www_form(params.except(:controller, :action, :format).to_unsafe_h.merge(new_params)),
             html_options)
   end
 
