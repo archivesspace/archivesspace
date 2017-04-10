@@ -117,6 +117,8 @@ class SearchController < ApplicationController
       queries.and(filter.keys[0], filter.values[0])
     end
 
+    queries.and('types', 'pui')
+
     unless queries.empty?
       criteria['filter'] = queries.build.to_json
     end
