@@ -180,7 +180,7 @@ function DigitalObjectRenderer() {
                           '</tr>');
 }
 
-DigitalObjectRenderer.prototype = BaseRenderer.prototype;
+DigitalObjectRenderer.prototype = new BaseRenderer();
 
 DigitalObjectRenderer.prototype.add_root_columns = function (row, rootNode) {
     if (rootNode.digital_object_type) {
@@ -229,7 +229,7 @@ function ClassificationRenderer() {
     BaseRenderer.call(this);
 };
 
-ClassificationRenderer.prototype = BaseRenderer.prototype;
+ClassificationRenderer.prototype = new BaseRenderer();
 
 ClassificationRenderer.prototype.add_root_columns = function (row, rootNode) {
     var title = this.build_title(rootNode);
