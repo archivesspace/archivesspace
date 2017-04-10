@@ -47,7 +47,22 @@ class Search
     # Public User Interface.
     queries.and('types', 'pui_only', 'text', literal = true, negated = true)
 
-    criteria['filter'] = queries.build.to_json
+    new_filter = queries.build
+
+    if criteria['filter']
+      # Combine our new filter with any existing ones
+      existing_filter = ASUtils.json_parse(criteria['filter'])
+
+      new_filter['query'] = JSONModel(:boolean_query)
+                              .from_hash({
+                                           :jsonmodel_type => 'boolean_query',
+                                           :op => 'AND',
+                                           :subqueries => [existing_filter['query'], new_filter['query']]
+                                         })
+
+    end
+
+    criteria['filter'] = new_filter.to_json
   end
 
 end
