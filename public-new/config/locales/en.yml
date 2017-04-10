@@ -400,10 +400,12 @@ en:
     _singular: Record Group
     _plural: Record Groups
     creator: Creator
+    identifier_separator: "."
 
   classification_term:
-   _singular: Record Group Term
-   _plural: Record Group Terms
+    _singular: Record Group Term
+    _plural: Record Group Terms
+    identifier_separator: "/"
 
   all_agents: Content Creators
   

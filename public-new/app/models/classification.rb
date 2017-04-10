@@ -14,7 +14,7 @@ class Classification < Record
   end
 
   def display_string_for_breadcrumb
-    "#{json['identifier']} #{json['title']}"
+    "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{json['title']}"
   end
 
   def root_node_uri
@@ -45,11 +45,11 @@ class Classification < Record
   end
 
   def parse_full_title
-     "#{parse_identifier} #{json['title']}"
+     "#{parse_identifier}#{I18n.t('classification.identifier_separator')} #{json['title']}"
   end
 
   def parse_identifier
-    ASUtils.wrap(json['path_from_root']).collect{|c| c['identifier']}.join('/')
+    ASUtils.wrap(json['path_from_root']).collect{|c| c['identifier']}.join(I18n.t('classification_term.identifier_separator'))
   end
 
   def parse_creator
