@@ -102,12 +102,19 @@ class CommonIndexer
     end
   end
 
-
   def self.generate_years_for_date_range(begin_date, end_date)
     return [] unless begin_date
-    b = begin_date[0..3]
-    e = (end_date || begin_date)[0..3]
-    (b .. e).to_a
+
+    end_date ||= begin_date
+
+    b = begin_date.scan(/\A[0-9]{1,4}/).first
+    e = end_date.scan(/\A[0-9]{1,4}/).first
+
+    if b && e
+      (b .. e).to_a
+    else
+      []
+    end
   end
 
 
