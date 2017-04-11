@@ -169,7 +169,7 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 <% @endpoints.each do | e | %>
 
-## <%= e[:method].upcase%> <%= e[:uri]%> 
+## <%= e[:method].map &:upcase %> <%= e[:uri]%> 
 
 __Description__
 
