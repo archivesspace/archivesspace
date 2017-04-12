@@ -130,6 +130,13 @@ class CommonIndexer
   end
 
 
+  # Isolate leading alpha and numeric values to create a sortable string
+  def self.generate_sort_string_for_identifier(identifier, size = 255)
+    letters, numbers, rest = identifier.scan(/([^0-9]*)([0-9]*)(.*)/)[0]
+    letters.strip.ljust(size).gsub(' ', '#') + numbers.strip.rjust(size).gsub(' ', '0') + rest.strip.ljust(size)
+  end
+
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
@@ -441,6 +448,8 @@ class CommonIndexer
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['identifier_sort'] = CommonIndexer.generate_sort_string_for_identifier(record['record']['identifier'])
+        doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
       end
     }
 

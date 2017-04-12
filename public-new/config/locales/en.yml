@@ -195,6 +195,7 @@ en:
     select: Select
     year_sort: Year
     sorting: "%{type} %{direction}"
+    classification_identifier: Identifier
 
   inherit:
     inherited: "From the %{level}:"
