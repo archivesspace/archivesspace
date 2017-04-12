@@ -1,5 +1,5 @@
-<% n = 1 %>
+<% n = "odd" %>
 <% @items.each do |item| %>
-  <li class="r<%= n %>"><%= link_schema item %></li>
-  <% n = n == 2 ? 1 : 2 %>
+  <li class="<%= n %>"><div class="item"><%= link_schema item %></div></li>
+  <% n = n == "odd" ? "even" : "odd" %>
 <% end %>
