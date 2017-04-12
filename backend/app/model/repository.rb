@@ -151,9 +151,16 @@ class Repository < Sequel::Model(:repository)
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     reindex_required = self.publish != (json['publish'] ? 1 : 0)
+    classification_reindex_required = self.name != json['name']
 
     result = super
-    reindex_repository_records if reindex_required
+
+    if reindex_required
+      reindex_repository_records
+    elsif classification_reindex_required
+      reindex_classification_records
+    end
+
     result
   end
 
@@ -163,6 +170,11 @@ class Repository < Sequel::Model(:repository)
         model.update_mtime_for_repo_id(self.id)
       end
     end
+  end
+
+  def reindex_classification_records
+    ClassificationTerm.update_mtime_for_repo_id(self.id)
+    Classification.update_mtime_for_repo_id(self.id)
   end
 
 end
