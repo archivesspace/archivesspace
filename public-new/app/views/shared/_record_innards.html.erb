@@ -45,7 +45,7 @@
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
   <% unless @result.classifications.blank? %>
-    <% x= render partial: 'shared/present_list', locals: {:list => @result.classifications, :list_clss => 'classifications_list'} %>
+    <% x= render partial: 'classifications/related_listing', locals: {:classifications => @result.classifications} %>
     <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('classification._plural'),
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
