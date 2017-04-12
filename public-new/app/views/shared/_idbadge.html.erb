@@ -1,5 +1,10 @@
 <%
-badge_label = t("enumerations.archival_record_level.#{result.level}")
+if result.level
+    badge_label = t("enumerations.archival_record_level.#{result.level}")
+else
+    badge_label = t("#{result.primary_type}._singular")
+end
+
 containers_label = nil
 %>
 
