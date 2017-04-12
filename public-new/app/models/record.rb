@@ -218,9 +218,12 @@ class Record
     ASUtils.wrap(json['classifications']).each do |c|
       unless c['_resolved'].blank?
         classification = record_from_resolved_json(c['_resolved'])
+        p "parse_classifications"
+        p classification.uri
         return_arr << {
           'title' => classification.display_string,
-          'uri' => classification.uri
+          'uri' => classification.uri,
+          'breadcrumb' => classification.breadcrumb
         }
       end
     end
