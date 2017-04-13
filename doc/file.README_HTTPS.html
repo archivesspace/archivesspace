@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: README_HTTPS
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -56,8 +56,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="file_list.html"></iframe>
 
       <div id="content"><div id='filecontents'><h1 id="serving-archivesspace-user-facing-applications-over-https">Serving ArchivesSpace user-facing applications over HTTPS</h1>
 
@@ -130,7 +128,7 @@ exposing it to the outside world.</p>
 <p>In order for archivists and researchers to access the application, there will
 need to be two URLs that are exposed to the outside world, and per the main
 requirement of this exercise, those URLs will need to begin with <code>https://</code>.
-Let&#8217;s assume that they will be:</p>
+Let’s assume that they will be:</p>
 
 <ul>
   <li>
@@ -176,6 +174,7 @@ requests to the actual application urls. Example:</p>
    <span class='rubyid_SSLEngine constant id'>SSLEngine</span> <span class='rubyid_On constant id'>On</span>
    <span class='rubyid_SSLCertificateFile constant id'>SSLCertificateFile</span> <span class='string val'>&quot;/path/to/your/cert.crt&quot;</span>
    <span class='rubyid_SSLCertificateKeyFile constant id'>SSLCertificateKeyFile</span> <span class='string val'>&quot;/path/to/your/key.key&quot;</span>
+   <span class='rubyid_RequestHeader constant id'>RequestHeader</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_X constant id'>X</span><span class='minus op'>-</span><span class='rubyid_Forwarded constant id'>Forwarded</span><span class='minus op'>-</span><span class='rubyid_Proto constant id'>Proto</span> <span class='string val'>&quot;https&quot;</span>
    <span class='rubyid_ProxyPreserveHost constant id'>ProxyPreserveHost</span> <span class='rubyid_On constant id'>On</span>
    <span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
    <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
@@ -185,6 +184,7 @@ requests to the actual application urls. Example:</p>
    SSLEngine On
    SSLCertificateFile &quot;/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_cert identifier id'>cert</span><span class='dot token'>.</span><span class='rubyid_crt identifier id'>crt</span><span class='string val'>&quot;
    SSLCertificateKeyFile &quot;</span><span class='div op'>/</span><span class='rubyid_path identifier id'>path</span><span class='div op'>/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_your identifier id'>your</span><span class='div op'>/</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='string val'>&quot;
+   RequestHeader set X-Forwarded-Proto &quot;</span><span class='rubyid_https identifier id'>https</span><span class='string val'>&quot;
    ProxyPreserveHost On
    ProxyPass / http://localhost:8081/
    ProxyPassReverse / http://localhost:8081/
@@ -197,9 +197,9 @@ that documentation before attempting to configure SSL.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

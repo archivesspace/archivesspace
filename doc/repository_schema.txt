@@ -20,6 +20,8 @@ string (max length: 255)	image_url
 
 string (max length: 65000)	contact_persons
 
+boolean	publish
+
 string	display_string
 
 object	agent_representation

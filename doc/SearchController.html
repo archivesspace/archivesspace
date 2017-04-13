@@ -6,7 +6,7 @@
 <title>
   Class: SearchController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: SearchController
   
@@ -252,7 +250,9 @@
 40
 41
 42
-43</pre>
+43
+44
+45</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/search_controller.rb', line 9</span>
@@ -260,11 +260,13 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_advanced_search identifier id'>advanced_search</span>
   <span class='rubyid_criteria identifier id'>criteria</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span>
 
-  <span class='rubyid_queries identifier id'>queries</span> <span class='assign token'>=</span> <span class='rubyid_advanced_search_queries identifier id'>advanced_search_queries</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_queries identifier id'>queries</span> <span class='assign token'>=</span> <span class='rubyid_advanced_search_queries identifier id'>advanced_search_queries</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+    <span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;value&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_field identifier id'>field</span><span class='lbrack token'>[</span><span class='string val'>&quot;empty&quot;</span><span class='rbrack token'>]</span>
+  <span class='rbrace token'>}</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_queries identifier id'>queries</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='comma token'>,</span> <span class='symbol val'>:staff</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_build_query identifier id'>build_query</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span>
-    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>'facet[]'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_BASE_FACETS constant id'>BASE_FACETS</span>
+    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;aq&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='dot token'>.</span><span class='rubyid_build_query_from_form identifier id'>build_query_from_form</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span>
+    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&#39;facet[]&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_BASE_FACETS constant id'>BASE_FACETS</span>
   <span class='rubyid_end end kw'>end</span>
 
 
@@ -313,8 +315,6 @@
       <pre class="lines">
 
 
-45
-46
 47
 48
 49
@@ -340,10 +340,12 @@
 69
 70
 71
-72</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/search_controller.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/search_controller.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_do_search identifier id'>do_search</span>
 
@@ -384,9 +386,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:28 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:39 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

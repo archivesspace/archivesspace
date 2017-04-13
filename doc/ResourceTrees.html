@@ -6,7 +6,7 @@
 <title>
   Module: ResourceTrees
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: ResourceTrees
   
@@ -147,7 +145,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>If we&#8217;re being asked to load an entire tree, don&#8217;t bother loading all of the instances that go with each node.</p>
+    <span class="summary_desc"><div class='inline'><p>If we’re being asked to load an entire tree, don’t bother loading all of the instances that go with each node.</p>
 </div></span>
   
 </li>
@@ -298,10 +296,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>If we&#8217;re being asked to load an entire tree, don&#8217;t bother loading all of the
+    <p>If we’re being asked to load an entire tree, don’t bother loading all of the
 instances that go with each node.  This is a performance optimisation, since
 there can be tens of thousands of instances.  The only place that pulls down
-the entire tree is the indexer, and it doesn&#8217;t need instance/container
+the entire tree is the indexer, and it doesn’t need instance/container
 information from the tree anyway.</p>
 
 
@@ -524,7 +522,7 @@ information from the tree anyway.</p>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_node_level identifier id'>set_node_level</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eqq op'>===</span> <span class='string val'>'otherlevel'</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eqq op'>===</span> <span class='string val'>&#39;otherlevel&#39;</span>
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:level</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_other_level identifier id'>other_level</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:level</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span>
@@ -541,9 +539,9 @@ information from the tree anyway.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:08 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

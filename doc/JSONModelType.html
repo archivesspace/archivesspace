@@ -6,7 +6,7 @@
 <title>
   Class: JSONModelType
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: JSONModelType
   
@@ -225,7 +223,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Create an instance of this JSONModel from the data contained in &#8216;hash&#8217;.</p>
+    <span class="summary_desc"><div class='inline'><p>Create an instance of this JSONModel from the data contained in ‘hash’.</p>
 </div></span>
   
 </li>
@@ -272,6 +270,29 @@
 
   
     <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inherited-class_method" title="inherited (class method)">.<strong>inherited</strong>(child)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If a JSONModel is extended, make its schema and record type class variables available on the subclass too.</p>
 </div></span>
   
 </li>
@@ -363,7 +384,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Return the version number of this JSONModel&#8217;s schema.</p>
+    <span class="summary_desc"><div class='inline'><p>Return the version number of this JSONModel’s schema.</p>
 </div></span>
   
 </li>
@@ -409,7 +430,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Return the type of the schema property defined by &#8216;path&#8217;.</p>
+    <span class="summary_desc"><div class='inline'><p>Return the type of the schema property defined by ‘path’.</p>
 </div></span>
   
 </li>
@@ -473,7 +494,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
     
 
     
@@ -496,7 +517,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(key, val)  &#x21d2; Object </a>
+      <a href="#[]=-instance_method" title="#[]= (instance method)">#<strong>[]=</strong>(key, val)  &#x21d2; Object </a>
     
 
     
@@ -519,7 +540,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#_always_valid%21-instance_method" title="#_always_valid! (instance method)">#<strong>_always_valid!</strong>  &#x21d2; Object </a>
+      <a href="#_always_valid!-instance_method" title="#_always_valid! (instance method)">#<strong>_always_valid!</strong>  &#x21d2; Object </a>
     
 
     
@@ -765,7 +786,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Replace the values of the current JSONModel instance with the contents of &#8216;params&#8217;, validating before accepting the replacement.</p>
+    <span class="summary_desc"><div class='inline'><p>Replace the values of the current JSONModel instance with the contents of ‘params’, validating before accepting the replacement.</p>
 </div></span>
   
 </li>
@@ -880,7 +901,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Update the values of the current JSONModel instance with the contents of &#8216;params&#8217;, validating before accepting the update.</p>
+    <span class="summary_desc"><div class='inline'><p>Update the values of the current JSONModel instance with the contents of ‘params’, validating before accepting the update.</p>
 </div></span>
   
 </li>
@@ -917,29 +938,29 @@
       <pre class="lines">
 
 
-176
-177
-178
-179
-180
-181
-182
-183
-184
 185
 186
 187
 188
 189
-190</pre>
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 185</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_trusted identifier id'>trusted</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_set_data identifier id'>set_data</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_@uri ivar id'>@uri</span> <span class='opasgn op'>||=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@uri ivar id'>@uri</span> <span class='opasgn op'>||=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
 
   <span class='comment val'># a hash to store transient instance data</span>
   <span class='rubyid_@instance_data ivar id'>@instance_data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -989,12 +1010,12 @@
       <pre class="lines">
 
 
-193
-194
-195</pre>
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 193</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 202</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_uri identifier id'>uri</span>
   <span class='rubyid_@uri ivar id'>@uri</span>
@@ -1026,7 +1047,7 @@
     <p>Add a custom validation to this model type.</p>
 
 <p>The validation is a block that takes a hash of properties and returns an array of pairs like:
-[[&#8220;propertyname&#8221;, &#8220;the problem with it&#8221;], &#8230;]</p>
+[[“propertyname”, “the problem with it”], …]</p>
 
 
   </div>
@@ -1040,17 +1061,17 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58
-59
-60
-61</pre>
+62
+63
+64
+65
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_validation identifier id'>add_validation</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='symbol val'>:error</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Validation name already taken: #{name}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_custom_validations identifier id'>custom_validations</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
@@ -1077,7 +1098,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Create an instance of this JSONModel from the data contained in &#8216;hash&#8217;.</p>
+    <p>Create an instance of this JSONModel from the data contained in ‘hash’.</p>
 
 
   </div>
@@ -1091,14 +1112,6 @@
       <pre class="lines">
 
 
-65
-66
-67
-68
-69
-70
-71
-72
 73
 74
 75
@@ -1110,16 +1123,24 @@
 81
 82
 83
-84</pre>
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_raise_errors identifier id'>raise_errors</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_trusted identifier id'>trusted</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
 
-  <span class='comment val'># If we're running in client mode, leave 'readonly' properties in place,</span>
-  <span class='comment val'># since they're intended for use by clients.  Otherwise, we drop them.</span>
+  <span class='comment val'># If we&#39;re running in client mode, leave &#39;readonly&#39; properties in place,</span>
+  <span class='comment val'># since they&#39;re intended for use by clients.  Otherwise, we drop them.</span>
                                               <span class='rubyid_drop_system_properties identifier id'>drop_system_properties</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_client_mode? fid id'>client_mode?</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_trusted identifier id'>trusted</span>
@@ -1166,12 +1187,12 @@
       <pre class="lines">
 
 
-88
-89
-90</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 96</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_json identifier id'>from_json</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='comma token'>,</span> <span class='rubyid_raise_errors identifier id'>raise_errors</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_raise_errors identifier id'>raise_errors</span><span class='rparen token'>)</span>
@@ -1197,14 +1218,6 @@
       <pre class="lines">
 
 
-133
-134
-135
-136
-137
-138
-139
-140
 141
 142
 143
@@ -1220,13 +1233,22 @@
 153
 154
 155
-156</pre>
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 141</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_noerror identifier id'>noerror</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_noerror identifier id'>noerror</span>
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
     <span class='rubyid_else else kw'>else</span>
@@ -1234,20 +1256,65 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
-  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/:[a-zA-Z_]+\//</span><span class='comma token'>,</span> <span class='string val'>'/[^/ ]+/'</span><span class='rparen token'>)</span>
+  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/:[a-zA-Z_]+\//</span><span class='comma token'>,</span> <span class='string val'>&#39;/[^/ ]+/&#39;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern}\/#{ID_REGEXP}(\#.*)?$/</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_id_to_int identifier id'>id_to_int</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern.gsub(/\[\^\/ \]\+\/tree/, '')}#{ID_REGEXP}\/tree$/</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern.gsub(/\[\^\/ \]\+\/tree/, &#39;&#39;)}#{ID_REGEXP}\/(tree|ordered_records)$/</span>
+    <span class='comment val'># FIXME: gross hardcoding...</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_id_to_int identifier id'>id_to_int</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_noerror identifier id'>noerror</span>
       <span class='rubyid_nil nil kw'>nil</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't make an ID out of URI: #{uri}&quot;</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn&#39;t make an ID out of URI: #{uri}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inherited-class_method">
+  
+    .<strong>inherited</strong>(child)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>If a JSONModel is extended, make its schema and record type class variables
+available on the subclass too.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_inherited identifier id'>inherited</span><span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='rparen token'>)</span>
+  <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@schema</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
+  <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@record_type</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1310,12 +1377,12 @@
   <span class='comment val'># In client mode, mix in some extra convenience methods for querying the</span>
   <span class='comment val'># ArchivesSpace backend service via HTTP.</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_client_mode? fid id'>client_mode?</span>
-    <span class='rubyid_require_relative identifier id'>require_relative</span> <span class='string val'>'jsonmodel_client'</span>
+    <span class='rubyid_require_relative identifier id'>require_relative</span> <span class='string val'>&#39;jsonmodel_client&#39;</span>
     <span class='rubyid_include identifier id'>include</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_Client constant id'>Client</span>
   <span class='rubyid_end end kw'>end</span>
 
 
-  <span class='rubyid_define_accessors identifier id'>define_accessors</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='rparen token'>)</span>
+  <span class='rubyid_define_accessors identifier id'>define_accessors</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='rparen token'>)</span>
 
 
   <span class='rubyid_mixins identifier id'>mixins</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_mixin identifier id'>mixin</span><span class='bitor op'>|</span>
@@ -1354,15 +1421,15 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span>
-  <span class='rubyid_find_ancestor_class_instance identifier id'>find_ancestor_class_instance</span><span class='lparen token'>(</span><span class='symbol val'>:@record_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_@record_type ivar id'>@record_type</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1395,15 +1462,15 @@
       <pre class="lines">
 
 
-27
-28
-29</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
-  <span class='rubyid_find_ancestor_class_instance identifier id'>find_ancestor_class_instance</span><span class='lparen token'>(</span><span class='symbol val'>:@schema</span><span class='rparen token'>)</span>
+  <span class='rubyid_@schema ivar id'>@schema</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1422,7 +1489,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Return the version number of this JSONModel&#8217;s schema</p>
+    <p>Return the version number of this JSONModel’s schema</p>
 
 
   </div>
@@ -1436,15 +1503,15 @@
       <pre class="lines">
 
 
-33
-34
-35</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema_version identifier id'>schema_version</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'version'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;version&#39;</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1467,12 +1534,12 @@
       <pre class="lines">
 
 
-45
-46
-47</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;JSONModel(:#{self.record_type})&quot;</span>
@@ -1494,9 +1561,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Return the type of the schema property defined by &#8216;path&#8217;</p>
+    <p>Return the type of the schema property defined by ‘path’</p>
 
-<p>For example, type_of(&#8220;names/items/type&#8221;) might return a JSONModel class</p>
+<p>For example, type_of(“names/items/type”) might return a JSONModel class</p>
 
 
   </div>
@@ -1510,20 +1577,20 @@
       <pre class="lines">
 
 
-162
-163
-164
-165
-166
-167
-168
-169
-170
 171
-172</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 171</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_type_of identifier id'>type_of</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
   <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='rubyid_JSONSchemaUtils constant id'>JSONSchemaUtils</span><span class='dot token'>.</span><span class='rubyid_schema_path_lookup identifier id'>schema_path_lookup</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span>
@@ -1557,33 +1624,33 @@
       <pre class="lines">
 
 
-93
-94
-95
-96
-97
-98
-99
-100
 101
 102
 103
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri_and_remaining_options_for identifier id'>uri_and_remaining_options_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='comment val'># Some schemas (like name schemas) don't have a URI because they don't</span>
-  <span class='comment val'># need endpoints.  That's fine.</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
+  <span class='comment val'># Some schemas (like name schemas) don&#39;t have a URI because they don&#39;t</span>
+  <span class='comment val'># need endpoints.  That&#39;s fine.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'uri'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_uri identifier id'>uri</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot;/#{URI.escape(id.to_s)}&quot;</span>
@@ -1614,7 +1681,7 @@ For example:</p>
 <pre class="code ruby18"><code class="ruby18">JSONModel(:archival_object).uri_for(500, :repo_id =&gt; 123)
 </code></pre>
 
-<p>might yield &#8220;/repositories/123/archival_objects/500&#8221;</p>
+<p>might yield “/repositories/123/archival_objects/500”</p>
 
 
   </div>
@@ -1628,14 +1695,14 @@ For example:</p>
       <pre class="lines">
 
 
-117
-118
-119
-120
-121</pre>
+125
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri_and_remaining_options_for identifier id'>uri_and_remaining_options_for</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -1669,12 +1736,12 @@ For example:</p>
       <pre class="lines">
 
 
-205
-206
-207</pre>
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 214</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_@data ivar id'>@data</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
@@ -1700,13 +1767,13 @@ For example:</p>
       <pre class="lines">
 
 
-210
-211
-212
-213</pre>
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 219</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aset op'>[]=</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_@validated ivar id'>@validated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -1745,13 +1812,13 @@ out by the user.</p>
       <pre class="lines">
 
 
-269
-270
-271
-272</pre>
+278
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 278</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__always_valid! fid id'>_always_valid!</span>
   <span class='rubyid_@always_valid ivar id'>@always_valid</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -1789,23 +1856,23 @@ produced.</p>
       <pre class="lines">
 
 
-223
-224
-225
-226
-227
-228
-229
-230
-231
 232
 233
 234
 235
-236</pre>
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 223</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__exceptions identifier id'>_exceptions</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_@validated ivar id'>@validated</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@validated ivar id'>@validated</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@errors ivar id'>@errors</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1842,18 +1909,18 @@ produced.</p>
       <pre class="lines">
 
 
-255
-256
-257
-258
-259
-260
-261
-262
-263</pre>
+264
+265
+266
+267
+268
+269
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 264</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__warnings identifier id'>_warnings</span>
   <span class='rubyid_exceptions identifier id'>exceptions</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid__exceptions identifier id'>_exceptions</span>
@@ -1885,22 +1952,22 @@ produced.</p>
       <pre class="lines">
 
 
-246
-247
-248
-249
-250
-251
-252</pre>
+255
+256
+257
+258
+259
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 255</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_error identifier id'>add_error</span><span class='lparen token'>(</span><span class='rubyid_attribute identifier id'>attribute</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
   <span class='comment val'># reset validation</span>
   <span class='rubyid_@validated ivar id'>@validated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
 
-  <span class='comment val'># call JSONModel::Client's version</span>
+  <span class='comment val'># call JSONModel::Client&#39;s version</span>
   <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1924,14 +1991,14 @@ produced.</p>
       <pre class="lines">
 
 
-239
-240
-241
-242
-243</pre>
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clear_errors identifier id'>clear_errors</span>
   <span class='comment val'># reset validation</span>
@@ -1982,12 +2049,12 @@ produced.</p>
       <pre class="lines">
 
 
-216
-217
-218</pre>
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 225</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_@data ivar id'>@data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
@@ -2023,18 +2090,18 @@ produced.</p>
       <pre class="lines">
 
 
-340
-341
-342
-343
-344
-345
-346
-347
-348</pre>
+349
+350
+351
+352
+353
+354
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 340</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 349</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id identifier id'>id</span>
   <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -2066,12 +2133,12 @@ produced.</p>
       <pre class="lines">
 
 
-301
-302
-303</pre>
+310
+311
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 301</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 310</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inspect identifier id'>inspect</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -2097,12 +2164,12 @@ produced.</p>
       <pre class="lines">
 
 
-200
-201
-202</pre>
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 209</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instance_data identifier id'>instance_data</span>
   <span class='rubyid_@instance_data ivar id'>@instance_data</span>
@@ -2125,7 +2192,7 @@ produced.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Replace the values of the current JSONModel instance with the contents
-of &#8216;params&#8217;, validating before accepting the replacement.</p>
+of ‘params’, validating before accepting the replacement.</p>
 
 
   </div>
@@ -2139,13 +2206,13 @@ of &#8216;params&#8217;, validating before accepting the replacement.</p>
       <pre class="lines">
 
 
-285
-286
-287
-288</pre>
+294
+295
+296
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 294</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_replace identifier id'>replace</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_@validated ivar id'>@validated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -2172,12 +2239,12 @@ of &#8216;params&#8217;, validating before accepting the replacement.</p>
       <pre class="lines">
 
 
-291
-292
-293</pre>
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 300</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reset_from identifier id'>reset_from</span><span class='lparen token'>(</span><span class='rubyid_another_jsonmodel identifier id'>another_jsonmodel</span><span class='rparen token'>)</span>
   <span class='rubyid_@data ivar id'>@data</span> <span class='assign token'>=</span> <span class='rubyid_another_jsonmodel identifier id'>another_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='lbrace token'>{</span> <span class='rubyid_@data ivar id'>@data</span> <span class='rbrace token'>}</span>
@@ -2200,7 +2267,7 @@ of &#8216;params&#8217;, validating before accepting the replacement.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Produce a (possibly nested) hash from the values of this JSONModel.  Any
-values that don&#8217;t appear in the JSON schema will not appear in the
+values that don’t appear in the JSON schema will not appear in the
 result.</p>
 
 
@@ -2215,15 +2282,6 @@ result.</p>
       <pre class="lines">
 
 
-309
-310
-311
-312
-313
-314
-315
-316
-317
 318
 319
 320
@@ -2235,10 +2293,19 @@ result.</p>
 326
 327
 328
-329</pre>
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 318</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_mode identifier id'>mode</span> <span class='orop op'>||</span> <span class='symbol val'>:validated</span><span class='rparen token'>)</span>
@@ -2279,7 +2346,7 @@ result.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Produce a JSON string from the values of this JSONModel.  Any values
-that don&#8217;t appear in the JSON schema will not appear in the result.</p>
+that don’t appear in the JSON schema will not appear in the result.</p>
 
 
   </div>
@@ -2293,12 +2360,12 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
       <pre class="lines">
 
 
-334
-335
-336</pre>
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 334</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 343</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:mode</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:max_nesting</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -2324,12 +2391,12 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
       <pre class="lines">
 
 
-296
-297
-298</pre>
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 305</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_s identifier id'>to_s</span>
   <span class='dstring node'>&quot;#&lt;JSONModel(:#{self.class.record_type}) #{@data.inspect}&gt;&quot;</span>
@@ -2352,7 +2419,7 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Update the values of the current JSONModel instance with the contents of
-&#8216;params&#8217;, validating before accepting the update.</p>
+‘params’, validating before accepting the update.</p>
 
 
   </div>
@@ -2366,13 +2433,13 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
       <pre class="lines">
 
 
-277
-278
-279
-280</pre>
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel_type.rb', line 286</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_@validated ivar id'>@validated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -2389,9 +2456,9 @@ that don&#8217;t appear in the JSON schema will not appear in the result.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:31 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

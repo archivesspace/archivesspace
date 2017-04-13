@@ -6,7 +6,7 @@
 <title>
   Module: PluginHelper
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: PluginHelper
   
@@ -210,13 +208,13 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/plugin_helper.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_form_plugins_for identifier id'>form_plugins_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='comma token'>,</span> <span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
-  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>''</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
   <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_plugins_for identifier id'>plugins_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
     <span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_parent_for identifier id'>parent_for</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span>
 
     <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span><span class='lparen token'>(</span><span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;shared/subrecord_form&quot;</span><span class='comma token'>,</span>
-                     <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:form</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_context identifier id'>context</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                       <span class='symbol val'>:cardinality</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>'cardinality'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:plugin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                     <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:form</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_context identifier id'>context</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                       <span class='symbol val'>:cardinality</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>&#39;cardinality&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='symbol val'>:plugin</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
@@ -260,10 +258,10 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/plugin_helper.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show_plugins_for identifier id'>show_plugins_for</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
-  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>''</span>
-  <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+  <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_plugins_for identifier id'>plugins_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
-    <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_parent_for identifier id'>parent_for</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_parent_for identifier id'>parent_for</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
       <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span><span class='lparen token'>(</span><span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{name}/show&quot;</span><span class='comma token'>,</span>
                        <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -312,15 +310,15 @@
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/plugin_helper.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sidebar_plugins_for identifier id'>sidebar_plugins_for</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
-  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>''</span>
-  <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+  <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_plugins_for identifier id'>plugins_for</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
-    <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_parent_for identifier id'>parent_for</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_Plugins constant id'>Plugins</span><span class='dot token'>.</span><span class='rubyid_parent_for identifier id'>parent_for</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_controller identifier id'>controller</span><span class='dot token'>.</span><span class='rubyid_action_name identifier id'>action_name</span> <span class='eqq op'>===</span> <span class='string val'>&quot;show&quot;</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
-      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'&lt;li&gt;'</span>
-      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;a href='##{jsonmodel_type}_#{name}_'&gt;&quot;</span>
+      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39;&lt;li&gt;&#39;</span>
+      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;a href=&#39;##{jsonmodel_type}_#{name}_&#39;&gt;&quot;</span>
       <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;plugins.#{plugin}._plural&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>'&lt;span class=&quot;glyphicon glyphicon-chevron-right&quot;&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;'</span>
+      <span class='rubyid_result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39;&lt;span class=&quot;glyphicon glyphicon-chevron-right&quot;&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
@@ -336,9 +334,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:11 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

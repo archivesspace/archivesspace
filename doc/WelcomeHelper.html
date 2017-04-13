@@ -6,7 +6,7 @@
 <title>
   Module: WelcomeHelper
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: WelcomeHelper
   
@@ -247,7 +245,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_no_repo_message identifier id'>no_repo_message</span> 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@repositories ivar id'>@repositories</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eqq op'>===</span> <span class='integer val'>0</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>'create_repository'</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;create_repository&#39;</span><span class='rparen token'>)</span>
       <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;repository._frontend.messages.create_first_repository&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:info</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;repository._frontend.messages.no_access_to_repositories&quot;</span><span class='rparen token'>)</span>
@@ -288,9 +286,9 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_welcome_message identifier id'>welcome_message</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='string val'>&quot;user&quot;</span><span class='rbrack token'>]</span> 
-      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t 'welcome.message_logged_in' }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message_logged_in&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
   <span class='rubyid_else else kw'>else</span> 
-      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t 'welcome.message' }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+      <span class='rubyid_return return kw'>return</span> <span class='dstring node'>&quot;&lt;p&gt;#{ I18n.t &#39;welcome.message&#39; }&lt;/p&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
   <span class='rubyid_end end kw'>end</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -304,9 +302,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:11 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

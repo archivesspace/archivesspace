@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceService::RequestWrappingMiddleware
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Class: ArchivesSpaceService::RequestWrappingMiddleware
   
@@ -195,12 +193,12 @@
       <pre class="lines">
 
 
-245
-246
-247</pre>
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 254</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_app identifier id'>app</span><span class='rparen token'>)</span>
   <span class='rubyid_@app ivar id'>@app</span> <span class='assign token'>=</span> <span class='rubyid_app identifier id'>app</span>
@@ -233,15 +231,6 @@
       <pre class="lines">
 
 
-249
-250
-251
-252
-253
-254
-255
-256
-257
 258
 259
 260
@@ -286,10 +275,19 @@
 299
 300
 301
-302</pre>
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'backend/app/main.rb', line 258</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
   <span class='rubyid_start_time identifier id'>start_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -334,14 +332,14 @@
                          <span class='rubyid_ANONYMOUS_USER constant id'>ANONYMOUS_USER</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_querystring identifier id'>querystring</span> <span class='assign token'>=</span> <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>'QUERY_STRING'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='integer val'>? </span><span class='string val'>&quot;&quot;</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;?#{Log.filter_passwords(env['QUERY_STRING'])}&quot;</span>
+  <span class='rubyid_querystring identifier id'>querystring</span> <span class='assign token'>=</span> <span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;QUERY_STRING&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='integer val'>? </span><span class='string val'>&quot;&quot;</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;?#{Log.filter_passwords(env[&#39;QUERY_STRING&#39;])}&quot;</span>
 
-  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{env[&#39;REQUEST_METHOD&#39;]} #{env[&#39;PATH_INFO&#39;]}#{querystring} [session: #{session.inspect}]&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_@app ivar id'>@app</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_env identifier id'>env</span><span class='rparen token'>)</span>
 
   <span class='rubyid_end_time identifier id'>end_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
 
-  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Responded with #{result.to_s[0..512]}... in #{(end_time - start_time) * 1000}ms&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Responded with #{result.to_s[0..512]}... in #{((end_time - start_time) * 1000).to_i}ms&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_result identifier id'>result</span>
 <span class='rubyid_end end kw'>end</span>
@@ -356,9 +354,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:13 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:29 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

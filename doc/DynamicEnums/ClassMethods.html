@@ -6,7 +6,7 @@
 <title>
   Module: DynamicEnums::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Module: DynamicEnums::ClassMethods
   
@@ -236,11 +234,11 @@
           <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:uses_enum</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='bitor op'>|</span>
             <span class='rubyid_enum_value_id identifier id'>enum_value_id</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
 
-            <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_enum_value_id identifier id'>enum_value_id</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='string val'>'other_unmapped'</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_other_unmapped</span><span class='rbrack token'>]</span>
+            <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_enum_value_id identifier id'>enum_value_id</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='string val'>&#39;other_unmapped&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:allow_other_unmapped</span><span class='rbrack token'>]</span>
               <span class='comment val'># Ensure this value exists for this enumeration</span>
               <span class='rubyid_enum identifier id'>enum</span> <span class='assign token'>=</span> <span class='rubyid_Enumeration constant id'>Enumeration</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:uses_enum</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
               <span class='rubyid_enum_value_id identifier id'>enum_value_id</span> <span class='assign token'>=</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
-                <span class='rubyid_EnumerationValue constant id'>EnumerationValue</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum identifier id'>enum</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'other_unmapped'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
+                <span class='rubyid_EnumerationValue constant id'>EnumerationValue</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum identifier id'>enum</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;other_unmapped&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
               <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='rubyid_do do kw'>do</span>
                 <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:uses_enum</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
               <span class='rubyid_end end kw'>end</span>
@@ -264,7 +262,7 @@
             <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_property_id identifier id'>property_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
 
-          <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn't find enum in #{property} for #{self.class} with id #{self[property_id]}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_result identifier id'>result</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn&#39;t find enum in #{property} for #{self.class} with id #{self[property_id]}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_result identifier id'>result</span>
           <span class='rubyid_result identifier id'>result</span>
         <span class='rubyid_else else kw'>else</span>
           <span class='rubyid_nil nil kw'>nil</span>
@@ -298,9 +296,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:09 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

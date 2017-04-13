@@ -29,11 +29,11 @@ applications. By default, the applications are assigned to the following
 urls:
 
   * Backend - `http://localhost:8089`
-  
+
   * Frontend (staff UI) - `http://localhost:8080`
 
-  * Public (read-only UI) - `http://localhost:8081` 
-  
+  * Public (read-only UI) - `http://localhost:8081`
+
   * Solr (search middleware) - `http://localhost:8090`
 
 These assignments can be altered through edits to the configuration file
@@ -65,7 +65,7 @@ Let's assume that they will be:
 
   * `https://staff.myarchive.org` - for archival staff
 
-  * `https://research.myarchive.org` - for the public 
+  * `https://research.myarchive.org` - for the public
 
 Start by ensuring that Apache is configured to handle HTTPS requests. Locate
 the `httpd.conf` file and ensure that it contains this line (or similar):
@@ -98,6 +98,7 @@ requests to the actual application urls. Example:
        SSLEngine On
        SSLCertificateFile "/path/to/your/cert.crt"
        SSLCertificateKeyFile "/path/to/your/key.key"
+       RequestHeader set X-Forwarded-Proto "https"
        ProxyPreserveHost On
        ProxyPass / http://localhost:8080/
        ProxyPassReverse / http://localhost:8080/
@@ -107,6 +108,7 @@ requests to the actual application urls. Example:
        SSLEngine On
        SSLCertificateFile "/path/to/your/cert.crt"
        SSLCertificateKeyFile "/path/to/your/key.key"
+       RequestHeader set X-Forwarded-Proto "https"
        ProxyPreserveHost On
        ProxyPass / http://localhost:8081/
        ProxyPassReverse / http://localhost:8081/

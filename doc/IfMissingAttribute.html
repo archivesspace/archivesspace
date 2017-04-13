@@ -6,7 +6,7 @@
 <title>
   Class: IfMissingAttribute
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: IfMissingAttribute
   
@@ -105,7 +103,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Add a new &#8216;ifmissing&#8217; attribute which emits either an error or warning
+    <p>Add a new ‘ifmissing’ attribute which emits either an error or warning
 depending on its value.</p>
 
 
@@ -206,14 +204,14 @@ depending on its value.</p>
   <span class='rubyid_super super kw'>super</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
-    <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='bitor op'>|</span>
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>'ifmissing'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;ifmissing&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
         <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
 
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>'ifmissing'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'error'</span>
-          <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ERROR: The property '#{build_fragment(fragments)}' did not contain a required property of '#{property}'&quot;</span>
-        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>'ifmissing'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'warn'</span>
-          <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;WARNING: The property '#{build_fragment(fragments)}' did not contain a required property of '#{property}'&quot;</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;ifmissing&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;error&#39;</span>
+          <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ERROR: The property &#39;#{build_fragment(fragments)}&#39; did not contain a required property of &#39;#{property}&#39;&quot;</span>
+        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_property_schema identifier id'>property_schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;ifmissing&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;warn&#39;</span>
+          <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;WARNING: The property &#39;#{build_fragment(fragments)}&#39; did not contain a required property of &#39;#{property}&#39;&quot;</span>
         <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_message identifier id'>message</span>
@@ -234,9 +232,9 @@ depending on its value.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:32 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

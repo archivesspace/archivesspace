@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: SELENIUM_README
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="selenium-test-suite">Selenium test suite</h1>
 
 <h2 id="before-running">Before running:</h2>
@@ -83,7 +81,7 @@ project directory.</p>
 <p>The full suite can take a while to run. If you just want to run one
 group of tests, use the <em>example</em> property:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>'ArchivesSpace user interface Repositories'</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&#39;ArchivesSpace user interface Repositories&#39;</span>
 </code></pre>
 
 <p>See <em>spec/selenium_spec.rb</em> to find the <em>describe</em> blocks that define
@@ -122,12 +120,12 @@ environment variable:</p>
 running under selenium control, and you will be presented with an IRB
 prompt. Now you can say things like:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='gt op'>&gt;</span> <span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='string val'>'admin'</span><span class='comma token'>,</span> <span class='string val'>'admin'</span><span class='rparen token'>)</span>
- <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='string val'>'.repository-container .btn'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
+<pre class="code ruby"><code class="ruby"> <span class='gt op'>&gt;</span> <span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;admin&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='string val'>&#39;.repository-container .btn&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
  <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='string val'>&quot;Create a Repository&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
- <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_repo_code_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>'REPO_1'</span><span class='rparen token'>)</span>
- <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_description_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>'First Repo'</span><span class='rparen token'>)</span>
- <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;form#new_repository input[type='submit']&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_repo_code_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;REPO_1&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_description_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;First Repo&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;form#new_repository input[type=&#39;submit&#39;]&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
  <span class='gt op'>&gt;</span> <span class='rubyid_logout identifier id'>logout</span>
  <span class='gt op'>&gt;</span> <span class='rubyid_cleanup identifier id'>cleanup</span>
  <span class='gt op'>&gt;</span> <span class='rubyid_quit identifier id'>quit</span>
@@ -138,9 +136,9 @@ backend and firefox</p>
 
 <h2 id="interacting-with-selenium-using-pry">Interacting with selenium using pry</h2>
 
-<p>Add the following to &#8216;selenium/Gemfile.local&#8217;</p>
+<p>Add the following to ‘selenium/Gemfile.local’</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_gem identifier id'>gem</span> <span class='string val'>'pry'</span>
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_gem identifier id'>gem</span> <span class='string val'>&#39;pry&#39;</span>
 </code></pre>
 
 <p>Run:</p>
@@ -157,14 +155,14 @@ backend and firefox</p>
 
 <pre class="code ruby"><code class="ruby"><span class='gt op'>&gt;</span> <span class='rubyid_backend_login identifier id'>backend_login</span>
 <span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:repo</span><span class='rparen token'>)</span>
-<span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_login_to_repo identifier id'>login_to_repo</span><span class='lparen token'>(</span><span class='string val'>'admin'</span><span class='comma token'>,</span> <span class='string val'>'admin'</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
+<span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_login_to_repo identifier id'>login_to_repo</span><span class='lparen token'>(</span><span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
 </code></pre>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:00 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:21 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

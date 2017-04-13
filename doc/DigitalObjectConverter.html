@@ -6,7 +6,7 @@
 <title>
   Class: DigitalObjectConverter
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: DigitalObjectConverter
   
@@ -192,29 +190,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -239,7 +214,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Converter.html" title="Converter (class)">Converter</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Converter.html#for-class_method" title="Converter.for (method)">for</a></span>, <span class='object_link'><a href="Converter.html#get_output_path-instance_method" title="Converter#get_output_path (method)">#get_output_path</a></span>, <span class='object_link'><a href="Converter.html#inherited-class_method" title="Converter.inherited (method)">inherited</a></span>, <span class='object_link'><a href="Converter.html#initialize-instance_method" title="Converter#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Converter.html#list_import_types-class_method" title="Converter.list_import_types (method)">list_import_types</a></span>, <span class='object_link'><a href="Converter.html#register_converter-class_method" title="Converter.register_converter (method)">register_converter</a></span>, <span class='object_link'><a href="Converter.html#remove_files-instance_method" title="Converter#remove_files (method)">#remove_files</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Converter.html#for-class_method" title="Converter.for (method)">for</a></span>, <span class='object_link'><a href="Converter.html#get_output_path-instance_method" title="Converter#get_output_path (method)">#get_output_path</a></span>, <span class='object_link'><a href="Converter.html#inherited-class_method" title="Converter.inherited (method)">inherited</a></span>, <span class='object_link'><a href="Converter.html#initialize-instance_method" title="Converter#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Converter.html#list_import_types-class_method" title="Converter.list_import_types (method)">list_import_types</a></span>, <span class='object_link'><a href="Converter.html#register_converter-class_method" title="Converter.register_converter (method)">register_converter</a></span>, <span class='object_link'><a href="Converter.html#remove_files-instance_method" title="Converter#remove_files (method)">#remove_files</a></span>, <span class='object_link'><a href="Converter.html#run-instance_method" title="Converter#run (method)">#run</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -267,6 +242,11 @@
       <pre class="lines">
 
 
+28
+29
+30
+31
+32
 33
 34
 35
@@ -571,162 +551,157 @@
 334
 335
 336
-337
-338
-339
-340
-341
-342</pre>
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/digital_object_converter.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/digital_object_converter.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_configure identifier id'>configure</span>
   <span class='lbrace token'>{</span>
     <span class='comment val'># 1. Map the cell data to schemas or handlers</span>
 
-    <span class='string val'>'agent_role'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.agent_role'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent.agent_type'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.agent_role&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent.agent_type&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'agent_contact_address_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.address_1'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_address_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.address_2'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_address_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.address_3'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_city'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.city'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_country'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.country'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_email'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.email'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_fax'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.fax'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.name'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_address_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.address_1&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_address_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.address_2&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_address_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.address_3&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_city&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.city&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_country&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.country&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_email&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.email&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_fax&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.fax&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.name&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'agent_contact_post_code'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.post_code'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_region'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.region'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_salutation'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.salutation'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_telephone'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.telephone'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_contact_telephone_ext'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_contact.telephone_ext'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_post_code&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.post_code&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_region&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.region&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_salutation&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.salutation&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_telephone&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.telephone&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_contact_telephone_ext&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.telephone_ext&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'agent_name_authority_id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.authority_id'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_dates'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.dates'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_fuller_form'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.fuller_form'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_name_order'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.name_order'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_number'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.number'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_prefix'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.prefix'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_primary_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.primary_name'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_qualifier'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.qualifier'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_rest_of_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.rest_of_name'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_rules'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.rules'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_sort_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.sort_name'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_source'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.source'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_subordinate_name_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.subordinate_name_1'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_subordinate_name_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.subordinate_name_2'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_suffix'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'agent_name.suffix'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_authority_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.authority_id&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_dates&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.dates&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_fuller_form&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.fuller_form&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_name_order&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.name_order&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.number&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_prefix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.prefix&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_primary_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.primary_name&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_qualifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.qualifier&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_rest_of_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.rest_of_name&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_rules&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.rules&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_sort_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.sort_name&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_source&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.source&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_subordinate_name_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.subordinate_name_1&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_subordinate_name_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.subordinate_name_2&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_suffix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.suffix&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'agent_name_description_note'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'note_bioghist.content'</span><span class='comma token'>,</span>
-    <span class='string val'>'agent_name_description_citation'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'note_citation.content'</span><span class='comma token'>,</span>
-    <span class='comment val'># 'agent_name_description_type' =&gt; '',</span>
+    <span class='string val'>&#39;agent_name_description_note&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_bioghist.content&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_description_citation&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_citation.content&#39;</span><span class='comma token'>,</span>
+    <span class='comment val'># &#39;agent_name_description_type&#39; =&gt; &#39;&#39;,</span>
 
-    <span class='string val'>'digital_object_acknowledgement_sent'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'acknowledgement_sent_event_date.boolean'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_acknowledgement_sent_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'acknowledgement_sent_event_date.expression'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_acknowledgement_sent&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;acknowledgement_sent_event_date.boolean&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_acknowledgement_sent_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;acknowledgement_sent_event_date.expression&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_agreement_received'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'agreement_received_event_date.boolean'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_agreement_received_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'agreement_received_event_date.expression'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_agreement_received&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;agreement_received_event_date.boolean&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_agreement_received_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;agreement_received_event_date.expression&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_agreement_sent'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'agreement_sent_event_date.boolean'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_agreement_sent_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'agreement_sent_event_date.expression'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_agreement_sent&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;agreement_sent_event_date.boolean&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_agreement_sent_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;agreement_sent_event_date.expression&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_cataloged'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'cataloged_event_date.boolean'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_cataloged_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'cataloged_event_date.expression'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_cataloged&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;cataloged_event_date.boolean&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_cataloged_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;cataloged_event_date.expression&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_processed'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'processed_event_date.boolean'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processed_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'processed_event_date.expression'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_started_date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_started_date'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_estimate'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_hours_per_foot_estimate'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_hours_total'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_hours_total'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_plan'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_plan'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_priority'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_priority'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processed&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;processed_event_date.boolean&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processed_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;processed_event_date.expression&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_started_date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_started_date&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_estimate&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_hours_per_foot_estimate&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_hours_total&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_hours_total&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_plan&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_plan&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_priority&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_priority&#39;</span><span class='comma token'>,</span>
 
-    <span class='comment val'># 'digital_object_processing_started_date' =&gt; '',</span>
-    <span class='string val'>'digital_object_processing_status'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_status'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_total_extent'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_total_extent'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processing_total_extent_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processing_total_extent_type'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_processors'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.processors'</span><span class='comma token'>,</span>
+    <span class='comment val'># &#39;digital_object_processing_started_date&#39; =&gt; &#39;&#39;,</span>
+    <span class='string val'>&#39;digital_object_processing_status&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_status&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_total_extent&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_total_extent&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processing_total_extent_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processing_total_extent_type&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_processors&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.processors&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_rights_determined'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.rights_determined'</span><span class='comma token'>,</span>
-    <span class='comment val'># 'digital_object_rights_transferred' =&gt; '',</span>
-    <span class='comment val'># 'digital_object_rights_transferred_date' =&gt; '',</span>
-    <span class='comment val'># 'digital_object_rights_transferred_note' =&gt; '',</span>
+    <span class='string val'>&#39;digital_object_rights_determined&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.rights_determined&#39;</span><span class='comma token'>,</span>
+    <span class='comment val'># &#39;digital_object_rights_transferred&#39; =&gt; &#39;&#39;,</span>
+    <span class='comment val'># &#39;digital_object_rights_transferred_date&#39; =&gt; &#39;&#39;,</span>
+    <span class='comment val'># &#39;digital_object_rights_transferred_note&#39; =&gt; &#39;&#39;,</span>
 
-    <span class='string val'>'digital_object_title'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.title'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.digital_object_id'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_is_component'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'d.is_component'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_component_id'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.component_id'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.title&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.digital_object_id&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_is_component&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;d.is_component&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_component_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.component_id&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_cataloged_note'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'collection_management.cataloged_note'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_cataloged_note&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.cataloged_note&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'digital_object_language'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.language'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_level'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.level'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_publish'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'d.publish'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'d.digital_object_type'</span><span class='comma token'>,</span>
-    <span class='string val'>'digital_object_restrictions'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'d.restrictions'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.language&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_level&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.level&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;d.publish&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.digital_object_type&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_restrictions&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;d.restrictions&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
 
-    <span class='string val'>'date_1_label'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_1.label'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_1_expression'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_1.expression'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_1_begin'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_1.begin'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_1_end'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_1.end'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_1_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_1.date_type'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_1_label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_1.label&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_1_expression&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_1.expression&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_1_begin&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_1.begin&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_1_end&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_1.end&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_1_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_1.date_type&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'date_2_label'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_2.label'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_2_expression'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_2.expression'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_2_begin'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_2.begin'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_2_end'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_2.end'</span><span class='comma token'>,</span>
-    <span class='string val'>'date_2_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'date_2.date_type'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_2_label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_2.label&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_2_expression&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_2.expression&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_2_begin&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_2.begin&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_2_end&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_2.end&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;date_2_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;date_2.date_type&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'extent_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.extent_type'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_container_summary'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.container_summary'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_number'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.number'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_physical_details'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.physical_details'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_portion'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.portion'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_dimensions'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.dimensions'</span><span class='comma token'>,</span>
-    <span class='string val'>'extent_container_summary'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'extent.container_summary'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.extent_type&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_container_summary&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.container_summary&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.number&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_physical_details&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.physical_details&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_portion&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.portion&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_dimensions&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.dimensions&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;extent_container_summary&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;extent.container_summary&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'subject_source'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'subject.source'</span><span class='comma token'>,</span>
-    <span class='string val'>'subject_term'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'subject.term'</span><span class='comma token'>,</span>
-    <span class='string val'>'subject_term_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'subject.term_type'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;subject_source&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.source&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;subject_term&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.term&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;subject_term_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.term_type&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'user_defined_boolean_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'user_defined.boolean_1'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_boolean_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'user_defined.boolean_2'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_boolean_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'user_defined.boolean_3'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_date_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'user_defined.date_1'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_date_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'user_defined.date_2'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_date_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>'user_defined.date_3'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_integer_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>'user_defined.integer_1'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_integer_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>'user_defined.integer_2'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_integer_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>'user_defined.integer_3'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_real_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>'user_defined.real_1'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_real_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>'user_defined.real_2'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_real_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>'user_defined.real_3'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_string_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.string_1'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_string_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.string_2'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_string_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.string_3'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_string_4'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.string_4'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_text_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.text_1'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_text_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.text_2'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_text_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.text_3'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_text_4'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.text_4'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_text_5'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.text_5'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_enum_1'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.enum_1'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_enum_2'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.enum_2'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_enum_3'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.enum_3'</span><span class='comma token'>,</span>
-    <span class='string val'>'user_defined_enum_4'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'user_defined.enum_4'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_boolean_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.boolean_1&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_boolean_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.boolean_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_boolean_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.boolean_3&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_date_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.date_1&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_date_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.date_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_date_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_date_flip identifier id'>date_flip</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.date_3&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_integer_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.integer_1&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_integer_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.integer_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_integer_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_int identifier id'>to_int</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.integer_3&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_real_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.real_1&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_real_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.real_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_real_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_to_real identifier id'>to_real</span><span class='comma token'>,</span> <span class='string val'>&#39;user_defined.real_3&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_string_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.string_1&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_string_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.string_2&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_string_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.string_3&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_string_4&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.string_4&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_text_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.text_1&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_text_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.text_2&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_text_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.text_3&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_text_4&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.text_4&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_text_5&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.text_5&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_enum_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.enum_1&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_enum_2&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.enum_2&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_enum_3&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.enum_3&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;user_defined_enum_4&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.enum_4&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>'file_version_file_uri'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.file_uri'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_publish'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>'file_version.publish'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_use_statement'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.use_statement'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_xlink_actuate_attribute'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.xlink_actuate_attribute'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_xlink_show_attribute'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.xlink_show_attribute'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_file_format_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.file_format_name'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_file_format_version'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.file_format_version'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_file_size_bytes'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.file_size_bytes'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_checksum'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.checksum'</span><span class='comma token'>,</span>
-    <span class='string val'>'file_version_checksum_method'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'file_version.checksum_method'</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_file_uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.file_uri&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;file_version.publish&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_use_statement&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.use_statement&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_xlink_actuate_attribute&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.xlink_actuate_attribute&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_xlink_show_attribute&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.xlink_show_attribute&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_file_format_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.file_format_name&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_file_format_version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.file_format_version&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_file_size_bytes&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.file_size_bytes&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_checksum&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.checksum&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;file_version_checksum_method&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;file_version.checksum_method&#39;</span><span class='comma token'>,</span>
     
     <span class='comment val'># 2. Define data handlers</span>
     <span class='comment val'>#    :record_type of the schema (if other than the handler key)</span>
@@ -735,26 +710,26 @@
     <span class='comment val'>#        param 1 is the set of objects generated by the row</span>
     <span class='comment val'>#        param 2 is an object in the row (of the type described in the handler)</span>
 
-    <span class='symbol val'>:acknowledgement_sent_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>'acknowledgement_sent'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:acknowledgement_sent_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>&#39;acknowledgement_sent&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
-    <span class='symbol val'>:agreement_received_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>'agreement_received'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:agreement_received_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>&#39;agreement_received&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
-    <span class='symbol val'>:agreement_sent_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>'agreement_sent'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:agreement_sent_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>&#39;agreement_sent&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
-    <span class='symbol val'>:cataloged_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>'cataloged'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:cataloged_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>&#39;cataloged&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
-    <span class='symbol val'>:processed_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>'processed'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:processed_event_date</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_template identifier id'>event_template</span><span class='lparen token'>(</span><span class='string val'>&#39;processed&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
 
     <span class='symbol val'>:agent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:record_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span>
-        <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'agent_type'</span><span class='rbrack token'>]</span>
+        <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
         <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_agent identifier id'>agent</span><span class='bitor op'>|</span>
-        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'digital_object'</span> <span class='rbrace token'>}</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span> <span class='rbrace token'>}</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_digital_object identifier id'>digital_object</span>
-          <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+          <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
         <span class='rubyid_else else kw'>else</span>
           <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='rbrace token'>}</span>
         <span class='rubyid_end end kw'>end</span>
@@ -771,11 +746,11 @@
 
     <span class='symbol val'>:agent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:record_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span>
-        <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/agent_/</span><span class='comma token'>,</span> <span class='string val'>'name_'</span><span class='rparen token'>)</span>
+        <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/agent_/</span><span class='comma token'>,</span> <span class='string val'>&#39;name_&#39;</span><span class='rparen token'>)</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span> <span class='match op'>=~</span> <span class='regexp val'>/family/</span>
-          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_family_name identifier id'>family_name</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'primary_name'</span><span class='rbrack token'>]</span>
+          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_family_name identifier id'>family_name</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_name&#39;</span><span class='rbrack token'>]</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
@@ -787,43 +762,43 @@
     <span class='comment val'># this might be a Digital Object, or it might be a Digital Object Component</span>
     <span class='symbol val'>:d</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:record_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='bitor op'>|</span>
-        <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'is_component'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='symbol val'>:digital_object_component</span> <span class='colon op'>:</span> <span class='symbol val'>:digital_object</span>
+        <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_component&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='symbol val'>:digital_object_component</span> <span class='colon op'>:</span> <span class='symbol val'>:digital_object</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'digital_object_component'</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object_component&#39;</span>
 
-          <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'digital_object_id'</span><span class='rbrack token'>]</span>
-            <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Component entries must have a 'digital_object_id' to link them to a top-level record&quot;</span>
+          <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object_id&#39;</span><span class='rbrack token'>]</span>
+            <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Component entries must have a &#39;digital_object_id&#39; to link them to a top-level record&quot;</span>
           <span class='rubyid_end end kw'>end</span>
 
-          <span class='rubyid_do_uri identifier id'>do_uri</span> <span class='assign token'>=</span> <span class='rubyid_uri_lookup identifier id'>uri_lookup</span><span class='lbrack token'>[</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'digital_object_id'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+          <span class='rubyid_do_uri identifier id'>do_uri</span> <span class='assign token'>=</span> <span class='rubyid_uri_lookup identifier id'>uri_lookup</span><span class='lbrack token'>[</span><span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object_id&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
 
           <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_do_uri identifier id'>do_uri</span>
             <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Components must be preceded by their top-level digital object in the CSV&quot;</span>
           <span class='rubyid_end end kw'>end</span>
 
-          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_do_uri identifier id'>do_uri</span><span class='rbrace token'>}</span>
+          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_do_uri identifier id'>do_uri</span><span class='rbrace token'>}</span>
         <span class='rubyid_else else kw'>else</span>
 
-          <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'agent_role'</span><span class='rbrack token'>]</span>
-            <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>'role'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'agent_role'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span>
+            <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
           <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
 
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
         <span class='rubyid_case case kw'>case</span>
-        <span class='rubyid_when when kw'>when</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'digital_object'</span>
+        <span class='rubyid_when when kw'>when</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span>
 
           <span class='rubyid_uri_lookup identifier id'>uri_lookup</span><span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object_id identifier id'>digital_object_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
 
-          <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_cm identifier id'>cm</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'collection_management'</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+          <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_cm identifier id'>cm</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;collection_management&#39;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
             <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_collection_management identifier id'>collection_management</span> <span class='assign token'>=</span> <span class='rubyid_cm identifier id'>cm</span>
           <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_else else kw'>else</span>
           <span class='comment val'># ignore collection management data in a component context</span>
-          <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'collection_management'</span><span class='rbrace token'>}</span>
+          <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;collection_management&#39;</span><span class='rbrace token'>}</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -841,7 +816,7 @@
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='symbol val'>:extent</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:portion</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'whole'</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:portion</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;whole&#39;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_extent identifier id'>extent</span><span class='bitor op'>|</span>
         <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='match op'>=~</span> <span class='regexp val'>/^digital_object/</span> <span class='rbrace token'>}</span>
         <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_extent identifier id'>extent</span>
@@ -850,7 +825,7 @@
 
     <span class='symbol val'>:note_bioghist</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>'jsonmodel_type'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'note_text'</span><span class='comma token'>,</span> <span class='string val'>'content'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_text&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;content&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
         <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='match op'>=~</span> <span class='regexp val'>/^agent_(perso|fami|corpo)/</span><span class='rbrace token'>}</span>
@@ -860,25 +835,25 @@
 
     <span class='symbol val'>:note_citation</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
-        <span class='rubyid_note_biogist identifier id'>note_biogist</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'note_bioghist'</span><span class='rbrace token'>}</span>
+        <span class='rubyid_note_biogist identifier id'>note_biogist</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;note_bioghist&#39;</span><span class='rbrace token'>}</span>
         <span class='rubyid_note_biogist identifier id'>note_biogist</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_this identifier id'>this</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='symbol val'>:subject</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='symbol val'>:term</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:term_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>'term_type'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:vocabulary</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'/vocabularies/1'</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span> <span class='assign token'>=</span> <span class='string val'>'/vocabularies/1'</span>
+        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='symbol val'>:term</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;term&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:term_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;term_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:vocabulary</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;/vocabularies/1&#39;</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span> <span class='assign token'>=</span> <span class='string val'>&#39;/vocabularies/1&#39;</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
-        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'digital_object'</span><span class='rbrace token'>}</span>
-        <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span><span class='rbrace token'>}</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='symbol val'>:user_defined</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
-        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>'digital_object'</span><span class='rbrace token'>}</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;digital_object&#39;</span><span class='rbrace token'>}</span>
         <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_user_defined identifier id'>user_defined</span> <span class='assign token'>=</span> <span class='rubyid_this identifier id'>this</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -977,45 +952,14 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="profile-class_method">
-  
-    .<strong>profile</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/digital_object_converter.rb', line 28</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_profile identifier id'>profile</span>
-  <span class='string val'>&quot;Convert Digital Object Records from a CSV file&quot;</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:25 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

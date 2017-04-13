@@ -6,7 +6,7 @@
 <title>
   Class: DependencySet
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: DependencySet
   
@@ -108,17 +106,17 @@
 <p>We effectively want a structure like:</p>
 
 <p>{
-   &#8216;/this/uri&#8217; (depends_on) =&gt; [&#8216;/that/uri&#8217;, &#8216;/and/also/that/uri&#8217;],
-    &#8230;
+   ‘/this/uri’ (depends_on) =&gt; [‘/that/uri’, ‘/and/also/that/uri’],
+    …
  }</p>
 
-<p>But that&#8217;s a lot of duplicated strings in memory when you&#8217;re doing migrations
+<p>But that’s a lot of duplicated strings in memory when you’re doing migrations
 of 1.5 million+ dependencies.</p>
 
-<p>So, we effectively &#8220;intern&#8221; the strings by giving each one an index, and then
+<p>So, we effectively “intern” the strings by giving each one an index, and then
 just store the index numbers in our dependency table.  On the large data set
-I&#8217;m testing with, that reduces the memory needed by about 80%.  Callers never
-see the indexes&#8211;they just pass record URIs in and get record URIs out.</p>
+I’m testing with, that reduces the memory needed by about 80%.  Callers never
+see the indexes–they just pass record URIs in and get record URIs out.</p>
 
 
   </div>
@@ -144,7 +142,7 @@ see the indexes&#8211;they just pass record URIs in and get record URIs out.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
     
 
     
@@ -314,7 +312,7 @@ see the indexes&#8211;they just pass record URIs in and get record URIs out.</p>
   <span class='comment val'># indexes that record with index 123 depends on.</span>
   <span class='rubyid_@dependencies ivar id'>@dependencies</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
-  <span class='comment val'># The next index we'll allocate</span>
+  <span class='comment val'># The next index we&#39;ll allocate</span>
   <span class='rubyid_@next_index ivar id'>@next_index</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -526,9 +524,9 @@ the set of <code>froms</code> given to <code>add_dependency</code>.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:17 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:33 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

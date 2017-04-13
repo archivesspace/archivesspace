@@ -6,7 +6,7 @@
 <title>
   Module: TreeNodes
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -59,8 +59,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="class_list.html"></iframe>
-
       <div id="content"><h1>Module: TreeNodes
   
   
@@ -90,7 +88,18 @@
   
 </div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Mixin methods for objects that belong in an ordered hierarchy (archival
+objects, digital object components)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
@@ -102,6 +111,51 @@
     
   
 </p>
+
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="POSITION_STEP-constant" class="">POSITION_STEP =
+        <div class="docstring">
+  <div class="discussion">
+    <p>We’ll space out our positions by this amount.  This means we can insert
+log2(POSITION_STEP) nodes before any given node before needing to rebalance.</p>
+
+<p>Sized according to the largest number of nodes we think we might see under a
+single parent.  The size of the position column is 2^31, so position can be
+anywhere up to about 2 billion.  For a step size of 1000, that means we can
+support (/ (expt 2 31) 1000) positions (around 2 million) before running out
+of numbers.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+      </dt>
+      <dd><pre class="code"><span class='integer val'>1000</span>
+</pre></dd>
+    
+      <dt id="DB_RETRIES-constant" class="">DB_RETRIES =
+        <div class="docstring">
+  <div class="discussion">
+    <p>The number of times we’ll retry an update that might transiently fail due to
+concurrent updates.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+      </dt>
+      <dd><pre class="code"><span class='integer val'>100</span>
+</pre></dd>
+    
+  </dl>
 
 
 
@@ -152,7 +206,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#absolute_position-instance_method" title="#absolute_position (instance method)">#<strong>absolute_position</strong>  &#x21d2; Object </a>
+      <a href="#attempt_set_parent_and_position-instance_method" title="#attempt_set_parent_and_position (instance method)">#<strong>attempt_set_parent_and_position</strong>(parent_id, position)  &#x21d2; Object </a>
     
 
     
@@ -175,7 +229,53 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#attempt_set_position_in_list-instance_method" title="#attempt_set_position_in_list (instance method)">#<strong>attempt_set_position_in_list</strong>(target_logical_position)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A note on terminology: a logical position refers to the position of a node as observed by the user (0…RECORD_COUNT).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#children-instance_method" title="#children (instance method)">#<strong>children</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ensure_gap-instance_method" title="#ensure_gap (instance method)">#<strong>ensure_gap</strong>(start_physical_position)  &#x21d2; Object </a>
     
 
     
@@ -221,7 +321,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#order_siblings-instance_method" title="#order_siblings (instance method)">#<strong>order_siblings</strong>  &#x21d2; Object </a>
+      <a href="#logical_position-instance_method" title="#logical_position (instance method)">#<strong>logical_position</strong>  &#x21d2; Object </a>
     
 
     
@@ -235,7 +335,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>this is just a CYA method, that might be removed in the future.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -244,7 +344,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_position_in_list-instance_method" title="#set_position_in_list (instance method)">#<strong>set_position_in_list</strong>(target_position, sequence)  &#x21d2; Object </a>
+      <a href="#set_parent_and_position-instance_method" title="#set_parent_and_position (instance method)">#<strong>set_parent_and_position</strong>(parent_id, position)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_position_in_list-instance_method" title="#set_position_in_list (instance method)">#<strong>set_position_in_list</strong>(target_logical_position)  &#x21d2; Object </a>
     
 
     
@@ -281,30 +404,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#siblings-instance_method" title="#siblings (instance method)">#<strong>siblings</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Move this node (and all records under it) to a new tree.</p>
 </div></span>
   
 </li>
@@ -359,30 +459,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#update_position_only-instance_method" title="#update_position_only (instance method)">#<strong>update_position_only</strong>(parent_id, position)  &#x21d2; Object </a>
+      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, extra_values = {}, apply_nested_records = true)  &#x21d2; Object </a>
     
 
     
@@ -426,12 +503,12 @@
       <pre class="lines">
 
 
-7
-8
-9</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_ClassMethods constant id'>ClassMethods</span><span class='rparen token'>)</span>
@@ -449,42 +526,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="absolute_position-instance_method">
+  <h3 class="signature first" id="attempt_set_parent_and_position-instance_method">
   
-    #<strong>absolute_position</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-122
-123
-124
-125</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 122</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_absolute_position identifier id'>absolute_position</span>
-  <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="children-instance_method">
-  
-    #<strong>children</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>attempt_set_parent_and_position</strong>(parent_id, position)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -496,69 +540,89 @@
       <pre class="lines">
 
 
+198
+199
 200
 201
-202</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 200</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="has_children?-instance_method">
-  
-    #<strong>has_children?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+202
+203
+204
 205
 206
-207</pre>
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 198</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_has_children? fid id'>has_children?</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_attempt_set_parent_and_position identifier id'>attempt_set_parent_and_position</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span> <span class='eq op'>==</span> <span class='rubyid_parent_id identifier id'>parent_id</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Can&#39;t make a record into its own parent&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_parent_name identifier id'>parent_name</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_parent_id identifier id'>parent_id</span>
+                  <span class='dstring node'>&quot;#{parent_id}@#{self.class.node_record_type}&quot;</span>
+                <span class='rubyid_else else kw'>else</span>
+                  <span class='dstring node'>&quot;root@#{root_uri}&quot;</span>
+                <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_new_values identifier id'>new_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
+    <span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_name identifier id'>parent_name</span><span class='comma token'>,</span>
+    <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_parent_name identifier id'>parent_name</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span>
+    <span class='comment val'># Position is unchanged initially</span>
+    <span class='rubyid_new_values identifier id'>new_values</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='comment val'># Append this node to the new parent initially</span>
+    <span class='rubyid_new_values identifier id'>new_values</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Run through the standard validation without actually saving</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
+
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -567,9 +631,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="order_siblings-instance_method">
+  <h3 class="signature " id="attempt_set_position_in_list-instance_method">
   
-    #<strong>order_siblings</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>attempt_set_position_in_list</strong>(target_logical_position)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -577,8 +641,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>this is just a CYA method, that might be removed in the future. We need to
-be sure that all the positional gaps.j</p>
+    <p>A note on terminology: a logical position refers to the position of a node
+as observed by the user (0…RECORD_COUNT).  A physical position is the
+position number stored in the database, which may have gaps.</p>
 
 
   </div>
@@ -592,22 +657,6 @@ be sure that all the positional gaps.j</p>
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
 56
 57
 58
@@ -622,63 +671,8 @@ be sure that all the positional gaps.j</p>
 67
 68
 69
-70</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 40</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_order_siblings identifier id'>order_siblings</span>
-  <span class='comment val'># add this to avoid DB constraints </span>
-  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='string val'>'CAST(id as CHAR(10))'</span><span class='comma token'>,</span> <span class='string val'>&quot;'_temp'&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
- 
-  <span class='comment val'># get set a list of ids and their order based on their position</span>
-  <span class='rubyid_position_map identifier id'>position_map</span> <span class='assign token'>=</span> <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='comma token'>,</span><span class='lparen token'>(</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span> <span class='bitor op'>|</span> <span class='rubyid_m identifier id'>m</span><span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_index identifier id'>index</span><span class='semicolon token'>;</span> <span class='rubyid_m identifier id'>m</span> <span class='rbrace token'>}</span>
-  
-  <span class='comment val'># now we do the update in batches of 200 </span>
-  <span class='rubyid_position_map identifier id'>position_map</span><span class='dot token'>.</span><span class='rubyid_each_slice identifier id'>each_slice</span><span class='lparen token'>(</span><span class='integer val'>200</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_pm identifier id'>pm</span><span class='bitor op'>|</span>
-    <span class='comment val'># the slice reformat the hash...so quickly format it back </span>
-    <span class='rubyid_pm identifier id'>pm</span> <span class='assign token'>=</span> <span class='rubyid_pm identifier id'>pm</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_m identifier id'>m</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_m identifier id'>m</span><span class='lbrack token'>[</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='semicolon token'>;</span> <span class='rubyid_m identifier id'>m</span> <span class='rbrace token'>}</span> 
-    <span class='comment val'># this ids that we're updating in this batch </span>
-    <span class='rubyid_sibling_ids identifier id'>sibling_ids</span> <span class='assign token'>=</span> <span class='rubyid_pm identifier id'>pm</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span> 
-   
-    <span class='comment val'># the resulting update will look like:</span>
-    <span class='comment val'>#  UPDATE &quot;ARCHIVAL_OBJECT&quot; SET &quot;POSITION&quot; = (CASE WHEN (&quot;ID&quot; = 10914)</span>
-    <span class='comment val'>#  THEN 0 WHEN (&quot;ID&quot; = 10915) THEN 1 WHEN (&quot;ID&quot; = 10912) THEN 2 WHEN</span>
-    <span class='comment val'>#  (&quot;ID&quot; = 10913) THEN 3 WHEN (&quot;ID&quot; = 10916) THEN 4 WHEN (&quot;ID&quot; = 10921)</span>
-    <span class='comment val'>#  THEN 5 WHEN (&quot;ID&quot; = 10917) THEN 6 WHEN (&quot;ID&quot; = 10920) THEN 7 ELSE 0</span>
-    <span class='comment val'>#  END) WHERE ((&quot;ROOT_RECORD_ID&quot; = 3) AND (&quot;PARENT_ID&quot; = 10911) AND (NOT</span>
-    <span class='comment val'>#  &quot;POSITION&quot; IS NULL) AND (&quot;ID&quot; IN (10914, 10915, 10912, 10913, 10916,</span>
-    <span class='comment val'>#  10921, 10917, 10920))</span>
-    <span class='comment val'>#  )</span>
-    <span class='comment val'># this should be faster than just iterating thru all the children,</span>
-    <span class='comment val'># since it does it in batches of 200 and limits the number of updates.  </span>
-    <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_sibling_ids identifier id'>sibling_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span> <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_case identifier id'>case</span><span class='lparen token'>(</span><span class='rubyid_pm identifier id'>pm</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
- 
-  <span class='comment val'># now we return the parent_name back so our DB constraints are back on.:w</span>
-  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span> <span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_position_in_list-instance_method">
-  
-    #<strong>set_position_in_list</strong>(target_position, sequence)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+70
+71
 72
 73
 74
@@ -727,59 +721,336 @@ be sure that all the positional gaps.j</p>
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 56</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
-  
-  <span class='comment val'># Find the position of the element we'll be inserted after.  If there are no</span>
-  <span class='comment val'># elements, or if our target position is zero, then we'll get inserted at</span>
-  <span class='comment val'># position zero.</span>
-  <span class='rubyid_predecessor identifier id'>predecessor</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_target_position identifier id'>target_position</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
-                  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='bitnot op'>~</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_limit identifier id'>limit</span><span class='lparen token'>(</span><span class='rubyid_target_position identifier id'>target_position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
-                <span class='rubyid_else else kw'>else</span>
-                  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-                <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_attempt_set_position_in_list identifier id'>attempt_set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='rparen token'>)</span>
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+    <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+    <span class='rubyid_siblings_count identifier id'>siblings_count</span> <span class='assign token'>=</span> <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 
-  <span class='rubyid_new_position identifier id'>new_position</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='integer val'>? </span><span class='lparen token'>(</span><span class='rubyid_predecessor identifier id'>predecessor</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='integer val'>1</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
+    <span class='rubyid_target_logical_position identifier id'>target_logical_position</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='comma token'>,</span> <span class='rubyid_siblings_count identifier id'>siblings_count</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
 
+    <span class='rubyid_current_physical_position identifier id'>current_physical_position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='rubyid_current_logical_position identifier id'>current_logical_position</span> <span class='assign token'>=</span> <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_current_physical_position identifier id'>current_physical_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 
-  <span class='float val'>100</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
-      <span class='comment val'># Go right to the database here to avoid bumping lock_version for tree changes.</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='rparen token'>)</span>
+    <span class='comment val'># We&#39;ll determine which node will fall to the left of our moved node, and</span>
+    <span class='comment val'># which will fall to the right.  We&#39;re going to set our physical position to</span>
+    <span class='comment val'># the halfway point of those two nodes.  For example, if left node is</span>
+    <span class='comment val'># position 1000 and right node is position 2000, we&#39;ll take position 1500.</span>
+    <span class='comment val'># If there&#39;s no gap, we&#39;ll create one!</span>
+    <span class='comment val'>#</span>
+    <span class='rubyid_left_node_idx identifier id'>left_node_idx</span> <span class='assign token'>=</span> <span class='rubyid_target_logical_position identifier id'>target_logical_position</span> <span class='minus op'>-</span> <span class='integer val'>1</span>
 
-      <span class='rubyid_return return kw'>return</span>
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
-      <span class='comment val'># Someone's in our spot!  Move everyone out of the way and retry.</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_current_logical_position identifier id'>current_logical_position</span> <span class='lt op'>&lt;</span> <span class='rubyid_target_logical_position identifier id'>target_logical_position</span>
+      <span class='comment val'># If the node is being moved to the right, we need to adjust our index to</span>
+      <span class='comment val'># compensate for the fact that everything logically shifts to the left as we</span>
+      <span class='comment val'># pop it out.</span>
+      <span class='rubyid_left_node_idx identifier id'>left_node_idx</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+    <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'># Bump the sequence to maintain the invariant that sequence.number &gt;= max(position)</span>
-      <span class='comment val'># (since we're about to increment the last N positions by 1)</span>
-      <span class='rubyid_Sequence constant id'>Sequence</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
+    <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span> <span class='assign token'>=</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_left_node_idx identifier id'>left_node_idx</span> <span class='lt op'>&lt;</span> <span class='integer val'>0</span>
+        <span class='comment val'># We&#39;ll be the first item in the list (nobody to the left of us)</span>
+        <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span><span class='dot token'>.</span><span class='rubyid_offset identifier id'>offset</span><span class='lparen token'>(</span><span class='rubyid_left_node_idx identifier id'>left_node_idx</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'># Sigh.  Work around:</span>
-      <span class='comment val'># http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint</span>
-      <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span>
-      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
-      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='string val'>'CAST(id as CHAR(10))'</span><span class='comma token'>,</span> <span class='string val'>&quot;'_temp'&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_right_node_idx identifier id'>right_node_idx</span> <span class='assign token'>=</span> <span class='rubyid_left_node_idx identifier id'>left_node_idx</span> <span class='plus op'>+</span> <span class='integer val'>1</span>
 
-      <span class='comment val'># Do the update we actually wanted</span>
-      <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span>
-      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
-      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='string val'>'position + 1'</span><span class='rparen token'>)</span><span class='rparen token'>)</span> 
+    <span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span> <span class='assign token'>=</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_right_node_idx identifier id'>right_node_idx</span> <span class='geq op'>&gt;=</span> <span class='rubyid_siblings_count identifier id'>siblings_count</span>
+        <span class='comment val'># We&#39;ll be the last item in the list (nobody to the right of us)</span>
+        <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span><span class='dot token'>.</span><span class='rubyid_offset identifier id'>offset</span><span class='lparen token'>(</span><span class='rubyid_right_node_idx identifier id'>right_node_idx</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
 
+    <span class='rubyid_new_position identifier id'>new_position</span> <span class='assign token'>=</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+        <span class='comment val'># We&#39;re first in the list!</span>
+        <span class='rubyid_new_position identifier id'>new_position</span> <span class='assign token'>=</span> <span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='colon2 op'>::</span><span class='rubyid_POSITION_STEP constant id'>POSITION_STEP</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+          <span class='comment val'># Add to the end</span>
+          <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span> <span class='plus op'>+</span> <span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='colon2 op'>::</span><span class='rubyid_POSITION_STEP constant id'>POSITION_STEP</span>
+        <span class='rubyid_else else kw'>else</span>
+          <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span> <span class='opasgn op'>||=</span> <span class='integer val'>0</span>
 
-      <span class='comment val'># Puts it back again</span>
-      <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span>
-      <span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='rbrace token'>}</span><span class='dot token'>.</span>
-      <span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span> <span class='rparen token'>)</span>
-      <span class='comment val'># Now there's a gap at new_position ready for our element.</span>
-    <span class='rbrace token'>}</span>
+          <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span> <span class='minus op'>-</span> <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span><span class='rparen token'>)</span> <span class='leq op'>&lt;=</span> <span class='integer val'>1</span>
+            <span class='comment val'># We need to create a gap to fit our moved node</span>
+            <span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span> <span class='assign token'>=</span> <span class='rubyid_ensure_gap identifier id'>ensure_gap</span><span class='lparen token'>(</span><span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
+
+          <span class='comment val'># Put the node we&#39;re moving halfway between the left and right nodes</span>
+          <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span> <span class='plus op'>+</span> <span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_right_node_physical_position identifier id'>right_node_physical_position</span> <span class='minus op'>-</span> <span class='rubyid_left_node_physical_position identifier id'>left_node_physical_position</span><span class='rparen token'>)</span> <span class='div op'>/</span> <span class='integer val'>2</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span>
+      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='comma token'>,</span>
+              <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="children-instance_method">
+  
+    #<strong>children</strong>  &#x21d2; <tt>Object</tt> 
+  
 
-  <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Failed to set the position for #{self}&quot;</span>
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 240</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ensure_gap-instance_method">
+  
+    #<strong>ensure_gap</strong>(start_physical_position)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 127</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_gap identifier id'>ensure_gap</span><span class='lparen token'>(</span><span class='rubyid_start_physical_position identifier id'>start_physical_position</span><span class='rparen token'>)</span>
+  <span class='rubyid_siblings identifier id'>siblings</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span>
+             <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
+             <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
+             <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='geq op'>&gt;=</span> <span class='rubyid_start_physical_position identifier id'>start_physical_position</span> <span class='rbrace token'>}</span>
+
+  <span class='comment val'># Sigh.  Work around:</span>
+  <span class='comment val'># http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint</span>
+  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='string val'>&#39;CAST(id as CHAR(10))&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;&#39;_temp&#39;&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Do the real update</span>
+  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_lit identifier id'>lit</span><span class='lparen token'>(</span><span class='string val'>&#39;position + &#39;</span> <span class='plus op'>+</span> <span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='colon2 op'>::</span><span class='rubyid_POSITION_STEP constant id'>POSITION_STEP</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                  <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Puts it back again</span>
+  <span class='rubyid_siblings identifier id'>siblings</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_start_physical_position identifier id'>start_physical_position</span> <span class='plus op'>+</span> <span class='rubyid_TreeNodes constant id'>TreeNodes</span><span class='colon2 op'>::</span><span class='rubyid_POSITION_STEP constant id'>POSITION_STEP</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_children?-instance_method">
+  
+    #<strong>has_children?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 245</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_has_children? fid id'>has_children?</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="logical_position-instance_method">
+  
+    #<strong>logical_position</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 148</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_logical_position identifier id'>logical_position</span>
+  <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_parent_and_position-instance_method">
+  
+    #<strong>set_parent_and_position</strong>(parent_id, position)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 191</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_parent_and_position identifier id'>set_parent_and_position</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_retry_db_update identifier id'>retry_db_update</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_attempt_set_parent_and_position identifier id'>attempt_set_parent_and_position</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_position_in_list-instance_method">
+  
+    #<strong>set_position_in_list</strong>(target_logical_position)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 46</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_retry_db_update identifier id'>retry_db_update</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_attempt_set_position_in_list identifier id'>attempt_set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -796,84 +1067,61 @@ be sure that all the positional gaps.j</p>
   
 
   
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Move this node (and all records under it) to a new tree.</p>
 
 
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 12</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_root identifier id'>set_root</span><span class='lparen token'>(</span><span class='rubyid_new_root identifier id'>new_root</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span> <span class='assign token'>=</span> <span class='rubyid_new_root identifier id'>new_root</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
-  <span class='rubyid_save identifier id'>save</span>
-  <span class='rubyid_refresh identifier id'>refresh</span>
-
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='comment val'># Set ourselves to the end of the list</span>
-    <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
-    <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_set_root identifier id'>set_root</span><span class='lparen token'>(</span><span class='rubyid_new_root identifier id'>new_root</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
+  </div>
 </div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="siblings-instance_method">
-  
-    #<strong>siblings</strong>  &#x21d2; <tt>Object</tt> 
+<div class="tags">
   
 
-  
-
-  
-</h3><table class="source_code">
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
+26
+27
+28
+29
 30
 31
 32
 33
 34
-35</pre>
+35
+36
+37
+38
+39
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 26</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_siblings identifier id'>siblings</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span>
-     <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span>
-            <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
-            <span class='bitnot op'>~</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_set_root identifier id'>set_root</span><span class='lparen token'>(</span><span class='rubyid_new_root identifier id'>new_root</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span> <span class='assign token'>=</span> <span class='rubyid_new_root identifier id'>new_root</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='comment val'># This top-level node has been moved to a new tree.  Append it to the end of the list.</span>
+    <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;root@#{root_uri}&quot;</span>
+
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_save identifier id'>save</span>
+  <span class='rubyid_refresh identifier id'>refresh</span>
+
+  <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
+    <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_set_root identifier id'>set_root</span><span class='lparen token'>(</span><span class='rubyid_new_root identifier id'>new_root</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -896,43 +1144,27 @@ be sure that all the positional gaps.j</p>
       <pre class="lines">
 
 
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226</pre>
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 250</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  
- 
   <span class='comment val'># All records under this one will be transferred too</span>
   <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
     <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> 
-  <span class='comment val'>#  child.update_position_only( child.parent_id, i ) </span>
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span> <span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-  <span class='rubyid_end end kw'>end</span>
-    
-  <span class='comment val'># ensure that the sequence if updated </span>
-  
-  <span class='rubyid_super super kw'>super</span> 
+
+  <span class='comment val'># ensure that the sequence if updated</span>
+  <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -955,13 +1187,13 @@ be sure that all the positional gaps.j</p>
       <pre class="lines">
 
 
-147
-148
-149
-150</pre>
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 185</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_trigger_index_of_child_nodes identifier id'>trigger_index_of_child_nodes</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
@@ -976,7 +1208,7 @@ be sure that all the positional gaps.j</p>
       <div class="method_details ">
   <h3 class="signature " id="update_from_json-instance_method">
   
-    #<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
+    #<strong>update_from_json</strong>(json, extra_values = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -988,66 +1220,6 @@ be sure that all the positional gaps.j</p>
       <pre class="lines">
 
 
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 128</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-  <span class='rubyid_sequence identifier id'>sequence</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_sequence_for identifier id'>sequence_for</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_root_record identifier id'>set_root_record</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
-
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-
-  <span class='comment val'># Then lock in a position (which may involve contention with other updates</span>
-  <span class='comment val'># happening to the same tree of records)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_trigger_index_of_child_nodes identifier id'>trigger_index_of_child_nodes</span>
-
-  <span class='rubyid_obj identifier id'>obj</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="update_position_only-instance_method">
-  
-    #<strong>update_position_only</strong>(parent_id, position)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-153
 154
 155
 156
@@ -1076,70 +1248,39 @@ be sure that all the positional gaps.j</p>
 179
 180
 181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197</pre>
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 154</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span>
-    <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_parent_uri identifier id'>parent_uri</span> <span class='assign token'>=</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='integer val'>? </span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_root_uri identifier id'>root_uri</span>
-    <span class='rubyid_sequence identifier id'>sequence</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{parent_uri}_children_position&quot;</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_parent_name identifier id'>parent_name</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_parent_id identifier id'>parent_id</span>
-                    <span class='dstring node'>&quot;#{parent_id}@#{self.class.node_record_type}&quot;</span>
-                  <span class='rubyid_else else kw'>else</span>
-                    <span class='dstring node'>&quot;root@#{root_uri}&quot;</span>
-                  <span class='rubyid_end end kw'>end</span>
-    
+  <span class='rubyid_do_position_override identifier id'>do_position_override</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='orop op'>||</span> <span class='rubyid_extra_values identifier id'>extra_values</span><span class='lbrack token'>[</span><span class='symbol val'>:force_reposition</span><span class='rbrack token'>]</span>
 
-    <span class='rubyid_new_values identifier id'>new_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span>
-      <span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_name identifier id'>parent_name</span><span class='comma token'>,</span>
-      <span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Sequence constant id'>Sequence</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-      <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
-    <span class='rbrace token'>}</span>
-    
-    <span class='comment val'># Run through the standard validation without actually saving</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate identifier id'>validate</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  
-   
-    <span class='comment val'># let's try and update the position. If it doesn't work, then we'll fix </span>
-    <span class='comment val'># the position when we set it in the list...there can be problems when</span>
-    <span class='comment val'># transfering to another repo when there's holes in the tree...</span>
-    <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span> 
-      <span class='rubyid_new_values identifier id'>new_values</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span> 
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_new_values identifier id'>new_values</span><span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span>
-   
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_position identifier id'>position</span><span class='comma token'>,</span> <span class='rubyid_sequence identifier id'>sequence</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_position identifier id'>position</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_do_position_override identifier id'>do_position_override</span>
+    <span class='rubyid_extra_values identifier id'>extra_values</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:force_reposition</span><span class='rparen token'>)</span>
+    <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='comment val'># Through some inexplicable sequence of events, the update is allowed to</span>
+    <span class='comment val'># change the root record on the fly.  I guess we&#39;ll allow this...</span>
+    <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='rubyid_extra_values identifier id'>extra_values</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_determine_tree_position_for_new_node identifier id'>determine_tree_position_for_new_node</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Root not set for record #{self.inspect}&quot;</span>
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+      <span class='comment val'># The incoming JSON had no position set.  Just keep what we already had.</span>
+      <span class='rubyid_extra_values identifier id'>extra_values</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='comment val'># Our incoming JSON wants to set the position.  That&#39;s fine</span>
+    <span class='rubyid_set_position_in_list identifier id'>set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_trigger_index_of_child_nodes identifier id'>trigger_index_of_child_nodes</span>
+
+  <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1152,9 +1293,9 @@ be sure that all the positional gaps.j</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:08 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

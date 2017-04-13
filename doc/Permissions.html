@@ -6,7 +6,7 @@
 <title>
   Class: Permissions
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: Permissions
   
@@ -211,9 +209,9 @@
   <span class='rubyid_permission_set identifier id'>permission_set</span> <span class='assign token'>=</span> <span class='rubyid_repo_permissions_map identifier id'>repo_permissions_map</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
 
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'key'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_permission_set identifier id'>permission_set</span>
+  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;key&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_permission_set identifier id'>permission_set</span>
 
-  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'perms'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_repo_permissions_map identifier id'>repo_permissions_map</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='comma token'>,</span> <span class='rubyid_granted_permissions identifier id'>granted_permissions</span><span class='bitor op'>|</span>
+  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;perms&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_repo_permissions_map identifier id'>repo_permissions_map</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='comma token'>,</span> <span class='rubyid_granted_permissions identifier id'>granted_permissions</span><span class='bitor op'>|</span>
 
                            <span class='rubyid_packed_permissions identifier id'>packed_permissions</span> <span class='assign token'>=</span> <span class='rubyid_permission_set identifier id'>permission_set</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_permission identifier id'>permission</span><span class='bitor op'>|</span>
                              <span class='rubyid_granted_permissions identifier id'>granted_permissions</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_permission identifier id'>permission</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>&quot;1&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;0&quot;</span>
@@ -286,16 +284,16 @@
       <pre class="code"><span class="info file"># File 'frontend/app/models/permissions.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='rubyid_packed_permission_map identifier id'>packed_permission_map</span><span class='comma token'>,</span> <span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='comma token'>,</span> <span class='rubyid_permission identifier id'>permission</span><span class='rparen token'>)</span>
-  <span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_packed_permission_map identifier id'>packed_permission_map</span><span class='lbrack token'>[</span><span class='string val'>'key'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_permission identifier id'>permission</span><span class='rparen token'>)</span>
+  <span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_packed_permission_map identifier id'>packed_permission_map</span><span class='lbrack token'>[</span><span class='string val'>&#39;key&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_permission identifier id'>permission</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_position identifier id'>position</span>
-    <span class='comment val'># Any permission not in our key list isn't granted in any repo</span>
+    <span class='comment val'># Any permission not in our key list isn&#39;t granted in any repo</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='comment val'># Otherwise, the permission is granted if there's a &quot;1&quot; in the appropriate</span>
+  <span class='comment val'># Otherwise, the permission is granted if there&#39;s a &quot;1&quot; in the appropriate</span>
   <span class='comment val'># position</span>
-  <span class='rubyid_packed_permissions identifier id'>packed_permissions</span> <span class='assign token'>=</span> <span class='rubyid_packed_permission_map identifier id'>packed_permission_map</span><span class='lbrack token'>[</span><span class='string val'>'perms'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='rbrack token'>]</span>
+  <span class='rubyid_packed_permissions identifier id'>packed_permissions</span> <span class='assign token'>=</span> <span class='rubyid_packed_permission_map identifier id'>packed_permission_map</span><span class='lbrack token'>[</span><span class='string val'>&#39;perms&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='rbrack token'>]</span>
   <span class='rubyid_packed_permissions identifier id'>packed_permissions</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_packed_permissions identifier id'>packed_permissions</span><span class='lbrack token'>[</span><span class='rubyid_position identifier id'>position</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;1&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -309,9 +307,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:26 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

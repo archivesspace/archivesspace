@@ -6,7 +6,7 @@
 <title>
   Class: UserDefinedFieldMigrator
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: UserDefinedFieldMigrator
   
@@ -366,8 +364,8 @@
                                <span class='symbol val'>:json_schema_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='comma token'>,</span>
                                <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='comma token'>,</span>
                                <span class='symbol val'>:user_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='comma token'>,</span>
-                               <span class='symbol val'>:created_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'admin'</span><span class='comma token'>,</span>
-                               <span class='symbol val'>:last_modified_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'admin'</span><span class='comma token'>,</span>
+                               <span class='symbol val'>:created_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span>
+                               <span class='symbol val'>:last_modified_by</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span>
                                <span class='symbol val'>:create_time</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
           <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
@@ -550,7 +548,7 @@
 
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:at_target_aspace_repo</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;No repository found for repo_code '#{AppConfig[:at_target_aspace_repo]}'&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_repo identifier id'>repo</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;No repository found for repo_code &#39;#{AppConfig[:at_target_aspace_repo]}&#39;&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_repo identifier id'>repo</span>
 
 
   <span class='rubyid_set_up_temp_tables identifier id'>set_up_temp_tables</span>
@@ -597,11 +595,11 @@
               <span class='rubyid_at_containers identifier id'>at_containers</span> <span class='assign token'>=</span> <span class='rubyid_at identifier id'>at</span><span class='dot token'>.</span><span class='rubyid_find_matching_containers identifier id'>find_matching_containers</span><span class='lparen token'>(</span><span class='rubyid_mapping identifier id'>mapping</span><span class='lbrack token'>[</span><span class='symbol val'>:at_column</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_at_record_ids identifier id'>at_record_ids</span><span class='comma token'>,</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='rparen token'>)</span>
 
               <span class='rubyid_if if kw'>if</span> <span class='rubyid_at_containers identifier id'>at_containers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-                <span class='rubyid_true true kw'>true</span> <span class='comment val'># No match, but maybe we'll get it in the next round.</span>
+                <span class='rubyid_true true kw'>true</span> <span class='comment val'># No match, but maybe we&#39;ll get it in the next round.</span>
               <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_at_containers identifier id'>at_containers</span> <span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='symbol val'>:no_data</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
                 <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Ambiguous containers for #{top_container.values.inspect}: #{at_containers.inspect}&quot;</span><span class='rparen token'>)</span>
 
-                <span class='comment val'># Still counts as getting a match for logging purposes, but it's a lousy match!</span>
+                <span class='comment val'># Still counts as getting a match for logging purposes, but it&#39;s a lousy match!</span>
                 <span class='rubyid_got_a_match identifier id'>got_a_match</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
               <span class='rubyid_else else kw'>else</span>
                 <span class='comment val'># puts &quot;#{top_container.id}: Good!&quot;</span>
@@ -619,8 +617,8 @@
                   <span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span>
                   <span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='bitnot op'>~</span><span class='lparen token'>(</span><span class='symbol val'>:accession_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span>
                   <span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
-                <span class='comment val'># That's OK.  The top container is linked to an accession, so</span>
-                <span class='comment val'># not a huge problem that we didn't find a match.</span>
+                <span class='comment val'># That&#39;s OK.  The top container is linked to an accession, so</span>
+                <span class='comment val'># not a huge problem that we didn&#39;t find a match.</span>
                 <span class='rubyid_true true kw'>true</span>
               <span class='rubyid_else else kw'>else</span>
                 <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No matching containers for #{top_container}: #{top_container.values.inspect}&quot;</span><span class='rparen token'>)</span>
@@ -645,9 +643,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:25 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

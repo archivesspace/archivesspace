@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceImport::XML::SAX::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../../../class_list.html"></iframe>
+      <iframe id="nav" src="../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../../../class_list.html"></iframe>
 
       <div id="content"><h1>Module: ASpaceImport::XML::SAX::ClassMethods
   
@@ -149,7 +147,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handler_name-instance_method" title="#handler_name (instance method)">#<strong>handler_name</strong>(path, prefix = '')  &#x21d2; Object </a>
+      <a href="#handler_name-instance_method" title="#handler_name (instance method)">#<strong>handler_name</strong>(path, prefix = &#39;&#39;)  &#x21d2; Object </a>
     
 
     
@@ -320,7 +318,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handler_name-instance_method">
   
-    #<strong>handler_name</strong>(path, prefix = '')  &#x21d2; <tt>Object</tt> 
+    #<strong>handler_name</strong>(path, prefix = &#39;&#39;)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -347,7 +345,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 13</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_handler_name identifier id'>handler_name</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='string val'>''</span> <span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handler_name identifier id'>handler_name</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span> <span class='rparen token'>)</span>
   <span class='rubyid_@sticky_nodes ivar id'>@sticky_nodes</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_parts identifier id'>parts</span> <span class='assign token'>=</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span>
   <span class='rubyid_handler_name identifier id'>handler_name</span> <span class='assign token'>=</span> <span class='rubyid_prefix identifier id'>prefix</span> 
@@ -388,8 +386,8 @@
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/xml_sax.rb', line 33</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ignore identifier id'>ignore</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
-  <span class='rubyid_with identifier id'>with</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_and_in_closing identifier id'>and_in_closing</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_with identifier id'>with</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span> <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_and_in_closing identifier id'>and_in_closing</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span> <span class='rubyid_@ignore ivar id'>@ignore</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -487,9 +485,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:08 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

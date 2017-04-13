@@ -6,7 +6,7 @@
 <title>
   Class: PDFResponse
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: PDFResponse
   
@@ -124,6 +122,23 @@
   
 </p>
 
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="CONTROL_CHARS-constant" class="">CONTROL_CHARS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>32</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:chr</span><span class='rparen token'>)</span>
+</pre></dd>
+    
+      <dt id="VALID_CONTROL_CHARS-constant" class="">VALID_CONTROL_CHARS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span><span class='integer val'>0x9</span><span class='comma token'>,</span> <span class='integer val'>0x</span><span class='rubyid_A constant id'>A</span><span class='comma token'>,</span> <span class='integer val'>0x</span><span class='rubyid_D constant id'>D</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:chr</span><span class='rparen token'>)</span>
+</pre></dd>
+    
+  </dl>
+
 
 
 
@@ -137,6 +152,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clean_invalid_xml_chars-instance_method" title="#clean_invalid_xml_chars (instance method)">#<strong>clean_invalid_xml_chars</strong>(s)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -245,7 +283,50 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="generate-instance_method">
+  <h3 class="signature first" id="clean_invalid_xml_chars-instance_method">
+  
+    #<strong>clean_invalid_xml_chars</strong>(s)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/pdf_response.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_invalid_xml_chars identifier id'>clean_invalid_xml_chars</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
+  <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='dregexp node'>/[#{CONTROL_CHARS.join(&quot;&quot;)}]/</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ch identifier id'>ch</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_VALID_CONTROL_CHARS constant id'>VALID_CONTROL_CHARS</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_ch identifier id'>ch</span><span class='rparen token'>)</span>
+      <span class='rubyid_ch identifier id'>ch</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='string val'>&quot;&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate-instance_method">
   
     #<strong>generate</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -259,19 +340,6 @@
       <pre class="lines">
 
 
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
 49
 50
 51
@@ -279,10 +347,23 @@
 53
 54
 55
-56</pre>
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/pdf_response.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/pdf_response.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate identifier id'>generate</span>
   <span class='comment val'># PDFs can be large, so return a file handle instead of loading everything into memory</span>
@@ -290,10 +371,10 @@
   <span class='rubyid_output_stream identifier id'>output_stream</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_io identifier id'>io</span><span class='dot token'>.</span><span class='rubyid_FileOutputStream constant id'>FileOutputStream</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_output_pdf_file identifier id'>output_pdf_file</span><span class='rparen token'>)</span>
 
   <span class='rubyid_html_file identifier id'>html_file</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>&quot;pdf_response_html&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_html_file identifier id'>html_file</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_@html_report ivar id'>@html_report</span><span class='rparen token'>)</span>
+  <span class='rubyid_html_file identifier id'>html_file</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_clean_invalid_xml_chars identifier id'>clean_invalid_xml_chars</span><span class='lparen token'>(</span><span class='rubyid_@html_report ivar id'>@html_report</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_html_file identifier id'>html_file</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
 
-  <span class='comment val'># No longer needed - can be GC'd</span>
+  <span class='comment val'># No longer needed - can be GC&#39;d</span>
   <span class='rubyid_@html_report ivar id'>@html_report</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
 
   <span class='rubyid_begin begin kw'>begin</span>
@@ -316,9 +397,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:22 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:36 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

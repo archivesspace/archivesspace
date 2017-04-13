@@ -6,7 +6,7 @@
 <title>
   Class: AuthenticationManager
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: AuthenticationManager
   
@@ -133,7 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Attempt to authenticate <code>user' with the provided </code>password&#8217;.</p>
+    <span class="summary_desc"><div class='inline'><p>Attempt to authenticate <code>user' with the provided </code>password’.</p>
 </div></span>
   
 </li>
@@ -228,7 +226,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Attempt to authenticate <code>user' with the provided </code>password&#8217;.
+    <p>Attempt to authenticate <code>user' with the provided </code>password’.
 Return a User object if successful, nil otherwise</p>
 
 
@@ -320,9 +318,9 @@ Return a User object if successful, nil otherwise</p>
                                 <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
                                 <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rparen token'>)</span>
         <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_NoExistingObject constant id'>NoExistingObject</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-          <span class='comment val'># We'll swallow these because they only really mean that the user</span>
+          <span class='comment val'># We&#39;ll swallow these because they only really mean that the user</span>
           <span class='comment val'># logged in twice simultaneously.  As long as one of the updates</span>
-          <span class='comment val'># succeeded it doesn't really matter.</span>
+          <span class='comment val'># succeeded it doesn&#39;t really matter.</span>
           <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_warn identifier id'>warn</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Got an optimistic locking error when updating user: #{e}&quot;</span><span class='rparen token'>)</span>
 
           <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_User constant id'>User</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='rparen token'>)</span>
@@ -461,9 +459,9 @@ Return a User object if successful, nil otherwise</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:24 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: BACKEND_AUTHENTICATION
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="adding-support-for-additional-usernamepassword-based-authentication-backends">Adding support for additional username/password-based authentication backends</h1>
 
 <p>ArchivesSpace supports LDAP-based authentication out of the box, but
@@ -73,19 +71,19 @@ key methods:</p>
 
 <ul>
   <li>
-    <p><code>initialize(opts)</code> &#8211; An object constructor which receives the
-configuration block specified in the system&#8217;s configuration.</p>
+    <p><code>initialize(opts)</code> – An object constructor which receives the
+configuration block specified in the system’s configuration.</p>
   </li>
   <li>
-    <p><code>name</code> &#8211; A zero-argument method which just returns a string that
+    <p><code>name</code> – A zero-argument method which just returns a string that
 identifies the instance of your handler.  The format of this
-string isn&#8217;t important: it just gets stored as a user attribute
+string isn’t important: it just gets stored as a user attribute
 (in the ArchivesSpace database) to make it possible to tell which
 authentication source a user last successfully authenticated
 against.</p>
   </li>
   <li>
-    <p><code>authenticate(username, password)</code> &#8211; a method which checks
+    <p><code>authenticate(username, password)</code> – a method which checks
 whether <code>password</code> is the correct password for <code>username</code>.  If the
 password is correct, returns an instance of <code>JSONModel(:user)</code>.
 Otherwise, returns <code>nil</code>.</p>
@@ -93,7 +91,7 @@ Otherwise, returns <code>nil</code>.</p>
 </ul>
 
 <p>A new instance of your handler will be created for each login attempt,
-so there&#8217;s no need to handle concurrency in your implementation.</p>
+so there’s no need to handle concurrency in your implementation.</p>
 
 <p>Your <code>authenticate</code> method can do whatever is required to check that
 the provided password is correct, with the only constraint being that
@@ -103,12 +101,12 @@ it must return either <code>nil</code> or a <code>JSONModel(:user)</code> instan
 <code>common/schemas/user.rb</code>) defines the set of properties that the
 system needs for a user.  When you return a <code>JSONModel(:user)</code> object,
 its values will be used to create an ArchivesSpace user (if a user by
-that name didn&#8217;t exist already), or update the existing user (if they
+that name didn’t exist already), or update the existing user (if they
 were already known).</p>
 
 <p><strong>Note</strong>: <code>The JSONModel(:user)</code> class validates the values you give it
 against its JSON schema and throws an <code>JSONModel::ValidationException</code>
-if anything isn&#8217;t right.  If this happens within your handler, the
+if anything isn’t right.  If this happens within your handler, the
 exception will be logged and the authentication request will fail.</p>
 
 <h3 id="a-skeleton-implementation">A skeleton implementation</h3>
@@ -118,10 +116,10 @@ should be able to log in to ArchivesSpace.  Below is a sketch of an
 authentication handler that will connect to this database and use it
 for authentication.</p>
 
-<pre class="code ruby"><code class="ruby">  <span class='comment val'># For this example we'll use the Sequel database toolkit.  Note that</span>
-  <span class='comment val'># this isn't necessary--you could use whatever database library you</span>
+<pre class="code ruby"><code class="ruby">  <span class='comment val'># For this example we&#39;ll use the Sequel database toolkit.  Note that</span>
+  <span class='comment val'># this isn&#39;t necessary--you could use whatever database library you</span>
   <span class='comment val'># like here.</span>
-  <span class='rubyid_require identifier id'>require</span> <span class='string val'>'sequel'</span>
+  <span class='rubyid_require identifier id'>require</span> <span class='string val'>&#39;sequel&#39;</span>
 
   <span class='rubyid_class class kw'>class</span> <span class='rubyid_MyDatabaseAuth constant id'>MyDatabaseAuth</span>
 
@@ -148,13 +146,13 @@ for authentication.</p>
       <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span><span class='lparen token'>(</span><span class='rubyid_@db_url ivar id'>@db_url</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
 
         <span class='comment val'># Check whether we have an entry for the given username</span>
-        <span class='comment val'># and password in our database's &quot;users&quot; table</span>
+        <span class='comment val'># and password in our database&#39;s &quot;users&quot; table</span>
         <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
                                  <span class='symbol val'>:password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span><span class='dot token'>.</span>
                           <span class='rubyid_first identifier id'>first</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_user identifier id'>user</span>
-          <span class='comment val'># The user couldn't be found, or their password was wrong.</span>
+          <span class='comment val'># The user couldn&#39;t be found, or their password was wrong.</span>
           <span class='comment val'># Authentication failed.</span>
           <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
         <span class='rubyid_end end kw'>end</span>
@@ -179,19 +177,19 @@ a new entry to the <code>:authentication_sources</code> configuration block.
 A configuration for the above example might be as follows:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
-                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'MyDatabaseAuth'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:db_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'jdbc:mysql://localhost:3306/somedb?user=myuser&amp;password=mypassword'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;MyDatabaseAuth&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:db_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;jdbc:mysql://localhost:3306/somedb?user=myuser&amp;password=mypassword&#39;</span><span class='comma token'>,</span>
                                        <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<p>That&#8217;s it!  You should now see authentication requests hitting your
+<p>That’s it!  You should now see authentication requests hitting your
 new handler.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

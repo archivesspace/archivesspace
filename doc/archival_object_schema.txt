@@ -22,6 +22,8 @@ object	parent
 
 object	resource
 
+array (Object (ref, level, _resolved))	ancestors
+
 object	series
 
 integer	position
