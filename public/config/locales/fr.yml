@@ -1,0 +1,171 @@
+fr:
+  brand:
+    title: ArchivesSpace Interface publique
+    home: Page d'accueil
+    welcome_message: Bienvenue dans ArchivesSpace
+    welcome_search_label: "Trouvez ce que vous cherchez:"
+
+  actions:
+    search: Recherche
+    browse: Parcourir
+    show_advanced_search: Montrer Recherche avancée
+    hide_advanced_search: Cacher Recherche avancée
+
+
+  pagination:
+    first: Première
+    last: Dernière
+    previous: "&#171;"
+    next: "&#187;"
+    summary_prefix: Montrant
+    summary_offset_connector: "-"
+    summary_total_connector: de
+    summary_suffix: Résultats
+    page_prefix: Page
+    page_connector: de
+
+  search_results:
+    searching: Recherche en cours
+    title: Toutes les notices
+    no_results: Pas de notices
+    no_results_prefix: Aucun résultat pour
+    result_type: Type de notice
+    result_title: Intitulé
+    filtered_by: Filtré par
+    modified: Dernière modification
+    created: Création
+    text_placeholder: Filtrer par texte
+    clear_all: Tout effacer
+    created: Créé
+    modified: Modifié
+    component_switch: Inclure composants
+    filter:
+      show_fewer: Montrer moins
+      show_more: Montrer plus
+      query: Texte
+      subjects: Sujet
+      primary_type: Type
+      repository: Dépôt
+      creators: Producteur
+      fullrecord: Mot-clé
+      subjects_text: Mot-matière
+      title: Intitulé
+      creators_text: Producteur
+      scope: Présentation du contenu
+      notes: Notes
+      source: Source
+      agents: Agents
+      agents_text: Agents
+      classification_uri: Classification
+      linked_agent_roles: Rôle
+
+  search_sorting:
+    sort_by: "Trier par:"
+    and: "et:"
+    asc: Ascendant
+    desc: Descendant
+    relevance: Pertinence
+    title_sort: Intitulé
+    user_mtime: Modifié
+    primary_type: Type de notice
+    processing_priority: Priorité
+    processing_status: Statut
+    parent_id: Type de notice
+    create_time: Créé
+    authority_id: ID autorité
+    source: Source
+    rules: Règles
+    outcome: Résultat
+    event_type: Type
+    identifier: Identifiant
+    select: Sélectionner
+
+  errors:
+    error_404: Notice pas trouvée
+    error_404_message: "La notice à laquelle vous tentez d'accéder n'existe pas ou a été supprimée."
+    backend_down: Pas moyen de se connecter à la base de données
+    backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
+
+  boolean:
+    "true": "Oui"
+    "false": "Non"
+
+  navbar:
+    search_placeholder: Saisissez les termes de votre recherche
+    search_all: Toutes les notices
+
+  advanced_search:
+    operator:
+      AND: Et
+      OR: Ou
+      NOT: Non
+    button_text: Chercher
+    reset: Effacer
+    nav_switcher:
+      show: Recherche avancée
+      hide: Recherche simple
+    index_switcher:
+      show: Recherche avancée
+      hide: Recherche simple
+
+  accession:
+    _public:
+      section:
+        summary: Résumé
+
+  archival_object:
+    _public:
+      section:
+        components: Composants
+        summary: Résumé
+      messages:
+        no_components: L'objet d'archive n'a pas de composants
+
+  resource:
+    _singular: Collection
+    _plural: Collections
+    _public:
+      section:
+        components: Composants
+        summary: Résumé
+      messages:
+        no_components: La ressource n'a pas de composants
+
+  related_resource:
+    _singular: Collection associée
+    _plural: Collections associées
+
+  digital_object: &digital_object_attributes
+    _public:
+      section:
+        components: Composants
+        summary: Résumé
+      messages:
+        no_components: L'objet numérique n'a pas de composants
+
+  digital_object_component:
+    _public:
+      section:
+        components: Composants
+        summary: Résumé
+      messages:
+        no_components: L'objet numérique composant n'a pas de composants
+
+  agent:
+    _singular: Nom
+    _plural: Noms
+    _public:
+      section:
+        summary: Résumé
+
+  components:
+    expand: Développer
+    collapse: Réduire
+
+  instance:
+    _public:
+      link_to_digital_object: Lier à notice
+
+  record_tree:
+    record_tree_tab: Arborescence des notices
+    search_tab: Montrer composants
