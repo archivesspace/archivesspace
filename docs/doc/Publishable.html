@@ -6,7 +6,7 @@
 <title>
   Module: Publishable
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -59,8 +59,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="class_list.html"></iframe>
-
       <div id="content"><h1>Module: Publishable
   
   
@@ -78,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="Accession.html" title="Accession (class)">Accession</a></span>, <span class='object_link'><a href="AgentContact.html" title="AgentContact (class)">AgentContact</a></span>, <span class='object_link'><a href="AgentCorporateEntity.html" title="AgentCorporateEntity (class)">AgentCorporateEntity</a></span>, <span class='object_link'><a href="AgentFamily.html" title="AgentFamily (class)">AgentFamily</a></span>, <span class='object_link'><a href="AgentPerson.html" title="AgentPerson (class)">AgentPerson</a></span>, <span class='object_link'><a href="AgentSoftware.html" title="AgentSoftware (class)">AgentSoftware</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span>, <span class='object_link'><a href="ClassificationTerm.html" title="ClassificationTerm (class)">ClassificationTerm</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span>, <span class='object_link'><a href="ExternalDocument.html" title="ExternalDocument (class)">ExternalDocument</a></span>, <span class='object_link'><a href="FileVersion.html" title="FileVersion (class)">FileVersion</a></span>, <span class='object_link'><a href="Note.html" title="Note (class)">Note</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span>, <span class='object_link'><a href="Subject.html" title="Subject (class)">Subject</a></span></dd>
+    <dd><span class='object_link'><a href="Accession.html" title="Accession (class)">Accession</a></span>, <span class='object_link'><a href="AgentContact.html" title="AgentContact (class)">AgentContact</a></span>, <span class='object_link'><a href="AgentCorporateEntity.html" title="AgentCorporateEntity (class)">AgentCorporateEntity</a></span>, <span class='object_link'><a href="AgentFamily.html" title="AgentFamily (class)">AgentFamily</a></span>, <span class='object_link'><a href="AgentPerson.html" title="AgentPerson (class)">AgentPerson</a></span>, <span class='object_link'><a href="AgentSoftware.html" title="AgentSoftware (class)">AgentSoftware</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span>, <span class='object_link'><a href="ClassificationTerm.html" title="ClassificationTerm (class)">ClassificationTerm</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="DigitalObjectComponent.html" title="DigitalObjectComponent (class)">DigitalObjectComponent</a></span>, <span class='object_link'><a href="ExternalDocument.html" title="ExternalDocument (class)">ExternalDocument</a></span>, <span class='object_link'><a href="FileVersion.html" title="FileVersion (class)">FileVersion</a></span>, <span class='object_link'><a href="Note.html" title="Note (class)">Note</a></span>, <span class='object_link'><a href="Repository.html" title="Repository (class)">Repository</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span>, <span class='object_link'><a href="Subject.html" title="Subject (class)">Subject</a></span></dd>
   </dl>
   
 
@@ -201,10 +199,10 @@
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/publishable.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_db_value_for identifier id'>db_value_for</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
-  <span class='rubyid_published identifier id'>published</span> <span class='assign token'>=</span> <span class='rubyid_Preference constant id'>Preference</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_published identifier id'>published</span> <span class='assign token'>=</span> <span class='rubyid_Preference constant id'>Preference</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'publish'</span><span class='rparen token'>)</span>
-    <span class='rubyid_published identifier id'>published</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'publish'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;publish&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_published identifier id'>published</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_published identifier id'>published</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span>
@@ -251,9 +249,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:08 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

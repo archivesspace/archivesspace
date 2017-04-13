@@ -6,7 +6,7 @@
 <title>
   Class: StaticAssetFinder
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: StaticAssetFinder
   
@@ -255,7 +253,7 @@
   <span class='rubyid_static_dir identifier id'>static_dir</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@valid_paths ivar id'>@valid_paths</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='lbrack token'>[</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_static_dir identifier id'>static_dir</span><span class='comma token'>,</span> <span class='string val'>&quot;**&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;*&quot;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
-                          <span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_file? fid id'>file?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+                          <span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_file? fid id'>file?</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -442,9 +440,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:22 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:35 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

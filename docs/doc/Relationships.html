@@ -6,7 +6,7 @@
 <title>
   Module: Relationships
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: Relationships
   
@@ -199,7 +197,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Find all relationships involving the records in &#8216;victims&#8217; and rewrite them to refer to us instead.</p>
+    <span class="summary_desc"><div class='inline'><p>Find all relationships involving the records in ‘victims’ and rewrite them to refer to us instead.</p>
 </div></span>
   
 </li>
@@ -268,7 +266,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Return all object instances that are related to the current record by the relationship named by &#8216;name&#8217;.</p>
+    <span class="summary_desc"><div class='inline'><p>Return all object instances that are related to the current record by the relationship named by ‘name’.</p>
 </div></span>
   
 </li>
@@ -459,7 +457,7 @@ looking up the DB for each one.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Find all relationships involving the records in &#8216;victims&#8217; and rewrite them
+    <p>Find all relationships involving the records in ‘victims’ and rewrite them
 to refer to us instead.</p>
 
 
@@ -507,7 +505,7 @@ to refer to us instead.</p>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
     <span class='rubyid_victims identifier id'>victims</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:delete</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_and_if_constraint_fails identifier id'>and_if_constraint_fails</span> <span class='lbrace token'>{</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MergeRequestFailed constant id'>MergeRequestFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can't complete merge: record still in use&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_MergeRequestFailed constant id'>MergeRequestFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can&#39;t complete merge: record still in use&quot;</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
 
   <span class='rubyid_trigger_reindex_of_dependants identifier id'>trigger_reindex_of_dependants</span>
@@ -605,7 +603,7 @@ instances involving this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Return all object instances that are related to the current record by the
-relationship named by &#8216;name&#8217;.</p>
+relationship named by ‘name’.</p>
 
 
   </div>
@@ -692,8 +690,8 @@ relationship named by &#8216;name&#8217;.</p>
   <span class='rubyid_predicate identifier id'>predicate</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
     <span class='rubyid_referent identifier id'>referent</span> <span class='assign token'>=</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='dot token'>.</span><span class='rubyid_other_referent_than identifier id'>other_referent_than</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
 
-    <span class='comment val'># Delete the relationship if we're repository-scoped and the referent is</span>
-    <span class='comment val'># in the old repository.  Don't worry about relationships to any of the</span>
+    <span class='comment val'># Delete the relationship if we&#39;re repository-scoped and the referent is</span>
+    <span class='comment val'># in the old repository.  Don&#39;t worry about relationships to any of the</span>
     <span class='comment val'># records that are going to be transferred along with us (listed in</span>
     <span class='comment val'># transfer_group)</span>
     <span class='lparen token'>(</span><span class='rubyid_referent identifier id'>referent</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span> <span class='andop op'>&amp;&amp;</span>
@@ -811,9 +809,9 @@ relationship named by &#8216;name&#8217;.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:09 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

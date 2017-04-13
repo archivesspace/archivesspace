@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceGems
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: ASpaceGems
   
@@ -203,34 +201,34 @@
       <pre class="code"><span class="info file"># File 'common/aspace_gems.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_setup identifier id'>setup</span>
-  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'TMPDIR'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;java.io.tmpdir&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'TEMPDIR'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;java.io.tmpdir&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;TMPDIR&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;java.io.tmpdir&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;TEMPDIR&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;java.io.tmpdir&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;aspace.launcher.base&quot;</span><span class='rparen token'>)</span>
     <span class='comment val'># The environment will have been cleared by launcher.rb, so set</span>
     <span class='comment val'># ASPACE_LAUNCHER_BASE so everything else can find it.</span>
-    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'ASPACE_LAUNCHER_BASE'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;aspace.launcher.base&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;ASPACE_LAUNCHER_BASE&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;aspace.launcher.base&quot;</span><span class='rparen token'>)</span>
 
     <span class='comment val'># When running from the launcher, use its gems.</span>
-    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'GEM_HOME'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;aspace.launcher.base&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;gems&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;GEM_HOME&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;aspace.launcher.base&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;gems&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;catalina.base&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'GEM_HOME'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;catalina.base&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;lib&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;gems&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;GEM_HOME&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_System constant id'>System</span><span class='dot token'>.</span><span class='rubyid_get_property identifier id'>get_property</span><span class='lparen token'>(</span><span class='string val'>&quot;catalina.base&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;lib&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;gems&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='comment val'># If we're not running in either environment, leave everything alone</span>
+    <span class='comment val'># If we&#39;re not running in either environment, leave everything alone</span>
     <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;rubygems&quot;</span>
     <span class='rubyid_return return kw'>return</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'GEM_PATH'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;GEM_PATH&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;rubygems&quot;</span>
 
-  <span class='rubyid_gem_paths identifier id'>gem_paths</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'GEM_HOME'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+  <span class='rubyid_gem_paths identifier id'>gem_paths</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;GEM_HOME&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
 
   <span class='comment val'># Add plugin gem paths too</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
     <span class='rubyid_gemdir identifier id'>gemdir</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_plugin identifier id'>plugin</span><span class='comma token'>,</span> <span class='string val'>&quot;gems&quot;</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_gemdir identifier id'>gemdir</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_gemdir identifier id'>gemdir</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_gemdir identifier id'>gemdir</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span><span class='lparen token'>(</span><span class='rubyid_gemdir identifier id'>gemdir</span><span class='rparen token'>)</span>
       <span class='rubyid_gem_paths identifier id'>gem_paths</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_gemdir identifier id'>gemdir</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -248,9 +246,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:31 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:41 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

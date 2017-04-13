@@ -6,7 +6,7 @@
 <title>
   Module: Agents
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: Agents
   
@@ -185,7 +183,7 @@
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_Relationships constant id'>Relationships</span><span class='rparen token'>)</span>
 
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:linked_agents</span><span class='comma token'>,</span>
-                           <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'linked_agents'</span><span class='comma token'>,</span>
+                           <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span>
                            <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_registered_agents identifier id'>registered_agents</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='symbol val'>:model</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                            <span class='symbol val'>:class_callback</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='bitor op'>|</span>
                              <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_initialize_enum identifier id'>initialize_enum</span><span class='lparen token'>(</span><span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
@@ -203,9 +201,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:07 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:25 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

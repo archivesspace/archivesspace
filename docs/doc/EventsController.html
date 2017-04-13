@@ -6,7 +6,7 @@
 <title>
   Class: EventsController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: EventsController
   
@@ -476,7 +474,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/events_controller.rb', line 118</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
-  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>'event'</span>
+  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;event&#39;</span>
 
   <span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_defaults identifier id'>defaults</span> <span class='integer val'>? </span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_form_values identifier id'>form_values</span> <span class='colon op'>:</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
@@ -670,8 +668,8 @@
   <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
   <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>'default_values'</span><span class='rbrack token'>]</span>
-    <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>'event'</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_values&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;event&#39;</span>
 
     <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_end end kw'>end</span>
@@ -685,9 +683,9 @@
     <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:record_type</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find_by_uri identifier id'>find_by_uri</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:record_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>'_resolved'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span> <span class='string val'>'role'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'source'</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@event ivar id'>@event</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>&#39;_resolved&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='comma token'>,</span> <span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;source&#39;</span><span class='rbrace token'>}</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_referrer identifier id'>referrer</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;/edit&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_@redirect_action ivar id'>@redirect_action</span> <span class='assign token'>=</span> <span class='string val'>'edit'</span>
+      <span class='rubyid_@redirect_action ivar id'>@redirect_action</span> <span class='assign token'>=</span> <span class='string val'>&#39;edit&#39;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -820,7 +818,7 @@
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                               <span class='string val'>&quot;record_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;event&quot;</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:event</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'lock_version'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:event</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                               <span class='string val'>&quot;defaults&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
                                                                       <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:event</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                                                       <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:event</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
@@ -844,9 +842,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:28 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:39 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

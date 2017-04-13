@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ReportErbRenderer::HTMLCleaner
+  
+    &mdash; Documentation by YARD 0.9.8
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "ReportErbRenderer::HTMLCleaner";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (H)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ReportErbRenderer.html" title="ReportErbRenderer (class)">ReportErbRenderer</a></span></span>
+     &raquo; 
+    <span class="title">HTMLCleaner</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ReportErbRenderer::HTMLCleaner
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ReportErbRenderer::HTMLCleaner</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/reports/report_response.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clean-instance_method" title="#clean (instance method)">#<strong>clean</strong>(s)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="clean-instance_method">
+  
+    #<strong>clean</strong>(s)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 185</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_clean identifier id'>clean</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
+  <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_HTML constant id'>HTML</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Remove empty dt/dd pairs</span>
+  <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;dl&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
+    <span class='rubyid_definition identifier id'>definition</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&#39;dt, dd&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each_slice identifier id'>each_slice</span><span class='lparen token'>(</span><span class='integer val'>2</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_dt identifier id'>dt</span><span class='comma token'>,</span> <span class='rubyid_dd identifier id'>dd</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_dd identifier id'>dd</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+        <span class='rubyid_dt identifier id'>dt</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
+        <span class='rubyid_dd identifier id'>dd</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Remove empty dls</span>
+  <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;dl&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_dl identifier id'>dl</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_dl identifier id'>dl</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_dl identifier id'>dl</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Remove empty tables</span>
+  <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;table&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_table identifier id'>table</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_table identifier id'>table</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;td&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_table identifier id'>table</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Remove empty sections</span>
+  <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;section&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_section identifier id'>section</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_section identifier id'>section</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Comment constant id'>Comment</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='orop op'>||</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='string val'>&#39;h3&#39;</span><span class='rbrace token'>}</span>
+      <span class='rubyid_section identifier id'>section</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_xhtml identifier id'>to_xhtml</span><span class='lparen token'>(</span><span class='symbol val'>:save_with</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Remove any spaces Nokogiri inserted between spans that are inter-word</span>
+  <span class='comment val'># breaks.  Avoids funny output like &quot;event ually&quot;.</span>
+  <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='string val'>&#39;&lt;/span&gt; &lt;span&gt;&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;&lt;/span&gt;&lt;span&gt;&#39;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:37 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.8 (ruby-2.3.1).
+</div>
+    </div>
+  </body>
+</html>

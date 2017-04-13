@@ -6,7 +6,7 @@
 <title>
   Schema: subject_schema
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="schema_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -59,8 +59,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="class_list.html"></iframe>
-
       <div id="content">
 
     	<h1>JSON Schema: Subject</h1>
@@ -79,6 +77,8 @@
 				<h3 class="signature"> - (boolean) <strong>is_linked_to_published_record</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>publish</strong></h3>
+			
+				<h3 class="signature"> - (array (JSONModel(:repository) uri)) <strong>used_within_repositories</strong></h3>
 			
 				<h3 class="signature"> - (string) <strong>source</strong></h3>
 			
@@ -129,7 +129,9 @@
 27
 28
 29
-30</pre>
+30
+31
+32</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/subject.rb', line 1</span>
@@ -151,6 +153,8 @@
 
       <span class='string val'>&quot;publish&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;used_within_repositories&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;array&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;items&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSONModel(:repository) uri&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
       <span class='string val'>&quot;source&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span>  <span class='string val'>&quot;dynamic_enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;subject_source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;scope_note&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -170,16 +174,16 @@
       </table>
 			<br />
 			<span><a href="subject_schema.txt">Plain Text Version</a></span>
-			</div>
+
 
 
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:32 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

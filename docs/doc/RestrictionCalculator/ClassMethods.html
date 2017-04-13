@@ -6,7 +6,7 @@
 <title>
   Module: RestrictionCalculator::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Module: RestrictionCalculator::ClassMethods
   
@@ -170,10 +168,10 @@
 
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:skip_restrictions</span><span class='rbrack token'>]</span>
     <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-      <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'active_restrictions'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_active_restrictions identifier id'>active_restrictions</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_restriction identifier id'>restriction</span><span class='bitor op'>|</span>
+      <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;active_restrictions&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_active_restrictions identifier id'>active_restrictions</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_restriction identifier id'>restriction</span><span class='bitor op'>|</span>
         <span class='rubyid_RightsRestriction constant id'>RightsRestriction</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_restriction identifier id'>restriction</span><span class='rparen token'>)</span>
       <span class='rbrace token'>}</span>
-      <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'restricted'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>'active_restrictions'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;restricted&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;active_restrictions&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -190,9 +188,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:10 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

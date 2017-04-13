@@ -6,7 +6,7 @@
 <title>
   Class: SystemInfoController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: SystemInfoController
   
@@ -226,7 +224,7 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@app_context ivar id'>@app_context</span>  <span class='eq op'>==</span> <span class='string val'>&quot;backend_info&quot;</span>
    <span class='rubyid_@info ivar id'>@info</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_load identifier id'>load</span><span class='lparen token'>(</span> <span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;/system/info&quot;</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
                            <span class='string val'>&quot;X-ArchivesSpace-Session&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_session</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                           <span class='string val'>&quot;Accept&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'application/json'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span> <span class='rparen token'>)</span> 
+                           <span class='string val'>&quot;Accept&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;application/json&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span> <span class='rparen token'>)</span> 
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@app_context ivar id'>@app_context</span> <span class='eq op'>==</span> <span class='string val'>&quot;frontend_info&quot;</span> 
     <span class='rubyid_@info ivar id'>@info</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_get_diagnostics identifier id'>get_diagnostics</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='symbol val'>:exception</span> <span class='rbrace token'>}</span> 
   <span class='rubyid_else else kw'>else</span>
@@ -296,9 +294,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:29 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:40 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

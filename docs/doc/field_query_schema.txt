@@ -10,6 +10,8 @@ string	value
 
 boolean	literal
 
+string	comparator
+
 
 
 

@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceSchema
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: ArchivesSpaceSchema
   
@@ -368,7 +366,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span><span class='lparen token'>(</span><span class='rubyid_current_schema identifier id'>current_schema</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
 
-  <span class='comment val'># Run any custom validations if we've made it this far with no errors</span>
+  <span class='comment val'># Run any custom validations if we&#39;ve made it this far with no errors</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_already_failed? fid id'>already_failed?</span><span class='lparen token'>(</span><span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;validations&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_current_schema identifier id'>current_schema</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;validations&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_level_and_name identifier id'>level_and_name</span><span class='bitor op'>|</span>
       <span class='rubyid_level identifier id'>level</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_level_and_name identifier id'>level_and_name</span>
@@ -383,7 +381,7 @@
         <span class='rubyid_else else kw'>else</span>
           <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_msg identifier id'>msg</span> <span class='assign token'>=</span> <span class='rubyid_error identifier id'>error</span>
           <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='rubyid_level identifier id'>level</span> <span class='eq op'>==</span> <span class='symbol val'>:warning</span> <span class='question op'>?</span> <span class='string val'>&quot;Warning generated for&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;Validation failed for&quot;</span>
-          <span class='rubyid_error_string identifier id'>error_string</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{prefix} '#{field}': #{msg}&quot;</span>
+          <span class='rubyid_error_string identifier id'>error_string</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{prefix} &#39;#{field}&#39;: #{msg}&quot;</span>
 
         <span class='rubyid_end end kw'>end</span>
 
@@ -408,9 +406,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:32 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: PLUGINS_README
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h2 id="archivesspace-plug-ins-readme">ArchivesSpace Plug-ins README</h2>
 
 <p>Plug-ins provide a mechanism to customize ArchivesSpace by overriding or extending functions
@@ -70,7 +68,7 @@ sharing of packages of customization between ArchivesSpace instances.</p>
 <p>Plug-ins are enabled by placing them in the <code>plugins</code> directory, and referencing them in the
 ArchivesSpace configuration, <code>common/config/config.rb</code>. For example:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:plugins</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>'local'</span><span class='comma token'>,</span> <span class='string val'>'hello_world'</span><span class='comma token'>,</span> <span class='string val'>'my_plugin'</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:plugins</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;local&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;hello_world&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;my_plugin&#39;</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>This configuration assumes the following directories exist:</p>
@@ -93,6 +91,8 @@ be used to override or extend the behavior of the core application.</p>
 <pre class="code ruby"><code class="ruby"><span class='rubyid_backend identifier id'>backend</span>
   <span class='rubyid_controllers identifier id'>controllers</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_endpoints identifier id'>endpoints</span>
   <span class='rubyid_model identifier id'>model</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_mapping identifier id'>mapping</span> <span class='rubyid_models identifier id'>models</span>
+  <span class='rubyid_converters identifier id'>converters</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot token'>.</span> <span class='rubyid_classes identifier id'>classes</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_importing identifier id'>importing</span> <span class='rubyid_data identifier id'>data</span>
+  <span class='rubyid_job_runners identifier id'>job_runners</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_classes identifier id'>classes</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_defining identifier id'>defining</span> <span class='rubyid_background identifier id'>background</span> <span class='rubyid_jobs identifier id'>jobs</span>
   <span class='rubyid_plugin_init identifier id'>plugin_init</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_present identifier id'>present</span><span class='comma token'>,</span> <span class='rubyid_loaded identifier id'>loaded</span> <span class='rubyid_when when kw'>when</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_first identifier id'>first</span> <span class='rubyid_starts identifier id'>starts</span>
 <span class='rubyid_frontend identifier id'>frontend</span>
   <span class='rubyid_assets identifier id'>assets</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot2 op'>..</span> <span class='rubyid_static identifier id'>static</span> <span class='rubyid_assets identifier id'>assets</span> <span class='lparen token'>(</span><span class='rubyid_such identifier id'>such</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_images identifier id'>images</span><span class='comma token'>,</span> <span class='rubyid_javascript identifier id'>javascript</span><span class='rparen token'>)</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span>
@@ -184,7 +184,7 @@ example is:</p>
 <pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/your.frontend.domain.and:port/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_hello_world identifier id'>hello_world</span>
 </code></pre>
 
-<p>Also note that the translation for the plug-in&#8217;s name in the <code>Plug-ins</code> dropdown menu is specified
+<p>Also note that the translation for the plug-in’s name in the <code>Plug-ins</code> dropdown menu is specified
 in a locale file in the <code>frontend/locales</code> directory in the plug-in. For example, in the <code>hello_world</code>
 example there is an English locale file at:</p>
 
@@ -201,7 +201,7 @@ under the plug-in, like this:</p>
 </code></pre>
 
 <p>Note that the example locale file contains other keys that specify translations for text displayed
-as part of the plug-in&#8217;s user interface. Be sure to place your plug-in&#8217;s translations as shown, under
+as part of the plug-in’s user interface. Be sure to place your plug-in’s translations as shown, under
 <code>plugins.[your_plugin_name]</code> in order to avoid accidentally overriding translations for other
 interface elements. In the example above, the translation for the <code>label</code> key can be referenced
 directly in an erb view file as follows:</p>
@@ -222,8 +222,8 @@ including a <code>search_definitions.rb</code> file at the top-level of the
 plugin directory.  This file can contain definitions such as the
 following:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'payment_fund_code'</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enum</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'payment_fund_code_u_utext'</span><span class='rparen token'>)</span>
-<span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'payment_authorizers'</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'payment_authorizers_u_utext'</span><span class='rparen token'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_fund_code&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enum</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_fund_code_u_utext&#39;</span><span class='rparen token'>)</span>
+<span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_authorizers&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_authorizers_u_utext&#39;</span><span class='rparen token'>)</span>
 </code></pre>
 
 <p>Each field defined will appear in the advanced search interface as a
@@ -243,9 +243,9 @@ most aspects of how the application behaves.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport::ExportModelHelpers
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Module: ASpaceExport::ExportModelHelpers
   
@@ -212,12 +210,12 @@
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_date_string identifier id'>extract_date_string</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
-    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'expression'</span><span class='rbrack token'>]</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'end'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
-    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>'begin'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;expression&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;expression&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;end&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;begin&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='dstring node'>&quot;#{date['begin']} - #{date['end']}&quot;</span>
+    <span class='dstring node'>&quot;#{date[&#39;begin&#39;]} - #{date[&#39;end&#39;]}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -253,10 +251,10 @@
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 202</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span>
-    <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='string val'>'note_text'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>'content'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n +/</span><span class='comma token'>,</span> <span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='string val'>&#39;note_text&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n +/</span><span class='comma token'>,</span> <span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -288,7 +286,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 211</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>'subnotes'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rbrace token'>}</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -301,9 +299,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:09 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

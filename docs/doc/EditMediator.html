@@ -6,7 +6,7 @@
 <title>
   Class: EditMediator
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: EditMediator
   
@@ -213,7 +211,7 @@
   <span class='comment val'># editing.</span>
   <span class='rubyid_status identifier id'>status</span> <span class='assign token'>=</span> <span class='rubyid_@active_edits ivar id'>@active_edits</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_status identifier id'>status</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>'lock_version'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>'lock_version'</span><span class='rbrack token'>]</span> <span class='gt op'>&gt;</span> <span class='rubyid_lock_version identifier id'>lock_version</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_status identifier id'>status</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>&#39;lock_version&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>&#39;lock_version&#39;</span><span class='rbrack token'>]</span> <span class='gt op'>&gt;</span> <span class='rubyid_lock_version identifier id'>lock_version</span>
     <span class='comment val'># Stale</span>
     <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;stale&quot;</span><span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
@@ -225,11 +223,11 @@
     <span class='symbol val'>:values</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_user identifier id'>user</span><span class='comma token'>,</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_last_report_time identifier id'>last_report_time</span><span class='dot token'>.</span><span class='rubyid_iso8601 identifier id'>iso8601</span><span class='rbrack token'>]</span>
   <span class='rbrace token'>}</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_status identifier id'>status</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>'edited_by'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_status identifier id'>status</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>&#39;edited_by&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>1</span>
     <span class='comment val'># Someone else is editing too!</span>
     <span class='lbrace token'>{</span>
       <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;opened_for_editing&quot;</span><span class='comma token'>,</span>
-      <span class='string val'>'edited_by'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>'edited_by'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_u identifier id'>u</span><span class='comma token'>,</span> <span class='rubyid__ identifier id'>_</span><span class='bitor op'>|</span> <span class='rubyid_u identifier id'>u</span> <span class='eq op'>==</span> <span class='rubyid_user identifier id'>user</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+      <span class='string val'>&#39;edited_by&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='lbrack token'>[</span><span class='string val'>&#39;edited_by&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_u identifier id'>u</span><span class='comma token'>,</span> <span class='rubyid__ identifier id'>_</span><span class='bitor op'>|</span> <span class='rubyid_u identifier id'>u</span> <span class='eq op'>==</span> <span class='rubyid_user identifier id'>user</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='lbrace token'>{</span><span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;ok&quot;</span><span class='rbrace token'>}</span>
@@ -246,9 +244,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:26 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

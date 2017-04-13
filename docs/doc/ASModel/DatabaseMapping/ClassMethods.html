@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::DatabaseMapping::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../../class_list.html"></iframe>
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../../class_list.html"></iframe>
 
       <div id="content"><h1>Module: ASModel::DatabaseMapping::ClassMethods
   
@@ -93,15 +91,15 @@
         
       </dt>
       <dd><pre class="code"><span class='lbrace token'>{</span>
-  <span class='string val'>'boolean'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+  <span class='string val'>&#39;boolean&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;JSON booleans become DB integers&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:json_to_db</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_bool identifier id'>bool</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_bool identifier id'>bool</span> <span class='integer val'>? </span><span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:db_to_json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_int identifier id'>int</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_int identifier id'>int</span> <span class='eqq op'>===</span> <span class='integer val'>1</span> <span class='rbrace token'>}</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
-  <span class='string val'>'date'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+  <span class='string val'>&#39;date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Date strings become dates&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:json_to_db</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
-    <span class='symbol val'>:db_to_json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>'%Y-%m-%d'</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='symbol val'>:db_to_json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='rbrace token'>}</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
@@ -211,8 +209,8 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_map_db_types_to_json identifier id'>map_db_types_to_json</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
-  <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
-    <span class='rubyid_mapping identifier id'>mapping</span> <span class='assign token'>=</span> <span class='rubyid_JSON_TO_DB_MAPPINGS constant id'>JSON_TO_DB_MAPPINGS</span><span class='lbrack token'>[</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
+    <span class='rubyid_mapping identifier id'>mapping</span> <span class='assign token'>=</span> <span class='rubyid_JSON_TO_DB_MAPPINGS constant id'>JSON_TO_DB_MAPPINGS</span><span class='lbrack token'>[</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_property identifier id'>property</span> <span class='assign token'>=</span> <span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_mapping identifier id'>mapping</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
@@ -269,8 +267,8 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_prepare_for_db identifier id'>prepare_for_db</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_class identifier id'>jsonmodel_class</span><span class='comma token'>,</span> <span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
   <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_class identifier id'>jsonmodel_class</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
   <span class='rubyid_hash identifier id'>hash</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
-  <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
-    <span class='rubyid_mapping identifier id'>mapping</span> <span class='assign token'>=</span> <span class='rubyid_JSON_TO_DB_MAPPINGS constant id'>JSON_TO_DB_MAPPINGS</span><span class='lbrack token'>[</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_definition identifier id'>definition</span><span class='bitor op'>|</span>
+    <span class='rubyid_mapping identifier id'>mapping</span> <span class='assign token'>=</span> <span class='rubyid_JSON_TO_DB_MAPPINGS constant id'>JSON_TO_DB_MAPPINGS</span><span class='lbrack token'>[</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_mapping identifier id'>mapping</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
       <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_mapping identifier id'>mapping</span><span class='lbrack token'>[</span><span class='symbol val'>:json_to_db</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
@@ -281,7 +279,7 @@
     <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_nested_record identifier id'>nested_record</span><span class='lbrack token'>[</span><span class='symbol val'>:json_property</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>'json_schema_version'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_class identifier id'>jsonmodel_class</span><span class='dot token'>.</span><span class='rubyid_schema_version identifier id'>schema_version</span>
+  <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;json_schema_version&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_class identifier id'>jsonmodel_class</span><span class='dot token'>.</span><span class='rubyid_schema_version identifier id'>schema_version</span>
 
   <span class='rubyid_hash identifier id'>hash</span>
 <span class='rubyid_end end kw'>end</span>
@@ -296,9 +294,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:09 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

@@ -4,6 +4,8 @@ Properties
 
 string	uri
 
+object	parent
+
 array (JSONModel(:external_id) object)	external_ids
 
 string (max length: 255)	processing_hours_per_foot_estimate

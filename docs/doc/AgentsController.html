@@ -6,7 +6,7 @@
 <title>
   Class: AgentsController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: AgentsController
   
@@ -469,13 +467,13 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/agents_controller.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
-  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'agent_type'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
 
   <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_form_values identifier id'>form_values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_defaults identifier id'>defaults</span>
 
-  <span class='rubyid_render identifier id'>render</span> <span class='string val'>'defaults'</span>
+  <span class='rubyid_render identifier id'>render</span> <span class='string val'>&#39;defaults&#39;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -646,7 +644,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                 <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                <span class='string val'>'agent'</span><span class='comma token'>,</span>
+                <span class='string val'>&#39;agent&#39;</span><span class='comma token'>,</span>
                 <span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -690,7 +688,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@agent ivar id'>@agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:agent_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>'default_values'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_values&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
 
     <span class='rubyid_@agent ivar id'>@agent</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='rubyid_defaults identifier id'>defaults</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_defaults identifier id'>defaults</span>
@@ -842,9 +840,9 @@
 
     <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                               <span class='string val'>&quot;record_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
-                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'agent'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>'lock_version'</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                              <span class='string val'>&quot;lock_version&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;lock_version&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                               <span class='string val'>&quot;defaults&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span>
-                                                                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'agent'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                                                      <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                                                       <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@agent_type ivar id'>@agent_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
                             <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
@@ -866,9 +864,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:28 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:39 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

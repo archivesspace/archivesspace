@@ -6,7 +6,7 @@
 <title>
   Module: EnumerationHelper
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: EnumerationHelper
   
@@ -103,7 +101,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#enumeration_simple_filter_params-instance_method" title="#enumeration_simple_filter_params (instance method)">#<strong>enumeration_simple_filter_params</strong>(relationships, value)  &#x21d2; Object </a>
+      <a href="#enumeration_advanced_query-instance_method" title="#enumeration_advanced_query (instance method)">#<strong>enumeration_advanced_query</strong>(relationships, value)  &#x21d2; Object </a>
     
 
     
@@ -133,9 +131,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="enumeration_simple_filter_params-instance_method">
+  <h3 class="signature first" id="enumeration_advanced_query-instance_method">
   
-    #<strong>enumeration_simple_filter_params</strong>(relationships, value)  &#x21d2; <tt>Object</tt> 
+    #<strong>enumeration_advanced_query</strong>(relationships, value)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -147,19 +145,27 @@
       <pre class="lines">
 
 
-3
-4
 5
 6
-7</pre>
+7
+8
+9
+10
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/enumeration_helper.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/enumeration_helper.rb', line 5</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_enumeration_simple_filter_params identifier id'>enumeration_simple_filter_params</span><span class='lparen token'>(</span> <span class='rubyid_relationships identifier id'>relationships</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='rparen token'>)</span> 
-  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='regexp val'>%r{(\+|\-|\&amp;\&amp;|\|\||\!|\(|\)|\{|\}|\[|\]|\^|\&quot;|\~|\*|\?|\ |\:|\\)}</span>
-  <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='rubyid_pattern identifier id'>pattern</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_match identifier id'>match</span><span class='bitor op'>|</span> <span class='string val'>'\\'</span> <span class='plus op'>+</span> <span class='rubyid_match identifier id'>match</span> <span class='rbrace token'>}</span> 
-  <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_rel identifier id'>rel</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{rel}_enum_s:#{value}&quot;</span>  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; OR &quot;</span><span class='rparen token'>)</span> 
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_enumeration_advanced_query identifier id'>enumeration_advanced_query</span><span class='lparen token'>(</span><span class='rubyid_relationships identifier id'>relationships</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+
+  <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_rel identifier id'>rel</span><span class='bitor op'>|</span>
+    <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_or identifier id'>or</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{rel}_enum_s&quot;</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_build identifier id'>build</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -172,9 +178,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:11 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

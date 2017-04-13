@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::ModelScoping::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../../class_list.html"></iframe>
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../../class_list.html"></iframe>
 
       <div id="content"><h1>Module: ASModel::ModelScoping::ClassMethods
   
@@ -646,10 +644,10 @@
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_ref identifier id'>ref</span>
 
   <span class='comment val'># If the current model is repository scoped, and the reference is a</span>
-  <span class='comment val'># repository-scoped URI, make sure they're talking about the same</span>
+  <span class='comment val'># repository-scoped URI, make sure they&#39;re talking about the same</span>
   <span class='comment val'># repository.</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ReferenceError constant id'>ReferenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Invalid URI reference for this (#{active_repository}) repo: '#{uri}'&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ReferenceError constant id'>ReferenceError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Invalid URI reference for this (#{active_repository}) repo: &#39;#{uri}&#39;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_ref identifier id'>ref</span>
@@ -804,13 +802,13 @@
     <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
     <span class='rubyid_orig_ds identifier id'>orig_ds</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
 
-    <span class='comment val'># Provide a new '.this_repo' method on this model class that only</span>
+    <span class='comment val'># Provide a new &#39;.this_repo&#39; method on this model class that only</span>
     <span class='comment val'># returns records that belong to the current repository.</span>
     <span class='rubyid_def_dataset_method identifier id'>def_dataset_method</span><span class='lparen token'>(</span><span class='symbol val'>:this_repo</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_filter identifier id'>filter</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_columns identifier id'>columns</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='lbrace token'>{</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rbrace token'>}</span> <span class='colon op'>:</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_suppressible? fid id'>suppressible?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_enforce_suppression? fid id'>enforce_suppression?</span>
-        <span class='rubyid_filter identifier id'>filter</span><span class='lbrack token'>[</span><span class='symbol val'>:suppressed</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+        <span class='rubyid_filter identifier id'>filter</span><span class='lbrack token'>[</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:suppressed</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_orig_ds identifier id'>orig_ds</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span>
@@ -820,7 +818,7 @@
     <span class='comment val'># And another that will return records from any repository</span>
     <span class='rubyid_def_dataset_method identifier id'>def_dataset_method</span><span class='lparen token'>(</span><span class='symbol val'>:any_repo</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_suppressible? fid id'>suppressible?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_enforce_suppression? fid id'>enforce_suppression?</span>
-        <span class='rubyid_orig_ds identifier id'>orig_ds</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:suppressed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+        <span class='rubyid_orig_ds identifier id'>orig_ds</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:suppressed</span><span class='rparen token'>)</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_orig_ds identifier id'>orig_ds</span>
       <span class='rubyid_end end kw'>end</span>
@@ -828,7 +826,7 @@
 
 
     <span class='comment val'># Replace the default row_proc with one that fetches the request row,</span>
-    <span class='comment val'># but blows up if that row isn't from the currently active repository.</span>
+    <span class='comment val'># but blows up if that row isn&#39;t from the currently active repository.</span>
     <span class='rubyid_orig_row_proc identifier id'>orig_row_proc</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_row_proc identifier id'>row_proc</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_row_proc identifier id'>row_proc</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span>
@@ -842,9 +840,9 @@
   <span class='rubyid_else else kw'>else</span>
     <span class='comment val'># Globally scoped models</span>
 
-    <span class='comment val'># These accessors are redundant, but useful in cases where we're</span>
-    <span class='comment val'># working with model classes and don't know/care whether they're</span>
-    <span class='comment val'># repository-scoped or not.  For example, when we're resolving URIs...</span>
+    <span class='comment val'># These accessors are redundant, but useful in cases where we&#39;re</span>
+    <span class='comment val'># working with model classes and don&#39;t know/care whether they&#39;re</span>
+    <span class='comment val'># repository-scoped or not.  For example, when we&#39;re resolving URIs...</span>
     <span class='rubyid_def_dataset_method identifier id'>def_dataset_method</span><span class='lparen token'>(</span><span class='symbol val'>:any_repo</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_self self kw'>self</span>
     <span class='rubyid_end end kw'>end</span>
@@ -953,9 +951,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:07 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

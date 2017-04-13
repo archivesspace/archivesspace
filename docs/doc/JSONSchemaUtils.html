@@ -6,7 +6,7 @@
 <title>
   Module: JSONSchemaUtils
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: JSONSchemaUtils
   
@@ -94,8 +92,8 @@
       </dt>
       <dd><pre class="code"><span class='lbrack token'>[</span>
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Properties'</span><span class='comma token'>,</span> <span class='string val'>'IfMissing'</span><span class='comma token'>,</span> <span class='string val'>'ArchivesSpaceSubType'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/([A-Z]+: )?The property '.*?' did not contain a required property of '(.*?)'.*/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;Properties&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;IfMissing&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;ArchivesSpaceSubType&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/([A-Z]+: )?The property &#39;.*?&#39; did not contain a required property of &#39;(.*?)&#39;.*/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_if if kw'>if</span> <span class='rubyid_type identifier id'>type</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_type identifier id'>type</span> <span class='match op'>=~</span> <span class='regexp val'>/ERROR/</span>
        <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;Property is required but was missing&quot;</span><span class='rbrack token'>]</span>
@@ -106,76 +104,76 @@
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'ArchivesSpaceType'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#(.*?)' was not a well-formed date/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;ArchivesSpaceType&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#(.*?)&#39; was not a well-formed date/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;Not a valid date&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Pattern'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' did not match the regex '(.*?)' in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;Pattern&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; did not match the regex &#39;(.*?)&#39; in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_regexp identifier id'>regexp</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Did not match regular expression: #{regexp}&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'MinLength'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' was not of a minimum string length of ([0-9]+) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;MinLength&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; was not of a minimum string length of ([0-9]+) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be at least #{length} characters&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'MaxLength'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' was not of a maximum string length of ([0-9]+) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;MaxLength&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; was not of a maximum string length of ([0-9]+) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Must be #{length} characters or fewer&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'MinItems'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' did not contain a minimum number of items ([0-9]+) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;MinItems&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; did not contain a minimum number of items ([0-9]+) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_items identifier id'>items</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;At least #{items} item(s) is required&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Enum'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;Enum&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_invalid identifier id'>invalid</span><span class='comma token'>,</span> <span class='rubyid_valid_set identifier id'>valid_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Invalid value '#{invalid}'.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Invalid value &#39;#{invalid}&#39;.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
  
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'ArchivesSpaceDynamicEnum'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;ArchivesSpaceDynamicEnum&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_invalid identifier id'>invalid</span><span class='comma token'>,</span> <span class='rubyid_valid_set identifier id'>valid_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'ArchivesSpaceDynamicEnum'</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Invalid value '#{invalid}'.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;ArchivesSpaceDynamicEnum&#39;</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Invalid value &#39;#{invalid}&#39;.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'ArchivesSpaceReadOnlyDynamicEnum'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;ArchivesSpaceReadOnlyDynamicEnum&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; value &quot;(.*?)&quot; .*values: (.*) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_invalid identifier id'>invalid</span><span class='comma token'>,</span> <span class='rubyid_valid_set identifier id'>valid_set</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>'ArchivesSpaceReadOnlyDynamicEnum'</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Protected read-only list #{path}. Invalid value '#{invalid}'.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:attribute_types</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;ArchivesSpaceReadOnlyDynamicEnum&#39;</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Protected read-only list #{path}. Invalid value &#39;#{invalid}&#39;.  Must be one of: #{valid_set}&quot;</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'Type'</span><span class='comma token'>,</span> <span class='string val'>'ArchivesSpaceType'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property '#\/.*?' of type (.*?) did not match the following type: (.*?) in schema/</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;Type&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;ArchivesSpaceType&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/The property &#39;#\/.*?&#39; of type (.*?) did not match the following type: (.*?) in schema/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_actual_type identifier id'>actual_type</span><span class='comma token'>,</span> <span class='rubyid_desired_type identifier id'>desired_type</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_if if kw'>if</span> <span class='rubyid_actual_type identifier id'>actual_type</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/JSONModel/</span> <span class='orop op'>||</span> <span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_attribute</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'ArchivesSpaceType'</span>
-       <span class='comment val'># We'll skip JSONModels because the specific problem with the</span>
+     <span class='rubyid_if if kw'>if</span> <span class='rubyid_actual_type identifier id'>actual_type</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/JSONModel/</span> <span class='orop op'>||</span> <span class='rubyid_message identifier id'>message</span><span class='lbrack token'>[</span><span class='symbol val'>:failed_attribute</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;ArchivesSpaceType&#39;</span>
+       <span class='comment val'># We&#39;ll skip JSONModels because the specific problem with the</span>
        <span class='comment val'># document will have already been listed separately.</span>
 
        <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:state</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -196,8 +194,8 @@
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'custom_validation'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/Validation failed for '(.*?)': (.*?) in schema /</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;custom_validation&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/Validation failed for &#39;(.*?)&#39;: (.*?) in schema /</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_msg identifier id'>msg</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_property identifier id'>property</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_property identifier id'>property</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='rbrack token'>]</span>
@@ -205,18 +203,18 @@
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'custom_validation'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/Warning generated for '(.*?)': (.*?) in schema /</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;custom_validation&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/Warning generated for &#39;(.*?)&#39;: (.*?) in schema /</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_msg identifier id'>msg</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
      <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:warnings</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_fragment_join identifier id'>fragment_join</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
  <span class='lbrace token'>{</span>
-   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>'custom_validation'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+   <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;custom_validation&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
    <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/Validation error code: (.*?) in schema /</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_error_code identifier id'>error_code</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'coded_errors'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_error_code identifier id'>error_code</span><span class='rbrack token'>]</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;coded_errors&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_error_code identifier id'>error_code</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
@@ -226,7 +224,7 @@
    <span class='symbol val'>:failed_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
    <span class='symbol val'>:pattern</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='regexp val'>/^(.*)$/</span><span class='comma token'>,</span>
    <span class='symbol val'>:do</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_msgs identifier id'>msgs</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_msg identifier id'>msg</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'unknown'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='rbrack token'>]</span>
+     <span class='rubyid_msgs identifier id'>msgs</span><span class='lbrack token'>[</span><span class='symbol val'>:errors</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;unknown&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='rbrack token'>]</span>
    <span class='rbrace token'>}</span>
  <span class='rbrace token'>}</span>
 <span class='rbrack token'>]</span>
@@ -311,7 +309,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Drop any keys from &#8216;hash&#8217; that aren&#8217;t defined in the JSON schema.</p>
+    <span class="summary_desc"><div class='inline'><p>Drop any keys from ‘hash’ that aren’t defined in the JSON schema.</p>
 </div></span>
   
 </li>
@@ -403,7 +401,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Given a hash representing a record tree, map across the hash and this model&#8217;s schema in lockstep.</p>
+    <span class="summary_desc"><div class='inline'><p>Given a hash representing a record tree, map across the hash and this model’s schema in lockstep.</p>
 </div></span>
   
 </li>
@@ -511,8 +509,8 @@
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_definition identifier id'>definition</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;default&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
         <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&quot;default&quot;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'array'</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
-        <span class='comment val'># Array values that weren't provided default to empty</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;array&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
+        <span class='comment val'># Array values that weren&#39;t provided default to empty</span>
         <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
       <span class='rubyid_end end kw'>end</span>
 
@@ -589,10 +587,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Drop any keys from &#8216;hash&#8217; that aren&#8217;t defined in the JSON schema.</p>
+    <p>Drop any keys from ‘hash’ that aren’t defined in the JSON schema.</p>
 
 <p>If drop_readonly is true, also drop any values where the schema has
-&#8216;readonly&#8217; set to true.  These values are produced by the system for the
+‘readonly’ set to true.  These values are produced by the system for the
 client, but are not part of the data model.</p>
 
 
@@ -821,9 +819,9 @@ client, but are not part of the data model.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Given a hash representing a record tree, map across the hash and this
-model&#8217;s schema in lockstep.</p>
+model’s schema in lockstep.</p>
 
-<p>Each proc in the &#8216;transformations&#8217; array is called with the current node
+<p>Each proc in the ‘transformations’ array is called with the current node
 in the record tree as its first argument, and the part of the schema
 that corresponds to it.  Whatever the proc returns is used to replace
 the node in the record tree.</p>
@@ -924,8 +922,8 @@ the node in the record tree.</p>
     <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_resolve_schema_reference identifier id'>resolve_schema_reference</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='comment val'># Sometimes a schema won't specify anything other than the required type</span>
-  <span class='comment val'># (like {'type' =&gt; 'object'}).  If there's nothing more to check, we're</span>
+  <span class='comment val'># Sometimes a schema won&#39;t specify anything other than the required type</span>
+  <span class='comment val'># (like {&#39;type&#39; =&gt; &#39;object&#39;}).  If there&#39;s nothing more to check, we&#39;re</span>
   <span class='comment val'># done.</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_record identifier id'>record</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_schema identifier id'>schema</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;properties&quot;</span><span class='rparen token'>)</span>
 
@@ -940,7 +938,7 @@ the node in the record tree.</p>
 
   <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_k identifier id'>k</span> <span class='assign token'>=</span> <span class='rubyid_k identifier id'>k</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-    <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span>
+    <span class='rubyid_properties identifier id'>properties</span> <span class='assign token'>=</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_properties identifier id'>properties</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;object&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_transformations identifier id'>transformations</span><span class='rparen token'>)</span>
@@ -957,7 +955,7 @@ the node in the record tree.</p>
             <span class='rubyid_next_schema identifier id'>next_schema</span> <span class='assign token'>=</span> <span class='rubyid_determine_schema_for identifier id'>determine_schema_for</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;items&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
             <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_map_hash_with_schema identifier id'>map_hash_with_schema</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='comma token'>,</span> <span class='rubyid_next_schema identifier id'>next_schema</span><span class='comma token'>,</span> <span class='rubyid_transformations identifier id'>transformations</span><span class='rparen token'>)</span>
           <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
-            <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Nested arrays aren't supported here (yet)&quot;</span>
+            <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Nested arrays aren&#39;t supported here (yet)&quot;</span>
           <span class='rubyid_else else kw'>else</span>
             <span class='rubyid_elt identifier id'>elt</span>
           <span class='rubyid_end end kw'>end</span>
@@ -1011,8 +1009,8 @@ the node in the record tree.</p>
 them into a structured format like:</p>
 
 <p>{
-  :errors =&gt; =&gt; &#8220;(What was wrong with attr1)&#8221;,
-  :warnings =&gt; =&gt; &#8220;(attr2 not quite right either)&#8221;
+  :errors =&gt; =&gt; “(What was wrong with attr1)”,
+  :warnings =&gt; =&gt; “(attr2 not quite right either)”
 }</p>
 
 
@@ -1067,7 +1065,7 @@ them into a structured format like:</p>
   <span class='rubyid_msgs identifier id'>msgs</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:errors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:warnings</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-    <span class='comment val'># to lookup e.g., msgs[:attribute_types]['extents/0/extent_type'] =&gt; 'ArchivesSpaceDynamicEnum'</span>
+    <span class='comment val'># to lookup e.g., msgs[:attribute_types][&#39;extents/0/extent_type&#39;] =&gt; &#39;ArchivesSpaceDynamicEnum&#39;</span>
     <span class='symbol val'>:attribute_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>              <span class='comment val'># give the parse rules somewhere to store useful state for a run</span>
   <span class='rbrace token'>}</span>
@@ -1138,8 +1136,8 @@ them into a structured format like:</p>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema_path_lookup identifier id'>schema_path_lookup</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema identifier id'>schema</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>'properties'</span><span class='rparen token'>)</span>
-    <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema identifier id'>schema</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;properties&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
@@ -1163,9 +1161,9 @@ them into a structured format like:</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:12 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:29 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

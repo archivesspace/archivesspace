@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: UPGRADING_1.1.1
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="upgrading-to-111">UPGRADING TO 1.1.1</h1>
 
 <p>Additional upgrade considerations specific to this release. Refer to the <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md">upgrade documentation</a> for the standard instructions that apply in all cases.</p>
@@ -81,14 +79,14 @@ AppConfig[:resequence_on_startup] = true
 </code></p>
 
 <p>and restart ArchivesSpace. This will trigger a rebuilding process after the application has 
-started. It&#8217;s advised to let this rebuild process run its course prior to editing records.
+started. It’s advised to let this rebuild process run its course prior to editing records.
 This duration depends on the size of your database, which can take seconds ( for databases with
 few Archival and Digital Objects ) to hours ( for databases with hundreds of thousands of records ). 
 Check your log file to see how the process is going. When it has finished, you should see the application
 return to it normal operation, generally with only indexer updates being recorded in the log file.</p>
 
-<p>After you&#8217;ve started ArchivesSpace, be sure to change the config.rb file to have the :resequence_on_startup
-set to &#8220;false&#8221;, since you will not need to run this process on every restart.</p>
+<p>After you’ve started ArchivesSpace, be sure to change the config.rb file to have the :resequence_on_startup
+set to “false”, since you will not need to run this process on every restart.</p>
 
 <h2 id="export-pdfs-in-the-public-interface">Export PDFs in the Public Interface</h2>
 
@@ -113,9 +111,9 @@ Please be aware of the issues and limitations of this plugin before enabling it.
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:00 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:21 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

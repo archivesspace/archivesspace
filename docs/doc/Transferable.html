@@ -6,7 +6,7 @@
 <title>
   Module: Transferable
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: Transferable
   
@@ -343,7 +341,7 @@
   <span class='rubyid_graph identifier id'>graph</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_object_graph identifier id'>object_graph</span>
 
   <span class='comment val'>## Digital object instances will trigger their linked digital objects to</span>
-  <span class='comment val'>## transfer too, as long as those digital objects aren't linked to by other</span>
+  <span class='comment val'>## transfer too, as long as those digital objects aren&#39;t linked to by other</span>
   <span class='comment val'>## records.</span>
 
   <span class='comment val'># We skip over tree nodes because the root record will take care of</span>
@@ -390,7 +388,7 @@
           <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_qualify identifier id'>qualify</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
           <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
           <span class='rubyid_exception identifier id'>exception</span><span class='dot token'>.</span><span class='rubyid_add_conflict identifier id'>add_conflict</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_active_repository identifier id'>active_repository</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                                 <span class='lbrace token'>{</span><span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'instances'</span><span class='comma token'>,</span>
+                                 <span class='lbrace token'>{</span><span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;instances&#39;</span><span class='comma token'>,</span>
                                   <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;DIGITAL_OBJECT_IN_USE&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
@@ -410,14 +408,14 @@
       <span class='rubyid_event identifier id'>event</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_event_json identifier id'>event_json</span> <span class='assign token'>=</span> <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span>
-      <span class='rubyid_event_role identifier id'>event_role</span> <span class='assign token'>=</span> <span class='rubyid_event_json identifier id'>event_json</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='string val'>'role'</span><span class='rbrack token'>]</span>
+      <span class='rubyid_event_role identifier id'>event_role</span> <span class='assign token'>=</span> <span class='rubyid_event_json identifier id'>event_json</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span>
 
       <span class='rubyid_events_to_clone identifier id'>events_to_clone</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:event</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_json identifier id'>event_json</span><span class='comma token'>,</span> <span class='symbol val'>:role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_role identifier id'>event_role</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='comment val'>## Transfer any top containers that aren't linked outside of the record set</span>
-  <span class='comment val'>## being cloned.  For any other linked top containers, we'll clone them in</span>
+  <span class='comment val'>## Transfer any top containers that aren&#39;t linked outside of the record set</span>
+  <span class='comment val'>## being cloned.  For any other linked top containers, we&#39;ll clone them in</span>
   <span class='comment val'>## the target repository (much like events).</span>
 
   <span class='comment val'># the relationship between SC and TCs</span>
@@ -426,7 +424,7 @@
   <span class='rubyid_all_ids identifier id'>all_ids</span> <span class='assign token'>=</span> <span class='rubyid_graph identifier id'>graph</span><span class='dot token'>.</span><span class='rubyid_ids_for identifier id'>ids_for</span><span class='lparen token'>(</span><span class='rubyid_topcon_rlshp identifier id'>topcon_rlshp</span><span class='rparen token'>)</span>
 
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='comment val'># Find relationships that are in our set of IDs that haven't been</span>
+    <span class='comment val'># Find relationships that are in our set of IDs that haven&#39;t been</span>
     <span class='comment val'># transferred yet</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_link_rlshp</span><span class='rbrack token'>]</span>
       <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_id</span><span class='rparen token'>)</span>
@@ -447,10 +445,10 @@
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span>
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_any_repo identifier id'>any_repo</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
-            <span class='comment val'># There's already a top container with our barcode in the target</span>
+            <span class='comment val'># There&#39;s already a top container with our barcode in the target</span>
             <span class='comment val'># repository.  Not sure if merging them is the right strategy or</span>
             <span class='comment val'># not, so throwing an error for now</span>
-            <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_TransferConstraintError constant id'>TransferConstraintError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Top Container barcode '#{top_container.barcode}' already in use in target repository&quot;</span><span class='rparen token'>)</span>
+            <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_TransferConstraintError constant id'>TransferConstraintError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;Top Container barcode &#39;#{top_container.barcode}&#39; already in use in target repository&quot;</span><span class='rparen token'>)</span>
           <span class='rubyid_end end kw'>end</span>
 
           <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='comment val'># i guess we always add self just in case. dups are uniqed out.</span>
@@ -458,7 +456,7 @@
           <span class='comment val'># Already transferred</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_else else kw'>else</span>
-        <span class='comment val'># something outside the graph is linked to it, add it to the list and we'll clone after transfer</span>
+        <span class='comment val'># something outside the graph is linked to it, add it to the list and we&#39;ll clone after transfer</span>
         <span class='rubyid_tc_id identifier id'>tc_id</span> <span class='assign token'>=</span> <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span>
         <span class='rubyid_containers_to_clone identifier id'>containers_to_clone</span><span class='lbrack token'>[</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
         <span class='rubyid_containers_to_clone identifier id'>containers_to_clone</span><span class='lbrack token'>[</span><span class='rubyid_tc_id identifier id'>tc_id</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span>  <span class='rubyid_tc_rel identifier id'>tc_rel</span><span class='lbrack token'>[</span><span class='symbol val'>:sub_container_id</span><span class='rbrack token'>]</span>
@@ -506,9 +504,9 @@
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_events_to_clone identifier id'>events_to_clone</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_to_clone identifier id'>to_clone</span><span class='bitor op'>|</span>
       <span class='rubyid_event identifier id'>event</span> <span class='assign token'>=</span> <span class='rubyid_to_clone identifier id'>to_clone</span><span class='lbrack token'>[</span><span class='symbol val'>:event</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span><span class='dot token'>.</span>
-              <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>'linked_records'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
-                                           <span class='string val'>'ref'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
-                                           <span class='string val'>'role'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_to_clone identifier id'>to_clone</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span>
+              <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&#39;linked_records&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                           <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
+                                           <span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_to_clone identifier id'>to_clone</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span>
                                          <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
       <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:event</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -527,9 +525,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:08 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

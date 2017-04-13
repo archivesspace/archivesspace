@@ -6,7 +6,7 @@
 <title>
   Module: DirectionalRelationships::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Module: DirectionalRelationships::ClassMethods
   
@@ -430,25 +428,25 @@
     <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship identifier id'>relationship</span><span class='bitor op'>|</span>
       <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relationship_target_record_type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
-          <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relationship_target_id'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
-        <span class='comment val'># This means we're looking at the relationship from the other side.</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_record_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+          <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_id&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
+        <span class='comment val'># This means we&#39;re looking at the relationship from the other side.</span>
         <span class='comment val'>#</span>
         <span class='comment val'># For example, if the relationship is &quot;A is a parent of B&quot;, then we</span>
         <span class='comment val'># want:</span>
         <span class='comment val'>#</span>
-        <span class='comment val'>#   * 'GET A' to yield  {relator =&gt; 'is_parent_of', ref =&gt; 'B'}</span>
-        <span class='comment val'>#   * 'GET B' to yield  {relator =&gt; 'is_child_of', ref =&gt; 'A'}</span>
+        <span class='comment val'>#   * &#39;GET A&#39; to yield  {relator =&gt; &#39;is_parent_of&#39;, ref =&gt; &#39;B&#39;}</span>
+        <span class='comment val'>#   * &#39;GET B&#39; to yield  {relator =&gt; &#39;is_child_of&#39;, ref =&gt; &#39;A&#39;}</span>
         <span class='comment val'>#</span>
         <span class='comment val'># So we want to invert the relator for this case.</span>
 
-        <span class='rubyid_relator_values identifier id'>relator_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_enum_values identifier id'>enum_values</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'jsonmodel_type'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>'properties'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'relator'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'dynamic_enum'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-        <span class='rubyid_relator_values identifier id'>relator_values</span> <span class='opasgn op'>-=</span> <span class='lbrack token'>[</span><span class='string val'>'other_unmapped'</span><span class='rbrack token'>]</span> <span class='comment val'># grumble.</span>
+        <span class='rubyid_relator_values identifier id'>relator_values</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_enum_values identifier id'>enum_values</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+        <span class='rubyid_relator_values identifier id'>relator_values</span> <span class='opasgn op'>-=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;other_unmapped&#39;</span><span class='rbrack token'>]</span> <span class='comment val'># grumble.</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_relator_values identifier id'>relator_values</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>2</span>
-          <span class='comment val'># When there are two possible values we assume they're inverses</span>
+          <span class='comment val'># When there are two possible values we assume they&#39;re inverses</span>
           <span class='comment val'># Set the relator to whatever the inverse of the current one is.</span>
-          <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relator'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_relator_values identifier id'>relator_values</span> <span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relator'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+          <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_relator_values identifier id'>relator_values</span> <span class='minus op'>-</span> <span class='lbrack token'>[</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
@@ -505,9 +503,9 @@
       <span class='comment val'>#</span>
       <span class='comment val'># Store the JSONModel type and ID</span>
       <span class='comment val'>#</span>
-      <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relationship_target_record_type'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
-      <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>'relationship_target_id'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+      <span class='rubyid_ref identifier id'>ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_record_type&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
+      <span class='rubyid_relationship identifier id'>relationship</span><span class='lbrack token'>[</span><span class='string val'>&#39;relationship_target_id&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_ref identifier id'>ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -565,9 +563,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:11 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

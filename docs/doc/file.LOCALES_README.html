@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: LOCALES_README
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="archivesspace-internationalization">ArchivesSpace Internationalization</h1>
 
 <p>ArchivesSpace has abstracted all the labels, messages and tooltips out of the application into the locale files.  The locales in this directory represent the basis of translations for use by all Archives Space applications.  Each application may then add to or override these values with their own locales files.</p>
@@ -66,15 +64,15 @@
 <p>The base translations are broken up:</p>
 
 <ul>
-  <li>The top most file &#8220;en.yml&#8221; contains the translations for all the record labels, messages and tooltips</li>
-  <li>&#8220;enums/en.yml&#8221; contains the entries for the dynamic enumeration codes - add your translations to this file after importing your enumeration codes</li>
+  <li>The top most file “en.yml” contains the translations for all the record labels, messages and tooltips</li>
+  <li>“enums/en.yml” contains the entries for the dynamic enumeration codes - add your translations to this file after importing your enumeration codes</li>
 </ul>
 
-<p>For a guide on managing these &#8220;i18n&#8221; files, please visit http://guides.rubyonrails.org/i18n.html</p>
+<p>For a guide on managing these “i18n” files, please visit http://guides.rubyonrails.org/i18n.html</p>
 
 <h2 id="tooltips">Tooltips</h2>
 
-<p>To add a tooltip to a record label, simply add a new entry with &#8220;_tooltip&#8221; appended to the label&#8217;s code.  For example, to add a tooltip for the Accession&#8217;s Title field:</p>
+<p>To add a tooltip to a record label, simply add a new entry with “_tooltip” appended to the label’s code.  For example, to add a tooltip for the Accession’s Title field:</p>
 
 <p><code>
 en:
@@ -92,7 +90,7 @@ en:
 
 <p>For text fields or textareas, you may like to have some placeholder text to be displayed when the field is empty (for more details see http://www.w3.org/html/wg/drafts/html/master/forms.html#the-placeholder-attribute).  Please note while most modern browser releases support this feature, older version will not.</p>
 
-<p>To add a placeholder to a record&#8217;s text field, add a new entry of the label&#8217;s code appened with &#8220;_placeholder&#8221;. For example:</p>
+<p>To add a placeholder to a record’s text field, add a new entry of the label’s code appened with “_placeholder”. For example:</p>
 
 <p><code>
 en:
@@ -103,9 +101,9 @@ en:
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

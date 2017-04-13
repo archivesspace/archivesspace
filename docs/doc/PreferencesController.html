@@ -6,7 +6,7 @@
 <title>
   Class: PreferencesController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: PreferencesController
   
@@ -243,18 +241,18 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/preferences_controller.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
-  <span class='rubyid_scope identifier id'>scope</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'global'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>'global'</span> <span class='colon op'>:</span> <span class='string val'>'repo'</span>
-  <span class='rubyid_user_prefix identifier id'>user_prefix</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repo'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>''</span> <span class='colon op'>:</span> <span class='string val'>'user_'</span>
+  <span class='rubyid_scope identifier id'>scope</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;global&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;repo&#39;</span>
+  <span class='rubyid_user_prefix identifier id'>user_prefix</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;user_&#39;</span>
   <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='comma token'>,</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='assign token'>=</span> <span class='rubyid_current_preferences identifier id'>current_preferences</span>
-  <span class='rubyid_@defaults ivar id'>@defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='string val'>'defaults'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@defaults ivar id'>@defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;defaults&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{user_prefix}#{scope}&quot;</span>
   <span class='rubyid_@inherited_defaults ivar id'>@inherited_defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='string val'>&quot;defaults_global&quot;</span><span class='rbrack token'>]</span>
-  <span class='lbrack token'>[</span><span class='string val'>'user_global'</span><span class='comma token'>,</span> <span class='string val'>'repo'</span><span class='comma token'>,</span> <span class='string val'>'user_repo'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lev identifier id'>lev</span><span class='bitor op'>|</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;user_global&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;repo&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;user_repo&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lev identifier id'>lev</span><span class='bitor op'>|</span>
     <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_lev identifier id'>lev</span> <span class='eq op'>==</span> <span class='rubyid_level identifier id'>level</span>
     <span class='rubyid_@inherited_defaults ivar id'>@inherited_defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;defaults_#{lev}&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;defaults_#{lev}&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'global'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -263,19 +261,19 @@
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                                         <span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-                                        <span class='symbol val'>:user_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repo'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_nil nil kw'>nil</span> <span class='colon op'>:</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                                        <span class='symbol val'>:user_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_nil nil kw'>nil</span> <span class='colon op'>:</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
                                       <span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;id&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
     <span class='rubyid_@preference ivar id'>@preference</span> <span class='assign token'>=</span> <span class='rubyid_pref identifier id'>pref</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:preferences</span><span class='comma token'>,</span>
                 <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span>
                 <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
-                <span class='symbol val'>:global</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'global'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                <span class='symbol val'>:repo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repo'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                <span class='symbol val'>:global</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                <span class='symbol val'>:repo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -329,10 +327,10 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_prefs identifier id'>prefs</span><span class='comma token'>,</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='assign token'>=</span> <span class='rubyid_current_preferences identifier id'>current_preferences</span>
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'global'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:preference</span><span class='comma token'>,</span>
               <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;id&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='symbol val'>:find_opts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span>
               <span class='symbol val'>:save_opts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span>
               <span class='symbol val'>:replace</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
@@ -345,8 +343,8 @@
                 <span class='rubyid_redirect_to identifier id'>redirect_to</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:preferences</span><span class='comma token'>,</span>
                             <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:edit</span><span class='comma token'>,</span>
                             <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
-                            <span class='symbol val'>:global</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'global'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
-                            <span class='symbol val'>:repo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repo'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                            <span class='symbol val'>:global</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                            <span class='symbol val'>:repo</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
               <span class='rbrace token'>}</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -360,9 +358,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:29 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:40 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

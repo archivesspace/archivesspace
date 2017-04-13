@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -56,8 +56,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="file_list.html"></iframe>
 
       <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
 
@@ -103,13 +101,6 @@ You can check your Java version by running the command:</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
 </code></pre>
 
-<!-- I think the caution about Java 1.8 is no longer relevant per messages from Chris in 2015. -- Christine
-Currently, if you want to use Java 1.8, you will need to remove the
-jdt-compiler jar library from the java classpath ( lib directory of
-your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).  
---->
-
 <p>When you extract the <code>.zip</code> file, it will create a directory called
 <code>archivesspace</code>.  To run the system, just execute the appropriate
 startup script for your platform.  On Linux and OSX:</p>
@@ -128,7 +119,7 @@ startup script for your platform.  On Linux and OSX:</p>
 shut down when you close your terminal window).  Log output will be
 written to the file <code>logs/archivesspace.out</code> (by default).</p>
 
-<p><strong>Note:</strong> If you&#8217;re running Windows and you get an error message like
+<p><strong>Note:</strong> If you’re running Windows and you get an error message like
 <code>unable to resolve type 'size_t'</code> or <code>no such file to load -- bundler</code>,
 make sure that there are no spaces in any part of the path name in which the
 ArchivesSpace directory is located.</p>
@@ -140,10 +131,10 @@ up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:</p>
 
 <ul>
-  <li>http://localhost:8089/ &#8211; the backend</li>
-  <li>http://localhost:8080/ &#8211; the staff interface</li>
-  <li>http://localhost:8081/ &#8211; the public interface</li>
-  <li>http://localhost:8090/ &#8211; the Solr admin console</li>
+  <li>http://localhost:8089/ – the backend</li>
+  <li>http://localhost:8080/ – the staff interface</li>
+  <li>http://localhost:8081/ – the public interface</li>
+  <li>http://localhost:8090/ – the Solr admin console</li>
 </ul>
 
 <p>To start using the Staff interface application, log in using the adminstrator
@@ -154,20 +145,20 @@ account:</p>
   <li>Password: <code>admin</code></li>
 </ul>
 
-<p>Then, you can create a new repository by selecting &#8220;System&#8221; -&gt; &#8220;Manage
-repositories&#8221; at the top right hand side of the screen.  From the
-&#8220;System&#8221; menu, you can perform a variety of administrative tasks, such
+<p>Then, you can create a new repository by selecting “System” -&gt; “Manage
+repositories” at the top right hand side of the screen.  From the
+“System” menu, you can perform a variety of administrative tasks, such
 as creating and modifying user accounts.  <strong>Be sure to change the
-&#8220;admin&#8221; user&#8217;s password at this time.</strong></p>
+“admin” user’s password at this time.</strong></p>
 
 <h1 id="configuring-archivesspace">Configuring ArchivesSpace</h1>
 
 <p>The primary configuration for ArchivesSpace is done in the config/config.rb
 file. By default, this file contains the default settings, which are indicated
-by commented out lines ( indicated by the &#8220;#&#8221; in the file ). You can adjust these
+by commented out lines ( indicated by the “#” in the file ). You can adjust these
 settings by adding new lines that change the default and restarting
 ArchivesSpace. Be sure that your new settings are not commented out
-( i.e. do NOT start with a &#8220;#&#8221; ), otherwise the settings will not take effect.</p>
+( i.e. do NOT start with a “#” ), otherwise the settings will not take effect.</p>
 
 <h1 id="running-archivesspace-as-a-unix-daemon">Running ArchivesSpace as a Unix daemon</h1>
 
@@ -220,7 +211,7 @@ directory where java was installed ( something like <code>C:\Program Files
 <p>Before setting up the ArchivesSpace service, you should also <a href="https://github.com/archivesspace/archivesspace#running-archivesspace-against-mysql">configure
 ArchivesSpace to run against MySQL</a>.
 Be sure that the MySQL connector jar file is in the lib directory, in order for
-the service setup script to add it to the application&#8217;s classpath.</p>
+the service setup script to add it to the application’s classpath.</p>
 
 <p>Lastly, for the service to shutdown cleanly, uncomment and change these lines in
 config/config.rb:</p>
@@ -238,7 +229,7 @@ provide two executables: <code>ArchivesSpaceService.exe</code> (the service) and
 <code>ArchivesSpaceServicew.exe</code> (a GUI monitor)</p>
 
 <p>There are several options to launch the service. The easiest is to open the GUI
-monitor and click &#8220;Launch&#8221;.</p>
+monitor and click “Launch”.</p>
 
 <p>Alternatively, you can start the GUI monitor and minimize it in your
 system tray with:</p>
@@ -306,7 +297,7 @@ Workbench, phpMyAdmin, etc.).</p>
      <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
      <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>1</span> <span class='rubyid_row identifier id'>row</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.08</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 
-     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'as'</span>@<span class='string val'>'localhost'</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>'as123'</span><span class='semicolon token'>;</span>
+     <span class='rubyid_mysql identifier id'>mysql</span><span class='gt op'>&gt;</span> <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;as&#39;</span>@<span class='string val'>&#39;localhost&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;as123&#39;</span><span class='semicolon token'>;</span>
      <span class='rubyid_Query constant id'>Query</span> <span class='rubyid_OK constant id'>OK</span><span class='comma token'>,</span> <span class='integer val'>0</span> <span class='rubyid_rows identifier id'>rows</span> <span class='rubyid_affected identifier id'>affected</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.21</span> <span class='rubyid_sec identifier id'>sec</span><span class='rparen token'>)</span>
 </code></pre>
 
@@ -324,7 +315,7 @@ ArchivesSpace requires.  Run this with:</p>
 <pre class="code ruby"><code class="ruby"><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>  <span class='comment val'># or setup-database.bat under Windows</span>
 </code></pre>
 
-<p>You can now follow the instructions in the &#8220;Getting Started&#8221; section to start
+<p>You can now follow the instructions in the “Getting Started” section to start
 your ArchivesSpace application.</p>
 
 <h1 id="backup-and-recovery">Backup and recovery</h1>
@@ -340,7 +331,7 @@ instance to a <code>.zip</code> file.  You can run:</p>
 <p>and the script will generate a file containing:</p>
 
 <ul>
-  <li>A snapshot of the demo database (if you&#8217;re using the demo
+  <li>A snapshot of the demo database (if you’re using the demo
 database)</li>
   <li>A snapshot of the Solr index and related indexer files</li>
 </ul>
@@ -358,19 +349,19 @@ as long as you have backups of your database then you can always
 recover.</p>
 
 <p>If you are running MySQL, the <code>mysqldump</code> utility can dump the database
-schema and data to a file.  It&#8217;s a good idea to run this with the
+schema and data to a file.  It’s a good idea to run this with the
 <code>--single-transaction</code> option to avoid locking your database tables
 while your backups run. It is also essential to use the <code>--routines</code>
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for Jasper reports).</p>
+backup (which ArchivesSpace uses at least for reports).</p>
 
 <p>If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='comment val'># In this example, we create a snapshot at 4am each day and keep</span>
- <span class='comment val'># 7 days' worth of backups</span>
+ <span class='comment val'># 7 days&#39; worth of backups</span>
  <span class='comment val'>#</span>
- <span class='comment val'># Database snapshots are written to 'data/demo_db_backups' by</span>
+ <span class='comment val'># Database snapshots are written to &#39;data/demo_db_backups&#39; by</span>
  <span class='comment val'># default.</span>
  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 4 * * *&quot;</span>
  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:demo_db_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>7</span>
@@ -383,7 +374,7 @@ following configuration settings:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='comment val'># Create one snapshot per hour and keep only one.</span>
  <span class='comment val'>#</span>
- <span class='comment val'># Solr snapshots are written to 'data/solr_backups' by default.</span>
+ <span class='comment val'># Solr snapshots are written to &#39;data/solr_backups&#39; by default.</span>
  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 * * * *&quot;</span>
  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_number_to_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
 </code></pre>
@@ -398,7 +389,7 @@ need to restore:</p>
   <li>The search indexes and related indexer files</li>
 </ul>
 
-<p>Of the two, the database backup is the most crucial&#8211;search indexes
+<p>Of the two, the database backup is the most crucial–search indexes
 are worth restoring if you have backups, but they can be recreated
 from scratch if necessary.</p>
 
@@ -440,9 +431,9 @@ the time needed to get your system running again.</p>
 ArchivesSpace indexer:</p>
 
 <ul>
-  <li>solr.backup-[timestamp]/snapshot.[timestamp] &#8211; a snapshot of the
+  <li>solr.backup-[timestamp]/snapshot.[timestamp] – a snapshot of the
 index files.</li>
-  <li>solr.backup-[timestamp]/indexer_state &#8211; the files used by the
+  <li>solr.backup-[timestamp]/indexer_state – the files used by the
 indexer to remember what it last indexed.</li>
 </ul>
 
@@ -466,7 +457,7 @@ indexer to remember what it last indexed.</li>
 
 <h3 id="checking-your-search-indexes">Checking your search indexes</h3>
 
-<p>ArchivesSpace ships with a script that can run Lucene&#8217;s CheckIndex
+<p>ArchivesSpace ships with a script that can run Lucene’s CheckIndex
 tool for you, verifying that a given Solr index is free from
 corruption.  To test an index, run the following command from your
 <code>archivesspace</code> directory:</p>
@@ -488,13 +479,13 @@ assumes that nothing has been indexed and reindexes everything.</p>
 
 <p>To force ArchivesSpace to reindex all records, just delete the
 directory <code>/path/to/archivesspace/data/indexer_state</code>.  Since the
-indexing process is cumulative, there&#8217;s no harm in indexing the same
+indexing process is cumulative, there’s no harm in indexing the same
 document multiple times.</p>
 
 <h1 id="resetting-passwords">Resetting passwords</h1>
 
 <p>Under the <code>scripts</code> directory you will find a script that lets you
-reset a user&#8217;s password.  You can invoke it as:</p>
+reset a user’s password.  You can invoke it as:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_password identifier id'>password</span><span class='minus op'>-</span><span class='rubyid_reset identifier id'>reset</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_theusername identifier id'>theusername</span> <span class='rubyid_newpassword identifier id'>newpassword</span>  <span class='comment val'># or password-reset.bat under Windows</span>
 </code></pre>
@@ -508,18 +499,18 @@ this script.</p>
 
 <p>ArchivesSpace can manage its own user directory, but can also be
 configured to authenticate against one or more LDAP directories by
-specifying them in the application&#8217;s configuration file.  When a user
+specifying them in the application’s configuration file.  When a user
 attempts to log in, each authentication source is tried until one
 matches.</p>
 
 <p>Here is a minimal example of an LDAP configuration:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
-                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;LDAPAuth&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ldap.example.com&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ou=people,dc=example,dc=com&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uid&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
  <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
@@ -531,24 +522,24 @@ searching the <code>ou=people,dc=example,dc=com</code> tree for <code>uid = &lt;
 <p>If the user is found, ArchivesSpace authenticates them by
 binding using the password specified.  Finally, the <code>:attribute_map</code>
 entry specifies how LDAP attributes should be mapped to ArchivesSpace
-user attributes (mapping LDAP&#8217;s <code>cn</code> to ArchivesSpace&#8217;s <code>name</code> in the
+user attributes (mapping LDAP’s <code>cn</code> to ArchivesSpace’s <code>name</code> in the
 above example).</p>
 
-<p>Many LDAP directories don&#8217;t support anonymous binding.  To integrate
+<p>Many LDAP directories don’t support anonymous binding.  To integrate
 with such a directory, you will need to specify the username and
 password of a user with permission to connect to the directory and
 search for other users.  Modifying the previous example for this case
 looks like this:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
-                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;LDAPAuth&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ldap.example.com&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>389</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ou=people,dc=example,dc=com&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uid&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uid=archivesspace_auth,ou=system,dc=example,dc=com&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;secretsquirrel&#39;</span><span class='comma token'>,</span>
  <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
@@ -557,14 +548,14 @@ configure ArchivesSpace to connect via LDAPS, change the port as
 appropriate and specify the <code>encryption</code> option:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
-                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'LDAPAuth'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ldap.example.com'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;LDAPAuth&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:hostname</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ldap.example.com&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:port</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>636</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'ou=people,dc=example,dc=com'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:base_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ou=people,dc=example,dc=com&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:username_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uid&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:attribute_map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:cn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:name</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'uid=archivesspace_auth,ou=system,dc=example,dc=com'</span><span class='comma token'>,</span>
-                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'secretsquirrel'</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_dn</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;uid=archivesspace_auth,ou=system,dc=example,dc=com&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:bind_password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;secretsquirrel&#39;</span><span class='comma token'>,</span>
                                          <span class='symbol val'>:encryption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:simple_tls</span><span class='comma token'>,</span>
  <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
@@ -621,9 +612,9 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:00 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:21 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

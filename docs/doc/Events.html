@@ -6,7 +6,7 @@
 <title>
   Module: Events
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: Events
   
@@ -206,7 +204,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_loaded_hook identifier id'>loaded_hook</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:event_link</span><span class='comma token'>,</span>
-                             <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'linked_events'</span><span class='comma token'>,</span>
+                             <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;linked_events&#39;</span><span class='comma token'>,</span>
                              <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='lbrack token'>[</span><span class='rubyid_Event constant id'>Event</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
                              <span class='symbol val'>:class_callback</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_clz identifier id'>clz</span><span class='bitor op'>|</span>
                                <span class='rubyid_clz identifier id'>clz</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
@@ -261,9 +259,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:07 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:25 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

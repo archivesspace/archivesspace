@@ -6,7 +6,7 @@
 <title>
   Module: Agents::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../class_list.html"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="../class_list.html"></iframe>
 
       <div id="content"><h1>Module: Agents::ClassMethods
   
@@ -312,8 +310,8 @@
     <span class='rubyid_include identifier id'>include</span> <span class='rubyid_DynamicEnums constant id'>DynamicEnums</span>
 
     <span class='rubyid_enums identifier id'>enums</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-    <span class='rubyid_enums identifier id'>enums</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'role'</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_role_enum identifier id'>role_enum</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_role_enum identifier id'>role_enum</span>
-    <span class='rubyid_enums identifier id'>enums</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'relator'</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_relator_enum identifier id'>relator_enum</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_relator_enum identifier id'>relator_enum</span>
+    <span class='rubyid_enums identifier id'>enums</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;role&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_role_enum identifier id'>role_enum</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_role_enum identifier id'>role_enum</span>
+    <span class='rubyid_enums identifier id'>enums</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;relator&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:uses_enum</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_relator_enum identifier id'>relator_enum</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_relator_enum identifier id'>relator_enum</span>
 
     <span class='rubyid_uses_enums identifier id'>uses_enums</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_enums identifier id'>enums</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -407,7 +405,7 @@
 
     <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
       <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-      <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:terms</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_values identifier id'>values</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+      <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:terms</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_values identifier id'>values</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
 
@@ -431,7 +429,7 @@
     <span class='rubyid_define_method identifier id'>define_method</span><span class='lparen token'>(</span><span class='symbol val'>:values</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_values_orig identifier id'>values_orig</span>
 
-      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>'terms'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='rubyid_Term constant id'>Term</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+      <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='rubyid_Term constant id'>Term</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
       <span class='rubyid_result identifier id'>result</span>
     <span class='rubyid_end end kw'>end</span>
@@ -450,9 +448,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:07 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:25 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

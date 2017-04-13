@@ -6,7 +6,7 @@
 <title>
   Class: SpaceCalculatorController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: SpaceCalculatorController
   
@@ -256,8 +254,8 @@
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@location_refs ivar id'>@location_refs</span>
       <span class='rubyid_@results ivar id'>@results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/space_calculator/by_location&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-        <span class='string val'>'container_profile_uri'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span><span class='comma token'>,</span>
-        <span class='string val'>'location_uris[]'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@location_refs ivar id'>@location_refs</span>
+        <span class='string val'>&#39;container_profile_uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;location_uris[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@location_refs ivar id'>@location_refs</span>
       <span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:building</span><span class='rbrack token'>]</span>
@@ -271,11 +269,11 @@
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span>
       <span class='rubyid_@results ivar id'>@results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/space_calculator/by_building&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-        <span class='string val'>'container_profile_uri'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span><span class='comma token'>,</span>
-        <span class='string val'>'building'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_building identifier id'>building</span><span class='comma token'>,</span>
-        <span class='string val'>'floor'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_floor identifier id'>floor</span><span class='comma token'>,</span>
-        <span class='string val'>'room'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_room identifier id'>room</span><span class='comma token'>,</span>
-        <span class='string val'>'area'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_area identifier id'>area</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;container_profile_uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@container_profile_ref ivar id'>@container_profile_ref</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;building&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_building identifier id'>building</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;floor&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_floor identifier id'>floor</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;room&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_room identifier id'>room</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;area&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_area identifier id'>area</span><span class='comma token'>,</span>
       <span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -346,9 +344,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:30 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:41 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

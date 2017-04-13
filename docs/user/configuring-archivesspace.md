@@ -43,6 +43,12 @@ AppConfig[:indexer_records_per_thread] = 25
 AppConfig[:indexer_thread_count] = 4
 AppConfig[:indexer_solr_timeout_seconds] = 300
 
+# PUI Indexer Settings
+AppConfig[:pui_indexer_enabled] = true
+AppConfig[:pui_indexing_frequency_seconds] = 30
+AppConfig[:pui_indexer_records_per_thread] = 25
+AppConfig[:pui_indexer_thread_count] = 1
+
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
@@ -147,12 +153,14 @@ AppConfig[:locale] = :en
 # Report Configuration
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
-AppConfig[:report_page_layout] = "letter landscape"
+AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'lcnaf', 'aspace-public-formats']
+AppConfig[:plugins] = ['local',  'lcnaf']
+# The aspace-public-formats plugin is not supported in the new public application
+AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
 
 # URL to direct the feedback link
 # You can remove this from the footer by making the value blank.
@@ -188,6 +196,12 @@ AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ?
 # and this
 AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
+# The number of concurrent threads available to run background jobs
+# Introduced for AR-1619 - long running jobs were blocking the queue
+# Resist the urge to set this to a big number!
+AppConfig[:job_thread_count] = 2
+
+
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
 AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
@@ -199,21 +213,6 @@ AppConfig[:max_location_range] = 1000
 # migrations have run and completed before starting the app. You can override
 # this check here. Do so at your own peril. 
 AppConfig[:ignore_schema_info_check] = false
-
-# Jasper Reports
-# (https://community.jaspersoft.com/project/jasperreports-library)
-# require compilation. This can be done at startup. Please note, if you are
-# using Java 8 and you want to compile at startup, keep this setting at false,
-# but be sure to use the JDK version.
-AppConfig[:enable_jasper] = true
-AppConfig[:compile_jasper] = true
-
-# There are some conditions that has caused tree nodes ( ArchivalObjects, DO
-# Components, and ClassificationTerms) to lose their sequence pointers and
-# position setting. This will resequence these tree nodes prior to startup.
-# If is recogmended that this be used very infrequently and should not be set
-# to true for all startups ( as it will take a considerable amount of time )
-AppConfig[:resequence_on_startup] = false
 
 # This is a URL that points to some demo data that can be used for testing,
 # teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
@@ -229,4 +228,223 @@ AppConfig[:show_external_ids] = false
 # you're using that 
 AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024 
 AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024 
+
+# Define the fields for a record type that are inherited from ancestors
+# if they don't have a value in the record itself.
+# This is used in common/record_inheritance.rb and was developed to support
+# the new public UI application.
+# Note - any changes to record_inheritance config will require a reindex of pui
+# records to take affect. To do this remove files from indexer_pui_state
+AppConfig[:record_inheritance] = {
+  :archival_object => {
+    :inherited_fields => [
+                          {
+                            :property => 'title',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'component_id',
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'language',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'dates',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'extents',
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'linked_agents',
+                            :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
+                            :inherit_directly => true
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+                            :inherit_directly => false
+                          },
+                         ]
+  }
+}
+
+# To enable composite identifiers - added to the merged record in a property _composite_identifier
+# The values for :include_level and :identifier_delimiter shown here are the defaults
+# If :include_level is set to true then level values (eg Series) will be included in _composite_identifier
+# The :identifier_delimiter is used when joining the four part identifier for resources
+#AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
+#  :include_level => false,
+#  :identifier_delimiter => ' '
+#}
+
+# To configure additional elements to be inherited use this pattern in your config
+#AppConfig[:record_inheritance][:archival_object][:inherited_fields] <<
+#  {
+#    :property => 'linked_agents',
+#    :inherit_if => proc {|json| json.select {|j| j['role'] == 'subject'} },
+#    :inherit_directly => true
+#  }
+# ... or use this pattern to add many new elements at once
+#AppConfig[:record_inheritance][:archival_object][:inherited_fields].concat(
+#  [
+#    {
+#      :property => 'subjects',
+#      :inherit_if => proc {|json|
+#        json.select {|j|
+#          ! j['_resolved']['terms'].select { |t| t['term_type'] == 'topical'}.empty?
+#        }
+#      },
+#      :inherit_directly => true
+#    },
+#    {
+#      :property => 'external_documents',
+#      :inherit_directly => false
+#    },
+#    {
+#      :property => 'rights_statements',
+#      :inherit_directly => false
+#    },
+#    {
+#      :property => 'instances',
+#      :inherit_directly => false
+#    },
+#  ])
+
+# If you want to modify any of the default rules, the safest approach is to uncomment
+# the entire default record_inheritance config and make your changes.
+# For example, to stop scopecontent notes from being inherited into file or item records
+# uncomment the entire record_inheritance default config above, and add a skip_if
+# clause to the scopecontent rule, like this:
+#  {
+#    :property => 'notes',
+#    :skip_if => proc {|json| ['file', 'item'].include?(json['level']) },
+#    :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+#    :inherit_directly => false
+#  },
+
+# PUI Configurations
+# TODO: Clean up configuration options
+
+AppConfig[:pui_search_results_page_size] = 25
+AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
+AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
+
+# The following determine which 'tabs' are on the main horizontal menu
+AppConfig[:pui_hide] = {}
+AppConfig[:pui_hide][:repositories] = false
+AppConfig[:pui_hide][:resources] = false
+AppConfig[:pui_hide][:digital_objects] = false
+AppConfig[:pui_hide][:accessions] = false
+AppConfig[:pui_hide][:subjects] = false
+AppConfig[:pui_hide][:agents] = false
+AppConfig[:pui_hide][:classifications] = false
+# The following determine globally whether the various "badges" appear on the Repository page
+# can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
+AppConfig[:pui_hide][:resource_badge] = false
+AppConfig[:pui_hide][:record_badge] = false
+AppConfig[:pui_hide][:subject_badge] = false
+AppConfig[:pui_hide][:agent_badge] = false
+AppConfig[:pui_hide][:classification_badge] = false
+AppConfig[:pui_hide][:counts] = false
+# Other usage examples:
+# Don't display the accession ("unprocessed material") link on the main navigation menu
+# AppConfig[:pui_hide][:accessions] = true
+
+# the following determine when the request button gets greyed out/disabled
+AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
+
+# Repository-specific examples.  We are using the imaginary repository code of 'foo'.  Note the lower-case
+AppConfig[:pui_repos] = {}
+# Example:
+# AppConfig[:pui_repos][{repo_code}] = {}
+# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
+# AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
+# AppConfig[:pui_repos][{repo_code}][:hide] = {}
+# AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+
+AppConfig[:pui_display_deaccessions] = true
+
+# Enable / disable PUI resource/archival object page actions
+AppConfig[:pui_page_actions_cite] = true
+AppConfig[:pui_page_actions_bookmark] = true
+AppConfig[:pui_page_actions_request] = true
+AppConfig[:pui_page_actions_print] = true
+
+# Add page actions via the configuration
+AppConfig[:pui_page_custom_actions] = []
+# Examples:
+# Javascript action example: 
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'onclick_javascript' => 'alert("do something grand");',
+# }
+# # Hyperlink action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+# }
+# # Form-POST action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   # 'post_params_proc' returns a hash of params which populates a form with hidden inputs ('name' => 'value')
+#   'post_params_proc' => proc {|record| {'uri' => record.uri, 'display_string' => record.display_string} },
+#   # 'url_proc' returns the URL for the form to POST to
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+#   # 'form_id' as string to be used as the form's ID
+#   'form_id' => 'my_grand_action',
+# }
+# # ERB action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   # 'erb_partial' returns the path to an erb template from which the action will be rendered
+#   'erb_partial' => 'shared/my_special_action',
+# }
+
+# PUI email settings (logs emails when disabled)
+AppConfig[:pui_email_enabled] = false
+
+# See above AppConfig[:pui_repos][{repo_code}][:request_email] for setting repository email overrides
+# 'pui_email_override' for testing, this email will be the to-address for all sent emails
+# AppConfig[:pui_email_override] = 'testing@example.com'
+# 'pui_request_email_fallback_to_address' the 'to' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'
+# 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
+
+# Example sendmail configuration: 
+# AppConfig[:pui_email_delivery_method] = :sendmail
+# AppConfig[:pui_email_sendmail_settings] = {
+#   location: '/usr/sbin/sendmail',
+#   arguments: '-i'
+# }
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
+# Example SMTP configuration:
+#AppConfig[:pui_email_delivery_method] = :smtp
+#AppConfig[:pui_email_smtp_settings] = {
+#      address:              'smtp.gmail.com',
+#      port:                 587,
+#      domain:               'gmail.com',
+#      user_name:            '<username>',
+#      password:             '<password>',
+#      authentication:       'plain',
+#      enable_starttls_auto: true,
+#}
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
 ```

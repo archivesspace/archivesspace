@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: ASpaceExport
   
@@ -397,8 +395,8 @@
 
   <span class='rubyid_@@serializers ivar id'>@@serializers</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@@models ivar id'>@@models</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>'/../serializers/*.rb'</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:require</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>'/../models/*.rb'</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:require</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&#39;/../serializers/*.rb&#39;</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:require</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_glob identifier id'>glob</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&#39;/../models/*.rb&#39;</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_method identifier id'>method</span><span class='lparen token'>(</span><span class='symbol val'>:require</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@@initialized ivar id'>@@initialized</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 <span class='rubyid_end end kw'>end</span>
@@ -474,7 +472,7 @@
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_model identifier id'>model</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_model_for? fid id'>model_for?</span> <span class='rubyid_name identifier id'>name</span>
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ExportModelNotFoundError constant id'>ExportModelNotFoundError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can't find a model for: #{name}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ExportModelNotFoundError constant id'>ExportModelNotFoundError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can&#39;t find a model for: #{name}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -644,7 +642,7 @@
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_serializer identifier id'>serializer</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_serializer_for? fid id'>serializer_for?</span> <span class='rubyid_name identifier id'>name</span>
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_SerializerNotFoundError constant id'>SerializerNotFoundError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can't find a serializer for: #{name}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_SerializerNotFoundError constant id'>SerializerNotFoundError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can&#39;t find a serializer for: #{name}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -691,9 +689,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:06 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:25 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

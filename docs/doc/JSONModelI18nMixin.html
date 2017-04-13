@@ -6,7 +6,7 @@
 <title>
   Module: JSONModelI18nMixin
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Module: JSONModelI18nMixin
   
@@ -340,9 +338,9 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_translate_exception_message identifier id'>translate_exception_message</span><span class='lparen token'>(</span><span class='rubyid_msg identifier id'>msg</span><span class='rparen token'>)</span>
   <span class='rubyid_msg_data identifier id'>msg_data</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_msg identifier id'>msg</span>
-    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Can't be empty&quot;</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Can&#39;t be empty&quot;</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:cant_be_empty</span><span class='rbrack token'>]</span>
-    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;entered value didn't match password&quot;</span>
+    <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;entered value didn&#39;t match password&quot;</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:password_did_not_match</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;Group code must be unique within a repository&quot;</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:group_code_already_in_use</span><span class='rbrack token'>]</span>
@@ -358,7 +356,7 @@
       <span class='lbrack token'>[</span><span class='symbol val'>:is_required_unless_an_expression_or_an_end_date_is_given</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;That ID is already in use&quot;</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:id_already_in_use</span><span class='rbrack token'>]</span>
-    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Username '(.+)' is already in use/</span>
+    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Username &#39;(.+)&#39; is already in use/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:username_already_in_use</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Did not match regular expression: (.+)/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:did_not_match_regular_expression</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:regexp</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
@@ -368,16 +366,16 @@
       <span class='lbrack token'>[</span><span class='symbol val'>:too_many_characters</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:max_length</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^At least ([0-9]+) item\(s\) is required/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:too_few_items</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:min_items</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
-    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Invalid value '(.*?)'.  Must be one of: (.*)/</span>
+    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Invalid value &#39;(.*?)&#39;.  Must be one of: (.*)/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:invalid_value</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='symbol val'>:valid_set</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$2 nth_ref id'>$2</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Must be a (.*?) \(you provided a (.*)\)/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:wrong_type</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:desired_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='symbol val'>:actual_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$2 nth_ref id'>$2</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/^Must be one of: (.*?) \(you provided a (.*)\)/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:must_be_one_of</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:allowed_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='symbol val'>:actual_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$2 nth_ref id'>$2</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
-    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/Username '(.*)' is already in use/</span>
+    <span class='rubyid_when when kw'>when</span> <span class='regexp val'>/Username &#39;(.*)&#39; is already in use/</span>
       <span class='lbrack token'>[</span><span class='symbol val'>:username_already_in_use</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_$1 nth_ref id'>$1</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[\s,':]/</span><span class='comma token'>,</span> <span class='string val'>'_'</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+      <span class='lbrack token'>[</span><span class='rubyid_msg identifier id'>msg</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[\s,&#39;:]/</span><span class='comma token'>,</span> <span class='string val'>&#39;_&#39;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
              <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_vars identifier id'>vars</span> <span class='assign token'>=</span> <span class='mult op'>*</span><span class='rubyid_msg_data identifier id'>msg_data</span>
@@ -394,9 +392,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:12 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:29 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

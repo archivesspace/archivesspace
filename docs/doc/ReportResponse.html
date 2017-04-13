@@ -6,7 +6,7 @@
 <title>
   Class: ReportResponse
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: ReportResponse
   
@@ -101,20 +99,7 @@
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    <p>this is a generic wrapper for reports reponses. JasperReports do not 
-need a reponse wrapper and can return reports on formats using the to_FORMAT
-convention. &#8220;Classic&#8221; AS reports need a wrapper to render the report in a
-specific format.</p>
 
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
@@ -265,13 +250,13 @@ specific format.</p>
       <pre class="lines">
 
 
-17
-18
-19
-20</pre>
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span>  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>  <span class='rparen token'>)</span>
   <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_report identifier id'>report</span>
@@ -315,12 +300,12 @@ specific format.</p>
       <pre class="lines">
 
 
-15
-16
-17</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_base_url identifier id'>base_url</span>
   <span class='rubyid_@base_url ivar id'>@base_url</span>
@@ -358,12 +343,12 @@ specific format.</p>
       <pre class="lines">
 
 
-14
-15
-16</pre>
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
   <span class='rubyid_@report ivar id'>@report</span>
@@ -396,37 +381,29 @@ specific format.</p>
       <pre class="lines">
 
 
+19
+20
+21
 22
 23
 24
 25
 26
 27
-28
-29
-30
-31
-32
-33
-34
-35</pre>
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate identifier id'>generate</span>
-  <span class='rubyid_if if kw'>if</span>  <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_JasperReport constant id'>JasperReport</span><span class='rparen token'>)</span> 
-    <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>    
-    <span class='rubyid_String constant id'>String</span><span class='dot token'>.</span><span class='rubyid_from_java_bytes identifier id'>from_java_bytes</span><span class='lparen token'>(</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='rubyid_format identifier id'>format</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> 
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_file identifier id'>file</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;../../views/reports/report.erb&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_@params ivar id'>@params</span><span class='lbrack token'>[</span><span class='symbol val'>:html_report</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span>  <span class='rubyid_ERB constant id'>ERB</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span> <span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span> <span class='rubyid_file identifier id'>file</span> <span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_result identifier id'>result</span><span class='lparen token'>(</span><span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_get_binding identifier id'>get_binding</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  
-    <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>
+  <span class='rubyid_@params ivar id'>@params</span><span class='lbrack token'>[</span><span class='symbol val'>:html_report</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span>
+    <span class='rubyid_ReportErbRenderer constant id'>ReportErbRenderer</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@report ivar id'>@report</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='string val'>&quot;report.erb&quot;</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
 
-    <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{format.upcase}Response&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='rubyid_@report ivar id'>@report</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_generate identifier id'>generate</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>
+
+  <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{format.upcase}Response&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:new</span><span class='comma token'>,</span> <span class='rubyid_@report ivar id'>@report</span><span class='comma token'>,</span> <span class='rubyid_@params ivar id'>@params</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_generate identifier id'>generate</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -439,9 +416,9 @@ specific format.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:24 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

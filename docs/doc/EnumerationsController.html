@@ -6,7 +6,7 @@
 <title>
   Class: EnumerationsController
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: EnumerationsController
   
@@ -527,7 +525,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/enumerations_controller.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
-  <span class='comment val'># @enumerations = JSONModel(:enumeration).all.select{|enum| enum['editable']}</span>
+  <span class='comment val'># @enumerations = JSONModel(:enumeration).all.select{|enum| enum[&#39;editable&#39;]}</span>
   <span class='rubyid_@enumerations ivar id'>@enumerations</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
   <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
 <span class='rubyid_end end kw'>end</span>
@@ -682,7 +680,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_default identifier id'>set_default</span>
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:enumeration</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='lbrack token'>[</span><span class='string val'>'default_value'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_value&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span>
     <span class='rubyid_@enumeration ivar id'>@enumeration</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumeration._frontend.messages.default_set&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
@@ -784,9 +782,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:29 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:40 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

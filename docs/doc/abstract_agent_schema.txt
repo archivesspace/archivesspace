@@ -22,6 +22,8 @@ boolean	system_generated
 
 array ([{"type"=>"JSONModel(:note_bioghist) object"}])	notes
 
+array (JSONModel(:repository) uri)	used_within_repositories
+
 array (JSONModel(:date) object)	dates_of_existence
 
 boolean	publish

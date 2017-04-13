@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: FRONTEND_README_BOWER
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,13 +57,11 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="managing-frontend-assets-with-bower">Managing Frontend Assets with Bower</h1>
 
-<p>This is aimed at developers and applies to the &#8216;frontend&#8217; application only.</p>
+<p>This is aimed at developers and applies to the ‘frontend’ application only.</p>
 
-<p>If you wish to add static assets to the core project (i.e., javascript, css, less files) please use <code>bower</code> to add and install them so we know what&#8217;s what and when to upgrade.</p>
+<p>If you wish to add static assets to the core project (i.e., javascript, css, less files) please use <code>bower</code> to add and install them so we know what’s what and when to upgrade.</p>
 
 <p>If you wish to do a good deed for ArchivesSpace you can track down the source of any vendor assets not included in bower.json and get them updated and installed according to this protocol.</p>
 
@@ -101,7 +99,7 @@
 
 <h2 id="step-3-install-assets">Step 3: Install assets</h2>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_alias alias kw'>alias</span> <span class='rubyid_npm identifier id'>npm</span><span class='minus op'>-</span><span class='rubyid_exec identifier id'>exec</span><span class='assign token'>=</span><span class='string val'>'PATH=$(npm bin):$PATH'</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_alias alias kw'>alias</span> <span class='rubyid_npm identifier id'>npm</span><span class='minus op'>-</span><span class='rubyid_exec identifier id'>exec</span><span class='assign token'>=</span><span class='string val'>&#39;PATH=$(npm bin):$PATH&#39;</span>
 <span class='rubyid_npm identifier id'>npm</span><span class='minus op'>-</span><span class='rubyid_exec identifier id'>exec</span> <span class='rubyid_bower identifier id'>bower</span><span class='minus op'>-</span><span class='rubyid_installer identifier id'>installer</span>
 </code></pre>
 
@@ -111,13 +109,13 @@
 
 <h2 id="production">Production!</h2>
 
-<p>Don&#8217;t forget - if you are adding assets that don&#8217;t have a .js extension, you need to add them to frontend/config/environments/production.rb</p>
+<p>Don’t forget - if you are adding assets that don’t have a .js extension, you need to add them to frontend/config/environments/production.rb</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

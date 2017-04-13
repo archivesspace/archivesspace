@@ -6,7 +6,7 @@
 <title>
   Schema: boolean_query_schema
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="schema_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -59,8 +59,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="class_list.html"></iframe>
-
       <div id="content">
 
     	<h1>JSON Schema: Boolean_query</h1>
@@ -72,7 +70,7 @@
 			
 				<h3 class="signature"> - (string) <strong>op</strong></h3>
 			
-				<h3 class="signature"> - (["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:boolean_field_query) object", "JSONModel(:date_field_query) object"]) <strong>subqueries</strong></h3>
+				<h3 class="signature"> - (["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:boolean_field_query) object", "JSONModel(:date_field_query) object", "JSONModel(:range_query) object"]) <strong>subqueries</strong></h3>
 			
 		<span class="showSource"><a href="#" class="toggleSource">View Source</a></span>
 
@@ -107,7 +105,7 @@
     <span class='string val'>&quot;properties&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
 
       <span class='string val'>&quot;op&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;AND&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;OR&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;NOT&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
-      <span class='string val'>&quot;subqueries&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;JSONModel(:boolean_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:field_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:boolean_field_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:date_field_query) object&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;minItems&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;subqueries&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;JSONModel(:boolean_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:field_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:boolean_field_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:date_field_query) object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;JSONModel(:range_query) object&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;error&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;minItems&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -118,16 +116,16 @@
       </table>
 			<br />
 			<span><a href="boolean_query_schema.txt">Plain Text Version</a></span>
-			</div>
+
 
 
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:32 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

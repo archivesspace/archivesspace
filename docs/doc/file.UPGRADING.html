@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="US-ASCII">
+    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: UPGRADING
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html"></iframe>
+      <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -57,8 +57,6 @@
         <div class="clear"></div>
       </div>
 
-      <iframe id="search_frame" src="file_list.html"></iframe>
-
       <div id="content"><div id='filecontents'><h1 id="upgrading-to-a-new-release-of-archivesspace">Upgrading to a new release of ArchivesSpace</h1>
 
 <ul>
@@ -75,7 +73,7 @@ under the <em>Backup and recovery</em> section in <a href="https://github.com/ar
 
 <h2 id="unpack-the-new-version">Unpack the new version</h2>
 
-<p>It&#8217;s a good idea to unpack a fresh copy of the version of
+<p>It’s a good idea to unpack a fresh copy of the version of
 ArchivesSpace you are upgrading to.  This will ensure that you are
 running the latest versions of all files.  In the examples below,
 replace the lower case x with the version number updating to. For example,
@@ -133,27 +131,27 @@ your original ArchivesSpace installation:</p>
 </code></pre>
 
 <p>Note that you may want to preserve the logs file (<code>logs/archivesspace.out</code>
-by default) from your previous installation&#8211;just in case you need to
+by default) from your previous installation–just in case you need to
 refer to it later.</p>
 
 <h3 id="configuration-note">Configuration note</h3>
 
 <p>Sometimes a new release of ArchivesSpace will introduce new
-configuration settings that weren&#8217;t present in previous releases.
+configuration settings that weren’t present in previous releases.
 Before you replace the distribution <code>config/config.rb</code> with your
-original version, it&#8217;s a good idea to review the distribution version
+original version, it’s a good idea to review the distribution version
 to see if there are any new configuration settings of interest.</p>
 
 <p>Upgrade notes will generally draw attention to any configuration
-settings you need to set explicitly, but you never know when you&#8217;ll
+settings you need to set explicitly, but you never know when you’ll
 discover a new, exciting feature!  Documentation might also refer to
-uncommenting configuration options that won&#8217;t be in your file if you
+uncommenting configuration options that won’t be in your file if you
 keep your older version.</p>
 
 <h2 id="transfer-your-locales-data">Transfer your locales data</h2>
 
-<p>If you&#8217;ve made modifications to you locales file ( en.yml ) with customized
-labels, titles, tooltips, etc., you&#8217;ll need to transfer those to your new
+<p>If you’ve made modifications to you locales file ( en.yml ) with customized
+labels, titles, tooltips, etc., you’ll need to transfer those to your new
 locale file.</p>
 
 <p>A good way to do this is to use a Diff tool, like Notepad++, TextMate, or just
@@ -186,9 +184,9 @@ or Linux:</p>
  $ <span class='rubyid_scripts identifier id'>scripts</span>\<span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
 </code></pre>
 
-<h2 id="if-youre-using-external-solr">If you&#8217;re using external Solr</h2>
+<h2 id="if-youre-using-external-solr">If you’re using external Solr</h2>
 
-<p>It&#8217;s recommeneded you check your version against the version included with
+<p>It’s recommeneded you check your version against the version included with
 ArchivesSpace:</p>
 
 <p>https://github.com/archivesspace/archivesspace/blob/v1.5.x/build/build.xml#L9</p>
@@ -201,12 +199,12 @@ them if necessary (this is required for proper functionality).</p>
 
 <p>https://github.com/archivesspace/archivesspace/tree/v1.5.x/solr</p>
 
-<h2 id="if-youve-deployed-to-tomcat">If you&#8217;ve deployed to Tomcat</h2>
+<h2 id="if-youve-deployed-to-tomcat">If you’ve deployed to Tomcat</h2>
 
 <p>The steps to deploy to Tomcat are esentially the same as in the
 <a href="https://github.com/archivesspace/archivesspace_tomcat">archivesspace_tomcat</a></p>
 
-<p>But, prior to running your setup-tomcat script, you&#8217;ll need to be sure to clean out the
+<p>But, prior to running your setup-tomcat script, you’ll need to be sure to clean out the
 any libraries from the previous ASpace version from your Tomcat classpath.</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='float val'>1</span><span class='dot token'>.</span> <span class='rubyid_Stop constant id'>Stop</span> <span class='rubyid_Tomcat constant id'>Tomcat</span>
@@ -218,7 +216,7 @@ any libraries from the previous ASpace version from your Tomcat classpath.</p>
     <span class='rubyid_settings identifier id'>settings</span><span class='dot token'>.</span> <span class='rparen token'>)</span>
  <span class='float val'>5</span><span class='dot token'>.</span> <span class='rubyid_Make constant id'>Make</span> <span class='rubyid_sure identifier id'>sure</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_MySQL constant id'>MySQL</span> <span class='rubyid_connector identifier id'>connector</span> <span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_lib identifier id'>lib</span> <span class='rubyid_directory identifier id'>directory</span>
  <span class='float val'>6</span><span class='dot token'>.</span> <span class='rubyid_Run constant id'>Run</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span> <span class='rubyid_script identifier id'>script</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_migration identifier id'>migration</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span>
- <span class='float val'>7</span><span class='dot token'>.</span> <span class='rubyid_Delete constant id'>Delete</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_ASpace constant id'>ASpace</span> <span class='rubyid_related identifier id'>related</span> <span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_libraries identifier id'>libraries</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_Tomcat constant id'>Tomcat</span><span class='string val'>'s lib directory. These
+ <span class='float val'>7</span><span class='dot token'>.</span> <span class='rubyid_Delete constant id'>Delete</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_ASpace constant id'>ASpace</span> <span class='rubyid_related identifier id'>related</span> <span class='rubyid_jar identifier id'>jar</span> <span class='rubyid_libraries identifier id'>libraries</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_Tomcat constant id'>Tomcat</span><span class='string val'>&#39;s lib directory. These
     will include the &quot;gems&quot; folder, as well as &quot;common.jar&quot; and some
     [others](https://github.com/archivesspace/archivesspace/tree/master/common/lib).
     This will make sure your running the correct version of the dependent
@@ -229,15 +227,15 @@ any libraries from the previous ASpace version from your Tomcat classpath.</p>
  9. Start Tomcat
 </span></code></pre>
 
-<h2 id="thats-it">That&#8217;s it!</h2>
+<h2 id="thats-it">That’s it!</h2>
 
 <p>You can now start your new ArchivesSpace version as normal.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:04 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

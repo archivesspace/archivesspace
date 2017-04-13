@@ -6,7 +6,7 @@
 <title>
   Class: Ticker
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: Ticker
   
@@ -96,7 +94,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>backend/app/lib/batch_import_runner.rb</dd>
+    <dd>backend/app/lib/job_runners/batch_import_runner.rb</dd>
   </dl>
   
 </div>
@@ -213,7 +211,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#tick_estimate%3D-instance_method" title="#tick_estimate= (instance method)">#<strong>tick_estimate=</strong>(n)  &#x21d2; Object </a>
+      <a href="#tick_estimate=-instance_method" title="#tick_estimate= (instance method)">#<strong>tick_estimate=</strong>(n)  &#x21d2; Object </a>
     
 
     
@@ -264,12 +262,12 @@
       <pre class="lines">
 
 
-18
-19
-20</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/batch_import_runner.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_job identifier id'>job</span>
@@ -302,12 +300,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/batch_import_runner.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
@@ -333,12 +331,12 @@
       <pre class="lines">
 
 
-27
-28
-29</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/batch_import_runner.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_status_update identifier id'>status_update</span><span class='lparen token'>(</span><span class='rubyid_status_code identifier id'>status_code</span><span class='comma token'>,</span> <span class='rubyid_status identifier id'>status</span><span class='rparen token'>)</span>
   <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{status[:id]}. #{status_code.upcase}: #{status[:label]}&quot;</span><span class='rparen token'>)</span>
@@ -364,11 +362,11 @@
       <pre class="lines">
 
 
-23
-24</pre>
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/batch_import_runner.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tick identifier id'>tick</span>
 <span class='rubyid_end end kw'>end</span>
@@ -393,11 +391,11 @@
       <pre class="lines">
 
 
-37
-38</pre>
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/batch_import_runner.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tick_estimate= identifier id'>tick_estimate=</span><span class='lparen token'>(</span><span class='rubyid_n identifier id'>n</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -412,9 +410,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:21 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>

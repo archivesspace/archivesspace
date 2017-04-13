@@ -6,7 +6,7 @@
 <title>
   Class: StreamingJsonReader
   
-    &mdash; Documentation by YARD 0.9.0
+    &mdash; Documentation by YARD 0.9.8
   
 </title>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="class_list.html"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -58,8 +58,6 @@
 </div>
         <div class="clear"></div>
       </div>
-
-      <iframe id="search_frame" src="class_list.html"></iframe>
 
       <div id="content"><h1>Class: StreamingJsonReader
   
@@ -329,7 +327,7 @@ memory at a time.</p>
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
   <span class='rubyid_@filename ivar id'>@filename</span> <span class='assign token'>=</span> <span class='rubyid_filename identifier id'>filename</span>
 
-  <span class='comment val'># The indexes of any records marked as deleted.  We'll skip those on</span>
+  <span class='comment val'># The indexes of any records marked as deleted.  We&#39;ll skip those on</span>
   <span class='comment val'># subsequent iterations.</span>
   <span class='rubyid_@deleted_entries ivar id'>@deleted_entries</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_BitSet constant id'>BitSet</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
@@ -337,7 +335,7 @@ memory at a time.</p>
   <span class='comment val'># iteration and constant after that)</span>
   <span class='rubyid_@count ivar id'>@count</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
 
-  <span class='comment val'># The record number we've just yielded to the caller's `.each` block</span>
+  <span class='comment val'># The record number we&#39;ve just yielded to the caller&#39;s `.each` block</span>
   <span class='rubyid_@record_index ivar id'>@record_index</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
 
   <span class='comment val'># Unfortunate to need this: we need a way of skipping the commas between</span>
@@ -542,7 +540,7 @@ memory at a time.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>Parse and yield each record from our underlying JSON file.  If you call
-<code>delete_current</code> we&#8217;ll mark the record we just handed you as deleted, and it
+<code>delete_current</code> we’ll mark the record we just handed you as deleted, and it
 will be skipped in subsequent iterations.</p>
 
 
@@ -680,9 +678,9 @@ will be skipped in subsequent iterations.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:23 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:36 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.0 (ruby-1.9.3).
+  0.9.8 (ruby-2.3.1).
 </div>
     </div>
   </body>
