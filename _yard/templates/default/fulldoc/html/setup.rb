@@ -27,7 +27,7 @@ def generate_schema_list
 
    # optional: the specified stylesheet class
    # when not specified it will default to the value of @list_type
-   @list_class = "class"
+   @list_class = "schema"
 
    # Generate the full list html file with named feature_list.html
    # @note this file must be match the name of the type
@@ -36,7 +36,7 @@ end
 
 
 def link_schema(item)
-  "<span class='object_link'><a href='#{item}.html'>#{item.to_s.sub(/_schema/,'')}</a></span>"
+  "<div class='item'><span class='object_link'><a href='#{item}.html' title='#{item}' >#{item.to_s.sub(/_schema/,'')}</a></span></div>"
  # linkify(item)
 end
   
