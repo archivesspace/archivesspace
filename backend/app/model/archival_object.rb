@@ -42,26 +42,28 @@ class ArchivalObject < Sequel::Model(:archival_object)
                 :only_on_create => true
 
   auto_generate :property => :display_string,
-                :generator => proc { |json|
-                  display_string = json['title'] || ""
+                :generator => proc { |json| ArchivalObject.produce_display_string(json) }
 
-                  date_label = json.has_key?('dates') && json['dates'].length > 0 ?
-                                lambda {|date|
-                                  if date['expression']
-                                    date['expression']
-                                  elsif date['begin'] and date['end']
-                                    "#{date['begin']} - #{date['end']}"
-                                  else
-                                    date['begin']
-                                  end
-                                }.call(json['dates'].first) : false
 
-                  display_string += ", " if json['title'] && date_label
-                  display_string += date_label if date_label
+  def self.produce_display_string(json)
+    display_string = json['title'] || ""
 
-                  display_string
-                }
+    date_label = json.has_key?('dates') && json['dates'].length > 0 ?
+                   lambda {|date|
+                     if date['expression']
+                       date['expression']
+                     elsif date['begin'] and date['end']
+                       "#{date['begin']} - #{date['end']}"
+                     else
+                       date['begin']
+                     end
+                   }.call(json['dates'].first) : false
 
+    display_string += ", " if json['title'] && date_label
+    display_string += date_label if date_label
+
+    display_string
+  end
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super

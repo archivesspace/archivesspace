@@ -795,7 +795,11 @@ class EADConverter < Converter
 
       unless title
         title = ''
-        ancestor(:resource, :archival_object ) { |ao| title << ao.title + ' Digital Object' }
+        ancestor(:resource, :archival_object ) { |ao|
+          display_string = ArchivalObject.produce_display_string(ao)
+
+          title << display_string + ' Digital Object'
+        }
       end
 
       make :digital_object, {
