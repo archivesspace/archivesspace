@@ -1123,6 +1123,9 @@ en:
         <p>The internal database number for a specific accession record.</p>
     identifier: Identifier
     id_0: Identifier
+    id_1: Identifier 2
+    id_2: Identifier 3
+    id_3: Identifier 4
     id_0_tooltip: |
         <p>REQUIRED FIELD:  The unique identifier for an accession within a
         repository.</p>
@@ -1883,6 +1886,7 @@ en:
     did_not_match_regular_expression: Did not match regular expression %{regexp}
     too_few_characters: Must be at least %{min_length} characters
     too_many_characters: Must be %{max_length} characters or fewer
+    max_length_is_50_characters: Must not exceed 50 characters
     too_few_items: At least %{min_items} item(s) is required
     invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
     wrong_type: Must be a %{desired_type} (you provided a %{actual_type})

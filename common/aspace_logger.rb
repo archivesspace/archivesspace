@@ -11,10 +11,25 @@ class ASpaceLogger < Logger
   end
 
   def add(severity, message = nil, progname = nil, &block)
-   if @recording.value == true 
-      add_to_backlog(  format_message(format_severity(severity), Time.now, progname, message)) 
-   end 
-   super(severity, message, progname, &block )
+   if @recording.value == true
+
+     if !message
+       if block
+         message = block.call
+       else
+         # O_o
+         #
+         # https://ruby-doc.org/stdlib-2.1.0/libdoc/logger/rdoc/Logger.html#method-i-add
+         # "Program name string. Can be omitted. Treated as a message if no message and block are given."
+         message = progname
+         progname = nil
+       end
+     end
+
+     add_to_backlog(format_message(format_severity(severity), Time.now, progname, message))
+   end
+
+   super(severity, message, progname, &block)
   end
 
   def add_to_backlog( formatted_messsage )

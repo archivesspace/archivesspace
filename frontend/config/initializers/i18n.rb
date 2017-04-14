@@ -33,9 +33,34 @@ module I18n
   end
 
 
-  def self.t(*args)
-    results =  self.t_raw(*args)
-    results.nil? ? "" : results.html_safe
+  def self.t(input, options = {})
+    # If a default was provided, we don't want to mark it as html safe.  Let the
+    # lookup fail, then return the (possibly unsafe) default if needed.
+    default = nil
+
+    if options.is_a?(String)
+      # Sometimes people pass a second argument where they wanted a default.
+      # We'll allow this for now.
+      options = {:default => options}
+    end
+
+    if options.is_a?(Hash)
+      default = options.delete(:default)
+    else
+      options = {}
+    end
+
+    begin
+      results =  self.t_raw(input, options.merge(:raise => true))
+      results.nil? ? "" : results.html_safe
+    rescue I18n::MissingTranslationData => e
+      if default
+        default
+      else
+        # "translation missing: ..."
+        e.to_s
+      end
+    end
   end
 
 end

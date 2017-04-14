@@ -1,7 +1,7 @@
 <%
   def local_access_restriction_types_for_options
     JSONModel.enum_values("restriction_type").map {|type|
-      [I18n.t("enumerations.restriction_type.#{type}", type), type]
+      [I18n.t("enumerations.restriction_type.#{type}", :default => type), type]
     }.sort_by(&:first)
   end
 %>
