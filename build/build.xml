@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="ArchivesSpace" default="help">
+<project name="ArchivesSpace" default="help" xmlns:if="ant:if"  xmlns:unless="ant:unless" >
 
   <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.8.0/jruby-complete-9.1.8.0.jar" />
   <property name="jruby_file" value="jruby-complete-9.1.8.0.jar" />
@@ -750,6 +750,13 @@
       <fileset dir="../plugins/aspace-public-formats"/>
     </copy>
 
+    <echo message="copying all plugins for local dist build..." if:true="${local_build}" />
+    <copy todir="target/archivesspace/plugins" verbose="true" if:true="${local_build}" >
+        <!-- include all plugins for local build -->
+        <fileset dir="../plugins" />
+    </copy>
+
+
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
     </copy>
@@ -762,8 +769,15 @@
       <arg line="-Iapp/lib scripts/export_config.rb target/archivesspace/config/config.rb" />
     </java>
 
+    <echo message="append config.rb..." if:true="${local_build}"/>
+    <concat destfile="target/archivesspace/config/config.rb" append="true" if:true="${local_build}" >
+        <!-- include local config.rb for a local dist build  -->
+        <filelist dir="../common/config" files="config.rb"/>
+    </concat>
+
     <zip zipfile="../archivesspace-${version}.zip" level="9">
-      <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
+      <zipfileset dir="target" unless:true="${local_build}" excludes="**/mysql-connector-java*.jar" />
+      <zipfileset dir="target" if:true="${local_build}" />
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="UPGRADING.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
