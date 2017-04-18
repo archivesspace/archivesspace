@@ -146,6 +146,10 @@ AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 AppConfig[:plugins] = ['local',  'lcnaf']
 # The aspace-public-formats plugin is not supported in the new public application
 AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
+# By default, the plugins directory will be in your ASpace Home.
+# If you want to override that, update this with an absolute
+# path
+AppConfig[:plugins_directory] = "plugins"
 
 # URL to direct the feedback link
 # You can remove this from the footer by making the value blank.
