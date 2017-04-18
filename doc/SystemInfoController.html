@@ -277,10 +277,10 @@
     <span class='rubyid_@log ivar id'>@log</span> <span class='assign token'>=</span> <span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span> <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;/system/log&quot;</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
               <span class='string val'>&quot;X-ArchivesSpace-Session&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_current identifier id'>current</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_session</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span> 
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@log ivar id'>@log</span> <span class='assign token'>=</span> <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_backlog identifier id'>backlog</span>
+    <span class='rubyid_@log ivar id'>@log</span> <span class='assign token'>=</span> <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_backlog_and_flush identifier id'>backlog_and_flush</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@log ivar id'>@log</span>
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:plain</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@log ivar id'>@log</span>
 
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -294,7 +294,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Apr 13 10:11:40 2017 by
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:20 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
