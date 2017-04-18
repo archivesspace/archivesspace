@@ -78,7 +78,8 @@ if [ "$ASPACE_LAUNCHER_BASE" = "" ]; then
 fi
 
 echo "ArchivesSpace base directory: $ASPACE_LAUNCHER_BASE"
-
+export ASPACE_PUBLIC_NEW=true
+echo "ArchivesSpace PUI NEW: $ASPACE_PUBLIC_NEW"
 
 # We'll provide our own values for these
 unset GEM_HOME
