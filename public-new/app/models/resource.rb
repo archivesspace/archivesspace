@@ -9,7 +9,6 @@ class Resource < Record
     @digital_instances = parse_digital_instance
     @finding_aid = parse_finding_aid
     @related_accessions = parse_related_accessions
-    @related_deaccessions = parse_related_deaccessions
     @cite = parse_cite_string
   end
 
@@ -90,18 +89,6 @@ class Resource < Record
     }.map {|accession|
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
     }
-  end
-
-  def parse_related_deaccessions
-    return [] unless AppConfig[:pui_display_deaccessions]
-
-    deaccessions = []
-
-    related_accessions.each{|accession|
-      deaccessions.concat(accession.deaccessions)
-    }
-
-    deaccessions
   end
 
   def parse_cite_string
