@@ -85,17 +85,11 @@ class Record
 
     if !json['instances'].blank? && json['instances'].kind_of?(Array)
       json['instances'].each do |inst|
-        if inst.kind_of?(Hash) && inst['container'].present? && inst['container'].kind_of?(Hash)
-          display = []
-          %w{1 2 3}.each do |i|
-            type = process_container_type(inst['container']["type_#{i}"])
-            if !inst['container']["indicator_#{i}"].blank?
-              display.push("#{type} #{inst['container']["indicator_#{i}"]}".gsub("Unspecified", ''))
+        sub_container = inst.fetch('sub_container', nil)
 
-            end
-          end
-          containers.push(display.join(", ")) unless display.empty?
-        end
+        next if sub_container.nil?
+
+        containers.push(parse_sub_container_display_string(sub_container, inst))
       end
     end
 
@@ -186,16 +180,6 @@ class Record
         return JSON.parse( rr[1][0]['json'])
       end
     end
-  end
-
-  def process_container_type(in_type)
-    type = ''
-    if !in_type.blank?
-      type = (in_type == 'unspecified' ?'': in_type)
-#      type = 'box' if type == 'boxes'
-#      type = type.chomp.chop if type.end_with?('s')
-    end
-    type
   end
 
   def parse_subjects
@@ -313,6 +297,52 @@ class Record
 
   def cite_url_and_timestamp
     "#{AppConfig[:public_url].sub(/^\//, '')}#{uri}  #{I18n.t('accessed')}  #{Time.now.strftime("%B %d, %Y")}"
+  end
+
+  def parse_sub_container_display_string(sub_container, inst)
+    parts = []
+
+    instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
+
+    # add the top container type and indicator
+    if sub_container.has_key?('top_container')
+      top_container_solr = top_container_for_uri(sub_container['top_container']['ref'])
+      if top_container_solr
+        top_container_display_string = ""
+        top_container_json = ASUtils.json_parse(top_container_solr.fetch('json'))
+        if top_container_json['type']
+          top_container_type = I18n.t("enumerations.container_type.#{top_container_json.fetch('type')}", :default => top_container_json.fetch('type'))
+          top_container_display_string << "#{top_container_type}: "
+        end
+        top_container_display_string << top_container_json.fetch('indicator')
+        parts << top_container_display_string
+      end
+    end
+
+
+    # add the child type and indicator
+    if sub_container['type_2'] && sub_container['indicator_2']
+      type = I18n.t("enumerations.container_type.#{sub_container.fetch('type_2')}", :default => sub_container.fetch('type_2'))
+      parts << "#{type}: #{sub_container.fetch('indicator_2')}"
+    end
+
+    # add the grandchild type and indicator
+    if sub_container['type_3'] && sub_container['indicator_3']
+      type = I18n.t("enumerations.container_type.#{sub_container.fetch('type_3')}", :default => sub_container.fetch('type_3'))
+      parts << "#{type}: #{sub_container.fetch('indicator_3')}"
+    end
+
+    "#{parts.join(", ")} (#{instance_type})"
+  end
+
+  def top_container_for_uri(uri)
+    if raw['_resolved_top_container_uri_u_sstr']
+      resolved = raw['_resolved_top_container_uri_u_sstr'].fetch(uri, nil)
+
+      if resolved
+        resolved.first
+      end
+    end
   end
 
 end
