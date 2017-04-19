@@ -6,15 +6,17 @@
         <strong><%= accession.acquisition_type %></strong>:
       <% end %>
       <%= link_to accession.display_string, accession.uri %>
+
+      <% unless accession.deaccessions.empty? %>
+        <div>
+          <h5><%= t('resource._public.related_accessions.deaccessions') %></h5>
+          <ul>
+            <% accession.deaccessions.each do |deaccession| %>
+              <li><%= deaccession['description'] %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </li>
   <% end %>
 </ul>
-
-<% unless deaccessions.empty? %>
-  <h4><%= t('resource._public.related_accessions.deaccessions') %></h4>
-  <ul>
-    <% deaccessions.each do |deaccession| %>
-      <li><%= deaccession['description'] %></li>
-    <% end %>
-  </ul>
-<% end %>
