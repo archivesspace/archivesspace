@@ -48,6 +48,11 @@ ResizableSidebar.prototype.bind_events = function() {
         self.$sidebar.css('width', 0);
         self.$content_pane.css('width', new_content_width);
         self.$sidebar.css('width', self.$row.width() - new_content_width);
+
+        // position the infinite scrollbar too, if it's about
+        if ($('.infinite-record-scrollbar').length > 0) {
+            $('.infinite-record-scrollbar').css('left', self.$row.offset().left + new_content_width - 20);
+        }
     }).on('mouseup', function (e) {
         self.isResizing = false;
     });
