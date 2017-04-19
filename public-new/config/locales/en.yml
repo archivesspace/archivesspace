@@ -284,6 +284,7 @@ en:
    _public:
       section:
         summary: Summary
+        acquisition_type: Provenance
       related_accessions:
        accessions: Accession Records
        deaccessions: Deaccession Records
