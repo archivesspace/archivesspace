@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'objects/search' => 'objects#search'
   get 'objects' => 'objects#index'
   post 'objects' => 'objects#index'
+  get 'objects/resolve/:ref_id' => 'objects#resolve'
   get 'accessions/search' => 'accessions#search'
   post 'accessions/search' => 'accessions#search'
   get 'accessions' => 'accessions#index'
