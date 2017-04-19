@@ -39,6 +39,10 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'), 
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
+        <% if @result.kind_of?(Accession) && !@result.deaccessions.blank? %>
+          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
+        <% end %>
         <% unless @result.subjects.blank? %>
 	   <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
@@ -74,7 +78,7 @@
 	    :p_id => 'repo_deets', :p_body => x} %>
         <% end %>
         <% if @result.kind_of?(Resource) && !@result.related_accessions.blank? %>
-          <% x = render partial: 'resources/related_accessions', locals: {:accessions => @result.related_accessions, :deaccessions => @result.related_deaccessions} %>
+          <% x = render partial: 'resources/related_accessions', locals: {:accessions => @result.related_accessions} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => x} %>
         <% end %>
         <% if @result.kind_of?(Accession) && !@result.related_resources.blank? %>
