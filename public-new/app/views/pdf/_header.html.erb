@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <style>
+         .logo {
+             display: inline-block;
+             color: white;
+             font-size: 200%;
+             border: solid blue 5px;
+             background-color: #0f2099;
+             padding: 10px;
+         }
+
+         h3 {
+             margin-top: 1em;
+         }
+
+         dl {
+             overflow: hidden;
+         }
+
+         dt, dd { float: left; margin: 0; margin-top: 0.5em; }
+         dt { clear: both; font-weight: bold; width: 20%; text-align: right; margin-right: 1em; }
+         dd { width: 70%; }
+         dt:after { content: ':'; white-space: pre; }
+
+         .title-block {
+             border-bottom: solid 2px black;
+         }
+
+         .title-block h2 {
+             border: 0;
+         }
+
+         h2 {
+             padding-top: 0.25em;
+             padding-bottom: 0.25em;
+             border-top: solid 2px #333;
+             border-bottom: dotted 1px #333;
+         }
+
+         .indented {
+             padding-left: 0.5em;
+         }
+
+         ul.toc a::after {
+             content: leader('.') target-counter(attr(href), page);
+         }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="logo">OMG ARchivesSpace!1</div>

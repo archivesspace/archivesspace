@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post 'agents/search' => 'agents#search'
   get "agents/:eid/:id" => 'agents#show'
   get 'agents' => 'agents#index'
+  get 'pdf' => 'pdf#index'
 
 
   get  "repositories/:rid/top_containers/:id" => 'containers#show'
