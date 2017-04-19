@@ -29,7 +29,7 @@
 <%= javascript_include_tag 'tree_renderer' %>
 
 <div class="row" id="tabs">
-  <div class="infinite-record-wrapper col-xs-9">
+  <div class="infinite-record-wrapper col-sm-9">
       <div class="infinite-record-container">
           <div class="root">
               <% waypoint_size = 20 %>
@@ -40,7 +40,8 @@
       </div>
   </div>
 
-  <div class="infinite-tree-view largetree-container col-xs-3" id='tree-container'>
+  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
+    <div class="infinite-tree-view largetree-container" id='tree-container'></div>
   </div>
 </div>
 
