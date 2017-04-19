@@ -22,7 +22,7 @@
     <%= render partial: 'shared/record_innards' %>
    </div>
 
-    <div id="sidebar" class="sidebar sidebar-container col-sm-3">
+    <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
       <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
     </div>
   </div>
