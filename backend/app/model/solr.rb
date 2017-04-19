@@ -278,7 +278,9 @@ class Solr
 
     url = query.to_solr_url
 
-    req = Net::HTTP::Get.new(url.request_uri)
+    req = Net::HTTP::Post.new(url.path)
+    req.body = url.query
+    req.content_type = 'application/x-www-form-urlencoded'
 
     Net::HTTP.start(url.host, url.port) do |http|
       solr_response = http.request(req)
