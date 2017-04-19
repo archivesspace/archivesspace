@@ -30,7 +30,7 @@
     <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar">
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>

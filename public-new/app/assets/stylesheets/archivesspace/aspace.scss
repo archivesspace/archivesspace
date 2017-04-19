@@ -710,3 +710,32 @@ span.head {
 .sorter {
 	margin-top: 20px;  
 }
+
+
+@media (min-width: 992px) {
+  #sidebar.resizable-sidebar {
+    position: relative;
+    padding-left: 12px;
+
+    .resizable-sidebar-handle {
+      background-color: #EEE;
+      position: absolute;
+      height: 100%;
+      width: 8px;
+      top: 0;
+      left: 0;
+      cursor: ew-resize;
+      background-image: url(sidebar_drag_handle.png);
+      background-repeat: no-repeat;
+      background-position: 1px center;
+      border-right: 1px solid #CCC;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .row.has-resizable-content {
+    > .col-sm-9, > .resizable-sidebar {
+      width: inherit !important;
+    }
+  }
+}
