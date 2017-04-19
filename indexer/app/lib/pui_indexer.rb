@@ -65,7 +65,7 @@ class PUIIndexer < PeriodicIndexer
       if RecordInheritance.has_type?(doc['primary_type'])
         parent_id = doc['id']
         doc['id'] = "#{parent_id}#pui"
-        doc['parent_id'] = parent_id
+        doc['pui_parent_id'] = parent_id
         doc['types'] ||= []
         doc['types'] << 'pui'
         doc['types'] << "pui_#{doc['primary_type']}"
