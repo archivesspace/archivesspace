@@ -54,7 +54,7 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
       "(\"#{solr_escape(@query['value'])}\")"
     else
-      "(#{@query['value']})"
+      "(#{replace_reserved_chars(@query['value'].to_s)})"
     end
   end
 
@@ -80,9 +80,15 @@ class AdvancedQueryString
 
 
   SOLR_CHARS = '+-&|!(){}[]^"~*?:\\/'
+  RESERVED_CHARS = ':'
 
   def solr_escape(s)
     pattern = Regexp.quote(SOLR_CHARS)
     s.gsub(/([#{pattern}])/, '\\\\\1')
+  end
+
+  def replace_reserved_chars(s)
+    pattern = Regexp.quote(RESERVED_CHARS)
+    s.gsub(/([#{pattern}])/, ' ')
   end
 end
