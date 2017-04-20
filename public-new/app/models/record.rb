@@ -28,6 +28,8 @@ class Record
     @uri = raw['uri']
     @identifier = parse_identifier
 
+    @resolved_resource = parse_resource
+
     @level = raw['level']
 
     @display_string = parse_full_title
@@ -36,7 +38,6 @@ class Record
     @dates = parse_dates
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
-    @resolved_resource = parse_resource
     @resolved_top_container = parse_top_container
     @repository_information = parse_repository_info
     @subjects = parse_subjects

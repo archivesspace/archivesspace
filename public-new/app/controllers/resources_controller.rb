@@ -150,6 +150,15 @@ class ResourcesController <  ApplicationController
     end
   end
 
+
+  def resolve
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    results = archivesspace.search("ref_id:#{params[:ref_id]} AND resource:\"#{uri}\"", 1, 'type[]' => 'pui')
+    return render 'shared/not_found' unless results['results'].length == 1
+    redirect_to results['results'][0]['uri']
+  end
+
+
   def infinite
     @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
