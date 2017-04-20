@@ -13,8 +13,12 @@ module ManipulateNode
     return if !in_txt
     txt = in_txt.strip
 
-    # ref tags use ref_ids to link to other objects in the resource
-    txt.gsub!(/<ref target="(.+?)">(.+?)<\/ref>/m, '<a href="/objects/resolve/\1">\2</a>')
+    # ref tags use ref_ids to link to other objects in a resource
+    # we stashed the resource uri in the thread
+    # we only look for ref tags in the context of a resource
+    if Thread.current[:resource_uri]
+      txt.gsub!(/<ref target="(.+?)">(.+?)<\/ref>/m, "<a href='#{Thread.current[:resource_uri]}/resolve/\\1'>\\2</a>")
+    end
 
     txt = txt.gsub("chronlist>", "ul>")
       .gsub("chronitem>", "li>")

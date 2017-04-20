@@ -111,14 +111,6 @@ class ObjectsController <  ApplicationController
     end
   end
 
-
-  def resolve
-    results = archivesspace.search("ref_id:#{params[:ref_id]}", 1, 'type[]' => 'pui')
-    return render 'shared/not_found' unless results['results'].length == 1
-    redirect_to results['results'][0]['uri']
-  end
-
-
   private
   # return a single processed archival or digital object
   def object_result(url, criteria)

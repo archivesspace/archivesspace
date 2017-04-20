@@ -28,6 +28,9 @@ class Record
     @uri = raw['uri']
     @identifier = parse_identifier
 
+    # smuggling the resource uri for use way down in the stack ...
+    Thread.current[:resource_uri] = raw['resource']
+
     @level = raw['level']
 
     @display_string = parse_full_title
