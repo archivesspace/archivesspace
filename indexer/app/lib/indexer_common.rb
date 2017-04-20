@@ -300,6 +300,7 @@ class CommonIndexer
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
         doc['component_id'] = record['record']['component_id']
+        doc['ref_id'] = record['record']['ref_id']
       end
     }
 

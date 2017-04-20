@@ -12,6 +12,7 @@ module ManipulateNode
   def process_mixed_content(in_txt)
     return if !in_txt
     txt = in_txt.strip
+
     txt = txt.gsub("chronlist>", "ul>")
       .gsub("chronitem>", "li>")
     txt = txt.gsub("list>", "ul>")

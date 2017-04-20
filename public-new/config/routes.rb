@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
   get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
+  get 'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'
   get  "repositories/:rid/classifications/" => 'classifications#index'
   post  "repositories/:rid/classifications/" => 'classifications#index'
