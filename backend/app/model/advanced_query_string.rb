@@ -64,7 +64,9 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "boolean_field_query"
       false
     elsif @query["jsonmodel_type"] == "field_query"
-      @query["comparator"] == "empty"  
+      @query["comparator"] == "empty"
+    elsif @query["jsonmodel_type"] == "range_query"
+      false
     else
       raise "Unknown field query type: #{@query["jsonmodel_type"]}" 
     end
