@@ -1,4 +1,5 @@
 require 'aspace-rails/compressor'
+require 'aspace-rails/asset_path_rewriter'
 
 ArchivesSpacePublic::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -27,8 +28,6 @@ ArchivesSpacePublic::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  # If a prefix has been specified, use it!
-  config.assets.prefix = AppConfig[:public_proxy_prefix] + "assets"
   #config.assets.manifest = File.join(Rails.public_path, "assets")
 
   # Specifies the header that your server uses for sending files
@@ -98,4 +97,8 @@ if AppConfig[:public_prefix] != "/"
       end
     end
   end
+end
+
+if AppConfig[:public_proxy_prefix] && AppConfig[:public_proxy_prefix].length > 1
+  AssetPathRewriter.new.rewrite(AppConfig[:public_proxy_prefix], File.dirname(__FILE__))
 end
