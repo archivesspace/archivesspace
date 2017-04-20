@@ -284,7 +284,12 @@ en:
    _public:
       section:
         summary: Summary
-        acquisition_type: Provenance
+        acquisition_type: Acquisition Type
+        provenance: Provenance
+        access_restrictions: Access Restrictions
+        access_restrictions_apply: Access Restrictions Apply
+        use_restrictions: Use Restrictions
+        use_restrictions_apply: Use Restrictions Apply
       related_accessions:
        accessions: Accession Records
        deaccessions: Deaccession Records
