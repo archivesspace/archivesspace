@@ -1,11 +1,14 @@
 class Accession < Record
 
-  attr_reader :related_resources
+  attr_reader :related_resources, :provenance,
+              :use_restrictions_note, :access_restrictions_note
 
   def initialize(*args)
     super
 
     @related_resources = parse_related_resources
+    @use_restrictions_note = json['use_restrictions_note']
+    @access_restrictions_note = json['access_restrictions_note']
   end
 
   def acquisition_type
@@ -17,6 +20,31 @@ class Accession < Record
   def deaccessions
     ASUtils.wrap(json['deaccessions'])
   end
+
+  def provenance
+    json['provenance']
+  end
+
+  def restrictions_apply?
+    json['restrictions_apply']
+  end
+
+  def use_restrictions_note
+    json['use_restrictions_note']
+  end
+
+  def access_restrictions_note
+    json['access_restrictions_note']
+  end
+
+  def access_restrictions_apply?
+    json['access_restrictions']
+  end
+
+  def use_restrictions_apply?
+    json['use_restrictions']
+  end
+
 
   private
 
