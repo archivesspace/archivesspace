@@ -107,7 +107,7 @@ fr:
     language_tooltip: <p>Langue pour le contenu numérique.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
-        <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous- Note ou Droits.</p>
+      <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous-notices Note ou aux sous-notices Droits.</p>
     file_versions_tooltip: |
         <p>Lie un objet numérique ou un composant d'objet numérique à un fichier de contenu associé, adressable par URI.</p>
     _singular: Objet numérique
@@ -154,7 +154,7 @@ fr:
     barcode: Code-barres
     barcode_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
-        <p>Utilisé pour saisir le code-barre, par ex. d'un rayon ou d'une rangée qui identifie une localisation de manière unique.</p>
+        <p>Utilisé pour saisir le code-barres, par ex. d'un rayon ou d'une rangée qui identifie une localisation de manière unique.</p>
     classification: Classification
     classification_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
@@ -967,7 +967,7 @@ fr:
         </ul>
     ip_status: Statut de PI
     ip_status_tooltip: |
-        <p>Un terme indicant le statut de la propriété intellectuelle des documents décrits.</p>
+        <p>Un terme indiquant le statut de la propriété intellectuelle des documents décrits.</p>
     ip_expiration_date: Date d'expiration de la PI
     ip_expiration_date_tooltip: |
         <p>La date à laquelle le droit d'auteur ou tout autre statut de propriété intellectuelle est censé expirer.</p>
@@ -1012,7 +1012,7 @@ fr:
         <p>Toute information pertinente concernant les permissions concédées ou les restrictions à appliquer.</p>
         <p>Exemples</p>
         <ul>
-        <li>Contacter la famille du donateur si une demande d'accès survient avant la date de fin des restrictions.</li>
+        <li>Contacter la famille du donateur si une demande de consultation survient avant la date de fin des restrictions.</li>
         </ul>
     _plural: Mentions des droits
     _singular: Mention des droits
@@ -1037,7 +1037,7 @@ fr:
     date_type: Type
     date_type_tooltip: |
         <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (inclusives ou de la grosse masse).</p>
-    date_type_message: Sélectionne un type pour saisir une date ou une fourchette de date normalisée 
+    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de date normalisée 
     expression: Expression
     expression_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
@@ -1808,10 +1808,10 @@ fr:
     repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le dépôt actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par vos propres préférences pour un dépôt.
-    user_repo: My Repository Preferences
-    user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
-    _singular: Preferences
-    _plural: Preferences
+    user_repo: Mes préférences dépôt
+    user_repo_message: Editez ces valeurs pour définir pour préférences utilisateur pour ce dépôt. Ces valeurs ne peuvent pas être écrasées.
+    _singular: Préférences
+    _plural: Préférences
 
   defaults: &defaults_attributes
     general_section: Configuration générale
@@ -1862,9 +1862,9 @@ fr:
 
   reports:
     parameters:
-      from: A partir de
+      from: Du
       from_tooltip:
-      to: Jusqu'à
+      to: Au
       locations: Localisations
     formats:
       json: JSON
@@ -1874,7 +1874,7 @@ fr:
       html: HTML
 
   validation_errors:
-    agent_must_be_unique: Des notices d'agents ne peuvent être identiques
+    agent_must_be_unique: Deux notices d'agents ne peuvent être identiques
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété qui manquait
     not_a_valid_date: N'est pas une date valide

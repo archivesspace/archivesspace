@@ -1,11 +1,11 @@
-en:
+fr:
   reports:
     accession_inventory_report:
-      title: Accessions with Inventories
-      description: Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.
-      number_of_records: Number of Records Reviewed
-      number_with_inventories: Accessions with Inventories
-      identifier_prefix: Accession
-      extent: Extent
-      inventory: Inventory
-      linked_resources: Linked Resource(s)
+      title: Collectes avec inventaires
+      description: Affiche uniquement les notices de collectes avec inventaire.  Rapport contenant n° de collecte, ressources liées, titre, importance matérielle, date de collecte, résumé des contenants, et inventaire.
+      number_of_records: Nombre de notices passées en revue
+      number_with_inventories: Collectes avec inventaires
+      identifier_prefix: Collecte
+      extent: Importance matérielle
+      inventory: Inventaire
+      linked_resources: Ressource(s) liée(s)

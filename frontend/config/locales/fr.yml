@@ -918,8 +918,8 @@ fr:
       preview_sequence: Aperçu valeurs de séquence
       sequence_summary: "%{count} items dans la séquence:"
       sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs de séquence sont:"
-      sequence_from_required: A partir de est requis
-      sequence_to_required: Jusqu'à est requis
+      sequence_from_required: Du est requis
+      sequence_to_required: Au est requis
     reorder_columns:
       apply_order: Appliquer ordre de colonne
     save_template:

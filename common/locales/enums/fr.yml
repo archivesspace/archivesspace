@@ -314,10 +314,10 @@
       terabytes: Térabytes
       volumes: Volumes
     collection_management_processing_priority:
-      none: Non spécifié
-      high: Haut
-      medium: Moyen
-      low: Bas
+      none: Non spécifiée
+      high: Haute
+      medium: Moyenne
+      low: Basse
     collection_management_processing_status:
       none: Non spécifié
       new: Nouvelle

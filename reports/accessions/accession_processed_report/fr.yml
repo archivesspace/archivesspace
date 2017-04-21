@@ -1,14 +1,14 @@
-en:
+fr:
   reports:
     accession_processed_report:
-      title: Processed Accessions
-      description: Displays only those accession(s) that have been processed based on the date processed field. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with a date processed, and the total extent number for those records with date processed.
-      number_of_records: Number of Records
-      processed_accessions: Processed Accessions
-      accessioned_between: Accessioned Between
-      total_extent_of_processed: Total Extent of Processed Accessions
-      identifier_prefix: Accession
-      extent: Extent
-      date_processed: Date Processed
-      cataloged: Cataloged
-      linked_resources: Linked Resource(s)
+      title: Collectes traitées
+      description: Affiche uniquement les collectes traitées, en se fondant sur le champ date de traitement. Rapport contenant n° de collecte, ressources liées, intitulé, importance matérielle, catalogué, date de traitement, compte du nombre de notices sélectionnées ayant une date de traitement, et le nombre d'importance total pour ces notices ayant une date de traitement.
+      number_of_records: Nombre de notices
+      processed_accessions: Collectes traitées
+      accessioned_between: Ayant eu lieu entre
+      total_extent_of_processed: Importance matérielle totale des collectes traitées
+      identifier_prefix: Collecte
+      extent: Importance
+      date_processed: Date de traitement
+      cataloged: Catalogué
+      linked_resources: Ressource(s) liée(s)
