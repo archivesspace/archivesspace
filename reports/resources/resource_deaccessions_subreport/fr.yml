@@ -1,7 +1,7 @@
 fr:
   reports:
-    accession_deaccessions_subreport:
+    resource_deaccessions_subreport:
       description: Description
-      extent: Importance matérielle
+      extent: Importance
       date: Date
       notification_sent: Notification envoyée

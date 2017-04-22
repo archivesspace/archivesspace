@@ -99,7 +99,7 @@ fr:
         <p>Détermine si cet objet numérique ou ce composant sera publié sur les interfaces publiques.</p>
     level: VRA Core Level
     level_tooltip: |
-        <p>S'utilise principalement dans les notices conformes à la norme VRA Core multi-niveaux, pour indiquer que la description ate description is about a collection, a work, or an image.</p>
+        <p>S'utilise principalement dans les notices conformes à la norme VRA Core multi-niveaux, pour indiquer que la description concerne une collection, une œuvre, ou une image.</p>
     digital_object_type: Type
     digital_object_type_tooltip: |
         <p>Terme générique indiquant le type de contenu basic de l'objet numérique. Les options par défaut correspondent à l'élément MODS &lt;typeOfResource&gt;.</p>
@@ -246,8 +246,8 @@ fr:
         <p>CHAMP OBLIGATOIRE. Une indication concernant le statut (créateur, source, ou sujet) de l'agent par rapport à une notice descriptive déterminée.</p>
     relator: Fonction
     relator_tooltip: |
-        <p>Une indication sur la façon dont l'agent assume son statut (de créateur, source, ou sujet) vis-à-vis de telle notice descriptive déterminée. Par ex., un Agent peut être lié à une notice en tant que créateur, mais avec la fonction plus spécifique d'"illustrateur".</p>
-        <p>Voir la liste des Codes de fonction en UNIMARC.</p>
+        <p>Une indication sur la façon dont l'agent assume son statut (de créateur, source, ou sujet) vis-à-vis de telle notice descriptive déterminée. Par ex., un agent peut être lié à une notice en tant que créateur, mais avec la fonction plus spécifique d'"illustrateur".</p>
+        <p>Voir la liste des codes de fonction en UNIMARC.</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -652,7 +652,7 @@ fr:
     description: Description
     date: Date
     ref: Agent associé
-    _singular: Rapport associatif
+    _singular: Relation associatif
 
   note:
     item: Pièce

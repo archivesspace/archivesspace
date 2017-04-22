@@ -1,5 +1,5 @@
 fr:
   reports:
     unprocessed_accessions_report:
-      title: Unprocessed Accessions List
-      description: Provide a listing of all unprocessed accessions
+      title: Liste des collectes non traitées
+      description: Affiche un listing de toutes les collectes non traitées

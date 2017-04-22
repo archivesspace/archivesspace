@@ -1,12 +1,12 @@
 fr:
   reports:
     accession_uncataloged_report:
-      title: Uncataloged Accessions
-      description: Displays only those accession(s) that have not been checked as cataloged. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected that are not checked as cataloged, and the total extent number for those records not cataloged.
-      total_count: Number of Records Reviewed
-      uncataloged_count: Uncataloged Accessions
-      total_extent: Total Extent of Unataloged Accessions
-      identifier_prefix: Accession
-      extent: Extent
-      date_processed: Date Processed
-      linked_resources: Linked Resource(s)
+      title: Collectes non cataloguées
+      description: Affiche uniquement les collecte(s) n'ayant pas été cochées comme cataloguées. Rapport contenant n° de collecte, ressources liées, intitulé, importance matérielle, catalogué, date de traitement, compte du nombre de notices sélectionnées non cochées comme cataloguées, et importance totale de ces documents non catalogués.
+      total_count: Nombre de notices passées en revue
+      uncataloged_count: Collectes non cataloguées
+      total_extent: Importance totale des collectes non cataloguées
+      identifier_prefix: Collecte
+      extent: Importance
+      date_processed: Date de traitement
+      linked_resources: Ressource(s) liée(s)

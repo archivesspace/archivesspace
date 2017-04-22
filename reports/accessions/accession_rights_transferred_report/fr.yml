@@ -2,21 +2,21 @@ fr:
   reports:
     accession_rights_transferred_report:
       title: Collectes avec transfert de droits
-      description: Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred.
-      number_of_records: Number of Records
-      total_transferred: Accessions with Rights Transferred
-      identifier_prefix: Accession
-      accession_date: Accession Date
-      processed_date: Date Processed
-      extent: Extent
-      cataloged: Cataloged
-      rights_and_restrictions: Rights and Restrictions
-      retrictions_apply: Restrictions apply.
-      no_restrictions: No restrictions.
-      rights_transferred: Rights Transferred
-      rights_transferred_true: Rights Transferred
-      rights_transferred_false: Not transferred
-      rights_transferred_note: Rights Transferred Note
-      use_restrictions_note: Use Restrictions Note
-      access_restrictions_note: Access Restrictions Note
-      linked_resources: Linked Resource(s)
+      description: Affiche uniquement les collectes pour lesquelles les droits ont été transférés. Rapport contenant n° de collecte, ressources liées, intitulé, importance matérielle, catalogué, date de traitement, restrictions d'utilisation, droits transférés et compte du nombre de notices sélectionnées avec droits transférés.
+      number_of_records: Nombre de notices
+      total_transferred: Collectes avec droits transférés
+      identifier_prefix: Collecte
+      accession_date: Date de collecte
+      processed_date: Date de traitement
+      extent: Importance matérielle
+      cataloged: Catalogué
+      rights_and_restrictions: Droits et restrictions
+      retrictions_apply: Des restrictions s'appliquent.
+      no_restrictions: Aucune restriction.
+      rights_transferred: Droits transférés
+      rights_transferred_true: Droits transférés
+      rights_transferred_false: Non transférés
+      rights_transferred_note: Note de droits transférés
+      use_restrictions_note: Note de restrictions d'utilisation
+      access_restrictions_note: Note de restrictions d'accès
+      linked_resources: Ressource(s) liée(s)

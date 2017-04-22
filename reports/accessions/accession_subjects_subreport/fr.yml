@@ -1,6 +1,6 @@
 fr:
   reports:
     accession_subjects_subreport:
-      term: Term
+      term: Terme
       type: Type
       source: Source
