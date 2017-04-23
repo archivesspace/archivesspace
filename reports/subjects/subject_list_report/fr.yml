@@ -1,6 +1,6 @@
 fr:
   reports:
     subject_list_report:
-      title: Subject Records List
-      description: Displays selected subject record(s). Report lists subject term, subject term type, and subject source.
+      title: Liste de notices de mots-matières
+      description: Affiche les notices de mots-matières. Rapport listant mots-matières, types de mots-matières, et sources.
 

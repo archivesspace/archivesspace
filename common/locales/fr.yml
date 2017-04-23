@@ -71,7 +71,7 @@ fr:
     classification_tooltip: |
         <p>Utilisé pour relier les documents décrits à une classification ou à une convention de classification (par ex. un système de groupes d'archives) géré à l'intérieur de l'application.</p>
     user_defined_tooltip: |
-        <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre section de l'application.</p>
+        <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre rubrique de l'application.</p>
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
@@ -1014,8 +1014,8 @@ fr:
         <ul>
         <li>Contacter la famille du donateur si une demande de consultation survient avant la date de fin des restrictions.</li>
         </ul>
-    _plural: Mentions des droits
-    _singular: Mention des droits
+    _plural: Mentions de droits
+    _singular: Mention de droits
 
   rights_type_intellectual_property:
     <<: *rights_statement_attributes

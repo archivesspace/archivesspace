@@ -553,11 +553,11 @@ fr:
         updated: "Objet numérique <strong>%{digital_object.title}</strong> actualisé"
         deleted: "Objet numérique <strong>%{digital_object.title}</strong> supprimé"
         published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses sous-notices et ses composants ont été publiés"
-        merge_description: Sélectionner ci-dessous des objects numériques à fusionner dans
+        merge_description: Sélectionnez ci-dessous des objects numériques à fusionner dans
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_target: Sélectionner un dépôt cible pour le transfert
+        transfer_target: Sélectionnez un dépôt cible pour le transfert
         unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -970,7 +970,7 @@ fr:
       actions:
         create: Créer job
         save: Mettre la tâche en file d'attente
-        new: nouvelle tâche d'arrière-plan
+        new: Nouvelle tâche d'arrière-plan
         cancel: Annuler tâche
         add_file: Ajouter fichier
         follow_log: Suivre log
@@ -996,7 +996,7 @@ fr:
         drag_and_drop_hint: Glissez-déplacez des fichiers ici
         find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
         find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
-        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>sélectionner</b>. 
+        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>. 
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
