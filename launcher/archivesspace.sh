@@ -120,14 +120,14 @@ startup_cmd="java "$JAVA_OPTS"  \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
         org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 
-
-export PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"
-
+if [ "$ASPACE_PIDFILE" = "" ]; then
+  export ASPACE_PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"
+fi
 
 case "$1" in
     start)
-        if [ -e "$PIDFILE" ]; then
-            pid=`cat $PIDFILE 2>/dev/null`
+        if [ -e "$ASPACE_PIDFILE" ]; then
+            pid=`cat $ASPACE_PIDFILE 2>/dev/null`
 
             if [ "$pid" != "" ] && kill -0 $pid &>/dev/null; then
                 echo "There already seems to be an instance running (PID: $pid)"
@@ -144,14 +144,14 @@ case "$1" in
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
              $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
-             echo \$! > \"$PIDFILE\"
+             echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
 
         echo "ArchivesSpace started!  See $ARCHIVESSPACE_LOGS for details."
         ;;
     stop)
-        pid=`cat $PIDFILE 2>/dev/null`
+        pid=`cat $ASPACE_PIDFILE 2>/dev/null`
         if [ "$pid" != "" ]; then
             kill -0 $pid &>/dev/null
             if [ "$?" = "0" ]; then
@@ -160,7 +160,7 @@ case "$1" in
                 echo "done"
             fi
 
-            rm -f "$PIDFILE"
+            rm -f "$ASPACE_PIDFILE"
         else
             echo "Couldn't find a running instance to stop"
         fi
