@@ -4,7 +4,7 @@ fr:
       title: Collectes acquises et notices d'aliénation liées
       description: Affiche une liste de collecte(s) et de notice(s) d'aliénation liée(s). Rapport contenant n° d'accession, intitulé, importance matérielle, date de collecte, résumé contenant, catalogué, date de traitement, droits transférés, aliénations liées et importance totale de toutes les aliénations.
       number_of_records: Nombre de notices
-      accessioned_betwefr: Ayant eu lieu entre
+      accessioned_between: Ayant eu lieu entre
       total_extent: Importance totale des collectes
       total_deaccessions_extent: Importance totale des aliénations
       identifier_prefix: Collecte
