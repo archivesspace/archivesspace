@@ -101,8 +101,14 @@ module ASUtils
 
   def self.find_local_directories(base = nil, *plugins)
     plugins = AppConfig[:plugins] if plugins.empty?
-    base_directory = self.find_base_directory
-    Array(plugins).map { |plugin| File.join(*[base_directory, "plugins", plugin, base].compact) }
+    # if a specific plugins directory is set in config.rb,
+    # we use that. Otherwise, find the 'plugins' dir in the 
+    # aspace base.
+    base_directory =
+      AppConfig.changed?(:plugins_directory) ?
+        AppConfig[:plugins_directory] :
+        File.join( *[ self.find_base_directory, 'plugins'])
+    Array(plugins).map { |plugin| File.join(*[base_directory, plugin, base].compact) }
   end
 
 
