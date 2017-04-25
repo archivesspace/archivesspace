@@ -15,9 +15,9 @@ fr:
     integer_1: Entier 1
     integer_2: Entier 2
     integer_3: Entier 3
-    real_1: Real 1
-    real_2: Real 2
-    real_3: Real 3
+    real_1: Réel 1
+    real_2: Réel 2
+    real_3: Réel 3
     string_1: Chaîne de caractères 1
     string_2: Chaîne de caractères 2
     string_3: Chaîne de caractères 3
@@ -28,11 +28,11 @@ fr:
     text_4: Texte 4
     text_5: Texte 5
     date_1: Date 1
-    date_1_inline_help: e.g. YYYY-MM-DD
+    date_1_inline_help: par ex. AAAA-MM-JJ
     date_2: Date 2
-    date_2_inline_help: e.g. YYYY-MM-DD
+    date_2_inline_help: par ex. AAAA-MM-JJ
     date_3: Date 3
-    date_3_inline_help: e.g. YYYY-MM-DD
+    date_3_inline_help: par ex. AAAA-MM-JJ
     enum_1: Valeur contrôlée 1
     enum_2: Valeur contrôlée 2
     enum_3: Valeur contrôlée 3
@@ -71,7 +71,7 @@ fr:
     classification_tooltip: |
         <p>Utilisé pour relier les documents décrits à une classification ou à une convention de classification (par ex. un système de groupes d'archives) géré à l'intérieur de l'application.</p>
     user_defined_tooltip: |
-        <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre section de l'application.</p>
+        <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre rubrique de l'application.</p>
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
@@ -99,7 +99,7 @@ fr:
         <p>Détermine si cet objet numérique ou ce composant sera publié sur les interfaces publiques.</p>
     level: VRA Core Level
     level_tooltip: |
-        <p>S'utilise principalement dans les notices conformes à la norme VRA Core multi-niveaux, pour indiquer que la description ate description is about a collection, a work, or an image.</p>
+        <p>S'utilise principalement dans les notices conformes à la norme VRA Core multi-niveaux, pour indiquer que la description concerne une collection, une œuvre, ou une image.</p>
     digital_object_type: Type
     digital_object_type_tooltip: |
         <p>Terme générique indiquant le type de contenu basic de l'objet numérique. Les options par défaut correspondent à l'élément MODS &lt;typeOfResource&gt;.</p>
@@ -107,7 +107,7 @@ fr:
     language_tooltip: <p>Langue pour le contenu numérique.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
-        <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous- Note ou Droits.</p>
+      <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous-notices Note ou aux sous-notices Droits.</p>
     file_versions_tooltip: |
         <p>Lie un objet numérique ou un composant d'objet numérique à un fichier de contenu associé, adressable par URI.</p>
     _singular: Objet numérique
@@ -129,6 +129,7 @@ fr:
     component_id_tooltip: |
         <p>Un identifiant unique pour le composant d'objet numérique.</p>
     dates: Dates
+    has_unpublished_ancestor: A un ancêtre non publié?
     _singular: Composant d'objet numérique
     _plural: Composants d'objet numérique
 
@@ -153,7 +154,7 @@ fr:
     barcode: Code-barres
     barcode_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
-        <p>Utilisé pour saisir le code-barre, par ex. d'un rayon ou d'une rangée qui identifie une localisation de manière unique.</p>
+        <p>Utilisé pour saisir le code-barres, par ex. d'un rayon ou d'une rangée qui identifie une localisation de manière unique.</p>
     classification: Classification
     classification_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
@@ -195,8 +196,8 @@ fr:
     coordinate_1_range: Plage de coordonnées 1
     coordinate_2_range: Plage de coordonnées 2
     coordinate_3_range: Plage de coordonnées 3
-    start: Borne inférieur de la fourchette
-    end: Borne supérieure de la fourchette
+    start: Borne inf. 
+    end: Borne sup.
     _singular: Localisations en lot
     _plural: Localisations en lot
 
@@ -245,8 +246,8 @@ fr:
         <p>CHAMP OBLIGATOIRE. Une indication concernant le statut (créateur, source, ou sujet) de l'agent par rapport à une notice descriptive déterminée.</p>
     relator: Fonction
     relator_tooltip: |
-        <p>Une indication sur la façon dont l'agent assume son statut (de créateur, source, ou sujet) vis-à-vis de telle notice descriptive déterminée. Par ex., un Agent peut être lié à une notice en tant que créateur, mais avec la fonction plus spécifique d'"illustrateur".</p>
-        <p>Voir la liste des Codes de fonction en UNIMARC.</p>
+        <p>Une indication sur la façon dont l'agent assume son statut (de créateur, source, ou sujet) vis-à-vis de telle notice descriptive déterminée. Par ex., un agent peut être lié à une notice en tant que créateur, mais avec la fonction plus spécifique d'"illustrateur".</p>
+        <p>Voir la liste des codes de fonction en UNIMARC.</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -309,9 +310,9 @@ fr:
         <p>La date et l'heure à laquelle, ou l'intervalle de dates et heures pendant lequel l'événement s'est produit.</p>
         <p>Si la date/heure unique ou la date/heure de début date/time ou de fin est inconnue, saisir "inconnu" dans le champ de formulaire date.</p>
     linked_agents_tooltip: |
-        <p>SOUS-NOTICE REQUISE: Associe un ou plusiers agents en tant que participant à cet événement.</p>
+        <p>SOUS-NOTICE REQUISE. Associe un ou plusieurs agents en tant que participant à cet événement.</p>
     linked_records_tooltip: |
-        <p>SOUS-NOTICE REQUISE: Associe des collectes, des objets numériques ou des ressources à cet événement.</p>
+        <p>SOUS-NOTICE REQUISE. Associe des collectes, des objets numériques ou des ressources à cet événement.</p>
     types:
       accession: Collecte
       accumulation: Archivage
@@ -359,7 +360,7 @@ fr:
         <p>Utilisé pour spécifier si une déclaration de mesure se rapporte à l'ensemble ou à la partie d'une agrégation ou d'un objet décrit.</p>
     description: Description
     description_tooltip: |
-        <p>CHAMP OBLIGATOIRE: Description des documents aliénés.</p>
+        <p>CHAMP OBLIGATOIRE. Description des documents aliénés.</p>
         <p>Exemples:</p>
         <ul>
         <li>Périodiques, journaux, coupures de journaux, registres de comptes familiaux.</li>
@@ -651,7 +652,7 @@ fr:
     description: Description
     date: Date
     ref: Agent associé
-    _singular: Rapport associatif
+    _singular: Relation associatif
 
   note:
     item: Pièce
@@ -905,11 +906,11 @@ fr:
     indicator_3_tooltip: *container_indicator_tooltip
     container_extent: Dimensions du contenant
     container_extent_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: les dimensions du contenant ou des contenants décrits, ordinairement en linaire ou en unités de volume (par ex. mètre linaire, mètre cube). A ne pas confondre avec une sous-notice importance matérielle.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Les dimensions du contenant ou des contenants décrits, ordinairement en linéaire ou en unités de volume (par ex. mètre linéaire, mètre cube). A ne pas confondre avec une sous-notice importance matérielle.</p>
         <p>Requis si le Type de mesure de contenant est spécifié.</p>
     container_extent_type: Type de mesure du contenant
     container_extent_type_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.
         <p>Requis si les dimensions du contenant sont spécifiées.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
         <p>Voir DACS 2.5</p>
@@ -966,7 +967,7 @@ fr:
         </ul>
     ip_status: Statut de PI
     ip_status_tooltip: |
-        <p>Un terme indicant le statut de la propriété intellectuelle des documents décrits.</p>
+        <p>Un terme indiquant le statut de la propriété intellectuelle des documents décrits.</p>
     ip_expiration_date: Date d'expiration de la PI
     ip_expiration_date_tooltip: |
         <p>La date à laquelle le droit d'auteur ou tout autre statut de propriété intellectuelle est censé expirer.</p>
@@ -1011,10 +1012,10 @@ fr:
         <p>Toute information pertinente concernant les permissions concédées ou les restrictions à appliquer.</p>
         <p>Exemples</p>
         <ul>
-        <li>Contacter la famille du donateur si une demande d'accès survient avant la date de fin des restrictions.</li>
+        <li>Contacter la famille du donateur si une demande de consultation survient avant la date de fin des restrictions.</li>
         </ul>
-    _plural: Mentions des droits
-    _singular: Mention des droits
+    _plural: Mentions de droits
+    _singular: Mention de droits
 
   rights_type_intellectual_property:
     <<: *rights_statement_attributes
@@ -1031,15 +1032,15 @@ fr:
   date: &date_attributes
     label: Label
     label_tooltip: |
-        <p>CHAMP OBLIGATOIRE: Décrit le type d'activité marqué par la date.</p>
+        <p>CHAMP OBLIGATOIRE. Décrit le type d'activité marqué par la date.</p>
         <p>Voir DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
         <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (inclusives ou de la grosse masse).</p>
-    date_type_message: Sélectionne un type pour saisir une date ou une fourchette de date normalisée 
+    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de date normalisée 
     expression: Expression
     expression_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL: Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
         <p>Voir DACS 2.4</p>
         <p>Exemples:</p>
         <ul>
@@ -1086,6 +1087,7 @@ fr:
 
   date_type_bulk:
     <<: *date_attributes
+
   date_type_inclusive:
     <<: *date_attributes
 
@@ -1114,22 +1116,27 @@ fr:
     accession_date: Date de collecte
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS: Date à laquelle la collecte a eu lieu. N'est pas nécessairement la date de création de la notice.</p>
+        <p>CHAMP REQUIS. Date à laquelle la collecte a eu lieu. N'est pas 
+        nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
         <p>Le numéro d'une notice de collecte spécifique dans la base de donnée interne.</p>
     identifier: Identifiant
     id_0: Identifiant
+    id_1: Identifiant 2
+    id_2: Identifiant 3
+    id_3: Identifiant 4
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE:  L'identifiant unique d'une collecte au sein d'un dépôt.</p>
-        <p>Dans ArchivesSpace, quatres champs sont prévus pour répartir un
+        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une collecte au sein du 
+        dépôt.</p> 
+        <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
         identifiant de collecte en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
         Le premier champ au moins doit être renseigné pour avoir une  notice de collecte valide.</p>
         <p>On peut recourir à des valeurs par défaut pour remplir des composants
         invariables, présents dans tous les numéros de collectes.</p>
         <p>Voir DACS 5.2.5</p>
-    content_description: Description du contenu
+    content_description: Présentation du contenu
     content_description_tooltip: |
         <p>Une description des types de documents et des contenus topiques
         de la collecte.</p>
@@ -1138,10 +1145,10 @@ fr:
         <p>Dix cartons de documents, comprenant des notes prises sur le terrain, des journaux intimes,
         et des brouillons de cartes documentant les 10 années pendant lesquelles Mr. Smith's 10 résida
         au ranch Otay Mesa.</p>
-    condition_description: Condition Description
+    condition_description: Etat de conservation
     condition_description_tooltip: |
-        <p>A description of the physical condition of the contents of the
-        accession, including any special handling requirements.</p>
+        <p>Une description de l'état physique des documents collectés, 
+        avec les éventuelles précautions à prendre pour la manipulation.</p>
         <p>Exemples:</p>
         <p>Les cartes de la boîte 4 sont friables et plusieurs sont couvertes de moisissures.
         Il est recommandé de porter un masque durant la manipulation.</p>
@@ -1156,17 +1163,17 @@ fr:
         <p>Un champ de note fourre-tout pour toute information ne rentrant pas dans les champs expressément définis.</p>
     inventory: Inventaire
     inventory_tooltip: |
-      <p>Une liste des contenants et de leur contenu constituant une collecte. Dans le AT, la zone de liste peut être composée dans la champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
+      <p>Une liste des contenants et de leur contenu constituant une collecte. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
         <p>Exemple:</p>
         <ul>
-        <li>Boîte 1:   Journeaux intimes</li>
+        <li>Boîte 1:   Journaux intimes</li>
         <li>Boîte 2:   Lettres à la famille de Mr. Smith</li>
         <li>Boîte 3:   Pièces comptables relatives aux employés du ranch</li>
         <li>Boîte 4:   Brouillons de cartes de ranch</li>
         </ul>
     provenance: Provenance
     provenance_tooltip: |
-       <p>Une note indiquant la provenance d'une collecte, sous forme d'histoire de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
+       <p>Une note indiquant la provenance d'une collecte, sous forme d'historique de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
        <p>Voir DACS 5.1-5.2</p>
     retention_rule: Règle de conservation
     retention_rule_tooltip: |
@@ -1419,6 +1426,8 @@ fr:
       manage_container_record: supprimer/actualiser en masse notices top contenants
       manage_container_profile_record: créer/actualiser/supprimer notices de profils contenants
       manage_location_profile_record: créer/actualiser/supprimer notices de profils localisations
+      create_job: créer et lancer une tâche d'arrière-plan
+      cancel_job: annuler une tâche d'arrière-plan
     _singular: Groupe
     _plural: Groupes
 
@@ -1477,7 +1486,7 @@ fr:
         <p>Sert à enregistrer des données administratives concernant l'instance de description archivistique, généralement en vue de l'export de la description en Encoded Archival Description (EAD).</p>
     finding_aid_title: Titre de l'instrument de recherche
     finding_aid_title_tooltip: |
-        <p>Titre (bibliographique) pour l'instrument de rechercher associé à cette ressource.</p>
+        <p>Titre (bibliographique) pour l'instrument de recherche associé à cette ressource.</p>
         <p>Exemples:</p>
         <ul>
         <li>Registre de la collection de Jason Twirly</li>
@@ -1604,6 +1613,10 @@ fr:
         <p>Un URL ou un autre identifiant de localisation de fichier pointant vers un fichier contenant un outil de marquage à utiliser dans l'instrument d'aide en ligne du dépôt. Un logo ou un sceau universitaire constituent des outils typiques de marquage.</p>
     _singular: Dépôt
     _plural: Dépôts
+    publish: Publier?
+    publish_tooltip: |
+        <p>Détermine si ce dépôt et les notices qu'il peut contenir ains seront publiés sur les interfaces publiques.</p>
+
 
   term: &term_attributes
     # tooltips not displaying
@@ -1699,7 +1712,7 @@ fr:
         <p>Le temps que le dépôt estime nécessaire pour traiter une unité de matériel archivistique (par ex. un mètre linéaire ou item dans le cas d'objets numériques).  L'estimation peut ou non prendre en compte la production d'instruments de recherche, d'enregistrements catalogue et d'autres produits d'accès.</p>
     processing_total_extent: Importance totale du matériel à traiter
     processing_total_extent_tooltip: |
-        <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linaires, items, etc) du matériel à traiter.</p>
+        <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linéaires, items, etc) du matériel à traiter.</p>
     processing_total_extent_type: Type d'importance
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
@@ -1795,10 +1808,10 @@ fr:
     repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le dépôt actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par vos propres préférences pour un dépôt.
-    user_repo: My Repository Preferences
-    user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
-    _singular: Preferences
-    _plural: Preferences
+    user_repo: Mes préférences dépôt
+    user_repo_message: Editez ces valeurs pour définir pour préférences utilisateur pour ce dépôt. Ces valeurs ne peuvent pas être écrasées.
+    _singular: Préférences
+    _plural: Préférences
 
   defaults: &defaults_attributes
     general_section: Configuration générale
@@ -1848,22 +1861,10 @@ fr:
     _plural: Valeurs par défaut
 
   reports:
-    CreatedAccessionsReport: Collectes crées
-    UnprocessedAccessionsReport: Collectes non traitées
-    LocationHoldingsReport: Qu'est-ce qui contient quoi?
-    location_holdings:
-      report_title: Rapport sur les contenants entreposés dans une ou plusieurs localisation.
-      repository_report_type: Dépôt
-      building_report_type: Bâtiment
-      single_location_report_type: Localisation unique
-      location_range_report_type: Plage de localisations
-      search_range: Rapport sur une plage de localisations
-      start_range: Première localisation
-      end_range: Dernière localisation
     parameters:
-      from: A partir de
+      from: Du
       from_tooltip:
-      to: Jusqu'à
+      to: Au
       locations: Localisations
     formats:
       json: JSON
@@ -1873,7 +1874,7 @@ fr:
       html: HTML
 
   validation_errors:
-    agent_must_be_unique: Des notices d'agents ne peuvent être identiques
+    agent_must_be_unique: Deux notices d'agents ne peuvent être identiques
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété qui manquait
     not_a_valid_date: N'est pas une date valide
@@ -1885,6 +1886,7 @@ fr:
     did_not_match_regular_expression: Ne correspond pas à l'expression régulière %{regexp}
     too_few_characters: Doit comporter au moins %{min_length} caractères
     too_many_characters: Doit comporter au plus %{max_length} caractères
+    max_length_is_50_characters: Ne doit pas excéder 50 caractères
     too_few_items: Un minimum de %{min_items} item(s) est requis
     invalid_value: Valeur invalide '%{value}'. Doit être comprise dans '%{valid_set}'
     wrong_type: Doit être du type %{desired_type} (vous avez entré %{actual_type})
@@ -1923,6 +1925,13 @@ fr:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
+    types:
+      print_to_pdf_job: Imprimer en PDF
+      import_job: Importer données
+      find_and_replace_job: Rechercher et remplacer en masse (Bêta)
+      report_job: Rapports
+      container_conversion_job: Rapports
+      unknown_job_type: Type de tâche inconnu
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente
@@ -1934,6 +1943,10 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
+
+  report_job:
+    report_type: Type de rapport
+    format: Format
 
   import_job:
     _singular: Importer tâche
@@ -1987,3 +2000,8 @@ fr:
 
   resource_component:
     _singular: Composant ressource
+
+  largetree:
+    reparent_error:
+      title: Pas moyen d'effectuer le déplacement
+      message: Le déplacement a été refusé car un parent ne peut devenir son propre fils.

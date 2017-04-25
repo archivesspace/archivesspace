@@ -1,0 +1,13 @@
+fr:
+  reports:
+    accession_unprocessed_report:
+      title: Collectes non traitées
+      description: Affiche uniquement les collecte(s) n'ayant pas été traitée(s). Rapport contenant n° de collecte, ressources liées, titre, importance matérielle, cataloguée, date de traitement, le nombre de notices sélectionnées avec date de traitement, et l'importance matérielle totale des notices dont le champ date de traitement effectué n'est pas renseigné.
+      total_count: Nombre de collectes
+      total_unprocessed: Collectes non traitées
+      between: Ayant eu lieu entre
+      total_extent_of_unprocessed: Importance matérielle totale des collectes non traitées
+      identifier_prefix: Collecte
+      extent: Quantité
+      cataloged: Cataloguée
+      linked_resources: Ressource(s) liée(s)

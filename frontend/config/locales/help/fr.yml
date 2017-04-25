@@ -5,18 +5,18 @@ fr:
     default_tooltip: Centre d'aide ArchivesSpace
     topics:
       # Accession help tooltips
-      accession: Aide sur Collecte
+      accession: Aide sur Collectes
       accession_basic_information: Aide sur Information de base
       accession_extents: Aide sur Importance matérielle
       accession_dates: Aide sur Dates
       accession_related_resources: Aide sur Ressources associées
       accession_linked_agents: Aide sur Liens agents
-      accession_subjects: Aide sur Mots-matières
+      accession_subjects: Aide sur Sujets
       accession_external_documents: Aide sur Documents externes
       accession_rights_statements: Aide sur Mentions de droits
       accession_deaccessions: Aide sur Aliénations
       accession_instances: Aide sur Instances
-      accession_collection_management: Aide sur Gestion des collections
+      accession_collection_management: Aide sur Gestion de collections
       accession_classification: Aide sur Classifications
       accession_user_defined: Aide sur Défini par l'utilisateur
       # Resource help tooltips
@@ -27,7 +27,7 @@ fr:
       resource_finding_aid: Aide sur Instruments de recherche
       resource_related_accessions: Aide sur Collectes associées
       resource_linked_agents: Aide sur Liens agents
-      resource_subjects: Aide sur Mots-matières
+      resource_subjects: Aide sur Sujets
       resource_notes: Aide sur Notes
       resource_external_documents: Aide sur Documents externes
       resource_rights_statements: Aide sur Mentions de droits
@@ -44,7 +44,7 @@ fr:
       archival_object_finding_aid: Aide sur Instruments de recherche
       archival_object_related_accessions: Aide sur Collectes associées
       archival_object_linked_agents: Aide sur Liens agents
-      archival_object_subjects: Aide sur Mots-matières
+      archival_object_subjects: Aide sur Sujets
       archival_object_notes: Aide sur Notes
       archival_object_external_documents: Aide sur Documents externes
       archival_object_rights_statements: Aide sur Mentions de droits
@@ -61,7 +61,7 @@ fr:
       digital_object_finding_aid: Aide sur Instruments de recherche
       digital_object_related_accessions: Aide sur Collectes associées
       digital_object_linked_agents: Aide sur Liens agents
-      digital_object_subjects: Aide sur Mots-matières
+      digital_object_subjects: Aide sur Sujets
       digital_object_notes: Aide sur Notes
       digital_object_external_documents: Aide sur Documents externes
       digital_object_rights_statements: Aide sur Mentions de droits
@@ -78,17 +78,17 @@ fr:
       digital_object_component_finding_aid: Aide sur Instruments de recherche
       digital_object_component_related_accessions: Aide sur Collectes associées
       digital_object_component_linked_agents: Aide sur Liens agents
-      digital_object_component_subjects: Aide sur Mots-matières
+      digital_object_component_subjects: Aide sur Sujets
       digital_object_component_notes: Aide sur Notes
       digital_object_component_external_documents: Aide sur Documents externes
       digital_object_component_rights_statements: Aide sur Mentions de droits
       digital_object_component_instances: Aide sur Exemplaires
       digital_object_component_deaccessions: Aide sur Aliénationss
-      digital_object_component_collection_management: Aide sur Management des collections
+      digital_object_component_collection_management: Aide sur Gestion des collections
       digital_object_component_classification: Aide sur Classifications
       digital_object_component_user_defined: Aide sur Défini par l'utilisateur
       # Subjects
-      subject: Aide sur Mots-matières
+      subject: Aide sur Sujets
       subject_basic_information: Aide sur Information de base
       subject_terms: Aide sur Termes et subdivisions
       subject_external_documents: Aide sur Documents externes
