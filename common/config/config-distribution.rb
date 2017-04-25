@@ -63,6 +63,9 @@ class AppConfig
     if java.lang.System.getProperty("aspace.config")
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
+    elsif ENV['ASPACE_CONFIG'] && File.exist?(ENV['ASPACE_CONFIG'])
+      # Setting a system config 
+      ENV['ASPACE_CONFIG']
     elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
       File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
     elsif java.lang.System.getProperty("catalina.base")
