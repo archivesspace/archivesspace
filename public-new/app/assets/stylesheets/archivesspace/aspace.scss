@@ -725,7 +725,7 @@ span.head {
       top: 0;
       left: 0;
       cursor: ew-resize;
-      background-image: url(sidebar_drag_handle.png);
+      background-image: asset-url('sidebar_drag_handle.png');
       background-repeat: no-repeat;
       background-position: 1px center;
       border-right: 1px solid #CCC;
