@@ -8,6 +8,7 @@ require 'java'
 require 'tmpdir'
 require 'tempfile'
 require 'config/config-distribution'
+require 'asconstants'
 
 module ASUtils
 
@@ -144,6 +145,11 @@ module ASUtils
  end
 
   def self.dump_diagnostics(exception = nil)
+    unless defined?(JSON)
+      # We might get invoked before everything has been loaded, so just load a minimal set.
+      require 'json'
+    end
+
     diagnostics = self.get_diagnostics( exception ) 
     tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, "w") do |fh|
