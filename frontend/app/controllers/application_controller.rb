@@ -1,6 +1,7 @@
 require 'asconstants'
 require 'memoryleak'
 require 'search'
+require 'zlib'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
@@ -262,7 +263,16 @@ class ApplicationController < ActionController::Base
     permissions_s = context.send(:cookies).signed[:archivesspace_permissions]
 
     if permissions_s
-      permissions = ASUtils.json_parse(permissions_s)
+      # Putting this check in for backwards compatibility with the uncompressed
+      # cookies.  This can be removed at a future point once everyone's running
+      # with compressed cookies.
+      json = if permissions_s.start_with?('ZLIB:')
+               Zlib::Inflate.inflate(permissions_s[5..-1])
+             else
+               permissions_s
+             end
+
+      permissions = ASUtils.json_parse(json)
     else
       return false
     end
