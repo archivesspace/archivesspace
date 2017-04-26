@@ -32,10 +32,11 @@ class ResourcesController <  ApplicationController
 
   # present a list of resources.  If no repository named, just get all of them.
   def index
-    @repo_name = params[:repo] || ""
     @repo_id = params.fetch(:rid, nil)
     if @repo_id
       @base_search =  "/repositories/#{@repo_id}/resources?"
+      repo = archivesspace.get_record("/repositories/#{@repo_id}")
+      @repo_name = repo.display_string
     else
       @base_search = "/repositories/resources?"
     end
