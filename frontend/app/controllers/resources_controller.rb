@@ -31,7 +31,7 @@ class ResourcesController < ApplicationController
     if params[:inline]
       @resource = fetch_resolved(params[:id])
 
-      flash.now[:info] = I18n.t("resource._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:resource => @resource)) if @resource.suppressed
+      flash.now[:info] = I18n.t("resource._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root))) if @resource.suppressed
       return render_aspace_partial :partial => "resources/show_inline"
     end
 
@@ -46,7 +46,7 @@ class ResourcesController < ApplicationController
 
       if acc
         @resource.populate_from_accession(acc)
-        flash.now[:info] = I18n.t("resource._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
+        flash.now[:info] = I18n.t("resource._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc).enable_parse_mixed_content!(url_for(:root)))
         flash[:spawned_from_accession] = acc.id
       end
 
@@ -181,7 +181,7 @@ class ResourcesController < ApplicationController
                                 :action => :edit,
                                 :id => id
                               },
-                              :flash => {:success => I18n.t("resource._frontend.messages.created", JSONModelI18nWrapper.new(:resource => @resource))})
+                              :flash => {:success => I18n.t("resource._frontend.messages.created", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root)))})
                  })
   end
 
@@ -193,7 +193,7 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  flash.now[:success] = I18n.t("resource._frontend.messages.updated", JSONModelI18nWrapper.new(:resource => @resource))
+                  flash.now[:success] = I18n.t("resource._frontend.messages.updated", JSONModelI18nWrapper.new(:resource => @resource).enable_parse_mixed_content!(url_for(:root)))
                   render_aspace_partial :partial => "edit_inline"
                 })
   end
@@ -203,7 +203,7 @@ class ResourcesController < ApplicationController
     resource = Resource.find(params[:id])
     resource.delete
 
-    flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource))
+    flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
 
@@ -269,7 +269,7 @@ class ResourcesController < ApplicationController
     response = JSONModel::HTTP.post_form("#{resource.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = I18n.t("resource._frontend.messages.published", JSONModelI18nWrapper.new(:resource => resource))
+      flash[:success] = I18n.t("resource._frontend.messages.published", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -294,7 +294,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(true)
 
-    flash[:success] = I18n.t("resource._frontend.messages.suppressed", JSONModelI18nWrapper.new(:resource => resource))
+    flash[:success] = I18n.t("resource._frontend.messages.suppressed", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
@@ -303,7 +303,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(false)
 
-    flash[:success] = I18n.t("resource._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:resource => resource))
+    flash[:success] = I18n.t("resource._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 

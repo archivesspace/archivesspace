@@ -44,8 +44,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_valid => ->(id){
 
                   success_message = @archival_object.parent ?
-                                      I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved'])) :
-                                      I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+                                      I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
+                                      I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
@@ -71,8 +71,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id){
                   success_message = parent ?
-                    I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent)) :
-                    I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+                    I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
+                    I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
                   flash.now[:success] = success_message
 
                   render_aspace_partial :partial => "edit_inline"
@@ -84,7 +84,7 @@ class ArchivalObjectsController < ApplicationController
     @resource_id = params['resource_id']
     @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
 
-    flash.now[:info] = I18n.t("archival_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:archival_object => @archival_object)) if @archival_object.suppressed
+    flash.now[:info] = I18n.t("archival_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root))) if @archival_object.suppressed
 
     render_aspace_partial :partial => "archival_objects/show_inline" if inline?
   end
@@ -142,7 +142,7 @@ class ArchivalObjectsController < ApplicationController
       if response.code == '200'
         @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
 
-        flash[:success] = I18n.t("archival_object._frontend.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']))
+        flash[:success] = I18n.t("archival_object._frontend.messages.transfer_success", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
@@ -159,7 +159,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.delete
 
-    flash[:success] = I18n.t("archival_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    flash[:success] = I18n.t("archival_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object).enable_parse_mixed_content!(url_for(:root)))
 
     resolver = Resolver.new(archival_object['resource']['ref'])
     redirect_to resolver.view_uri
@@ -234,7 +234,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(true)
 
-    flash[:success] = I18n.t("archival_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    flash[:success] = I18n.t("archival_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:archival_object => archival_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
@@ -243,7 +243,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(false)
 
-    flash[:success] = I18n.t("archival_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:archival_object => archival_object))
+    flash[:success] = I18n.t("archival_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:archival_object => archival_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 

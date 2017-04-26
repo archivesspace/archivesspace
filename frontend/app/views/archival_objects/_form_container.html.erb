@@ -1,7 +1,11 @@
 <%= link_to_help :topic => "archival_object" %>
 
 <h2>
-  <%= @archival_object.display_string.blank? ? I18n.t("archival_object._singular") : @archival_object.display_string %>
+  <% if @archival_object.display_string.blank? %>
+    <%= I18n.t("archival_object._singular") %>
+  <% else %>
+    <%= clean_mixed_content(@archival_object.display_string) %>
+  <% end %>
   <span class="label label-info"><%= I18n.t("archival_object._singular") %></span>
 </h2>
 
