@@ -424,8 +424,11 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
 };
 
 AjaxTree.prototype.quietly_change_hash = function(tree_id) {
-    this._ignore_hash_change = true;
-    location.hash = tree_id;
+    // only change the hash if we need to!
+    if (location.hash != tree_id) {
+        this._ignore_hash_change = true;
+        location.hash = tree_id;
+    }
 };
 
 
