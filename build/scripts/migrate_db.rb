@@ -25,10 +25,25 @@ end
 
 
 begin
+  migration_logger = Logger.new($stderr)
+
+  # Just log messages relating to the migration.  Otherwise we get a full SQL
+  # trace...
+  def migration_logger.error(*args)
+    unless args.to_s =~ /SCHEMA_INFO.*does not exist/
+      super
+    end
+  end
+
+  def migration_logger.info(*args)
+    if args[0].is_a?(String) && args[0] =~ /applying migration/
+      super
+    end
+  end
+
   Sequel.connect(AppConfig[:db_url],
                  :max_connections => 1,
-                 #:loggers => [Logger.new($stderr)]
-                 ) do |db|
+                 :loggers => [migration_logger]) do |db|
     if ARGV.length > 0 and ARGV[0] == "nuke"
       DBMigrator.nuke_database(db)
 
