@@ -1,5 +1,89 @@
+###############################################################################
+## This file shows the ArchivesSpace configuration options that are available,
+## and the default value for each.
+##
+## Note that there is no need to uncomment these unless you plan to change the
+## value from its default.
+###############################################################################
+
+##
+## This section contains the most commonly changed ArchivesSpace settings
+##
+
+# Set your database name and credentials here.  Example:
+#
+#  AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+#
+AppConfig[:db_url] = proc { AppConfig.demo_db_url }
+
+# Set the maximum number of database connections used by the application.
+# Default is derived from the number of indexer threads.
+AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
+
+# The ArchivesSpace backend listens on port 8089 by default.  You can set it to
+# something else below.
+AppConfig[:backend_url] = "http://localhost:8089"
+
+# The ArchivesSpace staff interface listens on port 8089 by default.  You can
+# set it to something else below.
+AppConfig[:frontend_url] = "http://localhost:8080"
+
+# The ArchivesSpace public interface listens on port 8089 by default.  You can
+# set it to something else below.
+AppConfig[:public_url] = "http://localhost:8081"
+
+# The ArchivesSpace Solr index listens on port 8089 by default.  You can
+# set it to something else below.
+AppConfig[:solr_url] = "http://localhost:8090"
+
+# The ArchivesSpace indexer listens on port 8089 by default.  You can
+# set it to something else below.
+AppConfig[:indexer_url] = "http://localhost:8091"
+
+# The ArchivesSpace API documentation listens on port 8089 by default.  You can
+# set it to something else below.
+AppConfig[:docs_url] = "http://localhost:8888"
+
+# Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log_level] = "debug"
+
+# By default, Solr backups will run at midnight.  See https://crontab.guru/ for
+# information about the schedule syntax.
+AppConfig[:solr_backup_schedule] = "0 * * * *"
+AppConfig[:solr_backup_number_to_keep] = 1
+AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
+
+# Set the application's language (see the .yml files in
+# https://github.com/archivesspace/archivesspace/tree/master/common/locales for
+# a list of available locale codes)
+AppConfig[:locale] = :en
+
+# Plug-ins to load. They will load in the order specified
+AppConfig[:plugins] = ['local',  'lcnaf']
+
+# The aspace-public-formats plugin is not supported in the new public application
+AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
+
+# The number of concurrent threads available to run background jobs
+# Introduced for AR-1619 - long running jobs were blocking the queue
+# Resist the urge to set this to a big number!
+AppConfig[:job_thread_count] = 2
+
+
+##
+## Other less commonly changed settings are below
+##
+
 AppConfig[:default_admin_password] = "admin"
+
+# NOTE: If you run ArchivesSpace using the standard scripts (archivesspace.sh,
+# archivesspace.bat or as a Windows service), the value of :data_directory is
+# automatically set to be the "data" directory of your ArchivesSpace
+# distribution.  You don't need to change this value unless you specifically
+# want ArchivesSpace to put its data files elsewhere.
+#
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
+
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }
 AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }
@@ -8,9 +92,6 @@ AppConfig[:solr_facet_limit] = 100
 
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
-
-# Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
-AppConfig[:backend_log_level] = "debug"
 
 # A prefix added to cookies used by the application.
 #
@@ -36,9 +117,7 @@ AppConfig[:pui_indexer_thread_count] = 1
 
 AppConfig[:allow_other_unmapped] = false
 
-AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
-AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
 
 # Set to true to log all SQL statements.  Note that this will have a performance
 # impact!
@@ -47,18 +126,12 @@ AppConfig[:db_debug_log] = false
 # Set to true if you have enabled MySQL binary logging
 AppConfig[:mysql_binlog] = false
 
+AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
+
 AppConfig[:allow_unsupported_database] = false
 AppConfig[:allow_non_utf8_mysql_database] = false
 
-AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 AppConfig[:demo_db_backup_number_to_keep] = 7
-
-AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
-AppConfig[:solr_backup_schedule] = "0 * * * *"
-AppConfig[:solr_backup_number_to_keep] = 1
-
-AppConfig[:backend_url] = "http://localhost:8089"
-AppConfig[:frontend_url] = "http://localhost:8080"
 
 # Proxy URLs
 # If you are serving user-facing applications via proxy
@@ -70,12 +143,8 @@ AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 # Don't override _prefix or _proxy_prefix unless you know what you're doing
 AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
-AppConfig[:solr_url] = "http://localhost:8090"
-AppConfig[:indexer_url] = "http://localhost:8091"
-AppConfig[:public_url] = "http://localhost:8081"
 AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }
-AppConfig[:docs_url] = "http://localhost:8888"
 
 # Setting any of the four keys below to false will prevent the associated
 # applications from starting. Temporarily disabling the frontend and public
@@ -133,8 +202,6 @@ AppConfig[:max_usernames_per_source] = 50
 
 AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], "create_demodb_snapshot.txt") }
 
-AppConfig[:locale] = :en
-
 # Report Configuration
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
@@ -142,10 +209,6 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
-# Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'lcnaf']
-# The aspace-public-formats plugin is not supported in the new public application
-AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
 # By default, the plugins directory will be in your ASpace Home.
 # If you want to override that, update this with an absolute
 # path
@@ -184,11 +247,6 @@ AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ?
 
 # and this
 AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
-
-# The number of concurrent threads available to run background jobs
-# Introduced for AR-1619 - long running jobs were blocking the queue
-# Resist the urge to set this to a big number!
-AppConfig[:job_thread_count] = 2
 
 
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
