@@ -279,6 +279,9 @@ module MarcXMLBaseMap
             :source => 'ingest',
           }
         }
+      },
+      :defaults => {
+        '_role' => 'creator'
       }
     }
   end

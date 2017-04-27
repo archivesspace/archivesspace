@@ -208,11 +208,11 @@ END
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity" do
-        @corps.count.should eq(3)
+        @corps.count.should eq(4)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity with source 'ingest'" do
-        @corps.select {|f| f['names'][0]['source'] == 'ingest'}.count.should eq(2)
+        @corps.select {|f| f['names'][0]['source'] == 'ingest'}.count.should eq(3)
       end
 
       it "maps datafield[@tag='610']/subfield[@code='2'] to agent_corporate_entity.names[].source" do
@@ -224,9 +224,9 @@ END
         links.select {|l| l['role'] == 'subject'}.count.should eq(1)
       end
 
-      it "maps datafield[@tag='110'][subfield[@code='e']='Creator (cre)'] and datafield[@tag='710'][subfield[@code='e']='source'] to agent_corporate_entity linked as 'creator'" do
+      it "maps datafield[@tag='110'][subfield[@code='e']='Creator (cre)'] and datafield[@tag='710'][subfield[@code='e']='source'] or no $e/$4 to agent_corporate_entity linked as 'creator'" do
         links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
-        links.select {|l| l['role'] == 'creator'}.count.should eq(2)
+        links.select {|l| l['role'] == 'creator'}.count.should eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='a'] to agent_corporate_entity.names[].primary_name" do
@@ -253,6 +253,14 @@ END
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710']/subfield[@code='n'] to agent_corporate_entity.names[].number" do
         @corps.select{|p| p['names'][0]['number'] == 'CNames-Number-AT'}.count.should eq(3)
+      end
+
+      it "maps datafield[@tag='110' or @tag='710'] with no $e or $4 to creator agent_corporate_entity" do
+        creator = @corps.select{|c| c['names'][0]['primary_name'] == 'DNames-PrimaryName-AT'}
+        creator.length.should eq(1)
+        link = @resource['linked_agents'].select{|a| a['ref'] == creator[0]['uri']}
+        link.length.should eq(1)
+        link[0]['role'].should eq('creator')
       end
 
       it "maps datafield[@tag='245'] to resource.title using template '$a : $b [$h] $k , $n , $p , $s / $c' " do
