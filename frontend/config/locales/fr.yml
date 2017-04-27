@@ -875,7 +875,7 @@ fr:
   user_defined:
     _frontend:
       action:
-        add: Ajouter champs définis par utilisateur
+        add: Ajouter champs définis par l'utilisateur
 
   use_date:
     _frontend:

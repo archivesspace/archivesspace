@@ -2,7 +2,7 @@ fr:
   reports:
     accession_production_report:
       title: Rapport de production de collectes
-      description: Affiche les collectes qui ont eu lieu, qui ont été traitées et cataloguées au cours d'une période de temps donnée. Produit un énoncé sommaire du nombre total de collectes, de l'importance matérielle totale, de la quantité totale traitée, et de la quantité cataloguée dans l'intervalle de dates spécifié.
+      description: Affiche les collectes qui ont eu lieu, qui ont été traitées et cataloguées au cours d'une période donnée. Produit un énoncé sommaire du nombre total de collectes, de l'importance matérielle totale, de la quantité totale traitée, et de la quantité cataloguée dans l'intervalle de dates spécifié.
       accessioned_between: Ayant eu lieu entre 
       total_extent: Importance matérielle totale des collectes sélectionnées
       number_selected: Nombre de notices sélectionnées
