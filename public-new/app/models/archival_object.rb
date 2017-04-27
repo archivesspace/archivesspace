@@ -12,7 +12,7 @@ class ArchivalObject < Record
       notes.each do |k, v|
         if k == 'content'
           ASUtils.wrap(v).each do |s|
-            s.gsub!(/<ref target="(.+?)">(.+?)<\/ref>/m, "<a href='#{resource_uri}/resolve/\\1'>\\2</a>")
+            s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{resource_uri}/resolve/\\1'>\\2</a>")
           end
         else
           rewrite_refs(v)
