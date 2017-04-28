@@ -69,6 +69,26 @@ AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] =
 # Resist the urge to set this to a big number!
 AppConfig[:job_thread_count] = 2
 
+# OAI configuration options
+AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
+AppConfig[:oai_proxy_url] = 'http://to-be-determined.example.com'
+AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+AppConfig[:oai_admin_email] = 'admin@example.com'
+
+# In addition to the sets based on level of description, you can define OAI Sets
+# based on repository codes and/or sponsors as follows
+AppConfig[:oai_sets] = {
+  'repository_set' => {
+    :repo_codes => ['hello626'],
+    :description => "A set of one or more repositories",
+  },
+
+  'sponsor_set' => {
+    :sponsors => ['The_Sponsor'],
+    :description => "A set of one or more sponsors",
+  },
+}
+
 
 ##
 ## Other less commonly changed settings are below
