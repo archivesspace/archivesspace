@@ -2,27 +2,9 @@ class ArchivalObject < Record
   include TreeNodes
 
   def parse_notes
-    rewrite_refs(json['notes']) if resource_uri
+    rewrite_refs(json['notes'], resource_uri) if resource_uri
 
     super
-  end
-
-  def rewrite_refs(notes)
-    if notes.is_a?(Hash)
-      notes.each do |k, v|
-        if k == 'content'
-          ASUtils.wrap(v).each do |s|
-            s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{resource_uri}/resolve/\\1'>\\2</a>")
-          end
-        else
-          rewrite_refs(v)
-        end
-      end
-    elsif notes.is_a?(Array)
-      notes.each do |note|
-        rewrite_refs(note)
-      end
-    end
   end
 
   def resource_uri
