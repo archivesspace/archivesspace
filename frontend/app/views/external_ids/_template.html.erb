@@ -1,6 +1,6 @@
 <% define_template "external_id" do |form| %>
   <div class="subrecord-form-fields">
-	  <%= form.hidden_input("source") %>
-    <%= form.hidden_input("external_id") %>
+	  <%= form.label_and_textarea("source") %>
+    <%= form.label_and_textarea("external_id") %>
   </div>
 <% end %>
