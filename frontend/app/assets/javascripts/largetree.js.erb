@@ -75,6 +75,7 @@
 
         this.node_selected_callback = node_selected_callback;
         this.populateWaypointHooks = [];
+        this.collapseNodeHooks = [];
 
         this.errorHandler = $.noop;
 
@@ -108,6 +109,10 @@
 
     LargeTree.prototype.addPopulateWaypointHook = function (callback) {
         this.populateWaypointHooks.push(callback);
+    };
+
+    LargeTree.prototype.addCollapseNodeHook = function (callback) {
+        this.collapseNodeHooks.push(callback);
     };
 
     LargeTree.prototype.displayNode = function (tree_id, done_callback) {
@@ -479,6 +484,10 @@
         setTimeout(function () {
             self.considerPopulatingWaypoint();
         }, 0);
+
+        $(self.collapseNodeHooks).each(function (idx, hook) {
+            hook();
+        });
 
         if (done_callback) {
             done_callback();

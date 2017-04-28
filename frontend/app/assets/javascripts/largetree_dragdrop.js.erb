@@ -20,7 +20,31 @@
         this.lastCursorPosition = undefined;
 
         this.large_tree = large_tree;
+
+        var self = this;
+        large_tree.addCollapseNodeHook(function () {
+            self.handleCollapseNode();
+        });
+
     }
+
+    LargeTreeDragDrop.prototype.handleCollapseNode = function() {
+        var self = this;
+
+        /* If any of our rowsToMove selections are no longer visible, deselect them. */
+        var selectionToKeep = []
+
+        $(self.rowsToMove).each(function (idx, selectedRow) {
+            if ($(selectedRow).is(':visible')) {
+                selectionToKeep.push(selectedRow);
+            }
+        });
+
+        self.rowsToMove = selectionToKeep;
+
+        /* Renumber any remaining selections */
+        self.refreshAnnotations();
+    };
 
     LargeTreeDragDrop.prototype.isDropAllowed = function(target_node) {
         return this.large_tree.isReparentAllowed(this.rowsToMove, target_node);
@@ -76,7 +100,13 @@
 
         self.large_tree.elt.find('.drag-annotation').remove();
         self.rowsToMove.map(function (elt, idx) {
-            var $annotation = $('<div>').addClass('drag-annotation').text(idx + 1);
+            var $annotation = $('<div>').addClass('drag-annotation');
+
+            if (self.rowsToMove.length > 1) {
+                /* Only show selection number if there's more than one selection. */
+                $annotation.text(idx + 1);
+            }
+
             $annotation.appendTo($(elt).find('td:first'));
         });
     };
