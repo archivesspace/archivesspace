@@ -103,4 +103,10 @@ class Resource < Record
     end
     "#{cite}   #{cite_url_and_timestamp}."
   end
+
+  def parse_notes
+    rewrite_refs(json['notes'], uri)
+
+    super
+  end
 end
