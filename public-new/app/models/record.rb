@@ -97,6 +97,24 @@ class Record
     containers
   end
 
+  def rewrite_refs(notes, base_uri)
+    if notes.is_a?(Hash)
+      notes.each do |k, v|
+        if k == 'content'
+          ASUtils.wrap(v).each do |s|
+            s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{base_uri}/resolve/\\1'>\\2</a>")
+          end
+        else
+          rewrite_refs(v, base_uri)
+        end
+      end
+    elsif notes.is_a?(Array)
+      notes.each do |note|
+        rewrite_refs(note, base_uri)
+      end
+    end
+  end
+
   def parse_notes
     notes = {}
 
