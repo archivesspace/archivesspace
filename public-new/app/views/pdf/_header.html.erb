@@ -3,13 +3,49 @@
         <meta charset="utf-8" />
 
         <style>
+         .toc-page {
+             page-break-before: always;
+             page-break-after: always;
+             height: 100%;
+         }
+
+         h2 {
+             page-break-after: avoid;
+         }
+
+         .print-record {
+             page-break-inside: avoid;
+         }
+
          .logo {
              display: inline-block;
-             color: white;
-             font-size: 200%;
-             border: solid blue 5px;
-             background-color: #0f2099;
-             padding: 10px;
+         }
+
+         ul.toc {
+             list-style-type: none;
+             margin-left: 0;
+             padding-left: 0;
+         }
+
+         .toc .level-1 { padding-left: 1em; }
+         .toc .level-2 { padding-left: 2em; }
+         .toc .level-3 { padding-left: 3em; }
+         .toc .level-4 { padding-left: 4em; }
+         .toc .level-5 { padding-left: 5em; }
+         .toc .level-6 { padding-left: 6em; }
+         .toc .level-7 { padding-left: 7em; }
+         .toc .level-8 { padding-left: 8em; }
+         .toc .level-9 { padding-left: 9em; }
+         .toc .level-10 { padding-left: 10em; }
+
+         .toc a {
+             color: black;
+             text-decoration: none;
+         }
+
+         a.record-title {
+             color: black;
+             text-decoration: none;
          }
 
          h3 {
@@ -52,4 +88,4 @@
     </head>
     <body>
 
-        <div class="logo">OMG ARchivesSpace!1</div>
+        <div class="logo"><%= image_tag("/img/Aspace-logo.png") %></div>

@@ -27,7 +27,6 @@ Rails.application.routes.draw do
   post 'agents/search' => 'agents#search'
   get "agents/:eid/:id" => 'agents#show'
   get 'agents' => 'agents#index'
-  get 'pdf' => 'pdf#index'
 
 
   get  "repositories/:rid/top_containers/:id" => 'containers#show'
@@ -40,6 +39,7 @@ Rails.application.routes.draw do
   get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
+  get "repositories/:rid/resources/:id/pdf"  => 'pdf#resource'
   get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
   get 'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'

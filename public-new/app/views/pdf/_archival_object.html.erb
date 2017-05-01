@@ -1,33 +1,35 @@
 <!-- FIXME: i18n -->
 
-<h3><a id="<%= record.uri %>"><%= record.display_string %></a></h3>
+<div class="print-record">
+    <h3><a class="record-title" id="<%= record.uri %>"><%= record.display_string %></a></h3>
 
-<div class="indented">
-    <dl>
-        <% record.dates.each do |date| %>
-            <dt>Date</dt><dd><%= date['final_expression'] %></dd>
-        <% end %>
-
-        <% record.extents.each do |extent| %>
-            <dt>Physical Description</dt><dd><%= extent['display'] %></dd>
-        <% end %>
-
-        <% record.notes.each do |note_type, note| %>
-            <% if note_type == 'physdesc' %>
-                <dt>Physical Description</dt><dd><%= note['note_text'] %></dd>
+    <div class="indented">
+        <dl>
+            <% record.dates.each do |date| %>
+                <dt>Date</dt><dd><%= date['final_expression'] %></dd>
             <% end %>
-        <% end %>
 
-        <% if !record.subjects.empty? %>
-            <dt>Controlled Access Headings</dt>
-            <dd>
-                <ul>
-                    <% Array(record.subjects).each do |subject| %>
-                        <li><%= subject['title'] %></li>
-                    <% end %>
-                </ul>
-            </dd>
-        <% end %>
-    </dl>
+            <% record.extents.each do |extent| %>
+                <dt>Physical Description</dt><dd><%= extent['display'] %></dd>
+            <% end %>
 
+            <% record.notes.each do |note_type, note| %>
+                <% if note_type == 'physdesc' %>
+                    <dt>Physical Description</dt><dd><%= note['note_text'] %></dd>
+                <% end %>
+            <% end %>
+
+            <% if !record.subjects.empty? %>
+                <dt>Controlled Access Headings</dt>
+                <dd>
+                    <ul>
+                        <% Array(record.subjects).each do |subject| %>
+                            <li><%= subject['title'] %></li>
+                        <% end %>
+                    </ul>
+                </dd>
+            <% end %>
+        </dl>
+
+    </div>
 </div>
