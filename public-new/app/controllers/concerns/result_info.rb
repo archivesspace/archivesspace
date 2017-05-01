@@ -17,89 +17,20 @@ module ResultInfo
   end
 
   def fill_request_info(resource = false)
-    container = container_info
-    unless !resource && (( container[:top_container_url].empty? || container[:top_container_url][0].blank?)&& !RequestItem::allow_nontops(@repo_info['top']['repo_code']))
-      @request = RequestItem.new(container)
-      @request[:request_uri] = @result['uri']
-      @request[:repo_name] = @repo_info['top']['name'] || '[unknown!]'
-      @request[:repo_code] = @repo_info['top']['repo_code'] || '[unknown!]'
-      @request[:repo_uri] = @repo_info['top']['uri']
-      @request[:cite] = @cite
-      @request[:identifier] = @result.dig('json', '_composite_identifier')
-      @request[:title] = @page_title
+    @request = @result.build_request_item
+
+    if @request
       hier = ''
       @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
       @request[:hierarchy] = hier.strip
-      note = @result.note('accessrestrict')
-      unless note.blank? 
-        @request[:restrict] = note['note_text'] 
-      end
-      @request[:resource_id]  = @result.dig('_resolved_resource', 'json', 'uri')
-      @request[:resource_name] = @result.dig('_resolved_resource', 'json', 'title') || ['unknown']
+    else
+      # FIXME
+      raise 'nil @request.. do something'
     end
-  end
-# process container information
-  def container_info
-    info = {}
-    %i(top_container_url container location_title location_url machine  barcode).each  {|sym| info[sym] = [] }
-    unless @result['json']['instances'].blank?
-      @result['json']['instances'].each do |instance|
-        hsh = container_instance(instance)
-        hsh.keys.each {|sym| info[sym].push(hsh[sym] || '')}  if hsh
-      end
-    end
-    disp = @result['json'].dig('container_disp')
-    info[:container] = [disp] if info[:container].empty? && !disp.blank?
-    info[:top_container_url] = [@result.dig('top_container_uri_u_sstr') || ''] if  info[:top_container_url].empty?
-    barcode = @result.dig('_resolved_top_container_uri_u_sstr','json','barcode')
-    info[:barcode] = [barcode] unless barcode.nil?
-    restricts = @result.dig('_resolved_top_container_uri_u_sstr','json','active_restrictions')
-    if restricts
-      ends = ''
-      restricts.each do |r|
-        lar = r.dig('local_access_restriction_type')
-        info[:machine] += lar if lar
-        ends << ' ' << r.dig('end') || ''
-      end
-      unless ends == ''
-        info[:restriction_ends] = ends
-      end
-    end
-    info
+
+    @request
   end
 
- # returns a hash for top container information
-  def container_instance(instance)
-    tc = instance.dig('sub_container', 'top_container', 'ref')
-    c = instance.dig('container')
-    ret_hash = nil
-    if tc || c
-      name = ''
-      title = nil
-      url = nil
-      barcode = nil
-      if c
-        barcode = ''
-        (1..3).each do |i|
-          type = c.dig("type_#{i}") || ''
-          name << type << ' '  if type.downcase != 'unspecified'
-          ind = c.dig("indicator_#{i}") || ''
-          name << ind << ' '
-          bc = c.dig("barcode_#{i}")
-          barcode += " #{bc}" if bc
-        end
-        name.strip!
-        locs = c.dig('container_locations')
-        if locs && !locs[0].blank?
-          title = locs[0].dig('_resolved', 'title') || ''
-          uri = locs[0].dig('_resolved', 'uri') || ''
-        end
-      end
-      ret_hash =  {:container => (name.blank? ? nil : name),
-        :top_container_url => tc, :location_title => title, :location_url => uri, :barcode => barcode}
-    end
-    ret_hash
-  end
 
   # handle dates
   def handle_dates(json)

@@ -66,6 +66,90 @@ class Record
     notes[type] || {}
   end
 
+  def build_request_item
+    return if resolved_resource.nil?
+
+    has_top_container = false
+    container_info = {}
+
+    %i(top_container_url container location_title location_url restriction_ends machine barcode).each {|sym| container_info[sym] = [] }
+
+    unless json['instances'].blank?
+      json['instances'].each do |instance|
+        sub_container = instance.dig('sub_container')
+
+        next if sub_container.nil?
+
+        top_container_uri = sub_container.dig('top_container', 'ref');
+        top_container = top_container_for_uri(top_container_uri)
+
+        next if container_info.fetch(:top_container_url).include?(top_container_uri)
+
+        hsh = {
+          :container => parse_sub_container_display_string(sub_container, instance),
+          :top_container_url => top_container_uri,
+        }
+
+        if top_container
+          has_top_container = true
+          top_container_json = ASUtils.json_parse(top_container.fetch('json'))
+          hsh[:barcode] = top_container_json.dig('barcode')
+
+          location = parse_top_container_location(top_container_json)
+
+          if (location)
+            hsh[:location_title] = location.dig('title')
+            hsh[:location_url] = location.dig('uri')
+          else
+            hsh[:location_title] = ''
+            hsh[:location_url] = ''
+          end
+        else
+          hsh[:barcode] = ''
+          hsh[:location_title] = ''
+          hsh[:location_url] = ''
+        end
+
+        restricts = top_container_json.dig('active_restrictions')
+        if restricts
+          ends = ''
+          restricts.each do |r|
+            lar = r.dig('local_access_restriction_type')
+            container_info[:machine] += lar if lar
+            ends << ' ' << r.dig('end') || ''
+          end
+          unless ends == ''
+            container_info[:restriction_ends] << ends.strip
+          end
+        end
+
+        hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}
+      end
+    end
+
+    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
+
+    request = RequestItem.new(container_info)
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:cite] = cite
+    request[:identifier] = identifier
+    request[:title] = display_string
+
+    note = note('accessrestrict')
+    unless note.blank?
+      request[:restrict] = note['note_text']
+    end
+
+    request[:resource_id]  = resolved_resource.dig('uri')
+    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
+
+    request
+  end
+
   private
 
   def parse_full_title
@@ -224,8 +308,7 @@ class Record
     ASUtils.wrap(json['classifications']).each do |c|
       unless c['_resolved'].blank?
         classification = record_from_resolved_json(c['_resolved'])
-        p "parse_classifications"
-        p classification.uri
+
         return_arr << {
           'title' => classification.display_string,
           'uri' => classification.uri,
@@ -321,6 +404,26 @@ class Record
     "#{AppConfig[:public_url].sub(/^\//, '')}#{uri}  #{I18n.t('accessed')}  #{Time.now.strftime("%B %d, %Y")}"
   end
 
+  def top_container_for_uri(uri)
+    if raw['_resolved_top_container_uri_u_sstr']
+      resolved = raw['_resolved_top_container_uri_u_sstr'].fetch(uri, nil)
+
+      if resolved
+        resolved.first
+      end
+    end
+  end
+
+  def parse_top_container_location(top_container)
+    container_locations = top_container.dig('container_locations')
+
+    return if container_locations.blank?
+
+    current_location = container_locations.find{|c| c['status'] == 'current'}
+
+    current_location.dig('_resolved')
+  end
+
   def parse_sub_container_display_string(sub_container, inst)
     parts = []
 
@@ -355,16 +458,6 @@ class Record
     end
 
     "#{parts.join(", ")} (#{instance_type})"
-  end
-
-  def top_container_for_uri(uri)
-    if raw['_resolved_top_container_uri_u_sstr']
-      resolved = raw['_resolved_top_container_uri_u_sstr'].fetch(uri, nil)
-
-      if resolved
-        resolved.first
-      end
-    end
   end
 
 end
