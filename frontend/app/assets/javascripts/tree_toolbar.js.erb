@@ -214,6 +214,12 @@ var SHARED_TOOLBAR_ACTIONS = [
             }
             $options.appendTo(btn.closest('.btn-group'));
 
+            if ($options.is(':empty')) {
+                // node has no parent or siblings so has nowhere to move
+                // remove the toolbar action if this is the case
+                btn.remove();
+            }
+
             $options.on('click', '.move-node-up-level', function(event) {
                 // move node to last child of parent
                 var $new_parent = node.prevAll('.indent-level-'+(level-2)+":first");
