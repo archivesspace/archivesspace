@@ -97,6 +97,9 @@ class Search
     resolver = SearchResolver.new(resolve)
     resolver.resolve(results)
 
+    # Keep the ordering that we were passed in our list of URIs
+    results['results'].sort_by! {|result| uris.index(result['uri'])}
+
     results
   end
 

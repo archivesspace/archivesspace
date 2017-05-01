@@ -1,0 +1,9 @@
+<div class="toc-page">
+    <h2>Table Of Contents</h2>
+
+    <ul class="toc">
+        <% ordered_aos.each do |entry| %>
+            <li class="level-<%= entry.depth %>"><a href="#<%= entry.uri %>"><%= entry.display_string %></a></li>
+        <% end %>
+    </ul>
+</div>
