@@ -140,7 +140,7 @@ class Record
       if exp.blank?
         exp = date['begin'] unless date['begin'].blank?
         unless date['end'].blank?
-          exp = (exp.blank? ? '' : exp + '-') + date['end']
+          exp = (exp.blank? ? '' : exp + ' - ') + date['end']
         end
       end
       if date['date_type'] == 'bulk'
@@ -172,12 +172,15 @@ class Record
   end
 
   def parse_repository
+
     if raw['_resolved_repository'].kind_of?(Hash)
       rr = raw['_resolved_repository'].first
 
       if !rr[1][0]['json'].blank?
         return JSON.parse( rr[1][0]['json'])
       end
+    elsif @json['repository'] && @json['repository']['_resolved']
+      @json['repository']['_resolved']
     end
   end
 

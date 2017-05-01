@@ -1,0 +1,74 @@
+<h2>Summary Information</h2>
+
+<dl>
+    <dt>Repository</dt>
+    <dd><%= record.resolved_repository['name'] %></dd>
+
+    <% if record.agents %>
+        <% record.agents.each do |role, linked_agents| %>
+            <% linked_agents.each do |linked_agent| %>
+                <dt><%= role %></dt>
+                <dd><%= linked_agent['title'] %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <dt>Title</dt><dd><%= record.display_string %></dd>
+
+    <dt>ID</dt><dd><%= record.identifier %></dd>
+
+    <% record.dates.each do |date| %>
+        <dt>Date</dt><dd><%= date['final_expression'] %></dd>
+    <% end %>
+
+    <% record.extents.each do |extent| %>
+        <dt>Physical Description</dt><dd><%= extent['display'] %></dd>
+    <% end %>
+
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'physdesc' %>
+            <dt>Physical Description</dt><dd><%== note['note_text'] %></dd>
+        <% end %>
+    <% end %>
+
+    <dt>Language of the Material</dt><dd><%= record.finding_aid['language'] %></dd>
+
+    <!-- FIXME: map container type? -->
+    <dt>Container Information</dt><dd><%= record.container_display.join(', ') %></dd>
+</dl>
+
+<% record.notes.each do |note_type, note| %>
+    <% next if ['physdesc'].include?(note_type) %>
+    <h2><%= note_type %></h2>
+    <p><%== note['note_text'] %></p>
+<% end %>
+
+<h2>Administrative Information</h2>
+
+<h3>Publication Statement</h3>
+
+<p><%= record.resolved_repository['name'] %></p>
+
+<% Array(record.repository_information['address']).each do |line| %>
+    <%= line %>
+<% end %>
+
+<p><%= record.repository_information['city'] %>, <%= record.repository_information['region'] %>, <%= record.repository_information['post_code'] %></p>
+<p><%= record.repository_information['email'] %></p>
+<% if record.repository_information['top']['url'] %>
+    <p>
+        <a href="<%= record.repository_information['top']['url'] %>"><%= record.repository_information['top']['url'] %></a>
+    </p>
+<% end %>
+
+<h2>Controlled Access Headings</h2>
+
+<ul>
+<% Array(record.subjects).each do |subject| %>
+    <li><%= subject['title'] %></li>
+<% end %>
+</ul>
+
+<% if has_children %>
+    <h2>Collection Inventory</h2>
+<% end %>
