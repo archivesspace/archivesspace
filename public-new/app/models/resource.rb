@@ -109,4 +109,8 @@ class Resource < Record
 
     super
   end
+
+  def parse_resource
+    json
+  end
 end
