@@ -7,9 +7,12 @@ module RecordHelper
 
 
   def record_class_for_type(type)
+
     case type
     when 'resource'
       Resource
+    when 'resource_ordered_records'
+      ResourceOrderedRecords
     when 'archival_object'
       ArchivalObject
     when 'accession'
