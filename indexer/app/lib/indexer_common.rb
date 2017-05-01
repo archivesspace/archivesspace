@@ -46,7 +46,8 @@ class CommonIndexer
                            'container_locations', 'subjects',
                            'linked_agents', 'linked_records',
                            'classifications', 'digital_object',
-                           'agent_representation', 'repository']
+                           'agent_representation', 'repository',
+                           'repository::agent_representation']
 
   @@paused_until = Time.now
 
