@@ -49,8 +49,6 @@ class DigitalObject < Record
     results
   end
 
-  private
-
   def parse_cite_string
     cite = note('prefercite')
     unless cite.blank?
