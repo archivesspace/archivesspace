@@ -72,7 +72,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     resource = Resource.get_or_die(params[:id])
 
-    json_response(JSONModel(:resource_ordered_records).from_hash(:uris => resource.ordered_records))
+    json_response(JSONModel(:resource_ordered_records).from_hash({:uris => resource.ordered_records}, raise_errors = true, trusted = true))
   end
 
 

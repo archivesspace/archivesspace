@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <style>
+         .title-page {
+             page-break-after: always;
+         }
+
+         .toc-page {
+             page-break-after: always;
+         }
+
+         .print-record {
+             page-break-inside: avoid;
+         }
+
+         .logo {
+             display: inline-block;
+         }
+
+         ul.toc {
+             list-style-type: none;
+             margin-left: 0;
+             padding-left: 0;
+         }
+
+         .toc .level-1 { padding-left: 1em; }
+         .toc .level-2 { padding-left: 2em; }
+         .toc .level-3 { padding-left: 3em; }
+         .toc .level-4 { padding-left: 4em; }
+         .toc .level-5 { padding-left: 5em; }
+         .toc .level-6 { padding-left: 6em; }
+         .toc .level-7 { padding-left: 7em; }
+         .toc .level-8 { padding-left: 8em; }
+         .toc .level-9 { padding-left: 9em; }
+         .toc .level-10 { padding-left: 10em; }
+
+         .toc a {
+             color: black;
+             text-decoration: none;
+         }
+
+         a.record-title {
+             color: black;
+             text-decoration: none;
+         }
+
+         h3 {
+             margin-top: 1em;
+         }
+
+         dl {
+             overflow: hidden;
+         }
+
+         dt, dd { float: left; margin: 0; margin-top: 0.5em; }
+         dt { clear: both; font-weight: bold; width: 20%; text-align: right; margin-right: 1em; }
+         dd { width: 70%; }
+         dt:after { content: ':'; white-space: pre; }
+
+         .title-block {
+             border-bottom: solid 2px black;
+         }
+
+         .title-block h2 {
+             border: 0;
+         }
+
+         h2 {
+             padding-top: 0.25em;
+             padding-bottom: 0.25em;
+             border-top: solid 2px #333;
+             border-bottom: dotted 1px #333;
+         }
+
+         .indented {
+             padding-left: 0.5em;
+         }
+
+         ul.toc a::after {
+             content: leader('.') target-counter(attr(href), page);
+         }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="logo"><%= image_tag("/img/Aspace-logo.png") %></div>
