@@ -451,6 +451,11 @@ module TreeNodes
       # trigger the deletes... 
       super
     end
+
+    # Default: to be overriden by implementing models
+    def ordered_record_properties(record_ids)
+      {}
+    end
   end
 
 end

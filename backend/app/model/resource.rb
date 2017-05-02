@@ -54,4 +54,23 @@ class Resource < Sequel::Model(:resource)
     [res[:id_0], res[:id_1], res[:id_2], res[:id_3]].compact.join(".")
   end
 
+  # For resources, we want the level returned in our ordered_record response
+  def self.ordered_record_properties(record_ids)
+    result = super.clone
+
+    self.filter(:id => record_ids).select(:id, :level_id, :other_level).each do |row|
+      id = row[:id]
+      level = if row[:other_level]
+                row[:other_level]
+              else
+                BackendEnumSource.value_for_id('archival_record_level', row[:level_id])
+              end
+
+      result[id] ||= {}
+      result[id][:level] = level
+    end
+
+    result
+  end
+
 end
