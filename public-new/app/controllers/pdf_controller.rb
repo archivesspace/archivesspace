@@ -2,6 +2,9 @@ require 'tempfile'
 
 class PdfController <  ApplicationController
 
+  DEPTH_1_LEVELS = ['collection', 'recordgrp', 'series']
+  DEPTH_2_LEVELS = ['subgrp', 'subseries', 'subfonds']
+
   def resource
     repo_id = params.fetch(:rid, nil)
     resource_id = params.fetch(:id, nil)
@@ -17,7 +20,21 @@ class PdfController <  ApplicationController
 
     out_html.write(render_to_string partial: 'titlepage', layout: false, :locals => {:record => resource})
 
-    out_html.write(render_to_string partial: 'toc', layout: false, :locals => {:ordered_aos => ordered_records.entries.select {|entry| entry.uri =~ /archival_object/}})
+    toc_aos = ordered_records.entries.select {|entry|
+      if entry.uri =~ /archival_object/
+        if entry.depth == 1
+          DEPTH_1_LEVELS.include?(entry.level)
+        elsif entry.depth == 2
+          DEPTH_2_LEVELS.include?(entry.level)
+        else
+          false
+        end
+      else
+        false
+      end
+    }
+
+    out_html.write(render_to_string partial: 'toc', layout: false, :locals => {:ordered_aos => toc_aos})
 
     out_html.write(render_to_string partial: 'resource', layout: false, :locals => {:record => resource, :has_children => has_children})
 
