@@ -1,5 +1,5 @@
 #
-# will be adding this file to .gitignore 
+# will be adding this file to .gitignore
 # the version and schema_info values should be updated with the ant dist
 # task
 #
@@ -26,8 +26,8 @@ module ASConstants
       else # some servlet containers have a hard time finding the resource...
         # fallback_version variable gets changed in dist ant task . The a is
         # just a cue that we're using this..
-        fallback_version = "v2.0.0.a"
-        @VERSION = fallback_version 
+        fallback_version = "v2.0.1.a"
+        @VERSION = fallback_version
       end
     rescue
       @VERSION = "NO VERSION"
