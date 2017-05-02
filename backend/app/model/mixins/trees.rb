@@ -231,14 +231,17 @@ module Trees
       end
     end
 
+    extra_root_properties = self.class.ordered_record_properties([self.id])
+    extra_node_properties = self.class.node_model.ordered_record_properties(result)
+
     [{'ref' => self.uri,
       'display_string' => self.title,
-      'depth' => 0}] +
+      'depth' => 0}.merge(extra_root_properties.fetch(self.id, {}))] +
       result.map {|id| {
                     'ref' => self.class.node_model.uri_for(self.class.node_type, id),
                     'display_string' => id_display_strings.fetch(id),
                     'depth' => id_depths.fetch(id),
-                  }}
+                  }.merge(extra_node_properties.fetch(id, {}))}
   end
 
   # Update `excluded_rows` to mark any descendant of an excluded record as
@@ -357,6 +360,11 @@ module Trees
       end
 
       super
+    end
+
+    # Default: to be overriden by implementing models
+    def ordered_record_properties(record_ids)
+      {}
     end
   end
 
