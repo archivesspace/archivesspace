@@ -76,13 +76,18 @@ To build the documentation:
   $ build/run backend:test
 ```
 
-5. Rip apart the READMEs for content by running the doc:build ANT task
+5. Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation with have the correct version number in the footer
+```
+  fallback_version = "vX.X.X.a"
+```
+
+6. Rip apart the READMEs for content by running the doc:build ANT task
 
 ```
   $ build/run doc:build
 ```
 
-6. Build Slate ( using a standard Ruby )
+7. Build Slate ( using a standard Ruby )
 
 ```
   $ cd docs/slate
@@ -94,7 +99,7 @@ To build the documentation:
   $ mv build ../api
 ```
 
-7. Compile Jekyll
+8. Compile Jekyll
 
 ```
   $ cd docs
@@ -104,18 +109,18 @@ To build the documentation:
   $ ./bin/jekyll serve # optional if you want to have a look at the site.
 ```
 
-8. Commit the docs directory to git then push it to the gh-pages branch
+9. Commit the docs directory to git then push it to the gh-pages branch
 
 ```
 $ cd ../ # go to top of the working tree
-$ git add .
+$ git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc) (do NOT add common/asconstants.rb)
 $ git commit # with appropriate commit message
 $  git subtree push --prefix docs origin gh-pages
 ( or, if you get a FF error )
 $ git push origin `git subtree split --prefix docs master`:gh-pages --force
 ```
 
-9. Now merge in the docs directory back into master by committing the new-document
+10. Now merge in the docs directory back into master by committing the new-document
 branch, creating a PR, and merging the PR
 
 ## Build the release
