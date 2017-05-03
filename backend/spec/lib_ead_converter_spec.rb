@@ -50,23 +50,26 @@ ANEAD
 
 
 
-  it "should be able to manage empty tags" do
+  it "should add to a sub_container when it finds a parent attribute on a container" do
     converter = EADConverter.new(test_doc_1)
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(4)
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['type_2'].should eq('Folder')
+    parsed.length.should eq(6)
+    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['sub_container']['type_2'].should eq('Folder')
   end
 
-  it "should be able to manage all the funny stuff people do with labels" do
+  it "should find a top_container barcode in a container label" do
     converter = EADConverter.new(test_doc_1)
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    #parsed.find{|r| r['ref_id'] == '1'}['instances'].length.should eq(2)
     parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type'].should eq('text')
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['container']['barcode_1'].should eq('B@RC0D3')
+    parsed.find{|r|
+      r['uri'] == parsed.find{|r|
+        r['ref_id'] == '1'
+      }['instances'][0]['sub_container']['top_container']['ref']
+    }['barcode'].should eq('B@RC0D3')
   end
 
   it "should remove unitdate from unittitle" do
@@ -74,7 +77,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(4)
+    parsed.length.should eq(6)
     parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
     parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
 
@@ -117,6 +120,7 @@ ANEAD
       @people = parsed.select {|rec| rec['jsonmodel_type'] == 'agent_person'}
       @subjects = parsed.select {|rec| rec['jsonmodel_type'] == 'subject'}
       @digital_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'digital_object'}
+      @top_containers = parsed.select{|rec| rec['jsonmodel_type'] == 'top_container'}
 
       @archival_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}.
                                  inject({}) {|result, a|
@@ -595,13 +599,15 @@ ANEAD
     # The Asterisks in the target element field below represents the numbers "1", "2", or "3" depending on which <container> tag the data is coming from
 
     it "maps '<container>' correctly" do
-      i = @archival_objects['02']['instances'][0]
-      i['instance_type'].should eq('text')
-      i['container']['indicator_1'].should eq('2')
-      i['container']['indicator_2'].should eq('2')
-      #   @type
-      i['container']['type_1'].should eq('Box')
-      i['container']['type_2'].should eq('Folder')
+      instance = @archival_objects['02']['instances'][0]
+      instance['instance_type'].should eq('text')
+      sub = instance['sub_container']
+      sub['type_2'].should eq('Folder')
+      sub['indicator_2'].should eq('2')
+
+      top = @top_containers.select{|t| t['uri'] == sub['top_container']['ref']}.first
+      top['type'].should eq('Box')
+      top['indicator'].should eq('2')
     end
 
     # DAO's
@@ -1024,11 +1030,13 @@ ANEAD
     it "should have instances grouped by their container @id/@parent relationships" do
       instances = @archival_objects.first["instances"]
       instances.length.should eq(3)
-      instances.each_with_index do |v,index|
 
-        container = v["container"]
-        (1..( index + 1)) .to_a.each { |i|  container["indicator_#{i.to_s}"].should eq(( i + index ).to_s)  }
-      end
+      instances[1]['sub_container']['type_2'].should eq('Folder')
+      instances[1]['sub_container']['indicator_2'].should eq('3')
+      instances[2]['sub_container']['type_2'].should eq('Cassette')
+      instances[2]['sub_container']['indicator_2'].should eq('4')
+      instances[2]['sub_container']['type_3'].should eq('Cassette')
+      instances[2]['sub_container']['indicator_3'].should eq('5')
     end
 
   end
