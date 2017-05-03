@@ -4,7 +4,7 @@ require_relative 'export_spec_helper'
 require_relative 'container_spec_helper'
 
 
-describe 'Export Labels Mappings ' do
+describe 'Export Labels Mappings' do
 
   #######################################################################
   # FIXTURES

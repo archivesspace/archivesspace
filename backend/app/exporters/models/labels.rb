@@ -4,7 +4,7 @@ class LabelModel < ASpaceExport::ExportModel
   @ao = Class.new do
     
     def initialize(tree)
-      obj = ArchivalObject.to_jsonmodel(tree['id'])
+      obj = URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['top_container'])
       @json = JSONModel::JSONModel(:archival_object).new(obj)
       @tree = tree
     end
@@ -26,7 +26,6 @@ class LabelModel < ASpaceExport::ExportModel
 
   def initialize(obj)
     @json = obj
-    @seen_top_containers = []
     
     @rows = generate_label_rows(self.children) 
   end
@@ -92,26 +91,24 @@ class LabelModel < ASpaceExport::ExportModel
   
   
   def generate_label_rows(objects)
+    @top_containers ||= []
 
     rows = []
     
     objects.each do |obj|
+      obj.instances.each do |instance|
+        next unless (sub = instance['sub_container'])
+        next if @top_containers.include?(sub['top_container']['ref'])
+        @top_containers << sub['top_container']['ref']
 
-      instances = obj.instances
-      instances.each do |i|
-        if i['sub_container']
-          next if @seen_top_containers.include?(i['sub_container']['top_container']['ref'])
-          @seen_top_containers << i['sub_container']['top_container']['ref']
-        end
+        top = sub['top_container']['_resolved']
 
-        c = i['container']
-        next unless c
         crow = [] 
-        if c['type_1'] && c['indicator_1'] 
-          crow << "#{c['type_1']} #{c['indicator_1']}"
+        if top['type'] && top['indicator'] 
+          crow << "#{top['type_1']} #{top['indicator_1']}"
         end
-        if c['barcode_1']
-          crow << c['barcode_1']
+        if top['barcode']
+          crow << top['barcode']
         end
         rows << crow
       end
