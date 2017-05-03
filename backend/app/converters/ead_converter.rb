@@ -580,65 +580,143 @@ class EADConverter < Converter
     end
 
 
-    # example of a 1:many tag:record relation (1+ <container> => 1 instance with 1 container)
-    with 'container' do |*|
-        @containers ||= {}
+    def remember_instance(instance, id = nil)
+      @instances ||= {}
+      @instances[id] = instance if id
+      @last_instance = instance
+    end
 
-        # we've found that the container has a parent att and the parent is in
-        # our queue
-        if att("parent") && @containers[att('parent')]
-          cont = @containers[att('parent')]
+    def recall_instance(id = nil)
+      id ? @instances[id] : @last_instance
+    end
 
+    def add_to_instance(type, indicator, id, parent_id = nil)
+      if (instance = recall_instance(parent_id))
+        sub_container = instance.sub_container
+        if sub_container['type_3']
+          # trying to add to a full sub_container - this shouldn't happen
         else
-          # there is not a parent. if there is an id, let's check if there's an
-          # instance before we proceed
-          inst = context == :instance ? context_obj : context_obj.instances.last
+          level = sub_container["type_2"].nil? ? "2" : "3"
+          sub_container["type_#{level}"] = type
+          sub_container["indicator_#{level}"] = indicator
 
-          # if there are no instances, we need to make a new one.
-          # or, if there is an @id ( but no @parent) we can assume its a new
-          # top level container that will be referenced later, so we need to
-          # make a new instance
-          if ( inst.nil? or  att('id')  )
-            instance_label = att("label") ? att("label") : 'mixed_materials'
-
-            if instance_label =~ /(.*)\s\((.*)\)$/
-              instance_label = $1
-              barcode = $2
-            end
-
-            make :instance, {
-              :instance_type => instance_label.downcase.strip
-            } do |instance|
-              set ancestor(:resource, :archival_object), :instances, instance
-            end
-
-            inst = context_obj
-          end
-
-          # now let's check out instance to see if there's a container...
-          if inst.container.nil?
-            make :container do |cont|
-              set inst, :container, cont
-            end
-          end
-
-          # and now finally we get the container.
-          cont =  inst.container || context_obj
-          cont['barcode_1'] = barcode.strip if barcode
-          cont['container_profile_key'] = att("altrender")
+          # remember this one because someone might be adding to it
+          remember_instance(instance, id)
         end
+      else
+        # can't find the instance to add to - this shouldn't happen
+      end
+    end
 
-        # now we fill it in
-        (1..3).to_a.each do |i|
-          next unless cont["type_#{i}"].nil?
-          cont["type_#{i}"] = att('type')
-          cont["indicator_#{i}"] = format_content( inner_xml )
-          break
+    def get_or_make_top_container(type, indicator, barcode, container_profile_name)
+      # remember the top_containers we make in this hash
+      # the values are top_container uris
+      # the keys are barcodes or type:indicator
+      # some assumptions:
+      #   - barcodes are unique in this repo
+      #   - a barcode will never look like a type:indicator
+      #   - type:indicator is not unique
+      #       but only the last one seen will need to be added to
+      #       so it's actually a blessing that prior ones get blatted
+      @top_containers ||= {}
+
+      if barcode
+        if (top_container_uri = @top_containers[barcode] || TopContainer.for_barcode(barcode))
+          return top_container_uri
         end
+      else
+        if (top_container_uri = @top_containers["#{type}:#{indicator}"])
+          return top_container_uri
+        end
+      end
 
-        #store it here incase we find it has a parent
-        @containers[att("id")] = cont if att("id")
+      # don't make a container_profile, but link to one if there's a match
+      container_profile = ContainerProfile.filter(:name => container_profile_name).first
 
+      make :top_container, {
+        :barcode => barcode,
+        :indicator => indicator,
+        :type => type
+      } do |top_container|
+        if container_profile
+          set top_container, :container_profile, {:ref => container_profile.uri}
+        end
+      end
+
+      if barcode
+        @top_containers[barcode] = context_obj.uri
+      else
+        @top_containers["#{type}:#{indicator}"] = context_obj.uri
+      end
+
+      context_obj.uri
+    end
+
+    with 'container' do |*|
+
+      if context == :instance
+        # this container is nested inside the last one
+        # so add to the current sub_container
+        # note: there is not an example of this in:
+        #     backend/app/exporters/examples/ead/
+        # but the previous implementation supported it
+        # so continuing support here
+        add_to_instance(att('type'), format_content(inner_xml), att('id'))
+        return
+      end
+
+      if att('parent')
+        # this container has a parent attribute
+        # so there should have been a sub_container previously
+        # with that id that we can add to
+        add_to_instance(att('type'), format_content(inner_xml), att('id'), att('parent'))
+        return
+      end
+
+      if !att('id') && (instance = context_obj.instances.last)
+        # this container doesn't have an @id
+        # and has a container sibling before it
+        # so even though it doesn't have a parent attribute
+        # it is treated as a child of the prior sibling
+        # this pattern is seen in the wnyu.xml example
+        # it is necessary to test for @id because in vmi.xml a list
+        # of sibling containers represents more than one instance
+        add_to_instance(att('type'), format_content(inner_xml), att('id'))
+        return
+      end
+
+      # all of the cases that require adding to an existing sub_container
+      # are now handled, so having arrived here it is necessary to
+      # create a new instance with a sub_container
+
+      instance_type = att('label') || 'mixed_materials'
+
+      if instance_type =~ /(.*)\s+?\((.*)\)$/
+        instance_type = $1
+        barcode = $2
+      end
+
+      make :instance, {
+        :instance_type => instance_type.downcase.strip
+      } do |instance|
+        set ancestor(:resource, :archival_object), :instances, instance
+      end
+
+      instance = context_obj
+
+      top_container_uri = get_or_make_top_container(att('type'),
+                                                    format_content(inner_xml),
+                                                    barcode,
+                                                    att("altrender"))
+
+      make :sub_container, {
+        :top_container => {'ref' => top_container_uri}
+      } do |sub_container|
+        set instance, :sub_container, sub_container
+      end
+
+      # remember the instance as it might be necessary to add to it later
+      remember_instance(instance, att('id'))
     end
 
 
