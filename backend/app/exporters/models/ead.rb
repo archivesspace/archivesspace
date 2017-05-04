@@ -34,7 +34,7 @@ class EADModel < ASpaceExport::ExportModel
     def self.prefetch(tree_nodes, repo_id)
       RequestContext.open(:repo_id => repo_id) do
         objs = ArchivalObject.sequel_to_jsonmodel(ArchivalObject.filter(:id => tree_nodes.map {|tree| tree['id']}).order(:position).all)
-        URIResolver.resolve_references(objs, ['subjects', 'linked_agents', 'digital_object'])
+        URIResolver.resolve_references(objs, ['subjects', 'linked_agents', 'digital_object', 'top_container'])
       end
     end
 
@@ -49,7 +49,7 @@ class EADModel < ASpaceExport::ExportModel
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object'])
+        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object', 'top_container'])
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end
@@ -65,6 +65,16 @@ class EADModel < ASpaceExport::ExportModel
 
     def creators_and_sources
       self.linked_agents.select{|link| ['creator', 'source'].include?(link['role']) }
+    end
+
+
+    def instances_with_sub_containers
+      self.instances.select{|inst| inst['sub_container']}.compact
+    end
+
+
+    def instances_with_digital_objects
+      self.instances.select{|inst| inst['digital_object']}.compact
     end
   end
 
@@ -164,8 +174,13 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def instances_with_containers
-    self.instances.select{|inst| inst['container']}.compact
+  def instances_with_sub_containers
+    self.instances.select{|inst| inst['sub_container']}.compact
+  end
+
+
+  def instances_with_digital_objects
+    self.instances.select{|inst| inst['digital_object']}.compact
   end
 
 
