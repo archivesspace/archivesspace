@@ -22,15 +22,26 @@ module ResourceTrees
       }
 
       properties[:containers] = node.instance.collect {|instance|
-        instance.container
-      }.flatten.compact.map {|container|
+        instance.sub_container
+      }.flatten.compact.map {|sub_container|
         properties = {}
-        [1, 2, 3].each do |i|
-          properties["type_#{i}"] = BackendEnumSource.value_for_id("container_type",
-                                                                   container["type_#{i}_id".intern])
 
-          properties["indicator_#{i}"] = container["indicator_#{i}".intern]
+        top_container = sub_container.related_records(:top_container_link)
+
+        if (top_container)
+          properties["type_1"] = top_container.type || "Container"
+          properties["indicator_1"] = top_container.indicator
+          if top_container.barcode
+            properties["indicator_1"] += " [#{top_container.barcode}]"
+          end
         end
+
+        properties["type_2"] = BackendEnumSource.value_for_id("container_type",
+                                                              sub_container.type_2_id)
+        properties["indicator_2"] = sub_container.indicator_2
+        properties["type_3"] = BackendEnumSource.value_for_id("container_type",
+                                                              sub_container.type_3_id)
+        properties["indicator_3"] = sub_container.indicator_3
 
         properties
       }
