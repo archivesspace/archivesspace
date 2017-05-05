@@ -885,39 +885,6 @@ fr:
     _plural: Dimensions
     _singular: Importance matérielle
 
-  container: &container_attributes
-    type_1: Type de contenant 1
-    type_1_tooltip: &container_type_tooltip |
-        <p>Le principal type de contenant abritant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    indicator_1: Indicateur de contenant 1
-    indicator_1_tooltip: &container_indicator_tooltip |
-        <p>Une expression alphanumérique indiquant la place d'un contenant dans une succession de contenants.</p>
-    barcode_1: Code-barres du contenant 1
-    barcode_1_tooltip: |
-        <p>Un code-barres indentifiant le contenant principal. Peut être utilisé à la place ou en plus du Type de contenant 1.</p>
-    type_2: Type de contenant 2
-    type_2_tooltip: *container_type_tooltip
-    indicator_2: Indicateur de contenant 2
-    indicator_2_tooltip: *container_indicator_tooltip
-    type_3: Type de contenant 3
-    type_3_tooltip: *container_type_tooltip
-    indicator_3: Indicateur de contenant 3
-    indicator_3_tooltip: *container_indicator_tooltip
-    container_extent: Dimensions du contenant
-    container_extent_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Les dimensions du contenant ou des contenants décrits, ordinairement en linéaire ou en unités de volume (par ex. mètre linéaire, mètre cube). A ne pas confondre avec une sous-notice importance matérielle.</p>
-        <p>Requis si le Type de mesure de contenant est spécifié.</p>
-    container_extent_type: Type de mesure du contenant
-    container_extent_type_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.
-        <p>Requis si les dimensions du contenant sont spécifiées.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-        <p>Voir DACS 2.5</p>
-    container_locations: Localisations
-    _plural: contenants
-    _singular: contenant
-
   external_document: &external_document_attributes
     title: Intitulé
     title_tooltip: |

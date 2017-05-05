@@ -885,39 +885,6 @@ en:
     _plural: Extents
     _singular: Extent
 
-  container: &container_attributes
-    type_1: Container 1 Type
-    type_1_tooltip: &container_type_tooltip |
-        <p>The type of the primary container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    indicator_1: Container 1 Indicator
-    indicator_1_tooltip: &container_indicator_tooltip |
-        <p>An alphanumeric expression for indicating the place of a container in a sequence of containers.</p>
-    barcode_1: Container 1 Barcode
-    barcode_1_tooltip: |
-        <p>A barcode for identifying the primary container.  May be used instead of or in supplement to the Container 1 Type.</p>
-    type_2: Container 2 Type
-    type_2_tooltip: *container_type_tooltip
-    indicator_2: Container 2 Indicator
-    indicator_2_tooltip: *container_indicator_tooltip
-    type_3: Container 3 Type
-    type_3_tooltip: *container_type_tooltip
-    indicator_3: Container 3 Indicator
-    indicator_3_tooltip: *container_indicator_tooltip
-    container_extent: Container Extent
-    container_extent_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: The extent of the container or containers described, usually in linear or volumetric units (e.g. linear feet or cubic meters). Do not confuse with an Extent subrecord.</p>
-        <p>Required if Container Extent Type is specified.</p>
-    container_extent_type: Container Extent Type
-    container_extent_type_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.
-        <p>Required if Container Extent is specified.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>See DACS 2.5</p>
-    container_locations: Locations
-    _plural: Containers
-    _singular: Container
-
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |

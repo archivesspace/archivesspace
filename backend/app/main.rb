@@ -27,7 +27,6 @@ require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
-require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -213,18 +212,6 @@ class ArchivesSpaceService < Sinatra::Base
 
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
-
-        # this checks the system_event table to see if we've already run the CMM
-        # for the upgrade from =< v1.4.2
-        unless ContainerManagementConversion.already_run? 
-          Log.info("\n") 
-          Log.info("*" * 100 )
-          Log.info("Migrating existing containers to the new container model...")
-          ContainerManagementConversion.new.run
-          Log.info("Completed: existing containers have been migrated to the new container model.")
-          Log.info("*" * 100 )
-          Log.info("\n") 
-        end
       end
     rescue
       ASUtils.dump_diagnostics($!)

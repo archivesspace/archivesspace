@@ -882,39 +882,6 @@
     _plural: Extensión
     _singular: Extensión
 
-  container: &container_attributes
-    type_1: Tipo de contenedor 1
-    type_1_tooltip: &container_type_tooltip |
-        <p>El tipo del contenedor primario en el cual está ubicado el material descrito.</p>
-        <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-    indicator_1: Indicador envase 1
-    indicator_1_tooltip: &container_indicator_tooltip |
-        <p>Una expresión alfanumérica para indicar el lugar de un contenedor en una secuencia de contenedores.</p>
-    barcode_1: Envase 1 código de barras
-    barcode_1_tooltip: |
-        <p>Un código de barras para la identificación del contenedor primario.  Puede usarse en lugar de o en el suplemento para el tipo de envase de 1.</p>
-    type_2: Tipo de contenedor 2
-    type_2_tooltip: *container_type_tooltip
-    indicator_2: Indicador envase 2
-    indicator_2_tooltip: *container_indicator_tooltip
-    type_3: Tipo de contenedor 3
-    type_3_tooltip: *container_type_tooltip
-    indicator_3: Indicador envase 3
-    indicator_3_tooltip: *container_indicator_tooltip
-    container_extent: Medida de contenedores
-    container_extent_tooltip: |
-        <p>CAMPO OBLIGATORIO CONDICIONAL
-        <p>Necesaria si se especifica el tipo de medida de contenedor.</p>
-    container_extent_type: Tipo de medida
-    container_extent_type_tooltip: |
-        <p>CAMPO OBLIGATORIO CONDICIONAL
-        <p>Necesaria si se especifica la medida del envase.</p>
-        <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-        <p>Ver DACS 2.5</p>
-    container_locations: Ubicaciones
-    _plural: Contenedores
-    _singular: Contenedor
-
   external_document: &external_document_attributes
     title: Título
     title_tooltip: |
