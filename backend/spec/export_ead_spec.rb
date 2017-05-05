@@ -29,13 +29,17 @@ describe "EAD export mappings" do
 
     instances = []
     @digital_objects.keys.each do |ref|
-      instances << build(:json_instance,
+      instances << build(:json_instance_digital,
                          :instance_type => 'digital_object',
                          :digital_object => {:ref => ref})
     end
 
-    #throw in a couple non-digital instances
-    rand(3).times { instances << build(:json_instance) }
+    @top_container = create(:json_top_container)
+    3.times {
+      instances << build(:json_instance,
+                         :sub_container => build(:json_sub_container,
+                                                 :top_container => {:ref => @top_container.uri}))
+    }
 
     # this tests that note order is preserved, even when it's a
     # text.text.list.text setup.
@@ -81,7 +85,7 @@ describe "EAD export mappings" do
                       :publish => true,
                       )
 
-    @resource = JSONModel(:resource).find(resource.id)
+    @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
 
     @archival_objects = {}
 
@@ -91,12 +95,16 @@ describe "EAD export mappings" do
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
-                 :instances => [build(:json_instance_digital), build(:json_instance)],
+                 :instances => [build(:json_instance_digital),
+                                build(:json_instance,
+                                      :sub_container => build(:json_sub_container,
+                                                              :top_container => {:ref => @top_container.uri}))
+                               ],
                  :subjects => @subjects.map{|ref, s| {:ref => ref}}.shuffle,
                  :publish => true,
                  )
 
-      a = JSONModel(:archival_object).find(a.id)
+      a = JSONModel(:archival_object).find(a.id, 'resolve[]' => 'top_container')
 
       @archival_objects[a.uri] = a
     }
@@ -448,57 +456,51 @@ describe "EAD export mappings" do
       end
     end
 
-    describe "How {archival_object}.instances[].container data is mapped." do
-      let(:containers) { object.instances.map {|i| i['container'] } }
-      let(:instances) { object.instances.reject {|i| i['container'].nil? } }
+    describe "How {archival_object}.instances[].sub_container data is mapped." do
+      let(:instances) { object.instances.reject {|i| i['sub_container'].nil? } }
 
-      before(:each) do
-        @count = 0
-      end
+      it "maps {archival_object}.instances[].sub_container to {desc_path}/did/container" do
+        container_ix = 1
 
-      it "maps {archival_object}.instances[].container.type_{i} to {desc_path}/did/container@type" do
         instances.each do |inst|
-          cont = inst['container']
-          (1..3).each do |i|
-            next unless cont.has_key?("type_#{i}") && cont.has_key?("indicator_#{i}")
-            @count +=1
-            data = cont["type_#{i}"]
-            mt(data, "#{desc_path}/did/container[#{@count}]", "type")
+          # increment 1 for the top_container
+          container_ix += 1
+
+          sub = inst['sub_container']
+          if sub['type_2']
+            mt(sub['type_2'], "#{desc_path}/did/container[#{container_ix}]", "type")
+            mt(sub['indicator_2'], "#{desc_path}/did/container[#{container_ix}]")
+            container_ix += 1
+          end
+
+          if sub['type_3']
+            mt(sub['type_3'], "#{desc_path}/did/container[#{container_ix}]", "type")
+            mt(sub['indicator_3'], "#{desc_path}/did/container[#{container_ix}]")
+            container_ix += 1
           end
         end
       end
 
 
-      it "maps {archival_object}.instances[].container.indicator_{i} to {desc_path}/did/container" do
+      it "maps {archival_object}.instance[].instance_type and {archival_object}.instance[].sub_container.top_container.barcode to {desc_path}/did/container@label" do
+        container_ix = 1
+
         instances.each do |inst|
-          cont = inst['container']
-          (1..3).each do |i|
-            next unless cont.has_key?("type_#{i}") && cont.has_key?("indicator_#{i}")
-            @count +=1
-            data = cont["indicator_#{i}"]
-            mt(data, "#{desc_path}/did/container[#{@count}]")
-          end
+          sub = inst['sub_container']
+          top = sub['top_container']['_resolved']
+
+          mt(top['indicator'], "#{desc_path}/did/container[#{container_ix}]")
+
+          label = translate('enumerations.instance_instance_type', inst['instance_type'])
+          label += " [#{top['barcode']}]" if top['barcode']
+          mt(label, "#{desc_path}/did/container[#{container_ix}]", "label")
+
+          container_ix += 1
+
+          # skip the children
+          container_ix += 1 if sub['type_2']
+          container_ix += 1 if sub['type_3']
         end
-      end
-
-
-      it "maps {archival_object}.instance[].instance_type and {archival_object}.instance[].container.barcode_1 to {desc_path}/did/container@label" do
-        instances.each do |inst|
-          cont = inst['container']
-          (1..3).each do |i|
-            next unless cont.has_key?("type_#{i}") && cont.has_key?("indicator_#{i}")
-            @count +=1
-            next unless i == 1
-            data = cont["indicator_#{i}"]
-            mt(data, "#{desc_path}/did/container[#{@count}]")
-            data = "#{translate('enumerations.instance_instance_type', inst['instance_type'])} (#{cont['barcode_1']})"
-            mt(data, "#{desc_path}/did/container[#{@count}]", "label")
-          end
-        end
-      end
-
-      it "maps {archival_object}.instances[].container.barcode_1 to {desc_path}/did/container@label" do
-
       end
     end
 

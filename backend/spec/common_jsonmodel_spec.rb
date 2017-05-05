@@ -444,7 +444,7 @@ describe 'JSON model' do
 
     threads << Thread.new do
       1000.times do
-        build(:json_resource)
+        build(:json_resource, :instances => [])
       end
 
       :ok

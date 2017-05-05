@@ -24,8 +24,7 @@ describe 'Digital object model' do
   it "can link a digital object to an accession" do
     digital_object = create(:json_digital_object)
     acc = create(:json_accession,
-                 :instances => [build(:json_instance,
-                                      :instance_type => 'digital_object',
+                 :instances => [build(:json_instance_digital,
                                       :digital_object => {'ref' => digital_object.uri})])
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)

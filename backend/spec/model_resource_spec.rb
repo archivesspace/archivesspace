@@ -77,11 +77,17 @@ describe 'Resource model' do
 
 
   it "can be created with an instance" do
-    opts = {:instances => [build(:json_instance)]}
+    top = create(:json_top_container)
+    opts = {:instances => [build(:json_instance,
+                                 :sub_container => build(:json_sub_container,
+                                                         :top_container => {:ref => top.uri}))]}
     resource = create_resource(opts)
-    Resource[resource[:id]].instance.length.should eq(1)
-    Resource[resource[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
-    Resource.to_jsonmodel(resource[:id])['instances'][0]["container"]["type_1"].should eq(opts[:instances][0]["container"]["type_1"])
+    res = Resource[resource[:id]]
+    res.instance.length.should eq(1)
+    res.instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
+
+    res = URIResolver.resolve_references(Resource.to_jsonmodel(resource[:id]), ['top_container'])
+    res['instances'][0]["sub_container"]['top_container']['_resolved']["type"].should eq(top["type"])
   end
 
 

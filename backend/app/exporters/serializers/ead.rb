@@ -1,7 +1,6 @@
 # encoding: utf-8
 require 'nokogiri'
 require 'securerandom'
-require_relative "../lib/serialize_extra_container_values"
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
@@ -19,7 +18,6 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  include SerializeExtraContainerValues
 
   def prefix_id(id)
     if id.nil? or id.empty? or id == 'null'
@@ -169,7 +167,7 @@ class EADSerializer < ASpaceExport::Serializer
 
             serialize_did_notes(data, xml, @fragments)
 
-            data.instances_with_containers.each do |instance|
+            data.instances_with_sub_containers.each do |instance|
               serialize_container(instance, xml, @fragments)
             end
 
@@ -273,19 +271,15 @@ class EADSerializer < ASpaceExport::Serializer
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
 
-        # TODO: Clean this up more; there's probably a better way to do this.
-        # For whatever reason, the old ead_containers method was not working
-        # on archival_objects (see migrations/models/ead.rb).
-
-        data.instances.each do |inst|
-          case
-          when inst.has_key?('container') && !inst['container'].nil?
-            serialize_container(inst, xml, fragments)
-          when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil? && @include_daos
-            serialize_digital_object(inst['digital_object']['_resolved'], xml, fragments)
-          end
+        data.instances_with_sub_containers.each do |instance|
+          serialize_container(instance, xml, @fragments)
         end
 
+        if @include_daos
+          data.instances_with_digital_objects.each do |instance|
+            serialize_digital_object(instance['digital_object']['_resolved'], xml, fragments)
+          end
+        end
       }
 
       serialize_nondid_notes(data, xml, fragments)
@@ -417,31 +411,49 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+
   def serialize_container(inst, xml, fragments)
-    containers = []
-    @parent_id = nil
-    (1..3).each do |n|
+    atts = {}
+
+    sub = inst['sub_container']
+    top = sub['top_container']['_resolved']
+
+    atts[:id] = prefix_id(SecureRandom.hex)
+    last_id = atts[:id]
+
+    atts[:type] = top['type']
+    text = top['indicator']
+
+    atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
+                          :default => inst['instance_type'])
+    atts[:label] << " [#{top['barcode']}]" if top['barcode']
+
+    if (cp = top['container_profile'])
+      atts[:altrender] = cp['_resolved']['url'] || cp['_resolved']['name']
+    end
+
+    xml.container(atts) {
+      sanitize_mixed_content(text, xml, fragments)
+    }
+
+    (2..3).each do |n|
       atts = {}
-      next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
-      @container_id = prefix_id(SecureRandom.hex)
 
-      atts[:parent] = @parent_id unless @parent_id.nil?
-      atts[:id] = @container_id
-      @parent_id = @container_id
+      next unless sub["type_#{n}"]
 
-      atts[:type] = inst['container']["type_#{n}"]
-      text = inst['container']["indicator_#{n}"]
-      if n == 1 && inst['instance_type']
-        atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type'])
-        if inst['container']["barcode_1"]
-          atts[:label] << " (#{inst['container']['barcode_1']})"
-        end
-      end
+      atts[:id] = prefix_id(SecureRandom.hex)
+      atts[:parent] = last_id
+      last_id = atts[:id]
+
+      atts[:type] = sub["type_#{n}"]
+      text = sub["indicator_#{n}"]
+
       xml.container(atts) {
-         sanitize_mixed_content(text, xml, fragments)
+        sanitize_mixed_content(text, xml, fragments)
       }
     end
   end
+
 
   def serialize_digital_object(digital_object, xml, fragments)
     return if digital_object["publish"] === false && !@include_unpublished
