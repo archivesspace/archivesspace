@@ -178,15 +178,18 @@ describe "Deletion of Archival Records" do
 
   it "won't delete a location with links to instances" do
     location = Location.create_from_json(build(:json_location))
+    top_container = create(:json_top_container,
+                           :container_locations => [{'ref' => location.uri,
+                                                      'status' => 'current',
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}])
+
     acc = Accession.create_from_json(build(:json_accession,
-                                           :instances => [build(:json_instance, {
-                                               :container => build(:json_container, {
-                                                   :container_locations => [{'ref' => location.uri,
-                                                                             'status' => 'current',
-                                                                             'start_date' => generate(:yyyy_mm_dd),
-                                                                             'end_date' => generate(:yyyy_mm_dd)}]
-                                               })
-                                           })]))
+                                           :instances => [build(:json_instance,
+                                               :sub_container => build(:json_sub_container,
+                                                                       :top_container => {:ref => top_container.uri}))]
+                                           ))
+
     expect {
       location.delete
     }.to raise_error(ConflictException)

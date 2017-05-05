@@ -320,21 +320,24 @@ describe 'Archival Object controller' do
     location = create(:json_location, :temporary => generate(:temporary_location_type))
     status = 'current'
 
-    archival_object = create(:json_archival_object, {
-      :instances => [build(:json_instance, {
-        :container => build(:json_container, {
-          :container_locations => [{'ref' => location.uri,
-                                    'status' => status,
-                                    'start_date' => generate(:yyyy_mm_dd),
-                                    'end_date' => generate(:yyyy_mm_dd)}]
-        })
-      })]
-    })
+    top_container = create(:json_top_container,
+                           :container_locations => [{'ref' => location.uri,
+                                                      'status' => status,
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}])
 
-    obj = JSONModel(:archival_object).find(archival_object.id, "resolve[]" => "container_locations")
 
-    obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
-    obj.instances[0]["container"]["container_locations"][0]["_resolved"]["building"].should eq(location.building)
+    archival_object = create(:json_archival_object,
+                             :instances => [build(:json_instance,
+                                                  :sub_container => build(:json_sub_container,
+                                                                          :top_container => {:ref => top_container.uri}))]
+                             )
+
+    obj = JSONModel(:archival_object).find(archival_object.id, "resolve[]" => "top_container::container_locations")
+
+    loc = obj.instances[0]["sub_container"]['top_container']['_resolved']["container_locations"][0]
+    loc["status"].should eq(status)
+    loc["_resolved"]["building"].should eq(location.building)
   end
 
 

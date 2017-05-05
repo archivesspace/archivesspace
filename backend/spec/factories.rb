@@ -289,14 +289,6 @@ FactoryGirl.define do
     items { [ generate(:alphanumstr) ] }
   end
 
-  factory :json_container, class: JSONModel(:container) do
-    type_1 { generate(:container_type) }
-    indicator_1 { generate(:indicator) }
-    barcode_1 { generate(:barcode) }
-    container_extent { generate (:number) }
-    container_extent_type { sample(JSONModel(:container).schema['properties']['container_extent_type']) }
-  end
-
   factory :json_top_container, class: JSONModel(:top_container) do
     indicator { generate(:alphanumstr) }
     type { generate(:container_type) }
@@ -329,6 +321,7 @@ FactoryGirl.define do
   end
 
   factory :json_sub_container, class: JSONModel(:sub_container) do
+    top_container { {:ref => create(:json_top_container).uri} }
     type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
     indicator_2 { generate(:alphanumstr) }
     type_3 { sample(JSONModel(:sub_container).schema['properties']['type_3']) }
@@ -402,7 +395,7 @@ FactoryGirl.define do
 
   factory :json_instance, class: JSONModel(:instance) do
     instance_type { generate(:instance_type) }
-    container { build(:json_container) }
+    sub_container { build(:json_sub_container) }
   end
 
   factory :json_instance_digital, class: JSONModel(:instance) do
@@ -506,7 +499,7 @@ FactoryGirl.define do
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
     ead_location { generate(:alphanumstr) }
-    instances { [build(:json_instance), build(:json_instance)] }
+    instances { [ build(:json_instance) ] }
     revision_statements {  [build(:json_revision_statement)]  }
   end
 

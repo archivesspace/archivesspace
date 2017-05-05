@@ -35,7 +35,7 @@ describe 'Managed Container mixin' do
       create_accession({
                          "instances" => [build(:json_instance, {
                            "instance_type" => "accession",
-                           "sub_container" => build(:json_sub_container)
+                           "sub_container" => build(:json_sub_container, :top_container => nil)
                          })]
                        })
     }.to raise_error(JSONModel::ValidationException)

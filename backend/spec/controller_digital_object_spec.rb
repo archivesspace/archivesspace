@@ -85,9 +85,8 @@ describe 'Digital Objects controller' do
     digobj = create(:json_digital_object)
 
     resource = create(:json_resource,
-                      :instances => [build(:json_instance,
-                                           :digital_object => {'ref' => digobj.uri},
-                                           :instance_type => 'digital_object')])
+                      :instances => [build(:json_instance_digital,
+                                           :digital_object => {:ref => digobj.uri})])
 
     digobj = JSONModel(:digital_object).find(digobj.id)
     digobj.title = "updated"

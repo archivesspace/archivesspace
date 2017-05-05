@@ -240,10 +240,8 @@ describe 'Record transfers' do
 
   it "moves linked digital objects as a part of a transfer" do
     digital_object = create(:json_digital_object)
-    do_instance = build(:json_instance,
-                        :instance_type => 'digital_object',
-                        :digital_object => {'ref' => digital_object.uri})
-
+    do_instance = build(:json_instance_digital,
+                        :digital_object => {:ref => digital_object.uri})
 
     resource = create(:json_resource,
                       :instances => [do_instance])
@@ -273,9 +271,9 @@ describe 'Record transfers' do
 
   it "detects when a digital object can't be moved as a part of a transfer" do
     digital_object = create(:json_digital_object)
-    do_instance = build(:json_instance,
+    do_instance = build(:json_instance_digital,
                         :instance_type => 'digital_object',
-                        :digital_object => {'ref' => digital_object.uri})
+                        :digital_object => {:ref => digital_object.uri})
 
 
     resource = create(:json_resource,

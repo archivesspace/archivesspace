@@ -53,19 +53,16 @@ describe 'ArchivalObject model' do
 
 
   it "allows archival objects to be created with an instance" do
+    instance = build(:json_instance)
+    opts = {:instances => [instance]}
     
-    opts = {:instances => [{
-         "instance_type" => generate(:instance_type),
-         "container" => build(:json_container)
-       }]}
-    
-       ao = ArchivalObject.create_from_json(
-                                             build(:json_archival_object, opts),
-                                             :repo_id => $repo_id)
+    ao = ArchivalObject.create_from_json(
+                                         build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
 
     ArchivalObject[ao[:id]].instance.length.should eq(1)
-    ArchivalObject[ao[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
-    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["container"]["type_1"].should eq(opts[:instances][0]["container"]["type_1"])
+    ArchivalObject[ao[:id]].instance[0].instance_type.should eq(instance['instance_type'])
+    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["sub_container"]["type_2"].should eq(instance['sub_container']["type_2"])
   end
 
 
