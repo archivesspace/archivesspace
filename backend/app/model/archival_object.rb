@@ -23,7 +23,6 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Publishable
   include ReindexTopContainers
   include RightsRestrictionNotes
-  include MapToAspaceContainer
   include RepresentativeImages
 
   enable_suppression

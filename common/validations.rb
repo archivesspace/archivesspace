@@ -217,46 +217,7 @@ module JSONModel::Validations
   end
 
 
-  def self.check_container(hash)
-    errors = []
-    got_current = false
-    
-    required_container_fields = [["barcode_1"],
-                                ["type_1", "indicator_1"]]
-
-    if !required_container_fields.any? { |fieldset| fieldset.all? {|field| hash[field]} }
-      errors << [ :type_1, "either type_1 or barcode is required" ]
-    end
-
-    if !hash["container_extent_number"].nil? and hash["container_extent_number"] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
-      errors << ["container_extent", "must be a number with no more than nine digits and five decimal places"]
-    elsif !hash["container_extent"].nil? and hash["container_extent_type"].nil?
-      errors << ["container_extent_type", "is required if container extent is specified "]
-    end
-
-    Array(hash["container_locations"]).each do |loc|
-      if loc["status"] == "current"
-        if got_current
-          errors << ["container_locations", "only one location can be current"]
-          break
-        else
-          got_current = true
-        end
-      end
-    end
-
-    errors
-  end
-
-
-  if JSONModel(:container)
-    JSONModel(:container).add_validation("check_container") do |hash|
-      check_container(hash)
-    end
-  end
-
-
-  def self.check_instance_pre_managed_container(hash)
+  def self.check_instance(hash)
     errors = []
 
     if hash["instance_type"] == "digital_object"
@@ -266,20 +227,12 @@ module JSONModel::Validations
       errors << ["instance_type", "An instance with a digital object reference must be of type 'digital_object'"]
 
     elsif hash["instance_type"]
-      errors << ["container", "Can't be empty"] if hash["container"].nil?
+      errors << ["sub_container", "Can't be empty"] if hash["sub_container"].nil?
     end
 
     errors
   end
     
-  def self.check_instance(hash)
-      if hash['sub_container']
-        []
-      else
-        check_instance_pre_managed_container(hash)
-      end
-  end
-
 
   if JSONModel(:instance)
     JSONModel(:instance).add_validation("check_instance") do |hash|
