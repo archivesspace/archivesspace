@@ -90,15 +90,6 @@
 
 <% end %>
 
-<% define_template "container_conversion_job", jsonmodel_definition(:container_conversion_job) do |form, job| %>
-
-    <div class="form-group">
-      <label class="col-sm-3 control-label"><%= I18n.t("actions.resource_to_pdf")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
-    </div>
-
-<% end %>
-
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
 
     <div class="form-group">
@@ -113,7 +104,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'container_conversion_job', 'report_job'].include?(type) %>
+  <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
   <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
 
     <%= render_aspace_partial :partial => "#{type}/show", :locals => {:job => job, :form => form} %>
