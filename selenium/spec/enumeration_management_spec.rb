@@ -76,6 +76,9 @@ describe "Enumeration Management" do
 
 
   it "lets you set a default enumeration (date_type)" do
+    # go home first so the enumeration-list check below diesn't get
+    # a false positive on the list from the previous test
+    @driver.go_home
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
@@ -86,8 +89,10 @@ describe "Enumeration Management" do
     # Wait for the table of enumerations to load
     @driver.find_element(:css, '.enumeration-list')
 
-    inclusive_dates = @driver.find_element_with_text('//tr', /Inclusive Dates/)
-    default_btn = inclusive_dates.find_element(:link, 'Set as Default')
+    # find the first row that is not the default
+    value_row = @driver.find_element_with_text('//tr', /Set as Default/)
+    new_default_type = value_row.find_element(:xpath => './td').text
+    default_btn = value_row.find_element(:link, 'Set as Default')
     @driver.click_and_wait_until_element_gone(default_btn)
 
     @driver.find_element(:link, "Create").click
@@ -97,12 +102,9 @@ describe "Enumeration Management" do
 
     date_type_select = @driver.find_element(:id => "accession_dates__0__date_type_")
     selected_type = date_type_select.get_select_value
-    selected_type.should eq 'inclusive'
 
-    # ensure that the correct subform is loading:
-    subform = @driver.find_element(:css => '.date-type-subform')
-    subform.find_element_with_text('//label', /Begin/)
-    subform.find_element_with_text('//label', /End/)
+    # make sure the new default takes effect
+    selected_type.should eq new_default_type
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
   end
@@ -161,6 +163,7 @@ describe "Enumeration Management" do
   end
 
   it "lets you suppress an enumeration value" do
+    @driver.go_home
     @driver.get($frontend)
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
@@ -205,6 +208,27 @@ describe "Enumeration Management" do
     # lets just finish up making the record and move on, shall we?
     @driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("IMPORTANT.")
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+    # tidy up
+    @driver.go_home
+    @driver.get($frontend)
+    @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
+
+    enum_select = @driver.find_element(:id => "enum_selector")
+    enum_select.select_option_with_text("Collection Management Processing Priority (collection_management_processing_priority)")
+
+    @driver.find_element(:css, '.enumeration-list')
+    foo = @driver.find_element_with_text('//tr', /fooman/)
+    @driver.click_and_wait_until_element_gone(foo.find_element(:link, "Unsuppress"))
+
+
+    @driver.find_element(:css, '.enumeration-list')
+    foo = @driver.find_element_with_text('//tr', /fooman/)
+    foo.find_element(:link, 'Delete').click
+
+    @driver.click_and_wait_until_gone(:css => "form#delete_enumeration button[type='submit']")
   end
 
 end
