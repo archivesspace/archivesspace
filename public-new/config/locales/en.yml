@@ -278,6 +278,7 @@ en:
   related_accessions: Related Accessions
   related_resources: Related Resources
   linked_instances: Linked Records
+  linked_digital_objects: Digital Material
 
   accession:
    _singular: Unprocessed 

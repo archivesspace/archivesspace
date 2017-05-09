@@ -72,10 +72,6 @@
 	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
 	<% end %>
-	<% if @result.kind_of?(DigitalObject) && !@result.linked_instances.blank? %>
-		<% x = render partial: 'digital_objects/linked_instances', locals: {:instances => @result.linked_instances} %>
-		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_instances'), :p_id => 'linked_instances_list', :p_body => x} %>
-	<% end %>
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
            <% x= render partial: 'repositories/repository_details' %>
 	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
@@ -89,7 +85,15 @@
           <% x = render partial: 'accessions/related_resources', locals: {:resources => @result.related_resources} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
         <% end %>
-      </div>        
+	<% if @result.kind_of?(DigitalObject) && !@result.linked_instances.blank? %>
+		<% x = render partial: 'digital_objects/linked_instances', locals: {:instances => @result.linked_instances} %>
+		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_instances'), :p_id => 'linked_instances_list', :p_body => x} %>
+	<% end %>
+	<% unless @result.linked_digital_objects.blank? %>
+		<% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
+		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
+	<% end %>
+      </div>
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
     </script>
