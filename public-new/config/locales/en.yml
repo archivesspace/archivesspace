@@ -272,6 +272,7 @@ en:
   listing: Listing
   list: "%{type} List"
   cont_arr: Collection organization
+  dig_cont_arr: Digital object organization
   subgroups: Subgroups
   accessed: Accessed
   containers: Physical Storage Information
