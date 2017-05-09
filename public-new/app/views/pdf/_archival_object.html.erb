@@ -1,26 +1,35 @@
-<!-- FIXME: i18n -->
+<% (level - 1).times do |previous_level| %>
+    <div class="print-record-border level-<%= previous_level + 1 %>">
+<% end %>
 
-<div class="print-record">
+<div class="print-record-border print-record level-<%= level %>">
     <h3><a class="record-title" id="<%= record.uri %>"><%= record.display_string %></a></h3>
 
     <div class="indented">
+        <% record.notes.each do |note_type, note| %>
+            <% if note_type != 'physdesc' %>
+                <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
+                <p><%= note['note_text'] %></p>
+            <% end %>
+        <% end %>
+
         <dl>
             <% record.dates.each do |date| %>
-                <dt>Date</dt><dd><%= date['final_expression'] %></dd>
+                <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
             <% end %>
 
             <% record.extents.each do |extent| %>
-                <dt>Physical Description</dt><dd><%= extent['display'] %></dd>
+                <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
             <% end %>
 
             <% record.notes.each do |note_type, note| %>
                 <% if note_type == 'physdesc' %>
-                    <dt>Physical Description</dt><dd><%= note['note_text'] %></dd>
+                    <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= note['note_text'] %></dd>
                 <% end %>
             <% end %>
 
             <% if !record.subjects.empty? %>
-                <dt>Controlled Access Headings</dt>
+                <dt><%= I18n.t('pdf_reports.controlled_access_headings') %></dt>
                 <dd>
                     <ul>
                         <% Array(record.subjects).each do |subject| %>
@@ -33,3 +42,7 @@
 
     </div>
 </div>
+
+<% (level - 1).times do |previous_level| %>
+    </div>
+<% end %>
