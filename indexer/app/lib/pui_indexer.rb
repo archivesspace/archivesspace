@@ -24,6 +24,8 @@ class PUIIndexer < PeriodicIndexer
     @time_to_sleep = AppConfig[:pui_indexing_frequency_seconds].to_i
     @thread_count = AppConfig[:pui_indexer_thread_count].to_i
     @records_per_thread = AppConfig[:pui_indexer_records_per_thread].to_i
+
+    @unpublished_records = java.util.Collections.synchronizedList(java.util.ArrayList.new)
   end
 
   def fetch_records(type, ids, resolve)
@@ -217,12 +219,20 @@ class PUIIndexer < PeriodicIndexer
 
 
   def skip_index_record?(record)
-    !record['record']['publish']
+    published = record['record']['publish']
+
+    stage_unpublished_for_deletion("#{record['record']['uri']}#pui") unless published
+
+    !published
   end
 
 
   def skip_index_doc?(doc)
-    !doc['publish']
+    published = doc['publish']
+
+    stage_unpublished_for_deletion(doc['id']) unless published
+
+    !published
   end
 
   def index_round_complete(repository)
@@ -276,10 +286,16 @@ class PUIIndexer < PeriodicIndexer
 
     handle_deletes(:parent_id_field => 'pui_parent_id')
 
+    delete_records(@unpublished_records)
+    @unpublished_records.clear()
+
     checkpoints.each do |repository, type, start|
       @state.set_last_mtime(repository.id, type, start)
     end
 
   end
 
+  def stage_unpublished_for_deletion(doc_id)
+    @unpublished_records.add(doc_id) if doc_id =~ /#pui$/
+  end
 end
