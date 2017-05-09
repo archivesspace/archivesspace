@@ -23,7 +23,14 @@
    </div>
 
     <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
-      <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+      <%
+        if @result.kind_of?(DigitalObject)
+          heading_text = t('dig_cont_arr')
+        else
+          heading_text = t('cont_arr')
+        end
+      %>
+      <%= render partial: 'shared/children_tree', :locals => {:heading_text => heading_text, :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
     </div>
   </div>
  <%= render partial: 'shared/modal_actions' %>
