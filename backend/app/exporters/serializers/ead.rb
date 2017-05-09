@@ -458,6 +458,7 @@ class EADSerializer < ASpaceExport::Serializer
 
 
     if file_versions.empty?
+      atts['xlink:type'] = 'simple'
       atts['xlink:href'] = digital_object['digital_object_id']
       atts['xlink:actuate'] = 'onRequest'
       atts['xlink:show'] = 'new'
@@ -466,6 +467,7 @@ class EADSerializer < ASpaceExport::Serializer
       }
     else
       file_versions.each do |file_version|
+        atts['xlink:type'] = 'simple'
         atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
         atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
         atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
