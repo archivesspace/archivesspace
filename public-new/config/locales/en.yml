@@ -277,6 +277,7 @@ en:
   containers: Physical Storage Information
   related_accessions: Related Accessions
   related_resources: Related Resources
+  linked_instances: Linked Records
 
   accession:
    _singular: Unprocessed 
