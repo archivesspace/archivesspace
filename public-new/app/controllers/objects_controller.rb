@@ -82,7 +82,7 @@ class ObjectsController <  ApplicationController
     end
     uri = uri.sub("\#pui",'')
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'linked_instance_uris:id']
     
     begin
       @result = archivesspace.get_record(url, @criteria)
