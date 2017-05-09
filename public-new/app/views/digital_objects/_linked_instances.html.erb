@@ -1,0 +1,7 @@
+<ul>
+  <% instances.each do |uri, record| %>
+    <li>
+      <%= link_to record.display_string, uri %>
+    </li>
+  <% end %>
+</ul>
