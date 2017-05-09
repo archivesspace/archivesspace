@@ -8,7 +8,7 @@ class Record
               :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier, :classifications, :level
+              :identifier, :classifications, :level, :linked_digital_objects
 
   attr_accessor :criteria 
 
@@ -34,6 +34,7 @@ class Record
 
     @display_string = parse_full_title
     @container_display = parse_container_display
+    @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
     @external_documents = parse_external_documents
@@ -458,6 +459,31 @@ class Record
     end
 
     "#{parts.join(", ")} (#{instance_type})"
+  end
+
+  def parse_digital_object_instances
+    results = {}
+
+    ASUtils.wrap(json['instances']).each do |instance|
+      if instance['digital_object'] && instance['digital_object']['ref']
+        digital_object = digital_object_for_uri(instance['digital_object']['ref'])
+        next if digital_object.nil?
+
+        results[instance['digital_object']['ref']] = record_from_resolved_json(digital_object)
+      end
+    end
+
+    results
+  end
+
+  def digital_object_for_uri(uri)
+    if raw['_resolved_digital_object_uris']
+      resolved = raw['_resolved_digital_object_uris'].fetch(uri, nil)
+
+      if resolved
+        resolved.first
+      end
+    end
   end
 
 end
