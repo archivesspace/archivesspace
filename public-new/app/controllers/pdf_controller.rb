@@ -34,17 +34,19 @@ class PdfController <  ApplicationController
       end
     }
 
-    out_html.write(render_to_string partial: 'toc', layout: false, :locals => {:ordered_aos => toc_aos})
+    out_html.write(render_to_string partial: 'toc', layout: false, :locals => {:resource => resource, :has_children => has_children, :ordered_aos => toc_aos})
 
     out_html.write(render_to_string partial: 'resource', layout: false, :locals => {:record => resource, :has_children => has_children})
 
     page_size = 50
     ordered_records.entries.each_slice(page_size) do |entry_set|
       uri_set = entry_set.map(&:uri)
-      archivesspace.search_records(uri_set, {}, true).records.each do |record|
+      record_set = archivesspace.search_records(uri_set, {}, true).records
+
+      record_set.zip(entry_set).each do |record, entry|
         next unless record.is_a?(ArchivalObject)
 
-        out_html.write(render_to_string partial: 'archival_object', layout: false, :locals => {:record => record})
+        out_html.write(render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth})
       end
     end
 
@@ -67,6 +69,7 @@ class PdfController <  ApplicationController
     pdf_output_stream = java.io.FileOutputStream.new(pdf_file.path)
     renderer.create_pdf(pdf_output_stream)
     pdf_output_stream.close
+
     out_html.unlink
 
     respond_to do |format|
