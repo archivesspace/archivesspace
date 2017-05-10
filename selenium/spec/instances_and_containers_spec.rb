@@ -254,6 +254,7 @@ describe "Resource instances and containers" do
   it "can calculate extents" do
 
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
+    @driver.find_element(:link, 'More').click
     @driver.find_element(:link, 'Calculate Extent').click
     
     modal = @driver.find_element(:id => "extentCalculationModal")
@@ -277,6 +278,7 @@ describe "Resource instances and containers" do
   it "& fer accessions too!" do
 
     @driver.navigate.to("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}/edit")
+    @driver.find_element(:link, 'More').click
     @driver.find_element(:link, 'Calculate Extent').click
     
     modal = @driver.find_element(:id => "extentCalculationModal")

@@ -22,7 +22,6 @@
         <% end %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
-            <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %>
             <% if @accession.publish %>
               <div class="btn btn-inline-form">
                 <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
@@ -57,6 +56,22 @@
                                                                 :target => @accession.title)}
               %>
             <% end %>
+
+            <div class="btn-group dropdown" id="other-dropdown">
+              <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <%= I18n.t('actions.more') %>
+                <span class="caret"></span>
+              </a>
+
+              <ul class="dropdown-menu">
+                <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
+              </ul>
+            </div>
+
+            <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
+              <div class="btn-group"><div class="toolbar-spacer"></div></div>
+            <% end %>
+
 
             <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
               <% if user_can?('suppress_archival_record') %>

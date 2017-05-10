@@ -24,6 +24,7 @@ en:
     spawn: Spawn
     show_all: Show All
     transfer_record: Transfer
+    more: More
     link_to: Link To
     add_prefix: Add
     merge_confirm_title: Merge into this record?
