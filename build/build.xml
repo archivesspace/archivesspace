@@ -128,13 +128,12 @@
 
   <!-- Database -->
   <target name="db:migrate" depends="set-classpath" description="Run migrations against the database configured in config/config.rb">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="..">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib build/scripts/migrate_db.rb" />
+      <arg line="-Iapp/lib ../build/scripts/migrate_db.rb" />
     </java>
   </target>
 
@@ -142,13 +141,12 @@
   <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index configured in config/config.rb">
     <delete dir="${aspace.data_directory}/solr_index" />
     <delete dir="${aspace.data_directory}/shared" />
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="..">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib build/scripts/migrate_db.rb nuke" />
+      <arg line="-Iapp/lib ../build/scripts/migrate_db.rb nuke" />
     </java>
   </target>
 
