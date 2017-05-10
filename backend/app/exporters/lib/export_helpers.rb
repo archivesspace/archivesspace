@@ -139,6 +139,8 @@ module ASpaceExport
           atts[:type] = type if type
           atts[:certainty] = date['certainty'] if date['certainty']
           atts[:normal] = normal unless normal.empty?
+          atts[:era] = date['era'] if date['era']
+          atts[:calendar] = date['calendar'] if date['calendar']
 
           results << {:content => content, :atts => atts}
         end
