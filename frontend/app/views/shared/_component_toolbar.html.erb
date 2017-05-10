@@ -26,11 +26,30 @@
       <% end %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group">
-          <% if ['resource', 'archival_object'].include?(record.jsonmodel_type) %>
-            <%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %>
-          <% end %>
           <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
+          <% end %>
+
+          <div class="btn-group dropdown" id="other-dropdown" style="display: none">
+            <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <%= I18n.t('actions.more') %>
+              <span class="caret"></span>
+            </a>
+
+            <% other_shown = false %>
+            <ul class="dropdown-menu">
+              <% if ['archival_object'].include?(record.jsonmodel_type) %>
+                <% other_shown = true %>
+                <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
+              <% end %>
+
+            <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
+          </div>
+
+          <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
+            <div class="btn-group">
+              <div class="toolbar-spacer" />
+            </div>
           <% end %>
 
           <% if suppressible && user_can?('suppress_archival_record') %>
