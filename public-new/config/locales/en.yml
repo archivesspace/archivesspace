@@ -336,6 +336,7 @@ en:
     _singular: Collection
     _plural: Collections
     _public:
+      identifier: Identifier
       extent: Extent
       dates: Dates
       lang: Language
@@ -1979,3 +1980,11 @@ en:
     access_date: Access Date
     access_restrictions_note: Conditions Governing Access
     use_restrictions_note: Conditions Governing Use
+
+  pdf_reports:
+    administrative_information: Administrative Information
+    collection_inventory: Collection Inventory
+    summary_information: Summary Information
+    table_of_contents: Table Of Contents
+    publication_statement: Publication Statement
+    controlled_access_headings: Controlled Access Headings
