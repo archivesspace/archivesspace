@@ -178,6 +178,7 @@ en:
       location_profile_height_u_sstr: Height
       location_profile_depth_u_sstr: Depth
       location_profile_dimension_units_u_sstr: Dimension Units
+      rights_statement_agent_uris: Rights Statement Agent
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -427,6 +428,7 @@ en:
         name: Name Forms
         contacts: Contact Details
         search_embedded: Linked Records
+        linked_via_rights_statement: Linked Records via Rights Statement
       action:
         create: Create Agent
 
@@ -1293,3 +1295,8 @@ en:
     create_success: Date Created Successfully.  Refreshing page...
     no_dates: No suitable dates found
     no_dates_for_label: No suitable %{label} dates found
+
+  act:
+    _frontend:
+      action:
+        add: Add Act

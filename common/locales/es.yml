@@ -917,11 +917,6 @@
     rights_type_tooltip: |
         <p>La base para la declaración de los derechos lograda.Se permiten cuatro bases
     rights_type_message: Por favor seleccione un tipo de norma
-    active: Activo
-    active_tooltip: |
-        <p>Indica si un registro de los derechos está activa o inactiva.</p>
-    active_true: Activo
-    active_false: Inactivo
     materials: Materiales
     materials_tooltip: |
         <p>Un término o frase breve que describe los materiales en el acta de ingreso, recurso o colección a la que grabación los derechos se aplica.</p>

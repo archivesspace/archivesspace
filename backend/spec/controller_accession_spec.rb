@@ -85,14 +85,14 @@ describe 'Accession controller' do
                                           "rights_statements" => [
                                             {
                                               "identifier" => "abc123",
-                                              "rights_type" => "intellectual_property",
-                                              "ip_status" => "copyrighted",
+                                              "rights_type" => "copyright",
+                                              "status" => "copyrighted",
                                               "jurisdiction" => "AU",
+                                              "start_date" => "1999-01-01",
                                             }
                                           ]).save
     JSONModel(:accession).find(acc).rights_statements.length.should eq(1)
     JSONModel(:accession).find(acc).rights_statements[0]["identifier"].should eq("abc123")
-    JSONModel(:accession).find(acc).rights_statements[0]["active"].should eq(true)
   end
 
 

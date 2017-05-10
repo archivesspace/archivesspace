@@ -237,7 +237,7 @@ module AspaceFormHelper
       options = ([""] + options) if opts[:nodefault]
       opts[:field_opts] ||= {}
 
-      opts[:col_size] = 4
+      opts[:col_size] = 9
       widget = options.length < COMBOBOX_MIN_LIMIT ? select(name, options, opts[:field_opts] || {}) : combobox(name, options, opts[:field_opts] || {})
       label_with_field(name, widget, opts)
     end
@@ -714,6 +714,8 @@ module AspaceFormHelper
 
 
   def templates_for_js(jsonmodel_type = nil)
+    @delivering_js_templates = true
+
     result = ""
 
     return result if @templates.blank?
@@ -721,22 +723,51 @@ module AspaceFormHelper
     obj = {}
     obj['jsonmodel_type'] = jsonmodel_type if jsonmodel_type
 
-    @templates.each do |name, template|
-      context = FormContext.new("${path}", obj, self)
+    templates_to_process = @templates.clone
+    templates_processed = []
 
-      def context.id_for(name, qualify = true)
-        name = path(name) if qualify
+    # As processing a template may register further templates that hadn't been
+    # registered previously, keep looping until we have no more templates to
+    # process.
+    #
+    # Because infinite loops are terrifying and a pain to debug, let us reign
+    # in the fear with a 100-loop-count-get-out-of-here-alive limit.
+    i = 0
+    while(true)
+      templates_to_process.each do |name, template|
+        context = FormContext.new("${path}", obj, self)
 
-        name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+        def context.id_for(name, qualify = true)
+          name = path(name) if qualify
+
+          name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+        end
+
+        context.instance_eval do
+          @active_template = name
+        end
+
+        result << "<div id=\"template_#{name}\"><!--"
+        result << capture(context, &template[:block])
+        result << "--></div>"
+
+        templates_processed << name
       end
 
-      context.instance_eval do
-        @active_template = name
+      if templates_processed.length < @templates.length
+        # some new templates were defined while outputing the js templates
+        templates_to_process = @templates.reject{|name, _| templates_processed.include?(name)}
+      else
+        # we've got them all
+        break
       end
 
-      result << "<div id=\"template_#{name}\"><!--"
-      result << capture(context, &template[:block])
-      result << "--></div>"
+      i += 1
+
+      if i > 100
+        Rails.logger.error("templates_for_js has looped out more that 100 times")
+        break
+      end
     end
 
     result.html_safe

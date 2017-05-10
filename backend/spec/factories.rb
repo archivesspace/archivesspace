@@ -488,6 +488,16 @@ FactoryGirl.define do
     content { [ generate(:string), generate(:string) ] }
   end
 
+  factory :json_note_rights_statement, class: JSONModel(:note_rights_statement) do
+    type { generate(:rights_statement_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
+  factory :json_note_rights_statement_act, class: JSONModel(:note_rights_statement_act) do
+    type { generate(:rights_statement_act_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:html_title)}" }
     id_0 { generate(:alphanumstr) }
@@ -525,10 +535,22 @@ FactoryGirl.define do
 
   # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
-    rights_type 'intellectual_property'
-    ip_status { generate(:ip_status) }
+    rights_type 'copyright'
+    status { generate(:status) }
     jurisdiction { generate(:jurisdiction) }
-    active true
+    start_date { generate(:yyyy_mm_dd) }  
+  end
+
+  factory :json_rights_statement_act, class: JSONModel(:rights_statement_act) do
+    act_type { generate(:act_type) }
+    restriction { generate(:act_restriction) }
+    start_date { generate(:yyyy_mm_dd) }
+  end
+
+  factory :json_rights_statement_external_document, class: JSONModel(:rights_statement_external_document) do
+    title { "External Document #{generate(:generic_title)}" }
+    location { generate(:url) }
+    identifier_type { generate(:external_document_identifier_type) }
   end
 
   factory :json_subject, class: JSONModel(:subject) do

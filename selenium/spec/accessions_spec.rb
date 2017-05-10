@@ -53,21 +53,24 @@ describe "Accessions" do
 
     # add a rights subrecord
     @driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
-    @driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
-    @driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
+    @driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("copyright")
+    @driver.find_element(:id => "accession_rights_statements__0__status_").select_option("copyrighted")
+    @driver.clear_and_send_keys([:id, "accession_rights_statements__0__start_date_"], "2012-01-01")
     combo = @driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]');
     combo.clear
     combo.click
     combo.send_keys("AU")
     combo.send_keys(:tab)
 
-    # @driver.clear_and_send_keys([:id => "accession_rights_statements__0__jurisdiction__combobox"], ["AU", :return])
-    @driver.find_element(:id, "accession_rights_statements__0__active_").click
-
     # add an external document
     @driver.find_element(:css => "#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)").click
     @driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__title_"], "Agreement")
     @driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__location_"], "http://locationof.agreement.com")
+    combo = @driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]');
+    combo.clear
+    combo.click
+    combo.send_keys("Trove")
+    combo.send_keys(:tab)
 
     # save
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
@@ -400,19 +403,25 @@ describe "Accessions" do
     # add a rights sub record
     @driver.find_element(:css => '#accession_rights_statements_ .subrecord-form-heading .btn:not(.show-all)').click
 
-    @driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("intellectual_property")
-    @driver.find_element(:id => "accession_rights_statements__0__ip_status_").select_option("copyrighted")
+    @driver.find_element(:id => "accession_rights_statements__0__rights_type_").select_option("copyright")
+    @driver.find_element(:id => "accession_rights_statements__0__status_").select_option("copyrighted")
+    @driver.clear_and_send_keys([:id, "accession_rights_statements__0__start_date_"], "2012-01-01")
     combo = @driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__jurisdiction_"]//input[@type="text"]');
     combo.clear
     combo.click
     combo.send_keys("AU")
     combo.send_keys(:tab)
-    @driver.find_element(:id, "accession_rights_statements__0__active_").click
 
     # add an external document
     @driver.find_element(:css => "#accession_rights_statements__0__external_documents_ .subrecord-form-heading .btn:not(.show-all)").click
     @driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__title_"], "Agreement")
     @driver.clear_and_send_keys([:id, "accession_rights_statements__0__external_documents__0__location_"], "http://locationof.agreement.com")
+    combo = @driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="accession_rights_statements__0__external_documents__0__identifier_type_"]//input[@type="text"]');
+    combo.clear
+    combo.click
+    combo.send_keys("Trove")
+    combo.send_keys(:tab)
+
 
     # save changes
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")

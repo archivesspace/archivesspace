@@ -154,14 +154,23 @@ module JSONModel::Validations
   def self.check_rights_statement(hash)
     errors = []
 
-    if hash["rights_type"] == "intellectual_property"
-      errors << ["ip_status", "missing required property"] if hash["ip_status"].nil?
+    if hash["rights_type"] == "copyright"
+      errors << ["status", "missing required property"] if hash["status"].nil?
       errors << ["jurisdiction", "missing required property"] if hash["jurisdiction"].nil?
+      errors << ["start_date", "missing required property"] if hash["start_date"].nil?
+
     elsif hash["rights_type"] == "license"
-      errors << ["license_identifier_terms", "missing required property"] if hash["license_identifier_terms"].nil?
+      errors << ["license_terms", "missing required property"] if hash["license_terms"].nil?
+      errors << ["start_date", "missing required property"] if hash["start_date"].nil?
+
     elsif hash["rights_type"] == "statute"
       errors << ["statute_citation", "missing required property"] if hash["statute_citation"].nil?
       errors << ["jurisdiction", "missing required property"] if hash["jurisdiction"].nil?
+      errors << ["start_date", "missing required property"] if hash["start_date"].nil?
+
+    elsif hash["rights_type"] == "other"
+      errors << ["other_rights_basis", "missing required property"] if hash["other_rights_basis"].nil?
+      errors << ["start_date", "missing required property"] if hash["start_date"].nil?
     end
 
     errors
@@ -514,4 +523,17 @@ module JSONModel::Validations
     end
   end
 
+  def self.check_rights_statement_external_document(hash)
+    errors = []
+
+    errors << ['identifier_type', 'missing required property'] if hash['identifier_type'].nil?
+
+    errors
+  end
+
+  if JSONModel(:rights_statement_external_document)
+    JSONModel(:rights_statement_external_document).add_validation("check_rights_statement_external_document") do |hash|
+      check_rights_statement_external_document(hash)
+    end
+  end
 end

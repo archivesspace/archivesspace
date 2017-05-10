@@ -187,6 +187,80 @@ describe "Notes" do
   end
 
 
+  it "types for rights statements are correct" do
+    @driver.get_edit_page(@resource)
+
+    # add rights statement
+    @driver.find_element(:css => '#resource_rights_statements_ .subrecord-form-heading button').click
+
+    # add rights statement note
+    @driver.find_element(:css => '#rights_statement_notes .subrecord-form-heading .add-note').click
+
+    # note types should be rights note type only
+    @driver.find_elements(:css => '#rights_statement_notes .top-level-note-type option').each_with_index do |option_element, i|
+      if i == 0
+        option_element.attribute('value').should eq("")
+      else
+        option_element.attribute('value').should eq("note_rights_statement")
+      end
+    end
+
+    @driver.find_element(:css, "#rights_statement_notes .top-level-note-type").select_option_with_text("Additional Information")
+    @driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value.should eq("additional_information")
+
+    # add rights statement act
+    @driver.find_element(:css => '#resource_rights_statements__0__acts_ .subrecord-form-heading button').click
+
+    # add rights statement act note
+    @driver.find_element(:css => '#resource_rights_statements__0__acts_ .subrecord-form-heading .add-note').click
+
+    # note types should be act note type only
+    @driver.find_elements(:css => '#resource_rights_statements__0__acts_ .top-level-note-type option').each_with_index do |option_element, i|
+      if i == 0
+        option_element.attribute('value').should eq("")
+      else
+        option_element.attribute('value').should eq("note_rights_statement_act")
+      end
+    end
+
+    @driver.find_element(:css, "#resource_rights_statements__0__acts_ .top-level-note-type").select_option_with_text("Additional Information")
+    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value.should eq("additional_information")
+
+    # Force a save
+    @driver.find_element(:css => "form#resource_form button[type='submit']").click
+
+    # And check things again
+    @driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value.should eq("additional_information")
+    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value.should eq("additional_information")
+
+    # Add a second note, are they cool?
+    @driver.find_element(:css => '#rights_statement_notes .subrecord-form-heading .add-note').click
+    @driver.find_elements(:css => '#rights_statement_notes .top-level-note-type option').each_with_index do |option_element, i|
+      if i == 0
+        option_element.attribute('value').should eq("")
+      else
+        option_element.attribute('value').should eq("note_rights_statement")
+      end
+    end
+    @driver.find_element(:css, "#rights_statement_notes .top-level-note-type").select_option_with_text("Additional Information")
+    @driver.find_element(:id, "resource_rights_statements__0__notes__2__type_").get_select_value.should eq("additional_information")
+
+    @driver.find_element(:css => '#rights_statement_act_notes.initialised .add-note').click
+    @driver.find_elements(:css => '#resource_rights_statements__0__acts_ .top-level-note-type option').each_with_index do |option_element, i|
+      if i == 0
+        option_element.attribute('value').should eq("")
+      else
+        option_element.attribute('value').should eq("note_rights_statement_act")
+      end
+    end
+    @driver.find_element(:css, "#resource_rights_statements__0__acts_ .top-level-note-type").select_option_with_text("Additional Information")
+    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__2__type_").get_select_value.should eq("additional_information")
+
+
+    @driver.click_and_wait_until_gone(:css => '.btn.btn-cancel.btn-default')
+  end
+
+
   it "can attach notes to archival objects" do
     @driver.navigate.to("#{$frontend}")
     # Create a resource
