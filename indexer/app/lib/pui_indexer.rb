@@ -286,7 +286,8 @@ class PUIIndexer < PeriodicIndexer
 
     handle_deletes(:parent_id_field => 'pui_parent_id')
 
-    delete_records(@unpublished_records)
+    # Delete any unpublished records and decendents
+    delete_records(@unpublished_records, :parent_id_field => 'pui_parent_id')
     @unpublished_records.clear()
 
     checkpoints.each do |repository, type, start|
