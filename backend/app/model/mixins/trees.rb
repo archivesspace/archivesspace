@@ -174,18 +174,33 @@ module Trees
 
   # Return a depth-first-ordered list of URIs under this tree (starting with the tree itself)
   def ordered_records
+    if self.publish == 0 || self.suppressed == 1
+      # The whole resource is excluded.
+      return []
+    end
+
     id_positions = {}
     parent_to_child_id = {}
 
+    # Any record that is either suppressed or unpublished will be excluded from
+    # our results.  Descendants of an excluded record will also be excluded.
+    excluded_rows = {}
+
     self.class.node_model
       .filter(:root_record_id => self.id)
-      .select(:id, :position, :parent_id).each do |row|
-
+      .select(:id, :position, :parent_id, :display_string, :publish, :suppressed).each do |row|
       id_positions[row[:id]] = row[:position]
       parent_to_child_id[row[:parent_id]] ||= []
       parent_to_child_id[row[:parent_id]] << row[:id]
+
+      if row[:publish] == 0 || row[:suppressed] == 1
+        excluded_rows[row[:id]] = true
+      end
     end
 
+    excluded_rows = apply_exclusions_to_descendants(excluded_rows, parent_to_child_id)
+
+    # Our ordered list of record IDs
     result = []
 
     # Start with top-level records
@@ -197,7 +212,9 @@ module Trees
       if next_rec.nil?
         # Our first iteration.  Nothing to add yet.
       else
-        result << next_rec
+        unless excluded_rows[next_rec]
+          result << next_rec
+        end
       end
 
       children = parent_to_child_id.fetch(next_rec, []).sort_by {|child| id_positions[child]}
@@ -209,6 +226,27 @@ module Trees
     [{'ref' => self.uri}] +
       result.map {|id| {'ref' => self.class.node_model.uri_for(self.class.node_type, id)}
     }
+  end
+
+  # Update `excluded_rows` to mark any descendant of an excluded record as
+  # itself excluded.
+  #
+  # `excluded_rows` is a map whose keys are the IDs of records that have been
+  # marked as excluded.  `parent_to_child_id` is a map of record IDs to their
+  # immediate children's IDs.
+  #
+  def apply_exclusions_to_descendants(excluded_rows, parent_to_child_id)
+    remaining = excluded_rows.keys
+
+    while !remaining.empty?
+      excluded_parent = remaining.shift
+      parent_to_child_id.fetch(excluded_parent, []).each do |child_id|
+        excluded_rows[child_id] = true
+        remaining.push(child_id)
+      end
+    end
+
+    excluded_rows
   end
 
   def transfer_to_repository(repository, transfer_group = [])
