@@ -882,7 +882,7 @@ class CommonIndexer
           doc['publish'] = false
         elsif is_repository_unpublished?(uri, values)
           doc['publish'] = false
-        elsif values['is_repository_unpublished']
+        elsif values['has_unpublished_ancestor']
           doc['publish'] = false
         else
           doc['publish'] = values.has_key?('publish') && values['publish']
