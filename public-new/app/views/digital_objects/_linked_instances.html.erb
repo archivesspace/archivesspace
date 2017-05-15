@@ -1,7 +1,17 @@
 <ul>
   <% instances.each do |uri, record| %>
-    <li>
-      <%= link_to record.display_string, uri %>
-    </li>
+    <% if record.primary_type == 'archival_object' %>
+        <li>
+          <% record.breadcrumb.each do |crumb| %>
+            <% next if crumb[:uri].blank? %>
+            <%= badge_for_type(crumb[:type]) %> <%= link_to crumb[:crumb], crumb[:uri] %> | 
+          <% end %>
+          <%= badge_for_type(record.primary_type) %> <%= link_to record.display_string, uri %>
+        </li>
+    <% else %>
+        <li>
+          <%= badge_for_type(record.primary_type) %> <%= link_to record.display_string, uri %>
+        </li>
+    <% end %>
   <% end %>
 </ul>
