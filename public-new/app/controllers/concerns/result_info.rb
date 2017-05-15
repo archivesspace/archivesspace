@@ -25,8 +25,6 @@ module ResultInfo
       @request[:hierarchy] = hier.strip
     end
 
-    p ['fill_request_info', @request]
-
     @request
   end
 
