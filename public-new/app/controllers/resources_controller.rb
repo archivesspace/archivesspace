@@ -140,7 +140,7 @@ class ResourcesController <  ApplicationController
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])
-      fill_request_info(true)
+      fill_request_info
       # GONE # @tree = fetch_tree(uri)
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
@@ -169,7 +169,7 @@ class ResourcesController <  ApplicationController
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
-      fill_request_info(true)
+      fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
@@ -223,7 +223,7 @@ class ResourcesController <  ApplicationController
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
-      fill_request_info(true)
+      fill_request_info
 
       # top container stuff ... sets @records
       fetch_containers(uri, "#{uri}/inventory", params)

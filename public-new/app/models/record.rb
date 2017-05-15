@@ -68,87 +68,18 @@ class Record
   end
 
   def build_request_item
-    return if resolved_resource.nil?
+    return unless RequestItem.allow_for_type(resolved_repository.dig('repo_code'), primary_type.intern)
 
-    has_top_container = false
-    container_info = {}
-
-    %i(top_container_url container location_title location_url restriction_ends machine barcode).each {|sym| container_info[sym] = [] }
-
-    unless json['instances'].blank?
-      json['instances'].each do |instance|
-        sub_container = instance.dig('sub_container')
-
-        next if sub_container.nil?
-
-        top_container_uri = sub_container.dig('top_container', 'ref');
-        top_container = top_container_for_uri(top_container_uri)
-
-        next if container_info.fetch(:top_container_url).include?(top_container_uri)
-
-        hsh = {
-          :container => parse_sub_container_display_string(sub_container, instance),
-          :top_container_url => top_container_uri,
-        }
-
-        if top_container
-          has_top_container = true
-          top_container_json = ASUtils.json_parse(top_container.fetch('json'))
-          hsh[:barcode] = top_container_json.dig('barcode')
-
-          location = parse_top_container_location(top_container_json)
-
-          if (location)
-            hsh[:location_title] = location.dig('title')
-            hsh[:location_url] = location.dig('uri')
-          else
-            hsh[:location_title] = ''
-            hsh[:location_url] = ''
-          end
-        else
-          hsh[:barcode] = ''
-          hsh[:location_title] = ''
-          hsh[:location_url] = ''
-        end
-
-        restricts = top_container_json.dig('active_restrictions')
-        if restricts
-          ends = ''
-          restricts.each do |r|
-            lar = r.dig('local_access_restriction_type')
-            container_info[:machine] += lar if lar
-            ends << ' ' << r.dig('end') || ''
-          end
-          unless ends == ''
-            container_info[:restriction_ends] << ends.strip
-          end
-        end
-
-        hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}
-      end
+    if ['resource', 'archival_object'].include?(primary_type)
+      build_resource_request_item
+    elsif ['digital_object', 'digital_object_component'].include?(primary_type)
+      build_digital_object_request_item
+    elsif 'accession' == primary_type
+      build_accession_request_item
+    else
+      # not supported!
+      nil
     end
-
-    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
-
-    request = RequestItem.new(container_info)
-
-    request[:request_uri] = uri
-    request[:repo_name] = resolved_repository.dig('name')
-    request[:repo_code] = resolved_repository.dig('repo_code')
-    request[:repo_uri] = resolved_repository.dig('uri')
-    request[:cite] = cite
-    request[:identifier] = identifier
-    request[:title] = display_string
-
-    note = note('accessrestrict')
-    unless note.blank?
-      request[:restrict] = note['note_text']
-    end
-
-    request[:resource_id]  = resolved_resource.dig('uri')
-    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
-
-    request
   end
 
   private
@@ -484,6 +415,98 @@ class Record
         resolved.first
       end
     end
+  end
+
+  def build_resource_request_item
+    return if resolved_resource.nil?
+
+    has_top_container = false
+    container_info = {}
+
+    %i(top_container_url container location_title location_url restriction_ends machine barcode).each {|sym| container_info[sym] = [] }
+
+    unless json['instances'].blank?
+      json['instances'].each do |instance|
+        sub_container = instance.dig('sub_container')
+
+        next if sub_container.nil?
+
+        top_container_uri = sub_container.dig('top_container', 'ref');
+        top_container = top_container_for_uri(top_container_uri)
+
+        next if container_info.fetch(:top_container_url).include?(top_container_uri)
+
+        hsh = {
+          :container => parse_sub_container_display_string(sub_container, instance),
+          :top_container_url => top_container_uri,
+        }
+
+        if top_container
+          has_top_container = true
+          top_container_json = ASUtils.json_parse(top_container.fetch('json'))
+          hsh[:barcode] = top_container_json.dig('barcode')
+
+          location = parse_top_container_location(top_container_json)
+
+          if (location)
+            hsh[:location_title] = location.dig('title')
+            hsh[:location_url] = location.dig('uri')
+          else
+            hsh[:location_title] = ''
+            hsh[:location_url] = ''
+          end
+        else
+          hsh[:barcode] = ''
+          hsh[:location_title] = ''
+          hsh[:location_url] = ''
+        end
+
+        restricts = top_container_json.dig('active_restrictions')
+        if restricts
+          ends = ''
+          restricts.each do |r|
+            lar = r.dig('local_access_restriction_type')
+            container_info[:machine] += lar if lar
+            ends << ' ' << r.dig('end') || ''
+          end
+          unless ends == ''
+            container_info[:restriction_ends] << ends.strip
+          end
+        end
+
+        hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}
+      end
+    end
+
+    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
+
+    request = RequestItem.new(container_info)
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:cite] = cite
+    request[:identifier] = identifier
+    request[:title] = display_string
+
+    note = note('accessrestrict')
+    unless note.blank?
+      request[:restrict] = note['note_text']
+    end
+
+    request[:resource_id]  = resolved_resource.dig('uri')
+    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
+
+    request
+  end
+
+  def build_digital_object_request_item
+    RequestItem.new({})
+  end
+
+  def build_accession_request_item
+    RequestItem.new({})
   end
 
 end
