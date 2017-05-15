@@ -30,8 +30,10 @@ module ResourceRequestItems
       request[:restrict] = note['note_text']
     end
 
-    request[:resource_id]  = resolved_resource.dig('uri')
-    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
+    if primary_type != 'resource'
+      request[:resource_id]  = (0..3).map{|i| resolved_resource.dig("id_#{i}") }.compact.join('-')
+      request[:resource_name] = resolved_resource.dig('title') || ['unknown']
+    end
 
     request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect{|record| record[:crumb]}
 
