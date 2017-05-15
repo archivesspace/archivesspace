@@ -416,7 +416,7 @@ class Record
   def build_request_item_container_info
     container_info = {}
 
-    %i(top_container_url container location_title location_url restriction_ends machine barcode).each {|sym| container_info[sym] = [] }
+    %i(top_container_url container location_title location_url machine barcode).each {|sym| container_info[sym] = [] }
 
     unless json['instances'].blank?
       json['instances'].each do |instance|
@@ -455,14 +455,9 @@ class Record
 
         restricts = top_container_json.dig('active_restrictions')
         if restricts
-          ends = ''
           restricts.each do |r|
             lar = r.dig('local_access_restriction_type')
             container_info[:machine] += lar if lar
-            ends << ' ' << r.dig('end') || ''
-          end
-          unless ends == ''
-            container_info[:restriction_ends] << ends.strip
           end
         end
 
