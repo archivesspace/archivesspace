@@ -127,7 +127,7 @@ module PublicNewDefaults
 
   # Request
   if AppConfig[:pui_page_actions_request]
-    add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component'],
+    add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component', 'accession'],
                                 'shared/request_page_action')
   end
 

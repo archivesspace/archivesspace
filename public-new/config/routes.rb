@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   post  "repositories/:rid/top_containers/:id" => 'containers#show'
   get 'repositories/resources' => 'resources#index'
   get  "repositories/:rid/accessions/:id" => 'accessions#show'
+  post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
   post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get  "repositories/:rid/classifications/:id" => 'classifications#show'
