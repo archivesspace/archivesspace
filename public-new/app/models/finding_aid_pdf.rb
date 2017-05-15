@@ -26,7 +26,7 @@ class FindingAidPDF
     has_children = ordered_records.entries.length > 1
 
     out_html = Tempfile.new
-    out_html.write(renderer.render_to_string partial: 'header', layout: false)
+    out_html.write(renderer.render_to_string partial: 'header', layout: false, :locals => {:record => resource})
 
     out_html.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => resource})
 
