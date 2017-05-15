@@ -33,8 +33,6 @@
         <% end %>
     <% end %>
 
-    <dt><%= I18n.t('enumerations._note_types.langmaterial') %></dt><dd><%= record.finding_aid['language'] %></dd>
-
     <!-- FIXME: map container type? -->
     <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
 </dl>
