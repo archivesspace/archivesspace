@@ -6,11 +6,11 @@
             <% next if crumb[:uri].blank? %>
             <%= badge_for_type(crumb[:type]) %> <%= link_to crumb[:crumb], crumb[:uri] %> | 
           <% end %>
-          <%= badge_for_type(record.primary_type) %> <%= link_to record.display_string, uri %>
+          <%= badge_for_type(record.primary_type) %> <strong><%= link_to record.display_string, uri %></strong>
         </li>
     <% else %>
         <li>
-          <%= badge_for_type(record.primary_type) %> <%= link_to record.display_string, uri %>
+          <%= badge_for_type(record.primary_type) %> <strong><%= link_to record.display_string, uri %></strong>
         </li>
     <% end %>
   <% end %>
