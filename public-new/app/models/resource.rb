@@ -22,6 +22,17 @@ class Resource < Record
     ]
   end
 
+  def ead_id
+    @json['ead_id']
+  end
+
+  # Return the four parts as an array
+  #
+  # The result might contain nils if not all parts were present.
+  def four_part_identifier
+    (0..3).map {|part| @json["id_#{part}"]}
+  end
+
   private
 
   def parse_digital_instance

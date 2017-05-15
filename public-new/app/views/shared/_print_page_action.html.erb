@@ -1,5 +1,5 @@
-<form method="GET" action="<%= url_for + '/pdf' %>">
-    <button class="btn btn-default page_action print">
+<% if AppConfig[:pui_email_enabled] && AppConfig[:pui_max_concurrent_pdfs] > 0 %>
+    <button id="print_button" class="btn btn-default page_action print">
         <i class="fa fa-file-pdf-o fa-3x"></i><br/><%= t('actions.print') %>
     </button>
-</form>
+<% end %>
