@@ -17,13 +17,7 @@ module ResultInfo
   end
 
   def fill_request_info
-    @request = @result.build_request_item
-
-    if @request
-      hier = ''
-      @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
-      @request[:hierarchy] = hier.strip
-    end
+    @request = @result.request_item
 
     @request
   end

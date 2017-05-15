@@ -1,8 +1,8 @@
 require 'active_model'
 
 class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
-                               :hierarchy, :repo_name, :resource_id,
                                :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
+                               :hierarchy, :repo_name, :resource_id, :linked_record_uris,
                                :restriction_ends,  :machine, 
                                :top_container_url, :container,  :barcode, :location_title, 
                                :location_url, :repo_uri, :repo_code)
