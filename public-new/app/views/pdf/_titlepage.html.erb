@@ -1,18 +1,19 @@
-<!-- FIXME: i18n -->
-
 <div class="title-page">
     <div class="title-block">
         <h1 class="title"><%= record.finding_aid['title'] %></h1>
         <h2 class="subtitle"><%= record.finding_aid['subtitle'] %></h2>
     </div>
 
-    <p>This finding aid was produced using ArchivesSpace on <%= Date.today %></p>
-    <p><%= record.finding_aid['language'] %></p>
+    <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
+    <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= record.finding_aid['language'] %></p>
 
-    <!-- FIXME: map -->
-    <p><%= record.finding_aid['description_rules'] %></p>
+    <p><%= I18n.t('enumerations.resource_finding_aid_description_rules.' + record.finding_aid['description_rules']) %></p>
 
     <p><%= record.finding_aid['edition_statement'] %></p>
 
-    <p><%= record.resolved_repository['name'] %></p>
+    <%= render(:partial => 'publication_statement', :locals => {
+        :repository_name => record.resolved_repository['name'],
+        :repository_information => record.repository_information
+    })
+    %>
 </div>
