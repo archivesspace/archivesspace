@@ -382,6 +382,7 @@ en:
     _public:
       thumbnail: thumbnail
       link: Link to digital object
+      badge_label: Digital %{level}
       section:
         components: Components
         summary: Summary
