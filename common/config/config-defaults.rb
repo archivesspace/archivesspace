@@ -344,13 +344,15 @@ AppConfig[:pui_hide][:counts] = false
 # Don't display the accession ("unprocessed material") link on the main navigation menu
 # AppConfig[:pui_hide][:accessions] = true
 
-# the following determine when the request button gets greyed out/disabled
+# the following determine when the request button is displayed
+AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
 # Repository-specific examples.  We are using the imaginary repository code of 'foo'.  Note the lower-case
 AppConfig[:pui_repos] = {}
 # Example:
 # AppConfig[:pui_repos][{repo_code}] = {}
+# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component] # for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)
 # AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
 # AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
 # AppConfig[:pui_repos][{repo_code}][:hide] = {}

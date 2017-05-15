@@ -78,6 +78,7 @@ class AccessionsController <  ApplicationController
       @context = []
       @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
       @context.push({:uri => '', :crumb => @result.display_string })
+      fill_request_info
     rescue RecordNotFound
       @type = I18n.t('accession._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
