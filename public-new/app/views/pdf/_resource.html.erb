@@ -33,7 +33,6 @@
         <% end %>
     <% end %>
 
-    <!-- FIXME: map container type? -->
     <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
 </dl>
 
@@ -49,19 +48,10 @@
 
 <h3><%= I18n.t('pdf_reports.publication_statement') %></h3>
 
-<p><%= record.resolved_repository['name'] %></p>
-
-<% Array(record.repository_information['address']).each do |line| %>
-    <%= line %>
-<% end %>
-
-<p><%= record.repository_information['city'] %>, <%= record.repository_information['region'] %>, <%= record.repository_information['post_code'] %></p>
-<p><%= record.repository_information['email'] %></p>
-<% if record.repository_information['top']['url'] %>
-    <p>
-        <a href="<%= record.repository_information['top']['url'] %>"><%= record.repository_information['top']['url'] %></a>
-    </p>
-<% end %>
+<%= render(:partial => 'publication_statement', :locals => {
+    :repository_name => record.resolved_repository['name'],
+    :repository_information => record.repository_information
+}) %>
 
 <h2><%= I18n.t('pdf_reports.controlled_access_headings') %></h2>
 
