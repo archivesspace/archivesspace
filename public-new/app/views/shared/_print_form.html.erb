@@ -1,0 +1,16 @@
+<%= form_tag(url_for(:controller => :pdf, :action => :resource), method: 'post', :id => 'print_form') do %>
+  <input type="hidden" name="submit_text" value="<%= t('pdf_reports.submit') %>"></input>
+
+  <div id="print">
+    <p><%= t('pdf_reports.description') %></p>
+    <div class="form-group required ">
+      <%= label_tag(:user_email, "#{t('pdf_reports.user_email')} #{t('pdf_reports.required')}",  :class => 'sr-only') %>
+      <div class="input-group">
+        <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('pdf_reports.user_email'), :class => 'form-control' %>
+        <div class="input-group-addon">
+          <span class="required aria-hidden"><%= t('pdf_reports.required') %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
