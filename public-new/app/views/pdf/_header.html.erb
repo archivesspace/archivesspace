@@ -140,6 +140,38 @@
              margin: 0 0 0.5em 0;
          }
 
+         <%# Don't show headers/footers on the titlepage %>
+         @page :first {
+             @top-center {
+                 content: '';
+             }
+
+             @bottom-center {
+                 content: '';
+             }
+         }
+
+         @page {
+             <%
+             short_title = record.finding_aid['title'].split("\n")[0]
+             short_title = short_title.strip if short_title
+             %>
+
+             <% if short_title %>
+             @top-center {
+                 font-size: 80%;
+                 color: #666;
+                 content: '<%= short_title %>';
+             }
+             <% end %>
+
+             @bottom-center {
+                 font-size: 80%;
+                 color: #666;
+                 content: '- ' counter(page) ' -';
+             }
+         }
+
 
         </style>
     </head>
