@@ -421,6 +421,71 @@ class Record
     return if resolved_resource.nil?
 
     has_top_container = false
+    container_info = build_request_item_container_info
+    container_info.each {|key, value|
+      if key == :top_container_url
+        if ASUtils.wrap(value).any?{|v| !v.blank?}
+          has_top_container = true
+          break
+        end
+      end
+    }
+
+    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
+
+    request = RequestItem.new(container_info)
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:cite] = cite
+    request[:identifier] = identifier
+    request[:title] = display_string
+
+    note = note('accessrestrict')
+    unless note.blank?
+      request[:restrict] = note['note_text']
+    end
+
+    request[:resource_id]  = resolved_resource.dig('uri')
+    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
+
+    request
+  end
+
+  def build_digital_object_request_item
+    RequestItem.new({})
+  end
+
+  def build_accession_request_item
+    has_top_container = false
+    container_info = build_request_item_container_info
+    container_info.each {|key, value|
+      if key == :top_container_url
+        if ASUtils.wrap(value).any?{|v| !v.blank?}
+          has_top_container = true
+          break
+        end
+      end
+    }
+
+    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
+
+    request = RequestItem.new(container_info)
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:identifier] = identifier
+    request[:title] = display_string
+    request[:restrict] = json['access_restrictions_note']
+
+    request
+  end
+
+  def build_request_item_container_info
     container_info = {}
 
     %i(top_container_url container location_title location_url restriction_ends machine barcode).each {|sym| container_info[sym] = [] }
@@ -442,7 +507,6 @@ class Record
         }
 
         if top_container
-          has_top_container = true
           top_container_json = ASUtils.json_parse(top_container.fetch('json'))
           hsh[:barcode] = top_container_json.dig('barcode')
 
@@ -478,35 +542,7 @@ class Record
       end
     end
 
-    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
-
-    request = RequestItem.new(container_info)
-
-    request[:request_uri] = uri
-    request[:repo_name] = resolved_repository.dig('name')
-    request[:repo_code] = resolved_repository.dig('repo_code')
-    request[:repo_uri] = resolved_repository.dig('uri')
-    request[:cite] = cite
-    request[:identifier] = identifier
-    request[:title] = display_string
-
-    note = note('accessrestrict')
-    unless note.blank?
-      request[:restrict] = note['note_text']
-    end
-
-    request[:resource_id]  = resolved_resource.dig('uri')
-    request[:resource_name] = resolved_resource.dig('title') || ['unknown']
-
-    request
-  end
-
-  def build_digital_object_request_item
-    RequestItem.new({})
-  end
-
-  def build_accession_request_item
-    RequestItem.new({})
+    container_info
   end
 
 end
