@@ -58,15 +58,15 @@
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
+	<% unless @result.linked_digital_objects.blank? %>
+		<% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
+		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
+	<% end %>
 	<% if @result.kind_of?(Resource) && !@result.finding_aid.blank? %>
 	  <% x= render partial: 'resources/finding_aid' %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
 	     :p_id => 'fa', :p_body => x} %>
 	<% end %>
-  <% unless @result.linked_digital_objects.blank? %>
-    <% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
-    <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
-  <% end %>
 	<% unless @result.container_display.blank? %>
 	   <% x = render partial: 'shared/present_list', locals: {:list =>  @result.container_display, :list_clss => 'top_containers'} %>
 	 <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
