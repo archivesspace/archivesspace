@@ -323,6 +323,12 @@ AppConfig[:pui_search_results_page_size] = 25
 AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 
+# The number of PDFs we'll generate (in the background) at the same time.
+#
+# PDF generation can be a little memory intensive for large collections, so we
+# set this fairly low out of the box.
+AppConfig[:pui_max_concurrent_pdfs] = 2
+
 # The following determine which 'tabs' are on the main horizontal menu
 AppConfig[:pui_hide] = {}
 AppConfig[:pui_hide][:repositories] = false
