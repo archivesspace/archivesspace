@@ -16,17 +16,16 @@ module ResultInfo
     context
   end
 
-  def fill_request_info(resource = false)
+  def fill_request_info
     @request = @result.build_request_item
 
     if @request
       hier = ''
       @context.each_with_index  { |c, i| hier << c[:crumb] << '. ' unless i ==  0 || c[:uri].blank? }
       @request[:hierarchy] = hier.strip
-    else
-      # FIXME
-      raise 'nil @request.. do something'
     end
+
+    p ['fill_request_info', @request]
 
     @request
   end

@@ -90,11 +90,11 @@ class ObjectsController <  ApplicationController
         @repo_info =  @result.repository_information
         @page_title = @result.display_string
         @context = @result.breadcrumb
+        fill_request_info
         if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
           @dig = process_digital(@result['json'])
         else
-          @dig = process_digital_instance(@result['json']['instances']) 
-          fill_request_info 
+          @dig = process_digital_instance(@result['json']['instances'])
           process_extents(@result['json'])
         end
       rescue Exception => error
