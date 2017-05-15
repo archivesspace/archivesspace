@@ -1,4 +1,4 @@
-<% if defined?(@request) %>
+<% if defined?(@request) && !@request.nil? %>
   <%= form_tag "#{@request[:request_uri]}/request", :id => 'request_sub' do |f| %>
     <%= render partial: 'shared/request_hiddens' %>
     <button type="submit" class="btn page_action request  btn-default" title="<%= t('actions.request') %>">
