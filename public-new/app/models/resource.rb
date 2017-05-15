@@ -13,6 +13,15 @@ class Resource < Record
     @cite = parse_cite_string
   end
 
+  def breadcrumb
+    [
+      {
+        :uri => '',
+        :crumb => display_string
+      }
+    ]
+  end
+
   private
 
   def parse_digital_instance
