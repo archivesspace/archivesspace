@@ -6,6 +6,21 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hierarchy
                                :top_container_url, :container,  :barcode, :location_title, 
                                :location_url, :repo_uri, :repo_code)
 
+  def RequestItem.allow_for_type(repository_code, record_type)
+    p ['allow_for_type', repository_code, record_type]
+    fallback = AppConfig[:pui_requests_permitted_for_types].include?(record_type)
+    p ['fallback', fallback]
+    p ['config', AppConfig[:pui_repos]]
+    p ['repository_code.to_s.downcase', repository_code.to_s.downcase]
+    allowed_repo_types = AppConfig[:pui_repos].dig(repository_code.to_s.downcase, :requests_permitted_for_types) if repository_code
+    p ['allowed_repo_types', allowed_repo_types]
+    if allowed_repo_types
+      allowed_repo_types.include?(record_type)
+    else
+      fallback
+    end
+  end
+
   def RequestItem.allow_nontops(repo_code)
     allow = nil
     rep_allow = nil
