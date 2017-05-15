@@ -4,12 +4,17 @@
 }
 
 .record-type-badge {
-  float: left;
   padding: rem-calc(4);
   font-family: $serif-font;
   font-weight: bold;
   i {
     margin-right: rem-calc(2);
+  }
+}
+
+.badge-and-identifier {
+  .record-type-badge {
+    float: left;
   }
 }
 
