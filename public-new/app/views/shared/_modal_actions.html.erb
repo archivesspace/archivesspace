@@ -13,3 +13,12 @@
 <script type ="text/javascript" >setupRequest("request_modal",  "<%= t('actions.request') %>")</script>
 <% end %>
 
+<%= render partial: 'shared/modal', locals: {
+  :modal_id => 'print_modal',
+  :title => t('actions.print'),
+  :modal_body => render(partial: 'shared/print_form')
+} %>
+
+<script type="text/javascript">
+ setupPrint('print_modal');
+</script>

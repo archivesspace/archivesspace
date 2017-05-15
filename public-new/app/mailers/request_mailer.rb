@@ -17,6 +17,14 @@ class RequestMailer < ApplicationMailer
          subject: I18n.t('request.email.subject', :title => request.title))
   end
 
+  def email_pdf_finding_aid(recipient_email, repo_code, record_title, suggested_filename, pdf_path)
+    attachments[suggested_filename] = File.read(pdf_path)
+
+    mail(from: from_address(repo_code),
+         to: recipient_email,
+         subject: I18n.t('pdf_reports.your_finding_aid_pdf', :title => record_title))
+  end
+
   private
 
   def from_address(repo_code)
