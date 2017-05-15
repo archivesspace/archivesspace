@@ -3,7 +3,7 @@ require 'active_model'
 class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
                                :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
                                :hierarchy, :repo_name, :resource_id, :linked_record_uris,
-                               :restriction_ends,  :machine, 
+                               :machine,
                                :top_container_url, :container,  :barcode, :location_title, 
                                :location_url, :repo_uri, :repo_code)
 
@@ -51,7 +51,7 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
 
   def to_text_array(skip_empty = false)
     arr = []
-    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hierarchy restrict restriction_ends).each do |sym|
+    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hierarchy restrict).each do |sym|
       arr.push("#{sym.to_s}: #{self[sym]}") unless skip_empty && self[sym].blank?
     end
     arr.push("machine: #{self[:machine].blank? ? '' : self[:machine].join(', ')}")
