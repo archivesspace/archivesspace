@@ -1,5 +1,6 @@
 class ArchivalObject < Record
   include TreeNodes
+  include ResourceRequestItems
 
   def parse_notes
     rewrite_refs(json['notes'], resource_uri) if resource_uri
