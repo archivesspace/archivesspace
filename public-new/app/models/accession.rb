@@ -59,4 +59,31 @@ class Accession < Record
       record_from_resolved_json(ASUtils.json_parse(accession['json']))
     }
   end
+
+  def build_request_item
+    has_top_container = false
+    container_info = build_request_item_container_info
+    container_info.each {|key, value|
+      if key == :top_container_url
+        if ASUtils.wrap(value).any?{|v| !v.blank?}
+          has_top_container = true
+          break
+        end
+      end
+    }
+
+    return if (!has_top_container && !RequestItem::allow_nontops(resolved_repository.dig('repo_code')))
+
+    request = RequestItem.new(container_info)
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:identifier] = identifier
+    request[:title] = display_string
+    request[:restrict] = json['access_restrictions_note']
+
+    request
+  end
 end

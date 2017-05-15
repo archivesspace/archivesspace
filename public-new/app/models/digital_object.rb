@@ -29,6 +29,10 @@ class DigitalObject < Record
 
   private
 
+  def parse_identifier
+    json['digital_object_id']
+  end
+
   def parse_linked_instances
     results = {}
 
@@ -69,5 +73,27 @@ class DigitalObject < Record
         resolved.first
       end
     end
+  end
+
+  def build_request_item
+    request = RequestItem.new({})
+
+    request[:request_uri] = uri
+    request[:repo_name] = resolved_repository.dig('name')
+    request[:repo_code] = resolved_repository.dig('repo_code')
+    request[:repo_uri] = resolved_repository.dig('uri')
+    request[:cite] = cite
+    request[:identifier] = identifier
+    request[:title] = display_string
+    request[:linked_record_uris] = @linked_instances.keys
+
+    note = note('accessrestrict')
+    unless note.blank?
+      request[:restrict] = note['note_text']
+    end
+
+    request[:hierarchy] = breadcrumb.reverse.drop(1).reverse.collect{|record| record[:crumb]}
+
+    request
   end
 end
