@@ -7,7 +7,9 @@
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
     <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= record.finding_aid['language'] %></p>
 
-    <p><%= I18n.t('enumerations.resource_finding_aid_description_rules.' + record.finding_aid['description_rules']) %></p>
+    <% if record.finding_aid['description_rules'] %>
+        <p><%= I18n.t('enumerations.resource_finding_aid_description_rules.' + record.finding_aid['description_rules']) %></p>
+    <% end %>
 
     <p><%= record.finding_aid['edition_statement'] %></p>
 
