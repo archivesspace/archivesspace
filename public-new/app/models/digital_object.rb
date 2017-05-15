@@ -22,6 +22,7 @@ class DigitalObject < Record
     [
       {
         :uri => '',
+        :type => 'digital_object',
         :crumb => display_string
       }
     ]
@@ -42,7 +43,7 @@ class DigitalObject < Record
         record = linked_instance_for_uri(uri)
         next if record.nil?
 
-        results[uri] = record_from_resolved_json(record)
+        results[uri] = record_for_type(record)
       end
     end
     

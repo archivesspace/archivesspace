@@ -7,6 +7,7 @@ module TreeNodes
     path_to_root.each_with_index do |node, level|
       crumbs << {
         :uri => breadcrumb_uri_for_node(node),
+        :type => node['jsonmodel_type'],
         :crumb => breadcrumb_title_for_node(node, level)
       }
     end
@@ -14,6 +15,7 @@ module TreeNodes
     # and now yourself
     crumbs << {
       :uri => '',
+      :type => primary_type,
       :crumb => display_string
     }
 
