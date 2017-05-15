@@ -1,4 +1,5 @@
 class Resource < Record
+  include ResourceRequestItems
 
   attr_reader :digital_instances, :finding_aid, :related_accessions,
               :related_deaccessions, :cite
