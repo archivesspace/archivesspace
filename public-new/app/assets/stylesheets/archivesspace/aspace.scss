@@ -590,6 +590,17 @@ button.subject {          /* class subject also turns up in finding aid transfor
   color: #999;
   font-style: italic;
 }
+.recordrow {
+  .classification-subgroups {
+    margin-top: 5px;
+
+    .classification-subgroups-tree.largetree-container {
+      max-height: 200px;
+      overflow: auto;
+    }
+  }
+}
+
 /* / search results */
 
 /* hierarchy tree */

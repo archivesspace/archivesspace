@@ -413,6 +413,9 @@ en:
     _plural: Record Groups
     creator: Creator
     identifier_separator: "."
+    _public:
+      actions:
+        show_subgroups: Show Subgroups
 
   classification_term:
     _singular: Record Group Term
