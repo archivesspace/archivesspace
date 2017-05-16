@@ -2,7 +2,7 @@ module ResourceTrees
 
   def build_node_query
     node_query = super
-    node_query.eager(:instance => :container)
+    node_query.eager(:instance => :sub_container)
   end
 
 
