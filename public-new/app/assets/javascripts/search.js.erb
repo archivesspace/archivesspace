@@ -4,12 +4,14 @@
 /* search form javascript support */
 
 var $template, $as;
-var plusText = 'Add a search row';
-var minusText = 'Remove the row below';
+var plusText = "<%= I18n.t('actions.search_add_row') %>";
+var minusText = "<%= I18n.t('actions.search_remove_row') %>";
+var plusFACss = "fa fa-plus";
+var minusFACss = "fa fa-minus";
 var fn_plusminus = function(e){
     e.stopPropagation;
-    if ($(this).text() === '+') {
-	$(this).text('-');
+    if ($(this).attr('title') === plusText) {
+	$(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
 	$(this).attr('title', minusText);
 	var $row = new_row_from_template();
 	$(this).parents('.search_row').after($row);
@@ -18,7 +20,7 @@ var fn_plusminus = function(e){
     else {
         $(this).parents(".search_row").next(".search_row").remove();
         if ($(this).closest('.search_row').index() == $as.find('.search_row').length) {
-            $(this).text('+');
+            $(this).html("<i aria-hidden='true' class='" + plusFACss + "'></i>");
             $(this).attr('title', plusText);
         }
     }
@@ -59,9 +61,9 @@ function initialize_search() {
 function new_button($row, show_add) {
     var $plus = $row.find(".plusminus");
     if (show_add) {
-        $plus.html("<button title='" + plusText + "'>+</button>");
+        $plus.html("<button class='btn btn-default' title='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
     } else {
-        $plus.html("<button title='" + minusText + "'>-</button>");
+        $plus.html("<button class='btn btn-default' title='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
     }
     $plus.find("button").click(fn_plusminus);
     return true;
