@@ -1,19 +1,27 @@
 require 'net/http'
 require 'uri'
+require 'thread'
 
-# This class is just a quick shim to get us connected and doing searches against
-# the ArchivesSpace Solr instance.
-#
-# Ultimately we might want to split the ArchivesSpace interactions into
-# different classes--different services for pulling back and mapping different
-# data types.
+# This class provides access to the basic ArchivesSpace API endpoints.  A single
+# instance will be shared between all running request threads, so it should be
+# thread safe!
 #
 class ArchivesSpaceClient
+
+  LOGIN_TIMEOUT_SECONDS = 10
 
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
     'publish' => true,
     'page_size' => AppConfig[:pui_search_results_page_size]  }
+
+  def self.init
+    @instance = self.new
+  end
+
+  def self.instance
+    @instance
+  end
 
   def initialize(archivesspace_url: AppConfig[:backend_url],
                  username: AppConfig[:public_username],
@@ -22,9 +30,9 @@ class ArchivesSpaceClient
     @username = username
     @password = password
 
-    # FIXME: We'll need some handling of lost sessions so the app reconnects if
-    # ArchivesSpace's sessions are cleared.
-    @session = login!
+    @login_mutex = Mutex.new
+
+    @session = nil
   end
 
   def list_repositories
@@ -77,7 +85,7 @@ class ArchivesSpaceClient
 
   def get_record(uri, search_opts = {})
     results = search_records(ASUtils.wrap(uri), search_opts, full_notes = true)
-    
+
     raise RecordNotFound.new if results.empty?
 
     results.first
@@ -151,20 +159,36 @@ class ArchivesSpaceClient
   end
   
 
-  # Authenticate to ArchivesSpace and grab a session token
+  # Authenticate to ArchivesSpace and grab a session token.  If @session isn't
+  # nil, this won't do anything.  If multiple threads attempt to log in at the
+  # same time, one will do the login and the rest will wait for it.
   def login!
-    path = "/users/#{@username}/login"
+    @login_mutex.synchronize do
+      return unless @session.nil?
 
-    request = Net::HTTP::Post.new(build_url(path))
-    request.form_data = {:password => @password, :expiring => false}
+      path = "/users/#{@username}/login"
 
-    response = do_http_request(request)
+      request = Net::HTTP::Post.new(build_url(path))
+      request.form_data = {:password => @password, :expiring => false}
 
-    if response.code != '200'
-      raise LoginFailedException.new("#{response.code}: #{response.body}")
+      begin
+        # Try to log in, but don't block for too long if things aren't looking
+        # good.  Better to bail out, fail the request and let a subsequent
+        # request retry.
+        response = do_http_request(request,
+                                   :open_timeout => LOGIN_TIMEOUT_SECONDS,
+                                   :read_timeout => LOGIN_TIMEOUT_SECONDS,
+                                   :skip_login => true)
+
+        if response.code != '200'
+          raise LoginFailedException.new("#{response.code}: #{response.body}")
+        end
+
+        @session = JSON(response.body).fetch('session')
+      rescue
+        raise LoginFailedException.new($!.message)
+      end
     end
-
-    @session = JSON(response.body).fetch('session')
   end
 
   # Fire a search against the top-level ArchivesSpace search API
@@ -194,15 +218,47 @@ class ArchivesSpaceClient
     result
   end
 
-  def do_http_request(request)
+  MAX_HTTP_RETRIES = 10
+
+  def do_http_request(request, http_opts = {})
     url = request.uri
 
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true if url.scheme == 'https'
+    if !http_opts[:skip_login] && @session.nil?
+      # We're going to need a session to complete this request.  Get one first.
+      login!
+    end
 
-    request['X-ArchivesSpace-Session'] = @session
+    if http_opts[:retry_count] && http_opts[:retry_count] >= MAX_HTTP_RETRIES
+      raise RequestFailedException.new("Hit maximum retry count on request")
+    end
 
-    http.request(request)
+    Net::HTTP.start(url.host, url.port,
+                    http_opts) do |http|
+      http.use_ssl = true if url.scheme == 'https'
+
+      request['X-ArchivesSpace-Session'] = @session
+
+      response = http.request(request)
+
+      if response.code == '412'
+        # Our session expired
+        if http_opts[:skip_login]
+          # We've been here before.  Don't try to login within a login.
+          raise RequestFailedException.new("Successive login failures")
+        else
+          @session = nil
+          login!
+
+          http_opts[:retry_count] ||= 0
+          http_opts[:retry_count] += 1
+
+          # Retry with the new session
+          return do_http_request(request, http_opts)
+        end
+      end
+
+      response
+    end
   end
 
   # process any filter information; at the moment, we add it to the query; later, hopefully, an fq

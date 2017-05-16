@@ -19,10 +19,7 @@ class ApplicationController < ActionController::Base
   helper_method :process_json_notes
   helper_method :get_note
 
-
-
   protect_from_forgery with: :exception
-
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
@@ -31,9 +28,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  ArchivesSpaceClient.init
 
   def archivesspace
-    ArchivesSpaceClient.new
+    ArchivesSpaceClient.instance
   end
 
 end
