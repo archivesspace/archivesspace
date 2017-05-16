@@ -25,7 +25,7 @@ end
 
 
 def do_post(s, url, content_type = 'application/x-www-form-urlencoded')
-  Net::HTTP.start(url.host, url.port) do |http|
+  Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
     req = Net::HTTP::Post.new(url.request_uri)
     req.body = s
     req['Content-Type'] = content_type
@@ -38,7 +38,7 @@ end
 
 
 def do_get(url, raw = false)
-  Net::HTTP.start(url.host, url.port) do |http|
+  Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
     req = Net::HTTP::Get.new(url.request_uri)
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
     r = http.request(req)
@@ -53,7 +53,7 @@ end
 
 
 def do_delete(url)
-  Net::HTTP.start(url.host, url.port) do |http|
+  Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
     req = Net::HTTP::Delete.new(url.request_uri)
     req["X-ARCHIVESSPACE-SESSION"] = @session if @session
     http.request(req)

@@ -156,7 +156,7 @@ module JSONModel
         req['X-ArchivesSpace-Priority'] = "high"
       end
 
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme.eql?("https")) do |http|
         http.request(req, nil) do |response|
           if response.code =~ /^4/
             JSONModel::handle_error(ASUtils.json_parse(response.body))

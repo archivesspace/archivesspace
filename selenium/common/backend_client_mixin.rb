@@ -26,7 +26,7 @@ module BackendClientMethods
 
     req['X-ArchivesSpace-Session'] = @current_session
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
       http.read_timeout = 1200
       http.request(req)
     end
@@ -98,7 +98,7 @@ module BackendClientMethods
 
     uri = URI("#{$backend}")
 
-    Net::HTTP.start(uri.hostname, uri.port) do |http|
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme.eql?("https")) do |http|
       res = http.request(req)
 
       if res.code != "200"

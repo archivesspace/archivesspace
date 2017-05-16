@@ -16,7 +16,7 @@ namespace :export do
     
     req['X-ArchivesSpace-Session'] = Thread.current[:backend_session]
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
       response = http.request(req)
 
       if response.code =~ /^4/
@@ -82,7 +82,7 @@ namespace :import do
     
     req['X-ArchivesSpace-Session'] = Thread.current[:backend_session]
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
       response = http.request(req)
 
       if response.code =~ /^4/

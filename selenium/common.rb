@@ -118,7 +118,7 @@ module SeleniumTest
     req.content_type = "application/octet-stream"
     req['Transfer-Encoding'] = 'chunked'
 
-    Net::HTTP.start(uri.hostname, uri.port) do |http|
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme.eql?("https")) do |http|
       puts http.request(req).body
     end
   end
