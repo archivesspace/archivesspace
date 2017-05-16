@@ -1,3 +1,6 @@
+//= require largetree
+//= require tree_renderer
+
 /* search form javascript support */
 
 var $template, $as;
@@ -69,3 +72,41 @@ function replace_id_ref($row, selector, type, num) {
             $(this).attr(type, $(this).attr(type).replace('0', num));
 	});
 }
+
+// show subgroups within search results on demand
+function toggle_subgroups(event) {
+    var $button = $(this);
+    var $result = $button.closest('.recordrow');
+    var $container = $result.find('.classification-subgroups');
+    var $tree = $result.find('.classification-subgroups-tree');
+
+    if ($tree.is(':visible')) {
+        $tree.hide();
+        $button.attr('aria-pressed', 'false').removeClass('active');
+        $button.find('.fa').removeClass('fa-minus').addClass('fa-plus');
+    } else {
+        $tree.show();
+
+        if ($tree.is(':empty')) {
+            var root_uri = $result.data('uri');
+            var should_link_to_record = true;
+
+            var tree = new LargeTree(new TreeDataSource(root_uri + '/tree'),
+                $tree,
+                root_uri,
+                true,
+                new SimpleRenderer(should_link_to_record),
+                $.noop,
+                $.noop);
+        }
+
+        $button.attr('aria-pressed', 'true').addClass('active');
+        $button.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+    }
+};
+
+$(function() {
+    $('.search-results').on('click',
+        '.recordrow .classification-subgroups button.subgroup-toggle',
+        toggle_subgroups);
+});
