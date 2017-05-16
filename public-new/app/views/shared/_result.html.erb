@@ -1,7 +1,7 @@
  <%# any result that is going to be presented in a list %>
  <%# Pry::ColorPrinter.pp(result['json'])%>
  <% if !props.fetch(:full,false) %>
-   <div class="recordrow" style="clear:both">
+   <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
      <% end %>
      <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
      <div class="recordsummary" style="clear:both">
@@ -61,6 +61,16 @@
        <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
        <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
        <% end %>
+
+     <% if result['primary_type'] == 'classification' %>
+     <div class="classification-subgroups">
+       <button class="btn btn-default btn-sm subgroup-toggle" aria-pressed="false">
+         <i aria-hidden="true" class="fa fa-plus"></i>
+         <%= t('classification._public.actions.show_subgroups') %>
+       </button>
+       <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
+     </div>
+     <% end %>
    </div>
 
 <% if !props.fetch(:full,false) %>
