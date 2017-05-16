@@ -13,7 +13,7 @@
 
   linkable_types = ["top_container"]
 
-  build_typeahead_url = proc {
+  find_scope_uri = proc {
     record = [:"@accession", :"@archival_object", :"@resource"].map {|instvar| self.instance_variable_get(instvar)}.compact.first
     # If a new record resource or accession, uri will be nil and the typeahead will search
     # within the repository.
@@ -27,7 +27,11 @@
       uri = record["resource"]["ref"]
     end
 
-    url_for :controller => :top_containers, :action => :typeahead, :format => :json, :uri => uri
+    uri
+  }
+
+  build_typeahead_url = proc {
+    url_for :controller => :top_containers, :action => :typeahead, :format => :json, :uri => find_scope_uri.call
   }
 
 %>
@@ -70,7 +74,7 @@
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
           <% if allow_create && user_can?('update_container_record') %>
             <li>
-              <a data-target="<%= url_for :controller => :top_containers, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
+              <a data-target="<%= url_for :controller => :top_containers, :action => :new, :inline => true, :created_for_collection => find_scope_uri.call %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
             </li>
           <% end %>
         </ul>

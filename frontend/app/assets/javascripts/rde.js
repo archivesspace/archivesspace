@@ -2,6 +2,7 @@
 //= require jquery.kiketable.colsizable-1.1
 //= require jquery.columnmanager.min
 //= require bootstrap-multiselect
+//= require linker
 
 $(function() {
 
@@ -13,6 +14,8 @@ $(function() {
       if ($rde_form.hasClass("initialised")) {
         return;
       }
+
+      $(".linker:not(.initialised)").linker();
 
       // Cookie Names
       var COOKIE_NAME_VISIBLE_COLUMN = "rde."+$rde_form.data("cookie-prefix")+".visible";
@@ -81,6 +84,8 @@ $(function() {
 
         $(":input:visible:first", $row).focus();
 
+        $(".linker:not(.initialised)").linker();
+
         validateRows($row);
       });
 
@@ -128,6 +133,9 @@ $(function() {
                 } else {
                   $target.removeAttr("checked");
                 }
+	      } else if ($source.is(":hidden") && $source.parents().closest("div").hasClass("linker-wrapper")) {
+		  // a linker!
+		  $target.attr("data-selected", $source.val());
               } else {
                 $target.val($source.val());
               }
@@ -227,6 +235,7 @@ $(function() {
       });
 
       var renderInlineErrors = function($rows, exception_data) {
+        $(".linker:not(.initialised)").linker();
         $rows.each(function(i, row) {
           var $row = $(row);
           var row_result = exception_data[i];

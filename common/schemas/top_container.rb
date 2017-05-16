@@ -26,6 +26,8 @@
         "readonly" => "true"
       },
 
+      "created_for_collection" => {"type" => "string", "maxLength" => 255, "required" => false},
+
       "active_restrictions" => {
         "type" => "array",
         "readonly" => "true",

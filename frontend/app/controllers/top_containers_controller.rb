@@ -16,7 +16,13 @@ class TopContainersController < ApplicationController
   def new
     @top_container = JSONModel(:top_container).new._always_valid!
 
-    render_aspace_partial :partial => "top_containers/new" if inline?
+    if inline?
+      render_aspace_partial(:partial => "top_containers/new",
+                            :locals => {
+                              :small => params[:small],
+                              :created_for_collection => params[:created_for_collection]
+                            })
+    end
   end
 
 
@@ -216,8 +222,23 @@ class TopContainersController < ApplicationController
   def search_filter_for(uri)
     return {} if uri.blank?
 
+    # filter for containers in this collection
+    # or that were created for this collection
+    # if they are currently not associated with any collection
+    # this is helpful in situations like RDE
+    # where the top_container is created and should be linkable
+    # to other records in the collection before any of them are saved
+
+    created_for_query = AdvancedQueryBuilder.new
+    created_for_query.and('created_for_collection_u_sstr', uri, 'text', true)
+    created_for_query.and('collection_uri_u_sstr', '*', 'text', true, true)
+
+    top_or_query = AdvancedQueryBuilder.new
+    top_or_query.or('collection_uri_u_sstr', uri, 'text', true)
+    top_or_query.or(created_for_query)
+
     return {
-      'filter' => AdvancedQueryBuilder.new.and('collection_uri_u_sstr', uri, 'text', true).build.to_json
+      'filter' => AdvancedQueryBuilder.new.and(top_or_query).build.to_json
     }
   end
 
