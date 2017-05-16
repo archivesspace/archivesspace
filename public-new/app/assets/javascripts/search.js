@@ -16,9 +16,11 @@ var fn_plusminus = function(e){
 	$row.find(".bool select").focus();
     }
     else {
-	$(this).parents(".search_row").next(".search_row").remove();
-	$(this).text('+');
-	$(this).attr('title', plusText);
+        $(this).parents(".search_row").next(".search_row").remove();
+        if ($(this).closest('.search_row').index() == $as.find('.search_row').length) {
+            $(this).text('+');
+            $(this).attr('title', plusText);
+        }
     }
     return false;
 }
@@ -26,13 +28,23 @@ var fn_plusminus = function(e){
 function initialize_search() {
     $as = $("#advanced_search");
     /* create the + button, attach click event */
-    new_button($($as.find("#search_row_0"))); 
+    $as.find('.search_row').each(function(i) {
+        new_button($(this), $as.find('.search_row').length - 1 == i);
+    });
     /* then save the first_row, so we don't always have to find it */
     var $first = $($as.find("#search_row_0"));
     $template = $first.clone();
+    $template.find(':input').each(function() {
+        if ($(this).is('select')) {
+            $(this).find('option[selected]').removeAttr('selected');
+        } else {
+            $(this).val(''); // empty all row values
+        }
+    });
     $template.find(".norepeat").each(function() { $(this).empty(); });
     $template.find(".hidden").each(function() {$(this).removeClass("hidden"); });
     $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
+    $template.find("#op0").val('AND');
     $template.find("#op_").remove(); 
     $first.find("#q0").keypress(function (e) {
 	    var key = e.which;
@@ -44,9 +56,13 @@ function initialize_search() {
     return true;
 }       
 
-function new_button($row) {
+function new_button($row, show_add) {
     var $plus = $row.find(".plusminus");
-    $plus.html("<button title='" + plusText + "'>+</button>");
+    if (show_add) {
+        $plus.html("<button title='" + plusText + "'>+</button>");
+    } else {
+        $plus.html("<button title='" + minusText + "'>-</button>");
+    }
     $plus.find("button").click(fn_plusminus);
     return true;
 }
@@ -58,7 +74,7 @@ function new_row_from_template() {
     replace_id_ref($row, 'input', 'id', num);
     replace_id_ref($row, 'select', 'id', num);
     $row.attr("id", "search_row_" + num);
-    new_button($row);
+    new_button($row, true);
     return $row;
 }
 

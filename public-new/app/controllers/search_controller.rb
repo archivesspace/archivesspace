@@ -13,8 +13,9 @@ class SearchController < ApplicationController
     @repo_id = params.fetch(:rid, nil)
     repo_url = "/repositories/#{@repo_id}"
     @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
+    fallback_location = @repo_id ? repo_url : '/';
 
-    search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
+      search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_repository::\"#{repo_url}\""] if @repo_id
     begin
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
@@ -31,7 +32,9 @@ class SearchController < ApplicationController
     @counts = archivesspace.get_types_counts(DEFAULT_TYPES)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: @base_search)
+      fallback_location = URI(fallback_location)
+      fallback_location.query = URI(@base_search).query
+      redirect_to(fallback_location.to_s)
     else
       process_search_results(@base_search)
       unless @pager.one_page?
