@@ -319,8 +319,7 @@ class Record
   end
   
   def archives_space_client
-    @service ||= ArchivesSpaceClient.new
-    @service
+    ArchivesSpaceClient.instance
   end
 
   def cite_url_and_timestamp
