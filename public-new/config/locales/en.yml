@@ -51,6 +51,8 @@ en:
     detailed: Detailed Contents
     record_details: Record Details
     clipboard: Copy to clipboard
+    search_add_row: Add a search row
+    search_remove_row: Remove the row below
 
   page_actions: Page Actions    
 
