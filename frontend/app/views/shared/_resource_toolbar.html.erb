@@ -79,6 +79,7 @@
               <% if ['resource', 'archival_object'].include?(record_type) %>
                 <% other_shown = true %>
                 <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
+                <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
               <% end %>
             </ul>
 
