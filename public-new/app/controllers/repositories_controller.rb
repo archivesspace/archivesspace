@@ -93,6 +93,7 @@ class RepositoriesController < ApplicationController
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = strip_mixed_content(@result['name'])
+      @search = Search.new(params)
       render
     else
       @type = I18n.t('repository._singular')

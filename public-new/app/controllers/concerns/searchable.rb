@@ -350,7 +350,7 @@ module Searchable
     Rails.logger.debug("TYPE: #{type}")
     condition = " "
     @search[:q].each_with_index do |q,i|
-      condition += '<li>' 
+      condition += '<li>'
       condition += I18n.t("search_results.op.#{@search[:op][i]}").downcase unless i == 0
       f = @search[:field][i].blank? ? 'keyword' : @search[:field][i]
       condition += ' ' + I18n.t("search_results.#{f}_contain", :kw =>  CGI::escapeHTML((q == '*' ? I18n.t('search_results.anything') : q)) )
