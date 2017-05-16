@@ -29,7 +29,7 @@
     <%= render partial: 'shared/sorter' %>
       
 </div>
-    <div class="row"><div class="col-sm-12">
+    <div class="row search-results"><div class="col-sm-12">
 
     <% @results.records.each do |result| %>
       <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
