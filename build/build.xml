@@ -313,6 +313,23 @@
     </java>
   </target>
 
+  <target name="indexer:test" depends="set-classpath" description="Run the unit test suite for the indexer">
+    <property name="spec" value=""/>
+    <property name="example" value=""/>
+    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
+      <isset property="example"/>
+    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
+          failonerror="true"
+          dir="../indexer">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <arg line="--debug ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
+    </java>
+  </target>
 
   <target name="indexer:war" depends="set-classpath" description="Deploy the indexer application as a .war file">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
@@ -636,10 +653,7 @@
 
   <target name="travis:test" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
-    <antcall target="backend:test" />
-    <antcall target="frontend:test"/>
-    <antcall target="backend:integration" />
-    <antcall target="common:test" />
+    <antcall target="headless-tests" />
   </target>
 
   <!-- Dist build -->
@@ -815,8 +829,16 @@
   </target>
 
 
-  <target name="test" depends="backend:test, frontend:test, backend:integration, common:test, selenium:test, selenium:public:test"
+  <target name="test" depends="headless-tests, selenium:test, selenium:public:test"
           description="Run the full suite of tests">
+  </target>
+
+  <target name="headless-tests" description="Run the non-Selenium tests">
+    <antcall target="backend:test" />
+    <antcall target="indexer:test" />
+    <antcall target="frontend:test"/>
+    <antcall target="backend:integration" />
+    <antcall target="common:test" />
   </target>
 
 

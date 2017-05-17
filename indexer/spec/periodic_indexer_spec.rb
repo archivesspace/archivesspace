@@ -1,45 +1,56 @@
 require_relative 'spec_helper'
 require_relative '../app/lib/periodic_indexer'
 
-describe "periodic indexer" do
+describe "indexer" do
 
-  before(:all) do
-    $now = Time.now.to_i
+  let (:indexer) do
+    indexer = PeriodicIndexer.new
 
-    $repos = []
-    5.times {
-      $repos << create(:json_repo).id
-      create(:json_agent_family) # none generated on startup
-    }
-
-    JSONModel(:repository).class_eval do
-      def self.all
-       $repos.map {|id| self.find(id)}
-      end
+    def indexer.index_batch(batch, timing)
+      @index_batch = batch
     end
 
-    @pi = PeriodicIndexer.get_indexer
+    def indexer.prepare_docs(records)
+      prepared_records = records.map {|rec|
+        rec_hash = rec.to_hash(:raw)
+        rec_hash['display_string'] = rec_hash['title']
 
-    @pi.instance_variable_get(:@state).instance_eval do
-     def get_last_mtime(*args)
-       $now
-     end
-   end
+        {'record' => rec_hash, 'uri' => rec['uri']}}
+
+      index_records(prepared_records)
+    end
+
+    def indexer.records
+      result = []
+
+      @index_batch.each do |rec|
+        result << rec
+      end
+
+      result
+    end
+
+    indexer
   end
 
- after(:all) do
-   cleanup if defined? cleanup
- end
 
-  it "indexes global records once" do
-   $times_a_family_was_indexed = 0
-   @pi.add_document_prepare_hook {|doc, record|
-     if doc['primary_type'] == 'agent_family'
-       $times_a_family_was_indexed += 1
-     end
-   }
+  it "indexes the 'has_unpublished_ancestor' property" do
+    ao = build(:json_archival_object,
+               'uri' => '/repositories/2/archival_objects/123',
+               'title' => "AO with unpublished ancestor",
+               'repository' => {
+                 'ref' => '/repositories/5',
+                 '_resolved' => {
+                   'repo_code' => 'woop',
+                 },
+               },
+               'publish' => true,
+               'has_unpublished_ancestor' => true)
 
-   @pi.run_index_round 
-   $times_a_family_was_indexed.should eq(5)
+    indexer.prepare_docs([ao])
+
+    doc = indexer.records[0]
+    expect(doc.fetch('publish')).to eq(false)
   end
+
 end
