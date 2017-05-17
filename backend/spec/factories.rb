@@ -19,7 +19,7 @@ FactoryGirl.define do
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
-  sequence(:container_type) {|n| sample(JSONModel(:container).schema['properties']['type_1'])}
+  sequence(:container_type) {|n| 'box'}
   sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
 
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
