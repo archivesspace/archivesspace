@@ -20,7 +20,11 @@
   <%= form.hidden_input("ils_item_id") %>
   <%= form.label_and_readonly("exported_to_ils", I18n.t("top_container.not_exported")) %>
   <%= form.hidden_input("exported_to_ils") %>
-  <%= form.hidden_input("created_for_collection", created_for_collection) %>
+  <% if defined?(created_for_collection) %>
+    <%= form.hidden_input("created_for_collection", created_for_collection) %>
+  <% else %>
+    <%= form.hidden_input("created_for_collection") %>
+  <% end %>
 
   <div class="subrecord-form-container">
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "container_locations"} %>

@@ -20,6 +20,7 @@ require "db/db_migrator"
 require 'fileutils'
 require "jsonmodel"
 require "asutils"
+require "ashttp"
 require "asconstants"
 require 'open-uri'
 require 'aspace_i18n'

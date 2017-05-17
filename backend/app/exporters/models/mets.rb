@@ -53,10 +53,12 @@ class METSModel < ASpaceExport::ExportModel
     attr_accessor :dmd_id
     
     def initialize(tree)
-      obj = DigitalObjectComponent.to_jsonmodel(tree['id'])
+      resolve = ['linked_agents', 'subjects', 'repository', 'repository::agent_representation']
+      obj = URIResolver.resolve_references(DigitalObjectComponent.to_jsonmodel(tree['id']),
+                                           resolve)
       @json = JSONModel::JSONModel(:digital_object_component).new(obj)
       @tree = tree
-      @mods_model = ASpaceExport.model(:mods).from_digital_object_component(obj)
+      @mods_model = ASpaceExport.model(:mods).from_digital_object_component(obj, {})
       @dmd_id = @json.id
     end
     
@@ -102,8 +104,9 @@ class METSModel < ASpaceExport::ExportModel
   end
 
 
-  def initialize(obj)
+  def initialize(obj, tree)
     @json = obj
+    @tree = tree
     @wrapped_dmd = []    
     @extents = []
     @notes = []
@@ -118,9 +121,9 @@ class METSModel < ASpaceExport::ExportModel
   end
 
 
-  def self.from_aspace_object(obj)
+  def self.from_aspace_object(obj, tree)
   
-    mets = self.new(obj)
+    mets = self.new(obj, tree)
     
     if obj.respond_to?(:repo_id)
       repo_id = RequestContext.get(:repo_id)
@@ -135,17 +138,17 @@ class METSModel < ASpaceExport::ExportModel
   end
 
 
-  def self.from_archival_object(obj)
+  def self.from_archival_object(obj, tree)
 
-    mets = self.from_aspace_object(obj)
+    mets = self.from_aspace_object(obj, tree)
     mets.apply_map(obj, @archival_object_map)
     mets
   end
 
   
-  def self.from_digital_object(obj)
+  def self.from_digital_object(obj, tree)
 
-    mets = self.from_archival_object(obj)
+    mets = self.from_archival_object(obj, tree)
     mets.type_of_resource = obj.digital_object_type
     mets.apply_map(obj, @digital_object_map)
 
@@ -186,11 +189,11 @@ class METSModel < ASpaceExport::ExportModel
 
   
   def children
-    return nil unless @json.tree['_resolved']['children']
+    return nil unless @tree['children']
     
     ao_class = self.class.instance_variable_get(:@doc)
     
-    children = @json.tree['_resolved']['children'].map { |subtree| ao_class.new(subtree) }
+    children = @tree['children'].map { |subtree| ao_class.new(subtree) }
     
     children
   end
@@ -201,7 +204,7 @@ class METSModel < ASpaceExport::ExportModel
     file_versions.each do |fv|
       fv['digital_object_id'] = @json.id
     end
-    file_versions += extract_file_versions(@json.tree['_resolved']['children'])
+    file_versions += extract_file_versions(@tree['children'])
     file_versions.compact!
 
     while file_versions.length > 0
@@ -258,7 +261,7 @@ class METSModel < ASpaceExport::ExportModel
     @@logical_div.new(@json.title,
                       @json.id, 
                       @json.file_versions,
-                      @json.tree['_resolved']['children'])
+                      @tree['children'])
 
   end
 
@@ -268,7 +271,7 @@ class METSModel < ASpaceExport::ExportModel
     @@logical_div.new(@json.title,
                       @json.id, 
                       @json.file_versions,
-                      @json.tree['_resolved']['children'])
+                      @tree['children'])
 
   end  
 

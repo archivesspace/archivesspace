@@ -183,7 +183,11 @@ AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
 AppConfig[:frontend_theme] = "default"
 AppConfig[:public_theme] = "default"
 
+# Sessions marked as expirable will timeout after this number of seconds of inactivity
 AppConfig[:session_expire_after_seconds] = 3600
+
+# Sessions marked as non-expirable will eventually expire too, but after a longer period.
+AppConfig[:session_nonexpirable_force_expire_after_seconds] = 604800
 
 AppConfig[:search_username] = "search_indexer"
 

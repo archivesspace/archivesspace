@@ -9,7 +9,7 @@ require 'asutils'
 require 'fileutils'
 require 'securerandom'
 require 'uri'
-require 'net/http'
+require 'ashttp'
 
 $server_prepare_hooks = []
 
@@ -192,12 +192,12 @@ def stop_server(uri)j
     
     shutdown_uri = uri.clone 
     shutdown_uri.path = "/xkcd/shutdown"
-    response = Net::HTTP.post_form(shutdown_uri, 'token' => generate_secret_for("jetty_shutdown"))
+    response = ASHTTP.post_form(shutdown_uri, 'token' => generate_secret_for("jetty_shutdown"))
     
     if response.code != 404
       #now we check to see if indeed the server has shutdown. should return an
       #connection error. 
-      Net::HTTP.get(uri)
+      ASHTTP.get(uri)
       
       puts "Jetty Shutdown error on #{uri.to_s}"
       puts "Shutdown returned: #{response.code}"

@@ -164,7 +164,17 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Log in")
     .params(["username", Username, "Your username"],
             ["password", String, "Your password"],
-            ["expiring", BooleanParam, "true if the created session should expire",
+            ["expiring", BooleanParam,
+             "If true, the session will expire after " +
+             "#{AppConfig[:session_expire_after_seconds]}" +
+             " seconds of inactivity.  If false, it will " +
+             " expire after " +
+             "#{AppConfig[:session_nonexpirable_force_expire_after_seconds]}" +
+             " seconds of inactivity." +
+             "\n\n" +
+             "NOTE: Previously this parameter would cause the created session" +
+             " to last forever, but this generally isn't what you want.  The parameter" +
+             " name is unfortunate, but we're keeping it for backward-compatibility.",
              :default => true])
     .permissions([])
     .returns([200, "Login accepted"],

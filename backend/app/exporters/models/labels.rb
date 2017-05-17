@@ -24,9 +24,10 @@ class LabelModel < ASpaceExport::ExportModel
   end
     
 
-  def initialize(obj)
+  def initialize(obj, tree)
     @json = obj
-    
+    @tree = tree
+
     @rows = generate_label_rows(self.children) 
   end
   
@@ -41,15 +42,15 @@ class LabelModel < ASpaceExport::ExportModel
   end
   
 
-  def self.from_aspace_object(obj)
-    labler = self.new(obj)
+  def self.from_aspace_object(obj, tree)
+    labler = self.new(obj, tree)
     
     labler
   end
     
   
-  def self.from_resource(obj)
-    labler = self.from_aspace_object(obj)
+  def self.from_resource(obj, tree)
+    labler = self.from_aspace_object(obj, tree)
     
     labler
   end
@@ -80,13 +81,11 @@ class LabelModel < ASpaceExport::ExportModel
   
   
   def children
-    return nil unless @json.tree.has_key?('_resolved') && @json.tree['_resolved']['children']
-    
+    return nil unless @tree.children
+
     ao_class = self.class.instance_variable_get(:@ao)
-    
-    children = @json.tree['_resolved']['children'].map { |subtree| ao_class.new(subtree) }
-    
-    children
+
+    @tree.children.map { |subtree| ao_class.new(subtree) }
   end
   
   
@@ -105,11 +104,12 @@ class LabelModel < ASpaceExport::ExportModel
 
         crow = [] 
         if top['type'] && top['indicator'] 
-          crow << "#{top['type_1']} #{top['indicator_1']}"
+          crow << "#{top['type']} #{top['indicator']}"
         end
         if top['barcode']
           crow << top['barcode']
         end
+
         rows << crow
       end
       rows.push(*generate_label_rows(obj.children))

@@ -12,8 +12,11 @@ Sequel.migration do
       String :message
 
     end
-    
-    warning = <<EOF
+
+    ## This warning is now disabled because ArchivesSpace 2.1 and above assume
+    ## the user has already migrated to the new container model.
+    if false
+      warning = <<EOF
 
 
     #{ "*" * 100 }
@@ -36,8 +39,9 @@ Sequel.migration do
 
 
 EOF
-    
+      
       $stderr.puts(warning)
+    end
   end
 
   down do

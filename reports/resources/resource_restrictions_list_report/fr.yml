@@ -2,7 +2,7 @@ fr:
   reports:
     resource_restrictions_list_report:
       title: Ressources soumises à des restrictions
-      description: Affiche uniquement la ou les ressource(s) soumises à des restrictions. Report contains title, resource identifier, level, date range, creator names, and a total extent number of the records selected that are checked as restrictions apply.
+      description: Affiche uniquement la ou les ressources soumises à des restrictions. Rapport contenant intitulé, identifiant ressource, niveau, fourchette de dates, nom des producteurs, et importance matérielle totale des unités archivistiques sélectionnées, pour lesquelles la case Des restrictions s'appliquent a été cochée.
       total_count: Nombre de notices
       restricted_count: Nombre de notices concernées
       total_extent: Importance totale des ressources
@@ -13,4 +13,4 @@ fr:
       access: Accès
       restrictions_apply_true: Des restrictions s'appliquent.
       restrictions_apply_false: Consultation libre.
-      names_as_creators: Noms en tant que créateurs
+      names_as_creators: Noms en tant que producteurs

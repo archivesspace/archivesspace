@@ -41,6 +41,7 @@
               <% if ['archival_object'].include?(record.jsonmodel_type) %>
                 <% other_shown = true %>
                 <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
+                <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
               <% end %>
 
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>

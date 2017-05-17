@@ -80,7 +80,7 @@ class MODSSerializer < ASpaceExport::Serializer
         serialize_name(name, xml)
       end
     end
-    
+
     mods.parts.each do |part|
       xml.part(:ID => part['id']) {
         xml.detail {

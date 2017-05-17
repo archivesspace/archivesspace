@@ -1,9 +1,0 @@
-fr:
-  reports:
-    agent_name_to_non_preferred_report:
-      title: Notices de noms et formes rejetées
-      description: Affiche les noms et toute forme rejetée associée. Rapport contenant nom de tri, type de nom, source de nom et toutes les formes rejetées de ce nom.
-      total_count: Nombre de notices
-      name_type: Type de nom
-      source: Source
-      non_preferred_names: Forme(s) rejetée(s)

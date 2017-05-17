@@ -8,7 +8,7 @@ require_relative 'trollop'
 require 'zip/zip'
 require 'tempfile'
 require 'uri'
-require 'net/http'
+require 'ashttp'
 require 'asutils'
 
 class ArchivesSpaceBackup
@@ -77,7 +77,7 @@ class ArchivesSpaceBackup
   def create_demodb_snapshot
     if AppConfig[:db_url] == AppConfig.demo_db_url
       File.write(AppConfig[:demodb_snapshot_flag], "")
-      Net::HTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
+      ASHTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
     end
   end
 

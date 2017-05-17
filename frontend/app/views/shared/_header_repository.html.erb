@@ -91,7 +91,7 @@
                     <ul class="dropdown-menu">
                       <% job_types.each do |type, perms| %>
                         <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-                          <li><%= link_to I18n.t("job.types.#{type}"), :controller => :jobs, :action => :new, :job_type => type %></li>
+                          <li><%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %></li>
                         <% end %> 
                       <% end %> 
                     </ul>

@@ -1,4 +1,4 @@
-require 'net/http'
+require 'ashttp'
 require 'uri'
 require 'json'
 require 'fileutils'
@@ -46,7 +46,8 @@ class CommonIndexer
                            'container_locations', 'subjects',
                            'linked_agents', 'linked_records',
                            'classifications', 'digital_object',
-                           'agent_representation', 'repository']
+                           'agent_representation', 'repository',
+                           'top_container']
 
   @@paused_until = Time.now
 
@@ -680,7 +681,7 @@ class CommonIndexer
   def do_http_request(url, req)
     req['X-ArchivesSpace-Session'] = @current_session
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       http.read_timeout = AppConfig[:indexer_solr_timeout_seconds].to_i
       http.request(req)
     end

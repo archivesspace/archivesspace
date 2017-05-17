@@ -1,4 +1,4 @@
-require "net/http"
+require 'ashttp'
 require "uri"
 require "json"
 require "selenium-webdriver"
@@ -118,7 +118,7 @@ module SeleniumTest
     req.content_type = "application/octet-stream"
     req['Transfer-Encoding'] = 'chunked'
 
-    Net::HTTP.start(uri.hostname, uri.port) do |http|
+    ASHTTP.start_uri(uri) do |http|
       puts http.request(req).body
     end
   end

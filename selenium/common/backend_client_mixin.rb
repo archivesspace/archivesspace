@@ -1,3 +1,5 @@
+require 'ashttp'
+
 module BackendClientMethods
 
   class ASpaceUser
@@ -26,7 +28,7 @@ module BackendClientMethods
 
     req['X-ArchivesSpace-Session'] = @current_session
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       http.read_timeout = 1200
       http.request(req)
     end
@@ -90,7 +92,7 @@ module BackendClientMethods
   end
 
   def admin_backend_request(req)
-    res = Net::HTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
+    res = ASHTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
     admin_session = JSON(res.body)["session"]
 
     req["X-ARCHIVESSPACE-SESSION"] = admin_session
@@ -98,7 +100,7 @@ module BackendClientMethods
 
     uri = URI("#{$backend}")
 
-    Net::HTTP.start(uri.hostname, uri.port) do |http|
+    ASHTTP.start_uri(uri) do |http|
       res = http.request(req)
 
       if res.code != "200"

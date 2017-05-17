@@ -535,7 +535,7 @@ fr:
         <li>CS3 <em>(pour Adobe Photoshop CS3)</em></li>
         <li>2.1.2 <em>(pour Library of Congress Bagger 2.1.2)</em></li>
         </ul>
-    manufacturer: Manufacturer
+    manufacturer: Fabricant
     manufacturer_tooltip: |
         <p>L'éditeur, le créateur, ou tout autre instance responsable de la distribution, du développement, ou de la maintenance d'un ensemble logiciel.</p>
         <p>Exemples</p>
@@ -1004,7 +1004,7 @@ fr:
     date_type: Type
     date_type_tooltip: |
         <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (inclusives ou de la grosse masse).</p>
-    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de date normalisée 
+    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée 
     expression: Expression
     expression_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
@@ -1214,7 +1214,7 @@ fr:
     relationship_type: Type de relation
 
   accession_sibling_relationship:
-    _singular: Relation collatérales
+    _singular: Relation collatérale
     relator: Cette collecte
     sibling_of: Soeur de
     relator_type: Type de relation
@@ -1776,7 +1776,7 @@ fr:
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par vos propres préférences pour un dépôt.
     user_repo: Mes préférences dépôt
-    user_repo_message: Editez ces valeurs pour définir pour préférences utilisateur pour ce dépôt. Ces valeurs ne peuvent pas être écrasées.
+    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce dépôt. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
 
@@ -1791,35 +1791,35 @@ fr:
     accession_browse_section: Colonnes d'exploration collecte
     accession_browse_column_1: Colonne 1
     accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    accession_browse_column_2: Column 2
+    accession_browse_column_2: Colonne 2
     accession_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    accession_browse_column_3: Column 3
+    accession_browse_column_3: Colonne 3
     accession_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    accession_browse_column_4: Column 4
+    accession_browse_column_4: Colonne 4
     accession_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    accession_browse_column_5: Column 5
+    accession_browse_column_5: Colonne 5
     accession_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
     resource_browse_section: Colonnes d'exploration ressource
-    resource_browse_column_1: Column 1
+    resource_browse_column_1: Colonne 1
     resource_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    resource_browse_column_2: Column 2
+    resource_browse_column_2: Colonne 2
     resource_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    resource_browse_column_3: Column 3
+    resource_browse_column_3: Colonne 3
     resource_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    resource_browse_column_4: Column 4
+    resource_browse_column_4: Colonne 4
     resource_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    resource_browse_column_5: Column 5
+    resource_browse_column_5: Colonne 5
     resource_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
     digital_object_browse_section: Colonnes d'exploration object numérique
-    digital_object_browse_column_1: Column 1
+    digital_object_browse_column_1: Colonne 1
     digital_object_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    digital_object_browse_column_2: Column 2
+    digital_object_browse_column_2: Colonne 2
     digital_object_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    digital_object_browse_column_3: Column 3
+    digital_object_browse_column_3: Colonne 3
     digital_object_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    digital_object_browse_column_4: Column 4
+    digital_object_browse_column_4: Colonne 4
     digital_object_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    digital_object_browse_column_5: Column 5
+    digital_object_browse_column_5: Colonne 5
     digital_object_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
     note_order_section: Ordres des notes
     accept_default_message: '> Accepter défaut:'
@@ -1870,7 +1870,7 @@ fr:
     is_required_if_there_is_an_authority_id: est requis s'il y a un 'identifiant d'autorité'
     you_must_provide_a_label__title_or_date: vous devez fournir un label, un titre ou une date
     location_fields_error: >
-      Vous devez spécifier un code-barres ou une classification, ou les deux, comme labe de coordonnée 1 et indicateur de coordonnée 1
+      Vous devez spécifier un code-barres ou une classification, ou les deux, comme label de coordonnée 1 et indicateur de coordonnée 1
     location_must_be_unique_within_a_record: Doit être unique dans une notice
     location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de nouvelles localisation avant d'effectuer la suppression.
     cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la localisation n'est pas temporaire.
@@ -1947,7 +1947,7 @@ fr:
     text:
       keyword: Mot-clé
       title: Intitulé
-      creators: Créateur
+      creators: Producteur
       notes: Notes
       subjects: Sujets
       identifier: Identifiant
