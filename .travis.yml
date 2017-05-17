@@ -24,6 +24,11 @@ before_install:
 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
   --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x10240x24
 - export DISPLAY=:99.0
+- cat /etc/hosts # Fix buffer overflow in getLocalHostName of OpenJDK 6/7 by shortening the host name
+- sudo hostname "$(hostname | cut -c1-63)"
+- sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts > /tmp/hosts
+- sudo mv /tmp/hosts /etc/hosts
+- cat /etc/hosts
 before_script:
 - free -m
 - (cd /tmp; wget 'https://ftp.mozilla.org/pub/firefox/releases/52.0/linux-x86_64/en-US/firefox-52.0.tar.bz2'; tar xvjf firefox-52.0.tar.bz2)
