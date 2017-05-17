@@ -4,8 +4,6 @@ require 'net/http'
 class TopContainer < Sequel::Model(:top_container)
   include ASModel
 
-  include Relationships
-
   corresponds_to JSONModel(:top_container)
 
   set_model_scope :repository

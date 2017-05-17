@@ -5,7 +5,6 @@ class Event < Sequel::Model(:event)
   include ASModel
   corresponds_to JSONModel(:event)
 
-  include Relationships
   include Agents
   include ExternalDocuments
   include ExternalIDs

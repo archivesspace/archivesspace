@@ -4,7 +4,6 @@ class Location < Sequel::Model(:location)
 
   include ExternalIDs
   include AutoGenerator
-  include Relationships
 
   set_model_scope :global
 

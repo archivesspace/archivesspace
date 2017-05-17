@@ -11,7 +11,6 @@ class Resource < Sequel::Model(:resource)
   include Instances
   include Deaccessions
   include Agents
-  include Relationships
   include Trees
   include ResourceTrees
   include Notes

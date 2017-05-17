@@ -142,7 +142,6 @@ describe 'Relationships' do
 
     class Apple < Sequel::Model(:apple)
       include ASModel
-      include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:apple)
       clear_relationships
@@ -153,7 +152,6 @@ describe 'Relationships' do
 
     class Banana < Sequel::Model(:banana)
       include ASModel
-      include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:banana)
 
