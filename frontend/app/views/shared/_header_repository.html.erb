@@ -144,7 +144,7 @@
                     <li><%= link_to I18n.t("repository._frontend.section.transfer"), :controller => :repositories, :action => :transfer, :id => session[:repo_id] %></li>
                     <li class="divider"></li>
                   <% end %>
-                  <% if user_can?('import_records') %>
+                  <% if user_can?('create_job') %>
                     <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
                     <li class="divider"></li>
                   <% end %>
