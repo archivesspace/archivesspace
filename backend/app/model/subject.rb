@@ -9,7 +9,6 @@ class Subject < Sequel::Model(:subject)
   include ExternalDocuments
   include ExternalIDs
   include AutoGenerator
-  include Relationships
   include ImpliedPublication
   include Publishable
 

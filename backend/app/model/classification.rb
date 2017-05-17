@@ -1,6 +1,5 @@
 class Classification < Sequel::Model(:classification)
   include ASModel
-  include Relationships
   include Trees
   include ClassificationIndexing
   include Publishable

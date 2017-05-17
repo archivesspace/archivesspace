@@ -10,7 +10,6 @@ class Accession < Sequel::Model(:accession)
   include RightsStatements
   include Deaccessions
   include Agents
-  include Relationships
   include DirectionalRelationships
   include ExternalIDs
   include CollectionManagements

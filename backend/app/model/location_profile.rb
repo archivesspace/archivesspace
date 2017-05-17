@@ -1,6 +1,5 @@
 class LocationProfile < Sequel::Model(:location_profile)
   include ASModel
-  include Relationships
 
   corresponds_to JSONModel(:location_profile)
 

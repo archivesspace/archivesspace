@@ -2,7 +2,6 @@ require 'digest/sha1'
 
 class ClassificationTerm < Sequel::Model(:classification_term)
   include ASModel
-  include Relationships
   include TreeNodes
   include ClassificationIndexing
   include Publishable
