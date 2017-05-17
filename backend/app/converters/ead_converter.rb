@@ -132,9 +132,25 @@ class EADConverter < Converter
           # inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|
           #   set receiver, "id_#{i}".to_sym, id
           # end
-          set obj, :id_0, inner_xml
-        when 'archival_object'
-          set obj, :component_id, inner_xml
+          set obj, :id_0, inner_xml if  obj.id_0.nil? || obj.id_0.empty?
+            if node.attribute( "type")
+              make :external_id, {
+                  :source => node.attribute( "type"),
+                  :external_id => inner_xml
+              } do |ext_id|
+                set ancestor(:resource ), :external_ids, ext_id
+              end
+            end
+          when 'archival_object'
+          set obj, :component_id, inner_xml if obj.component_id.nil? || obj.component_id.empty?
+            if node.attribute( "type" )
+            make :external_id, {
+                :source => node.attribute( "type" ),
+                :external_id => inner_xml
+            } do |ext_id|
+              set ancestor(:resource, :archival_object), :external_ids, ext_id
+              end
+            end
         end
       end
     end
@@ -145,7 +161,7 @@ class EADConverter < Converter
         unless obj.class.record_type == "note_multipart"
           title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
           title.xpath(".//unitdate").remove
-          obj.title = format_content( title.to_xml(:encoding => 'utf-8') )
+          obj.title = format_content( title.to_xml(:encoding => 'utf-8') ) if obj.title.nil? || obj.title.empty?
         end
       end
     end
