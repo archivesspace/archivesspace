@@ -180,11 +180,16 @@ class DBMigrator
   end
 
   def self.setup_database(db)
-    begin 
+    begin
       $db_type = db.database_type
+
+      fail_if_managed_container_migration_needed!(db)
+
       Sequel::Migrator.run(db, MIGRATIONS_DIR)
       PLUGIN_MIGRATIONS.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
                                                              :table => "#{plugin}_schema_info") }
+    rescue ContainerMigrationError
+      raise $!
     rescue Exception => e
      $stderr.puts <<EOF
      
@@ -206,6 +211,51 @@ class DBMigrator
 EOF
      
      raise e
+    end
+  end
+
+
+  CONTAINER_MIGRATION_NUMBER = 60
+
+  class ContainerMigrationError < StandardError
+  end
+
+  def self.fail_if_managed_container_migration_needed!(db)
+    current_version = db[:schema_info].first[:version] rescue nil
+
+    if current_version && current_version > 0 && current_version < CONTAINER_MIGRATION_NUMBER
+      $stderr.puts <<EOM
+
+=======================================================================
+Important migration issue
+=======================================================================
+
+Hello!
+
+It appears that you are upgrading ArchivesSpace from version 1.4.2 or prior.  To
+complete this upgrade, there are some additional steps to follow.
+
+The 1.5 series of ArchivesSpace introduced a new data model for containers,
+along with a compatibility layer to provide a seamless transition between the
+old and new container models.  In ArchivesSpace version 2.1, this compatibility
+layer was removed in the interest of long-term maintainability and system
+performance.
+
+To upgrade your ArchivesSpace installation, you will first need to upgrade to
+version 1.5.3.  This will upgrade your containers to the new model and clear the
+path for future upgrades.  Once you have done this, you can upgrade to the
+latest ArchivesSpace version as normal.
+
+For more information on upgrading to ArchivesSpace 1.5.3, please see the upgrade
+guide (which applies to all of the 1.5.x versions of ArchivesSpace):
+
+  https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
+
+=======================================================================
+
+EOM
+
+      raise ContainerMigrationError.new
     end
   end
 
