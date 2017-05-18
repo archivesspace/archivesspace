@@ -147,6 +147,9 @@
    <!-- And for top-level records, the entire tree with all descendants -->
    <field name="whole_tree_json" type="string" indexed="false" stored="true" multiValued="false" />
 
+   <!-- Classification fields -->
+   <field name="has_classification_terms" type="boolean" indexed="true" stored="true" multiValued="false" />
+
    <!-- Classification terms store the URI of the resource they belong to (if any) -->
    <field name="classification" type="string" indexed="true" stored="true" multiValued="false" />
 

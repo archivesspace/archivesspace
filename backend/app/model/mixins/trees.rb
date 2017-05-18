@@ -35,6 +35,14 @@ module Trees
   end
 
 
+  def children?
+    self.class.node_model.
+      this_repo.filter(:root_record_id => self.id,
+                       :parent_id => nil)
+               .count > 0
+  end
+
+
   def build_node_query
     self.class.node_model.this_repo.filter(:root_record_id => self.id)
   end
