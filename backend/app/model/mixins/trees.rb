@@ -95,7 +95,7 @@ module Trees
   end
 
 
-  def tree(ids_of_interest = :all)
+  def tree(ids_of_interest = :all, display_mode = :full)
     links = {}
     properties = {}
 
@@ -142,7 +142,9 @@ module Trees
           properties[node.id]['has_children'] = !!has_children[node.id]
         end
 
-        load_node_properties(node, properties, ids_of_interest)
+        unless display_mode == :sparse
+          load_node_properties(node, properties, ids_of_interest)
+        end
       end
 
       if nodes.empty?
@@ -162,12 +164,14 @@ module Trees
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
-    
-    if  self.respond_to?(:finding_aid_filing_title) && !self.finding_aid_filing_title.nil? && self.finding_aid_filing_title.length > 0
-      result[:finding_aid_filing_title] = self.finding_aid_filing_title
-    end
 
-    load_root_properties(result, ids_of_interest)
+    unless display_mode == :sparse
+      if self.respond_to?(:finding_aid_filing_title) && !self.finding_aid_filing_title.nil? && self.finding_aid_filing_title.length > 0
+        result[:finding_aid_filing_title] = self.finding_aid_filing_title
+      end
+
+      load_root_properties(result, ids_of_interest)
+    end
 
     JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end
