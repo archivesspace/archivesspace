@@ -1,0 +1,34 @@
+<%
+  label_options = [[I18n.t('date_calculator.all_labels'), '']]
+      .concat(JSONModel.enum_values('date_label').map{|label|
+        [I18n.t("enumerations.date_label.#{label}", :default => label), label]
+      })
+%>
+
+<div id="template_date_calculator_form_<%= record.jsonmodel_type %>_<%= record.id %>"><!--
+  <div class="modal-body">
+    <%= form_tag url_for(:controller => :date_calculator, :action => :calculate), :id => 'date_calculator_form' do %>
+      <%= hidden_field_tag 'inline', 'true' %>
+      <%= hidden_field_tag 'record_uri', record.uri %>
+      <div class="row">
+        <div class="col-sm-6">
+        <%= label_tag 'label', I18n.t('date.label'), :class => 'col-sm-2 control-label sr-only' %>
+          <%= select_tag 'label', options_for_select(label_options, 'creation'), :class => 'form-control' %>
+        </div>
+        <div class="col-sm-6">
+          <button class='btn btn-primary'><%= I18n.t('date_calculator.calculate_button') %>
+        </div>
+      </div>
+    <% end %>
+    <div id="date-calculator-result"></div>
+  </div>
+  <div class="modal-footer">
+    <button id='createDateButton' class="btn btn-primary" aria-hidden='true' style='display: none;'><%= I18n.t "date_calculator.create_date_button" %></button>
+    <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+  </div>
+--></div>
+<div id="template_dates_calculator_error_message"><!--
+  <div id="alertBucket" class="alert alert-danger">
+    ${message}
+  </div>
+--></div>

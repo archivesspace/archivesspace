@@ -1280,3 +1280,16 @@ en:
       container_at_location_lacks_profile: At least one of the containers currently at the location lacks a profile
       containers_at_location_dont_fit: The containers currently at the location don't fit
       location_cannot_fit_container: The location cannot currently fit any containers of this type
+
+  date_calculator:
+    toolbar_button: Calculate Dates
+    calculate_button: Calculate Date Record
+    modal_title: Calculate Dates
+    all_labels: Calculate for all dates
+    no_object_message: Record not found
+    results_title: Calculated Date Record
+    create_date_button: Create Date Record
+    generic_create_error: Date is invalid and could not be created
+    create_success: Date Created Successfully.  Refreshing page...
+    no_dates: No suitable dates found
+    no_dates_for_label: No suitable %{label} dates found

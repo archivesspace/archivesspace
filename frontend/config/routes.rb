@@ -249,6 +249,8 @@ ArchivesSpace::Application.routes.draw do
       match('top_containers/:id/delete' => 'top_containers#delete', :via => [:post])
 
       match('extent_calculator' => 'extent_calculator#report', :via => [:get])
+      match('date_calculator/calculate' => 'date_calculator#calculate', :via => [:post])
+      match('date_calculator/create_date' => 'date_calculator#create_date', :via => [:post])
 
       resources :location_profiles
       match('location_profiles/search/typeahead' => 'location_profiles#typeahead', :via => [:get])
