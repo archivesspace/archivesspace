@@ -79,7 +79,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  def initialize(obj, opts)
+  def initialize(obj, tree, opts)
     @json = obj
     opts.each do |k, v|
       self.instance_variable_set("@#{k}", v)
@@ -87,13 +87,13 @@ class EADModel < ASpaceExport::ExportModel
     repo_ref = obj.repository['ref']
     @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
     @repo = Repository.to_jsonmodel(@repo_id)
-    @children = @json.tree['_resolved']['children']
+    @children = tree['children']
     @child_class = self.class.instance_variable_get(:@ao)
   end
 
 
-  def self.from_resource(obj, opts)
-    self.new(obj, opts)
+  def self.from_resource(obj, tree, opts)
+    self.new(obj, tree, opts)
   end
 
 

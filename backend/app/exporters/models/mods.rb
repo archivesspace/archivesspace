@@ -23,7 +23,6 @@ class MODSModel < ASpaceExport::ExportModel
   }
   
   @digital_object_map = {
-    :tree => :handle_tree
   }
   
   
@@ -56,7 +55,6 @@ class MODSModel < ASpaceExport::ExportModel
   def self.from_archival_object(obj)
     
     mods = self.new
-    
     mods.apply_map(obj, @archival_object_map)
 
     mods
@@ -64,7 +62,6 @@ class MODSModel < ASpaceExport::ExportModel
     
   
   def self.from_digital_object(obj, opts = {})
-    
     mods = self.from_archival_object(obj)
     
     if obj.respond_to? :digital_object_type
@@ -219,11 +216,6 @@ class MODSModel < ASpaceExport::ExportModel
       parts << part unless part.empty?
     end
     parts    
-  end
-
-
-  def handle_tree(tree)
-    @children = tree['_resolved']['children']
   end
 
 

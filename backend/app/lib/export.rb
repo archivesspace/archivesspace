@@ -32,8 +32,10 @@ module ExportHelpers
 
 
   def generate_labels(id)
-    obj = resolve_references(Resource.to_jsonmodel(id), ['tree', 'repository'])
-    labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj))
+    resource = Resource.get_or_die(id)
+    obj = resolve_references(Resource.to_jsonmodel(resource), ['repository'])
+    labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj),
+                                                       resource.tree(:all, mode = :sparse))
     ASpaceExport::serialize(labels, :serializer => :tsv)
   end
 
@@ -46,14 +48,20 @@ module ExportHelpers
 
 
   def generate_mets(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
-    mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj))
+    digital_object = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
+                             ['repository::agent_representation', 'linked_agents', 'subjects'])
+
+    mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj),
+                                                         digital_object.tree(:all, mode = :sparse))
     ASpaceExport::serialize(mets)
   end
 
 
   def generate_mods(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
+    digital_object = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
+                             ['repository::agent_representation', 'linked_agents', 'subjects'])
     mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
     ASpaceExport::serialize(mods)
   end
@@ -67,13 +75,18 @@ module ExportHelpers
 
 
   def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags)
-    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object', 'top_container'])
+    resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container']
+
+    resource = Resource.get_or_die(id)
+
+    jsonmodel = JSONModel(:resource).new(resolve_references(Resource.to_jsonmodel(resource), resolve))
+
     opts = {
       :include_unpublished => include_unpublished,
       :include_daos => include_daos,
       :use_numbered_c_tags => use_numbered_c_tags
     }
-    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj), opts)
+    ead = ASpaceExport.model(:ead).from_resource(jsonmodel, resource.tree(:all, mode = :sparse), opts)
     ASpaceExport::stream(ead)
   end
 
