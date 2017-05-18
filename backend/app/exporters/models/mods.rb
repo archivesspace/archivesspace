@@ -42,7 +42,9 @@ class MODSModel < ASpaceExport::ExportModel
   }
     
 
-  def initialize
+  def initialize(tree)
+    @children = tree['children']
+
     @extents = []
     @notes = []
     @subjects = []
@@ -52,17 +54,17 @@ class MODSModel < ASpaceExport::ExportModel
     
 
   # meaning, 'archival object' in the abstract
-  def self.from_archival_object(obj)
+  def self.from_archival_object(obj, tree)
     
-    mods = self.new
+    mods = self.new(tree)
     mods.apply_map(obj, @archival_object_map)
 
     mods
   end
     
   
-  def self.from_digital_object(obj, opts = {})
-    mods = self.from_archival_object(obj)
+  def self.from_digital_object(obj, tree, opts = {})
+    mods = self.from_archival_object(obj, tree)
     
     if obj.respond_to? :digital_object_type
       mods.type_of_resource = obj.digital_object_type
@@ -76,8 +78,8 @@ class MODSModel < ASpaceExport::ExportModel
   end
 
 
-  def self.from_digital_object_component(obj)
-    mods = self.from_archival_object(obj)
+  def self.from_digital_object_component(obj, tree)
+    mods = self.from_archival_object(obj, tree)
 
     mods
   end
@@ -218,15 +220,15 @@ class MODSModel < ASpaceExport::ExportModel
     parts    
   end
 
-
   def each_related_item(children = nil, maxDepth = 20)
     return if maxDepth == 0
     maxDepth = maxDepth - 1
     children ||= @children
+
     return unless children
     children.each do |child|
       json = JSONModel(:digital_object_component).new(child)
-      yield self.class.from_digital_object_component(json)
+      yield self.class.from_digital_object_component(json, child)
       if child['children']
         each_related_item(child['children'], maxDepth) do |item|
           yield item

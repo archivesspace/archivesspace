@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe 'Exports controller' do
 
+  before(:each) do
+    # EAD export normally tries the search index first, but for the tests we'll
+    # skip that since Solr isn't running.
+    allow(Search).to receive(:records_for_uris) do |*|
+      {'results' => []}
+    end
+  end
+
   it "lets you export an Agent as EAC, even when it is linked to records from another repo" do
 
     accession = create(:json_accession)

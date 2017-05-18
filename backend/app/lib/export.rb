@@ -65,7 +65,8 @@ module ExportHelpers
     digital_object = DigitalObject.get_or_die(id)
     obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
                              ['repository::agent_representation', 'linked_agents', 'subjects'])
-    mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
+    mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj),
+                                                         digital_object.tree(:all, mode = :sparse))
     ASpaceExport::serialize(mods)
   end
 
