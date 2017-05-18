@@ -255,7 +255,7 @@ class ResourcesController <  ApplicationController
       'facet.mincount' => 1
     })
     search_opts['fq']=[qry]
-    set_up_search(['pui_container'], ['type_enum_s', 'series_title_u_sstr'], search_opts, params, qry)
+    set_up_search(['pui_container'], ['type_enum_s', 'published_series_title_u_sstr'], search_opts, params, qry)
     @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
 
