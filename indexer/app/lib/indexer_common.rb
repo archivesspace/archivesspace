@@ -344,6 +344,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if record['record'].has_key?('used_within_repositories')
         doc['used_within_repository'] = record['record']['used_within_repositories']
+        doc['used_within_published_repository'] = record['record']['used_within_published_repositories']
       end
     }
 

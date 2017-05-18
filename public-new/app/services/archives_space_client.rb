@@ -121,7 +121,7 @@ class ArchivesSpaceClient
 
   def get_repos_sublist(uri, type, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    search_opts = search_opts.merge({"q" => "(used_within_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
+    search_opts = search_opts.merge({"q" => "(used_within_published_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
     url = build_url("/search", search_opts)
     results = do_search(url)
 

@@ -44,6 +44,7 @@
       },
 
       "used_within_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+      "used_within_published_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
 
       "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
 

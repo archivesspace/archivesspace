@@ -5,7 +5,7 @@ class AgentsController <  ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   DEFAULT_AG_TYPES = %w{repository resource archival_object digital_object}
-  DEFAULT_AG_FACET_TYPES = %w{primary_type subjects used_within_repository}
+  DEFAULT_AG_FACET_TYPES = %w{primary_type subjects used_within_published_repository}
   DEFAULT_AG_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
@@ -27,7 +27,7 @@ class AgentsController <  ApplicationController
       end
     end
     search_opts = default_search_opts(DEFAULT_AG_SEARCH_OPTS)
-    search_opts['fq'] = ["used_within_repository:\"/repositories/#{repo_id}\""] if repo_id
+    search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search  =  repo_id ? "/repositories/#{repo_id}/agents?" : '/agents?'
     page = Integer(params.fetch(:page, "1"))
     begin
