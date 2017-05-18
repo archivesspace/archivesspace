@@ -142,7 +142,7 @@ module Searchable
       this_repo = AdvancedQueryBuilder.new
       this_repo
         .and('repository', repo_uri, 'uri')
-        .or('used_within_repository', repo_uri, 'uri')
+        .or('used_within_published_repository', repo_uri, 'uri')
 
       advanced_query_builder.and(this_repo)
     end
