@@ -34,6 +34,75 @@ class Resource < Record
     (0..3).map {|part| @json["id_#{part}"]}
   end
 
+  def metadata
+    md = {
+      '@context' => "http://schema.org/",
+      '@type' => ['schema:CreativeWorkSeries', 'library:ArchiveMaterial'],
+      'name' => display_string,
+      'url' => AppConfig[:public_url] + uri,
+      'identifier' => raw['four_part_id'],
+    }
+
+    md['description'] = if (abstract = json['notes'].select{|n| n['type'] == 'abstract'}.first)
+                          strip_mixed_content(abstract['content'].join(' '))
+                        elsif (scope = json['notes'].select{|n| n['type'] == 'scopecontent'}.first)
+                          strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
+                        else
+                          ''
+                        end
+
+    md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
+      {
+        '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
+        'name' => ag['title']
+      }
+    end
+
+    term_type_to_about_type = {
+      'geographic' => 'Place',
+      'temporal' => 'TemporalCoverage',
+      'uniform_title' => 'CreativeWork',
+      'topical' => 'Intangible',
+      'occupation' => 'Intangible'
+    }
+
+    md['about'] = json['subjects'].select{|s|
+      term_type_to_about_type.keys.include?(s['_resolved']['terms'][0]['term_type'])
+    }.map{|s| s['_resolved']}.map{|subj|
+      hash = {'@type' => term_type_to_about_type[subj['terms'][0]['term_type']]}
+      hash['@id'] = subj['authority_id'] if subj['authority_id']
+      hash['name'] = subj['title']
+      hash
+    }
+
+    md['about'].concat(json['linked_agents'].select{|la| la['role'] == 'subject'}.map{|a| a['_resolved']}.map{|ag|
+                         {
+                           '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
+                           'name' => strip_mixed_content(ag['title']),
+                         }
+                       })
+
+    md['genre'] = json['subjects'].select{|s|
+      s['_resolved']['terms'][0]['term_type'] == 'genre_form'
+    }.map{|s| s['_resolved']}.map{|subj|
+      subj['authority_id'] ? subj['authority_id'] : subj['title']
+    }
+
+    md['inLanguage'] = {
+      '@type' => 'Language',
+      'name' => I18n.t('enumerations.language_iso639_2.' + raw['language'], :default => raw['language'])
+    }
+
+    md['provider'] = {
+      '@id' => 'http://id.loc.gov/authorities/names/n77005277',
+      'url' => AppConfig[:public_url] + raw['repository'],
+      '@type' => 'Organization',
+      'name' => resolved_repository['name']
+    }
+
+    md
+  end
+
   private
 
   def parse_digital_instance
