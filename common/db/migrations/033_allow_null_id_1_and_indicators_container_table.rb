@@ -10,10 +10,7 @@ Sequel.migration do
   end
   
   down do
-    alter_table(:container) do
-      set_column_not_null :type_1_id 
-      set_column_not_null :indicator_1 
-    end
+    # no taksies backsies
   end
 
 end
