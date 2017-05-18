@@ -47,8 +47,9 @@ class Classification < Sequel::Model(:classification)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
-    jsons.each do |json|
+    jsons.zip(objs).each do |json, obj|
       self.set_path_from_root(json)
+      json['has_classification_terms'] = obj.children?
     end
 
     jsons
