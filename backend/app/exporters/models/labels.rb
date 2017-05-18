@@ -104,7 +104,7 @@ class LabelModel < ASpaceExport::ExportModel
 
         crow = [] 
         if top['type'] && top['indicator'] 
-          crow << "#{top['type_1']} #{top['indicator_1']}"
+          crow << "#{top['type']} #{top['indicator']}"
         end
         if top['barcode']
           crow << top['barcode']
