@@ -63,4 +63,46 @@ describe 'Record Publishing' do
     DigitalObjectComponent.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
   end
 
+
+  it "an archival object's publish status is overridden by a suppressed resource" do
+    resource = create_resource(:publish => true)
+
+    parent = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                   'resource' => {'ref' => resource.uri},
+                                                   'publish' => true))
+
+    child = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                  'resource' => {'ref' => resource.uri},
+                                                  'parent' => {'ref' => parent.uri},
+                                                  'publish' => true))
+
+    resource.set_suppressed(true)
+
+    ArchivalObject.to_jsonmodel(parent).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_truthy
+    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+  end
+
+
+  it "an archival object's publish status is overridden by a suppressed parent archival object" do
+    resource = create_resource(:publish => true)
+
+    parent = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                   'resource' => {'ref' => resource.uri},
+                                                   'publish' => true))
+
+    child = ArchivalObject.create_from_json(build(:json_archival_object,
+                                                  'resource' => {'ref' => resource.uri},
+                                                  'parent' => {'ref' => parent.uri},
+                                                  'publish' => true))
+
+    parent.set_suppressed(true)
+
+    ArchivalObject.to_jsonmodel(parent).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
+    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
+    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+  end
+
 end
