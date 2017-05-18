@@ -1,6 +1,6 @@
 require 'rbconfig'
 require 'socket'
-require 'net/http'
+require 'ashttp'
 
 module TestUtils
 
@@ -19,7 +19,7 @@ module TestUtils
 
 
   def self.get(url)
-    Net::HTTP.get_response(url)
+    ASHTTP.get_response(url)
   end
 
 
@@ -28,9 +28,9 @@ module TestUtils
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
-        Net::HTTP.start(uri.host, uri.port, nil, nil, nil,
-                        :open_timeout => 60,
-                        :read_timeout => 60) do |http|
+        ASHTTP.start_uri(uri
+                         :open_timeout => 60,
+                         :read_timeout => 60) do |http|
           http.request(req)
         end
 

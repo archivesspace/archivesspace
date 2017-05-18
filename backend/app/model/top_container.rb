@@ -284,7 +284,7 @@ class TopContainer < Sequel::Model(:top_container)
     url = query.to_solr_url
     req = Net::HTTP::Get.new(url.request_uri)
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       http.request(req, nil) do |response|
         if response.code =~ /^4/
           raise response.body
