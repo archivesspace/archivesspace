@@ -229,7 +229,6 @@ module Searchable
 #        Pry::ColorPrinter.pp(result['json'])
       end
       result['json']['display_string'] = full_title(result['json'])
-      result['json']['container_disp'] = container_display(result)
       html_notes(result['json'], full)
       # handle dates
       handle_dates( result['json']) if result['json'].has_key?('dates') && full
@@ -366,27 +365,6 @@ module Searchable
                                         :conditions => "<ul class='no-bullets'>#{condition}</ul>")
   end
 
-
-  def container_display(result)
-    containers = []
-    json = result['json']
-    if !json['instances'].blank? && json['instances'].kind_of?(Array)
-      json['instances'].each do |inst|
-        if inst.kind_of?(Hash) && inst['container'].present? && inst['container'].kind_of?(Hash)
-          display = []
-          %w{1 2 3}.each do |i|
-            type = process_container_type(inst['container']["type_#{i}"]) 
-            if !inst['container']["indicator_#{i}"].blank?
-              display.push("#{type} #{inst['container']["indicator_#{i}"]}".gsub("Unspecified", ''))
-
-            end
-          end
-          containers.push(display.join(", ")) unless display.empty?
-        end
-      end
-    end
-    return containers
-  end
 
   # if there's an inherited title, pre-pend it
   def full_title(json)
