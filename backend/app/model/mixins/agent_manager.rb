@@ -1,6 +1,5 @@
 require_relative 'relationships'
 require_relative 'related_agents'
-require_relative 'implied_publication'
 require 'set'
 
 
@@ -51,7 +50,6 @@ module AgentManager
 
       base.include(Relationships)
       base.include(RelatedAgents)
-      base.include(ImpliedPublication)
       base.include(Events)
 
       ArchivesSpaceService.loaded_hook do
@@ -329,9 +327,12 @@ module AgentManager
           end
         end
 
+        publication_status = ImpliedPublicationCalculator.new.for_agents(objs)
+
         jsons.zip(objs).each do |json, obj|
           json.agent_type = my_agent_type[:jsonmodel].to_s
           json.linked_agent_roles = obj.linked_agent_roles
+          json.is_linked_to_published_record = publication_status.fetch(obj)
 
           populate_display_name(json)
           json.title = json['display_name']['sort_name']
