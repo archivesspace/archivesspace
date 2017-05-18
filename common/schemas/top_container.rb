@@ -69,6 +69,7 @@
             "display_string" => {"type" => "string"},
             "identifier" => {"type" => "string"},
             "level_display_string" => {"type" => "string"},
+            "publish" => {"type" => "boolean"},
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"
