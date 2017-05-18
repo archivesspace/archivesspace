@@ -1,3 +1,5 @@
+require 'ashttp'
+
 # Fire a HTTP request with retry logic for flakey REST APIs.
 class HTTPRequest
 
@@ -13,7 +15,7 @@ class HTTPRequest
       end
 
       begin
-        Net::HTTP.start(uri.host, uri.port, :open_timeout => OPEN_TIMEOUT, :read_timeout => READ_TIMEOUT) do |http|
+        ASHTTP.start_uri(uri, :open_timeout => OPEN_TIMEOUT, :read_timeout => READ_TIMEOUT) do |http|
           request = Net::HTTP::Get.new(uri)
           response = http.request(request)
 
