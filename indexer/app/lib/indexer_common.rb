@@ -509,6 +509,13 @@ class CommonIndexer
           doc['series_identifier_u_stext'] = record['record']['series'].map {|series|
             CommonIndexer.generate_permutations_for_identifier(series['identifier'])
           }.flatten
+
+          record['record']['series'].select{|series| series['publish']}.each do |series|
+            doc['published_series_uri_u_sstr'] ||= []
+            doc['published_series_uri_u_sstr'] << series['ref']
+            doc['published_series_title_u_sstr'] ||= []
+            doc['published_series_title_u_sstr'] << series['display_string']
+          end
         end
 
         if record['record']['collection']

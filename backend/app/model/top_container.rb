@@ -192,7 +192,8 @@ class TopContainer < Sequel::Model(:top_container)
           'ref' => series.uri,
           'identifier' => series.component_id,
           'display_string' => find_title_for(series),
-          'level_display_string' => obj.level_display_string(series)
+          'level_display_string' => obj.level_display_string(series),
+          'publish' => !(series.suppressed == 1) && (series.publish == 1)
         }
       end
 
