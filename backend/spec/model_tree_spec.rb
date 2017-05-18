@@ -101,4 +101,10 @@ describe 'Tree mixins' do
     Resource[resource.id].ordered_records.should eq([])
   end
 
+
+  it "knows if the top record has children" do
+    Resource[resource.id].children?.should be true
+    Resource[create(:json_resource).id].children?.should be false
+  end
+
 end

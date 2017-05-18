@@ -62,7 +62,7 @@
        <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
        <% end %>
 
-     <% if result['primary_type'] == 'classification' %>
+     <% if result.primary_type == 'classification' && result.classification_terms? %>
      <div class="classification-subgroups">
        <button class="btn btn-default btn-sm subgroup-toggle" aria-pressed="false">
          <i aria-hidden="true" class="fa fa-plus"></i>

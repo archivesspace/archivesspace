@@ -30,6 +30,10 @@ class Classification < Record
     ]
   end
 
+  def classification_terms?
+    raw['has_classification_terms'] == true
+  end
+
   private
 
   def parse_linked_records
