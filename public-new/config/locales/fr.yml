@@ -154,8 +154,8 @@ fr:
       scope: Scope
       notes: Notes
       source: Source
-      agents: Content Creators
-      agents_text: Content Creators
+      agents: Names
+      agents_text: Names
       classification_uri: Classification
       linked_agent_roles: Role
       from_year: From year
@@ -405,14 +405,14 @@ fr:
    _singular: Record Group Term
    _plural: Record Group Terms
 
-  all_agents: Content Creators
+  all_agents: Names
   
-  an_agent: Content Creator
+  an_agent: Name
 
   pui_agent:
-    _singular: Content Creator
-    _plural:  Content Creators
-    related: Related Content Creator
+    _singular: Name
+    _plural:  Names
+    related: Related Name
   record:
     _singular: Record
     _plural: Records
@@ -422,8 +422,8 @@ fr:
     _plural: Record Groups
 
   agent:
-    _singular: Content Creator
-    _plural: Content Creators
+    _singular: Name
+    _plural: Names
     _public:
       section:
         summary: Summary
