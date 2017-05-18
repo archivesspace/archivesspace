@@ -28,7 +28,7 @@ module TestUtils
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
-        ASHTTP.start_uri(uri
+        ASHTTP.start_uri(uri,
                          :open_timeout => 60,
                          :read_timeout => 60) do |http|
           http.request(req)
