@@ -52,8 +52,11 @@ module ExportHelpers
     obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
                              ['repository::agent_representation', 'linked_agents', 'subjects'])
 
+    # FIXME: This currently still uses the full digital object tree because it
+    # needs access to all file versions.  Maybe there's some other way we could
+    # get this data out?
     mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj),
-                                                         digital_object.tree(:all, mode = :sparse))
+                                                         digital_object.tree(:all))
     ASpaceExport::serialize(mets)
   end
 
