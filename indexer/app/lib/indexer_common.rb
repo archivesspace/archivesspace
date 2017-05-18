@@ -452,6 +452,7 @@ class CommonIndexer
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
         doc['identifier_sort'] = CommonIndexer.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
+        doc['has_classification_terms'] = record['record']['has_classification_terms']
       end
     }
 
