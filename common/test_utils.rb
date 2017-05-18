@@ -30,7 +30,8 @@ module TestUtils
         req = Net::HTTP::Get.new(uri.request_uri)
         Net::HTTP.start(uri.host, uri.port, nil, nil, nil,
                         :open_timeout => 60,
-                        :read_timeout => 60) do |http|
+                        :read_timeout => 60,
+                        :use_ssl => uri.scheme.eql?("https")) do |http|
           http.request(req)
         end
 

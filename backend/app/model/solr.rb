@@ -280,7 +280,7 @@ class Solr
 
     req = Net::HTTP::Get.new(url.request_uri)
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    Net::HTTP.start(url.host, url.port, use_ssl: url.scheme.eql?("https")) do |http|
       solr_response = http.request(req)
 
       if solr_response.code == '200'

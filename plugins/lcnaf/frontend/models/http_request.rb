@@ -13,7 +13,10 @@ class HTTPRequest
       end
 
       begin
-        Net::HTTP.start(uri.host, uri.port, :open_timeout => OPEN_TIMEOUT, :read_timeout => READ_TIMEOUT) do |http|
+        Net::HTTP.start(uri.host, uri.port,
+                        :open_timeout => OPEN_TIMEOUT,
+                        :read_timeout => READ_TIMEOUT,
+                        :use_ssl => uri.scheme.eql?("https")) do |http|
           request = Net::HTTP::Get.new(uri)
           response = http.request(request)
 
