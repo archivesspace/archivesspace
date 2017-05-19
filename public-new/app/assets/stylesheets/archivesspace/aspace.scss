@@ -72,6 +72,15 @@ a {
   border-color: $white;
 }
 
+.more-facets {
+  .btn {
+    padding-left: 20px;
+    color: $accent-color;
+  }
+  .below-the-fold {
+    display: none;
+  }
+}
 
 
 .tabbing.nav-pills > li > a  {
