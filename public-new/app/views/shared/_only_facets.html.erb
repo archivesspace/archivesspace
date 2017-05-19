@@ -3,9 +3,27 @@
 <dl id="facets">
   <%  @facets.each do |type, h| %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
+    <% facet_count = 0 %>
     <% h.each do |v, ct| %>
-      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></span></dd>
+      <% if facet_count == 5 %>
+        <div class="more-facets">
+          <span class="more btn">&or; more</span>
+          <div class="below-the-fold">
+      <% end %>
+      <% facet_count += 1 %>
+      <dd>
+        <a href="<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>"
+           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'">
+          <%= get_pretty_facet_value(type,v) %>
+        </a>
+        <span class="recordnumber"><%= ct %></span>
+      </dd>
     <% end %>
+    <% if facet_count > 5 %>
+        <span class="less btn">&and; less</span>
+      </div>
+    <% end %>
+    <span class="type-spacer">&nbsp;</span>
   <% end %>
 </dl>
 <% end %>
