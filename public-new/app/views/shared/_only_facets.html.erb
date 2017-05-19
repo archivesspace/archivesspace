@@ -1,7 +1,12 @@
 <% unless @facets.blank? %>
 <h4><%= t('search_results.filter.add')%>: </h4>
 <dl id="facets">
-  <%  @facets.each do |type, h| %>
+
+  <% ordered_facet_types = %w(repository primary_type agents subjects) %>
+
+  <% ordered_facet_types.each do |type| %>
+    <% h = @facets.fetch(type, false) %>
+    <% next unless h %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
     <% facet_count = 0 %>
     <% h.each do |v, ct| %>
