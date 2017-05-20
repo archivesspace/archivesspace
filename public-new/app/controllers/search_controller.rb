@@ -37,7 +37,7 @@ class SearchController < ApplicationController
       redirect_to(fallback_location.to_s)
     else
       process_search_results(@base_search)
-      unless @pager.one_page?
+      if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
         @search[:text_within] = true
       end

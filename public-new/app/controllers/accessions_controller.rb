@@ -34,7 +34,7 @@ class AccessionsController <  ApplicationController
       redirect_back(fallback_location: '/') and return
     end
 #    @context = repo_context(repo_id, 'accession')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
     end
