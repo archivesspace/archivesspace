@@ -38,7 +38,7 @@ class AgentsController <  ApplicationController
     end
 
     @context = repo_context(repo_id, 'agent')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = false
       @search[:text_within] = true
     end
