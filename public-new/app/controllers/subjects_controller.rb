@@ -34,7 +34,7 @@ class SubjectsController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(repo_id, 'subject')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = false
       @search[:text_within] = true
     end

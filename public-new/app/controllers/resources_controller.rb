@@ -55,7 +55,7 @@ class ResourcesController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(@repo_id, 'resource')
-     unless @pager.one_page?
+     if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
         @search[:text_within] = true
       end
@@ -114,7 +114,7 @@ class ResourcesController <  ApplicationController
       unless title.blank?
         @context.push({:uri => "#{res_id}", :crumb => title})
       end
-     unless @pager.one_page?
+      if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
         @search[:text_within] = true
       end
