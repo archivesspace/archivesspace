@@ -1280,3 +1280,16 @@ fr:
       container_at_location_lacks_profile: Au moins un des contenants actuellement dans la localisation manque d'un profil
       containers_at_location_dont_fit: Le contenant actuellement dans la localisation ne convient pas
       location_cannot_fit_container: La localisation ne convient actuellement à aucun contenant de ce type
+
+  date_calculator:
+    toolbar_button: Calculer dates
+    calculate_button: Notice calcul de dates
+    modal_title: Calculer dates
+    all_labels: Calculer pour toutes les dates
+    no_object_message: Notice pas trouvée
+    results_title: Notice de date calculée
+    create_date_button: Créer notice date
+    generic_create_error: Date invalide, qui n'a pu être créee
+    create_success: Date créée avec succès. Page en cours de rafraîchissement...
+    no_dates: Pas de dates qui conviennent
+    no_dates_for_label: Pas de date %{label} trouvée
