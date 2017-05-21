@@ -54,7 +54,7 @@ if not ENV['DISABLE_STARTUP']
   MemoryLeak::Resources.define(:preferences_system_mtime, proc { Time.now.to_i }, nil,
                                :init => 0)
   MemoryLeak::Resources.define(:job_types, proc {
-    Hash[JSONModel::HTTP.get_json('/job_types').sort {|x,y| I18n.t("job.types.#{x}") <=> I18n.t("job.types.#{y}") }]
+    Hash[JSONModel::HTTP.get_json('/job_types').sort {|x,y| I18n.t("job.types.#{x}", :default => x) <=> I18n.t("job.types.#{y}", :default => y) }]
                                }, 60)
 
 
