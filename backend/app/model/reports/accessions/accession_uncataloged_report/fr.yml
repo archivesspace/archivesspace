@@ -1,0 +1,12 @@
+fr:
+  reports:
+    accession_uncataloged_report:
+      title: Collectes non cataloguées
+      description: Affiche uniquement les collecte(s) n'ayant pas été cochées comme cataloguées. Rapport contenant n° de collecte, ressources liées, intitulé, importance matérielle, catalogué, date de traitement, compte du nombre de notices sélectionnées non cochées comme cataloguées, et importance totale de ces documents non catalogués.
+      total_count: Nombre de notices passées en revue
+      uncataloged_count: Collectes non cataloguées
+      total_extent: Importance totale des collectes non cataloguées
+      identifier_prefix: Collecte
+      extent: Importance
+      date_processed: Date de traitement
+      linked_resources: Ressource(s) liée(s)

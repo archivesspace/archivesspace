@@ -1,0 +1,41 @@
+<div class="titlepage">
+  <div class="title"><%= @report.title %></div>
+
+  <dl>
+    <dt><%= t('number_of_records') %></dt>
+    <dd><%= @report.total_count %></dd>
+    <dt><%= t('number_of_cataloged') %></dt>
+    <dd><%= @report.cataloged_count %></dd>
+    <dt><%= t('total_extent') %></dt>
+    <dd><%= format_number(@report.total_extent) %></dd>
+  </dl>
+
+</div>
+
+<% @report.each do |accession| %>
+  <% next if accession.fetch('cataloged') == 0 %>
+
+  <div class="report-record">
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
+
+    <dl>
+      <% if accession.fetch('extentNumber') %>
+        <dt><%= t('extent') %></dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+      <dt><%= t('date_processed') %></dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+      <dt><%= t('cataloged') %></dt>
+      <dd>
+        <% if accession.fetch('catalogedDate').nil? || accession.fetch('catalogedDate').empty? %>
+          <%= t("cataloged_false") %>
+        <% else %>
+          <%= format_date(accession.fetch('catalogedDate')) %>
+        <% end %>
+      </dd>
+    </dl>
+
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
+  </div>
+<% end %>

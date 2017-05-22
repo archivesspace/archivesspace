@@ -1,0 +1,6 @@
+fr:
+  reports:
+    accession_names_subreport:
+      name: Nom
+      function: Fonction
+      role: Rôle

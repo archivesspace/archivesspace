@@ -1,0 +1,7 @@
+fr:
+  reports:
+    accession_deaccessions_subreport:
+      description: Description
+      extent: Importance matérielle
+      date: Date
+      notification_sent: Notification envoyée

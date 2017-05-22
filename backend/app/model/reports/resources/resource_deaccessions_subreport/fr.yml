@@ -1,0 +1,7 @@
+fr:
+  reports:
+    resource_deaccessions_subreport:
+      description: Description
+      extent: Importance
+      date: Date
+      notification_sent: Notification envoyée

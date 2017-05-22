@@ -1,0 +1,36 @@
+<div class="titlepage">
+  <div class="title"><%= h @report.title %></div>
+
+  <dl>
+    <dt><%= t('number_of_records') %></dt>
+    <dd><%= h @report.total_count %></dd>
+    <dt><%= t('processed_accessions') %></dt>
+    <dd><%= h @report.total_processed %></dd>
+    <dt><%= t('accessioned_between') %></dt>
+    <dd><%= format_date(@report.from_date) %> &amp;amp; <%= format_date(@report.to_date) %></dd>
+    <dt><%= t('total_extent_of_processed') %></dt>
+    <dd><%= format_number(@report.total_extent_of_processed) %></dd>
+  </dl>
+</div>
+
+<% @report.each do |accession| %>
+  <% next unless accession.fetch('accessionProcessed') == '1' %>
+
+  <div class="report-record">
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
+
+    <dl>
+      <dt><%= t('date_processed') %></dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+      <% if accession.fetch('extentNumber') %>
+        <dt><%= t('extent') %></dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+      <dt><%= t('cataloged') %></dt>
+      <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
+    </dl>
+
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
+  </div>
+<% end %>

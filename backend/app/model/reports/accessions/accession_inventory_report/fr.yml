@@ -1,0 +1,11 @@
+fr:
+  reports:
+    accession_inventory_report:
+      title: Collectes avec inventaires
+      description: Affiche uniquement les notices de collectes avec inventaire.  Rapport contenant n° de collecte, ressources liées, titre, importance matérielle, date de collecte, résumé des contenants, et inventaire.
+      number_of_records: Nombre de notices passées en revue
+      number_with_inventories: Collectes avec inventaires
+      identifier_prefix: Collecte
+      extent: Importance matérielle
+      inventory: Inventaire
+      linked_resources: Ressource(s) liée(s)

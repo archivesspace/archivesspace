@@ -1,0 +1,6 @@
+fr:
+  reports:
+    resource_instances_subreport:
+      top_container: Top contenant
+      container_2: Contenant 2
+      container_3: Contenant 3
