@@ -260,8 +260,11 @@ class Record
       unless agent['role'].blank? || agent['_resolved'].blank?
         role = agent['role']
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
-        if role == 'subject'
-          subjects_arr.push(ag) if ag
+        if role == 'subject' && ag
+          unless (terms = ASUtils.wrap(agent.dig('terms'))).empty?
+            ag['title'] += " &#8212; #{terms.collect{|t| t['term']}.join(' -- ')}"
+          end
+          subjects_arr.push(ag)
         elsif ag
           agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
         end
