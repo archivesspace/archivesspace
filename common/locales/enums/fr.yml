@@ -375,7 +375,7 @@
       processing_new: Traitement en cours
       processing_started: Traitement commencé
       processing_in_progress: Traitement en cours
-      processing_completed: Traitement achevé
+      processing_completed: Traité
       publication: Publication
       replication: Reproduction
       rights_transferred: Droits transférés
@@ -978,7 +978,7 @@
       fonds: Fonds
       item: Pièce
       otherlevel: Autre niveau
-      recordgrp: Groupe d'archives
+      recordgrp: Groupe de notices
       series: Série
       subfonds: Sous-fonds
       subgrp: Sous-groupe
@@ -1009,7 +1009,7 @@
       other: Autre
     date_certainty:
       approximate: Approximative
-      inferred: Inférée
+      inferred: Inferrée
       questionable: Douteuse
     extent_portion:
       whole: Tout

@@ -1,8 +1,9 @@
 require 'spec_helper'
+require_relative '../app/model/reports/repositories/repository_report/repository_report.rb'
 
 describe 'RepositoryReport model' do
   it "returns a report with repository data" do
-    
+
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                         :name => "My new test repository"))
 

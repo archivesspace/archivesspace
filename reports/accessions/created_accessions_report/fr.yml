@@ -1,6 +1,0 @@
-fr:
-  reports:
-    created_accessions_report:
-      title: Collectes créées
-      description: Rapport sur les collectes créées dans un intervalle de dates
-      full_title: Collectes créées entre %{from} et %{to}

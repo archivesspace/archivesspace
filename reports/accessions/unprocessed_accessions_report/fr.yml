@@ -1,5 +1,0 @@
-fr:
-  reports:
-    unprocessed_accessions_report:
-      title: Liste des collectes non traitées
-      description: Affiche un listing de toutes les collectes non traitées
