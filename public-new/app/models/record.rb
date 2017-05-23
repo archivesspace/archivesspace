@@ -262,7 +262,7 @@ class Record
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
         if role == 'subject' && ag
           unless (terms = ASUtils.wrap(agent.dig('terms'))).empty?
-            ag['title'] += " &#8212; #{terms.collect{|t| t['term']}.join(' -- ')}"
+            ag['title'] += " -- #{terms.collect{|t| t['term']}.join(' -- ')}"
           end
           subjects_arr.push(ag)
         elsif ag
