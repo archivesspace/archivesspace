@@ -26,7 +26,7 @@
         <% unless item['uri'].blank? %>
          <a href="<%= item['uri'] %>">
         <% end %>
-        <%= item['title'].html_safe %>
+        <%= item['title'] %>
         <% unless item['uri'].blank? %>
          </a>
         <% end %>
