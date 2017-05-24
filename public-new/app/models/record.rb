@@ -4,8 +4,8 @@ class Record
   include JsonHelper
   include RecordHelper
 
-  attr_reader :raw, :full, :json, :display_string, :container_display, :notes,
-              :dates, :external_documents, :resolved_repository,
+  attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
+              :notes, :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :linked_digital_objects
@@ -34,6 +34,7 @@ class Record
 
     @display_string = parse_full_title
     @container_display = parse_container_display
+    @container_summary_for_badge = parse_container_summary_for_badge
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
@@ -88,7 +89,12 @@ class Record
         ([json.dig('id_0'), json.dig('id_1'), json.dig('id_2'), json.dig('id_3')].select { |x| not(x.nil?) && not(x.empty?) }).join('-')
   end
 
-  def parse_container_display
+  def parse_container_summary_for_badge
+    parse_container_display(:summary => true)
+  end
+
+  def parse_container_display(opts = {})
+    summary = opts.fetch(:summary, false)
     containers = []
 
     if !json['instances'].blank? && json['instances'].kind_of?(Array)
@@ -97,11 +103,17 @@ class Record
 
         next if sub_container.nil?
 
-        containers.push(parse_sub_container_display_string(sub_container, inst))
+        containers.push(parse_sub_container_display_string(sub_container, inst, opts))
+
+        return I18n.t('multiple_containers') if summary && containers.length > 1
       end
     end
 
-    containers
+    if summary
+      containers.empty? ? nil : containers[0]
+    else
+      containers
+    end
   end
 
   def rewrite_refs(notes, base_uri)
@@ -349,7 +361,8 @@ class Record
     current_location.dig('_resolved')
   end
 
-  def parse_sub_container_display_string(sub_container, inst)
+  def parse_sub_container_display_string(sub_container, inst, opts = {})
+    summary = opts.fetch(:summary, false)
     parts = []
 
     instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
@@ -382,7 +395,7 @@ class Record
       parts << "#{type}: #{sub_container.fetch('indicator_3')}"
     end
 
-    "#{parts.join(", ")} (#{instance_type})"
+    summary ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
   end
 
   def parse_digital_object_instances
