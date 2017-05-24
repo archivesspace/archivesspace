@@ -48,9 +48,9 @@ $indent-width: 20px;
 }
 .infinite-item {
     background-color: #FFF;
-    @for $i from 1 through 12 {
+    @for $i from 2 through 12 {
         &.infinite-item-indent-#{$i} {
-            margin-left: $indent-width * $i;
+            margin-left: $indent-width * ($i - 1);
             padding-left: $indent-width;
             padding-bottom: 10px;
         }
