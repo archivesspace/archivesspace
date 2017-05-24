@@ -613,8 +613,16 @@ button.subject {          /* class subject also turns up in finding aid transfor
 .repository-logo {
   float: right;
   img {
-    max-width: 200px;
-    max-height: 60px;
+    max-width: 400px;
+    max-height: 120px;
+  }
+}
+.recordrow {
+  .repository-logo {
+    img {
+      max-width: 200px;
+      max-height: 60px;
+    }
   }
 }
 
