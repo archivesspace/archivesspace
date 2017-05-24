@@ -15,8 +15,6 @@
   </div>
   <div class="row">
     <div class="col-sm-9">
-  <!-- <%= @result.pretty_inspect.html_safe %> -->
-
       <% unless @results.blank? || @results['total_hits'] == 0 %>
         <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
         <% @results.records.each do |result| %>
