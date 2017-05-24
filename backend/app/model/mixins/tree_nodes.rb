@@ -421,12 +421,13 @@ module TreeNodes
 
     def calculate_has_unpublished_ancestor(obj, check_root_record = true)
       if check_root_record && obj.root_record_id
-        return true if root_model[obj.root_record_id].publish == 0
+        root = root_model[obj.root_record_id]
+        return true if root.publish == 0 || root.suppressed == 1
       end
 
       if obj.parent_id
         parent = node_model[obj.parent_id]
-        if parent.publish == 0
+        if parent.publish == 0 || parent.suppressed == 1
           return true
         else
           return calculate_has_unpublished_ancestor(parent, false)
