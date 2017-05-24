@@ -150,6 +150,22 @@ case "$1" in
 
         echo "ArchivesSpace started!  See $ARCHIVESSPACE_LOGS for details."
         ;;
+    status)
+        if [ -e "$PIDFILE" ]; then
+            pid=`cat $PIDFILE 2>/dev/null`
+
+            if [ "$pid" != "" ] && kill -0 $pid &>/dev/null; then
+                echo "ArchivesSpace is running as (PID: $pid)"
+                exit
+            else
+                echo "ArchivesSpace is not running"
+                exit 1
+            fi
+        else
+            echo "ArchivesSpace is not running"
+            exit 1
+        fi
+        ;;
     stop)
         pid=`cat $ASPACE_PIDFILE 2>/dev/null`
         if [ "$pid" != "" ]; then
@@ -174,7 +190,7 @@ case "$1" in
         (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee '$ARCHIVESSPACE_LOGS'")
         ;;
     *)
-        echo "Usage: $0 [start|stop|restart]"
+        echo "Usage: $0 [start|status|stop|restart]"
         exit 1
         ;;
 
