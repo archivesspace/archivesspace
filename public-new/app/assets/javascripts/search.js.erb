@@ -128,3 +128,22 @@ $(function() {
         '.recordrow .classification-subgroups button.subgroup-toggle',
         toggle_subgroups);
 });
+
+
+$(function() {
+    $('#toggleRefineSearch').on('click', function(event) {
+        event.preventDefault();
+
+        var $btn = $(this);
+        var $refine = $btn.closest('.searchstatement').find('.refinesearch');
+        if ($refine.is(':visible')) {
+            $refine.css('display', 'none');
+            $refine.attr('aria-hidden', 'true');
+            $btn.removeClass('active');
+        } else {
+            $refine.css('display', 'block');
+            $refine.attr('aria-hidden', 'false');
+            $btn.addClass('active');
+        }
+    });
+});
