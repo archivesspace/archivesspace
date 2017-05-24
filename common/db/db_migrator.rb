@@ -242,12 +242,18 @@ layer was removed in the interest of long-term maintainability and system
 performance.
 
 To upgrade your ArchivesSpace installation, you will first need to upgrade to
-version 1.5.3.  This will upgrade your containers to the new model and clear the
+version 2.0.1.  This will upgrade your containers to the new model and clear the
 path for future upgrades.  Once you have done this, you can upgrade to the
 latest ArchivesSpace version as normal.
 
-For more information on upgrading to ArchivesSpace 1.5.3, please see the upgrade
-guide (which applies to all of the 1.5.x versions of ArchivesSpace):
+For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
+guide:
+
+  https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/
+
+The upgrade guide for version 1.5.0 also contains specific instructions for
+the container upgrade that you will be performing, and the steps in this guide
+apply equally to version 2.0.1.  You can find that guide here:
 
   https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
 
