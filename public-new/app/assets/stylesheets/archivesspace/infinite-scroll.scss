@@ -41,3 +41,21 @@
         display: none;
     }
 }
+
+$indent-width: 20px;
+.infinite-record-record {
+    background-image: repeating-linear-gradient(90deg, transparent, transparent ($indent-width - 1), #EEE $indent-width);
+}
+.infinite-item {
+    background-color: #FFF;
+    @for $i from 1 through 12 {
+        &.infinite-item-indent-#{$i} {
+            margin-left: $indent-width * $i;
+            padding-left: $indent-width;
+            padding-bottom: 10px;
+        }
+    }
+    h3 {
+        margin-top: 0;
+    }
+}
