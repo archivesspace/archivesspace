@@ -1,7 +1,6 @@
 <% if !full %>
    <div class="recordrow">
 <% end %>
-<!-- <%= result.pretty_inspect.html_safe %> -->
 <%= (full ? '<h1>' : '<h3>').html_safe %>
 <% if !full %><a class="record-title" href="<%= result['uri'] %>"><% end %><%= result['name']%>
 <% if !full %></a><% end %>
