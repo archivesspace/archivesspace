@@ -53,4 +53,40 @@ describe 'Session model' do
     Session.find(s.id).should be_nil
   end
 
+  it "expires expirable sessions after :session_expire_after_seconds" do
+    short_session = Session.new
+    long_session = Session.new
+
+    short_session[:expirable] = true
+    long_session[:expirable] = false
+
+    short_session.save
+    long_session.save
+
+    allow(AppConfig).to receive(:[]).with(any_args)
+    allow(AppConfig).to receive(:[]).with(:session_expire_after_seconds) { 0 }
+
+    sleep 1
+
+    Session.expire_old_sessions
+    Session.find(short_session.id).should be_nil
+    Session.find(long_session.id).should_not be_nil
+  end
+
+  it "expires non-expirable sessions after :session_nonexpirable_force_expire_after_seconds" do
+    long_session = Session.new
+
+    long_session[:expirable] = false
+
+    long_session.save
+
+    allow(AppConfig).to receive(:[]).with(any_args)
+    allow(AppConfig).to receive(:[]).with(:session_nonexpirable_force_expire_after_seconds) { 0 }
+
+    sleep 1
+
+    Session.expire_old_sessions
+    Session.find(long_session.id).should be_nil
+  end
+
 end

@@ -114,10 +114,12 @@ class Session
 
 
   def self.expire_old_sessions
-    max_age = AppConfig[:session_expire_after_seconds] || (7 * 24 * 60 * 60)
+    max_expirable_age = AppConfig[:session_expire_after_seconds] || (7 * 24 * 60 * 60)
+    max_nonexpirable_age = AppConfig[:session_nonexpirable_force_expire_after_seconds] || (7 * 24 * 60 * 60)
 
     DB.open do |db|
-      db[:session].where {system_mtime < (Time.now - max_age)}.filter(:expirable => 1).delete
+      db[:session].where {system_mtime < (Time.now - max_expirable_age)}.filter(:expirable => 1).delete
+      db[:session].where {system_mtime < (Time.now - max_nonexpirable_age)}.filter(:expirable => 0).delete
     end
   end
 
