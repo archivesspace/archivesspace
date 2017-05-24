@@ -274,6 +274,8 @@
         waypointElts.addClass('populated');
 
         $(waypointElts).each(function (i, waypoint) {
+            console.log("Populating waypoint", $(waypoint).data('waypoint-number'));
+
             var waypointNumber = $(waypoint).data('waypoint-number');
             var waypointSize = $(waypoint).data('waypoint-size');
             var uris = $(waypoint).data('uris').split(';');
