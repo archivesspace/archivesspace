@@ -10,7 +10,6 @@ else
     badge_label = t("#{result.primary_type}._singular")
 end
 
-containers_label = nil
 %>
 
 
@@ -20,19 +19,12 @@ containers_label = nil
   <% else %>
     <%= result.display_string %>
   <% end %>
-  <%  unless result.container_display.blank?
-        if  result.container_display.size == 1 
-          containers_label = result.container_display[0]
-        else
-          containers_label = t('multiple_containers')
-        end
-      end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
 
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
-    <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if containers_label %> &mdash; <%= containers_label %><% end %>
+    <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
     <% comp_id = result.identifier %>
   <% unless comp_id.blank? %>
