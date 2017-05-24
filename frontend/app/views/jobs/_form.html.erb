@@ -134,7 +134,11 @@
     <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
     <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 
-      <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
+      <% begin %>
+        <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
+      <% rescue ActionView::MissingTemplate %>
+        <%# don't require plugins to provide a form %>
+      <% end %>
 
       <input name="<%= type %>[jsonmodel_type]" type="hidden" value="<%= type %>">
     <% end %>
