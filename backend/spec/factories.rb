@@ -575,6 +575,24 @@ FactoryGirl.define do
     base_record_uri "repositories/2/resources/1"
   end
 
+  factory :json_accession_job, class: JSONModel(:job) do
+    job { build(:json_acc_job) }
+  end
+
+  factory :json_acc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionReport'
+    format 'json'
+  end
+
+  factory :json_agent_job, class: JSONModel(:job) do
+    job { build(:json_agt_job) }
+  end
+
+  factory :json_agt_job, class: JSONModel(:report_job) do
+    report_type 'AgentListReport'
+    format 'json'
+  end
+
   factory :json_preference, class: JSONModel(:preference) do
     defaults { build(:json_defaults) }
   end
