@@ -7,7 +7,27 @@
   <% end %>
 
   <% unless defined?(@no_statement) %>
-  <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
+    <div class="searchstatement">
+      <div class="btn btn-group pull-right">
+        <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-default" %>
+        <button class="btn btn-sm btn-default" id="toggleRefineSearch"><%= I18n.t('actions.refine_search') %></button>
+      </div>
+
+      <%= @search[:search_statement].html_safe %>
+
+      <div class="container refinesearch" aria-hidden="true" style="display:none;">
+        <%= render partial: 'shared/search', locals: {:search_url => @base_search,
+                                                      :title => t('archive._plural'),
+                                                      :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],
+                                                                         [t('search-limit', :limit => t('search-limits.resources')),'resource'],
+                                                                         [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],
+                                                      :field_options => [["#{t('search_results.filter.fullrecord')}",''],
+                                                                         ["#{t('search_results.filter.title')}",'title'],
+                                                                         ["#{t('search_results.filter.creators')}",'creators_text'],
+                                                                         ["#{t('search_results.filter.notes')}", 'notes'] ],
+                                                      :show_header => false } %>
+      </div>
+    </div>
   <% end %>
 
   <h2><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
