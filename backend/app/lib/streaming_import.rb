@@ -190,8 +190,9 @@ class StreamingImport
 
       if rec['position']
         pos = rec['position']
-
-        set_key = (rec['parent'] || rec['resource'] || rec['digital_object'])['ref']
+        set_key = (
+          rec['parent'] || rec['resource'] || rec['digital_object'] || rec['classification']
+        )['ref']
         position_maps[set_key] ||= []
         position_maps[set_key][pos] ||= []
         position_maps[set_key][pos] << rec['uri']
