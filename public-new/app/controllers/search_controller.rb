@@ -13,7 +13,8 @@ class SearchController < ApplicationController
     @repo_id = params.fetch(:rid, nil)
     repo_url = "/repositories/#{@repo_id}"
     @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
-    fallback_location = @repo_id ? repo_url : '/';
+    fallback_location = @repo_id ? repo_url : root_path;
+    @new_search = fallback_location
 
       search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
@@ -22,7 +23,7 @@ class SearchController < ApplicationController
 #NOTE the redirect back here on error!
     rescue Exception => error
       flash[:error] = error
-      redirect_back(fallback_location: '/' ) and return
+      redirect_back(fallback_location: root_path ) and return
     end
     page = Integer(params.fetch(:page, "1"))
     Rails.logger.debug("base search: #{@base_search}")

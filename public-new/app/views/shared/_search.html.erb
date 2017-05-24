@@ -1,5 +1,10 @@
+<%
+  show_header = true if show_header.nil?
+%>
 <div class="search" role="search">
+  <% if show_header %>
   <h3><%=  t('actions.search') %>  <%= title %> </h3>
+  <% end %>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag("#{search_url}", method: 'get', :id => 'advanced_search') do %>
   <% (0...[1, @search.q.length].max).each do |i| %>
