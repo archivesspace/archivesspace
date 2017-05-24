@@ -6,3 +6,4 @@
 //= require clipboard
 //= require resizable_sidebar
 //= require_tree .
+//= require more_facets

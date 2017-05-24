@@ -1,11 +1,34 @@
 <% unless @facets.blank? %>
 <h4><%= t('search_results.filter.add')%>: </h4>
 <dl id="facets">
-  <%  @facets.each do |type, h| %>
+
+  <% ordered_facet_types = %w(repository primary_type agents subjects) %>
+
+  <% ordered_facet_types.each do |type| %>
+    <% h = @facets.fetch(type, false) %>
+    <% next unless h %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
+    <% facet_count = 0 %>
     <% h.each do |v, ct| %>
-      <dd><a href='<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>' title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a><span class="recordnumber"><%= ct %></span></dd>
+      <% if facet_count == 5 %>
+        <div class="more-facets">
+          <span class="more btn">&or; <%= t('search_results.more_facets') %></span>
+          <div class="below-the-fold">
+      <% end %>
+      <% facet_count += 1 %>
+      <dd>
+        <a href="<%= "#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}" %>"
+           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'">
+          <%= get_pretty_facet_value(type,v) %>
+        </a>
+        <span class="recordnumber"><%= ct %></span>
+      </dd>
     <% end %>
+    <% if facet_count > 5 %>
+        <span class="less btn">&and; <%= t('search_results.fewer_facets') %></span>
+      </div>
+    <% end %>
+    <span class="type-spacer">&nbsp;</span>
   <% end %>
 </dl>
 <% end %>

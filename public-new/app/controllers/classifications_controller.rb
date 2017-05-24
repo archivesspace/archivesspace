@@ -40,7 +40,7 @@ class ClassificationsController <  ApplicationController
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
     end
