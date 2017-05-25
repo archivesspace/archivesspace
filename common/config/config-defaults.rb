@@ -12,7 +12,7 @@
 
 # Set your database name and credentials here.  Example:
 #
-AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+#  AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
 #
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 
@@ -183,7 +183,11 @@ AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
 AppConfig[:frontend_theme] = "default"
 AppConfig[:public_theme] = "default"
 
+# Sessions marked as expirable will timeout after this number of seconds of inactivity
 AppConfig[:session_expire_after_seconds] = 3600
+
+# Sessions marked as non-expirable will eventually expire too, but after a longer period.
+AppConfig[:session_nonexpirable_force_expire_after_seconds] = 604800
 
 AppConfig[:search_username] = "search_indexer"
 
@@ -258,12 +262,12 @@ AppConfig[:max_location_range] = 1000
 # ASpace backend will not start if the db's schema_info version is not set
 # correctly for this version of ASPACE. This is to ensure that all the
 # migrations have run and completed before starting the app. You can override
-# this check here. Do so at your own peril.
+# this check here. Do so at your own peril. 
 AppConfig[:ignore_schema_info_check] = false
 
 # This is a URL that points to some demo data that can be used for testing,
 # teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
-AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip"
+AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip" 
 
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
@@ -272,9 +276,9 @@ AppConfig[:show_external_ids] = false
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
-# you're using that
-AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024
-AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
+# you're using that 
+AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024 
+AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024 
 
 # Define the fields for a record type that are inherited from ancestors
 # if they don't have a value in the record itself.
@@ -429,7 +433,7 @@ AppConfig[:pui_page_actions_print] = true
 # Add page actions via the configuration
 AppConfig[:pui_page_custom_actions] = []
 # Examples:
-# Javascript action example:
+# Javascript action example: 
 # AppConfig[:pui_page_custom_actions] << {
 #   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
 #   'label' => 'actions.do_something', # the I18n path for the action button
@@ -473,7 +477,7 @@ AppConfig[:pui_email_enabled] = false
 # 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
 #AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
 
-# Example sendmail configuration:
+# Example sendmail configuration: 
 # AppConfig[:pui_email_delivery_method] = :sendmail
 # AppConfig[:pui_email_sendmail_settings] = {
 #   location: '/usr/sbin/sendmail',

@@ -816,7 +816,7 @@
 
 
   <!-- Coverage -->
-  <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
+  <target name="backend:coverage" depends="set-classpath, clean-coverage, backend:test" description="Generate coverage reports for the backend">
   </target>
 
 
@@ -938,27 +938,5 @@
 
   <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
   </target>
-
-  <!-- Reports tests -->
-  <target name="reports:test" depends="set-classpath" description="Run the unit test suite for reports">
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
-          failonerror="true"
-          dir="../reports">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-
-      <!-- NOTE: We explicitly add '.' to the load path here because
-           we're running from common/ and JRuby 9k refuses to load
-           `config/config-distribution` because it won't load anything
-           from the current directory on principle (even when that current
-           directory is on the classpath!).  Explicitly setting the load
-           path fixes this test. -->
-      <arg line="--debug -I. ../build/gems/bin/rspec -P '*_spec.rb' --order rand:1 spec" />
-    </java>
-  </target>
-
 
 </project>

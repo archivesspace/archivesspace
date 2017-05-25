@@ -1,8 +1,5 @@
 require 'spec_helper'
 
-require_relative '../app/model/reports/abstract_report.rb'
-require_relative '../app/model/reports/accessions/created_accessions_report/created_accessions_report.rb'
-
 describe CreatedAccessionsReport do
   let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                       :name => "My new test repository")) }

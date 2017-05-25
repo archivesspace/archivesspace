@@ -1,8 +1,5 @@
 require 'spec_helper'
 
-require_relative '../app/model/reports/abstract_report.rb'
-require_relative '../app/model/reports/accessions/accession_receipt_report/accession_receipt_report.rb'
-
 describe AccessionReceiptReport do
   let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                       :name => "My new test repository")) }
@@ -22,30 +19,11 @@ describe AccessionReceiptReport do
     expect(report.query.first).to have_key(:accessionDate)
     expect(report.query.first).to have_key(:extentNumber)
     expect(report.query.first).to have_key(:extentType)
-    expect(report.query.first).to have_key(:generalNote)
     expect(report.query.first).to have_key(:containerSummary)
-    expect(report.query.first).to have_key(:dateExpression)
-    expect(report.query.first).to have_key(:dateBegin)
-    expect(report.query.first).to have_key(:dateEnd)
-    expect(report.query.first).to have_key(:bulkDateBegin)
-    expect(report.query.first).to have_key(:bulkDateEnd)
-    expect(report.query.first).to have_key(:acquisitionType)
-    expect(report.query.first).to have_key(:retentionRule)
-    expect(report.query.first).to have_key(:descriptionNote)
-    expect(report.query.first).to have_key(:conditionNote)
-    expect(report.query.first).to have_key(:inventory)
-    expect(report.query.first).to have_key(:dispositionNote)
-    expect(report.query.first).to have_key(:restrictionsApply)
-    expect(report.query.first).to have_key(:accessRestrictions)
-    expect(report.query.first).to have_key(:accessRestrictionsNote)
-    expect(report.query.first).to have_key(:useRestrictions)
-    expect(report.query.first).to have_key(:useRestrictionsNote)
-    expect(report.query.first).to have_key(:rightsTransferred)
-    expect(report.query.first).to have_key(:rightsTransferredNote)
-    expect(report.query.first).to have_key(:acknowledgementSent)
+    expect(report.query.first).to have_key(:repositoryName)
   end
   it 'has the correct template name' do
-    expect(report.template).to eq('accession_report.erb')
+    expect(report.template).to eq('accession_receipt_report.erb')
   end
   xit 'returns the correct number of values' do
   end
