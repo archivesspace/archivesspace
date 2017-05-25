@@ -103,7 +103,7 @@ class AgentsController <  ApplicationController
   private
   def fetch_agent_results(title, uri, params)
     @results = []
-    qry = "agents:\"#{title}\""
+    qry = "agents:\"#{title}\" AND types:pui"
     @base_search = "#{uri}?"
     set_up_search(DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES, DEFAULT_AG_SEARCH_OPTS, params,qry)
   # we do this to compensate for the way @base_search gets munged in the setup
