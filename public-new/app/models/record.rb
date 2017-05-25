@@ -228,8 +228,7 @@ class Record
 
     ASUtils.wrap(json['subjects']).each do |subject|
       unless subject['_resolved'].blank?
-        sub = title_and_uri(subject['_resolved'], subject['_inherited'])
-        return_arr.push(sub) if sub
+        return_arr.push(subject['_resolved'])
       end
     end
 
@@ -273,10 +272,7 @@ class Record
         role = agent['role']
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
         if role == 'subject' && ag
-          unless (terms = ASUtils.wrap(agent.dig('terms'))).empty?
-            ag['title'] += " -- #{terms.collect{|t| t['term']}.join(' -- ')}"
-          end
-          subjects_arr.push(ag)
+          subjects_arr.push(agent['_resolved'].merge('_relator' => agent['relator'], '_terms' => agent['terms']))
         elsif ag
           agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
         end
