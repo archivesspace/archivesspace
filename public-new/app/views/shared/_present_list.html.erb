@@ -22,6 +22,13 @@
   <ul class="<%= list_clss %>">
     <% list.each do |item| %>
      <li>
+       <% if list_clss == 'subjects_list' && item['jsonmodel_type'].start_with?('agent_') %>
+         <a href="<%= item['uri'] %>">
+           <%= item['title'] %>
+         </a>
+         (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}")  %>)
+         <%= item['_terms'].map{|t| " -- #{t['term']}"}.join %>
+       <% else %>
        <% if item.kind_of? Hash %>
         <% unless item['uri'].blank? %>
          <a href="<%= item['uri'] %>">
@@ -32,6 +39,7 @@
         <% end %>
        <% else %>
          <%= item %>
+       <% end %>
        <% end %>
      </li>
     <% end %>
