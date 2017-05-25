@@ -593,6 +593,42 @@ FactoryGirl.define do
     format 'json'
   end
 
+  factory :json_dig_obj_file_job, class: JSONModel(:job) do
+    job { build(:json_do_file_job) }
+  end
+
+  factory :json_do_file_job, class: JSONModel(:report_job) do
+    report_type 'DigitalObjectFileVersionsReport'
+    format 'json'
+  end
+
+  factory :json_location_job, class: JSONModel(:job) do
+    job { build(:json_loc_job) }
+  end
+
+  factory :json_loc_job, class: JSONModel(:report_job) do
+    report_type 'LocationReport'
+    format 'json'
+  end
+
+  factory :json_resource_deacc_job, class: JSONModel(:job) do
+    job { build(:json_res_deacc_job) }
+  end
+
+  factory :json_res_deacc_job, class: JSONModel(:report_job) do
+    report_type 'ResourceDeaccessionsListReport'
+    format 'json'
+  end
+
+  factory :json_subject_list_job, class: JSONModel(:job) do
+    job { build(:json_sub_list_job) }
+  end
+
+  factory :json_sub_list_job, class: JSONModel(:report_job) do
+    report_type 'SubjectListReport'
+    format 'json'
+  end
+
   factory :json_preference, class: JSONModel(:preference) do
     defaults { build(:json_defaults) }
   end
