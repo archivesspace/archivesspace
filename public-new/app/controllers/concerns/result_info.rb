@@ -92,9 +92,8 @@ module ResultInfo
     agents_arr.each do |agent|
       unless agent['role'].blank? || agent['_resolved'].blank? 
         role = agent['role']
-        ag = title_and_uri(agent['_resolved'], agent['_inherited'])
         if role == 'subject'
-         subjects_arr.push(ag) if ag 
+          subjects_arr.push(agent['_resolved'])
         elsif ag
           agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
         end
@@ -187,24 +186,11 @@ module ResultInfo
     return_arr = []
     subjects_arr.each do |subject|
       unless subject['_resolved'].blank?
-        sub = title_and_uri(subject['_resolved'], subject['_inherited'])
-        return_arr.push(sub) if sub
+        return_arr.push(subject['_resolved'])
       end
     end
     return_arr
   end
-
-# return a title/uri hash if publish == true
-  def title_and_uri(in_h, inh_struct = nil)
-    ret_val = nil
-    if in_h['publish']
-      ret_val = in_h.slice('uri', 'title')
-      ret_val['inherit'] = inheritance(inh_struct)
-      Rails.logger.debug(ret_val)
-    end
-    ret_val
-  end
-
 
 # look for a representative instance
   def get_rep_image(instances)
