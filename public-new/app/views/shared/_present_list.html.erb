@@ -26,7 +26,9 @@
          <a href="<%= item['uri'] %>">
            <%= item['title'] %>
          </a>
-         (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}")  %>)
+         <% if item['_relator'] %>
+           (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}", :default => item['_relator'])  %>)
+         <% end %>
          <%= item['_terms'].map{|t| " -- #{t['term']}"}.join %>
        <% else %>
        <% if item.kind_of? Hash %>
