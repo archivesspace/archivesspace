@@ -197,7 +197,8 @@ describe 'Managed Container model' do
           'ref' => grandparent.uri,
           'identifier' => grandparent.component_id,
           'display_string' => grandparent.display_string,
-          'level_display_string' => 'Series'
+          'level_display_string' => 'Series',
+          'publish' => false
         })
       end
 
