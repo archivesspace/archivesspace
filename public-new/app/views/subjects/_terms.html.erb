@@ -1,0 +1,6 @@
+<dl>
+  <% terms.each do |term|  %>
+    <dt><%= t("enumerations.subject_term_type.#{term['term_type']}") %></dt>
+    <dd><%= term['term'] %></dd>
+  <% end %>
+</dl>
