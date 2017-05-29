@@ -2,7 +2,20 @@
 <h4><%= t('search_results.filter.add')%>: </h4>
 <dl id="facets">
 
-  <% ordered_facet_types = %w(repository primary_type agents subjects) %>
+  <%
+    preferred_facet_order = %w(repository primary_type agents subjects)
+    ordered_facet_types = @facets.keys.sort{|a,b|
+      if preferred_facet_order.include?(a) && preferred_facet_order.include?(b)
+        preferred_facet_order.index(a) <=> preferred_facet_order.index(b)
+      elsif preferred_facet_order.include?(a)
+        -1
+      elsif preferred_facet_order.include?(b)
+        1
+      else
+        0
+      end
+    }
+  %>
 
   <% ordered_facet_types.each do |type| %>
     <% h = @facets.fetch(type, false) %>
