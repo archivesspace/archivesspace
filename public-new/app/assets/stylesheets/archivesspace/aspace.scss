@@ -743,6 +743,14 @@ span.head {
 	    margin-top: rem-calc(20);
 }
 
+#sidebar .acc_button {
+  display: none;
+}
+
+#sidebar .present_list {
+  padding-left: 10px
+}
+
 .sorter {
 	margin-top: 20px;  
 }
