@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'bundler'
 Bundler.require
 
@@ -183,7 +186,7 @@ RSpec.configure do |config|
   config.include SpecHelperMethods
   config.include JSONModel
 
-  
+
   config.expect_with(:rspec) do |c|
     c.syntax = [:should, :expect]
   end

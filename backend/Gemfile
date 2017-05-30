@@ -33,6 +33,7 @@ group :test do
   gem "rspec-core"
   gem "ladle", "0.2.0"
   gem "simplecov", "0.7.1"
+  gem 'coveralls'
 end
 
 gem "net-http-persistent", "2.8"
