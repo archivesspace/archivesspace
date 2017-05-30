@@ -48,13 +48,12 @@ branches:
 script:
 - build/run $TASK $TASK_OPTS
 notifications:
-  irc: irc.freenode.org#archivesspace
   email: false
 bundler_args: --retry 5
 addons:
   artifacts:
     debug: true
-    bucket: astravisartifacts 
+    bucket: astravisartifacts
     paths:
     - $( ls /var/tmp/*.png | tr "\n" ":" )
     - $( ls /tmp/*.png | tr "\n" ":" )
