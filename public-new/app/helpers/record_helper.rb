@@ -29,6 +29,8 @@ module RecordHelper
       Subject
     when 'top_container'
       Container
+    when 'agent_person'
+      AgentPerson
     else
       Record
     end
