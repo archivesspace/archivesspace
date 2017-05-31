@@ -58,4 +58,19 @@ $indent-width: 20px;
     h3 {
         margin-top: 0;
     }
+
+    dl.dl-horizontal {
+        margin-top: 5px;
+
+        dt {
+            text-align: left;
+            padding-left: 3px;
+            white-space: normal;
+            margin-bottom: 5px;
+            line-height: 1.2em;
+        }
+        dd {
+            line-height: 1.2em;
+        }
+    }
 }
