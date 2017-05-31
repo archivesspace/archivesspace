@@ -498,3 +498,5 @@ AppConfig[:pui_email_enabled] = false
 #}
 #AppConfig[:pui_email_perform_deliveries] = true
 #AppConfig[:pui_email_raise_delivery_errors] = true
+AppConfig[:public_new_url] = "http://localhost:8082"
+AppConfig[:enable_public_new] = true

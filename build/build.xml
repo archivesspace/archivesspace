@@ -15,6 +15,7 @@
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
   <property name="aspace.public.port" value="3001" />
+  <property name="aspace.public-new.port" value="3002" />
   <property name="aspace.solr.port" value="2999" />
   <property name="aspace.data_directory" value="${basedir}/../build" />
 
@@ -100,9 +101,6 @@
 
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -120,7 +118,8 @@
     <antcall target="bundler"><param name="gemfile" value="../frontend/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../${public-dir}/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../public-new/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium-public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
   </target>
@@ -661,9 +660,6 @@
           description="Bundle everything up into a zip file">
     <delete failonerror="false" dir="target" />
 
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
 
     <mkdir dir="target/archivesspace/config" />
     <mkdir dir="target/archivesspace/data" />
@@ -720,7 +716,8 @@
     <copy file="solr.war" todir="target/archivesspace/wars" />
     <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
-    <copy file="../${public-dir}/${public-dir}.war" tofile="target/archivesspace/wars/public.war" />
+    <copy file="../public/public.war" tofile="target/archivesspace/wars/public.war" />
+    <copy file="../public-new/public-new.war" tofile="target/archivesspace/wars/public-new.war" />
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
 
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
@@ -807,7 +804,10 @@
     <antcall target="bootstrap"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+    <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" />
+        <param name="publicdir" value="public" /></antcall>
+    <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" />
+        <param name="publicdir" value="public-new" /></antcall>
     <antcall target="solr:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="indexer:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="build-zip"><param name="excluded-gem-groups" value="test development doc" /></antcall>
@@ -844,13 +844,17 @@
 
   <!-- Public Interface -->
   <target name="public:clean" description="Delete the Rails tmp directory">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
-    <delete dir="../${public-dir}/tmp" />
-    <delete dir="../${public-dir}/public/assets" />
-    <mkdir dir="../${public-dir}/public/assets" />
-    <mkdir dir="../${public-dir}/public/assets/00-do-not-put-things-here" />
+    <delete dir="../public/tmp" />
+    <delete dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets/00-do-not-put-things-here" />
+  </target>
+
+  <target name="public-new:clean" description="Delete the Rails tmp directory">
+    <delete dir="../public-new/tmp" />
+    <delete dir="../public-new/public/assets" />
+    <mkdir dir="../public-new/public/assets" />
+    <mkdir dir="../public-new/public/assets/00-do-not-put-things-here" />
   </target>
 
 
@@ -881,36 +885,45 @@
   </target>
 
 
-  <target name="public:devserver" depends="set-classpath, public:clean, public:copy-shared-resources" description="Start an instance of the ArchivesSpacePublic development server">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
+
+  <target name="public:devserver" depends="set-classpath, public:clean" >
+      <antcall target="public:-devserver" />
+  </target>
+
+  <target name="public-new:devserver" depends="set-classpath, public-new:clean" >
+      <antcall target="public:-devserver" >
+          <param name="publicdir" value="public-new" />
+          <param name="public_port" value="${aspace.public-new.port}" /></antcall>
+  </target>
+
+  <target name="public:-devserver" depends="set-classpath, public:copy-shared-resources" description="Start an instance of the ArchivesSpacePublic development server">
+    <property name="publicdir" value="public" />
+    <property name="public_port" value="${aspace.public.port}" />
     <condition property="rails-bin" value="bin" else="script">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
+      <equals arg1="${publicdir}" arg2="public-new" />
     </condition>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="../${public-dir}">
+          dir="../${publicdir}">
       <jvmarg line="-Daspace.service=public -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="${rails-bin}/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="${rails-bin}/rails s mizuno -b 0.0.0.0 --port=${public_port}" />
     </java>
   </target>
 
 
   <target name="public:war" depends="set-classpath, public:clean, public:copy-shared-resources" description="Deploy the public application as a .war file">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
-   <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
+      <property name="publicdir" value="" />
+
+   <echo message="Precompiling Rails assets for Public ${publicdir} (this can take a little while...)" />
 
     <delete dir="../public/tmp" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
-          dir="../${public-dir}">
+          dir="../${publicdir}">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
       <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
@@ -921,7 +934,7 @@
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
-          dir="../${public-dir}">
+          dir="../${publicdir}">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
