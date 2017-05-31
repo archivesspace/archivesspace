@@ -12,13 +12,13 @@ class ResourcesController <  ApplicationController
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
   
   DEFAULT_RES_INDEX_OPTS = {
-    'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'sort' => 'title_sort asc',
     'facet.mincount' => 1
   }
 
   DEFAULT_RES_SEARCH_OPTS = {
-    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'ancestors:id@compact_resource'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1
   }
 
@@ -181,7 +181,10 @@ class ResourcesController <  ApplicationController
   end
 
   def waypoints
-    results = archivesspace.search_records(params[:urls], {}, true)
+    search_opts = {
+      'resolve[]' => ['top_container_uri_u_sstr:id']
+    }
+    results = archivesspace.search_records(params[:urls], search_opts, true)
 
     render :json => Hash[results.records.map {|record|
                            @result = record
