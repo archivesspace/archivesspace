@@ -11,39 +11,56 @@
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
   <% end %>
 
-  <% accessrestrict_note = @result.note('accessrestrict') %>
-  <% if accessrestrict_note %>
-    <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => false} %>
-  <% end %>
+  <dl class="dl-horizontal">
 
-  <% unless @result.dates.blank? %>
-    <h4><%= t('resource._public.dates') %></h4>
-    <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
-  <% end %>
-
-  <% unless @result.extents.blank? %>
-    <h4><%= t('resource._public.extent') %></h4>
-    <% @result.extents.each do |ext| %>
-      <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
-        <%= ext['display']%>
-      </p>
+    <% accessrestrict_note = @result.note('accessrestrict') %>
+    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? %>
+      <dt><%= accessrestrict_note['label'] %></dt>
+      <dd>
+        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
+      </dd>
     <% end %>
-  <% end %>
 
-  <% unless @result.agents.blank? %>
-    <h4><%= t('pui_agent.related') %></h4>
-    <%= render partial: 'shared/present_list', locals: {:list => @result.agents, :list_clss => 'agents_list'} %>
-  <% end %>
-
-  <% if @result['language'] %>
-    <dl class="dl-horizontal">
-      <dt><%= t('resource._public.finding_aid.language')%></dt>
-      <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
-    </dl>
-  <% else %>
-    <% langmaterial_note = @result.note('langmaterial') %>
-    <% if langmaterial_note %>
-      <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+    <% unless @result.dates.blank? %>
+        <dt><%= t('resource._public.dates') %></dt>
+        <% @result.dates.each do |date| %>
+        <dd>
+          <%= inheritance(date['_inherited']).html_safe %>
+          <%= date['final_expression'] %>
+        </dd>
+        <% end %>
     <% end %>
-  <% end %>
+
+    <% unless @result.extents.blank? %>
+        <dt><%= t('resource._public.extent') %></dt>
+        <% @result.extents.each do |extent| %>
+          <dd>
+            <%= inheritance(extent['_inherited']).html_safe %>
+            <%= extent['display']%>
+          </dd>
+        <% end %>
+    <% end %>
+
+    <% unless @result.agents.blank? %>
+      <dt><%= t('pui_agent.related') %></dt>
+        <% @result.agents.collect(&:last).flatten.each do |agent| %>
+          <dd>
+            <%= link_to agent.fetch('title'), agent.fetch('uri') %>
+          </dd>
+        <% end %>
+    <% end %>
+
+    <% if @result['language'] %>
+        <dt><%= t('resource._public.finding_aid.language')%></dt>
+        <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
+    <% else %>
+      <% langmaterial_note = @result.note('langmaterial') %>
+      <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
+        <dt><%= t('resource._public.finding_aid.language')%></dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+        </dd>
+      <% end %>
+    <% end %>
+  </dl>
 </div>
