@@ -364,6 +364,7 @@ en:
         author: Author
         date:  Date
         description_rules: Description rules
+        identifier: Identifier
         language: Language of description
         sponsor: Sponsor
         edition_statement: Edition statement

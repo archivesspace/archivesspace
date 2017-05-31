@@ -29,6 +29,10 @@
             <% end %>
 
             <dl>
+                <% unless record.component_id.empty? %>
+                    <dt><%= I18n.t('resource._public.finding_aid.identifier') %></dt><dd><%= record.component_id %></dd>
+                <% end %>
+
                 <% record.dates.each do |date| %>
                     <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
                 <% end %>
