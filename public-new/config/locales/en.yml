@@ -271,7 +271,7 @@ en:
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: ": %{deets}"
-  extent_dims: ": %{dimensions}"
+  extent_dims: " ; %{dimensions}"
 
   external_docs: External Documents
   more_about: More about
