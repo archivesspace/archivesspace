@@ -227,6 +227,7 @@ def stop
   if AppConfig[:use_jetty_shutdown_handler]
     stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
     stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
+    stop_server(URI(AppConfig[:public_new_url])) if AppConfig[:enable_public_new]
     stop_server(URI(AppConfig[:docs_url])) if AppConfig[:enable_docs]
     stop_server(URI(AppConfig[:indexer_url])) if AppConfig[:enable_indexer]
     stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_solr]
