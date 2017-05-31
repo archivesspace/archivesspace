@@ -65,7 +65,7 @@ class FindingAidPDF
 
     page_size = 50
     @ordered_records.entries.each_slice(page_size) do |entry_set|
-      uri_set = entry_set.map(&:uri)
+      uri_set = entry_set.map(&:uri).map {|s| s + "#pui"}
       record_set = archivesspace.search_records(uri_set, {}, true).records
 
       record_set.zip(entry_set).each do |record, entry|
