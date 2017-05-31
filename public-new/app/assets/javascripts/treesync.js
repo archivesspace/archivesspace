@@ -23,8 +23,18 @@
     };
 
     TreeSync.prototype.ready = function() {
-        this.setupHashChange();
-        this.scroller.registerScrollCallback($.proxy(this.handleScroll, this));
+        var self = this;
+
+        self.setupHashChange();
+        self.scroller.registerScrollCallback($.proxy(self.handleScroll, this));
+
+        // Sync the tree
+        var tree_id = self.tree_id_from_hash();
+        if (tree_id != null) {
+            self.tree.setCurrentNode(tree_id, function () {
+                self.tree.elt.scrollTo('#' + tree_id, 0, {offset: -50});
+            });
+        }
     };
 
     TreeSync.prototype.setupHashChange = function() {
