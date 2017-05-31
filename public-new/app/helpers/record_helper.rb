@@ -29,6 +29,12 @@ module RecordHelper
       Subject
     when 'top_container'
       Container
+    when 'agent_person'
+      AgentPerson
+    when 'agent_family'
+      AgentFamily
+    when 'agent_corporate_entity'
+      AgentCorporateEntity
     else
       Record
     end

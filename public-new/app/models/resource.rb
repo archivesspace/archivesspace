@@ -36,7 +36,7 @@ class Resource < Record
 
   def metadata
     md = {
-      '@context' => "http://schema.org/",
+      '@context' => ["http://schema.org/", {'library' => 'http://purl.org/library/'}],
       '@type' => ['schema:CreativeWorkSeries', 'library:ArchiveMaterial'],
       'name' => display_string,
       'url' => AppConfig[:public_url] + uri,
