@@ -26,9 +26,10 @@ class SubjectsController <  ApplicationController
     search_opts = default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
     search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
+    default_facets = repo_id ? [] : ['used_within_published_repository']
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],['used_within_published_repository'],search_opts, params)
+      set_up_and_run_search(['subject'],default_facets,search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
