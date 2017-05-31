@@ -80,6 +80,7 @@ module JsonHelper
       end
     end
     note_struct['note_text'] = inherit + note_text
+    note_struct['is_inherited'] = note.has_key?('_inherited')
     note_struct
   end
   

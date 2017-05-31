@@ -12,6 +12,10 @@ class ArchivalObject < Record
     resolved_resource && resolved_resource['uri']
   end
 
+  def instances
+    json['instances']
+  end
+
   def finding_aid
     # as this shares the same template as resources,
     # be clear that this object doesn't have a finding aid
