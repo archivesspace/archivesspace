@@ -12,6 +12,10 @@ class ArchivalObject < Record
     resolved_resource && resolved_resource['uri']
   end
 
+  def component_id
+    json.fetch('component_id', '')
+  end
+
   def instances
     json['instances']
   end
