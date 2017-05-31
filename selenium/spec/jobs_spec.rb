@@ -79,7 +79,7 @@ describe "Jobs" do
       @driver.find_element_with_text("//h2", /print_to_pdf_job/)
     }.to_not raise_error
   end
-  
+
   it "can create a report job" do
     run_index_round
 
@@ -91,7 +91,7 @@ describe "Jobs" do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Reports')
 
-    @driver.find_element(:xpath => "//button[@data-report = 'repository_report']").click
+    @driver.find_element(:xpath => "//button[@data-report = 'accession_report']").click
 
     # wait for the slow fade to finish and all sibling items to be removed
     sleep(2)
@@ -100,7 +100,7 @@ describe "Jobs" do
     expect(job_type).to eq('report_job')
 
     report_type = @driver.execute_script("return $('#report_type_').val()")
-    expect(report_type).to eq('repository_report')
+    expect(report_type).to eq('accession_report')
 
     @driver.find_element(:id => "report_job_format").select_option("csv")
     @driver.click_and_wait_until_element_gone(@driver.find_element_with_text("//button", /Queue Job/))
