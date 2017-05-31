@@ -599,6 +599,11 @@ button.subject {          /* class subject also turns up in finding aid transfor
   color: #999;
   font-style: italic;
 }
+.subnote {
+  border: 1px solid $light-neutral; 
+  margin-top: 10px;
+  padding-left: 5px;
+}
 .recordrow {
   .classification-subgroups {
     margin-top: 5px;

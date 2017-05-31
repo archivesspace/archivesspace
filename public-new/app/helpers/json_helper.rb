@@ -66,13 +66,13 @@ module JsonHelper
     if note['publish'] || defined?(AppConfig[:pui_ignore_false])  # temporary switch due to ingest issues
       label = note.has_key?('label') ? note['label'] :  I18n.t("enumerations._note_types.#{type}", :default => '')
       note_struct['label'] = label
-#      note_text = "#{note_text} <span class='inline-label'>#{label}:</span>" if !label.blank?
       inherit = inheritance(note['_inherited'])
-#binding.pry
       if note['jsonmodel_type'] == 'note_multipart' || !note['subnotes'].blank?
         notes = []
+        note_struct['subnotes'] = []
         note['subnotes'].each do |sub|
           notes.push(handle_single_note(sub, note_text))
+          note_struct['subnotes'].push(sub.merge({'_text' => notes.last}))
         end
         note_text = notes.join("<br/>")
       else
