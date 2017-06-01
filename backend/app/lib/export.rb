@@ -79,7 +79,7 @@ module ExportHelpers
 
 
   def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags)
-    resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container']
+    resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container', 'top_container::container_profile']
 
     resource = Resource.get_or_die(id)
 
