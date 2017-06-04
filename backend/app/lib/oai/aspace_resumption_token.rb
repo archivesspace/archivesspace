@@ -84,8 +84,10 @@ class ArchivesSpaceResumptionToken
   end
 
   def to_xml
+    issue_time = (Time.now.to_f * 1000).to_i
+
     xml = Builder::XmlMarkup.new
-    xml.resumptionToken(Base64::urlsafe_encode64(@options.to_json))
+    xml.resumptionToken(Base64::urlsafe_encode64(@options.merge('issue_time' => issue_time).to_json))
 
     xml.target!
   end
