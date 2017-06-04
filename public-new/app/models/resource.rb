@@ -90,7 +90,7 @@ class Resource < Record
 
     md['inLanguage'] = {
       '@type' => 'Language',
-      'name' => I18n.t('enumerations.language_iso639_2.' + raw['language'], :default => raw['language'])
+      'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
     }
 
     md['provider'] = {
