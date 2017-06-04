@@ -25,14 +25,16 @@ class ArchivesSpaceOAIRecord
         record << chunk
       end
 
-      result = record.join("")
+      remove_xml_declaration(record.join(""))
+    end
+  end
 
-      if result.start_with?('<?xml ')
-        # Discard the declaration
-        result[result.index("?>") + 2..-1]
-      else
-        result
-      end
+  def to_oai_marc
+    raise "Only Archival Object records can be returned as MARC" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+
+    RequestContext.open(:repo_id => @sequel_record.repo_id) do
+      marc = ASpaceExport.model(:marc21).from_archival_object(@jsonmodel_record)
+      remove_xml_declaration(ASpaceExport::serialize(marc))
     end
   end
 
@@ -50,6 +52,17 @@ class ArchivesSpaceOAIRecord
 
   def updated_at
     @sequel_record.system_mtime
+  end
+
+  private
+
+  def remove_xml_declaration(s)
+    if s.start_with?('<?xml ')
+      # Discard the declaration
+      s[s.index("?>") + 2..-1]
+    else
+      s
+    end
   end
 
 end

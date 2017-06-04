@@ -12,6 +12,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   AVAILABLE_RECORD_TYPES = {
     'oai_dc' => FormatOptions.new([ArchivalObject], 25),
     'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
+    'oai_marc' => FormatOptions.new([ArchivalObject], 25),
     'oai_ead' => FormatOptions.new([Resource], 1)
   }
 
