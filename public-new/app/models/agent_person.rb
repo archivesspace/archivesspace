@@ -22,7 +22,7 @@ class AgentPerson < Record
                         end
 
     md['knows'] = json['related_agents'].select{|ra|
-      ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
+      ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
 
       out = {}
@@ -63,7 +63,7 @@ class AgentPerson < Record
     end
 
     md['affiliation'] = json['related_agents'].select{|ra|
-      ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] != json['jsonmodel_type']}.map do |ag|
+      ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] != json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
