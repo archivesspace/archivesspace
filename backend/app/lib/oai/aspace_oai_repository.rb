@@ -118,6 +118,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   private
 
+  def options_for_type(metadata_prefix)
+    AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
+  end
+
   def build_set_description(text)
     result = Nokogiri::XML::Builder.new do |xml|
       xml.setDescription do
@@ -141,7 +145,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
     set = resumption_token.set || options.fetch(:set, nil)
 
-    format_options = AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
+    format_options = options_for_type(metadata_prefix)
 
     resumption_token.remaining_types.each do |record_type_name, last_id|
       record_type = format_options.record_types.find {|type| type.to_s == record_type_name} or next
@@ -192,7 +196,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
     set = resumption_token.set || options.fetch(:set, nil)
 
-    format_options = AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
+    format_options = options_for_type(metadata_prefix)
 
     # Get a dataset that will pull back all tombstones for the record types that
     # this metadata type supports.
@@ -271,6 +275,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       # No further restrictions
       return dataset
     end
+
+    set = set.to_s
 
     # If the set name corresponds to a known record level, use that as our limit
     available_levels = BackendEnumSource.values_for("archival_record_level")

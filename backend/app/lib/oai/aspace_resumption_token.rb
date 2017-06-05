@@ -83,11 +83,15 @@ class ArchivesSpaceResumptionToken
     new(ASUtils.json_parse(Base64::urlsafe_decode64(token)), available_record_types)
   end
 
-  def to_xml
+  def serialize
     issue_time = (Time.now.to_f * 1000).to_i
 
+    Base64::urlsafe_encode64(@options.merge('issue_time' => issue_time).to_json)
+  end
+
+  def to_xml
     xml = Builder::XmlMarkup.new
-    xml.resumptionToken(Base64::urlsafe_encode64(@options.merge('issue_time' => issue_time).to_json))
+    xml.resumptionToken(self.serialize)
 
     xml.target!
   end

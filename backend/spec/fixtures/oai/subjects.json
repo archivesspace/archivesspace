@@ -1,0 +1,121 @@
+[
+    {
+        "authority_id": "function",
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "subject",
+        "publish": true,
+        "source": "local",
+        "terms": [
+            {
+                "jsonmodel_type": "term",
+                "term": "Function",
+                "term_type": "function",
+                "vocabulary": "/vocabularies/1"
+            },
+            {
+                "jsonmodel_type": "term",
+                "term": "Subject",
+                "term_type": "function",
+                "vocabulary": "/vocabularies/1"
+            }
+        ],
+        "title": "Function -- Subject",
+        "uri": "/subjects/import_3",
+        "vocabulary": "/vocabularies/1"
+    },
+    {
+        "authority_id": "genre",
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "subject",
+        "publish": true,
+        "source": "local",
+        "terms": [
+            {
+                "jsonmodel_type": "term",
+                "term": "Genre",
+                "term_type": "genre_form",
+                "vocabulary": "/vocabularies/1"
+            },
+            {
+                "jsonmodel_type": "term",
+                "term": "Subject",
+                "term_type": "genre_form",
+                "vocabulary": "/vocabularies/1"
+            }
+        ],
+        "title": "Genre -- Subject",
+        "uri": "/subjects/import_5",
+        "vocabulary": "/vocabularies/1"
+    },
+    {
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "subject",
+        "publish": true,
+        "source": "local",
+        "terms": [
+            {
+                "jsonmodel_type": "term",
+                "term": "Geographic",
+                "term_type": "geographic",
+                "vocabulary": "/vocabularies/1"
+            },
+            {
+                "jsonmodel_type": "term",
+                "term": "Subject",
+                "term_type": "geographic",
+                "vocabulary": "/vocabularies/1"
+            }
+        ],
+        "title": "Geographic -- Subject",
+        "uri": "/subjects/import_1",
+        "vocabulary": "/vocabularies/1"
+    },
+    {
+        "authority_id": "occupation",
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "subject",
+        "publish": true,
+        "source": "local",
+        "terms": [
+            {
+                "jsonmodel_type": "term",
+                "term": "Occupation",
+                "term_type": "occupation",
+                "vocabulary": "/vocabularies/1"
+            },
+            {
+                "jsonmodel_type": "term",
+                "term": "Subject",
+                "term_type": "occupation",
+                "vocabulary": "/vocabularies/1"
+            }
+        ],
+        "title": "Occupation -- Subject",
+        "uri": "/subjects/import_4",
+        "vocabulary": "/vocabularies/1"
+    },
+    {
+        "authority_id": "topical",
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "subject",
+        "publish": true,
+        "source": "local",
+        "terms": [
+            {
+                "jsonmodel_type": "term",
+                "term": "Topical",
+                "term_type": "topical",
+                "vocabulary": "/vocabularies/1"
+            },
+            {
+                "jsonmodel_type": "term",
+                "term": "Subject",
+                "term_type": "topical",
+                "vocabulary": "/vocabularies/1"
+            }
+        ],
+        "title": "Topical -- Subject",
+        "uri": "/subjects/import_2",
+        "vocabulary": "/vocabularies/1"
+    }
+]
