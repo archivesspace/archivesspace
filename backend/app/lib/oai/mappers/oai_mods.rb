@@ -133,9 +133,9 @@ class OAIMODSMapper
         end
 
 
-        # Non-creator agents
+        # Agents as subject
         Array(jsonmodel['linked_agents']).each do |link|
-          next if link['role'] == 'creator'
+          next unless link['role'] == 'subject'
 
           case link['_resolved']['agent_type']
           when 'agent_person', 'agent_family'

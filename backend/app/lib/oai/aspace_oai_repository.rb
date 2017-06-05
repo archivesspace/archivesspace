@@ -3,9 +3,6 @@ require_relative 'aspace_oai_deletion'
 
 class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
-  # FIXME: Should page sizes be configurable?  People with very large resource
-  # records might want to constrain how many EADs will be pulled back at once,
-  # but smaller collections won't be a problem.
   FormatOptions = Struct.new(:record_types, :page_size)
 
   AVAILABLE_RECORD_TYPES = {
@@ -71,7 +68,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       return OAIDeletion.new(tombstone)
     end
 
-    metadata_prefix = options.fetch(:metadata_prefix)    
+    metadata_prefix = options.fetch(:metadata_prefix)
 
     format_options = AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
     parsed_ref = JSONModel.parse_reference(uri)
