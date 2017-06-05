@@ -93,7 +93,7 @@ class ClassificationsController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
@@ -108,7 +108,7 @@ class ClassificationsController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
      @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
