@@ -56,7 +56,7 @@ class OAIDCTermsMapper
           date_str = if date['expression']
                        date['expression']
                      else
-                       [date['begin'], date['end']]
+                       [date['begin'], date['end']].compact.join(' -- ')
                      end
           if date['label'] == 'copyright'
             xml['dcterms'].dateCopyrighted(date_str)

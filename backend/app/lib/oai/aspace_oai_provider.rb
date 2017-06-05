@@ -5,6 +5,7 @@ require_relative 'aspace_oai_record'
 require_relative 'ead_format'
 require_relative 'dc_terms_format'
 require_relative 'marc_format'
+require_relative 'mods_format'
 
 
 class ArchivesSpaceOaiProvider < OAI::Provider::Base
@@ -20,6 +21,7 @@ class ArchivesSpaceOaiProvider < OAI::Provider::Base
   register_format EADFormat.instance
   register_format DCTermsFormat.instance
   register_format MARCFormat.instance
+  register_format MODSFormat.instance
 end
 
 class OAI::Provider::Response::Base

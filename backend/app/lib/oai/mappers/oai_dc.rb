@@ -52,7 +52,7 @@ class OAIDCMapper
           if date['expression']
             xml['dc'].date(date['expression'])
           else
-            date_str = [date['begin'], date['end']].join(" -- ")
+            date_str = [date['begin'], date['end']].compact.join(" -- ")
             xml['dc'].date(date_str)
           end
         end

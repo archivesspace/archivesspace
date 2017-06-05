@@ -1,5 +1,6 @@
 require_relative 'mappers/oai_dc'
 require_relative 'mappers/oai_dcterms'
+require_relative 'mappers/oai_mods'
 
 class ArchivesSpaceOAIRecord
 
@@ -48,6 +49,12 @@ class ArchivesSpaceOAIRecord
     raise "Only Archival Object records can be returned as DCTerms" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
 
     OAIDCTermsMapper.new.map_oai_record(self)
+  end
+
+  def to_oai_mods
+    raise "Only Archival Object records can be returned as MODS" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+
+    OAIMODSMapper.new.map_oai_record(self)
   end
 
   def updated_at

@@ -13,6 +13,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     'oai_dc' => FormatOptions.new([ArchivalObject], 25),
     'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
     'oai_marc' => FormatOptions.new([ArchivalObject], 25),
+    'oai_mods' => FormatOptions.new([ArchivalObject], 25),
     'oai_ead' => FormatOptions.new([Resource], 1)
   }
 
