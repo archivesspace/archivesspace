@@ -1,7 +1,6 @@
 require_relative 'aspace_resumption_token'
 require_relative 'aspace_oai_deletion'
 
-
 class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   # FIXME: Should page sizes be configurable?  People with very large resource
@@ -47,13 +46,19 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     if AppConfig.has_key?(:oai_sets)
       config_sets = AppConfig[:oai_sets].map {|set_name, values|
         unless available_levels.include?(set_name)
-          OAI::Set.new(:name => set_name, :spec => set_name, :description => values.fetch(:description, nil))
+          set_properties = {:name => set_name, :spec => set_name}
+
+          if (description = values.fetch(:description, nil))
+            set_properties[:description] = build_set_description(description)
+          end
+
+          OAI::Set.new(set_properties)
         end
       }.compact
     end
 
     level_sets = available_levels.map {|level|
-      OAI::Set.new(:name => level, :spec => level, :description => level)
+      OAI::Set.new(:name => level, :spec => level)
     }
 
     config_sets + level_sets
@@ -115,6 +120,22 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
 
   private
+
+  def build_set_description(text)
+    result = Nokogiri::XML::Builder.new do |xml|
+      xml.setDescription do
+        xml['oai_dc'].dc('xmlns:oai_dc' => 'http://www.openarchives.org/OAI/2.0/oai_dc/',
+                         'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                         'xsi:schemaLocation' => 'http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd') do
+
+          xml['oai_dc'].description(text)
+        end
+      end
+    end
+
+    result.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+  end
 
   def produce_next_record_set(resumption_token, options)
     matched_records = []
