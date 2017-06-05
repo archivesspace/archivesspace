@@ -147,7 +147,7 @@ class ResourcesController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
@@ -155,7 +155,7 @@ class ResourcesController <  ApplicationController
   def resolve
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     results = archivesspace.search("ref_id:#{params[:ref_id]} AND resource:\"#{uri}\"", 1, 'type[]' => 'pui')
-    return render 'shared/not_found' unless results['results'].length == 1
+    return render('shared/not_found', :status => 404) unless results['results'].length == 1
     redirect_to results['results'][0]['uri']
   end
 
@@ -176,7 +176,7 @@ class ResourcesController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = @root_uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
@@ -243,7 +243,7 @@ class ResourcesController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
