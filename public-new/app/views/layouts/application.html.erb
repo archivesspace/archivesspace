@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= AppConfig[:locale] %>">
 <head>
 	<title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= t('brand.title') %></title>
 	<%= csrf_meta_tags %>
