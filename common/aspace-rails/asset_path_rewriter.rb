@@ -39,7 +39,7 @@ require 'zlib'
 
 class AssetPathRewriter
 
-  def rewrite(prefix, base_dir)
+  def rewrite(prefix, base_dir, root_dir = 'webapp')
     base_dir = File.absolute_path(base_dir)
 
     unless prefix.end_with?('/')
@@ -50,7 +50,7 @@ class AssetPathRewriter
       success = false
 
       1000.times do
-        if File.basename(base_dir) == "webapp"
+        if File.basename(base_dir) == root_dir
           success = true
           break
         elsif base_dir == File.dirname(base_dir)

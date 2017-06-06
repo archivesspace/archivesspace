@@ -1,3 +1,5 @@
+require 'aspace-rails/compressor'
+require 'aspace-rails/asset_path_rewriter'
 ArchivesSpace::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -9,9 +11,21 @@ ArchivesSpace::Application.configure do
 
   config.eager_load = true
 
-  # Configure static asset server for tests with Cache-Control for performance
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+  # in test we will mimic production to check if things are passing right... 
   config.serve_static_assets = true
-  config.static_cache_control = "public, max-age=3600"
+
+  # Compress JavaScripts and CSS
+  config.assets.compress = true
+  config.assets.js_compressor = ASpaceCompressor.new(:js)
+  config.assets.css_compressor = ASpaceCompressor.new(:css)
+
+
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = true
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
 
   # Log error messages when you accidentally call methods on nil
   config.whiny_nils = true
@@ -36,4 +50,25 @@ ArchivesSpace::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  if AppConfig[:frontend_prefix] != "/"
+    require 'action_dispatch/middleware/static'
+    # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
+    module ActionDispatch
+      class FileHandler
+        alias :match_orig :match?
+        def match?(path)
+          prefix = AppConfig[:frontend_prefix]
+          modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
+          match_orig(modified_path)
+        end
+      end
+    end
+  end
+
+  if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length > 1
+   AssetPathRewriter.new.rewrite(AppConfig[:frontend_proxy_prefix],
+                                File.expand_path('../../../public', __FILE__ ),
+                                'public' )
+  end
+
 end
