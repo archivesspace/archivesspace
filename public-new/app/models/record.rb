@@ -8,7 +8,7 @@ class Record
               :notes, :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier, :classifications, :level, :linked_digital_objects
+              :identifier, :classifications, :level, :other_level, :linked_digital_objects
 
   attr_accessor :criteria 
 
@@ -31,6 +31,7 @@ class Record
     @resolved_resource = parse_resource
 
     @level = raw['level']
+    @other_level = json['other_level']
 
     @display_string = parse_full_title
     @container_display = parse_container_display
