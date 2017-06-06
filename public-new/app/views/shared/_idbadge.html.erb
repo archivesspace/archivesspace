@@ -4,7 +4,8 @@ if result.level
       level = I18n.t("enumerations.digital_object_level.#{result.level}", :default => result.level)
       badge_label = I18n.t("digital_object._public.badge_label", :level => level)
     else
-      badge_label = I18n.t("enumerations.archival_record_level.#{result.level}", :default => result.level)
+      level = result.level == 'otherlevel' ? result.other_level : result.level
+      badge_label = I18n.t("enumerations.archival_record_level.#{level}", :default => level)
     end
 else
     badge_label = t("#{result.primary_type}._singular")
