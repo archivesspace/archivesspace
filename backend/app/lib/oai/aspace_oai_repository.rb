@@ -289,11 +289,17 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
         dataset = dataset.filter(:repo_id => Repository.filter(:repo_code => set_definition[:repo_codes]).select(:id))
       end
 
+      # We work off the SHA1 of the sponsor here because Derby doesn't make it
+      # easy to compare CLOBs with strings without DB-specific stuff.  And since
+      # we don't know how long people's sponsor text might be in the wild, it
+      # seemed risky to change the column type.
       if set_definition[:sponsors]
+        sponsor_hashes = set_definition[:sponsors].map {|sponsor| Digest::SHA1.hexdigest(sponsor)}
+
         if model.is_a?(Resource)
-          dataset = dataset.filter(:finding_aid_sponsor => set_definition[:sponsors])
+          dataset = dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
         else
-          dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor => set_definition[:sponsors]).select(:id))
+          dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
         end
       end
     end
