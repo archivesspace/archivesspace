@@ -52,7 +52,11 @@ module JsonHelper
         #add a secondary label as an inline label
         note_struct['note_text']= "<span class='inline-label'>#{note_struct['label']}</span> #{note_struct['note_text']}"
       end
-      notes_hash[type]['note_text'] = "#{notes_hash[type]['note_text']}<br/> #{note_struct['note_text']}"
+      notes_hash[type]['note_text'] = "#{notes_hash[type]['note_text']}<br/><br/> #{note_struct['note_text']}"
+      if note_struct.has_key?('subnotes')
+        notes_hash[type]['subnotes'] ||= []
+        notes_hash[type]['subnotes'] = notes_hash[type]['subnotes'] + note_struct['subnotes']
+      end
     else
       notes_hash[type] = note_struct
     end
