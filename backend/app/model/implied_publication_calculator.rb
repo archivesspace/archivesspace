@@ -155,12 +155,14 @@ class ImpliedPublicationCalculator
                                      Sequel.qualify(model.table_name, :suppressed),
                                      Sequel.as(Sequel.qualify(link_table, subject_link_column),
                                                :subject_id))
-                             .all
 
           published_status = if model.included_modules.include?(TreeNodes)
-                               for_tree_nodes(linked_records)
+                               for_tree_nodes(linked_records
+                                                          .select_append(Sequel.qualify(model.table_name, :parent_id),
+                                                                         Sequel.qualify(model.table_name, :root_record_id))
+                                                          .all)
                              else
-                               for_top_level_records(linked_records)
+                               for_top_level_records(linked_records.all)
                              end
 
           published_status.each do |linked_record, published|
