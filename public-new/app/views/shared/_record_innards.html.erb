@@ -15,6 +15,13 @@
       <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
 
     <% end %>
+    <% unless @result.agents.blank? %>
+      <% if @result.agents.has_key?('creator') %>
+        <% agent = @result.agents['creator'].first %>
+        <h4><%= t('linked_agent_role.creator') %></h4>
+        <ul><li><a href="<%= agent['uri'] %>"><%= agent['title'] %></a></li></ul>
+      <% end %>
+    <% end %>
     <% non_folder.each do |type| %>
        <% note_struct =  @result.note(type) %>
        <% unless note_struct['note_text'].blank? %>
