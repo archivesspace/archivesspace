@@ -16,7 +16,7 @@ class ArchivesSpaceOAIRecord
   end
 
   def to_oai_ead
-    raise "Only Resource records can be returned as EAD" unless @jsonmodel_record['jsonmodel_type'] == 'resource'
+    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'resource'
 
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
       ead = ASpaceExport.model(:ead).from_resource(@jsonmodel_record, @sequel_record.tree(:all, mode = :sparse), {})
@@ -31,7 +31,7 @@ class ArchivesSpaceOAIRecord
   end
 
   def to_oai_marc
-    raise "Only Archival Object records can be returned as MARC" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
 
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
       marc = ASpaceExport.model(:marc21).from_archival_object(@jsonmodel_record)
@@ -40,19 +40,19 @@ class ArchivesSpaceOAIRecord
   end
 
   def to_oai_dc
-    raise "Only Archival Object records can be returned as DC" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
 
     OAIDCMapper.new.map_oai_record(self)
   end
 
   def to_oai_dcterms
-    raise "Only Archival Object records can be returned as DCTerms" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
 
     OAIDCTermsMapper.new.map_oai_record(self)
   end
 
   def to_oai_mods
-    raise "Only Archival Object records can be returned as MODS" unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
+    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
 
     OAIMODSMapper.new.map_oai_record(self)
   end

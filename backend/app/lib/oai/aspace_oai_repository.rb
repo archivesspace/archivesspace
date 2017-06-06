@@ -72,17 +72,19 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     format_options = AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
     parsed_ref = JSONModel.parse_reference(uri)
+
+    raise OAI::IdException.new if parsed_ref.nil?
+
     model = format_options.record_types.find {|model| model.my_jsonmodel.record_type == parsed_ref.fetch(:type)}
 
-    raise "Unrecognized ref type: #{uri}" unless model
+    raise OAI::IdException.new unless model
 
     repo_id = JSONModel.parse_reference(parsed_ref.fetch(:repository)).fetch(:id)
 
     RequestContext.open(:repo_id => repo_id) do
       obj = model.filter(:id => parsed_ref[:id]).filter(VISIBILITY_RESTRICTIONS).first
 
-      # THINKME: Better exceptions here?  Can probably return something OAI-specific
-      raise "Record not found" unless obj
+      raise IdException.new unless obj
 
       ArchivesSpaceOAIRecord.new(obj, fetch_jsonmodels(model, [obj])[0])
     end
@@ -111,7 +113,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     elsif resumption_token.state == ArchivesSpaceResumptionToken::PRODUCING_DELETES_STATE
       produce_next_delete_set(resumption_token, options)
     else
-      raise "Unrecognized resumption token state!"
+      raise OAI::ResumptionTokenException.new
     end
   end
 
