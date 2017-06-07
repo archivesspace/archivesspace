@@ -8,8 +8,8 @@
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
 
-  <property name="winstone_url" value="http://repo1.maven.org/maven2/org/jvnet/hudson/winstone/winstone/0.9.10/winstone-0.9.10.jar" />
-  <property name="winstone_file" value="winstone-0.9.10.jar" />
+  <property name="jettyrunner_url" value="http://central.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.4.5.v20170502/jetty-runner-9.4.5.v20170502.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-9.4.5.v20170502.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
@@ -63,7 +63,7 @@
 
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
 
@@ -258,18 +258,18 @@
 
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
     <delete dir="integration.tmp" />
-    <delete dir="${java.io.tmpdir}/winstone.${user.name}" />
-    <mkdir dir="${java.io.tmpdir}/winstone.${user.name}" />
+    <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
+    <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
 
     <mkdir dir="../build/solr_home/collection1/conf" />
 
     <parallel>
       <daemons>
         <java
-          classpath="${winstone_file}:../solr:../common/lib/*"
-              classname="winstone.Launcher" fork="true">
-          <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/winstone.${user.name}" />
-          <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
+          classpath="${jettyrunner_file}:../solr:../common/lib/*"
+          classname="org.eclipse.jetty.runner.Runner" fork="true">
+          <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
+          <arg line="--port ${aspace.solr.port} ${solr_file}" />
         </java>
       </daemons>
       <record name="backend_test_log.out" action="start" />
