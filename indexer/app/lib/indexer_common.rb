@@ -681,8 +681,11 @@ class CommonIndexer
   def do_http_request(url, req)
     req['X-ArchivesSpace-Session'] = @current_session
 
-    ASHTTP.start_uri(url) do |http|
-      http.read_timeout = AppConfig[:indexer_solr_timeout_seconds].to_i
+    opts = {
+      :read_timeout => AppConfig[:indexer_solr_timeout_seconds].to_i
+    }
+
+    ASHTTP.start_uri(url, opts) do |http|
       http.request(req)
     end
   end
