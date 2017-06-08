@@ -39,20 +39,10 @@ class ArchivalObject < Record
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
-        resource_identifier = (0..3).map {|i| resolved_resource.dig("id_#{i}")}.compact.join('.')
-        component_id = json.dig('component_id')
 
         cite += " #{strip_mixed_content(ttl)}"
         cite += "," unless cite.end_with?(',')
-        cite += " #{resource_identifier}"
-
-        if component_id
-          if component_id.start_with?('(')
-            cite += " #{component_id}"
-          else
-            cite += " (#{component_id})"
-          end
-        end
+        cite += " #{identifier}"
 
         cite += "."
       end
