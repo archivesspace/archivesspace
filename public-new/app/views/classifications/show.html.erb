@@ -24,12 +24,14 @@
 
       <% end %>
     </div>
-    <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
-      <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+    <% if @has_children %>
+      <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
+        <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
 
-      <% unless @results.blank? || @results['total_hits'] == 0 %>
-        <%= render partial: 'shared/facets' %>
-      <% end %>
-    </div>
+        <% unless @results.blank? || @results['total_hits'] == 0 %>
+          <%= render partial: 'shared/facets' %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
