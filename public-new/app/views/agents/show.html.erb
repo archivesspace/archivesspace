@@ -36,9 +36,38 @@
    <% end %>
 
   </div>
-  <% if !@facets.blank? || !@filters.blank? %>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-  <%= render partial: 'shared/facets' %>
-  </div>
+    <% if @result.json['names'].length > 1 || 
+          (@result.is_a?(AgentPerson) && @result.related_agents.length > 0) ||
+          ASUtils.wrap(@result.external_documents).length > 0 %>
+
+    <h4><%= t('more_about') %> '<%= @result.display_string %>'</h4>
+    <div class="acc_holder clear" >
+      <div class="panel-group" id="agent_accordion">
+        <% if @result.json['names'].length > 1 %>
+          <% other_names = @result.json['names'].reject{|name| name['is_display_name']}.collect{|name| name['sort_name']} %>
+          <% x = "<p>#{t('agent._public.section.other_names_preamble')}</p>" %>
+          <% x += render partial: 'shared/present_list', locals: {:list =>  other_names, :list_clss => 'other_names'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.other_names'), :p_id => 'other_names_list', :p_body => x.html_safe} %>
+        <% end %>
+        <% if @result.is_a?(AgentPerson) && @result.related_agents.length > 0 %>
+          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.related_agents, :list_clss => 'related_agents'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
+        <% end %>
+        <% unless @result.external_documents.blank? %>
+          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+        <% end %>
+      </div>
+    </div>
+    <script type="text/javascript" >
+        initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+    </script>
+
   <% end %>
+
+  <% if !@facets.blank? || !@filters.blank? %>
+  <%= render partial: 'shared/facets' %>
+  <% end %>
+  </div>
 </div>
