@@ -229,6 +229,7 @@ class Record
 
     ASUtils.wrap(json['subjects']).each do |subject|
       unless subject['_resolved'].blank?
+        subject['_resolved']['is_inherited'] = subject.has_key?('_inherited')
         return_arr.push(subject['_resolved'])
       end
     end
