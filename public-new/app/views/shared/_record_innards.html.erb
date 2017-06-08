@@ -11,16 +11,16 @@
       <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
     <% end %>
 
+    <% unless @result.dates.blank? %>
+      <h4><%= t('resource._public.dates') %></h4>
+      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+    <% end %>
+
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
       <h4><%= t('pui_agent.creator') %></h4>
       <%= render partial: 'shared/present_list', locals: {:list => @result.agents['creator'].take(1), :list_clss => 'agents_list'} %>
     <% end %>
 
-    <% unless @result.dates.blank? %>
-      <h4><%= t('resource._public.dates') %></h4>
-      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
-
-    <% end %>
     <% non_folder.each do |type| %>
        <% note_struct =  @result.note(type) %>
        <% unless note_struct['note_text'].blank? %>
