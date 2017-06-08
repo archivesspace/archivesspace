@@ -57,6 +57,7 @@ class Resource < Record
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
+        '@id' => ag['display_name']['authority_id'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
         'name' => ag['title']
       }
