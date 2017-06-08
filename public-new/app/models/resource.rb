@@ -94,10 +94,10 @@ class Resource < Record
     }
 
     md['provider'] = {
-      '@id' => 'http://id.loc.gov/authorities/names/n77005277',
+      '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
       'url' => AppConfig[:public_url] + raw['repository'],
       '@type' => 'Organization',
-      'name' => resolved_repository['name']
+      'name' => json['repository']['_resolved']['name']
     }
 
     md
