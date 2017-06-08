@@ -170,6 +170,10 @@ def main
                  {:war => File.join(aspace_base,'wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
                         :path => "#{AppConfig[:public_prefix]}assets"}) if AppConfig[:enable_public]
+    start_server(URI(AppConfig[:public_new_url]).port,
+                 {:war => File.join(aspace_base,'wars', 'public-new.war'), :path => '/'},
+                 {:static_dirs => ASUtils.find_local_directories("public/assets"),
+                        :path => "#{AppConfig[:public_prefix]}assets"}) if AppConfig[:enable_public_new]
     start_server(URI(AppConfig[:docs_url]).port,
                  {:static_dirs => File.join(aspace_base,"docs", "_site"), :path => '/archivesspace'}) if AppConfig[:enable_docs]
   rescue
@@ -223,6 +227,7 @@ def stop
   if AppConfig[:use_jetty_shutdown_handler]
     stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
     stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
+    stop_server(URI(AppConfig[:public_new_url])) if AppConfig[:enable_public_new]
     stop_server(URI(AppConfig[:docs_url])) if AppConfig[:enable_docs]
     stop_server(URI(AppConfig[:indexer_url])) if AppConfig[:enable_indexer]
     stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_solr]
