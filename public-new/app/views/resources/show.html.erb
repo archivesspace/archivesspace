@@ -19,7 +19,7 @@
   <div class="col-sm-9 text-center tabbing navbar navbar-default">
     <ul class="tabbing nav nav-pills">
       <li><a class="active" href="#"><%= t('actions.collection_overview') %></a></li><li>
-      <a href="<%= url_for(:action => :infinite) %>"><%= t('actions.hierarch') %></a></li><li>
+      <a <% if @has_children %> href="<%= url_for(:action => :infinite) %>"<% else %>class="disabled-nav-pill"<% end %>><%= t('actions.hierarch') %></a></li><li>
       <%= link_to t('actions.numeric'), :action => :inventory %></li>
     </ul>
   </div>
@@ -29,7 +29,7 @@
     <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar">
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>
