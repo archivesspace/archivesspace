@@ -21,7 +21,7 @@ class AgentPerson < Record
     md['description'] = md['description'][0] if md['description'].length == 1
 
     md['knows'] = json['related_agents'].select{|ra|
-      ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
+      ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
 
       out = {}
@@ -31,8 +31,11 @@ class AgentPerson < Record
 
       knows = {}
 
-      knows['startDate'] = ag['dates']['begin'] if ag['dates']['begin']
-      knows['endDate'] = ag['dates']['end'] if ag['dates']['end']
+      if ag['dates']
+        knows['startDate'] = ag['dates']['begin'] if ag['dates']['begin']
+        knows['endDate'] = ag['dates']['end'] if ag['dates']['end']
+      end
+
       knows['description'] = ag['description'] if ag['description']
       knows['@type'] = 'Role' unless knows.empty?
 
