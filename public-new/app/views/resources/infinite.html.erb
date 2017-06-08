@@ -18,7 +18,7 @@
     <ul class="tabbing nav nav-pills">
       <li><%= link_to t('actions.collection_overview'), :action => :show %></li>
       <li><a class='active' href='#'><%= t('actions.hierarch') %></a></li>
-      <li><%= link_to t('actions.numeric'), :action => :inventory %></li>
+      <li><a <% if @has_containers %> href="<%= url_for(:action => :inventory) %>"<% else %>class="disabled-nav-pill"<% end %>><%= t('actions.numeric') %></a></li>
     </ul>
   </div>
 </div>
@@ -46,11 +46,6 @@
 </div>
 
 <script>
-// $('.infinite-record-wrapper').css('position', 'relative').css('left', '-200px');
-
- /* FIXME: Place the tree to the right.  Can we do this with CSS somehow? */
-// $('.infinite-tree-view').css('position', 'absolute').css('right', '2em').css('top', $('.infinite-record-wrapper').offset().top);
-
 
  var syncer = new TreeSync('<%= params[:rid]%>');
  window.syncer = syncer;
