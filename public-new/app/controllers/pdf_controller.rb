@@ -1,26 +1,31 @@
+require 'java'
+
 class PdfController <  ApplicationController
 
-  # If true, we'll just generate and return the PDF file on the fly.  False and
-  # we'll queue it up and email a link.
-  #
-  # Really just leaving this here for ease of testing.
-  SERVE_DIRECTLY = false
+  PDF_MUTEX = java.util.concurrent.Semaphore.new(AppConfig[:pui_max_concurrent_pdfs])
 
   def resource
-    repo_id = params.fetch(:rid, nil)
-    resource_id = params.fetch(:id, nil)
-    recipient_address = params.fetch(:user_email, nil)
+    PDF_MUTEX.acquire
+    begin
+      repo_id = params.fetch(:rid, nil)
+      resource_id = params.fetch(:id, nil)
+      token = params.fetch(:token, nil)
 
-    raise "No email set" unless recipient_address
-
-    if SERVE_DIRECTLY
-      pdf = FindingAidPDF.new(repo_id, resource_id, recipient_address, "#{request.protocol}#{request.host_with_port}")
+      pdf = FindingAidPDF.new(repo_id, resource_id, archivesspace, "#{request.protocol}#{request.host_with_port}")
       pdf_file = pdf.generate
 
+      if token
+        token.gsub!(/[^a-f0-9]/, '')
+        cookies["pdf_generated_#{token}"] = { value: token, expires: 5.minutes.from_now }
+      end
+
       respond_to do |format|
+        filename = pdf.suggested_filename
+
         format.all do
           fh = File.open(pdf_file.path, "r")
           self.headers["Content-type"] = "application/pdf"
+          self.headers["Content-disposition"] = "attachment; filename=\"#{filename}\""
           self.response_body = Enumerator.new do |y|
             begin
               while chunk = fh.read(4096)
@@ -33,16 +38,8 @@ class PdfController <  ApplicationController
           end
         end
       end
-
-    else
-      PDFGeneratorQueue.enqueue(repo_id, resource_id, recipient_address, "#{request.protocol}#{request.host_with_port}")
-
-      respond_to do |format|
-        format.all do
-          flash[:notice] = I18n.t('pdf_reports.coming_soon')
-          redirect_back(fallback_location: '/')
-        end
-      end
+    ensure
+      PDF_MUTEX.release
     end
   end
 
