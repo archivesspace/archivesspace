@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   get "repositories/:id" => 'repositories#show'
   post "repositories/:id" => 'repositories#show'
 
-  get "repositories/:rid/resources/:id/to-infinity-and-beyond"  => 'resources#infinite'
+  get "repositories/:rid/resources/:id/collection_organization"  => 'resources#infinite'
   get "repositories/:rid/resources/:id/infinite/waypoints"  => 'resources#waypoints'
 
   get "repositories/:rid/resources/:id/tree/root"  => 'resources#tree_root'
