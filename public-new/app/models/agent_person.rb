@@ -15,11 +15,10 @@ class AgentPerson < Record
       md['deathDate'] = dates['end'] if dates['end']
     end
 
-    md['description'] = if (note = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.first)
+    md['description'] = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.map{|note|
                           strip_mixed_content(note['subnotes'].map{|s| s['content']}.join(' '))
-                        else
-                          ''
-                        end
+                        }
+    md['description'] = md['description'][0] if md['description'].length == 1
 
     md['knows'] = json['related_agents'].select{|ra|
       ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
