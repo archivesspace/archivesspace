@@ -454,6 +454,9 @@ en:
     _public:
       section:
         summary: Summary
+        other_names: Names Forms
+        other_names_preamble: "Also known by the following names:"
+        related_agents: Related Agents
    
   agent_person:
     _singular: Person

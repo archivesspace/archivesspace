@@ -1,0 +1,21 @@
+<%
+  grouped_relationships = {}
+  related_agents.each do |relationship|
+    grouped_relationships[relationship['jsonmodel_type']] ||= []
+    grouped_relationships[relationship['jsonmodel_type']] << relationship
+  end
+%>
+
+<% grouped_relationships.each do |type, relationships| %>
+  <h5><%= I18n.t("#{type}._singular") %></h5>
+  <ul class="present_list">
+    <% relationships.each do |relationship| %>
+      <% agent = relationship['_resolved'] %>
+      <li>
+        <%= link_to agent['display_name']['sort_name'], agent['uri'] %>
+        (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>, 
+         <%= I18n.t("#{agent['jsonmodel_type']}._singular") %>)
+      </li>
+    <% end %>
+  </ul>
+<% end %>
