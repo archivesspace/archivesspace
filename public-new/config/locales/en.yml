@@ -47,6 +47,7 @@ en:
     bookmark: Bookmark
     request: Request
     print: Print
+    print-generating: Generating
     collection_overview: Collection Overview
     hierarch: Collection Organization
     numeric: Container Inventory
