@@ -439,6 +439,7 @@ en:
     _singular: Name
     _plural:  Names
     related: Related Name
+    creator: Creator
   record:
     _singular: Record
     _plural: Records
