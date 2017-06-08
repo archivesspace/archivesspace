@@ -178,6 +178,7 @@ en:
       grand_child_container_u_sstr: Grandchild container
       type_enum_s: Type
       published_series_title_u_sstr: Series
+      instance_type_enum_s: Instance type
 
   search_sorting:
     sort_by: "Sort by:"
