@@ -4,7 +4,7 @@ class SubjectsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
   DEFAULT_SUBJ_TYPES = %w{repository resource archival_object digital_object}
-  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents  used_within_repository}
+  DEFAULT_SUBJ_FACET_TYPES = %w{primary_type agents  used_within_published_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
@@ -24,17 +24,18 @@ class SubjectsController <  ApplicationController
       end
     end
     search_opts = default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
-    search_opts['fq'] = ["used_within_repository:\"/repositories/#{repo_id}\""] if repo_id
+    search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
+    default_facets = repo_id ? [] : ['used_within_published_repository']
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search(['subject'],['used_within_repository'],search_opts, params)
+      set_up_and_run_search(['subject'],default_facets,search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(repo_id, 'subject')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = false
       @search[:text_within] = true
     end
@@ -97,7 +98,7 @@ Rails.logger.debug("we hit search!")
       @page_title = I18n.t('errors.error_404', :type =>@type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
   private 

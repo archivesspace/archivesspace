@@ -6,7 +6,7 @@ class RepositoriesController < ApplicationController
   DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'agents']
   DEFAULT_REPO_SEARCH_OPTS = {
      'sort' => 'title_sort asc',
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1
   }
   DEFAULT_TYPES =  %w{archival_object digital_object agent resource accession}
@@ -93,13 +93,14 @@ class RepositoriesController < ApplicationController
       @sublist_action = "/repositories/#{params[:id]}/"
       @result['count'] = resources
       @page_title = strip_mixed_content(@result['name'])
+      @search = Search.new(params)
       render
     else
       @type = I18n.t('repository._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
   

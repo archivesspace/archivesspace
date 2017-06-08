@@ -7,9 +7,12 @@ module RecordHelper
 
 
   def record_class_for_type(type)
+
     case type
     when 'resource'
       Resource
+    when 'resource_ordered_records'
+      ResourceOrderedRecords
     when 'archival_object'
       ArchivalObject
     when 'accession'
@@ -26,6 +29,12 @@ module RecordHelper
       Subject
     when 'top_container'
       Container
+    when 'agent_person'
+      AgentPerson
+    when 'agent_family'
+      AgentFamily
+    when 'agent_corporate_entity'
+      AgentCorporateEntity
     else
       Record
     end
@@ -37,6 +46,39 @@ module RecordHelper
                       'primary_type' => json.fetch('jsonmodel_type'),
                       'uri' => json.fetch('uri')
                     }, full)
+  end
+
+  def icon_for_type(primary_type)
+    'fa ' + case primary_type
+              when 'repository'
+              'fa-home'
+              when  'resource'
+              'fa-archive'
+              when 'archival_object'
+              'fa-file-o'
+              when 'digital_object'
+              'fa-file-image-o'
+              when 'subject'
+              'fa-tag'
+              when  'agent_person'
+              'fa-user'
+              when 'agent_corporate_entity'
+              'fa-university'
+              when 'agent_family'
+              'fa-users'
+              when 'classification'
+              'fa-share-alt'
+              when 'top_container'
+              'fa-archive'
+              else
+              'fa-cog'
+            end
+  end
+
+  def badge_for_type(primary_type)
+    "<span class='record-type-badge #{primary_type}' aria-hidden='true'> \
+      <i class='#{icon_for_type(primary_type)}'></i> \
+    </span>".html_safe
   end
 
 end

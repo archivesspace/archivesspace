@@ -1,20 +1,56 @@
 <div id="main-content" class="row">
 
-  <div class="information col-sm-12">
-    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    </div>
+    <div class="page_actions col-sm-5 right">
+      <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
+    </div>
+  </div>
+
+  <div class="row">
     <%= render partial: 'shared/breadcrumbs' %>
   </div>
+
   <div class="col-sm-9">
 
   <br/>
-  <%= render partial: 'shared/record', locals: {:rec => @result} %>
+
+  <% if @result.acquisition_type %>
+    <h4><%= t('accession._public.section.acquisition_type') %></h4>
+    <p><%= @result.acquisition_type %></p>
+  <% end %>
+
+  <% if @result.provenance %>
+    <h4><%= t('accession._public.section.provenance') %></h4>
+    <p><%= @result.provenance %></p>
+  <% end %>
+
+  <h4><%= t('accession._public.section.restrictions_apply') %></h4>
+  <p><%= I18n.t("boolean.#{@result.restrictions_apply?}") %></p>
+
+  <% if @result.access_restrictions_apply? %>
+    <h4><%= t('accession._public.section.access_restrictions') %></h4>
+    <% if @result.access_restrictions_note %>
+      <p><%= @result.access_restrictions_note %></p>
+    <% else %>
+      <p><%= t("accession._public.section.access_restrictions_apply") %></p>
+    <% end %>
+  <% end %>
+
+  <% if @result.use_restrictions_apply? %>
+    <h4><%= t('accession._public.section.use_restrictions') %></h4>
+    <% if @result.use_restrictions_note %>
+      <p><%= @result.use_restrictions_note %></p>
+    <% else %>
+      <p><%= t("accession._public.section.use_restrictions_apply") %></p>
+    <% end %>
+  <% end %>
+
   <%= render partial: 'shared/record_innards' %>
 
   </div>
-<!-- <%= @result.pretty_inspect.html_safe %> -->
-    <%# nothing at the moment %>
-  <!-- div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-
-  </div -->
-
 </div>
+
+<%= render partial: 'shared/modal_actions' %>

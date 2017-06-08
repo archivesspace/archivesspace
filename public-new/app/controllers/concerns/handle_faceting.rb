@@ -32,10 +32,15 @@ module HandleFaceting
    # bury the mess! 
   def get_pretty_facet_value(k, v)
 #    Rails.logger.debug("input v: #{v}")
-    pv = strip_mixed_content(v)
+
+    # Note: Previously we would strip mixed content here, but the performance
+    # impact of doing this for every facet value was too great.
+    #
+    # pv = strip_mixed_content(v)
+    pv = v
     if k == 'primary_type'
       pv = I18n.t("#{v}._singular")
-    elsif %w(repository used_within_repository).include?(k)
+    elsif %w(repository used_within_published_repository).include?(k)
       repos = Repository.get_repos
       if repos[v].nil?
         pv = v

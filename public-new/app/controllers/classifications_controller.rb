@@ -5,10 +5,13 @@ class ClassificationsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
 
+  IDENTIFIER_SORT_ASC = 'identifier_sort asc, repo_sort asc, title_sort asc'
+  IDENTIFIER_SORT_DESC = 'identifier_sort desc, repo_sort desc, title_sort desc'
+
   DEFAULT_CL_TYPES = %w{pui_record_group}
   DEFAULT_CL_FACET_TYPES = %w{primary_type subjects agents repository resource}
   DEFAULT_CL_SEARCH_OPTS = {
-    'sort' => 'title_sort asc',
+    'sort' => IDENTIFIER_SORT_ASC,
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
     'facet.mincount' => 1
   }
@@ -37,14 +40,23 @@ class ClassificationsController <  ApplicationController
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
     end
     @sort_opts = []
+    @sort_opts << [
+      I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.asc")),
+      IDENTIFIER_SORT_ASC
+    ]
+     @sort_opts << [
+       I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.classification_identifier"), :direction => I18n.t("search_sorting.desc")),
+       IDENTIFIER_SORT_DESC
+     ]
     all_sorts = Search.get_sort_opts
     all_sorts.delete('relevance') unless params[:q].size > 1 || params[:q] != '*'
     all_sorts.keys.each do |type|
+       next if type == 'year_sort'
        @sort_opts.push(all_sorts[type])
     end
     @page_title = I18n.t('classification._plural')
@@ -81,7 +93,7 @@ class ClassificationsController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
@@ -96,7 +108,7 @@ class ClassificationsController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
      @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 

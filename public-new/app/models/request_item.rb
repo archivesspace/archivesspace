@@ -1,10 +1,22 @@
 require 'active_model'
 
-class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hierarchy, :repo_name, :resource_id,
+class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
                                :request_uri, :title, :resource_name, :identifier, :cite, :restrict,
-                               :restriction_ends,  :machine, 
+                               :hierarchy, :repo_name, :resource_id, :linked_record_uris,
+                               :machine,
                                :top_container_url, :container,  :barcode, :location_title, 
                                :location_url, :repo_uri, :repo_code)
+
+  def RequestItem.allow_for_type(repository_code, record_type)
+    fallback = AppConfig[:pui_requests_permitted_for_types].include?(record_type)
+    allowed_repo_types = AppConfig[:pui_repos].dig(repository_code.to_s.downcase, :requests_permitted_for_types) if repository_code
+
+    if allowed_repo_types
+      allowed_repo_types.include?(record_type)
+    else
+      fallback
+    end
+  end
 
   def RequestItem.allow_nontops(repo_code)
     allow = nil
@@ -39,7 +51,7 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note, :hierarchy
 
   def to_text_array(skip_empty = false)
     arr = []
-    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hierarchy restrict restriction_ends).each do |sym|
+    %i(user_name user_email date note title identifier cite request_uri resource_name resource_id repo_name hierarchy restrict).each do |sym|
       arr.push("#{sym.to_s}: #{self[sym]}") unless skip_empty && self[sym].blank?
     end
     arr.push("machine: #{self[:machine].blank? ? '' : self[:machine].join(', ')}")

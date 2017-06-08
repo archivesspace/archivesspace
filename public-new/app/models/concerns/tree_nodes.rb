@@ -4,21 +4,34 @@ module TreeNodes
     crumbs = []
 
     # add all ancestors to breadcrumb
-    path_to_root.each do |node|
+    path_to_root.each_with_index do |node, level|
       crumbs << {
-        :uri => node['node'].nil? ? node.fetch('root_record_uri') : node.fetch('node'),
-        :crumb => node.fetch('title')
+        :uri => breadcrumb_uri_for_node(node),
+        :type => node['jsonmodel_type'],
+        :crumb => breadcrumb_title_for_node(node, level)
       }
     end
 
     # and now yourself
     crumbs << {
       :uri => '',
+      :type => primary_type,
       :crumb => display_string
     }
 
     crumbs
   end
+
+
+  def breadcrumb_uri_for_node(node)
+    node['node'].nil? ? node.fetch('root_record_uri') : node.fetch('node')
+  end
+
+
+  def breadcrumb_title_for_node(node, _)
+    node.fetch('title')
+  end
+
 
   def ancestors
     ancestor_uris = raw.fetch('ancestors', nil)

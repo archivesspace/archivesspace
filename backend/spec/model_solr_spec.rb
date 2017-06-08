@@ -64,12 +64,12 @@ describe 'Solr model' do
 
     response = Solr.search(query)
 
-    http.request.path.should match(/hello\+world/)
-    http.request.path.should match(/wt=json/)
-    http.request.path.should match(/suppressed%3Afalse/)
-    http.request.path.should match(/fq=types%3A%28]?%22optional_record_type/)
-    http.request.path.should match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
-    http.request.path.should match(/hl=true/)
+    http.request.body.should match(/hello\+world/)
+    http.request.body.should match(/wt=json/)
+    http.request.body.should match(/suppressed%3Afalse/)
+    http.request.body.should match(/fq=types%3A%28]?%22optional_record_type/)
+    http.request.body.should match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
+    http.request.body.should match(/hl=true/)
 
 
     response['offset_first'].should eq(1)

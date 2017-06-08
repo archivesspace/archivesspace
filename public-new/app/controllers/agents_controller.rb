@@ -5,7 +5,7 @@ class AgentsController <  ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   DEFAULT_AG_TYPES = %w{repository resource archival_object digital_object}
-  DEFAULT_AG_FACET_TYPES = %w{primary_type subjects used_within_repository}
+  DEFAULT_AG_FACET_TYPES = %w{primary_type subjects}
   DEFAULT_AG_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
@@ -27,18 +27,20 @@ class AgentsController <  ApplicationController
       end
     end
     search_opts = default_search_opts(DEFAULT_AG_SEARCH_OPTS)
-    search_opts['fq'] = ["used_within_repository:\"/repositories/#{repo_id}\""] if repo_id
+    search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search  =  repo_id ? "/repositories/#{repo_id}/agents?" : '/agents?'
+    default_facets = DEFAULT_AG_FACET_TYPES
+    default_facets.push('used_within_published_repository') unless repo_id
     page = Integer(params.fetch(:page, "1"))
     begin
-      set_up_and_run_search( DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES,  search_opts, params)
+      set_up_and_run_search( DEFAULT_AG_TYPES, default_facets,  search_opts, params)
     rescue Exception => error
       flash[:error] = error
       redirect_back(fallback_location: '/') and return
     end
 
     @context = repo_context(repo_id, 'agent')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = false
       @search[:text_within] = true
     end
@@ -96,14 +98,14 @@ class AgentsController <  ApplicationController
       @page_title =  I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
   private
   def fetch_agent_results(title, uri, params)
     @results = []
-    qry = "agents:\"#{title}\""
+    qry = "agents:\"#{title}\" AND types:pui"
     @base_search = "#{uri}?"
     set_up_search(DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES, DEFAULT_AG_SEARCH_OPTS, params,qry)
   # we do this to compensate for the way @base_search gets munged in the setup

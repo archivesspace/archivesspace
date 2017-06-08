@@ -36,6 +36,8 @@ en:
     search: Search
     search_within: Search within results
     search_in: "Search %{type}"
+    new_search: New Search
+    refine_search: Refine Search
     browse: Browse
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
@@ -51,6 +53,8 @@ en:
     detailed: Detailed Contents
     record_details: Record Details
     clipboard: Copy to clipboard
+    search_add_row: Add a search row
+    search_remove_row: Remove the row below
 
   page_actions: Page Actions    
 
@@ -131,6 +135,8 @@ en:
     created: Created
     modified: Modified
     component_switch: Include Components
+    more_facets: more
+    fewer_facets: less
     op:
       AND: and
       OR:  or
@@ -145,7 +151,7 @@ en:
       subjects: Subject
       primary_type: Type
       repository: Repository
-      used_within_repository: Repository
+      used_within_published_repository: Repository
       creators: Creator
       fullrecord: Keyword
       subjects_text: Subject
@@ -154,8 +160,8 @@ en:
       scope: Scope
       notes: Notes
       source: Source
-      agents: Content Creators
-      agents_text: Content Creators
+      agents: Names
+      agents_text: Names
       classification_uri: Classification
       linked_agent_roles: Role
       from_year: From year
@@ -170,7 +176,7 @@ en:
       child_container_u_sstr: Child container
       grand_child_container_u_sstr: Grandchild container
       type_enum_s: Type
-      series_title_u_sstr: Series
+      published_series_title_u_sstr: Series
 
   search_sorting:
     sort_by: "Sort by:"
@@ -195,6 +201,7 @@ en:
     select: Select
     year_sort: Year
     sorting: "%{type} %{direction}"
+    classification_identifier: Identifier
 
   inherit:
     inherited: "From the %{level}:"
@@ -264,18 +271,21 @@ en:
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: ": %{deets}"
-  extent_dims: ": %{dimensions}"
+  extent_dims: " ; %{dimensions}"
 
   external_docs: External Documents
   more_about: More about
   listing: Listing
   list: "%{type} List"
   cont_arr: Collection organization
+  dig_cont_arr: Digital object organization
   subgroups: Subgroups
   accessed: Accessed
-  containers: Container List
+  containers: Physical Storage Information
   related_accessions: Related Accessions
   related_resources: Related Resources
+  linked_instances: Linked Records
+  linked_digital_objects: Digital Material
 
   accession:
    _singular: Unprocessed 
@@ -283,6 +293,12 @@ en:
    _public:
       section:
         summary: Summary
+        acquisition_type: Acquisition Type
+        provenance: Provenance
+        access_restrictions: Access Restrictions
+        access_restrictions_apply: Access Restrictions Apply
+        use_restrictions: Use Restrictions
+        use_restrictions_apply: Use Restrictions Apply
       related_accessions:
        accessions: Accession Records
        deaccessions: Deaccession Records
@@ -326,6 +342,7 @@ en:
     _singular: Collection
     _plural: Collections
     _public:
+      identifier: Identifier
       extent: Extent
       dates: Dates
       lang: Language
@@ -347,6 +364,7 @@ en:
         author: Author
         date:  Date
         description_rules: Description rules
+        identifier: Identifier
         language: Language of description
         sponsor: Sponsor
         edition_statement: Edition statement
@@ -371,6 +389,7 @@ en:
     _public:
       thumbnail: thumbnail
       link: Link to digital object
+      badge_label: Digital %{level}
       section:
         components: Components
         summary: Summary
@@ -400,19 +419,24 @@ en:
     _singular: Record Group
     _plural: Record Groups
     creator: Creator
+    identifier_separator: "."
+    _public:
+      actions:
+        show_subgroups: Show Subgroups
 
   classification_term:
-   _singular: Record Group Term
-   _plural: Record Group Terms
+    _singular: Record Group Term
+    _plural: Record Group Terms
+    identifier_separator: "/"
 
-  all_agents: Content Creators
+  all_agents: Names
   
-  an_agent: Content Creator
+  an_agent: Name
 
   pui_agent:
-    _singular: Content Creator
-    _plural:  Content Creators
-    related: Related Content Creator
+    _singular: Name
+    _plural:  Names
+    related: Related Name
   record:
     _singular: Record
     _plural: Records
@@ -422,8 +446,8 @@ en:
     _plural: Record Groups
 
   agent:
-    _singular: Content Creator
-    _plural: Content Creators
+    _singular: Name
+    _plural: Names
     _public:
       section:
         summary: Summary
@@ -1967,3 +1991,20 @@ en:
     access_date: Access Date
     access_restrictions_note: Conditions Governing Access
     use_restrictions_note: Conditions Governing Use
+
+  pdf_reports:
+    administrative_information: Administrative Information
+    collection_inventory: Collection Inventory
+    summary_information: Summary Information
+    table_of_contents: Table Of Contents
+    publication_statement: Publication Statement
+    controlled_access_headings: Controlled Access Headings
+    finding_aid_date_prefix: This finding aid was produced using ArchivesSpace on
+    finding_aid_written_in: Finding aid written in
+    your_finding_aid_pdf: Your finding aid PDF for "%{title}"
+    your_finding_aid_is_attached: The finding aid you requested is attached.
+    submit: Send me a PDF
+    description: To receive a PDF version of this collection, please enter your email address below.
+    coming_soon: Your PDF is being generated and will be emailed to you when ready.
+    required: Required
+    user_email: Your email address

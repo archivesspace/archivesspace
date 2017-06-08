@@ -11,7 +11,7 @@ class ObjectsController <  ApplicationController
   
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
-    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1,
     'sort' =>  'title_sort asc'
   }
@@ -35,7 +35,7 @@ class ObjectsController <  ApplicationController
      redirect_back(fallback_location: '/') and return
     end
     @context = repo_context(repo_id, 'record')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
     end
@@ -82,7 +82,7 @@ class ObjectsController <  ApplicationController
     end
     uri = uri.sub("\#pui",'')
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'linked_instance_uris:id', 'digital_object_uris:id']
     
     begin
       @result = archivesspace.get_record(url, @criteria)
@@ -90,11 +90,11 @@ class ObjectsController <  ApplicationController
         @repo_info =  @result.repository_information
         @page_title = @result.display_string
         @context = @result.breadcrumb
-        if @result['primary_type'] == 'digital_object'
+        fill_request_info
+        if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
           @dig = process_digital(@result['json'])
         else
-          @dig = process_digital_instance(@result['json']['instances']) 
-          fill_request_info 
+          @dig = process_digital_instance(@result['json']['instances'])
           process_extents(@result['json'])
         end
       rescue Exception => error
@@ -107,7 +107,7 @@ class ObjectsController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 

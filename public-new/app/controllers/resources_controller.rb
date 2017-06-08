@@ -12,13 +12,13 @@ class ResourcesController <  ApplicationController
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
   
   DEFAULT_RES_INDEX_OPTS = {
-    'resolve[]' => ['repository:id',  'resource:id@compact_resource'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'sort' => 'title_sort asc',
     'facet.mincount' => 1
   }
 
   DEFAULT_RES_SEARCH_OPTS = {
-    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'ancestors:id@compact_resource'],
+    'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1
   }
 
@@ -32,10 +32,11 @@ class ResourcesController <  ApplicationController
 
   # present a list of resources.  If no repository named, just get all of them.
   def index
-    @repo_name = params[:repo] || ""
     @repo_id = params.fetch(:rid, nil)
     if @repo_id
       @base_search =  "/repositories/#{@repo_id}/resources?"
+      repo = archivesspace.get_record("/repositories/#{@repo_id}")
+      @repo_name = repo.display_string
     else
       @base_search = "/repositories/resources?"
     end
@@ -54,7 +55,7 @@ class ResourcesController <  ApplicationController
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(@repo_id, 'resource')
-     unless @pager.one_page?
+     if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
         @search[:text_within] = true
       end
@@ -113,7 +114,7 @@ class ResourcesController <  ApplicationController
       unless title.blank?
         @context.push({:uri => "#{res_id}", :crumb => title})
       end
-     unless @pager.one_page?
+      if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
         @search[:text_within] = true
       end
@@ -133,22 +134,31 @@ class ResourcesController <  ApplicationController
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
       @criteria = {}
-      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
+      @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id', 'digital_object_uris:id']
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])
-      fill_request_info(true)
+      fill_request_info
       # GONE # @tree = fetch_tree(uri)
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
+
+
+  def resolve
+    uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+    results = archivesspace.search("ref_id:#{params[:ref_id]} AND resource:\"#{uri}\"", 1, 'type[]' => 'pui')
+    return render('shared/not_found', :status => 404) unless results['results'].length == 1
+    redirect_to results['results'][0]['uri']
+  end
+
 
   def infinite
     @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
@@ -159,19 +169,22 @@ class ResourcesController <  ApplicationController
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
-      fill_request_info(true)
+      fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = @root_uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
   def waypoints
-    results = archivesspace.search_records(params[:urls], {}, true)
+    search_opts = {
+      'resolve[]' => ['top_container_uri_u_sstr:id']
+    }
+    results = archivesspace.search_records(params[:urls], search_opts, true)
 
     render :json => Hash[results.records.map {|record|
                            @result = record
@@ -213,7 +226,7 @@ class ResourcesController <  ApplicationController
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
-      fill_request_info(true)
+      fill_request_info
 
       # top container stuff ... sets @records
       fetch_containers(uri, "#{uri}/inventory", params)
@@ -230,7 +243,7 @@ class ResourcesController <  ApplicationController
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 
@@ -245,7 +258,7 @@ class ResourcesController <  ApplicationController
       'facet.mincount' => 1
     })
     search_opts['fq']=[qry]
-    set_up_search(['pui_container'], ['type_enum_s', 'series_title_u_sstr'], search_opts, params, qry)
+    set_up_search(['pui_container'], ['type_enum_s', 'published_series_title_u_sstr'], search_opts, params, qry)
     @base_search= @base_search.sub("q=#{qry}", '')
     page = Integer(params.fetch(:page, "1"))
 

@@ -1,5 +1,24 @@
 class ArchivalObject < Record
   include TreeNodes
+  include ResourceRequestItems
+
+  def parse_notes
+    rewrite_refs(json['notes'], resource_uri) if resource_uri
+
+    super
+  end
+
+  def resource_uri
+    resolved_resource && resolved_resource['uri']
+  end
+
+  def component_id
+    json.fetch('component_id', '')
+  end
+
+  def instances
+    json['instances']
+  end
 
   def finding_aid
     # as this shares the same template as resources,
@@ -13,8 +32,27 @@ class ArchivalObject < Record
       cite = strip_mixed_content(cite['note_text'])
     else
       cite = strip_mixed_content(display_string) + "."
-      ttl = resolved_resource.dig('title')
-      cite += " #{strip_mixed_content(ttl)}." unless !ttl
+
+      if resolved_resource
+        ttl = resolved_resource.dig('title')
+        resource_identifier = (0..3).map {|i| resolved_resource.dig("id_#{i}")}.compact.join('.')
+        component_id = json.dig('component_id')
+
+        cite += " #{strip_mixed_content(ttl)}"
+        cite += "," unless cite.end_with?(',')
+        cite += " #{resource_identifier}"
+
+        if component_id
+          if component_id.start_with?('(')
+            cite += " #{component_id}"
+          else
+            cite += " (#{component_id})"
+          end
+        end
+
+        cite += "."
+      end
+
       cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
     end
 

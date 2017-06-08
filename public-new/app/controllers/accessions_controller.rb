@@ -34,7 +34,7 @@ class AccessionsController <  ApplicationController
       redirect_back(fallback_location: '/') and return
     end
 #    @context = repo_context(repo_id, 'accession')
-    unless @pager.one_page?
+    if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
     end
@@ -71,19 +71,20 @@ class AccessionsController <  ApplicationController
   def show
     uri = "/repositories/#{params[:rid]}/accessions/#{params[:id]}"
     @criteria = {}
-    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'related_resource_uris:id']
+    @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'related_resource_uris:id', 'top_container_uri_u_sstr:id', 'digital_object_uris:id']
     begin
       @result =  archivesspace.get_record(uri, @criteria)
       @page_title = @result.display_string
       @context = []
       @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
       @context.push({:uri => '', :crumb => @result.display_string })
+      fill_request_info
     rescue RecordNotFound
       @type = I18n.t('accession._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)
       @uri = uri
       @back_url = request.referer || ''
-      render  'shared/not_found'
+      render  'shared/not_found', :status => 404
     end
   end
 end

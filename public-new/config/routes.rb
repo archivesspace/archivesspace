@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  root to: "welcome#show"
+
   get '/', to: 'welcome#show' #'index#index'
   get '/welcome', to: 'welcome#show'
   post '/cite', to: 'cite#show'
@@ -33,13 +35,17 @@ Rails.application.routes.draw do
   post  "repositories/:rid/top_containers/:id" => 'containers#show'
   get 'repositories/resources' => 'resources#index'
   get  "repositories/:rid/accessions/:id" => 'accessions#show'
+  post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
   post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
   get  "repositories/:rid/classifications/:id" => 'classifications#show'
   get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
   get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
   get "repositories/:rid/resources/:id"  => 'resources#show'
+  post "repositories/:rid/resources/:id/pdf"  => 'pdf#resource'
   get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
+  get 'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
   get "repositories/:rid/:obj_type/:id" => 'objects#show'
   get  "repositories/:rid/classifications/" => 'classifications#index'
   post  "repositories/:rid/classifications/" => 'classifications#index'
@@ -53,6 +59,7 @@ Rails.application.routes.draw do
   post "repositories/:rid/subjects" => 'subjects#index'
   get "repositories/:rid/objects" => 'objects#index'
   post "repositories/:rid/objects" => 'objects#index'
+  get "repositories/:rid/records" => 'objects#index'
   post "repositories/:rid/records" => 'objects#index'
   get "repositories/:id" => 'repositories#show'
   post "repositories/:id" => 'repositories#show'

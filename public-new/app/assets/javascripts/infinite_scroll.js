@@ -251,7 +251,7 @@
         var closestIdx = self.findClosestElement(waypoints);
         var containerTop = self.wrapper.offset().top;
 
-        if (Math.abs(waypoints[closestIdx].getBoundingClientRect().top - containerTop) < LOAD_THRESHOLD_PX) {
+        if (waypoints.length > 0 && Math.abs(waypoints[closestIdx].getBoundingClientRect().top - containerTop) < LOAD_THRESHOLD_PX) {
             var start = Math.max(closestIdx - (BATCH_SIZE / 2), 0);
             var end = start + BATCH_SIZE;
 
@@ -272,10 +272,9 @@
         }
 
         waypointElts.addClass('populated');
+        var populated_count = 0;
 
-        $(waypointElts).each(function (i, waypoint) {
-            console.log("Populating waypoint", $(waypoint).data('waypoint-number'));
-
+        $(waypointElts).each(function (_, waypoint) {
             var waypointNumber = $(waypoint).data('waypoint-number');
             var waypointSize = $(waypoint).data('waypoint-size');
             var uris = $(waypoint).data('uris').split(';');
@@ -317,7 +316,11 @@
                     self.elt[0].style.transform = 'translateY(' + self.scrollPosition + 'px' + ')';
                 }
 
-                done_callback();
+                populated_count += 1;
+
+                if (waypointElts.length <= populated_count) {
+                    done_callback();
+                }
             });
         });
     };

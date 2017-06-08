@@ -109,6 +109,7 @@ class Subject < Sequel::Model(:subject)
 
       jsons.zip(objs).each do |json, obj|
         json.used_within_repositories = subjects_to_repositories.fetch(obj, []).map {|repo| repo.uri}
+        json.used_within_published_repositories = subjects_to_repositories.fetch(obj, []).select{|repo| repo.publish == 1}.map {|repo| repo.uri}
       end
     end
 

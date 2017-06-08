@@ -4,11 +4,11 @@ class Record
   include JsonHelper
   include RecordHelper
 
-  attr_reader :raw, :full, :json, :display_string, :container_display, :notes,
-              :dates, :external_documents, :resolved_repository,
+  attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
+              :notes, :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier, :classifications
+              :identifier, :classifications, :level, :linked_digital_objects
 
   attr_accessor :criteria 
 
@@ -28,13 +28,18 @@ class Record
     @uri = raw['uri']
     @identifier = parse_identifier
 
+    @resolved_resource = parse_resource
+
+    @level = raw['level']
+
     @display_string = parse_full_title
     @container_display = parse_container_display
+    @container_summary_for_badge = parse_container_summary_for_badge
+    @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
-    @resolved_resource = parse_resource
     @resolved_top_container = parse_top_container
     @repository_information = parse_repository_info
     @subjects = parse_subjects
@@ -63,6 +68,12 @@ class Record
     notes[type] || {}
   end
 
+  def request_item
+    return unless RequestItem.allow_for_type(resolved_repository.dig('repo_code'), primary_type.intern)
+
+    build_request_item
+  end
+
   private
 
   def parse_full_title
@@ -78,26 +89,49 @@ class Record
         ([json.dig('id_0'), json.dig('id_1'), json.dig('id_2'), json.dig('id_3')].select { |x| not(x.nil?) && not(x.empty?) }).join('-')
   end
 
-  def parse_container_display
+  def parse_container_summary_for_badge
+    parse_container_display(:summary => true)
+  end
+
+  def parse_container_display(opts = {})
+    summary = opts.fetch(:summary, false)
     containers = []
 
     if !json['instances'].blank? && json['instances'].kind_of?(Array)
       json['instances'].each do |inst|
-        if inst.kind_of?(Hash) && inst['container'].present? && inst['container'].kind_of?(Hash)
-          display = []
-          %w{1 2 3}.each do |i|
-            type = process_container_type(inst['container']["type_#{i}"])
-            if !inst['container']["indicator_#{i}"].blank?
-              display.push("#{type} #{inst['container']["indicator_#{i}"]}".gsub("Unspecified", ''))
+        sub_container = inst.fetch('sub_container', nil)
 
-            end
-          end
-          containers.push(display.join(", ")) unless display.empty?
-        end
+        next if sub_container.nil?
+
+        containers.push(parse_sub_container_display_string(sub_container, inst, opts))
+
+        return I18n.t('multiple_containers') if summary && containers.length > 1
       end
     end
 
-    containers
+    if summary
+      containers.empty? ? nil : containers[0]
+    else
+      containers
+    end
+  end
+
+  def rewrite_refs(notes, base_uri)
+    if notes.is_a?(Hash)
+      notes.each do |k, v|
+        if k == 'content'
+          ASUtils.wrap(v).each do |s|
+            s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{base_uri}/resolve/\\1'>\\2</a>")
+          end
+        else
+          rewrite_refs(v, base_uri)
+        end
+      end
+    elsif notes.is_a?(Array)
+      notes.each do |note|
+        rewrite_refs(note, base_uri)
+      end
+    end
   end
 
   def parse_notes
@@ -125,7 +159,7 @@ class Record
       if exp.blank?
         exp = date['begin'] unless date['begin'].blank?
         unless date['end'].blank?
-          exp = (exp.blank? ? '' : exp + '-') + date['end']
+          exp = (exp.blank? ? '' : exp + ' - ') + date['end']
         end
       end
       if date['date_type'] == 'bulk'
@@ -157,12 +191,15 @@ class Record
   end
 
   def parse_repository
+
     if raw['_resolved_repository'].kind_of?(Hash)
       rr = raw['_resolved_repository'].first
 
       if !rr[1][0]['json'].blank?
         return JSON.parse( rr[1][0]['json'])
       end
+    elsif @json['repository'] && @json['repository']['_resolved']
+      @json['repository']['_resolved']
     end
   end
 
@@ -186,23 +223,12 @@ class Record
     end
   end
 
-  def process_container_type(in_type)
-    type = ''
-    if !in_type.blank?
-      type = (in_type == 'unspecified' ?'': in_type)
-#      type = 'box' if type == 'boxes'
-#      type = type.chomp.chop if type.end_with?('s')
-    end
-    type
-  end
-
   def parse_subjects
     return_arr = []
 
     ASUtils.wrap(json['subjects']).each do |subject|
       unless subject['_resolved'].blank?
-        sub = title_and_uri(subject['_resolved'], subject['_inherited'])
-        return_arr.push(sub) if sub
+        return_arr.push(subject['_resolved'])
       end
     end
 
@@ -216,9 +242,11 @@ class Record
     ASUtils.wrap(json['classifications']).each do |c|
       unless c['_resolved'].blank?
         classification = record_from_resolved_json(c['_resolved'])
+
         return_arr << {
           'title' => classification.display_string,
-          'uri' => classification.uri
+          'uri' => classification.uri,
+          'breadcrumb' => classification.breadcrumb
         }
       end
     end
@@ -243,8 +271,8 @@ class Record
       unless agent['role'].blank? || agent['_resolved'].blank?
         role = agent['role']
         ag = title_and_uri(agent['_resolved'], agent['_inherited'])
-        if role == 'subject'
-          subjects_arr.push(ag) if ag
+        if role == 'subject' && ag
+          subjects_arr.push(agent['_resolved'].merge('_relator' => agent['relator'], '_terms' => agent['terms']))
         elsif ag
           agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
         end
@@ -302,12 +330,153 @@ class Record
   end
   
   def archives_space_client
-    @service ||= ArchivesSpaceClient.new
-    @service
+    ArchivesSpaceClient.instance
   end
 
   def cite_url_and_timestamp
     "#{AppConfig[:public_url].sub(/^\//, '')}#{uri}  #{I18n.t('accessed')}  #{Time.now.strftime("%B %d, %Y")}"
+  end
+
+  def top_container_for_uri(uri)
+    if raw['_resolved_top_container_uri_u_sstr']
+      resolved = raw['_resolved_top_container_uri_u_sstr'].fetch(uri, nil)
+
+      if resolved
+        resolved.first
+      end
+    end
+  end
+
+  def parse_top_container_location(top_container)
+    container_locations = top_container.dig('container_locations')
+
+    return if container_locations.blank?
+
+    current_location = container_locations.find{|c| c['status'] == 'current'}
+
+    current_location.dig('_resolved')
+  end
+
+  def parse_sub_container_display_string(sub_container, inst, opts = {})
+    summary = opts.fetch(:summary, false)
+    parts = []
+
+    instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
+
+    # add the top container type and indicator
+    if sub_container.has_key?('top_container')
+      top_container_solr = top_container_for_uri(sub_container['top_container']['ref'])
+      if top_container_solr
+        top_container_display_string = ""
+        top_container_json = ASUtils.json_parse(top_container_solr.fetch('json'))
+        if top_container_json['type']
+          top_container_type = I18n.t("enumerations.container_type.#{top_container_json.fetch('type')}", :default => top_container_json.fetch('type'))
+          top_container_display_string << "#{top_container_type}: "
+        end
+        top_container_display_string << top_container_json.fetch('indicator')
+        parts << top_container_display_string
+      end
+    end
+
+
+    # add the child type and indicator
+    if sub_container['type_2'] && sub_container['indicator_2']
+      type = I18n.t("enumerations.container_type.#{sub_container.fetch('type_2')}", :default => sub_container.fetch('type_2'))
+      parts << "#{type}: #{sub_container.fetch('indicator_2')}"
+    end
+
+    # add the grandchild type and indicator
+    if sub_container['type_3'] && sub_container['indicator_3']
+      type = I18n.t("enumerations.container_type.#{sub_container.fetch('type_3')}", :default => sub_container.fetch('type_3'))
+      parts << "#{type}: #{sub_container.fetch('indicator_3')}"
+    end
+
+    summary ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
+  end
+
+  def parse_digital_object_instances
+    results = {}
+
+    ASUtils.wrap(json['instances']).each do |instance|
+      if instance['digital_object'] && instance['digital_object']['ref']
+        digital_object = digital_object_for_uri(instance['digital_object']['ref'])
+        next if digital_object.nil?
+
+        results[instance['digital_object']['ref']] = record_from_resolved_json(digital_object)
+      end
+    end
+
+    results
+  end
+
+  def digital_object_for_uri(uri)
+    if raw['_resolved_digital_object_uris']
+      resolved = raw['_resolved_digital_object_uris'].fetch(uri, nil)
+
+      if resolved
+        resolved.first
+      end
+    end
+  end
+
+  def build_request_item
+    # handled by sub classes
+    nil
+  end
+
+  def build_request_item_container_info
+    container_info = {}
+
+    %i(top_container_url container location_title location_url machine barcode).each {|sym| container_info[sym] = [] }
+
+    unless json['instances'].blank?
+      json['instances'].each do |instance|
+        sub_container = instance.dig('sub_container')
+
+        next if sub_container.nil?
+
+        top_container_uri = sub_container.dig('top_container', 'ref');
+        top_container = top_container_for_uri(top_container_uri)
+
+        next if container_info.fetch(:top_container_url).include?(top_container_uri)
+
+        hsh = {
+          :container => parse_sub_container_display_string(sub_container, instance),
+          :top_container_url => top_container_uri,
+        }
+
+        if top_container
+          top_container_json = ASUtils.json_parse(top_container.fetch('json'))
+          hsh[:barcode] = top_container_json.dig('barcode')
+
+          location = parse_top_container_location(top_container_json)
+
+          if (location)
+            hsh[:location_title] = location.dig('title')
+            hsh[:location_url] = location.dig('uri')
+          else
+            hsh[:location_title] = ''
+            hsh[:location_url] = ''
+          end
+        else
+          hsh[:barcode] = ''
+          hsh[:location_title] = ''
+          hsh[:location_url] = ''
+        end
+
+        restricts = top_container_json.dig('active_restrictions')
+        if restricts
+          restricts.each do |r|
+            lar = r.dig('local_access_restriction_type')
+            container_info[:machine] += lar if lar
+          end
+        end
+
+        hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}
+      end
+    end
+
+    container_info
   end
 
 end

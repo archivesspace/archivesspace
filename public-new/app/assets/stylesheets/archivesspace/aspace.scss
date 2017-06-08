@@ -72,6 +72,15 @@ a {
   border-color: $white;
 }
 
+.more-facets {
+  .btn {
+    padding-left: 20px;
+    color: $accent-color;
+  }
+  .below-the-fold {
+    display: none;
+  }
+}
 
 
 .tabbing.nav-pills > li > a  {
@@ -289,6 +298,11 @@ a {
     font-family: $serif-font;
     font-weight: bold;
   }
+}
+
+.dates-is-single-date {
+    list-style-type: none;
+    padding: 0;
 }
 
 .record-image {
@@ -585,6 +599,38 @@ button.subject {          /* class subject also turns up in finding aid transfor
   color: #999;
   font-style: italic;
 }
+.subnote {
+  border: 1px solid $light-neutral; 
+  margin-top: 10px;
+  padding-left: 5px;
+}
+.recordrow {
+  .classification-subgroups {
+    margin-top: 5px;
+
+    .classification-subgroups-tree.largetree-container {
+      max-height: 200px;
+      overflow: auto;
+    }
+  }
+}
+
+.repository-logo {
+  float: right;
+  img {
+    max-width: 400px;
+    max-height: 120px;
+  }
+}
+.recordrow {
+  .repository-logo {
+    img {
+      max-width: 200px;
+      max-height: 60px;
+    }
+  }
+}
+
 /* / search results */
 
 /* hierarchy tree */
@@ -692,11 +738,53 @@ span.head {
 .breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
 .breadcrumb * a {color: $breadcrumb-link;}
 .breadcrumb li br {display: none;}
+.panel .breadcrumb {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
 
 .acc_holder {
 	    margin-top: rem-calc(20);
 }
 
+#sidebar .acc_button {
+  display: none;
+}
+
+#sidebar .present_list {
+  padding-left: 10px
+}
+
 .sorter {
 	margin-top: 20px;  
+}
+
+
+@media (min-width: 992px) {
+  #sidebar.resizable-sidebar {
+    position: relative;
+    padding-left: 12px;
+
+    .resizable-sidebar-handle {
+      background-color: #EEE;
+      position: absolute;
+      height: 100%;
+      width: 8px;
+      top: 0;
+      left: 0;
+      cursor: ew-resize;
+      background-image: asset-url('sidebar_drag_handle.png');
+      background-repeat: no-repeat;
+      background-position: 1px center;
+      border-right: 1px solid #CCC;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .row.has-resizable-content {
+    > .col-sm-9, > .resizable-sidebar {
+      width: inherit !important;
+    }
+  }
 }

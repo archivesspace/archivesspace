@@ -3,22 +3,11 @@
   <div class="information col-sm-9">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
 
-<!-- <%= @result.pretty_inspect.html_safe %> -->
-
     <div class="clear">
     <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %> 
     </div>
 
 
-<br/>
-<% unless @result['json']['used_within_repositories'].blank? %>
-   <span class='repository inline-label'><%= t('subject.used_within') %>:</span>
-   <ul>
-   <%  @result['json']['used_within_repositories'].each do |r| %>
-      <li><a href="<%= r %>"><%= get_pretty_facet_value('used_within_repository', r) %></a></li>
-     <% end %>
-</ul>
-<% end %>
     <% if !@result.dates.blank? %>
       <% render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
@@ -33,6 +22,7 @@
       <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
     <% end %>
     <%= render partial: 'shared/display_notes' %>
+
   <% unless @results.blank? || @results['total_hits'] == 0 %>
      <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
          <% @results.records.each do |result| %>
@@ -44,17 +34,24 @@
 
    </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <h4><%= t('more_about') %> '<%= @result['json']['display_string']%>'</h4>
-   <% if !@result['json']['terms'].blank? %>
+   <h4><%= t('more_about') %> '<%= @result.display_string %>'</h4>
 
-      <h5><%= t('subject_term_type') %> </h5>
-      <dl>
-    <%    @result['json']['terms'].each do |term|  %>
-         <dt><%= t("enumerations.subject_term_type.#{term['term_type']}") %></dt>
-         <dd><%= term['term'] %></dd>
-       <% end %>
-       </dl>
-   <% end %>
+    <div class="acc_holder clear" >
+      <div class="panel-group" id="res_accordion">
+        <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
+          <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
+        <% end %>
+        <% unless @result.external_documents.blank? %>
+          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+        <% end %>
+      </div>
+    </div>
+    <script type="text/javascript" >
+        initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+    </script>
+
     <% unless @results.blank? || @results['total_hits'] == 0 %>
      <%= render partial: 'shared/facets' %>
     <% end %>

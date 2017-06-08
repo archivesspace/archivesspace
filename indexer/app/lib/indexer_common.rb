@@ -47,7 +47,8 @@ class CommonIndexer
                            'linked_agents', 'linked_records',
                            'classifications', 'digital_object',
                            'agent_representation', 'repository',
-                           'top_container']
+                           'repository::agent_representation',
+                           'top_container', 'related_agents']
 
   @@paused_until = Time.now
 
@@ -128,6 +129,13 @@ class CommonIndexer
       identifer.gsub(/[[:punct:] ]+/, ""),
       identifer.scan(/([0-9]+|[^0-9]+)/).flatten(1).join(" ")
     ].uniq
+  end
+
+
+  # Isolate leading alpha and numeric values to create a sortable string
+  def self.generate_sort_string_for_identifier(identifier, size = 255)
+    letters, numbers, rest = identifier.scan(/([^0-9]*)([0-9]*)(.*)/)[0]
+    letters.strip.ljust(size).gsub(' ', '#') + numbers.strip.rjust(size).gsub(' ', '0') + rest.strip.ljust(size)
   end
 
 
@@ -293,6 +301,7 @@ class CommonIndexer
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
         doc['component_id'] = record['record']['component_id']
+        doc['ref_id'] = record['record']['ref_id']
       end
     }
 
@@ -335,6 +344,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if record['record'].has_key?('used_within_repositories')
         doc['used_within_repository'] = record['record']['used_within_repositories']
+        doc['used_within_published_repository'] = record['record']['used_within_published_repositories']
       end
     }
 
@@ -442,6 +452,9 @@ class CommonIndexer
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['identifier_sort'] = CommonIndexer.generate_sort_string_for_identifier(record['record']['identifier'])
+        doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
+        doc['has_classification_terms'] = record['record']['has_classification_terms']
       end
     }
 
@@ -499,6 +512,13 @@ class CommonIndexer
           doc['series_identifier_u_stext'] = record['record']['series'].map {|series|
             CommonIndexer.generate_permutations_for_identifier(series['identifier'])
           }.flatten
+
+          record['record']['series'].select{|series| series['publish']}.each do |series|
+            doc['published_series_uri_u_sstr'] ||= []
+            doc['published_series_uri_u_sstr'] << series['ref']
+            doc['published_series_title_u_sstr'] ||= []
+            doc['published_series_title_u_sstr'] << series['display_string']
+          end
         end
 
         if record['record']['collection']

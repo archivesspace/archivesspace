@@ -389,6 +389,12 @@ AppConfig[:pui_search_results_page_size] = 25
 AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 
+# The number of PDFs we'll generate (in the background) at the same time.
+#
+# PDF generation can be a little memory intensive for large collections, so we
+# set this fairly low out of the box.
+AppConfig[:pui_max_concurrent_pdfs] = 2
+
 # The following determine which 'tabs' are on the main horizontal menu
 AppConfig[:pui_hide] = {}
 AppConfig[:pui_hide][:repositories] = false
@@ -401,7 +407,7 @@ AppConfig[:pui_hide][:classifications] = false
 # The following determine globally whether the various "badges" appear on the Repository page
 # can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
-AppConfig[:pui_hide][:record_badge] = false
+AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:subject_badge] = false
 AppConfig[:pui_hide][:agent_badge] = false
 AppConfig[:pui_hide][:classification_badge] = false
@@ -410,13 +416,15 @@ AppConfig[:pui_hide][:counts] = false
 # Don't display the accession ("unprocessed material") link on the main navigation menu
 # AppConfig[:pui_hide][:accessions] = true
 
-# the following determine when the request button gets greyed out/disabled
+# the following determine when the request button is displayed
+AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
 # Repository-specific examples.  We are using the imaginary repository code of 'foo'.  Note the lower-case
 AppConfig[:pui_repos] = {}
 # Example:
 # AppConfig[:pui_repos][{repo_code}] = {}
+# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component] # for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)
 # AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
 # AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
 # AppConfig[:pui_repos][{repo_code}][:hide] = {}

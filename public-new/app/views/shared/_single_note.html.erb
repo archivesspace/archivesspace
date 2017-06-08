@@ -3,6 +3,14 @@
      <% unless defined?(notitle) &&  notitle %> 
      <h4><%= note_struct['label'] %></h4>
      <% end %>
-    <%= note_struct['note_text'].html_safe %>
+     <% if note_struct.has_key?('subnotes') %>
+       <% note_struct['subnotes'].each do |subnote| %>
+         <div class="subnote <%= 'well' if subnote['jsonmodel_type'] == 'note_citation' %>">
+           <%= subnote['_text'].html_safe %>
+         </div>
+       <% end %>
+     <% else %>
+       <%= note_struct['note_text'].html_safe %>
+     <% end %>
      </div>
 <% end %>
