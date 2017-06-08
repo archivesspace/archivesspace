@@ -2,22 +2,8 @@ class AccessionReport < AbstractReport
 
   register_report
 
-  def scope_by_repo_id(dataset)
-    # repo scope is applied in the query below
-    dataset
-  end
-
   def template
     "accession_report.erb"
-  end
-
-  def headers
-    query.columns.map(&:to_s)
-  end
-
-  def processor
-    {
-    }
   end
 
   def accession_count
@@ -27,7 +13,7 @@ class AccessionReport < AbstractReport
   def query
     db[:accession]
       .select(Sequel.as(:id, :accessionId),
-              Sequel.as(:repo_id, :repo_id),
+              Sequel.as(:repo_id, @repo_id),
               Sequel.as(:identifier, :accessionNumber),
               Sequel.as(:title, :title),
               Sequel.as(:accession_date, :accessionDate),

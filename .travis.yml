@@ -10,6 +10,7 @@ env:
   - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
   - DISPLAY=:99.0
   - SCREENSHOT_ON_ERROR=1
+  - ASPACE_DEMO=true
   matrix:
   - DB=mysql TASK=travis:test
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"

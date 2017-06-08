@@ -816,7 +816,7 @@
 
 
   <!-- Coverage -->
-  <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
+  <target name="backend:coverage" depends="set-classpath, clean-coverage, backend:test" description="Generate coverage reports for the backend">
   </target>
 
 
