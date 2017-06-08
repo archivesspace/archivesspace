@@ -43,13 +43,17 @@ class Resource < Record
       'identifier' => raw['four_part_id'],
     }
 
-    md['description'] = if (abstract = json['notes'].select{|n| n['type'] == 'abstract'}.first)
+    md['description'] = json['notes'].select{|n| n['type'] == 'abstract'}.map{|abstract|
                           strip_mixed_content(abstract['content'].join(' '))
-                        elsif (scope = json['notes'].select{|n| n['type'] == 'scopecontent'}.first)
-                          strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
-                        else
-                          ''
-                        end
+                        }
+
+    if md['description'].empty?
+      md['description'] = json['notes'].select{|n| n['type'] == 'scopecontent'}.map{|scope|
+                            strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
+                          }
+    end
+    md['description'] = md['description'][0] if md['description'].length == 1
+
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
