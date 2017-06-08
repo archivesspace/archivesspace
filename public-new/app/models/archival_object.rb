@@ -12,8 +12,12 @@ class ArchivalObject < Record
     resolved_resource && resolved_resource['uri']
   end
 
-  def component_id
-    json.fetch('component_id', '')
+  def direct_component_id
+    if json.has_key?('component_id_inherited')
+      ''
+    else
+      json.fetch('component_id', '')
+    end
   end
 
   def instances
