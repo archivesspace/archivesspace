@@ -138,6 +138,7 @@ class ResourcesController <  ApplicationController
 
       tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
       @has_children = tree_root && tree_root['child_count'] > 0
+      @has_containers = has_containers?(uri)
 
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
@@ -169,6 +170,8 @@ class ResourcesController <  ApplicationController
       @criteria = {}
       @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
       @result =  archivesspace.get_record(@root_uri, @criteria)
+      @has_containers = has_containers?(@root_uri)
+
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
@@ -221,6 +224,10 @@ class ResourcesController <  ApplicationController
 
   def inventory
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+
+    tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
+    @has_children = tree_root && tree_root['child_count'] > 0
+
     begin
       # stuff for the collection bits
       @criteria = {}
@@ -253,8 +260,16 @@ class ResourcesController <  ApplicationController
 
   private
 
+  CONTAINER_QUERY = "types:pui AND types:pui_container"
+
+  def has_containers?(resource_uri)
+    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
+
+    !archivesspace.search(qry, 1).records.empty?
+  end
+
   def fetch_containers(resource_uri, page_uri, params)
-    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND types:pui AND types:pui_container"
+    qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
     @base_search = "#{page_uri}?"
     search_opts =  default_search_opts({
       'sort' => 'typeahead_sort_key_u_sort asc',
