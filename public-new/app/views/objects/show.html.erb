@@ -22,6 +22,7 @@
     <%= render partial: 'shared/record_innards' %>
    </div>
 
+   <% if !@result.kind_of?(DigitalObject) || @has_children %>
     <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
       <%
         if @result.kind_of?(DigitalObject)
@@ -32,6 +33,7 @@
       %>
       <%= render partial: 'shared/children_tree', :locals => {:heading_text => heading_text, :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
     </div>
+   <% end %>
   </div>
  <%= render partial: 'shared/modal_actions' %>
 </div>

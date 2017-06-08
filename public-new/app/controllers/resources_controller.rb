@@ -135,13 +135,16 @@ class ResourcesController <  ApplicationController
     begin
       @criteria = {}
       @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id', 'digital_object_uris:id']
+
+      tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
+      @has_children = tree_root && tree_root['child_count'] > 0
+
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info
-      # GONE # @tree = fetch_tree(uri)
     rescue RecordNotFound
       @type = I18n.t('resource._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)

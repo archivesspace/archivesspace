@@ -86,6 +86,9 @@ class ClassificationsController <  ApplicationController
   def show
     begin
       uri = "/repositories/#{params[:rid]}/classifications/#{params[:id]}"
+      tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
+      @has_children = tree_root && tree_root['child_count'] > 0
+
       fetch_and_process(uri)
       fetch_linked_records(uri)
     rescue RecordNotFound
