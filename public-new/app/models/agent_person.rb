@@ -4,7 +4,7 @@ class AgentPerson < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Person',
-      '@id' => json['authority_id'],
+      '@id' => raw['authority_id'],
       'name' => json['display_name']['sort_name'],
       'url' => AppConfig[:public_url] + uri,
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
@@ -15,14 +15,13 @@ class AgentPerson < Record
       md['deathDate'] = dates['end'] if dates['end']
     end
 
-    md['description'] = if (note = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.first)
+    md['description'] = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.map{|note|
                           strip_mixed_content(note['subnotes'].map{|s| s['content']}.join(' '))
-                        else
-                          ''
-                        end
+                        }
+    md['description'] = md['description'][0] if md['description'].length == 1
 
     md['knows'] = json['related_agents'].select{|ra|
-      ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
+      ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] == json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
 
       out = {}
@@ -32,8 +31,11 @@ class AgentPerson < Record
 
       knows = {}
 
-      knows['startDate'] = ag['dates']['begin'] if ag['dates']['begin']
-      knows['endDate'] = ag['dates']['end'] if ag['dates']['end']
+      if ag['dates']
+        knows['startDate'] = ag['dates']['begin'] if ag['dates']['begin']
+        knows['endDate'] = ag['dates']['end'] if ag['dates']['end']
+      end
+
       knows['description'] = ag['description'] if ag['description']
       knows['@type'] = 'Role' unless knows.empty?
 
@@ -63,7 +65,7 @@ class AgentPerson < Record
     end
 
     md['affiliation'] = json['related_agents'].select{|ra|
-      ra['relator'] == ra['is_associative_with'] && ra['_resolved']['jsonmodel_type'] != json['jsonmodel_type']}.map do |ag|
+      ra['relator'] == 'is_associative_with' && ra['_resolved']['jsonmodel_type'] != json['jsonmodel_type']}.map do |ag|
       res = ag['_resolved']
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']

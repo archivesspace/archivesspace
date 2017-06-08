@@ -43,16 +43,21 @@ class Resource < Record
       'identifier' => raw['four_part_id'],
     }
 
-    md['description'] = if (abstract = json['notes'].select{|n| n['type'] == 'abstract'}.first)
+    md['description'] = json['notes'].select{|n| n['type'] == 'abstract'}.map{|abstract|
                           strip_mixed_content(abstract['content'].join(' '))
-                        elsif (scope = json['notes'].select{|n| n['type'] == 'scopecontent'}.first)
-                          strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
-                        else
-                          ''
-                        end
+                        }
+
+    if md['description'].empty?
+      md['description'] = json['notes'].select{|n| n['type'] == 'scopecontent'}.map{|scope|
+                            strip_mixed_content(scope['subnotes'].map{|s| s['content']}.join(' '))
+                          }
+    end
+    md['description'] = md['description'][0] if md['description'].length == 1
+
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
+        '@id' => ag['display_name']['authority_id'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
         'name' => ag['title']
       }
@@ -94,10 +99,10 @@ class Resource < Record
     }
 
     md['provider'] = {
-      '@id' => 'http://id.loc.gov/authorities/names/n77005277',
+      '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
       'url' => AppConfig[:public_url] + raw['repository'],
       '@type' => 'Organization',
-      'name' => resolved_repository['name']
+      'name' => json['repository']['_resolved']['name']
     }
 
     md

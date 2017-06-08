@@ -4,7 +4,7 @@ class AgentCorporateEntity < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Organization',
-      '@id' => json['authority_id'],
+      '@id' => raw['authority_id'],
       'name' => json['display_name']['sort_name'],
       'url' => AppConfig[:public_url] + uri,
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
@@ -15,11 +15,10 @@ class AgentCorporateEntity < Record
       md['dissolutionDate'] = dates['end'] if dates['end']
     end
 
-    md['description'] = if (note = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.first)
+    md['description'] = json['notes'].select{|n| n['jsonmodel_type'] == 'note_bioghist'}.map{|note|
                           strip_mixed_content(note['subnotes'].map{|s| s['content']}.join(' '))
-                        else
-                          ''
-                        end
+                        }
+    md['description'] = md['description'][0] if md['description'].length == 1
 
     md
   end
