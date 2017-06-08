@@ -4,7 +4,7 @@ class AgentFamily < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Organization',
-      '@id' => json['authority_id'],
+      '@id' => raw['authority_id'],
       'name' => json['display_name']['sort_name'],
       'url' => AppConfig[:public_url] + uri,
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
