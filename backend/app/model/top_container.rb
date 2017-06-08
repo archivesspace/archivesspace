@@ -180,6 +180,8 @@ class TopContainer < Sequel::Model(:top_container)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
+    published_by_implication = find_published_by_implication(objs)
+
     jsons.zip(objs).each do |json, obj|
       json['display_string'] = obj.display_string
       json['long_display_string'] = obj.long_display_string
@@ -207,6 +209,8 @@ class TopContainer < Sequel::Model(:top_container)
       if json['exported_to_ils']
         json['exported_to_ils'] = json['exported_to_ils'].getlocal.iso8601
       end
+
+      json['is_linked_to_published_record'] = published_by_implication.fetch(obj.id, false)
     end
 
     jsons
@@ -488,5 +492,106 @@ class TopContainer < Sequel::Model(:top_container)
     end  
   end
 
+  def self.find_published_by_implication(objs)
+    result = {}
+    obj_ids = objs.map(&:id)
+
+    Accession
+      .join(:instance, :instance__accession_id => :accession__id)
+      .join(:sub_container, :sub_container__instance_id => :instance__id)
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+      .filter(:top_container_link_rlshp__top_container_id => obj_ids)
+      .filter(Sequel.qualify(:accession, :publish) => 1)
+      .filter(Sequel.qualify(:accession, :suppressed) => 0)
+      .select(Sequel.as(:top_container_link_rlshp__top_container_id, :id))
+      .each do |row|
+
+      result[row[:id]] = true
+    end
+
+    return result if obj_ids.all? {|id| result.has_key?(id)}
+
+    Resource
+      .join(:instance, :instance__resource_id => :resource__id)
+      .join(:sub_container, :sub_container__instance_id => :instance__id)
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+      .filter(:top_container_link_rlshp__top_container_id => obj_ids.reject{|id| result.has_key?(id)})
+      .filter(Sequel.qualify(:resource, :publish) => 1)
+      .filter(Sequel.qualify(:resource, :suppressed) => 0)
+      .select(Sequel.as(:top_container_link_rlshp__top_container_id, :id))
+      .each do |row|
+
+      result[row[:id]] = true
+    end
+
+    return result if obj_ids.all? {|id| result.has_key?(id)}
+
+    # need work up the tree and check each level is published and not suppressed
+    obj_id_to_node_id = {}
+    published_nodes = {}
+    unpublished_nodes = []
+    obj_id_to_resource_id = {}
+
+    ArchivalObject
+      .join(:instance, :instance__archival_object_id => :archival_object__id)
+      .join(:sub_container, :sub_container__instance_id => :instance__id)
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+      .filter(Sequel.qualify(:archival_object, :publish) => 1)
+      .filter(Sequel.qualify(:archival_object, :suppressed) => 0)
+      .filter(:top_container_link_rlshp__top_container_id => obj_ids.reject{|id| result.has_key?(id)})
+      .select(Sequel.as(:top_container_link_rlshp__top_container_id, :id),
+              Sequel.as(:archival_object__id, :node_id),
+              Sequel.as(:archival_object__parent_id, :parent_id),
+              Sequel.as(:archival_object__root_record_id, :root_record_id))
+      .each do |row|
+      obj_id_to_node_id[row[:id]] ||= []
+      obj_id_to_node_id[row[:id]] << row[:node_id]
+      obj_id_to_resource_id[row[:id]] = row[:root_record_id]
+      published_nodes[row[:node_id]] = row[:parent_id]
+    end
+
+    parent_ids = published_nodes.values.compact
+
+    while(true)
+      next_parent_ids = []
+
+      ArchivalObject
+        .filter(:id => parent_ids)
+        .select(:id, :parent_id, :suppressed, :publish, :root_record_id)
+        .each do |row|
+        obj_id_to_resource_id[row[:id]] = row[:root_record_id]
+
+        if row[:suppressed] == 1 || row[:publish] == 0
+          unpublished_nodes << row[:id]
+        else
+          published_nodes[row[:id]] = row[:parent_id]
+          next_parent_ids << row[:parent_id]
+        end
+      end
+
+      break if next_parent_ids.compact.empty?
+
+      parent_ids = next_parent_ids
+    end
+
+    published = published_nodes.reject {|k, v| unpublished_nodes.include?(k) || unpublished_nodes.include?(v)}.keys
+
+    resource_ids = published.map{|id| obj_id_to_resource_id[id]}.compact
+
+    Resource
+      .filter(:resource__id => resource_ids)
+      .filter(:suppressed => 0)
+      .filter(:publish => 1)
+      .select(:id)
+      .each do |row|
+      obj_id_to_resource_id.each do |obj_id, resource_id|
+        if resource_id == row[:id]
+          result[obj_id] = true
+        end
+      end
+    end
+
+    result
+  end
 
 end

@@ -41,14 +41,80 @@ module ImpliedPublication
           reference_columns = relationship_class.reference_columns_for(self)
           referrer_columns = relationship_class.reference_columns_for(related_class)
 
-          referrer_columns.each do |referrer_column|
-            reference_columns.each do |reference_column|
-              relationship_class.join(related_class, :id => referrer_column).
-                filter(:publish => 1).
-                filter(reference_column => obj_ids).
-                select(reference_column).
-                each do |published|
-                result[published[reference_column]] = true
+
+          if related_class.included_modules.include?(TreeNodes)
+            # need work up the tree and check each level is published and not suppressed
+            referrer_columns.each do |referrer_column|
+              reference_columns.each do |reference_column|
+                obj_id_to_node_id = {}
+                published_nodes = {}
+                unpublished_nodes = []
+
+                relationship_class.join(related_class, :id => referrer_column)
+                  .filter(Sequel.qualify(related_class.table_name, :publish) => 1)
+                  .filter(Sequel.qualify(related_class.table_name, :suppressed) => 0)
+                  .filter(reference_column => obj_ids)
+                  .select(Sequel.as(Sequel.qualify(relationship_class.table_name, reference_column), :id),
+                          Sequel.as(Sequel.qualify(relationship_class.table_name, referrer_column), :node_id),
+                          Sequel.as(Sequel.qualify(related_class.table_name, :parent_id), :parent_id),
+                          Sequel.as(Sequel.qualify(related_class.table_name, :root_record_id), :root_record_id))
+                  .each do |row|
+
+                  obj_id_to_node_id[row[:id]] ||= []
+                  obj_id_to_node_id[row[:id]] << row[:node_id]
+                  published_nodes[row[:node_id]] = row[:parent_id]
+                end
+
+                parent_ids = published_nodes.values.compact
+
+                while(true)
+                  next_parent_ids = []
+
+                  related_class
+                    .filter(:id => parent_ids)
+                    .select(:id, :parent_id, :suppressed, :publish)
+                    .each do |row|
+                    if row[:suppressed] == 1 || row[:publish] == 0
+                      unpublished_nodes << row[:id]
+                    else
+                      published_nodes[row[:id]] = row[:parent_id]
+                      next_parent_ids << row[:parent_id]
+                    end
+                  end
+
+                  break if next_parent_ids.compact.empty?
+
+                  parent_ids = next_parent_ids
+                end
+
+                published = published_nodes.reject {|k, v| unpublished_nodes.include?(k) || unpublished_nodes.include?(v)}.keys
+
+                related_class
+                  .join(related_class.root_model.table_name, :id => :root_record_id)
+                  .filter(Sequel.qualify(related_class.table_name, :id) => published)
+                  .filter(Sequel.qualify(related_class.root_model.table_name, :suppressed) => 0)
+                  .filter(Sequel.qualify(related_class.root_model.table_name, :publish) => 1)
+                  .select(Sequel.as(Sequel.qualify(related_class.table_name, :id), :id))
+                  .each do |row|
+                  obj_id_to_node_id.each do |obj_id, node_ids|
+                    if node_ids.include?(row[:id])
+                      result[obj_id] = true
+                    end
+                  end
+                end
+              end
+            end
+          else
+            referrer_columns.each do |referrer_column|
+              reference_columns.each do |reference_column|
+                relationship_class.join(related_class, :id => referrer_column).
+                  filter(:publish => 1).
+                  filter(Sequel.qualify(related_class.table_name, :suppressed) => 0).
+                  filter(reference_column => obj_ids).
+                  select(reference_column).
+                  each do |published|
+                  result[published[reference_column]] = true
+                end
               end
             end
           end
