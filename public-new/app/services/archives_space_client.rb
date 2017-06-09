@@ -83,6 +83,8 @@ class ArchivesSpaceClient
     url = build_url('/search/records', search_opts.merge("uri[]" => ASUtils.wrap(uri)))
     results = do_search(url)
 
+    raise RecordNotFound.new if results.fetch('results', []).empty?
+
     ASUtils.json_parse(results.fetch('results').fetch(0).fetch('json'))
   end
 
