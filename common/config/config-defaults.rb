@@ -411,6 +411,7 @@ AppConfig[:record_inheritance] = {
 AppConfig[:pui_search_results_page_size] = 25
 AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
+AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
 # The number of PDFs we'll generate (in the background) at the same time.
 #
