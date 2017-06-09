@@ -457,6 +457,9 @@ en:
         other_names: Names Forms
         other_names_preamble: "Also known by the following names:"
         related_agents: Related Agents
+        dates_of_existence: Dates
+        related_agent_description: Description
+        related_agent_dates: Dates
    
   agent_person:
     _singular: Person
