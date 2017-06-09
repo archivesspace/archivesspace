@@ -149,25 +149,12 @@ class Record
   end
 
   def parse_dates
-    return unless json.has_key?('dates') && full
+    return unless (json.has_key?('dates') || json.has_key?('dates_of_existence')) && full
 
     dates = []
 
-    json['dates'].each do |date|
-      label = date['label'].blank? ? '' : "#{date['label'].titlecase}: "
-      label = '' if label == 'Creation: '
-      exp =  date['expression'] || ''
-      if exp.blank?
-        exp = date['begin'] unless date['begin'].blank?
-        unless date['end'].blank?
-          exp = (exp.blank? ? '' : exp + ' - ') + date['end']
-        end
-      end
-      if date['date_type'] == 'bulk'
-        exp = exp.sub('bulk','').sub('()', '').strip
-        exp = date['begin'] == date['end'] ? I18n.t('bulk._singular', :dates => exp) :
-          I18n.t('bulk._plural', :dates => exp)
-      end
+    (json['dates'] || json['dates_of_existence']).each do |date|
+      label, exp = parse_date(date)
       dates.push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited')})
     end
 

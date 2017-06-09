@@ -7,22 +7,11 @@
 </div>
 <div class="row">
   <div class="col-sm-9">
-    <% if !@result.extents.blank? %>
-    <%   @result.extents.each do |ext| %>
-    <span class="extent"><%= ext['number'] %> <%= ext['extent_type'] %></span>
-    <% end %>
-    <br/>
-    <% end %>
     <% if !@result.dates.blank? %>
-      <% render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+      <h4><%= t('agent._public.section.dates_of_existence') %></h4>
+      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
 
-  <% if !@result['json']['component_id'].blank? %>
-    <span class='component'>Component: <%= @result['json']['component_id'] %></span>
-    <% end %>
-    <% if !@result['json']['ref_id'].blank? %>
-    <span class='ref_id'>[Ref. ID: <%= @result['json']['ref_id'] %>]</span>
-    <% end %>
     <%= render partial: 'shared/display_notes' %>
   
  <% if !@results.blank? && @results['total_hits'] > 0 %>
