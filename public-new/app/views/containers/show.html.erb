@@ -1,6 +1,10 @@
-<div id="main-content" class="row">
-  <div class="information col-sm-9">
+<div id="main-content">
+<div class="row">
+  <div class="information col-sm-7">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
   </div>
 </div>
 <div class="row">
@@ -19,4 +23,5 @@
       <%= render partial: 'shared/facets' %>
     <% end %>
   </div>
+</div>
 </div>
