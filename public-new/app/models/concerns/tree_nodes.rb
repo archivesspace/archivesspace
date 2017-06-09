@@ -50,6 +50,11 @@ module TreeNodes
   end
 
   def path_to_root
-    archives_space_client.get_raw_record("#{root_node_uri}/tree/node_from_root_#{id}").fetch(id)
+    begin
+      archives_space_client.get_raw_record("#{root_node_uri}/tree/node_from_root_#{id}").fetch(id)
+    rescue RecordNotFound => e
+      $stderr.puts "RecordNotFound: #{"#{root_node_uri}/tree/node_from_root_#{id}"}"
+      []
+    end
   end
 end
