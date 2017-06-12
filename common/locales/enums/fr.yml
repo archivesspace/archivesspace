@@ -343,7 +343,7 @@
       work: Oeuvre
       image: Image
     event_event_type:
-      accession: Collecte
+      accession: Entrée
       accumulation: Accumulation
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
@@ -398,7 +398,7 @@
       under_revision: En révision
       unprocessed: Non traité
     instance_instance_type:
-      accession: Collecte
+      accession: Entrée
       audio: Audio
       books: Livres
       computer_disks: Disques durs
@@ -1419,12 +1419,12 @@
 
 
   enumeration_names:
-    accession_acquisition_type: Type d'acquisition de la collecte
-    accession_parts_relator: Rapport entre parties de collecte
-    accession_parts_relator_type: Type de rapport entre parties de collecte
-    accession_sibling_relator: "Rapport entre collectes soeurs"
-    accession_sibling_relator_type: Type de rapport entre collectes soeurs
-    accession_resource_type: Type de ressource de la collecte
+    accession_acquisition_type: Type d'acquisition de l'entrée
+    accession_parts_relator: Rapport entre les parties de l'entrée
+    accession_parts_relator_type: Type de rapport entre les parties de l'entrée
+    accession_sibling_relator: "Rapport entre entrées soeurs"
+    accession_sibling_relator_type: Type de rapport entre entrées soeurs
+    accession_resource_type: Type de ressource de l'entrée
     agent_contact_salutation: Formule de salutation de l'agent contact
     agent_relationship_associative_relator: Relation agents Rapport associatif
     agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps

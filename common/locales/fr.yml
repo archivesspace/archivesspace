@@ -312,9 +312,9 @@ fr:
     linked_agents_tooltip: |
         <p>SOUS-NOTICE REQUISE. Associe un ou plusieurs agents en tant que participant à cet événement.</p>
     linked_records_tooltip: |
-        <p>SOUS-NOTICE REQUISE. Associe des collectes, des objets numériques ou des ressources à cet événement.</p>
+        <p>SOUS-NOTICE REQUISE. Associe des entrées, des objets numériques ou des ressources à cet événement.</p>
     types:
-      accession: Collecte
+      accession: Entrée
       accumulation: Archivage
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
@@ -1007,7 +1007,7 @@ fr:
     date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée 
     expression: Expression
     expression_tooltip: |
-        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de la collecte. Requis quand aucune date normalisée n'est enregistrée.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de l'entrée. Requis quand aucune date normalisée n'est enregistrée.</p>
         <p>Voir DACS 2.4</p>
         <p>Exemples:</p>
         <ul>
@@ -1080,33 +1080,33 @@ fr:
     <<: *section_tooltips
     user_defined:
       <<: *user_defined_attributes
-    accession_date: Date de collecte
+    accession_date: Date d'entrée
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle la collecte a eu lieu. N'est pas 
+        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas 
         nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
-        <p>Le numéro d'une notice de collecte spécifique dans la base de donnée interne.</p>
+        <p>Le numéro d'une notice d'entrée spécifique dans la base de donnée interne.</p>
     identifier: Identifiant
     id_0: Identifiant
     id_1: Identifiant 2
     id_2: Identifiant 3
     id_3: Identifiant 4
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une collecte au sein du 
+        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une entrée au sein du 
         dépôt.</p> 
         <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
-        identifiant de collecte en ses composants. Chaque segment est limité
+        identifiant d'entrée en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
-        Le premier champ au moins doit être renseigné pour avoir une  notice de collecte valide.</p>
+        Le premier champ au moins doit être renseigné pour avoir une  notice d'entrée valide.</p>
         <p>On peut recourir à des valeurs par défaut pour remplir des composants
-        invariables, présents dans tous les numéros de collectes.</p>
+        invariables, présents dans tous les numéros d'entrées.</p>
         <p>Voir DACS 5.2.5</p>
     content_description: Présentation du contenu
     content_description_tooltip: |
         <p>Une description des types de documents et des contenus topiques
-        de la collecte.</p>
+        de l'entrée.</p>
         <p>Voir DACS 3.1.4-3.1.7</p>
         <p>Exemples:</p>
         <p>Dix cartons de documents, comprenant des notes prises sur le terrain, des journaux intimes,
@@ -1121,7 +1121,7 @@ fr:
         Il est recommandé de porter un masque durant la manipulation.</p>
     disposition: Disposition
     disposition_tooltip: |
-        <p>Une note pour expliquer comment telle collecte particulière a pu être assignée à des ressources différentes.</p>
+        <p>Une note pour expliquer comment telle entrée particulière a pu être assignée à des ressources différentes.</p>
         <p>Exemples:</p>
         <p>Des photographies ont été séparées et assignées aux photographies 025.</p>
         <p>Les lettres adressées à William Colton ont été ajoutées à la collection de la correspondance William Colton, tandis que les cartes des cours d'eau du comté ont été ajoutées aux archives de la collection County River.</p>
@@ -1130,7 +1130,7 @@ fr:
         <p>Un champ de note fourre-tout pour toute information ne rentrant pas dans les champs expressément définis.</p>
     inventory: Inventaire
     inventory_tooltip: |
-      <p>Une liste des contenants et de leur contenu constituant une collecte. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
+      <p>Une liste des contenants et de leur contenu constituant une entrée. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
         <p>Exemple:</p>
         <ul>
         <li>Boîte 1:   Journaux intimes</li>
@@ -1140,18 +1140,18 @@ fr:
         </ul>
     provenance: Provenance
     provenance_tooltip: |
-       <p>Une note indiquant la provenance d'une collecte, sous forme d'historique de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
+       <p>Une note indiquant la provenance d'une entrée, sous forme d'historique de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
        <p>Voir DACS 5.1-5.2</p>
     retention_rule: Règle de conservation
     retention_rule_tooltip: |
-        <p>Une note indiquant l'autorité ou la règle de conservation valant pour la collecte.
+        <p>Une note indiquant l'autorité ou la règle de conservation valant pour l'entrée.
         <p>Exemples:</p>
         <ul>
         <li>Voir le Programme de conservation du Campus.</li>
         </ul>
     restrictions_apply: Des restrictions s'appliquent?
     restrictions_apply_tooltip: |
-        <p>Indiquer si des restrictions s'appliquent à la collecte.</p>
+        <p>Indiquer si des restrictions s'appliquent à l'entrée.</p>
         <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
     resource_type: Type de ressource
     resource_type_tooltip: |
@@ -1187,35 +1187,35 @@ fr:
         <li>Transfert</li>
         </ul>
     publish: Publier?
-    publish_help: Cocher la case si vous voulez rendre cette collecte accessible au public.
+    publish_help: Cocher la case si vous voulez rendre cette entrée accessible au public.
     publish_tooltip: |
-        <p>Détermine si la collecte sera ou non publiée sur les interfaces publiques.</p>
+        <p>Détermine si l'entrée sera ou non publiée sur les interfaces publiques.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
-        <p>Indique si des restrictions s'appliquent à la collecte.</p>
+        <p>Indique si des restrictions s'appliquent à l'entrée.</p>
         <p>Voir DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Intitulé
     title_tooltip: |
-        <p>L'intitulé assigné à une collecte ou à une ressource. L'intitulé de la collecte
+        <p>L'intitulé assigné à une entrée ou à une ressource. L'intitulé de l'entrée
         peut ne pas être le même que celui de la ressource. De plus, il n'est pas
-        nécessaire de donner un titre à la notice collecte, celui-ci pouvant être implicitement
-        hérité de la notice ressource à laquelle la notice collecte est liée.
+        nécessaire de donner un titre à la notice entrée, celui-ci pouvant être implicitement
+        hérité de la notice ressource à laquelle la notice entrée est liée.
         </p>
         <p>Voir DACS 2.3.18-2.3.22</p>
     related_resources_tooltip: |
-        <p>S'utilise pour relier des ressources associées à cette collecte.</p>
+        <p>S'utilise pour relier des ressources associées à cette entrée.</p>
     relator: Type de lien
     relator_type: Types de lien
-    _singular: Collecte
-    _plural: Collectes
+    _singular: Entrée
+    _plural: Entrées
 
   interrelated_accession:
-    _plural: Collectes associées
+    _plural: Entrées associées
     relationship_type: Type de relation
 
   accession_sibling_relationship:
     _singular: Relation collatérale
-    relator: Cette collecte
+    relator: Cette entrée
     sibling_of: Soeur de
     relator_type: Type de relation
     bound_with: "\"liée par \" Relation"
@@ -1223,7 +1223,7 @@ fr:
   accession_parts_relationship:
     _singular: "\"Partie de\" Relation"
     part: "\"Partie de\" Relation"
-    relator: Cette collecte
+    relator: Cette entrée
     forms_part_of: Fait partie de
     has_part: Participe de 
     relator_type: Type de lien
@@ -1308,7 +1308,7 @@ fr:
         <ul>
         <li>Série organique I</li>
         <li>Sous-série 8</li>
-        <li>Collecte 2005-M-078</li>
+        <li>Entrée 2005-M-078</li>
         </ul>
     level: Niveau de description
     level_tooltip: |
@@ -1369,7 +1369,7 @@ fr:
       update_subject_record: créer/actualiser notices matières
       update_agent_record: créer/actualiser notices agents
       update_vocabulary_record: créer/actualiser notices vocabulaire
-      update_accession_record: créer/actualiser collectes dans ce dépôt
+      update_accession_record: créer/actualiser entrées dans ce dépôt
       update_resource_record: créer/actualiser ressources dans ce dépôt
       update_digital_object_record: créer/actualiser objets numériques dans ce dépôt
       update_event_record: créer/actualiser notices événements dans ce dépôt
@@ -1440,7 +1440,7 @@ fr:
         <p>SOUS-CHAMP OBLIGATOIRE. Sert à entrer la taille des documents décrits.</p>
         <p>Voir DACS 2.5</p>
     related_accessions_tooltip: |
-        <p>Sert à lier des collectes associées avec cette ressource.</p>
+        <p>Sert à lier des entrées associées avec cette ressource.</p>
     repository_processing_note_tooltip: |
         <p>Champ spécifique à l'application pour enregistrer une information relative au traitement des documents. Cette note n'est inclue dans aucun export ou rapport, et n'est pas remplie par import.</p>
     ead_id: Identifiant EAD
@@ -1502,8 +1502,8 @@ fr:
     _plural: Ressources
 
   related_accession:
-    _singular: Collecte associée
-    _plural: Collectes associées
+    _singular: Entrée associée
+    _plural: Entrées associées
 
   revision_statement:
     _singlular: Mention de révision
@@ -1531,7 +1531,7 @@ fr:
         </ul>
     name: Nom de dépôt
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom du dépôt qui a la résponsabilité administrative de la conservation des documents décrits dans les modules collecte, ressource et objet numérique de l'application.</p>
+        <p>CHAMP OBLIGATOIRE. Le nom du dépôt qui a la résponsabilité administrative de la conservation des documents décrits dans les modules entrée, ressource et objet numérique de l'application.</p>
         <p>Voir DACS 2.2</p>
         <p>Exemples:</p>
         <ul>
@@ -1669,7 +1669,7 @@ fr:
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
-        <p>Une note au sujet du catalogage de l'entité archivistique (collecte, ressource, objet numérique), incluant la provision d'identifiants d'enregistrement catalogue.</p>
+        <p>Une note au sujet du catalogage de l'entité archivistique (entrée, ressource, objet numérique), incluant la provision d'identifiants d'enregistrement catalogue.</p>
         <p>Exemples:</p>
         <ul>
         <li>Numéro d'enregistrement catalogue: 21345672</li>
@@ -1709,7 +1709,7 @@ fr:
     processing_started_date: Date de début de traitement
     processing_status: Statut de traitement
     processing_status_tooltip: |
-        <p>Pour indiquer l'état actuel de traitement d'une unité archivistique (collecte, ressource, ou objet numérique).</p>
+        <p>Pour indiquer l'état actuel de traitement d'une unité archivistique (entrée, ressource, ou objet numérique).</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
         <p>Exemples:</p>
         <ul>
@@ -1722,7 +1722,7 @@ fr:
         <p>Sert à indiquer la source de financement pour le traitement des documents décrits.</p>
     processors: Agent de traitement
     processors_tooltip: |
-        <p>Pour lister le personnel chargé de traiter l'unité archivistique (collecte, ressource, ou objets numériques).</p>
+        <p>Pour lister le personnel chargé de traiter l'unité archivistique (entrée, ressource, ou objets numériques).</p>
     rights_determined: Droits déterminés?
     rights_determined_tooltip: |
         <p>Indiquer si les droits relatifs à une unité archivistique (collect, ressource, ou objet numérique) ont été déterminés et une notice de droits créée et liée à l'unité archivistique.</p>
@@ -1787,8 +1787,8 @@ fr:
     publish: Publier?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
-    default_values_tooltip: Pré-remplir ou non une nouvelle notice collecte ou ressource avec des valeurs par défaut.
-    accession_browse_section: Colonnes d'exploration collecte
+    default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    accession_browse_section: Colonnes d'exploration des entrées
     accession_browse_column_1: Colonne 1
     accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
     accession_browse_column_2: Colonne 2
@@ -1920,11 +1920,11 @@ fr:
     filenames: Importer fichers
     import_type: Importer type
     import_type_ead_xml: EAD
-    import_type_accession_csv: Collecte CSV
+    import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
     import_type_marcxml: MarcXML (Ressource)
-    import_type_marcxml_accession: MarcXML (Collecte)
+    import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)
 
   find_and_replace_job:

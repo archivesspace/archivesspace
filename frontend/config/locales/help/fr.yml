@@ -5,7 +5,7 @@ fr:
     default_tooltip: Centre d'aide ArchivesSpace
     topics:
       # Accession help tooltips
-      accession: Aide sur Collectes
+      accession: Aide sur Entrées
       accession_basic_information: Aide sur Information de base
       accession_extents: Aide sur Importance matérielle
       accession_dates: Aide sur Dates
@@ -25,7 +25,7 @@ fr:
       resource_dates: Aide sur Dates
       resource_extents: Aide sur Importance matérielle
       resource_finding_aid: Aide sur Instruments de recherche
-      resource_related_accessions: Aide sur Collectes associées
+      resource_related_accessions: Aide sur Entrées associées
       resource_linked_agents: Aide sur Liens agents
       resource_subjects: Aide sur Sujets
       resource_notes: Aide sur Notes
@@ -42,7 +42,7 @@ fr:
       archival_object_dates: Aide sur Dates
       archival_object_extents: Aide sur Importance matérielle
       archival_object_finding_aid: Aide sur Instruments de recherche
-      archival_object_related_accessions: Aide sur Collectes associées
+      archival_object_related_accessions: Aide sur Entrées associées
       archival_object_linked_agents: Aide sur Liens agents
       archival_object_subjects: Aide sur Sujets
       archival_object_notes: Aide sur Notes
@@ -59,7 +59,7 @@ fr:
       digital_object_dates: Aide sur Dates
       digital_object_extents: Aide sur Importance matérielle
       digital_object_finding_aid: Aide sur Instruments de recherche
-      digital_object_related_accessions: Aide sur Collectes associées
+      digital_object_related_accessions: Aide sur Entrées associées
       digital_object_linked_agents: Aide sur Liens agents
       digital_object_subjects: Aide sur Sujets
       digital_object_notes: Aide sur Notes
@@ -76,7 +76,7 @@ fr:
       digital_object_component_dates: Aide sur Dates
       digital_object_component_extents: Aide sur Importance matérielle
       digital_object_component_finding_aid: Aide sur Instruments de recherche
-      digital_object_component_related_accessions: Aide sur Collectes associées
+      digital_object_component_related_accessions: Aide sur Entrées associées
       digital_object_component_linked_agents: Aide sur Liens agents
       digital_object_component_subjects: Aide sur Sujets
       digital_object_component_notes: Aide sur Notes

@@ -274,7 +274,7 @@ fr:
   subgroups: Sous-groupes
   accessed: Accédé
   containers: Liste de contenants
-  related_accessions: Collectes liées
+  related_accessions: Entrées liées
   related_resources: Ressources liées
 
   accession:
@@ -284,7 +284,7 @@ fr:
       section:
         summary: Résumé
       related_accessions:
-       accessions: Notices collectes
+       accessions: Notices entrées
        deaccessions: Notices aliénations
 
   archival_object:
@@ -354,7 +354,7 @@ fr:
         note: Note
         revision: Mentions de révisions
       related_accessions:
-        accessions: Notices collectes
+        accessions: Notices entrées
         deaccessions: Notices aliénations
 
   top_container:
@@ -812,7 +812,7 @@ fr:
       work: Oeuvre
       image: Image
     event_event_type:
-      accession: Collecte
+      accession: Entrée
       accumulation: Accumulation
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
@@ -867,7 +867,7 @@ fr:
       under_revision: En révision
       unprocessed: Non traité
     instance_instance_type:
-      accession: Collecte
+      accession: Entrée
       audio: Audio
       books: Livres
       computer_disks: Disques durs
@@ -1894,12 +1894,12 @@ fr:
 
         
   enumeration_names:
-    accession_acquisition_type: Type d'acquisition de la collecte
-    accession_parts_relator: Rapport entre parties de collecte
-    accession_parts_relator_type: Type de rapport entre parties de collecte
-    accession_sibling_relator: "Rapport entre collectes soeurs"
-    accession_sibling_relator_type: Type de rapport entre collectes soeurs
-    accession_resource_type: Type de ressource de la collecte
+    accession_acquisition_type: Type d'acquisition de l'entrée
+    accession_parts_relator: Rapport entre parties d'entrée
+    accession_parts_relator_type: Type de rapport entre parties d'entrée
+    accession_sibling_relator: "Rapport entre entrées soeurs"
+    accession_sibling_relator_type: Type de rapport entre entrées soeurs
+    accession_resource_type: Type de ressource de l'entrée
     agent_contact_salutation: Formule de salutation de l'agent contact
     agent_relationship_associative_relator: Relation agents Rapport associatif
     agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps

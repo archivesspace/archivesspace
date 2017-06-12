@@ -1,11 +1,11 @@
 fr:
   reports:
     accession_report:
-      title: Rapport de collecte
-      description: Affiche toutes les collectes pour un dépôt donné. Rapport incluant, pour chaque collecte, les données saisies dans les champs d'informations de base.
-      number_of_accessions: Nombre de collectes
-      identifier_prefix: Collecte
-      accession_date: Date de collecte
+      title: Rapport d'entrée
+      description: Affiche toutes les entrées pour un dépôt donné. Rapport incluant, pour chaque entrée, les données saisies dans les champs d'informations de base.
+      number_of_accessions: Nombre d'entrées
+      identifier_prefix: Entrée
+      accession_date: Date d'entrée
       extent: Importance
       container: Contenant 
       deaccessions: Aliénations

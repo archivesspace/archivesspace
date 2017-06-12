@@ -144,7 +144,7 @@ fr:
       digital_object_type: Type
       level: Niveau
       classification_path: Classification
-      accession_date_year: Date de collecte
+      accession_date_year: Date d'entrée
       creators: Producteur
       source: Source
       rules: Règles
@@ -208,7 +208,7 @@ fr:
     area: Aire
     resource_type: Type de Ressource
     acquisition_type: Type d'acquisition
-    accession_date: Date de collecte
+    accession_date: Date d'entrée
     restrictions_apply: Des restrictions s'appliquent
     access_restrictions: Restrictions d'accès
     use_restrictions: Restrictions d'utilisation
@@ -263,7 +263,7 @@ fr:
     import_ead: Fichier EAD
     import_marcxml: MARCXML
     import_marcxml_subjects_and_agents: MARCXML (sujets et agents uniquement)
-    import_accession_csv: Collecte CSV
+    import_accession_csv: Entrée CSV
     import_digital_object_csv: Objet numérique CSV
     search_all: Toutes les notices
     search_placeholder: Chercher dans toutes les notices
@@ -347,7 +347,7 @@ fr:
     ead_title: Importer un fichier EAD
     marcxml_title: Importer un fichier MARCXML
     marcxml_subjects_and_agents_title: Importer sujets et agents à partir d'un fichier MARCXML
-    accession_csv_title: Importer des notices de collectes à partir d'un fichier CSV
+    accession_csv_title: Importer des notices d'entrées à partir d'un fichier CSV
     digital_object_csv_title: Importer des notices d'objets numériques à partir d'un fichier CSV
     import_report: Importer un rapport
     import_another: Importer un autre fichier
@@ -364,7 +364,7 @@ fr:
     form_title:
       archival_object: Valeurs par défaut d'une notice composant
       resource: Valeurs par défaut d'une notice Ressource
-      accession: Valeurs par défaut d'une notice collecte
+      accession: Valeurs par défaut d'une notice entrée
       subject: Valeurs par défaut d'une notice sujet
       agent_person: Valeurs par défaut d'une notice agent (personne)
       agent_family: Valeurs par défaut d'une notice agent (famille)
@@ -397,20 +397,20 @@ fr:
   accession:
     _frontend:
       messages:
-        created: Collecte <strong>%{accession.display_string}</strong> créée
-        unsuppressed: Collecte <strong>%{accession.display_string}</strong> débloquée
-        updated: Collecte <strong>%{accession.display_string}</strong> actualisée
-        suppressed: Collecte <strong>%{accession.display_string}</strong> bloquée
-        suppressed_info: Collecte bloquée, ne pouvant pas être éditée
-        deleted: Collecte <strong>%{accession.display_string}</strong> supprimée
-        transfer_description: Transférer cette collecte vers...
+        created: Entrée <strong>%{accession.display_string}</strong> créée
+        unsuppressed: Entrée <strong>%{accession.display_string}</strong> débloquée
+        updated: Entrée <strong>%{accession.display_string}</strong> actualisée
+        suppressed: Entrée <strong>%{accession.display_string}</strong> bloquée
+        suppressed_info: Entrée bloquée, ne pouvant pas être éditée
+        deleted: Entrée <strong>%{accession.display_string}</strong> supprimée
+        transfer_description: Transférer cette entrée vers...
         transfer_target: Sélectionnez un dépôt vers lequel opérer le transfert
-        spawned: "Cette collecte a été générée à partir de la collecte <strong>%{accession.display_string}</strong>"
+        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
       section:
         basic_information: Information de base
       action:
-        create: Créer Collecte
-        save: Sauvegarder Collecte
+        create: Créer Entrée
+        save: Sauvegarder Entrée
 
   agent: &agent_attributes
     _frontend:
@@ -745,7 +745,7 @@ fr:
   related_accession:
     _frontend:
       action:
-        add: Ajouter collecte associée
+        add: Ajouter entrée associée
 
   related_agent:
     _frontend:
@@ -794,7 +794,7 @@ fr:
       messages:
         created: "Ressource <strong>%{resource.title}</strong> créée"
         updated: "Ressource <strong>%{resource.title}</strong> actualisée"
-        spawned: "Une nouvelle ressource a été générée depuis Collecte <strong>%{accession.display_string}</strong>"
+        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession.display_string}</strong>"
         deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
         published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
@@ -1109,12 +1109,12 @@ fr:
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
-        collection_singular: Ressource/Collecte
-        collection_plural: Ressources/Collectes
+        collection_singular: Ressource/Entrée
+        collection_plural: Ressources/Entrées
         collection_resource_singular: Ressource
         collection_resource_plural: Ressources
-        collection_accession_singular: Collecte
-        collection_accession_plural: Collectes
+        collection_accession_singular: Entrée
+        collection_accession_plural: Entrées
         series: Série
         current_location: Localisation actuelle
         keyword_criteria: Mot-clé
