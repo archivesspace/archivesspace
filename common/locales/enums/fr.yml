@@ -343,7 +343,7 @@
       work: Oeuvre
       image: Image
     event_event_type:
-      accession: Collecte
+      accession: Entrée
       accumulation: Accumulation
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
@@ -398,7 +398,7 @@
       under_revision: En révision
       unprocessed: Non traité
     instance_instance_type:
-      accession: Collecte
+      accession: Entrée
       audio: Audio
       books: Livres
       computer_disks: Disques durs
@@ -412,10 +412,10 @@
       realia: Realia
       text: Texte
     accession_acquisition_type:
-      deposit: Versement
+      deposit: Dépôt
       gift: Don
       purchase: Achat
-      transfer: Transfert
+      transfer: Versement
     accession_resource_type:
       collection: Collection
       publications: Publications
@@ -990,7 +990,7 @@
       expression: Expression
       single: Unique
       bulk: Dates du gros
-      inclusive: Dates inclusives
+      inclusive: Dates extrêmes
       range: Fourchette
     date_label:
       record_keeping: Maintenance notices
@@ -1009,7 +1009,7 @@
       other: Autre
     date_certainty:
       approximate: Approximative
-      inferred: Inférée
+      inferred: Supposée
       questionable: Douteuse
     extent_portion:
       whole: Tout
@@ -1408,7 +1408,7 @@
       meters: Mètres
     restriction_type:
       RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
-      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le dépôt
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service d'archives
       RestrictedFragileSpecColl: 3 - Non consultable fragile
       InProcessSpecColl: 4 - Non consultable en cours de traitement
       ColdStorageBrbl: 5 - Autre
@@ -1419,12 +1419,12 @@
 
 
   enumeration_names:
-    accession_acquisition_type: Type d'acquisition de la collecte
-    accession_parts_relator: Rapport entre parties de collecte
-    accession_parts_relator_type: Type de rapport entre parties de collecte
-    accession_sibling_relator: "Rapport entre collectes soeurs"
-    accession_sibling_relator_type: Type de rapport entre collectes soeurs
-    accession_resource_type: Type de ressource de la collecte
+    accession_acquisition_type: Type d'acquisition de l'entrée
+    accession_parts_relator: Rapport entre les parties de l'entrée
+    accession_parts_relator_type: Type de rapport entre les parties de l'entrée
+    accession_sibling_relator: "Rapport entre entrées soeurs"
+    accession_sibling_relator_type: Type de rapport entre entrées soeurs
+    accession_resource_type: Type de ressource de l'entrée
     agent_contact_salutation: Formule de salutation de l'agent contact
     agent_relationship_associative_relator: Relation agents Rapport associatif
     agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps
@@ -1437,7 +1437,7 @@
     container_type: Type de contenant
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
-    date_certainty: Certitude de la date
+    date_certainty: Fiabilité de la date
     date_era: Ere
     date_label: Etiquette de date
     date_type: Type de date
