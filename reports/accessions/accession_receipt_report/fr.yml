@@ -2,9 +2,9 @@ fr:
   reports:
     accession_receipt_report:
       title: Rapport de réception d'entrées
-      description: Affiche un reçu indiquant une entrée de documents. Rapport contenant n° d'entrée, titre, importance matérielle, date d'entrée et dépôt.
+      description: Affiche un reçu indiquant une entrée de documents. Rapport contenant n° d'entrée, titre, importance matérielle, date d'entrée et service d'archives.
       accession_title: Intitulé d'entrée
       extent: Importance matérielle
-      repository: Dépôt
-      repository_date: Entrée au dépôt le
+      repository: Service
+      repository_date: Entrée datée du
       accession_number: Numéro d'accession

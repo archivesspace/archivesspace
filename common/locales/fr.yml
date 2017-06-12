@@ -184,7 +184,7 @@ fr:
     has_unpublished_ancestor: A un ancêtre non publié?
     holdings: Exemplaires
     owner_repo: Réservé pour
-    owner_repo_tooltip: Un dépôt ayant réservé cette localisation
+    owner_repo_tooltip: Un service d'archives ayant réservé cette localisation
     _singular: Localisation
     _plural: Localisations
 
@@ -914,7 +914,7 @@ fr:
   rights_statement: &rights_statement_attributes
     identifier: Identifiant
     identifier_tooltip: |
-        <p>Identifie de manière unique la mention des droits dans le domaine du dépôt. Les identifiants de la mention des droits sont normalement autogénérés par l'application.</p>
+        <p>Identifie de manière unique la mention des droits dans le domaine du service d'archives. Les identifiants de la mention des droits sont normalement autogénérés par l'application.</p>
     identifier_auto_generate_message: "-- auto-généré lors de l'enregistrement --"
     rights_type: Type de droits
     rights_type_tooltip: |
@@ -960,10 +960,10 @@ fr:
         </ul>
     permissions: Permissions
     permissions_tooltip: |
-        <p>Une description de ce que le dépôt et/ou l'utilisateur final peut faire.</p>
+        <p>Une description de ce que le service d'archives et/ou l'utilisateur final peut faire.</p>
     restrictions: Restrictions
     restrictions_tooltip: |
-        <p>Une description de ce que le dépôt et/ou l'utilisateur final ne peut pas faire.</p>
+        <p>Une description de ce que le service d'archives et/ou l'utilisateur final ne peut pas faire.</p>
         <p>Exemples:</p>
         <ul>
         <li>Il n'est pas permis de photocopier, scanner, ou photographier des documents.</li>
@@ -1095,7 +1095,7 @@ fr:
     id_3: Identifiant 4
     id_0_tooltip: |
         <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une entrée au sein du 
-        dépôt.</p> 
+        service d'archives.</p> 
         <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
         identifiant d'entrée en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
@@ -1155,7 +1155,7 @@ fr:
         <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
     resource_type: Type de ressource
     resource_type_tooltip: |
-        <p>Une liste de termes utilisés par un dépôt pour catégoriser ses ressources en types de base.</p>
+        <p>Une liste de termes utilisés par un service d'archives pour catégoriser ses ressources en types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
     access_restrictions: Restrictions de consultation?
     access_restrictions_tooltip: |
@@ -1178,7 +1178,7 @@ fr:
         <p>Les manuscrits de la boîte 33 sont fragiles; utiliser les photocopies à la place.</p>
     acquisition_type: Type d'acquisition
     acquisition_type_tooltip: |
-        <p>Une catégorie descriptive pour le type d'acquisition. Chaque dépôt
+        <p>Une catégorie descriptive pour le type d'acquisition. Chaque service d'archives
         peut adapter la liste.</p>
         <p>Exemples:</p>
         <ul>
@@ -1336,7 +1336,7 @@ fr:
     restrictions_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
-    repository_processing_note: Note de traitement dépôt
+    repository_processing_note: Note de traitement 
     automate_title: Intitulé automatiquement généré
     language: Langue
     language_tooltip: |
@@ -1364,26 +1364,26 @@ fr:
         <p>Membres appartenant à ce groupe.</p>
     permissions: "Les membres peuvent:"
     permission_types:
-      manage_repository: gérer ce dépôt (modifier groupes et autres préférences)
-      update_location_record: créer/modifier/supprimer notices de localisations dans ce dépôt
+      manage_repository: gérer ce service d'archives (modifier groupes et autres préférences)
+      update_location_record: créer/modifier/supprimer notices de localisations dans ce service d'archives
       update_subject_record: créer/actualiser notices matières
       update_agent_record: créer/actualiser notices agents
       update_vocabulary_record: créer/actualiser notices vocabulaire
-      update_accession_record: créer/actualiser entrées dans ce dépôt
-      update_resource_record: créer/actualiser ressources dans ce dépôt
-      update_digital_object_record: créer/actualiser objets numériques dans ce dépôt
-      update_event_record: créer/actualiser notices événements dans ce dépôt
-      view_repository: voir les notices dans ce dépôt
-      view_suppressed: voir les notices bloquées dans ce dépôt
-      suppress_archival_record: bloquer les principaux types de notices dans ce dépôt
-      delete_archival_record: supprimer les principaux types de notices dans ce dépôt
-      delete_event_record: supprimer des notices événements dans ce dépôt
+      update_accession_record: créer/actualiser entrées dans ce service d'archives
+      update_resource_record: créer/actualiser ressources dans ce service d'archives
+      update_digital_object_record: créer/actualiser objets numériques dans ce service d'archives
+      update_event_record: créer/actualiser notices événements dans ce service d'archives
+      view_repository: voir les notices dans ce service d'archives
+      view_suppressed: voir les notices bloquées dans ce service d'archives
+      suppress_archival_record: bloquer les principaux types de notices dans ce service d'archives
+      delete_archival_record: supprimer les principaux types de notices dans ce service d'archives
+      delete_event_record: supprimer des notices événements dans ce service d'archives
       update_classification_record: créer/actualiser classifications et termes de classification
       delete_classification_record: supprimer classifications et termes de classification
       merge_agents_and_subjects: fusionner notices agent/matière
-      merge_archival_record: fusionner principaux types de notices dans ce dépôt
-      transfer_repository: transférer le contenu entier d'un dépôt
-      transfer_archival_record: transférer principaux types de notices d'un dépôt vers un autre
+      merge_archival_record: fusionner principaux types de notices dans ce service d'archives
+      transfer_repository: transférer le contenu entier d'un service d'archives
+      transfer_archival_record: transférer principaux types de notices d'un service d'archives vers un autre
       manage_subject_record: créer/actualiser/supprimer notices matières
       manage_agent_record: créer/actualiser/supprimer notices agents
       manage_vocabulary_record: créer/actualiser/supprimier notices vocabulaire
@@ -1408,7 +1408,7 @@ fr:
     id_2: Identifiant 3
     id_3: Identifiant 4
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le numéro d'identification assigné à chaque ressource distincte au sein d'un dépôt.</p>
+        <p>CHAMP OBLIGATOIRE. Le numéro d'identification assigné à chaque ressource distincte au sein d'un service d'archives.</p>
         <p>Voir DACS 2.1.3</p>
         <p>Exemples</p>
         <ul>
@@ -1433,9 +1433,9 @@ fr:
         </ul>
     resource_type: Type de ressource
     resource_type_tooltip: |
-        <p>Liste de termes en usage dans un dépôt pour classer ses ressources selon des types de base.</p>
+        <p>Liste de termes en usage dans un service d'archives pour classer ses ressources selon des types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
-    repository_processing_note: Note de traitement dépôt
+    repository_processing_note: Note de traitement
     extents_tooltip: |
         <p>SOUS-CHAMP OBLIGATOIRE. Sert à entrer la taille des documents décrits.</p>
         <p>Voir DACS 2.5</p>
@@ -1445,7 +1445,7 @@ fr:
         <p>Champ spécifique à l'application pour enregistrer une information relative au traitement des documents. Cette note n'est inclue dans aucun export ou rapport, et n'est pas remplie par import.</p>
     ead_id: Identifiant EAD
     ead_id_tooltip: |
-        <p>L'identifiant EAD généré à partir de la description de ressource, typiquement un nom de fichier. Doit être unique dans le contexte du dépôt.</p>
+        <p>L'identifiant EAD généré à partir de la description de ressource, typiquement un nom de fichier. Doit être unique dans le contexte du service d'archives.</p>
     ead_location: Localisation EAD
     ead_location_tooltip: |
         <p>La localisation pour l'EAD généré à partir de la description de ressource, sous forme d'URL ou d'adresse de répertoire. The location typically terminates.</p>
@@ -1520,18 +1520,18 @@ fr:
     _plural: Ressources associées
 
   repository:
-    repo_code: Nom abrégé de dépôt
+    repo_code: Nom abrégé du service
     repo_code_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Abréviation ou acronyme pour le nom de dépôt, qui peut être plus adapté dans l'interface utilisateur.</p>
+        <p>CHAMP OBLIGATOIRE. Abréviation ou acronyme pour le nom du service d'archives, qui peut être plus adapté dans l'interface utilisateur.</p>
         <p>Exemples:</p>
         <ul>
         <li>YNHSCL <em>(for Your Name Here Special Collections Library)</em></li>
         <li>MSCL <em>(for Mandeville Special Collections Library)</em></li>
         <li>Tamwag <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
         </ul>
-    name: Nom de dépôt
+    name: Nom du service
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom du dépôt qui a la résponsabilité administrative de la conservation des documents décrits dans les modules entrée, ressource et objet numérique de l'application.</p>
+        <p>CHAMP OBLIGATOIRE. Le nom du service d'archives qui a la résponsabilité administrative de la conservation des documents décrits dans les modules entrée, ressource et objet numérique de l'application.</p>
         <p>Voir DACS 2.2</p>
         <p>Exemples:</p>
         <ul>
@@ -1557,14 +1557,14 @@ fr:
         </ul>
     address_1: Addresse 1
     address_1_tooltip: &address_tooltip |
-        <p>Adresse postale ou rue et n° du dépôt.</p>
+        <p>Adresse postale ou rue et n° du service d'archives.</p>
     address_2: Addresse 2
     address_2_tooltip: *address_tooltip
     city: Ville
     district: Etat ou Région
     country: Pays
     country_tooltip: |
-        <p>Le pays dans lequel le dépôt est situé, pris dans la liste ISO 3166.</p>
+        <p>Le pays dans lequel le service d'archives est situé, pris dans la liste ISO 3166.</p>
     post_code: Code postal
     telephone: Téléphone
     telephone_ext: Extension
@@ -1573,16 +1573,16 @@ fr:
     email_signature: Signature d'email
     url: URL de page d'accueil
     url_tooltip: |
-        <p>Un URL pour la page web du dépôt.</p>
+        <p>Un URL pour la page web du service d'archives.</p>
     contact_persons: Personnes à contacter
     image_url: URL du logo de marquage
     image_url_tooltip: |
-        <p>Un URL ou un autre identifiant de localisation de fichier pointant vers un fichier contenant un outil de marquage à utiliser dans l'instrument d'aide en ligne du dépôt. Un logo ou un sceau universitaire constituent des outils typiques de marquage.</p>
-    _singular: Dépôt
-    _plural: Dépôts
+        <p>Un URL ou un autre identifiant de localisation de fichier pointant vers un fichier contenant un outil de marquage à utiliser dans l'instrument d'aide en ligne du service d'archives. Un logo ou un sceau universitaire constituent des outils typiques de marquage.</p>
+    _singular: Service d'archives
+    _plural: Services d'archives
     publish: Publier?
     publish_tooltip: |
-        <p>Détermine si ce dépôt et les notices qu'il peut contenir ains seront publiés sur les interfaces publiques.</p>
+        <p>Détermine si ce service d'archives et les notices qu'il peut contenir seront publiés sur les interfaces publiques.</p>
 
 
   term: &term_attributes
@@ -1676,7 +1676,7 @@ fr:
         </ul>
     processing_hours_per_foot_estimate: Vitesse de traitement en h/unités
     processing_hours_per_foot_estimate_tooltip: |
-        <p>Le temps que le dépôt estime nécessaire pour traiter une unité de matériel archivistique (par ex. un mètre linéaire ou item dans le cas d'objets numériques).  L'estimation peut ou non prendre en compte la production d'instruments de recherche, d'enregistrements catalogue et d'autres produits d'accès.</p>
+        <p>Le temps que le service d'archives estime nécessaire pour traiter une unité de matériel archivistique (par ex. un mètre linéaire ou item dans le cas d'objets numériques).  L'estimation peut ou non prendre en compte la production d'instruments de recherche, d'enregistrements catalogue et d'autres produits d'accès.</p>
     processing_total_extent: Importance totale du matériel à traiter
     processing_total_extent_tooltip: |
         <p>Une expression numérique pour l'importance totale (en mètres cubes, mètres linéaires, items, etc) du matériel à traiter.</p>
@@ -1689,7 +1689,7 @@ fr:
         <p>Le résultat numérique du produit de "vitesse de traitement en h/m" par "importance totale du traitement". La valeur peut être corrigée pour refléter le traitement effectif plutôt que la valeur basée sur la vitesse estimée en h/unités.</p>
     processing_plan: Plan de traitement
     processing_plan_tooltip: |
-        <p>Pour saisir un plan de traitement de l'unité archivistique. Le plan peut inclure un schéma de classement de l'unité archivistique, ainsi que des instructions relatives au traitement d'objets particuliers dans l'unité archivistique.  Le plan peut aussi assigner des missions spécifiques à différents personnels du dépôt.</p>
+        <p>Pour saisir un plan de traitement de l'unité archivistique. Le plan peut inclure un schéma de classement de l'unité archivistique, ainsi que des instructions relatives au traitement d'objets particuliers dans l'unité archivistique.  Le plan peut aussi assigner des missions spécifiques à différents personnels du service d'archives.</p>
         <p>Exemples:</p>
         <ul>
         <li>Classe alphabétiquement les dossiers thématiques et chronologiquement les dossiers de projets.</li>
@@ -1770,13 +1770,13 @@ fr:
   preference: &preference_attributes
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
-    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par les préférences propres d'un utilisateur.
+    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par les préférences propres d'un utilisateur.
     repo: Valeurs par défauts des préférences utilisateur
-    repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le dépôt actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
+    repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
-    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du dépôt ou par vos propres préférences pour un dépôt.
-    user_repo: Mes préférences dépôt
-    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce dépôt. Ces valeurs ne peuvent pas être écrasées.
+    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par vos propres préférences pour un service d'archives.
+    user_repo: Mes préférences Service
+    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
 
@@ -1862,7 +1862,7 @@ fr:
     username_already_in_use: Le nom d'utilisateur '%{username}' existe déjà
     cant_be_empty: ne peut pas être vide
     password_did_not_match: La valeur saisie ne correspond pas au mot de passe
-    group_code_already_in_use: Un code de groupe doit être unique dans un dépôt
+    group_code_already_in_use: Un code de groupe doit être unique dans un service d'archives
     one_or_more_required_(or_enter_a_title): un ou plus requis (ou bien entrez un titre)
     must_not_be_an_empty_string_(or_enter_a_date): ne doit pas être une chaîne de caractères vide (ou bien entrez une date)
     is_required_when__source__is_blank: est requis quand 'source' est laissé blanc
@@ -1880,7 +1880,7 @@ fr:
     container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
     container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
     container_2_is_required_if_container_3_is_provided: Vous devez fournir un contenant fils si vous fournissez un contenant petit-fils
-    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du dépôt
+    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du service d'archives
     container_profile_name_not_unique: Un nom de profil contenant doit être unique
     must_be_a_number_with_no_more_than_2_decimal_places: Doit être un nombre à 2 décimales au plus
     length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la fourchette définie dans la configuration

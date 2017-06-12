@@ -1408,7 +1408,7 @@
       meters: Mètres
     restriction_type:
       RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
-      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le dépôt
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service d'archives
       RestrictedFragileSpecColl: 3 - Non consultable fragile
       InProcessSpecColl: 4 - Non consultable en cours de traitement
       ColdStorageBrbl: 5 - Autre

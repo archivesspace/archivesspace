@@ -50,8 +50,8 @@ fr:
     suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de de donnée, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{target}' sera transférée vers le dépôt selectionné"
-    transfer_successful: Transfert réussi.  L'apparition des notices dans le dépôt cible peut tarder, le temps qu'une réindexation ait lieu.
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service d'archives selectionné"
+    transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
     unset_default: Désactiver défaut
@@ -63,8 +63,8 @@ fr:
     delete: Supprimer
     delete_confirm_title: "Supprimer cette notice? %{title}"
     delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer la notice de la base de données, avec toutes les références faites aux autres notices.</p>"
-    delete_repository_confirm_title: "Supprimer ce dépôt? %{name}"
-    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>dépôt</strong> et toutes les notices associées, avec toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_title: "Supprimer ce service d'archives? %{name}"
+    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>service d'archives</strong> et toutes les notices associées, avec toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices?
     delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer les notices de la base de données, avec toutes les références faites aux autres notices.</p>"
@@ -271,7 +271,7 @@ fr:
     show_advanced_search_button_title: Montrer Recherche avancée
     hide_advanced_search_button_title: Cacher Recherche avancée
     plugins: Plug-ins
-    repositories_manage: Gérer dépôts
+    repositories_manage: Gérer services d'archives
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
     manage_container_profiles: Gérer profils de contenants
@@ -279,7 +279,7 @@ fr:
     manage_top_containers: Gérer Top contenants
     manage_enumerations: Gérer listes de valeurs contrôlées
     user_global_preferences: Mes préférences globales
-    user_repo_preferences: Mes préférences de dépôt
+    user_repo_preferences: Mes préférences de service d'archives
     repo_preferences: Préférences par défaut de l'utilisateur
     manage_user_access: Gérer accès utilisateur
     logout: Déconnexion
@@ -355,7 +355,7 @@ fr:
     submit: Import
     submit_busy_message: Importation en cours...
     messages:
-      missing_repo: Vous devez sélectionner un dépôt avant d'importer
+      missing_repo: Vous devez sélectionner un service d'archives avant d'importer
       missing_file: Veuillez sélectionner un fichier EAD à téléverser
       error_prefix: Erreur d'importation de fichier
       complete: Import effectué
@@ -404,7 +404,7 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession.display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_target: Sélectionnez un dépôt vers lequel opérer le transfert
+        transfer_target: Sélectionnez un service d'archives vers lequel opérer le transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
       section:
         basic_information: Information de base
@@ -558,7 +558,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_target: Sélectionnez un dépôt cible pour le transfert
+        transfer_target: Sélectionnez un service d'archives cible pour le transfert
         unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -767,27 +767,27 @@ fr:
   repository:
     _frontend:
       messages:
-        created: Dépôt créé
-        updated: Dépôt sauvegardé
-        deleted: Dépôt supprimé
-        selected: Dépôt actuellement sélectionné
+        created: Service d'archives créé
+        updated: Service d'archives sauvegardé
+        deleted: Service d'archives supprimé
+        selected: Service d'archives actuellement sélectionné
         selected_short: Sélectionné
-        changed: Le dépôt <strong>%{repository.repo_code}</strong> est maintenant activé
-        create_first_repository: "Pour créer votre premier dépôt, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer dépôts</strong>."
-        no_access_to_repositories: "<p>Vous n'avez accès à aucun dépôt.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
+        changed: Le service d'archives <strong>%{repository.repo_code}</strong> est maintenant activé
+        create_first_repository: "Pour créer votre premier service d'archives, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services d'archives</strong>."
+        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_target: Sélectionnez un dépôt vers lequel transférer
-        transfer_warning: <strong>Avertissement:</strong> transférer ce dépôt va déplacer <strong>toutes</strong> ses notices dans le dépôt sélectionné.  <strong>Cette opération ne peut être annulée</strong>
-        cannot_delete_nonempty: Ne peut être supprimé - dépôt non vide
+        transfer_target: Sélectionnez un service d'archives vers lequel transférer
+        transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives va déplacer <strong>toutes</strong> ses notices dans le service d'archives sélectionné.  <strong>Cette opération ne peut être annulée</strong>
+        cannot_delete_nonempty: Ne peut être supprimé - service d'archives non vide
       section:
-        all_fields: Champs dépôt
-        transfer: Transférer dépôt
+        all_fields: Champs service d'archives
+        transfer: Transférer service d'archives
       action:
-        select: Sélectionner dépôt
-        create: Créer dépôt
-        save: Sauvegarder dépôt
-        create: Créer dépôt
+        select: Sélectionner service d'archives
+        create: Créer service d'archives
+        save: Sauvegarder service d'archives
+        create: Créer service d'archives
 
   resource:
     _frontend:
@@ -801,7 +801,7 @@ fr:
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_target: Sélectionner un dépôt vers lequel opérer le transfert
+        transfer_target: Sélectionner un service d'archives vers lequel opérer le transfert
         unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
         suppressed: Ressource <strong>%{resource.title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
@@ -832,7 +832,7 @@ fr:
         add: Ajouter terme/subdivision
 
   transfer:
-    ref: Dépôt cible
+    ref: Service d'archives cible
 
   subject:
     _frontend:
@@ -964,7 +964,7 @@ fr:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
     stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez rafraîchir la page pour accéder à la dernière version.
     other_editors: "Cette notice est actuellement éditée par un autre utilisateur.  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
-    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de dépôt actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon dépôt."
+    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon service d'archives."
   job:
     _frontend:
       audit_data: Audit Data
@@ -1077,7 +1077,7 @@ fr:
     managed_container_3_indicator: Indicateur de contenant petit-fils
     managed_container_3_indicator_tooltip: |
       <p>Une expression alphanumérique indiquant l'identifiant du contenant de niveau 3, pouvant aussi indiquer sa position dans une séquence de contenants identiques. Des plages de contenants sont aussi permises, par ex. chemises 1-16.</p>
-    barcode_length_for_this_repository: "Longueur de code-barres pour ce dépôt:"
+    barcode_length_for_this_repository: "Longueur de code-barres pour ce service d'archives:"
     characters: caractères
 
     batch_delete:

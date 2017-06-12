@@ -144,7 +144,7 @@ fr:
       # Manage User Access
       repository_users: Aide sur Assignation de groupe d'utilisateur
       # Repositories
-      repository: Aide sur Gérer dépôts
+      repository: Aide sur Gérer services
       # Manage Users
       user: Aide sur Gérer utilisateurs
       # Controlled Value Lists

@@ -75,8 +75,8 @@ fr:
   search-limiting: "Limité à %{limit}"
   search-limits:
     all: tous types de notices
-    repository: dépôts
-    repositories: dépôts
+    repository: services d'archives
+    repositories: services d'archives
     resource: collections
     resources: collections
     digital: matériel numérique
@@ -144,8 +144,8 @@ fr:
       query: Texte
       subjects: Sujet
       primary_type: Type
-      repository: Dépôt
-      used_within_repository: Dépôt
+      repository: Service
+      used_within_repository: Service
       creators: Producteur
       fullrecord: Mot-clé
       subjects_text: Sujet
@@ -311,10 +311,10 @@ fr:
     _plural: Les archives
 
   repository:
-    _singular: Dépôt
-    _plural: Dépôtes
-    what: Qu'y a-t-il dans ce dépôt?
-    details: Détails du dépôt
+    _singular: Service
+    _plural: Services
+    what: Qu'y a-t-il dans ce service d'archives?
+    details: Détails du service d'archives
     part: Fait partie de
    
   context: Trouvé dans
@@ -1883,7 +1883,7 @@ fr:
       meters: Mètres
     restriction_type:
       RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
-      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le dépôt
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service d'archives
       RestrictedFragileSpecColl: 3 - Non consultable fragile
       InProcessSpecColl: 4 - Non consultable en cours de traitement
       ColdStorageBrbl: 5 - Autre
