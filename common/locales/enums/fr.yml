@@ -412,10 +412,10 @@
       realia: Realia
       text: Texte
     accession_acquisition_type:
-      deposit: Versement
+      deposit: Dépôt
       gift: Don
       purchase: Achat
-      transfer: Transfert
+      transfer: Versement
     accession_resource_type:
       collection: Collection
       publications: Publications

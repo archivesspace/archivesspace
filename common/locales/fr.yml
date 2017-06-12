@@ -1184,7 +1184,7 @@ fr:
         <ul>
         <li>Don</li>
         <li>Achat</li>
-        <li>Transfert</li>
+        <li>Versement</li>
         </ul>
     publish: Publier?
     publish_help: Cocher la case si vous voulez rendre cette entrée accessible au public.
