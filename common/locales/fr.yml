@@ -1034,9 +1034,9 @@ fr:
         <p>Voir DACS 2.4.7-2.4.16</p>
         <p>Les dates ap. J.-C. sont exprimées par quatre chiffres.</p>
         <p>Les dates av. J.-C. sont exprimées par un nombre négatif, par ex. -214 pour 214 av. J.-C.</p>
-    certainty: Certitude
+    certainty: Fiabilité
     certainty_tooltip: |
-        <p>Le niveau de certitude de l'information fournie dans une déclaration de dates. Cette information est optionnelle et ne devrait être ajoutée que pour qualifier l'information de potentiellement incertaine au vu de la description ou des règles de catalogage en vigueur.</p>
+        <p>Le degré de fiabilité de l'information fournie dans une déclaration de dates. Cette information est optionnelle et ne devrait être ajoutée que pour qualifier l'information de potentiellement incertaine au vu de la description ou des règles de catalogage en vigueur.</p>
         <p>Voir l'attribut EAD "certainty".</p>
     era: Ere
     era_tooltip: |

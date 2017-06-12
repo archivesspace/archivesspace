@@ -1009,7 +1009,7 @@
       other: Autre
     date_certainty:
       approximate: Approximative
-      inferred: Inférée
+      inferred: Supposée
       questionable: Douteuse
     extent_portion:
       whole: Tout
@@ -1437,7 +1437,7 @@
     container_type: Type de contenant
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
-    date_certainty: Certitude de la date
+    date_certainty: Fiabilité de la date
     date_era: Ere
     date_label: Etiquette de date
     date_type: Type de date
