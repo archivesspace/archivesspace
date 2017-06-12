@@ -1003,7 +1003,7 @@ fr:
         <p>Voir DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
-        <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (inclusives ou de la grosse masse).</p>
+        <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (extrêmes ou de la grosse masse).</p>
     date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée 
     expression: Expression
     expression_tooltip: |

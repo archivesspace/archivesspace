@@ -1458,8 +1458,8 @@ fr:
     date_type:
       expression: Expression
       single: Unique
-      bulk: Dates du gros
-      inclusive: Dates inclusives
+      bulk: Dates de la grosse masse
+      inclusive: Dates extrêmes 
       range: Fourchette
     date_label:
       record_keeping: Maintenance notices

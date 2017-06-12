@@ -990,7 +990,7 @@
       expression: Expression
       single: Unique
       bulk: Dates du gros
-      inclusive: Dates inclusives
+      inclusive: Dates extrêmes
       range: Fourchette
     date_label:
       record_keeping: Maintenance notices
