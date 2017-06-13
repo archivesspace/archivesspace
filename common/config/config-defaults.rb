@@ -24,23 +24,23 @@ AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] *
 # something else below.
 AppConfig[:backend_url] = "http://localhost:8089"
 
-# The ArchivesSpace staff interface listens on port 8089 by default.  You can
+# The ArchivesSpace staff interface listens on port 8080 by default.  You can
 # set it to something else below.
 AppConfig[:frontend_url] = "http://localhost:8080"
 
-# The ArchivesSpace public interface listens on port 8089 by default.  You can
+# The ArchivesSpace public interface listens on port 8081 by default.  You can
 # set it to something else below.
 AppConfig[:public_url] = "http://localhost:8081"
 
-# The ArchivesSpace Solr index listens on port 8089 by default.  You can
+# The ArchivesSpace Solr index listens on port 8090 by default.  You can
 # set it to something else below.
 AppConfig[:solr_url] = "http://localhost:8090"
 
-# The ArchivesSpace indexer listens on port 8089 by default.  You can
+# The ArchivesSpace indexer listens on port 8091 by default.  You can
 # set it to something else below.
 AppConfig[:indexer_url] = "http://localhost:8091"
 
-# The ArchivesSpace API documentation listens on port 8089 by default.  You can
+# The ArchivesSpace API documentation listens on port 8888 by default.  You can
 # set it to something else below.
 AppConfig[:docs_url] = "http://localhost:8888"
 
