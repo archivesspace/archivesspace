@@ -37,6 +37,7 @@ class FindingAidPDF
     # We'll use the original controller so we can find and render the PDF
     # partials, but just for its ERB rendering.
     renderer = PdfController.new
+    start_time = Time.now
 
     @repo_code = @resource.repository_information.fetch('top').fetch('repo_code')
 
@@ -66,6 +67,10 @@ class FindingAidPDF
     page_size = 50
 
     @ordered_records.entries.drop(1).each_slice(page_size) do |entry_set|
+      if AppConfig[:pui_pdf_timeout] && AppConfig[:pui_pdf_timeout] > 0 && (Time.now.to_i - start_time.to_i) >= AppConfig[:pui_pdf_timeout]
+        raise TimeoutError.new("PDF generation timed out.  Sorry!")
+      end
+
       uri_set = entry_set.map(&:uri).map {|s| s + "#pui"}
       record_set = archivesspace.search_records(uri_set, {}, true).records
 
