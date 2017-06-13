@@ -137,6 +137,12 @@ module PublicNewDefaults
                               'shared/print_page_action')
   end
 
+  # Link to the Staff Interface 
+  if AppConfig[:pui_enable_staff_link]
+    add_record_page_action_erb(['resource', 'archival_object', 'digital_object', 'digital_object_component', 'accession'],
+                               'shared/staff_link_action')
+  end
+
   # Load any custom actions defined in AppConfig:
   ASUtils.wrap(AppConfig[:pui_page_custom_actions]).each do |action|
     ASUtils.wrap(action.fetch('record_type')).each do |record_type|
