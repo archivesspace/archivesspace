@@ -417,6 +417,8 @@ AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' wh
 # PDF generation can be a little memory intensive for large collections, so we
 # set this fairly low out of the box.
 AppConfig[:pui_max_concurrent_pdfs] = 2
+# You can set this to nil or zero to prevent a timeout
+AppConfig[:pui_pdf_timeout] = 600
 
 # The following determine which 'tabs' are on the main horizontal menu
 AppConfig[:pui_hide] = {}
