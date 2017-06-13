@@ -33,7 +33,7 @@ class FindingAidPDF
     @short_title || suggested_filename
   end
 
-  def generate
+  def source_file
     # We'll use the original controller so we can find and render the PDF
     # partials, but just for its ERB rendering.
     renderer = PdfController.new
@@ -64,7 +64,8 @@ class FindingAidPDF
     out_html.write(renderer.render_to_string partial: 'resource', layout: false, :locals => {:record => @resource, :has_children => has_children})
 
     page_size = 50
-    @ordered_records.entries.each_slice(page_size) do |entry_set|
+
+    @ordered_records.entries.drop(1).each_slice(page_size) do |entry_set|
       uri_set = entry_set.map(&:uri).map {|s| s + "#pui"}
       record_set = archivesspace.search_records(uri_set, {}, true).records
 
@@ -77,6 +78,12 @@ class FindingAidPDF
 
     out_html.write(renderer.render_to_string partial: 'footer', layout: false)
     out_html.close
+
+    out_html
+  end
+
+  def generate
+    out_html = source_file
 
     XMLCleaner.new.clean(out_html.path)
 
