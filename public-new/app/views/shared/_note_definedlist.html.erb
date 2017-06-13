@@ -1,0 +1,6 @@
+<dl>
+  <% Array(note['items']).each do |item| %>
+    <dt><%= item['label'] %></dt>
+    <dd><%= process_mixed_content(item['value']).html_safe %></dd>
+  <% end %>
+</dl>

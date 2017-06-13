@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
 
   include JsonHelper
   helper_method :process_json_notes
-  helper_method :get_note
 
   protect_from_forgery with: :exception
 

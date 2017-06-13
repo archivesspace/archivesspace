@@ -611,6 +611,32 @@ button.subject {          /* class subject also turns up in finding aid transfor
   margin-top: 10px;
   padding-left: 5px;
 }
+
+.note_outline ul {
+  list-style: disc;
+}
+
+.note_orderedlist {
+  .enumeration-arabic ol {
+    list-style: decimal;
+  }
+  .enumeration-loweralpha ol {
+    list-style: lower-alpha;
+  }
+  .enumeration-lowerroman ol {
+    list-style: lower-roman;
+  }
+  .enumeration-null ol {
+    list-style: disc;
+  }
+  .enumeration-upperalpha ol {
+    list-style: upper-alpha;
+  }
+  .enumeration-upperroman ol {
+    list-style: upper-roman;
+  }
+}
+
 .recordrow {
   .classification-subgroups {
     margin-top: 5px;
