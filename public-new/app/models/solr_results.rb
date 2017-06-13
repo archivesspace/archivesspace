@@ -31,8 +31,7 @@ class SolrResults
   end
 
   def [](k)
-    $stderr.puts "FIXME stop direct access to the results json blob ([]): #{caller.first}"
-
+    # $stderr.puts "FIXME stop direct access to the results json blob ([]): #{caller.first}"
     raw[k]
   end
 end
