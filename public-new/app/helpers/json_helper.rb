@@ -1,5 +1,3 @@
-require_relative 'note_renderers'
-
 module JsonHelper
 
   # process the entire notes structure.  If req is specified, process and return only the notes that
