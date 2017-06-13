@@ -487,17 +487,28 @@ class EADSerializer < ASpaceExport::Serializer
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
-    else
-      file_versions.each do |file_version|
+    elsif file_versions.length == 1
         atts['xlink:type'] = 'simple'
-        atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
-        atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
-        atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
-        atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+        atts['xlink:href'] = file_versions.first['file_uri'] || digital_object['digital_object_id']
+        atts['xlink:actuate'] = file_versions.first['xlink_actuate_attribute'] || 'onRequest'
+        atts['xlink:show'] = file_versions.first['xlink_show_attribute'] || 'new'
+        atts['xlink:role'] = file_versions.first['use_statement'] if file_versions.first['use_statement']
         xml.dao(atts) {
           xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         }
+    else
+      xml.daogrp( ) {
+      file_versions.each do |file_version|
+        atts['xlink:type'] = 'locator'
+        atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
+        # atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
+        # atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
+        atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+        xml.daoloc(atts) {
+          xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+        }
       end
+      }
     end
 
   end
