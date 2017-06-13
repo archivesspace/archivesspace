@@ -43,7 +43,7 @@ end
 
 
 class MultipartNoteRenderer < NoteRenderer
-  handles_notes ['note_multipart']
+  handles_notes ['note_multipart', 'note_bioghist']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
@@ -76,7 +76,8 @@ end
 
 
 class ERBNoteRenderer < NoteRenderer
-  handles_notes ['note_chronology', 'note_definedlist', 'note_orderedlist', 'note_bibliography', 'note_index']
+  handles_notes ['note_chronology', 'note_definedlist', 'note_orderedlist',
+                 'note_bibliography', 'note_index', 'note_outline']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
