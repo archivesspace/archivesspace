@@ -166,11 +166,11 @@
 
  @page {
      <%
-     short_title = record.finding_aid['title'].split("\n")[0]
-     short_title = short_title.strip if short_title
+     short_title = record.finding_aid.fetch('title', '')
+     short_title = short_title.gsub(/\n.*/, '').strip
      %>
 
-     <% if short_title %>
+     <% if short_title != '' %>
      @top-center {
          font-size: 80%;
          color: #666;
