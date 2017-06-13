@@ -1,5 +1,5 @@
 <!-- Look for '_inherited' and '*_inherited' properties -->
-<% non_folder = %w(langmaterial accessrestrict userestrict) %>
+<% non_folder = %w(langmaterial physdesc accessrestrict userestrict) %>
 <% folder = %w(abstract bioghist arrangement phystech physloc otherfindaid custodhist acqinfo appraisal accruals originalsloc altformavail relatedmaterial separatedmaterial bibliography materialspec physdesc physfacet dimensions fileplan legalstatus odd processinfo index) %>
     <% over = @result.note('scopecontent') %>
     <% if over.blank?
