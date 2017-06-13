@@ -1,7 +1,8 @@
+require 'nokogiri'
+require 'cgi'
+
 module ManipulateNode
   extend ActiveSupport::Concern
-  require 'nokogiri'
-
 
   # the beginning of processing mixed content  nodes for titles, notes, etc.
   #TODO:  look at replacing these gsubs with syntax like:
@@ -11,6 +12,12 @@ module ManipulateNode
 
   def process_mixed_content(in_txt)
     return if !in_txt
+
+    # Don't fire up nokogiri if there's no mixed content to parse
+    unless in_txt.include?("<")
+      return CGI::escapeHTML(in_txt)
+    end
+
     txt = in_txt.strip
 
     txt = txt.gsub("chronlist>", "ul>")
