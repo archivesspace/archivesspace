@@ -1,4 +1,4 @@
-<% if AppConfig[:pui_email_enabled] && AppConfig[:pui_max_concurrent_pdfs] > 0 %>
+<% if AppConfig[:pui_max_concurrent_pdfs] > 0 %>
     <%= form_tag(url_for(:controller => :pdf, :action => :resource), method: 'post', :id => 'print_form') do %>
         <%= hidden_field_tag(:base_token, SecureRandom.hex) %>
         <%= hidden_field_tag(:token, "") %>
