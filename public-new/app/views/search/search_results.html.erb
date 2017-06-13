@@ -52,7 +52,7 @@
     <div class="row search-results"><div class="col-sm-12">
 
     <% @results.records.each do |result| %>
-      <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+      <%= render partial: 'shared/result', locals: {:result => result, :props => (@result_props || {}).merge({:full => false})} %>
     <% end %>
     </div></div>
     <div class="row"><div class="col-sm-9">

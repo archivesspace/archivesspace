@@ -71,6 +71,9 @@ class ResourcesController <  ApplicationController
     if params[:q].size > 1 || params[:q][0] != '*'
       @sort_opts.unshift(all_sorts['relevance'])
     end
+    @result_props = {
+      :no_res => true
+    }
     @no_statement = true
 #    if @results['results'].length == 1
 #      @result =  @results['results'][0]
