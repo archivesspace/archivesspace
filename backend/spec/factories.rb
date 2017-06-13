@@ -47,6 +47,7 @@ FactoryGirl.define do
       agent_representation_id { 1 }
       org_code { generate(:alphanumstr) }
       image_url { generate(:url) }
+      publish { 1 }
       after(:create) do |r|
         $repo_id = r.id
         $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
