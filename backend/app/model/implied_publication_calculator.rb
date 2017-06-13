@@ -222,7 +222,7 @@ class ImpliedPublicationCalculator
       return result if root_record_id_to_child.empty?
 
       root_model
-        .filter(:id => tree_nodes.map(&:root_record_id).uniq)
+        .filter(:id => root_record_id_to_child.keys)
         .filter(Sequel.|({:publish => 0},
                          {:suppressed => 1}))
         .select(:id)
