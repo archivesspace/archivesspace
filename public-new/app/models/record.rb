@@ -50,8 +50,6 @@ class Record
   end
 
   def [](k)
-    $stderr.puts "FIXME stop direct access to the result json blob ([]): #{caller.first}"
-
     if k == 'json'
       json
     else
@@ -60,8 +58,6 @@ class Record
   end
 
   def dig(*args)
-    $stderr.puts "FIXME stop direct access to the result json blob (dig): #{caller.first}"
-
     json.dig(args)
   end
 
