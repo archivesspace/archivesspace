@@ -22,7 +22,7 @@
     <%= render partial: 'shared/record_innards' %>
    </div>
 
-   <% if !@result.kind_of?(DigitalObject) || @has_children %>
+   <% if !@result.instance_of?(DigitalObject) || @has_children %>
     <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
       <%
         if @result.kind_of?(DigitalObject)
