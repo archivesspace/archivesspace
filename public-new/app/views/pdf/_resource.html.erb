@@ -33,7 +33,9 @@
         <% end %>
     <% end %>
 
-    <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
+    <% if record.container_display && !record.container_display.empty? %>
+        <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
+    <% end %>
 </dl>
 
 <% record.notes.each do |note_type, note| %>
