@@ -1042,9 +1042,11 @@ class CommonIndexer
 
     # index all top containers for pui
     if doc['primary_type'] == 'top_container'
-      doc['publish'] = true
-      doc['types'] << 'pui_container'
-      doc['types'] << 'pui'
+      doc['publish'] = record['record']['is_linked_to_published_record']
+      if doc['publish']
+        doc['types'] << 'pui_container'
+        doc['types'] << 'pui'
+      end
     end
   end
 end
