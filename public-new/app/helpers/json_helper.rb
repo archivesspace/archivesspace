@@ -44,7 +44,10 @@ module JsonHelper
 
     if note_struct.has_key?('subnotes')
       notes_hash[type]['subnotes'] ||= []
-      notes_hash[type]['subnotes'] = notes_hash[type]['subnotes'] + note_struct['subnotes']
+      notes_hash[type]['subnotes'] = notes_hash[type]['subnotes'] + note_struct['subnotes'].map{|sub|
+        sub['_inline_label'] = note_struct['label']
+        sub
+      }
     end
   end
 
