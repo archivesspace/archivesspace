@@ -18,7 +18,7 @@
     <ul class="tabbing nav nav-pills">
       <li><%= link_to t('actions.collection_overview'), :action => :show %></li>
       <li><a class='active' href='#'><%= t('actions.hierarch') %></a></li>
-      <li><a <% if @has_containers %> href="<%= url_for(:action => :inventory) %>"<% else %>class="disabled-nav-pill"<% end %>><%= t('actions.numeric') %></a></li>
+      <li <% unless @has_containers %>class="disabled"<% end %>><a <% if @has_containers %> href="<%= url_for(:action => :inventory) %>"<% end %>><%= t('actions.numeric') %></a></li>
     </ul>
   </div>
 </div>
