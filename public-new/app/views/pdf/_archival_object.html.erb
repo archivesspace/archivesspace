@@ -2,6 +2,16 @@
     <div class="print-record-border level-<%= previous_level + 1 %>">
 <% end %>
 
+<%
+format_container = lambda do |type, indicator|
+    if type
+        type = type.capitalize
+    end
+
+    [type, indicator].compact.join(' ')
+end
+%>
+
 <div class="avoid-break">
     <div class="print-record-border print-record level-<%= level %>">
         <h3><a class="record-title" id="<%= record.uri %>"><%= record.display_string %></a></h3>
@@ -11,9 +21,12 @@
                 <div class="container-information">
                     <%=
                     [
-                        instance['sub_container']['top_container']['_resolved']['display_string'],
-                        [instance['sub_container']['type_2'], instance['sub_container']['indicator_2']].compact.join(' '),
-                        [instance['sub_container']['type_3'], instance['sub_container']['indicator_3']].compact.join(' '),
+                        format_container.call(instance['sub_container']['top_container']['_resolved']['type'],
+                                              instance['sub_container']['top_container']['_resolved']['indicator']),
+                        format_container.call(instance['sub_container']['type_2'],
+                                              instance['sub_container']['indicator_2']),
+                        format_container.call(instance['sub_container']['type_3'],
+                                              instance['sub_container']['indicator_3'])
                     ].reject(&:empty?).join('; ')
                     %>
                 </div>
