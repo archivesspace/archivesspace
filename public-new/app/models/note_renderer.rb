@@ -55,7 +55,10 @@ class MultipartNoteRenderer < NoteRenderer
 
       notes << rendered_subnote['note_text']
       result['subnotes'] ||= []
-      result['subnotes'] << sub.merge({'_text' => rendered_subnote['note_text'], '_title' => sub['title']})
+      result['subnotes'] << sub.merge({
+                                        '_text' => rendered_subnote['note_text'],
+                                        '_title' => sub['title']
+                                      })
     end
 
     result['note_text'] = notes.join('<br/>')
