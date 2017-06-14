@@ -6,10 +6,10 @@
     <dd><%= record.resolved_repository['name'] %></dd>
 
     <% if record.agents %>
-        <% record.agents.each do |role, linked_agents| %>
-            <% linked_agents.each do |linked_agent| %>
-                <dt><%= role %></dt>
-                <dd><%= linked_agent['title'] %></dd>
+        <% record.agents.each do |role, relationships| %>
+            <% relationships.each do |relationship| %>
+                <dt><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></dt>
+                <dd><%= relationship['_resolved']['title'] %></dd>
             <% end %>
         <% end %>
     <% end %>
