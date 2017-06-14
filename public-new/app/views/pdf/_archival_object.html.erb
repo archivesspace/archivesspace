@@ -19,8 +19,8 @@ end
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
                 <div class="container-information">
-                    <%=
-                    [
+                    <%
+                    container_string = [
                         format_container.call(instance['sub_container']['top_container']['_resolved']['type'],
                                               instance['sub_container']['top_container']['_resolved']['indicator']),
                         format_container.call(instance['sub_container']['type_2'],
@@ -29,6 +29,14 @@ end
                                               instance['sub_container']['indicator_3'])
                     ].reject(&:empty?).join('; ')
                     %>
+
+                    <% unless container_string.empty? %>
+                        <%= container_string %>
+                        <% if instance['instance_type'] %>
+                            (<%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}",
+                                        :default => instance['instance_type']) %>)
+                        <% end %>
+                    <% end %>
                 </div>
             <% end %>
         <% end %>
