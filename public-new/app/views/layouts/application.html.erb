@@ -35,7 +35,7 @@
 	</section>
 
 	<script  type="text/javascript" >
-		$("#notes_row .note-content").each(function(index, element){$(this).readmore(250)});
+		$("#notes_row .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
 	</script>
 
 	<%= render partial: 'shared/footer' %>
