@@ -55,7 +55,7 @@ class MultipartNoteRenderer < NoteRenderer
 
       notes << rendered_subnote['note_text']
       result['subnotes'] ||= []
-      result['subnotes'] << sub.merge({'_text' => rendered_subnote['note_text']})
+      result['subnotes'] << sub.merge({'_text' => rendered_subnote['note_text'], '_title' => sub['title']})
     end
 
     result['note_text'] = notes.join('<br/>')
@@ -65,7 +65,8 @@ end
 
 
 class SinglepartNoteRenderer < NoteRenderer
-  handles_notes ['note_singlepart', 'note_text']
+  handles_notes ['note_singlepart', 'note_text', 'note_abstract', 'note_citation',
+                 'note_digital_object']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
