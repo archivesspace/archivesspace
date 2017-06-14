@@ -497,7 +497,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         }
     else
-      xml.daogrp( { 'xlink:type' => 'extended'} ) {
+      xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions.each do |file_version|
           atts['xlink:type'] = 'locator'
