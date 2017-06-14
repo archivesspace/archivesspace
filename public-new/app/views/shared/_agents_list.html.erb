@@ -5,8 +5,8 @@
       <% agent = relationship.fetch('_resolved') %>
       <% relator = relationship['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{relationship['relator']}", :default => relationship['relator']) : nil %>
       <li>
-        <% unless agent['inherit'].blank? %>
-          <%= agent['inherit'].html_safe %>
+        <% unless relationship['_inherited'].blank? %>
+          <%= inheritance(relationship['_inherited']).html_safe %>
         <% end %>
         <%= link_to agent['title'], agent['uri'] %>
         (<%= [relator, I18n.t("#{agent['jsonmodel_type']}._singular")].compact.join(', ') %>)
