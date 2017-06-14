@@ -68,7 +68,7 @@ end
 
 
 class SinglepartNoteRenderer < NoteRenderer
-  handles_notes ['note_singlepart', 'note_text', 'note_abstract', 'note_citation',
+  handles_notes ['note_singlepart', 'note_text', 'note_abstract',
                  'note_digital_object']
 
   def render(type, note, result)
@@ -81,7 +81,7 @@ end
 
 class ERBNoteRenderer < NoteRenderer
   handles_notes ['note_chronology', 'note_definedlist', 'note_orderedlist',
-                 'note_bibliography', 'note_index', 'note_outline']
+                 'note_bibliography', 'note_index', 'note_outline', 'note_citation']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
