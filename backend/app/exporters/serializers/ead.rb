@@ -497,16 +497,15 @@ class EADSerializer < ASpaceExport::Serializer
           xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         }
     else
-      xml.daogrp( ) {
+      xml.daogrp( { 'xlink:type' => 'extended'} ) {
+      xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       file_versions.each do |file_version|
         atts['xlink:type'] = 'locator'
         atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
         # atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
         # atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
         atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-        xml.daoloc(atts) {
-          xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
-        }
+        xml.daoloc(atts)
       end
       }
     end
