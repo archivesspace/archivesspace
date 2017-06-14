@@ -17,7 +17,10 @@
     <% end %>
 
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
-      <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => @result.agents['creator'].take(1)}} %>
+      <% a_direct_creator = @result.agents['creator'].reject{|r| r['_inherited']}.take(1) %>
+      <% unless a_direct_creator.empty? %>
+        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => a_direct_creator}} %>
+      <% end %>
     <% end %>
 
     <% non_folder.each do |type| %>
