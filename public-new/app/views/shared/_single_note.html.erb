@@ -11,11 +11,15 @@
            <% elsif subnote['_inline_label'] %>
              <span class='inline-label'><%= subnote['_inline_label'] %></span>
            <% end %>
-           <%= subnote['_text'].html_safe %>
+           <span class="note-content">
+             <%= subnote['_text'].html_safe %>
+           </span>
          </div>
        <% end %>
      <% else %>
-       <%= note_struct['note_text'].html_safe %>
+       <div class="note-content">
+         <%= note_struct['note_text'].html_safe %>
+       </div>
      <% end %>
      </div>
 <% end %>
