@@ -6,6 +6,9 @@
      <% if note_struct.has_key?('subnotes') %>
        <% note_struct['subnotes'].each do |subnote| %>
          <div class="subnote <%= 'well' if subnote['jsonmodel_type'] == 'note_citation' %>">
+           <% if subnote['_title'] %>
+             <h5><%= subnote['_title'] %></h5>
+           <% end %>
            <%= subnote['_text'].html_safe %>
          </div>
        <% end %>
