@@ -438,6 +438,7 @@
     <echo message="Precompiling Rails assets (this can take a little while...)" />
 
     <delete failonerror="false" dir="../frontend/tmp" />
+    <delete failonerror="false" dir="../assets/frontend" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
@@ -459,6 +460,18 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/gems/bin/warble war" />
     </java>
+    
+    <mkdir dir="../assets/frontend" />
+    <copy todir="../assets/frontend">
+      <fileset dir="../frontend/public/assets" />
+    </copy>
+    <copy todir="../assets/frontend">
+      <fileset dir="../frontend/vendor/assets/stylesheets" />
+      <fileset dir="../frontend/vendor/assets/javascripts" />
+      <fileset dir="../frontend/vendor/assets/fonts" />
+    </copy>
+
+
   </target>
 
 
@@ -665,6 +678,7 @@
       <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
     </condition>
 
+    <mkdir dir="target/archivesspace/assets" />
     <mkdir dir="target/archivesspace/config" />
     <mkdir dir="target/archivesspace/data" />
     <mkdir dir="target/archivesspace/docs" />
@@ -712,6 +726,10 @@
     <jar jarfile="target/archivesspace/lib/common.jar">
       <fileset dir="../common" excludes="lib/*" />
     </jar>
+    
+    <copy todir="target/archivesspace/assets">
+      <fileset dir="../assets" />
+    </copy>
 
     <copy todir="target/archivesspace/lib">
       <fileset dir="../common/lib" />

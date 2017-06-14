@@ -165,7 +165,10 @@ def main
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join(aspace_base,'wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                       :path => "#{AppConfig[:frontend_prefix]}assets"}) if AppConfig[:enable_frontend]
+                       :path => "#{AppConfig[:frontend_prefix]}assets"},
+                 {:static_dirs => File.join( aspace_base, "assets", "frontend" ),
+                       :path => "#{AppConfig[:frontend_prefix]}assets"},
+                ) if AppConfig[:enable_frontend]
     start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join(aspace_base,'wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
