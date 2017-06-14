@@ -47,7 +47,6 @@ FactoryGirl.define do
       agent_representation_id { 1 }
       org_code { generate(:alphanumstr) }
       image_url { generate(:url) }
-      publish { 1 }
       after(:create) do |r|
         $repo_id = r.id
         $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
@@ -574,6 +573,87 @@ FactoryGirl.define do
     record_type "extent"
     property "container_summary"
     base_record_uri "repositories/2/resources/1"
+  end
+
+  factory :json_accession_job, class: JSONModel(:job) do
+    job { build(:json_acc_job) }
+  end
+
+  factory :json_acc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionReport'
+    format 'json'
+  end
+
+  factory :json_deaccession_job, class: JSONModel(:job) do
+    job { build(:json_deacc_job) }
+  end
+
+  factory :json_deacc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionDeaccessionsListReport'
+    format 'json'
+  end
+
+  factory :json_agent_job, class: JSONModel(:job) do
+    job { build(:json_agt_job) }
+  end
+
+  factory :json_agt_job, class: JSONModel(:report_job) do
+    report_type 'AgentListReport'
+    format 'json'
+  end
+
+  factory :json_dig_obj_file_job, class: JSONModel(:job) do
+    job { build(:json_do_file_job) }
+  end
+
+  factory :json_do_file_job, class: JSONModel(:report_job) do
+    report_type 'DigitalObjectFileVersionsReport'
+    format 'json'
+  end
+
+  factory :json_location_job, class: JSONModel(:job) do
+    job { build(:json_loc_job) }
+  end
+
+  factory :json_loc_job, class: JSONModel(:report_job) do
+    report_type 'LocationReport'
+    format 'json'
+  end
+
+  factory :json_resource_deacc_job, class: JSONModel(:job) do
+    job { build(:json_res_deacc_job) }
+  end
+
+  factory :json_res_deacc_job, class: JSONModel(:report_job) do
+    report_type 'ResourceDeaccessionsListReport'
+    format 'json'
+  end
+
+  factory :json_resource_restrict_job, class: JSONModel(:job) do
+    job { build(:json_res_res_job) }
+  end
+
+  factory :json_res_res_job, class: JSONModel(:report_job) do
+    report_type 'ResourceRestrictionsListReport'
+    format 'json'
+  end
+
+  factory :json_unproc_accession_job, class: JSONModel(:job) do
+    job { build(:json_unp_acc_job) }
+  end
+
+  factory :json_unp_acc_job, class: JSONModel(:report_job) do
+    report_type 'UnprocessedAccessionsReport'
+    format 'json'
+  end
+
+  factory :json_subject_list_job, class: JSONModel(:job) do
+    job { build(:json_sub_list_job) }
+  end
+
+  factory :json_sub_list_job, class: JSONModel(:report_job) do
+    report_type 'SubjectListReport'
+    format 'json'
   end
 
   factory :json_preference, class: JSONModel(:preference) do
