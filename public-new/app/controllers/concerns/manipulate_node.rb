@@ -40,6 +40,13 @@ module ManipulateNode
 
   # strips all xml markup; used for things like titles.
   def strip_mixed_content(in_text)
+    return if !in_text
+
+    # Don't fire up nokogiri if there's no mixed content to parse
+    unless in_text.include?("<")
+      return CGI::escapeHTML(in_text)
+    end
+
     @frag = Nokogiri::XML.fragment(in_text)
     @frag.content
   end
