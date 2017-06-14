@@ -239,27 +239,21 @@ class Record
     return_arr
   end
 
-
-  def title_and_uri(in_h, inh_struct = nil)
-    ret_val = nil
-    if in_h['publish']
-      ret_val = in_h.slice('uri', 'title')
-      ret_val['inherit'] = inheritance(inh_struct)
-    end
-    ret_val
-  end
-
   def parse_agents(subjects_arr)
     agents_h = {}
 
-    ASUtils.wrap(json['linked_agents']).each do |agent|
-      unless agent['role'].blank? || agent['_resolved'].blank?
-        role = agent['role']
-        ag = title_and_uri(agent['_resolved'], agent['_inherited'])
-        if role == 'subject' && ag
-          subjects_arr.push(agent['_resolved'].merge('_relator' => agent['relator'], '_terms' => agent['terms']))
-        elsif ag
-          agents_h[role] = agents_h[role].blank? ? [ag] : agents_h[role].push(ag)
+    ASUtils.wrap(json['linked_agents']).each do |relationship|
+      unless relationship['role'].blank? || relationship['_resolved'].blank?
+        agent = relationship.fetch('_resolved')
+        next unless agent['publish']
+
+        role = relationship['role']
+
+        if role == 'subject'
+          subjects_arr.push(relationship['_resolved'].merge('_relator' => relationship['relator'], '_terms' => relationship['terms']))
+        else
+          agents_h[role] ||= []
+          agents_h[role] << relationship
         end
       end
     end

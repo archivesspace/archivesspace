@@ -17,8 +17,7 @@
     <% end %>
 
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
-      <h4><%= t('pui_agent.creator') %></h4>
-      <%= render partial: 'shared/present_list', locals: {:list => @result.agents['creator'].take(1), :list_clss => 'agents_list'} %>
+      <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => @result.agents['creator'].take(1)}} %>
     <% end %>
 
     <% non_folder.each do |type| %>
@@ -59,7 +58,7 @@
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
 	<% unless @result.agents.blank? %>
-	  <% x= render partial: 'shared/present_list', locals: {:list => @result.agents, :list_clss => 'agents_list'} %>
+	  <% x= render partial: 'shared/agents_list', locals: {:list => @result.agents} %>
 	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
 	     :p_id => 'agent_list', :p_body => x} %>
         <% end %>
