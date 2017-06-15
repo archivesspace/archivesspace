@@ -273,7 +273,7 @@ en:
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
-  extent_phys_details: ": %{deets}"
+  extent_phys_details: " : %{deets}"
   extent_dims: " ; %{dimensions}"
 
   external_docs: External Documents
