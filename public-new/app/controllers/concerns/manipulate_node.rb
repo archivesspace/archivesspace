@@ -55,7 +55,7 @@ module ManipulateNode
   def inheritance(struct = nil)
     text = ''
     unless struct.blank? || struct['level'].blank? || struct['direct']
-      level = I18n.t("inherit.#{struct['level'].downcase}")
+      level = I18n.t("inherit.#{struct['level'].downcase}", :default => struct['level'])
       text = '<span class="inherit">' + I18n.t('inherit.inherited', :level => level) + '</span>'
     end
     text
