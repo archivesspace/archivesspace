@@ -26,6 +26,9 @@ module ManipulateNode
       .gsub("item>", "li>")
       .gsub(/\n\n/,"<br /><br />")
       .gsub(/\r\n\r\n/,"<br /><br />")
+
+    txt = txt.gsub(/ & /, ' &amp; ')
+
     txt = txt.gsub("xlink\:type=\"simple\"", "")
     @frag = Nokogiri::XML.fragment(txt)
     move_list_heads
@@ -47,7 +50,9 @@ module ManipulateNode
       return CGI::escapeHTML(in_text)
     end
 
+    in_text = in_text.gsub(/ & /, ' &amp; ')
     @frag = Nokogiri::XML.fragment(in_text)
+
     @frag.content
   end
 
