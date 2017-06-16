@@ -728,9 +728,10 @@ i.giant {
     margin: 0 0 1em 1em;
   
 }
-.objectimage * img {
+.objectimage img {
    margin: 0 auto;
    display:block;
+   max-width: 100%;
 }
 span.component {
    font-weight: bold;
