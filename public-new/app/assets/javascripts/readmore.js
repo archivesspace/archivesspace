@@ -14,7 +14,7 @@ $.fn.readmore = function(idealCharCount) {
 
   $that.on("click", "a.expander", function(e) {
     e.preventDefault();
-    var $a = $(e.target);
+    var $a = $(e.target).closest('a');
     var $elipses = $('.elipses', $that);
 
     $that.toggleClass("expanded");
