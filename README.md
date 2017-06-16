@@ -69,7 +69,9 @@ accessing the following URLs in your browser:
   - http://localhost:8089/ -- the backend
   - http://localhost:8080/ -- the staff interface
   - http://localhost:8081/ -- the public interface
+  - http://localhost:8082/ -- the OAI-PMH server
   - http://localhost:8090/ -- the Solr admin console
+
 
 To start using the Staff interface application, log in using the adminstrator
 account:
@@ -478,6 +480,33 @@ appropriate and specify the `encryption` option:
                                              :bind_password => 'secretsquirrel',
                                              :encryption => :simple_tls,
      }]
+
+
+# Configuring OAI-PMH
+
+ArchivesSpace provides an OAI-PMH server to allow others to harvest
+your records.  You can access this from your browser by hitting:
+
+  http://localhost:8082?verb=Identify
+
+To see a list of supported metadata formats:
+
+  http://localhost:8082?verb=ListMetadataFormats
+
+and to see the OAI sets available out of the box:
+
+  http://localhost:8082?verb=ListSets
+
+To make the OAI server available for public harvesting, it's expected
+that you would use a web server (such as Nginx or Apache) as a reverse
+proxy to port 8082.
+
+## Configuring OAI sets
+
+In addition to the standard OAI sets, you can define your own sets
+based on a combination of repository and finding aid sponsor.  See the
+`AppConfig[:oai_sets]` option in your `config.rb` file for an example
+of how to do this.
 
 
 # Plug-ins and local customizations

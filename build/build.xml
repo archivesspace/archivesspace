@@ -123,6 +123,7 @@
     <antcall target="bundler"><param name="gemfile" value="../${public-dir}/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium-public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../oai/Gemfile" /></antcall>
   </target>
 
 
@@ -352,7 +353,17 @@
   </target>
 
 
-
+  <!-- OAI -->
+  <target name="oai:war" depends="set-classpath" description="Deploy the OAI application as a .war file">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../oai">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="../build/gems/bin/warble war" />
+    </java>
+  </target>
 
   <!-- Frontend -->
   <target name="frontend:test" depends="set-classpath" description="Run the unit test suite">
@@ -722,6 +733,7 @@
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
     <copy file="../${public-dir}/${public-dir}.war" tofile="target/archivesspace/wars/public.war" />
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
+    <copy file="../oai/oai.war" todir="target/archivesspace/wars" />
 
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
@@ -805,6 +817,7 @@
 
     <antcall target="set-classpath" />
     <antcall target="bootstrap"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+    <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
