@@ -432,7 +432,6 @@ class CommonIndexer
           doc['rules'] = authorized_name['rules']
         end
 
-        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
