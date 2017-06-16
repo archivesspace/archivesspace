@@ -14,7 +14,7 @@ class OpenSearcher
 
   def initialize(base_url, scheme )
     @base_url = base_url
-    @scheme = scheme
+    @scheme = "cs:" + scheme
   end
 
 
@@ -71,7 +71,7 @@ class OpenSearcher
                                   'start' => start_record)
 
     uri.query = URI.encode_www_form(params)
-
+    p uri
     results = HTTPRequest.new.get(uri) do |response|
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")

@@ -9,15 +9,15 @@
     <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
 
     <div class='control-group form-group required'>
-      <div class="radio">
+      <!-- <div class="radio">
         <label for="lcnaf_service_oclc">
           <input type="radio" name="lcnaf_service" value="oclc" id="lcnaf_service_oclc" checked="true">
           OCLC - http://alcme.oclc.org/srw/search/lcnaf
         </label>
-      </div>
+      </div>  remove OCLC option: unsupported -->
       <div class="radio">
         <label for="lcnaf_service_loc">
-          <input type="radio" name="lcnaf_service" value="lcnaf" id="lcnaf_service_loc">
+          <input type="radio" name="lcnaf_service" value="lcnaf" id="lcnaf_service_loc" checked="true">
           LCNAF - http://id.loc.gov/authorities/names
         </label>
       </div>
@@ -35,12 +35,12 @@
         <input type="text" name="family_name" class="family-name-search-query lcnaf-name-input input-large" id="family-name-search-query"></input>
       </div>
     </div>
-    <div class='control-group form-group'> 
+    <!-- <div class='control-group form-group'>
       <label for="given-name-search-query"><%= I18n.t("plugins.lcnaf.search.given_name") %></label>
       <div class='controls'> 
         <input type="text" name="given_name" id="given-name-search-query" class="lcnaf-name-input input-large"></input>
       </div>
-    </div>
+    </div> remove: only used by OCLC search -->
     
     <div class='control-group form-group'> 
       <button type="submit" class="btn btn-primary btn-default">
