@@ -2018,3 +2018,7 @@ en:
     coming_soon: Your PDF is being generated and will be emailed to you when ready.
     required: Required
     user_email: Your email address
+
+  readmore:
+    see_more: See more
+    see_less: See less
