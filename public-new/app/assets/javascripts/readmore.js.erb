@@ -5,6 +5,9 @@ $.fn.readmore = function(idealCharCount) {
   var graphs = $("p", $(this));
   var breakPoint;
 
+  var SEE_MORE_LABEL = "<%= I18n.t('readmore.see_more') %>";
+  var SEE_LESS_LABEL = "<%= I18n.t('readmore.see_less') %>";
+
   var $that = $(this);
 
   if(graphs.length < 1)
@@ -19,11 +22,11 @@ $.fn.readmore = function(idealCharCount) {
 
     $that.toggleClass("expanded");
     if($that.hasClass("expanded")) {
-      $a.html("See less");
+      $a.html(SEE_LESS_LABEL);
       $a.detach().appendTo($that);
       $elipses.empty();
     } else {
-      $a.html("See more <i class='fa fa-chevron-right'></i>");
+      $a.html(SEE_MORE_LABEL + " <i class='fa fa-chevron-right'></i>");
       $elipses.html("...");
     }
   });
@@ -82,7 +85,7 @@ $.fn.readmore = function(idealCharCount) {
       if(breakPoint) {
         var origHtml = $(p).html();
         $(p).html("<span class='less'>"+origHtml.substr(0, breakPoint)+"<span class='elipses'>...</span></span><span class='more'>"+origHtml.substr(breakPoint)+"</span>");
-        $that.append("<a href='#' class='expander'>See more <i class='fa fa-chevron-right'></i></a>");
+        $that.append("<a href='#' class='expander'>" + SEE_MORE_LABEL + " <i class='fa fa-chevron-right'></i></a>");
       } else {
         $(p).addClass("less");
       }
