@@ -2,6 +2,7 @@ require_relative 'aspace_resumption_token'
 require_relative 'aspace_oai_deletion'
 
 class ArchivesSpaceOAIRepository < OAI::Provider::Model
+  include JSONModel
 
   FormatOptions = Struct.new(:record_types, :page_size)
 
