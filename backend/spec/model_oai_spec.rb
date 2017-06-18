@@ -295,6 +295,9 @@ describe 'OAI handler' do
 
 
     it "supports OAI sets based on sponsors" do
+      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+
       allow(AppConfig).to receive(:[]).with(any_args).and_call_original
       allow(AppConfig).to receive(:[]).with(:oai_sets)
                             .and_return('sponsor_0' => {
@@ -302,11 +305,15 @@ describe 'OAI handler' do
                                         })
 
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+
       response.records.all? {|record| record.jsonmodel_record.resource['ref'] == @test_resource_record}
         .should be(true)
     end
 
     it "supports OAI sets based on repositories" do
+      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+
       allow(AppConfig).to receive(:[]).with(any_args).and_call_original
       allow(AppConfig).to receive(:[]).with(:oai_sets)
                             .and_return('by_repo' => {

@@ -23,7 +23,6 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   DELETES_PER_PAGE = 100
 
-  VISIBILITY_RESTRICTIONS = {:publish => 1, :suppressed => 0}
   RESOLVE = ['repository', 'subjects', 'linked_agents', 'digital_object', 'top_container', 'ancestors', 'linked_agents', 'resource']
 
 
@@ -82,7 +81,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     repo_id = JSONModel.parse_reference(parsed_ref.fetch(:repository)).fetch(:id)
 
     RequestContext.open(:repo_id => repo_id) do
-      obj = model.filter(:id => parsed_ref[:id]).filter(VISIBILITY_RESTRICTIONS).first
+      obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
 
       raise IdException.new unless obj
 
@@ -120,6 +119,25 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   private
 
+  def add_visibility_restrictions(dataset)
+    unpublished_repos = Repository.exclude(:publish => 1).select(:id).map {|row| row[:id]}
+
+    dataset.exclude(:repo_id => unpublished_repos).filter(:publish => 1, :suppressed => 0)
+  end
+
+  # Don't show deletes for repositories that aren't published.
+  def restrict_tombstones_to_published_repositories(dataset)
+    unpublished_repos = Repository.exclude(:publish => 1).select(:id).map {|row| row[:id]}
+
+    result = dataset
+
+    unpublished_repos.each do |repo_id|
+      result = result.exclude(Sequel.like(:uri, JSONModel(:repository).uri_for(repo_id) + '/%'))
+    end
+
+    result
+  end
+
   def options_for_type(metadata_prefix)
     AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
   end
@@ -155,9 +173,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
       # Request one extra record (limit + 1) to determine whether we've hit
       # the end of the stream or not
-      matches = record_type
-                  .any_repo
-                  .filter(VISIBILITY_RESTRICTIONS)
+      matches = add_visibility_restrictions(record_type.any_repo)
                   .where { id > last_id }
                   .order(:id)
                   .limit(limit + 1)
@@ -203,7 +219,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # Get a dataset that will pull back all tombstones for the record types that
     # this metadata type supports.
     matching_tombstones = format_options.record_types.map {|record_type|
-      DELETE_LOOKUPS[record_type]
+      tombstone_ds = DELETE_LOOKUPS[record_type]
+      if tombstone_ds
+        restrict_tombstones_to_published_repositories(tombstone_ds)
+      end
     }.compact.reduce {|deletes, tombstone_ds|
       deletes.union(tombstone_ds)
     }

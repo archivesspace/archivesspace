@@ -46,7 +46,11 @@ class OAIResponseChecker
       end
 
       unless ours.children.length == theirs.children.length
-        raise MismatchError.new("Child count mismatch", ours.children.length, theirs.children.length, new_path)
+        our_xml = ours.to_xml
+        their_xml = theirs.to_xml
+
+        raise MismatchError.new("Child count mismatch", ours.children.length, theirs.children.length, new_path,
+                               "Ours: #{our_xml}\n\nTheirs: #{their_xml}")
       end
 
       # Compare all children
@@ -103,8 +107,13 @@ class OAIResponseChecker
   end
 
   class MismatchError < StandardError
-    def initialize(description, expected, got, path)
+    def initialize(description, expected, got, path, additional_information = nil)
       msg = "#{description}:\nexpected '#{expected}'\ngot: '#{got}'\nat: #{path.join('/')}"
+
+      if additional_information
+        msg += "\n"
+        msg += additional_information
+      end
 
       $stderr.puts(msg)
       super(msg)
