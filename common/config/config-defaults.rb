@@ -534,4 +534,4 @@ AppConfig[:pui_email_enabled] = false
 #AppConfig[:pui_email_raise_delivery_errors] = true
 
 #The number of characters to truncate before showing the 'Read More' link on notes
-AppConfig[:pui_readmore_max_characters] = 250
+AppConfig[:pui_readmore_max_characters] = 450
