@@ -1,0 +1,9 @@
+<% if AppConfig[:pui_max_concurrent_pdfs] > 0 %>
+    <%= form_tag(url_for(:controller => :pdf, :action => :resource), method: 'post', :id => 'print_form') do %>
+        <%= hidden_field_tag(:base_token, SecureRandom.hex) %>
+        <%= hidden_field_tag(:token, "") %>
+        <button id="print_button" class="btn btn-default page_action print">
+            <i class="fa fa-file-pdf-o fa-3x"></i><br/><span class="print-label"><%= t('actions.print') %></span><span class="generating-label" style="display: none"><%= t('actions.print-generating') %></span>
+        </button>
+    <% end %>
+<% end %>

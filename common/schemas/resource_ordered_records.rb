@@ -16,6 +16,9 @@
                           { "type" => "JSONModel(:archival_object) uri" }],
               "ifmissing" => "error"
             },
+            "display_string" => {"type" => "string", "readonly" => true},
+            "depth" => {"type" => "integer", "readonly" => true},
+            "level" => {"type" => "string", "readonly" => true},
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

@@ -1,47 +1,87 @@
-ArchivesSpacePublic::Application.routes.draw do
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  [AppConfig[:public_proxy_prefix], AppConfig[:public_prefix]].uniq.each do |prefix|
+  root to: "welcome#show"
 
-    scope prefix do
+  get '/', to: 'welcome#show' #'index#index'
+  get '/welcome', to: 'welcome#show'
+  post '/cite', to: 'cite#show'
+  get 'objects/search' => 'objects#search'
+  post 'objects/search' => 'objects#search'
+  get 'objects' => 'objects#index'
+  post 'objects' => 'objects#index'
+  get 'accessions/search' => 'accessions#search'
+  post 'accessions/search' => 'accessions#search'
+  get 'accessions' => 'accessions#index'
+  post 'accessions' => 'accessions#index'
+  get 'classifications/search' => 'classifications#search'
+  post 'classifications/search' => 'classifications#search'
+  get 'classifications' => 'classifications#index'
+  post 'classifications' => 'classifications#index'
+  get 'fill_request' => 'requests#make_request'
+  post 'fill_request' => 'requests#make_request'
+  get 'subjects/search' => 'subjects#search'
+  post 'subjects/search' => 'subjects#search'
+  get "subjects/:id" => 'subjects#show'
+  get 'subjects' => 'subjects#index'
+  post 'subjects' => 'subjects#index'
+  get 'agents/search' => 'agents#search'
+  post 'agents/search' => 'agents#search'
+  get "agents/:eid/:id" => 'agents#show'
+  get 'agents' => 'agents#index'
 
-      match 'search' => 'search#search', :via => [:get]
-      match 'advanced_search' => 'search#advanced_search', :via => [:get]
-      match 'tree' => 'records#tree', :via => [:get]
-      match 'repositories/:repo_id/resources/:id' => 'records#resource', :via => [:get]
-      match 'repositories/:repo_id/digital_objects/:id' => 'records#digital_object', :via => [:get]
-      match 'repositories/:repo_id/archival_objects/:id' => 'records#archival_object', :via => [:get]
-      match 'repositories/:repo_id/digital_object_components/:id' => 'records#digital_object_component', :via => [:get]
-      match 'repositories/:repo_id' => 'search#repository', :via => [:get]
-      match 'repositories/:repo_id/classifications/:id' => 'records#classification', :via => [:get]
-      match 'repositories/:repo_id/accessions/:id' => 'records#accession', :via => [:get]
-      match 'agents/:id' => 'records#agent', :via => [:get]
 
-      get "repositories/:repo_id/resources/:id/tree/root"  => 'records#resource_tree_root'
-      get "repositories/:repo_id/resources/:id/tree/waypoint"  => 'records#resource_tree_waypoint'
-      get "repositories/:repo_id/resources/:id/tree/node"  => 'records#resource_tree_node'
-      get "repositories/:repo_id/resources/:id/tree/node_from_root"  => 'records#resource_tree_node_from_root'
+  get  "repositories/:rid/top_containers/:id" => 'containers#show'
+  post  "repositories/:rid/top_containers/:id" => 'containers#show'
+  get 'repositories/resources' => 'resources#index'
+  get  "repositories/:rid/accessions/:id" => 'accessions#show'
+  post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
+  post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
+  get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
+  get  "repositories/:rid/classifications/:id" => 'classifications#show'
+  get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
+  get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
+  get "repositories/:rid/resources/:id"  => 'resources#show'
+  post "repositories/:rid/resources/:id/pdf"  => 'pdf#resource'
+  get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
+  get 'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
+  get "repositories/:rid/:obj_type/:id" => 'objects#show'
+  get  "repositories/:rid/classifications/" => 'classifications#index'
+  post  "repositories/:rid/classifications/" => 'classifications#index'
+  get "repositories/:rid/resources" => 'resources#index'
+  post "repositories/:rid/resources" => 'resources#index' 
+  get  "repositories/:rid/search" => 'search#search'
+  post "repositories/:rid/search" => 'search#search'
+  get "repositories/:rid/agents" => 'agents#index'
+  post "repositories/:rid/agents" => 'agents#index'
+  get "repositories/:rid/subjects" => 'subjects#index'
+  post "repositories/:rid/subjects" => 'subjects#index'
+  get "repositories/:rid/objects" => 'objects#index'
+  post "repositories/:rid/objects" => 'objects#index'
+  get "repositories/:rid/records" => 'objects#index'
+  post "repositories/:rid/records" => 'objects#index'
+  get "repositories/:id" => 'repositories#show'
+  post "repositories/:id" => 'repositories#show'
 
-      get "repositories/:repo_id/digital_objects/:id/tree/root"  => 'records#digital_object_tree_root'
-      get "repositories/:repo_id/digital_objects/:id/tree/waypoint"  => 'records#digital_object_tree_waypoint'
-      get "repositories/:repo_id/digital_objects/:id/tree/node"  => 'records#digital_object_tree_node'
-      get "repositories/:repo_id/digital_objects/:id/tree/node_from_root"  => 'records#digital_object_tree_node_from_root'
+  get "repositories/:rid/resources/:id/collection_organization"  => 'resources#infinite'
+  get "repositories/:rid/resources/:id/infinite/waypoints"  => 'resources#waypoints'
 
-      get "repositories/:repo_id/classifications/:id/tree/root"  => 'records#classification_tree_root'
-      get "repositories/:repo_id/classifications/:id/tree/waypoint"  => 'records#classification_tree_waypoint'
-      get "repositories/:repo_id/classifications/:id/tree/node"  => 'records#classification_tree_node'
-      get "repositories/:repo_id/classifications/:id/tree/node_from_root"  => 'records#classification_tree_node_from_root'
+  get "repositories/:rid/resources/:id/tree/root"  => 'resources#tree_root'
+  get "repositories/:rid/resources/:id/tree/waypoint"  => 'resources#tree_waypoint'
+  get "repositories/:rid/resources/:id/tree/node"  => 'resources#tree_node'
+  get "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
-      get "repositories/:repo_id/classifications/:id/search"  => 'records#classification_search'
-      get "repositories/:repo_id/classification_terms/:id/search"  => 'records#classification_term_search'
+  get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
+  get "repositories/:rid/digital_objects/:id/tree/waypoint"  => 'digital_objects#tree_waypoint'
+  get "repositories/:rid/digital_objects/:id/tree/node"  => 'digital_objects#tree_node'
+  get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
 
-      match 'repositories' => 'search#repository', :via => [:get]
-      match 'subjects/:id' => 'search#subject', :via => [:get]
-      root :to => "site#index"
+  get "repositories/:rid/classifications/:id/tree/root"  => 'classifications#tree_root'
+  get "repositories/:rid/classifications/:id/tree/waypoint"  => 'classifications#tree_waypoint'
+  get "repositories/:rid/classifications/:id/tree/node"  => 'classifications#tree_node'
+  get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
 
-      get 'agents/people/:id', to: redirect('/agents/%{id}?agent_type=agent_person')
-      get 'agents/software/:id', to: redirect('/agents/%{id}?agent_type=agent_software')
-      get 'agents/families/:id', to: redirect('/agents/%{id}?agent_type=agent_family')
-      get 'agents/corporate_entities/:id', to: redirect('/agents/%{id}?agent_type=agent_corporate_entity')
-    end
-  end
+  get '/repositories', to: 'repositories#index'
+  get '/search', to: 'search#search'
 end

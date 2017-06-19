@@ -1,0 +1,14 @@
+<%# using clipboard.js: https://clipboardjs.com/ %>
+<%# shared modal(s) %>
+<% if @result.respond_to?(:cite) && @result.cite %>
+<%= render partial: 'shared/modal', locals: {:modal_id => 'cite_modal', :title => t('actions.cite'), 
+                    :modal_body => @result.cite} %>
+<%# using clipboard.js: https://clipboardjs.com/ %>
+<script type ="text/javascript" >setupCite("cite_modal", "<%= t('actions.clipboard') %>")</script>
+<% end %>
+<% if defined?(@request) && !@request.nil? %>
+   <% req = render partial: 'shared/request_form' %>
+  <%= render partial: 'shared/modal', locals: {:modal_id => 'request_modal', :title => t('actions.request'),
+      :modal_body => req } %>
+<script type ="text/javascript" >setupRequest("request_modal",  "<%= t('actions.request') %>")</script>
+<% end %>

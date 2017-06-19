@@ -5,6 +5,10 @@
     "type" => "object",
     "parent" => "abstract_classification",
     "uri" => "/repositories/:repo_id/classifications",
-    "properties" => {},
+    "properties" => {
+
+      "has_classification_terms" => {"type" => "boolean", "readonly" => true},
+
+    },
   },
 }

@@ -11,8 +11,3 @@ It will add pugs.
 Enable the plugin by editing the file in `config/config.rb`:
 
     AppConfig[:plugins] = ['some_plugin', 'public_demo_pugin']
-
-This plugin is only compatible with the new public interface
-and assumes the environment variable `ASPACE_PUBLIC_NEW` is set:
-
-    ENV['ASPACE_PUBLIC_NEW'] = 'true'
