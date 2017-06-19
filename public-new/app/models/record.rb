@@ -441,18 +441,18 @@ class Record
             hsh[:location_title] = ''
             hsh[:location_url] = ''
           end
+
+          restricts = top_container_json.dig('active_restrictions')
+          if restricts
+            restricts.each do |r|
+              lar = r.dig('local_access_restriction_type')
+              container_info[:machine] += lar if lar
+            end
+          end
         else
           hsh[:barcode] = ''
           hsh[:location_title] = ''
           hsh[:location_url] = ''
-        end
-
-        restricts = top_container_json.dig('active_restrictions')
-        if restricts
-          restricts.each do |r|
-            lar = r.dig('local_access_restriction_type')
-            container_info[:machine] += lar if lar
-          end
         end
 
         hsh.keys.each {|sym| container_info[sym].push(hsh[sym] || '')}
