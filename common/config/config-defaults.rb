@@ -65,9 +65,6 @@ AppConfig[:locale] = :en
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local',  'lcnaf']
 
-# The aspace-public-formats plugin is not supported in the new public application
-AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
-
 # The number of concurrent threads available to run background jobs
 # Introduced for AR-1619 - long running jobs were blocking the queue
 # Resist the urge to set this to a big number!
