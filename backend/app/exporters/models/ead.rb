@@ -135,6 +135,7 @@ class EADModel < ASpaceExport::ExportModel
     opts.each do |k, v|
       self.instance_variable_set("@#{k}", v)
     end
+
     repo_ref = obj.repository['ref']
     @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
     @repo = Repository.to_jsonmodel(@repo_id)

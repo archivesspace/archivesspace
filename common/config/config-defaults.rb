@@ -32,6 +32,10 @@ AppConfig[:frontend_url] = "http://localhost:8080"
 # set it to something else below.
 AppConfig[:public_url] = "http://localhost:8081"
 
+# The ArchivesSpace OAI server listens on port 8082 by default.  You can
+# set it to something else below.
+AppConfig[:oai_url] = "http://localhost:8082"
+
 # The ArchivesSpace Solr index listens on port 8090 by default.  You can
 # set it to something else below.
 AppConfig[:solr_url] = "http://localhost:8090"
@@ -68,6 +72,27 @@ AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] =
 # Introduced for AR-1619 - long running jobs were blocking the queue
 # Resist the urge to set this to a big number!
 AppConfig[:job_thread_count] = 2
+
+# OAI configuration options
+AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
+AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
+AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+AppConfig[:oai_admin_email] = 'admin@example.com'
+
+# In addition to the sets based on level of description, you can define OAI Sets
+# based on repository codes and/or sponsors as follows
+#
+# AppConfig[:oai_sets] = {
+#   'repository_set' => {
+#     :repo_codes => ['hello626'],
+#     :description => "A set of one or more repositories",
+#   },
+#
+#   'sponsor_set' => {
+#     :sponsors => ['The_Sponsor'],
+#     :description => "A set of one or more sponsors",
+#   },
+# }
 
 
 ##
@@ -157,6 +182,7 @@ AppConfig[:enable_public] = true
 AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 AppConfig[:enable_docs] = true
+AppConfig[:enable_oai] = true
 
 # Some use cases want the ability to shutdown the Jetty service using Jetty's
 # ShutdownHandler, which allows a POST request to a specific URI to signal
