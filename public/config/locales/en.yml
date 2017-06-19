@@ -21,16 +21,15 @@
 
 en:
   brand:
-    title: ASpace Public Interface
+    title: ArchivesSpace Public Interface
     title_link_text: Your link text here
     home: Home
-    welcome_head: Welcome to the New Public Interface for ArchivesSpace
+    welcome_head: Welcome to ArchivesSpace
     welcome_message: |
-                     <p> You can put anything you want in this space, by 
-                     editing <strong>brand.welcome_message</strong> in the appropriate <em>config/custom/locales/*yml</em> file</p>
+                     <p>Search across our collections, digital materials, and more.</p>
 
     welcome_search_label: "Find what you're looking for:"
-    welcome_page_title: Welcome! A New Day Dawns!
+    welcome_page_title: ArchivesSpace Public Interface
 
   actions:
     search: Search
