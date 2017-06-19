@@ -108,6 +108,10 @@ class Resource < Record
     md
   end
 
+  def instances
+    json['instances']
+  end
+
   private
 
   def parse_digital_instance
