@@ -858,9 +858,7 @@
 
 
   <target name="public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
-    <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public-new" /></antcall>
     <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public" /></antcall>
-
   </target>
 
   <target name="-public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
