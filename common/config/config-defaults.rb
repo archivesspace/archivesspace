@@ -245,16 +245,6 @@ AppConfig[:plugins_directory] = "plugins"
 # You can remove this from the footer by making the value blank.
 AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
 
-
-#
-# The following are used by the aspace-public-formats plugin
-# https://github.com/archivesspace/aspace-public-formats
-AppConfig[:public_formats_resource_links] = []
-AppConfig[:public_formats_digital_object_links] = []
-AppConfig[:xsltproc_path] = nil
-AppConfig[:xslt_path] = nil
-
-
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
 
