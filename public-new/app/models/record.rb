@@ -116,9 +116,13 @@ class Record
   def rewrite_refs(notes, base_uri)
     if notes.is_a?(Hash)
       notes.each do |k, v|
-        if k == 'content'
+        if k == 'content' || k == 'items'
           ASUtils.wrap(v).each do |s|
-            s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{base_uri}/resolve/\\1'>\\2</a>")
+            if s.is_a? String
+              s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{base_uri}/resolve/\\1'>\\2</a>")
+            else
+              rewrite_refs(s, base_uri)
+            end
           end
         else
           rewrite_refs(v, base_uri)
