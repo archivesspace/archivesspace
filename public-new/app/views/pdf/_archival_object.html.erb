@@ -70,6 +70,19 @@ end
                     <% end %>
                 <% end %>
 
+                <% record.instances.each do |instance| %>
+                    <% next if instance['_inherited'] %>
+                    <% if instance['instance_type'] == 'digital_object' && instance['digital_object'] %>
+                        <% file_versions = instance['digital_object']['_resolved']['file_versions'] %>
+                        <% Array(file_versions).each do |file| %>
+                            <% if file['file_uri'] %>
+                                <dt><%= I18n.t('resource._public.digital_object') %></dt>
+                                <dd><%= link_to(file['file_uri'], file['file_uri']) %></dd>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+
                 <% subjects = Array(record.subjects).reject {|s| s['is_inherited']} %>
                 <% if !subjects.empty? %>
                     <dt><%= I18n.t('pdf_reports.controlled_access_headings') %></dt>

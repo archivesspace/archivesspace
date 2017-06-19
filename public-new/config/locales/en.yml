@@ -349,6 +349,7 @@ en:
       extent: Extent
       dates: Dates
       lang: Language
+      digital_object: Digital Object
       physdesc: Physical Description
       storage: Container Information
       access: Conditions Governing Access
