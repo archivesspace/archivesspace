@@ -38,6 +38,11 @@ $.fn.readmore = function(idealCharCount) {
       return parseGraphContent(innerHtml.replace(/^[^<]+</, '<'), result.concat([match[1]]));
     }
 
+    match = innerHtml.match(/^(<(?:br|hr)(?:\s+)?\/?>)(.*)/)
+    if (match) {
+      return parseGraphContent(match[2], result.concat([match[1]]));
+    }
+
     match = innerHtml.match(/^(<[^>]+>[^<]+<\/[^>]+>)(.*)/)
     if(match) {
       return parseGraphContent(match[2], result.concat([match[1]]));
