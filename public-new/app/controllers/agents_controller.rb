@@ -76,6 +76,8 @@ class AgentsController <  ApplicationController
   end
 
 
+  RETAINED_PARAMETERS = ['filter_fields', 'filter_values']
+
   def show
     uri = "/agents/#{params[:eid]}/#{params[:id]}"
     @criteria = {}
@@ -84,9 +86,14 @@ class AgentsController <  ApplicationController
       @result = archivesspace.get_record(uri, @criteria)
       @results = fetch_agent_results(@result['title'],uri, params)
       if !@results.blank?
-        params[:q] = '*'
-#Pry::ColorPrinter.pp(@results['results'])
-        @pager =  Pager.new("#{uri}?q=#{params.fetch(:q,'*')}", @results['this_page'],@results['last_page'])
+
+        extra_params = Hash[RETAINED_PARAMETERS.map {|f|
+                              if params[f]
+                                [f, params[f]]
+                              end
+                            }].compact.to_query
+
+        @pager =  Pager.new("#{uri}?#{extra_params}", @results['this_page'],@results['last_page'])
       else
         @pager = nil
       end
