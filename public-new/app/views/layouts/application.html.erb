@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<%= AppConfig[:locale] %>">
 <head>
-	<title><%=  (@page_title.blank? ? '' : "#{@page_title} | ") %><%= t('brand.title') %></title>
+	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
 	<%= csrf_meta_tags %>
 <%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
 	<% if AppConfig[:pui_block_referrer] %>

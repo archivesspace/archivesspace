@@ -74,9 +74,9 @@ class Record
   private
 
   def parse_full_title
-    ft =  strip_mixed_content(json['display_string'] || json['title'])
+    ft =  process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
     unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      ft = I18n.t('inherited', :title => strip_mixed_content(json['title']), :display => ft)
+      ft = I18n.t('inherited', :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
     end
     ft
   end

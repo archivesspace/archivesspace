@@ -10,13 +10,11 @@ module ManipulateNode
   #    item.name = "li"
   #  end
 
-  def process_mixed_content(in_txt)
+  def process_mixed_content(in_txt, opts = {})
     return if !in_txt
 
     # Don't fire up nokogiri if there's no mixed content to parse
-    unless in_txt.include?("<")
-      return CGI::escapeHTML(in_txt)
-    end
+    needs_nokogiri = in_txt.include?("<")
 
     txt = in_txt.strip
 
@@ -24,12 +22,20 @@ module ManipulateNode
       .gsub("chronitem>", "li>")
     txt = txt.gsub("list>", "ul>")
       .gsub("item>", "li>")
-      .gsub(/\n\n/,"<br /><br />")
-      .gsub(/\r\n\r\n/,"<br /><br />")
+
+    unless opts[:preserve_newlines]
+      txt = txt.gsub(/\n\n/,"<br /><br />")
+              .gsub(/\r\n\r\n/,"<br /><br />")
+    end
 
     txt = txt.gsub(/ & /, ' &amp; ')
 
     txt = txt.gsub("xlink\:type=\"simple\"", "")
+
+    unless needs_nokogiri
+      return txt
+    end
+
     @frag = Nokogiri::XML.fragment(txt)
     move_list_heads
     @frag.traverse { |el| 
@@ -47,7 +53,7 @@ module ManipulateNode
 
     # Don't fire up nokogiri if there's no mixed content to parse
     unless in_text.include?("<")
-      return CGI::escapeHTML(in_text)
+      return in_text
     end
 
     in_text = in_text.gsub(/ & /, ' &amp; ')
