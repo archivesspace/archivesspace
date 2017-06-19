@@ -606,6 +606,15 @@ class CommonIndexer
       }
     }
 
+    add_document_prepare_hook {|doc, record|
+      ASUtils.wrap(record['record']['rights_statements']).each do |rights_statement|
+        ASUtils.wrap(rights_statement['linked_agents']).each do |agent_link|
+          doc['rights_statement_agent_uris'] ||= []
+          doc['rights_statement_agent_uris'] << agent_link['ref']
+        end
+      end
+    }
+
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []

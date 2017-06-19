@@ -13,6 +13,14 @@
      all_note_types[type] = :note_digital_object
    end
 
+   JSONModel.enum_values(JSONModel(:note_rights_statement).schema['properties']['type']['dynamic_enum']).each do |type|
+     all_note_types[type] = :note_rights_statement
+   end
+
+   JSONModel.enum_values(JSONModel(:note_rights_statement_act).schema['properties']['type']['dynamic_enum']).each do |type|
+     all_note_types[type] = :note_rights_statement_act
+   end
+
    all_note_types["Index"] = :note_index
    all_note_types["Bibliography"] = :note_bibliography
 

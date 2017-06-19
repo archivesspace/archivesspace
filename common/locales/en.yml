@@ -671,6 +671,9 @@ en:
     note_outline: Outline
     note_text: Text
     note_type: Note Type
+    note_rights_statement: Rights Statement Note
+    note_rights_statement_act: Act Note
+    note_agent_rights_statement: Rights Statement Note (do not use)
     _singular: Note
     _plural: Notes
 
@@ -702,6 +705,15 @@ en:
     sub_notes_singular: Sub Note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_rights_statement:
+    <<: *note_attributes
+
+  note_rights_statement_act:
+    <<: *note_attributes
+
+  note_agent_rights_statement:
     <<: *note_attributes
 
   note_bibliography:
@@ -904,6 +916,12 @@ en:
     _plural: External Documents
     _singular: External Document
 
+  rights_statement_external_document:
+    <<: *external_document_attributes
+    identifier_type: Identifier Type
+    identifier_type_tooltip: |
+        <p>The identifier type indicates what domain the external document belongs to.</p>
+
   external_id:
     _plural: External IDs
     _singular: External ID
@@ -918,28 +936,18 @@ en:
     identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
     rights_type_tooltip: |
-        <p>The basis for the rights statement being made.Four bases are allowed: intellectual property, license, such as donor agreement, legal statutes such as Fair Use or FERPA, and institutional policy.</p>
+        <p>The basis for the rights statement being made.  Four bases are allowed:  Copyright, License, Statute, and Other.  License is for formal and informal licenses, such as donor and purchase agreements.  Statute is for codified laws such as Fair Use or FERPA in the United States.  Other is for institutional policy or other bases other than copyright, license, and statute.  It too may be used for donor and purchase agreements if the repository prefers.</p>
     rights_type_message: Please select a Rights Type
-    active: Active
-    active_tooltip: |
-        <p>Indicates whether a rights record is active or inactive.</p>
-    active_true: Active
-    active_false: Inactive
-    materials: Materials
-    materials_tooltip: |
-        <p>A term or brief phrase describing the materials in the accession, resource or collection to which the rights record applies.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Diaries by Alex Doe</li>
+    status: Status
+    status_tooltip: |
+        <p>A coded designation for the copyright status of the object at the time the rights statement is recorded.</p>
+        <ul> 
+          <li>Copyrighted = Under copyright.</li>
+          <li>Public domain = In the public domain.</li>
+          <li>Unknown = Copyright status of the resource is unknown</li>
         </ul>
-    ip_status: IP Status
-    ip_status_tooltip: |
-        <p>A term indicating the intellectual property status of the described materials.</p>
-    ip_expiration_date: IP Expiration Date
-    ip_expiration_date_tooltip: |
-        <p>The date the copyright or other intellectual property status is expected to expire.</p>
-    license_identifier_terms: License Identifier Terms
-    license_identifier_terms_tooltip: |
+    license_terms: License Terms
+    license_terms_tooltip: |
         <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Statute Citation
     statute_citation_tooltip: |
@@ -950,7 +958,9 @@ en:
         </ul>
     jurisdiction: Jurisdiction
     jurisdiction_tooltip: |
-        <p>The political entity authorizing the copyright or statute, e.g. country or region.</p>
+        <p>Copyright: The country whose copyright laws apply.</p>
+        <p>Statute: The country or other political body enacting the statute.</p>
+        <p>Conforms to ISO 3166.</p>
     type_note: Type Note
     type_note_tooltip: |
         <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
@@ -958,33 +968,23 @@ en:
         <ul>
         <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
         </ul>
-    permissions: Permissions
-    permissions_tooltip: |
-        <p>A description of what kinds of actions are permissible to the repository and/or the end user.</p>
-    restrictions: Restrictions
-    restrictions_tooltip: |
-        <p>A description of what kinds of actions are not permissible to the repository and/or the end user.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Photocopying, scanning, or photographing of materials not allowed.</li>
-        </ul>
-    restriction_start_date: Restrictions Start Date
-    restriction_start_date_tooltip: |
-        <p>The date the restriction(s) go into effect.</p>
-    restriction_end_date: Restrictions End Date
-    restriction_end_date_tooltip: |
-        <p>The date the restriction(s) cease to apply.</p>
-    granted_note: Granted Note
-    granted_note_tooltip: |
-        <p>Any qualifying information about the permissions granted or restrictions to be enforced.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Contact donor's family if access is requested before restriction end date arrives.</li>
-        </ul>
+    determination_date: Determination Date
+    determination_date_tooltip: |
+        <p>Copyright: The date the copyright status recorded in copyright status was determined.</p>
+        <p>Statute: The date that the determination was made that the statute authorized the permission(s) noted.</p>
+    start_date: Start Date
+    start_date_tooltip: |
+        <p>The date the rights statement went into effect.</p>
+    end_date: End Date
+    end_date_tooltip: |
+        <p>The date the rights statement ends.</p>
+    other_rights_basis: Other Rights Basis
+    other_rights_basis_tooltip: |
+      <p>Rights Type of other rights statements that are not statutes, licenses, or copyright.</p>
     _plural: Rights Statements
     _singular: Rights Statement
 
-  rights_type_intellectual_property:
+  rights_type_copyright:
     <<: *rights_statement_attributes
 
   rights_type_license:
@@ -993,7 +993,7 @@ en:
   rights_type_statute:
     <<: *rights_statement_attributes
 
-  rights_type_institutional_policy:
+  rights_type_other:
     <<: *rights_statement_attributes
 
   date: &date_attributes
@@ -1972,3 +1972,28 @@ en:
     reparent_error:
       title: Unable to perform move
       message: The move has been disallowed as a parent cannot become its own child.
+
+  rights_statement_act: &rights_statement_act_attributes
+    _singular: Act
+    _plural: Acts
+    act_type: Act Type
+    act_type_tooltip: |
+        <p>The action this rights statement allows.</p>
+    restriction: Restriction
+    restriction_tooltip: |
+        <p>A condition or limitation on the act.</p>
+        <p>Examples:</p>
+        <ul>
+          <li>No more than three</li>
+          <li>Allowed only after one year of archival retention has elapsed</li>
+          <li>Rightsholder must be notified after completion of act</li>
+        </ul>
+    start_date: Start Date
+    start_date_tooltip: |
+        <p>The date the act went into effect.</p>
+    end_date: End Date
+    end_date_tooltip: |
+        <p>The date the act ends.</p>
+
+  act:
+    <<: *rights_statement_act_attributes

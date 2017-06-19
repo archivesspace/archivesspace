@@ -161,6 +161,7 @@
    <field name="linked_instance_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="related_accession_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="related_resource_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="rights_statement_agent_uris" type="string" indexed="true" stored="true" multiValued="true" />
 
    <!-- Event properties required for facets -->
    <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />

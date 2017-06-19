@@ -10,7 +10,6 @@ class AgentSoftware < Sequel::Model(:agent_software)
   include RecordableCataloging
   include Notes
   include Publishable
-  include RightsStatements
 
 
   register_agent_type(:jsonmodel => :agent_software,

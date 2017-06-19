@@ -920,11 +920,6 @@ fr:
     rights_type_tooltip: |
         <p>La base servant à la mention des droits. Quatre bases sont autorisées: propriété intellectuelle, permission telle qu'un accord du donateur, statut légal tel que le Fair Use ou le FERPA, et règles de l'institution.</p>
     rights_type_message: Merci de sélectionner un type de droits
-    active: Valide
-    active_tooltip: |
-        <p>Indique si la mention des droits est ou non valide.</p>
-    active_true: Valide
-    active_false: Invalide
     materials: Documents
     materials_tooltip: |
         <p>Un terme ou une phrase brève décrivant les documents dans l'acquisition, la ressource ou la collection à laquelle s'applique la mention des droits.</p>
