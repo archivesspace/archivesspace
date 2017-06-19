@@ -37,7 +37,7 @@ class ClassificationsController <  ApplicationController
     begin
       set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  search_opts, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/') and return
     end
     if @results['total_hits'] > 1
@@ -73,7 +73,7 @@ class ClassificationsController <  ApplicationController
     begin
       set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  DEFAULT_CL_SEARCH_OPTS, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/') and return
     end
     @page_title = I18n.t('classification._plural')

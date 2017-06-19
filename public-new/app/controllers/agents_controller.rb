@@ -35,7 +35,7 @@ class AgentsController <  ApplicationController
     begin
       set_up_and_run_search( DEFAULT_AG_TYPES, default_facets,  search_opts, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/') and return
     end
 
@@ -66,7 +66,7 @@ class AgentsController <  ApplicationController
     begin
       set_up_and_run_search( DEFAULT_AG_TYPES, DEFAULT_AG_FACET_TYPES,  DEFAULT_AG_SEARCH_OPTS, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/agents') and return
     end
     @page_title = I18n.t('agent._plural')

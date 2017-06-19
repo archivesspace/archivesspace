@@ -31,7 +31,7 @@ class ObjectsController <  ApplicationController
     begin
       set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts,params)
     rescue Exception => error
-     flash[:error] = error
+     flash[:error] = I18n.t('errors.unexpected_error')
      redirect_back(fallback_location: '/') and return
     end
     @context = repo_context(repo_id, 'record')
@@ -58,7 +58,7 @@ class ObjectsController <  ApplicationController
     begin
       set_up_and_run_search(%w(digital_object archival_object),DEFAULT_OBJ_FACET_TYPES,DEFAULT_OBJ_SEARCH_OPTS, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/objects' ) and return
     end
     @page_title = I18n.t('record._plural')

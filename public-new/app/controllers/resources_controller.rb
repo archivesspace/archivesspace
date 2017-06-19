@@ -51,7 +51,7 @@ class ResourcesController <  ApplicationController
     begin
       set_up_and_run_search(['resource'], facet_types,search_opts, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(@repo_id, 'resource')
@@ -97,7 +97,7 @@ class ResourcesController <  ApplicationController
     begin
       set_up_advanced_search(DEFAULT_RES_TYPES, DEFAULT_RES_FACET_TYPES, search_opts, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: res_id ) and return
     end
 

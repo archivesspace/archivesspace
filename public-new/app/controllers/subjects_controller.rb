@@ -31,7 +31,7 @@ class SubjectsController <  ApplicationController
     begin
       set_up_and_run_search(['subject'],default_facets,search_opts, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/' ) and return
     end
     @context = repo_context(repo_id, 'subject')
@@ -63,7 +63,7 @@ Rails.logger.debug("we hit search!")
     begin
       set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
     rescue Exception => error
-      flash[:error] = error
+      flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/subjects' ) and return
     end
     @page_title = I18n.t('subject._plural')
