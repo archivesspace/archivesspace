@@ -30,6 +30,9 @@ class SubjectsController <  ApplicationController
     page = Integer(params.fetch(:page, "1"))
     begin
       set_up_and_run_search(['subject'],default_facets,search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/' ) and return
@@ -62,6 +65,9 @@ Rails.logger.debug("we hit search!")
     page = Integer(params.fetch(:page, "1"))
     begin
       set_up_and_run_search(['subject'],DEFAULT_SUBJ_FACET_TYPES,DEFAULT_SUBJ_SEARCH_OPTS, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/subjects' ) and return

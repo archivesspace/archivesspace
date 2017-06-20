@@ -4,6 +4,9 @@ module Searchable
 # TODO: refactor processing
   ABSTRACT = %w(abstract scopecontent)
 
+  class NoResultsError < StandardError; end
+
+
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
     @search = Search.new(params)
     limit = params.fetch(:limit,'')
@@ -65,7 +68,7 @@ module Searchable
     page = Integer(params.fetch(:page, "1"))
     @results =  archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
-      raise  I18n.t('search_results.no_results')
+      raise NoResultsError.new
     else
       process_search_results(@base_search)
     end
