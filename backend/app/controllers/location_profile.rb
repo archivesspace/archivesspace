@@ -1,3 +1,5 @@
+require_relative 'search'
+
 class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/location_profiles/:id')
