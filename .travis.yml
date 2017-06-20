@@ -18,7 +18,6 @@ env:
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
-  - DB=mysql TASK=travis:selenium:public
   - TASK=dist
 before_install:
 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
