@@ -165,7 +165,7 @@ en:
       scope: Scope
       notes: Notes
       source: Source
-      agents: Names
+      published_agents: Names
       agents_text: Names
       classification_uri: Classification
       linked_agent_roles: Role

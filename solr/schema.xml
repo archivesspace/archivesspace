@@ -67,7 +67,9 @@
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="published_agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="published_agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="related_agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false"/>
    <field name="years" type="int" indexed="true" stored="false" multiValued="true"/>
