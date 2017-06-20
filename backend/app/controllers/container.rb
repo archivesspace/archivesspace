@@ -1,4 +1,4 @@
-require_relative './search'
+require_relative 'search'
 
 class ArchivesSpaceService < Sinatra::Base
 

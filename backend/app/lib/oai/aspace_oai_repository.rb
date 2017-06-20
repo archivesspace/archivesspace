@@ -6,21 +6,25 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   FormatOptions = Struct.new(:record_types, :page_size)
 
-  AVAILABLE_RECORD_TYPES = {
-    'oai_dc' => FormatOptions.new([ArchivalObject], 25),
-    'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
-    'oai_marc' => FormatOptions.new([ArchivalObject], 25),
-    'oai_mods' => FormatOptions.new([ArchivalObject], 25),
-    'oai_ead' => FormatOptions.new([Resource], 1)
-  }
+  def self.available_record_types
+    {
+      'oai_dc' => FormatOptions.new([ArchivalObject], 25),
+      'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
+      'oai_marc' => FormatOptions.new([ArchivalObject], 25),
+      'oai_mods' => FormatOptions.new([ArchivalObject], 25),
+      'oai_ead' => FormatOptions.new([Resource], 1)
+    }
+  end
 
   # If a given record type supports deletes, we'll need a way to look up its
   # tombstone records.  Since we only know the URIs of those tombstones, we're
   # pretty much stuck doing slow lookups.
-  DELETE_LOOKUPS = {
-    Resource => Tombstone.where { Sequel.like(:uri, '%/resources/%') },
-    ArchivalObject => Tombstone.where { Sequel.like(:uri, '%/archival_objects/%') },
-  }
+  def self.delete_lookups
+    {
+      Resource => Tombstone.where { Sequel.like(:uri, '%/resources/%') },
+      ArchivalObject => Tombstone.where { Sequel.like(:uri, '%/archival_objects/%') },
+    }
+  end
 
   DELETES_PER_PAGE = 100
 
@@ -70,7 +74,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     metadata_prefix = options.fetch(:metadata_prefix)
 
-    format_options = AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
+    format_options = ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
     parsed_ref = JSONModel.parse_reference(uri)
 
     raise OAI::IdException.new if parsed_ref.nil?
@@ -96,9 +100,9 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     end
 
     resumption_token = if options.has_key?(:resumption_token)
-                         ArchivesSpaceResumptionToken.parse(options.fetch(:resumption_token), AVAILABLE_RECORD_TYPES)
+                         ArchivesSpaceResumptionToken.parse(options.fetch(:resumption_token), ArchivesSpaceOAIRepository.available_record_types)
                        else
-                         ArchivesSpaceResumptionToken.new(options, AVAILABLE_RECORD_TYPES)
+                         ArchivesSpaceResumptionToken.new(options, ArchivesSpaceOAIRepository.available_record_types)
                        end
 
     if resumption_token.state == ArchivesSpaceResumptionToken::PRODUCING_RECORDS_STATE
@@ -140,7 +144,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   end
 
   def options_for_type(metadata_prefix)
-    AVAILABLE_RECORD_TYPES.fetch(metadata_prefix)
+    ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
   end
 
   def build_set_description(text)
@@ -220,7 +224,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # Get a dataset that will pull back all tombstones for the record types that
     # this metadata type supports.
     matching_tombstones = format_options.record_types.map {|record_type|
-      tombstone_ds = DELETE_LOOKUPS[record_type]
+      tombstone_ds = ArchivesSpaceOAIRepository.delete_lookups[record_type]
       if tombstone_ds
         restrict_tombstones_to_published_repositories(tombstone_ds)
       end

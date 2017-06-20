@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["verb", String, "The OAI verb (Identify, ListRecords, GetRecord, etc.)"],
             ["metadataPrefix",
              String,
-             "One of: " + ArchivesSpaceOAIRepository::AVAILABLE_RECORD_TYPES.keys.join(", "),
+             "One of the supported metadata types.  See verb=ListMetadataFormats for a list.",
              :optional => true],
             ["from", String, "Start date (yyyy-mm-dd, yyyy-mm-ddThh:mm:ssZ)", :optional => true],
             ["until", String, "End date (yyyy-mm-dd, yyyy-mm-ddThh:mm:ssZ)", :optional => true],
