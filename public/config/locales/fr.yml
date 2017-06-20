@@ -154,7 +154,7 @@ fr:
       scope: Portée
       notes: Notes
       source: Source
-      agents: Créateurs de contenu
+      published_agents: Créateurs de contenu
       agents_text: Créateurs de contenu
       classification_uri: Classification
       linked_agent_roles: Rôle

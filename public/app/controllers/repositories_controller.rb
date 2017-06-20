@@ -3,7 +3,7 @@ class RepositoriesController < ApplicationController
   helper_method :process_repo_info
   skip_before_filter  :verify_authenticity_token  
 
-  DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'agents']
+  DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'published_agents']
   DEFAULT_REPO_SEARCH_OPTS = {
      'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],

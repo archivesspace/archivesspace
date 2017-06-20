@@ -186,6 +186,16 @@ class CommonIndexer
       doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
       doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
 
+      # only published agents
+      doc['published_agents'] = []
+      doc['published_agent_uris'] = []
+      record['record']['linked_agents'].each do |link|
+        if link['_resolved']['publish']
+          doc['published_agents'] << link['_resolved']['display_name']['sort_name']
+          doc['published_agent_uris'] << link['ref']
+        end
+      end
+
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
