@@ -9,7 +9,7 @@ class Resolver
     @id = jsonmodel_properties[:id]
     @repository = jsonmodel_properties[:repository]
     @jsonmodel_type = jsonmodel_properties[:type]
-    @repo_id = JSONModel.parse_reference(@repository)[:id]
+    @repo_id = JSONModel.parse_reference(@repository)[:id] if @repository
   end
 
 
