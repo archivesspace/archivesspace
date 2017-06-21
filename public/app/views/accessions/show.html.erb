@@ -17,6 +17,11 @@
 
   <br/>
 
+  <% if @result.content_description %>
+    <h4><%= t('accession._public.section.content_description') %></h4>
+    <p><%= @result.content_description %></p>
+  <% end %>
+
   <% if @result.acquisition_type %>
     <h4><%= t('accession._public.section.acquisition_type') %></h4>
     <p><%= @result.acquisition_type %></p>
