@@ -15,7 +15,7 @@ describe AccessionReport do
   it 'returns the correct fields for the accession report' do
     expect(report.query.first.keys.length).to eq(28)
     expect(report.query.first).to have_key(:accessionId)
-    expect(report.query.first).to have_key(repo.id.to_s.to_sym)
+    expect(report.query.first).to have_key(:repo_id)
     expect(report.query.first).to have_key(:accessionNumber)
     expect(report.query.first).to have_key(:title)
     expect(report.query.first).to have_key(:accessionDate)
