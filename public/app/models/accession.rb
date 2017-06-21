@@ -21,6 +21,14 @@ class Accession < Record
     ASUtils.wrap(json['deaccessions'])
   end
 
+  def content_description
+    json['content_description']
+  end
+
+  def inventory
+    json['inventory']
+  end
+
   def provenance
     json['provenance']
   end

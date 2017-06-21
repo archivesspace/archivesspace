@@ -39,6 +39,10 @@
 	</p>
       <% end %>
     <% end %>
+    <% if @result.is_a?(Accession) && @result.inventory %>
+      <h4><%= t('accession._public.section.inventory') %></h4>
+      <p><%= @result.inventory %></p>
+    <% end %>
 </div>
 
     <div class="acc_holder clear" >

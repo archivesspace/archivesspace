@@ -305,6 +305,8 @@ en:
         access_restrictions_apply: Access Restrictions Apply
         use_restrictions: Use Restrictions
         use_restrictions_apply: Use Restrictions Apply
+        content_description: Content Description
+        inventory: Inventory
       related_accessions:
        accessions: Accession Records
        deaccessions: Deaccession Records
