@@ -78,6 +78,7 @@ class AgentPerson < Record
     md
   end
 
+
   def related_agents
     ASUtils.wrap(json['related_agents']).select{|rel|
       rel['_resolved']['publish']
