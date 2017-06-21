@@ -51,12 +51,12 @@
     <% end %>
 
     <% if @result['language'] %>
-        <dt><%= t('resource._public.finding_aid.language')%></dt>
+        <dt><%= t('resource._public.lang')%></dt>
         <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
-        <dt><%= t('resource._public.finding_aid.language')%></dt>
+        <dt><%= t('resource._public.lang')%></dt>
         <dd>
           <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
         </dd>
