@@ -73,7 +73,7 @@ class SinglepartNoteRenderer < NoteRenderer
 
   def render(type, note, result)
     result['label'] = build_label(type, note)
-    result['note_text'] = ASUtils.wrap(note['content']).map {|s| process_mixed_content(s)}.join(' ')
+    result['note_text'] = ASUtils.wrap(note['content']).map {|s| process_mixed_content(s)}.join('<br/><br/>')
     result
   end
 end
