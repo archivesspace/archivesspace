@@ -59,9 +59,6 @@ en:
 
   page_actions: Page Actions    
 
-  errors:
-    unexpected_error: Your request could not be completed due to an unexpected error
-
   request:
     required: required
     user_name: Your name
@@ -228,6 +225,7 @@ en:
     error_404_message: "The %{type} record you've tried to access does not exist or may have been removed."
     backend_down: Unable to Connect to Database
     backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
+    unexpected_error: Your request could not be completed due to an unexpected error
 
   boolean:
     "true": "Yes"

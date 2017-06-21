@@ -50,6 +50,9 @@ class ResourcesController <  ApplicationController
     facet_types.unshift('repository') if !@repo_id
     begin
       set_up_and_run_search(['resource'], facet_types,search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: '/' ) and return
