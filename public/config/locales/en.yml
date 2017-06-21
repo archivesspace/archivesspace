@@ -146,6 +146,8 @@ en:
       AND: and
       OR:  or
       NOT:  and not
+    op_first_row:
+      NOT: not
     filter:
       head: Filter Results
       add: Additional filters

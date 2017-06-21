@@ -350,7 +350,13 @@ module Searchable
     condition = " "
     @search[:q].each_with_index do |q,i|
       condition += '<li>'
-      condition += I18n.t("search_results.op.#{@search[:op][i]}").downcase unless i == 0
+      if i == 0
+        if !@search[:op][i].blank?
+          condition += I18n.t("search_results.op_first_row.#{@search[:op][i]}", :default => "").downcase
+        end
+      else
+        condition += I18n.t("search_results.op.#{@search[:op][i]}", :default => "").downcase
+      end
       f = @search[:field][i].blank? ? 'keyword' : @search[:field][i]
       condition += ' ' + I18n.t("search_results.#{f}_contain", :kw =>  CGI::escapeHTML((q == '*' ? I18n.t('search_results.anything') : q)) )
       unless @search[:from_year][i].blank? &&  @search[:to_year][i].blank?
