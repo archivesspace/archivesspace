@@ -10,19 +10,20 @@
   <% (0...[1, @search.q.length].max).each do |i| %>
   <div class="row search_row" id="search_row_<%= i %>">
     <div class="col-sm-1 bool form-group form-inline">
+      <% op_options = Search.get_boolean_opts %>
+      <% op_options = [''] + op_options if i == 0 %>
       <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'sr-only') %>
-      <%= select_tag('op[]', options_for_select(Search.get_boolean_opts), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' hidden' : '')) %>
-      <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
-      </div>
+      <%= select_tag('op[]', options_for_select(op_options, @search[:op][i]), :id => "op#{i}",:class=> 'form-control fill-column') %>
+    </div>
     <div class="col-sm-3 form-group form-inline">
       <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}", 
-            :class=> 'form-control repeats') %>
+            :class=> 'form-control repeats fill-column') %>
     </div>
     <div class="col-sm-3 form-group form-inline norepeat">
       <% if i == 0 %>
       <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
-      <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control') %>
+      <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
       <% end %>
     </div>
     <div class="col-sm-5 form-group form-inline">
@@ -44,7 +45,9 @@
   </div>
   <% end %>
   <div class="row" id="submit_div">
-    <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search') %>
+    <div class="col-sm-2">
+      <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search') %>
+    </div>
   </div>
   <% end %>
 </div>

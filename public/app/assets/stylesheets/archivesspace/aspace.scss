@@ -455,7 +455,9 @@ h5 {
 .search_row * .form-control {
    margin-right: .3rem;
 }
-
+.search_row .fill-column {
+    width: 100%;
+}
 .searchterm, .keywordscontext li em {
   font-weight:bold;
   padding: 0 0.2em;
@@ -464,7 +466,9 @@ h5 {
 .searchterm {
   background-color: $highlight;
 }
-
+#submit_search {
+  width: 100%;
+}
 .searchstatement {
   background-color: $row-background;
 }
