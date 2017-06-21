@@ -732,6 +732,12 @@ i.giant {
    display:block;
    max-width: 100%;
 }
+
+.objectimage button[type="submit"] {
+  width: 100%;
+  white-space: normal;
+}
+
 span.component {
    font-weight: bold;
 }
