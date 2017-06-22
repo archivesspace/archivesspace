@@ -1,0 +1,12 @@
+JSON Schema: Note_rights_statement_act
+
+Properties
+
+array (string)	content
+
+string	type
+
+
+
+
+

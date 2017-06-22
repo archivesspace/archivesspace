@@ -323,6 +323,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#reindex_classification_records-instance_method" title="#reindex_classification_records (instance method)">#<strong>reindex_classification_records</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#reindex_repository_records-instance_method" title="#reindex_repository_records (instance method)">#<strong>reindex_repository_records</strong>  &#x21d2; Object </a>
     
 
@@ -902,6 +925,39 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="reindex_classification_records-instance_method">
+  
+    #<strong>reindex_classification_records</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+175
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 175</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_classification_records identifier id'>reindex_classification_records</span>
+  <span class='rubyid_ClassificationTerm constant id'>ClassificationTerm</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_Classification constant id'>Classification</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="reindex_repository_records-instance_method">
   
     #<strong>reindex_repository_records</strong>  &#x21d2; <tt>Object</tt> 
@@ -916,16 +972,16 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166</pre>
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -961,16 +1017,30 @@
 155
 156
 157
-158</pre>
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_reindex_required identifier id'>reindex_required</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='neq op'>!=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='rubyid_classification_reindex_required identifier id'>classification_reindex_required</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='neq op'>!=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_reindex_required identifier id'>reindex_required</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_reindex_required identifier id'>reindex_required</span>
+    <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_classification_reindex_required identifier id'>classification_reindex_required</span>
+    <span class='rubyid_reindex_classification_records identifier id'>reindex_classification_records</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_result identifier id'>result</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1021,7 +1091,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:12 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:24 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

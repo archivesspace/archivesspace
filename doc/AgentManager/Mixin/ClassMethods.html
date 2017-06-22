@@ -421,6 +421,8 @@
       <pre class="lines">
 
 
+236
+237
 238
 239
 240
@@ -456,12 +458,10 @@
 270
 271
 272
-273
-274
-275</pre>
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 236</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -522,15 +522,15 @@
       <pre class="lines">
 
 
+276
+277
 278
 279
 280
-281
-282
-283</pre>
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 276</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_assemble_hash_fields identifier id'>assemble_hash_fields</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -559,6 +559,8 @@
       <pre class="lines">
 
 
+136
+137
 138
 139
 140
@@ -570,12 +572,10 @@
 146
 147
 148
-149
-150
-151</pre>
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_combine_unauthorized_names identifier id'>combine_unauthorized_names</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -612,6 +612,8 @@
       <pre class="lines">
 
 
+207
+208
 209
 210
 211
@@ -623,12 +625,10 @@
 217
 218
 219
-220
-221
-222</pre>
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 207</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -665,14 +665,14 @@
       <pre class="lines">
 
 
+119
+120
 121
 122
-123
-124
-125</pre>
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_authorized_name identifier id'>ensure_authorized_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;authorized&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -700,17 +700,17 @@
       <pre class="lines">
 
 
+126
+127
 128
 129
 130
 131
 132
-133
-134
-135</pre>
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_display_name identifier id'>ensure_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_none? fid id'>none?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_display_name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -741,6 +741,8 @@
       <pre class="lines">
 
 
+152
+153
 154
 155
 156
@@ -786,12 +788,10 @@
 196
 197
 198
-199
-200
-201</pre>
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
@@ -862,12 +862,12 @@
       <pre class="lines">
 
 
-204
-205
-206</pre>
+202
+203
+204</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 202</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='symbol val'>:agent_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_calculate_hash identifier id'>calculate_hash</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -893,6 +893,8 @@
       <pre class="lines">
 
 
+223
+224
 225
 226
 227
@@ -902,12 +904,10 @@
 231
 232
 233
-234
-235
-236</pre>
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_hash_chunk identifier id'>hash_chunk</span><span class='lparen token'>(</span><span class='rubyid_rec identifier id'>rec</span><span class='comma token'>,</span> <span class='rubyid_field_array identifier id'>field_array</span><span class='rparen token'>)</span>
   <span class='rubyid_field_array identifier id'>field_array</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='bitor op'>|</span>
@@ -942,12 +942,12 @@
       <pre class="lines">
 
 
-316
-317
-318</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 314</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_agent_type_of identifier id'>agent_type_of</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -973,12 +973,12 @@
       <pre class="lines">
 
 
-116
-117
-118</pre>
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_populate_display_name identifier id'>populate_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_display_name identifier id'>display_name</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_display_name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1004,6 +1004,8 @@
       <pre class="lines">
 
 
+284
+285
 286
 287
 288
@@ -1029,12 +1031,10 @@
 308
 309
 310
-311
-312
-313</pre>
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 286</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_AgentManager constant id'>AgentManager</span><span class='dot token'>.</span><span class='rubyid_register_agent_type identifier id'>register_agent_type</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -1085,6 +1085,8 @@
       <pre class="lines">
 
 
+319
+320
 321
 322
 323
@@ -1105,10 +1107,12 @@
 338
 339
 340
-341</pre>
+341
+342
+343</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_manager.rb', line 319</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1118,12 +1122,16 @@
 
     <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
       <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_repositories identifier id'>used_within_repositories</span> <span class='assign token'>=</span> <span class='rubyid_agents_to_repositories identifier id'>agents_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_published_repositories identifier id'>used_within_published_repositories</span> <span class='assign token'>=</span> <span class='rubyid_agents_to_repositories identifier id'>agents_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_publication_status identifier id'>publication_status</span> <span class='assign token'>=</span> <span class='rubyid_ImpliedPublicationCalculator constant id'>ImpliedPublicationCalculator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_for_agents identifier id'>for_agents</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span>
 
   <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_agent_type identifier id'>agent_type</span> <span class='assign token'>=</span> <span class='rubyid_my_agent_type identifier id'>my_agent_type</span><span class='lbrack token'>[</span><span class='symbol val'>:jsonmodel</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_linked_agent_roles identifier id'>linked_agent_roles</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agent_roles identifier id'>linked_agent_roles</span>
+    <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_is_linked_to_published_record identifier id'>is_linked_to_published_record</span> <span class='assign token'>=</span> <span class='rubyid_publication_status identifier id'>publication_status</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
     <span class='rubyid_populate_display_name identifier id'>populate_display_name</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_name&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_name&#39;</span><span class='rbrack token'>]</span>
@@ -1142,7 +1150,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

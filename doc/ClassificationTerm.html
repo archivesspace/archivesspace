@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ClassificationIndexing.html" title="ClassificationIndexing (module)">ClassificationIndexing</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span>, <span class='object_link'><a href="TreeNodes.html" title="TreeNodes (module)">TreeNodes</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ClassificationIndexing.html" title="ClassificationIndexing (module)">ClassificationIndexing</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="TreeNodes.html" title="TreeNodes (module)">TreeNodes</a></span></dd>
   </dl>
   
   
@@ -123,11 +123,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#cached_relationships-instance_method" title="Relationships#cached_relationships (method)">#cached_relationships</a></span></p>
 
 
   
@@ -341,17 +336,6 @@
   
   
   
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#cache_relationships-instance_method" title="Relationships#cache_relationships (method)">#cache_relationships</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#related_records-instance_method" title="Relationships#related_records (method)">#related_records</a></span>, <span class='object_link'><a href="Relationships.html#transfer_to_repository-instance_method" title="Relationships#transfer_to_repository (method)">#transfer_to_repository</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ASModel.html#all_models-class_method" title="ASModel.all_models (method)">all_models</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_publish_flag-class_method" title="ASModel.update_publish_flag (method)">update_publish_flag</a></span>, <span class='object_link'><a href="ASModel.html#update_suppressed_flag-class_method" title="ASModel.update_suppressed_flag (method)">update_suppressed_flag</a></span></p>
 
@@ -387,15 +371,15 @@
       <pre class="lines">
 
 
+35
 36
 37
 38
 39
-40
-41</pre>
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -424,6 +408,7 @@
       <pre class="lines">
 
 
+68
 69
 70
 71
@@ -431,11 +416,10 @@
 73
 74
 75
-76
-77</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -467,6 +451,7 @@
       <pre class="lines">
 
 
+51
 52
 53
 54
@@ -480,11 +465,10 @@
 62
 63
 64
-65
-66</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='string val'>&#39;identifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
@@ -528,15 +512,15 @@
       <pre class="lines">
 
 
+43
 44
 45
 46
 47
-48
-49</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -565,13 +549,13 @@
       <pre class="lines">
 
 
+79
 80
 81
-82
-83</pre>
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -598,6 +582,7 @@
       <pre class="lines">
 
 
+85
 86
 87
 88
@@ -608,11 +593,10 @@
 93
 94
 95
-96
-97</pre>
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:title_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -637,7 +621,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:16 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

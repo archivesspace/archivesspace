@@ -257,7 +257,8 @@
 9
 10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/resolver.rb', line 4</span>
@@ -270,6 +271,7 @@
   <span class='rubyid_@id ivar id'>@id</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_properties identifier id'>jsonmodel_properties</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
   <span class='rubyid_@repository ivar id'>@repository</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_properties identifier id'>jsonmodel_properties</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span>
   <span class='rubyid_@jsonmodel_type ivar id'>@jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel_properties identifier id'>jsonmodel_properties</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_@repository ivar id'>@repository</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@repository ivar id'>@repository</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -347,16 +349,16 @@
       <pre class="lines">
 
 
-15
 16
 17
 18
 19
 20
-21</pre>
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/resolver.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/resolver.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit_uri identifier id'>edit_uri</span>
   <span class='rubyid_uri_properties identifier id'>uri_properties</span> <span class='assign token'>=</span> <span class='rubyid_default_uri_properties identifier id'>default_uri_properties</span>
@@ -386,16 +388,16 @@
       <pre class="lines">
 
 
-24
 25
 26
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/resolver.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/resolver.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_view_uri identifier id'>view_uri</span>
   <span class='rubyid_uri_properties identifier id'>uri_properties</span> <span class='assign token'>=</span> <span class='rubyid_default_uri_properties identifier id'>default_uri_properties</span>
@@ -415,7 +417,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:18 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:30 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

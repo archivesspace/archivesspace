@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
   </dl>
   
   
@@ -117,11 +117,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#cached_relationships-instance_method" title="Relationships#cached_relationships (method)">#cached_relationships</a></span></p>
 
 
   
@@ -222,17 +217,6 @@
   
   
   
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#cache_relationships-instance_method" title="Relationships#cache_relationships (method)">#cache_relationships</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#related_records-instance_method" title="Relationships#related_records (method)">#related_records</a></span>, <span class='object_link'><a href="Relationships.html#transfer_to_repository-instance_method" title="Relationships#transfer_to_repository (method)">#transfer_to_repository</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span>, <span class='object_link'><a href="Relationships.html#update_from_json-instance_method" title="Relationships#update_from_json (method)">#update_from_json</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ASModel.html#all_models-class_method" title="ASModel.all_models (method)">all_models</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_publish_flag-class_method" title="ASModel.update_publish_flag (method)">update_publish_flag</a></span>, <span class='object_link'><a href="ASModel.html#update_suppressed_flag-class_method" title="ASModel.update_suppressed_flag (method)">update_suppressed_flag</a></span></p>
 
@@ -268,6 +252,7 @@
       <pre class="lines">
 
 
+27
 28
 29
 30
@@ -275,11 +260,10 @@
 32
 33
 34
-35
-36</pre>
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -317,16 +301,16 @@
       <pre class="lines">
 
 
+18
 19
 20
 21
 22
 23
-24
-25</pre>
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_depth identifier id'>depth</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_width identifier id'>width</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_height identifier id'>height</span>
@@ -356,13 +340,13 @@
       <pre class="lines">
 
 
+12
 13
 14
-15
-16</pre>
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location_profile.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
@@ -379,7 +363,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:15 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

@@ -14,6 +14,8 @@ boolean	publish
 
 array (JSONModel(:repository) uri)	used_within_repositories
 
+array (JSONModel(:repository) uri)	used_within_published_repositories
+
 string	source
 
 string	scope_note
