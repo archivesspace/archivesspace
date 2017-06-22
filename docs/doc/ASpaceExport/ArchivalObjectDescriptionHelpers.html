@@ -354,7 +354,9 @@ or archival_object models during serialization</p>
 147
 148
 149
-150</pre>
+150
+151
+152</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 118</span>
@@ -383,6 +385,8 @@ or archival_object models during serialization</p>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_type identifier id'>type</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:certainty</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;certainty&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;certainty&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:normal</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_normal identifier id'>normal</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_normal identifier id'>normal</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:era</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;era&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;era&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:calendar</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;calendar&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;calendar&#39;</span><span class='rbrack token'>]</span>
 
       <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
@@ -776,7 +780,7 @@ or archival_object models during serialization</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

@@ -403,7 +403,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">.<strong>from_archival_object</strong>(obj)  &#x21d2; Object </a>
+      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">.<strong>from_archival_object</strong>(obj, tree)  &#x21d2; Object </a>
     
 
     
@@ -426,7 +426,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">.<strong>from_digital_object</strong>(obj, opts = {})  &#x21d2; Object </a>
+      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">.<strong>from_digital_object</strong>(obj, tree, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -449,7 +449,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_digital_object_component-class_method" title="from_digital_object_component (class method)">.<strong>from_digital_object_component</strong>(obj)  &#x21d2; Object </a>
+      <a href="#from_digital_object_component-class_method" title="from_digital_object_component (class method)">.<strong>from_digital_object_component</strong>(obj, tree)  &#x21d2; Object </a>
     
 
     
@@ -665,30 +665,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_tree-instance_method" title="#handle_tree (instance method)">#<strong>handle_tree</strong>(tree)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; MODSModel </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(tree)  &#x21d2; MODSModel </a>
     
 
     
@@ -798,7 +775,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="MODSModel (class)">MODSModel</a></span></tt> 
+    #<strong>initialize</strong>(tree)  &#x21d2; <tt><span class='object_link'><a href="" title="MODSModel (class)">MODSModel</a></span></tt> 
   
 
   
@@ -820,18 +797,22 @@
       <pre class="lines">
 
 
+45
 46
 47
 48
 49
 50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 45</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
+  <span class='rubyid_@children ivar id'>@children</span> <span class='assign token'>=</span> <span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_@extents ivar id'>@extents</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@subjects ivar id'>@subjects</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1258,6 +1239,7 @@
       <pre class="lines">
 
 
+102
 103
 104
 105
@@ -1273,11 +1255,10 @@
 115
 116
 117
-118
-119</pre>
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_repo_note identifier id'>build_repo_note</span><span class='lparen token'>(</span><span class='rubyid_repo_record identifier id'>repo_record</span><span class='rparen token'>)</span>
   <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_repo_record identifier id'>repo_record</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_representation&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
@@ -1305,7 +1286,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_archival_object-class_method">
   
-    .<strong>from_archival_object</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>from_archival_object</strong>(obj, tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1327,7 +1308,6 @@
       <pre class="lines">
 
 
-56
 57
 58
 59
@@ -1337,12 +1317,11 @@
 63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 57</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   
-  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-  
+  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@archival_object_map ivar id'>@archival_object_map</span><span class='rparen token'>)</span>
 
   <span class='rubyid_mods identifier id'>mods</span>
@@ -1356,7 +1335,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_digital_object-class_method">
   
-    .<strong>from_digital_object</strong>(obj, opts = {})  &#x21d2; <tt>Object</tt> 
+    .<strong>from_digital_object</strong>(obj, tree, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1380,15 +1359,13 @@
 75
 76
 77
-78
-79</pre>
+78</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 66</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  
-  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='colon op'>:</span><span class='rubyid_digital_object_type identifier id'>digital_object_type</span>
     <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_type_of_resource identifier id'>type_of_resource</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object_type identifier id'>digital_object_type</span>
@@ -1409,7 +1386,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_digital_object_component-class_method">
   
-    .<strong>from_digital_object_component</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>from_digital_object_component</strong>(obj, tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1421,17 +1398,17 @@
       <pre class="lines">
 
 
+81
 82
 83
 84
-85
-86</pre>
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 81</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object_component identifier id'>from_digital_object_component</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object_component identifier id'>from_digital_object_component</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
+  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
 
   <span class='rubyid_mods identifier id'>mods</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1456,12 +1433,12 @@
       <pre class="lines">
 
 
+92
 93
-94
-95</pre>
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name_part_type_map identifier id'>name_part_type_map</span>
   <span class='rubyid_@name_part_type_map ivar id'>@name_part_type_map</span>
@@ -1487,12 +1464,12 @@
       <pre class="lines">
 
 
+88
 89
-90
-91</pre>
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name_type_map identifier id'>name_type_map</span>
   <span class='rubyid_@name_type_map ivar id'>@name_type_map</span>
@@ -1518,12 +1495,12 @@
       <pre class="lines">
 
 
+97
 98
-99
-100</pre>
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new_mods_note identifier id'>new_mods_note</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span>
   <span class='rubyid_@@mods_note ivar id'>@@mods_note</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span>
@@ -1555,6 +1532,13 @@
       <pre class="lines">
 
 
+223
+224
+225
+226
+227
+228
+229
 230
 231
 232
@@ -1563,25 +1547,20 @@
 235
 236
 237
-238
-239
-240
-241
-242
-243
-244</pre>
+238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_each_related_item identifier id'>each_related_item</span><span class='lparen token'>(</span><span class='rubyid_children identifier id'>children</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_maxDepth identifier id'>maxDepth</span> <span class='assign token'>=</span> <span class='integer val'>20</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_maxDepth identifier id'>maxDepth</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
   <span class='rubyid_maxDepth identifier id'>maxDepth</span> <span class='assign token'>=</span> <span class='rubyid_maxDepth identifier id'>maxDepth</span> <span class='minus op'>-</span> <span class='integer val'>1</span>
   <span class='rubyid_children identifier id'>children</span> <span class='opasgn op'>||=</span> <span class='rubyid_@children ivar id'>@children</span>
+
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_children identifier id'>children</span>
   <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
     <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='rparen token'>)</span>
-    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_from_digital_object_component identifier id'>from_digital_object_component</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_from_digital_object_component identifier id'>from_digital_object_component</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_child identifier id'>child</span><span class='rparen token'>)</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_each_related_item identifier id'>each_related_item</span><span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_maxDepth identifier id'>maxDepth</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
         <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_item identifier id'>item</span>
@@ -1610,6 +1589,7 @@
       <pre class="lines">
 
 
+183
 184
 185
 186
@@ -1625,11 +1605,10 @@
 196
 197
 198
-199
-200</pre>
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 183</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_agents identifier id'>handle_agents</span><span class='lparen token'>(</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='rparen token'>)</span>
   <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
@@ -1669,6 +1648,7 @@
       <pre class="lines">
 
 
+162
 163
 164
 165
@@ -1676,11 +1656,10 @@
 167
 168
 169
-170
-171</pre>
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 162</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_extent identifier id'>handle_extent</span><span class='lparen token'>(</span><span class='rubyid_extents identifier id'>extents</span><span class='rparen token'>)</span>
   <span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ext identifier id'>ext</span><span class='bitor op'>|</span>
@@ -1712,6 +1691,7 @@
       <pre class="lines">
 
 
+126
 127
 128
 129
@@ -1744,11 +1724,10 @@
 156
 157
 158
-159
-160</pre>
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_notes identifier id'>handle_notes</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
   <span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -1805,17 +1784,17 @@
       <pre class="lines">
 
 
+173
 174
 175
 176
 177
 178
 179
-180
-181</pre>
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 173</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_subjects identifier id'>handle_subjects</span><span class='lparen token'>(</span><span class='rubyid_subjects identifier id'>subjects</span><span class='rparen token'>)</span>
   <span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subject identifier id'>subject</span><span class='bitor op'>|</span>
@@ -1824,37 +1803,6 @@
       <span class='string val'>&#39;source&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="handle_tree-instance_method">
-  
-    #<strong>handle_tree</strong>(tree)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-225
-226
-227</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 225</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_tree identifier id'>handle_tree</span><span class='lparen token'>(</span><span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
-  <span class='rubyid_@children ivar id'>@children</span> <span class='assign token'>=</span> <span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1877,6 +1825,7 @@
       <pre class="lines">
 
 
+201
 202
 203
 204
@@ -1896,11 +1845,10 @@
 218
 219
 220
-221
-222</pre>
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 201</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name_parts identifier id'>name_parts</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_case case kw'>case</span> <span class='rubyid_type identifier id'>type</span>
@@ -1944,12 +1892,12 @@
       <pre class="lines">
 
 
+121
 122
-123
-124</pre>
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mods.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new_mods_note identifier id'>new_mods_note</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_new_mods_note identifier id'>new_mods_note</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_a identifier id'>a</span><span class='rparen token'>)</span>
@@ -1965,7 +1913,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:14 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

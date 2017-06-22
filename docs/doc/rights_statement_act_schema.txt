@@ -1,0 +1,18 @@
+JSON Schema: Rights_statement_act
+
+Properties
+
+string	act_type
+
+string	restriction
+
+date	start_date
+
+date	end_date
+
+array (JSONModel(:note_rights_statement_act) object)	notes
+
+
+
+
+

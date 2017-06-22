@@ -487,7 +487,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">.<strong>from_archival_object</strong>(obj)  &#x21d2; Object </a>
+      <a href="#from_archival_object-class_method" title="from_archival_object (class method)">.<strong>from_archival_object</strong>(obj, tree)  &#x21d2; Object </a>
     
 
     
@@ -510,7 +510,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_aspace_object-class_method" title="from_aspace_object (class method)">.<strong>from_aspace_object</strong>(obj)  &#x21d2; Object </a>
+      <a href="#from_aspace_object-class_method" title="from_aspace_object (class method)">.<strong>from_aspace_object</strong>(obj, tree)  &#x21d2; Object </a>
     
 
     
@@ -533,7 +533,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">.<strong>from_digital_object</strong>(obj)  &#x21d2; Object </a>
+      <a href="#from_digital_object-class_method" title="from_digital_object (class method)">.<strong>from_digital_object</strong>(obj, tree)  &#x21d2; Object </a>
     
 
     
@@ -726,7 +726,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(obj)  &#x21d2; METSModel </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(obj, tree)  &#x21d2; METSModel </a>
     
 
     
@@ -882,7 +882,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(obj)  &#x21d2; <tt><span class='object_link'><a href="" title="METSModel (class)">METSModel</a></span></tt> 
+    #<strong>initialize</strong>(obj, tree)  &#x21d2; <tt><span class='object_link'><a href="" title="METSModel (class)">METSModel</a></span></tt> 
   
 
   
@@ -904,21 +904,23 @@
       <pre class="lines">
 
 
-105
-106
 107
 108
 109
 110
 111
 112
-113</pre>
+113
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 107</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
+  <span class='rubyid_@tree ivar id'>@tree</span> <span class='assign token'>=</span> <span class='rubyid_tree identifier id'>tree</span>
   <span class='rubyid_@wrapped_dmd ivar id'>@wrapped_dmd</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>    
   <span class='rubyid_@extents ivar id'>@extents</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -955,16 +957,16 @@
       <pre class="lines">
 
 
-179
-180
-181
 182
 183
 184
-185</pre>
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 182</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
@@ -1553,7 +1555,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="from_archival_object-class_method">
   
-    .<strong>from_archival_object</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>from_archival_object</strong>(obj, tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1565,19 +1567,19 @@
       <pre class="lines">
 
 
-138
-139
-140
 141
 142
-143</pre>
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 141</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_mets identifier id'>mets</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@archival_object_map ivar id'>@archival_object_map</span><span class='rparen token'>)</span>
   <span class='rubyid_mets identifier id'>mets</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1590,7 +1592,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_aspace_object-class_method">
   
-    .<strong>from_aspace_object</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>from_aspace_object</strong>(obj, tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1602,9 +1604,6 @@
       <pre class="lines">
 
 
-121
-122
-123
 124
 125
 126
@@ -1616,14 +1615,17 @@
 132
 133
 134
-135</pre>
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 124</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span>
     <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span>
@@ -1645,7 +1647,7 @@
       <div class="method_details ">
   <h3 class="signature " id="from_digital_object-class_method">
   
-    .<strong>from_digital_object</strong>(obj)  &#x21d2; <tt>Object</tt> 
+    .<strong>from_digital_object</strong>(obj, tree)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1657,23 +1659,23 @@
       <pre class="lines">
 
 
-146
-147
-148
 149
 150
 151
 152
 153
 154
-155</pre>
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 149</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_mets identifier id'>mets</span><span class='dot token'>.</span><span class='rubyid_type_of_resource identifier id'>type_of_resource</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_digital_object_type identifier id'>digital_object_type</span>
   <span class='rubyid_mets identifier id'>mets</span><span class='dot token'>.</span><span class='rubyid_apply_map identifier id'>apply_map</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_@digital_object_map ivar id'>@digital_object_map</span><span class='rparen token'>)</span>
 
@@ -1702,12 +1704,12 @@
       <pre class="lines">
 
 
-116
-117
-118</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_file_group identifier id'>get_file_group</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_@file_group ivar id'>@file_group</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
@@ -1733,12 +1735,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 166</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name_part_type_map identifier id'>name_part_type_map</span>
   <span class='rubyid_@name_part_type_map ivar id'>@name_part_type_map</span>
@@ -1764,12 +1766,12 @@
       <pre class="lines">
 
 
-158
-159
-160</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 161</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name_type_map identifier id'>name_type_map</span>
   <span class='rubyid_@name_type_map ivar id'>@name_type_map</span>
@@ -1801,13 +1803,13 @@
       <pre class="lines">
 
 
-168
-169
-170
-171</pre>
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 171</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_agent_note identifier id'>add_agent_note</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_@header_agent_notes ivar id'>@header_agent_notes</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1834,25 +1836,25 @@
       <pre class="lines">
 
 
-188
-189
-190
 191
 192
 193
 194
 195
-196</pre>
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@tree ivar id'>@tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span>
   
   <span class='rubyid_ao_class identifier id'>ao_class</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='symbol val'>:@doc</span><span class='rparen token'>)</span>
   
-  <span class='rubyid_children identifier id'>children</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_subtree identifier id'>subtree</span><span class='bitor op'>|</span> <span class='rubyid_ao_class identifier id'>ao_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_subtree identifier id'>subtree</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_children identifier id'>children</span> <span class='assign token'>=</span> <span class='rubyid_@tree ivar id'>@tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_subtree identifier id'>subtree</span><span class='bitor op'>|</span> <span class='rubyid_ao_class identifier id'>ao_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_subtree identifier id'>subtree</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   
   <span class='rubyid_children identifier id'>children</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1877,12 +1879,12 @@
       <pre class="lines">
 
 
-174
-175
-176</pre>
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 177</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_dmd_wrap identifier id'>dmd_wrap</span><span class='lparen token'>(</span><span class='rubyid_mdtype identifier id'>mdtype</span><span class='comma token'>,</span> <span class='rubyid_callback identifier id'>callback</span><span class='comma token'>,</span> <span class='rubyid_data identifier id'>data</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wrapped_dmd identifier id'>wrapped_dmd</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_mdtype identifier id'>mdtype</span><span class='comma token'>,</span><span class='string val'>&#39;callback&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_callback identifier id'>callback</span><span class='comma token'>,</span> <span class='string val'>&#39;data&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='rbrace token'>}</span>
@@ -1908,9 +1910,6 @@
       <pre class="lines">
 
 
-276
-277
-278
 279
 280
 281
@@ -1921,10 +1920,13 @@
 286
 287
 288
-289</pre>
+289
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 279</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_file_versions identifier id'>extract_file_versions</span><span class='lparen token'>(</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span>
   <span class='rubyid_file_versions identifier id'>file_versions</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1961,24 +1963,24 @@
       <pre class="lines">
 
 
-256
-257
-258
 259
 260
 261
 262
-263</pre>
+263
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 256</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 259</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_logical_div identifier id'>root_logical_div</span>
   <span class='rubyid_@@logical_div ivar id'>@@logical_div</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
   <span class='rubyid_@@logical_div ivar id'>@@logical_div</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
                     <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> 
                     <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span><span class='comma token'>,</span>
-                    <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                    <span class='rubyid_@tree ivar id'>@tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -2002,24 +2004,24 @@
       <pre class="lines">
 
 
-266
-267
-268
 269
 270
 271
 272
-273</pre>
+273
+274
+275
+276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 266</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 269</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_physical_div identifier id'>root_physical_div</span>
   <span class='rubyid_@@logical_div ivar id'>@@logical_div</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
   <span class='rubyid_@@logical_div ivar id'>@@logical_div</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
                     <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> 
                     <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span><span class='comma token'>,</span>
-                    <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                    <span class='rubyid_@tree ivar id'>@tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -2043,9 +2045,6 @@
       <pre class="lines">
 
 
-199
-200
-201
 202
 203
 204
@@ -2058,17 +2057,20 @@
 211
 212
 213
-214</pre>
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/mets.rb', line 202</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_with_file_groups identifier id'>with_file_groups</span>
   <span class='rubyid_file_versions identifier id'>file_versions</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span>
   <span class='rubyid_file_versions identifier id'>file_versions</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_fv identifier id'>fv</span><span class='bitor op'>|</span>
     <span class='rubyid_fv identifier id'>fv</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object_id&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
   <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_file_versions identifier id'>file_versions</span> <span class='opasgn op'>+=</span> <span class='rubyid_extract_file_versions identifier id'>extract_file_versions</span><span class='lparen token'>(</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_file_versions identifier id'>file_versions</span> <span class='opasgn op'>+=</span> <span class='rubyid_extract_file_versions identifier id'>extract_file_versions</span><span class='lparen token'>(</span><span class='rubyid_@tree ivar id'>@tree</span><span class='lbrack token'>[</span><span class='string val'>&#39;children&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_file_versions identifier id'>file_versions</span><span class='dot token'>.</span><span class='rubyid_compact! fid id'>compact!</span>
 
   <span class='rubyid_while while kw'>while</span> <span class='rubyid_file_versions identifier id'>file_versions</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -2090,7 +2092,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:14 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:26 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

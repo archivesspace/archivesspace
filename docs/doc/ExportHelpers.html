@@ -426,14 +426,14 @@
       <pre class="lines">
 
 
-41
-42
 43
 44
-45</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_dc identifier id'>generate_dc</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -461,22 +461,6 @@
       <pre class="lines">
 
 
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
 98
 99
 100
@@ -488,10 +472,26 @@
 106
 107
 108
-109</pre>
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 98</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_eac identifier id'>generate_eac</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
@@ -542,30 +542,38 @@
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79</pre>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_ead identifier id'>generate_ead</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_include_unpublished identifier id'>include_unpublished</span><span class='comma token'>,</span> <span class='rubyid_include_daos identifier id'>include_daos</span><span class='comma token'>,</span> <span class='rubyid_use_numbered_c_tags identifier id'>use_numbered_c_tags</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;tree&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;digital_object&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_resolve identifier id'>resolve</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;digital_object&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container::container_profile&#39;</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_jsonmodel identifier id'>jsonmodel</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_resolve identifier id'>resolve</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:include_unpublished</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_include_unpublished identifier id'>include_unpublished</span><span class='comma token'>,</span>
     <span class='symbol val'>:include_daos</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_include_daos identifier id'>include_daos</span><span class='comma token'>,</span>
     <span class='symbol val'>:use_numbered_c_tags</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_use_numbered_c_tags identifier id'>use_numbered_c_tags</span>
   <span class='rbrace token'>}</span>
-
-  <span class='rubyid_ead identifier id'>ead</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_ead identifier id'>ead</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:ead</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='comma token'>,</span> <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='comma token'>,</span> <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='symbol val'>:sparse</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='rubyid_ead identifier id'>ead</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -593,14 +601,18 @@
 35
 36
 37
-38</pre>
+38
+39
+40</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_labels identifier id'>generate_labels</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;tree&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;repository&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_labels identifier id'>labels</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:labels</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_labels identifier id'>labels</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:labels</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                                     <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='comma token'>,</span> <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='symbol val'>:sparse</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_labels identifier id'>labels</span><span class='comma token'>,</span> <span class='symbol val'>:serializer</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:tsv</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -624,14 +636,14 @@
       <pre class="lines">
 
 
-62
-63
-64
-65
-66</pre>
+74
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 74</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_marc identifier id'>generate_marc</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -659,18 +671,32 @@
       <pre class="lines">
 
 
-48
-49
 50
 51
-52</pre>
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_mets identifier id'>generate_mets</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository::agent_representation&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;tree&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mets</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_digital_object identifier id'>digital_object</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                           <span class='lbrack token'>[</span><span class='string val'>&#39;repository::agent_representation&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># FIXME: This currently still uses the full digital object tree because it</span>
+  <span class='comment val'># needs access to all file versions.  Maybe there&#39;s some other way we could</span>
+  <span class='comment val'># get this data out?</span>
+  <span class='rubyid_mets identifier id'>mets</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mets</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                                       <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mets identifier id'>mets</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -694,18 +720,24 @@
       <pre class="lines">
 
 
-55
-56
-57
-58
-59</pre>
+64
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 64</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_mods identifier id'>generate_mods</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository::agent_representation&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;tree&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mods</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_digital_object identifier id'>digital_object</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                           <span class='lbrack token'>[</span><span class='string val'>&#39;repository::agent_representation&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_mods identifier id'>mods</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:mods</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_digital_object identifier id'>from_digital_object</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                                       <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='comma token'>,</span> <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='symbol val'>:sparse</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -806,13 +838,13 @@ usefuly for filenaming on exports.</p>
       <pre class="lines">
 
 
-113
-114
-115
-116</pre>
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_safe_filename identifier id'>safe_filename</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_suffix identifier id'>suffix</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_filename identifier id'>filename</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{id}_#{Time.now.getutc}_#{suffix}&quot;</span> 
@@ -922,7 +954,7 @@ usefuly for filenaming on exports.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:05 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:15 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

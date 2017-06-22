@@ -426,9 +426,6 @@
       <pre class="lines">
 
 
-103
-104
-105
 106
 107
 108
@@ -487,10 +484,13 @@
 161
 162
 163
-164</pre>
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 106</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_type_counts identifier id'>record_type_counts</span><span class='lparen token'>(</span><span class='rubyid_record_types identifier id'>record_types</span><span class='comma token'>,</span> <span class='rubyid_for_repo_uri identifier id'>for_repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
@@ -601,7 +601,10 @@
 98
 99
 100
-101</pre>
+101
+102
+103
+104</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 75</span>
@@ -630,6 +633,9 @@
 
   <span class='rubyid_resolver identifier id'>resolver</span> <span class='assign token'>=</span> <span class='rubyid_SearchResolver constant id'>SearchResolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_resolve identifier id'>resolve</span><span class='rparen token'>)</span>
   <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_resolve identifier id'>resolve</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Keep the ordering that we were passed in our list of URIs</span>
+  <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort_by! fid id'>sort_by!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span> <span class='rubyid_uris identifier id'>uris</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_results identifier id'>results</span>
 <span class='rubyid_end end kw'>end</span>
@@ -817,9 +823,6 @@
       <pre class="lines">
 
 
-166
-167
-168
 169
 170
 171
@@ -835,10 +838,13 @@
 181
 182
 183
-184</pre>
+184
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 169</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_csv identifier id'>search_csv</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='rparen token'>)</span>  
   <span class='comment val'># first let&#39;s get a json response with the number of pages </span>
@@ -870,7 +876,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:11 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:22 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

@@ -1,0 +1,10 @@
+JSON Schema: Rights_statement_external_document
+
+Properties
+
+string	identifier_type
+
+
+
+
+

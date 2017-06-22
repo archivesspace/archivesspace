@@ -83,9 +83,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>backend/app/model/resource_trees_ext.rb<span class="defines">,<br />
-  backend/app/model/mixins/resource_trees.rb</span>
-</dd>
+    <dd>backend/app/model/mixins/resource_trees.rb</dd>
   </dl>
   
 </div>
@@ -200,29 +198,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_node_instances_pre_container_management-instance_method" title="#set_node_instances_pre_container_management (instance method)">#<strong>set_node_instances_pre_container_management</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#set_node_level-instance_method" title="#set_node_level (instance method)">#<strong>set_node_level</strong>(node, properties)  &#x21d2; Object </a>
     
 
@@ -277,7 +252,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build_node_query identifier id'>build_node_query</span>
   <span class='rubyid_node_query identifier id'>node_query</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_node_query identifier id'>node_query</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:container</span><span class='rparen token'>)</span>
+  <span class='rubyid_node_query identifier id'>node_query</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:sub_container</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -314,18 +289,18 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-47
-48
-49
-50
-51
-52
-53
-54
-55</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_node_properties identifier id'>load_node_properties</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -357,15 +332,15 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-58
-59
-60
-61
-62
-63</pre>
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_root_properties identifier id'>load_root_properties</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -394,21 +369,6 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
 18
 19
 20
@@ -425,10 +385,25 @@ information from the tree anyway.</p>
 31
 32
 33
-34</pre>
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_node_instances identifier id'>set_node_instances</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -462,33 +437,6 @@ information from the tree anyway.</p>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="set_node_instances_pre_container_management-instance_method">
-  
-    #<strong>set_node_instances_pre_container_management</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 2</span>
-
-<span class='rubyid_alias_method identifier id'>alias_method</span> <span class='symbol val'>:set_node_instances_pre_container_management</span><span class='comma token'>,</span> <span class='symbol val'>:set_node_instances</span>
 </pre>
     </td>
   </tr>
@@ -539,7 +487,7 @@ information from the tree anyway.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
