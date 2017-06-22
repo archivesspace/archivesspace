@@ -93,14 +93,14 @@ en:
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
     download_report: Download Report
-    click_to_show: Please click to load records. 
+    click_to_show: Please click to load records.
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Reorder Mode Active
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
-  
+
   states:
     auto_generated: System generates when saved
 
@@ -109,6 +109,7 @@ en:
     include_daos: Include &lt;dao&gt; tags
     numbered_cs: Use numbered &lt;c&gt; tags
     print_pdf: Print to PDF
+    ead3: EAD3 schema
 
   pagination:
     first: First
@@ -380,7 +381,7 @@ en:
     drag_and_drop_actions:
       before: Add Items Before
       after: Add Items After
-      as_child: Add Items as Children 
+      as_child: Add Items as Children
     unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
 
   errors:
@@ -995,7 +996,7 @@ en:
         drag_and_drop_hint: Drag and drop files here
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
-        report_instructions: Choose a report to run by using the <b>Select</b> button. 
+        report_instructions: Choose a report to run by using the <b>Select</b> button.
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"
@@ -1007,7 +1008,7 @@ en:
       close_record: "Close a record being edited"
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
-                    
+
   instance_container:
     container: Container
 
@@ -1018,14 +1019,14 @@ en:
         <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
     type_2: Child Type
     type_2_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>The type of the second-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     indicator_2: Child Indicator
     indicator_2_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>The type of the third-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     indicator_3: Grandchild Indicator
     indicator_3_tooltip: |
@@ -1048,7 +1049,7 @@ en:
         <p>Used to record the barcode that uniquely identifies the highest level container.</p>
     type: Container Type
     type_tooltip: |
-        <p>The type of the highest level container.	
+        <p>The type of the highest level container.
         <p>Values in this Controlled Value List may be modified.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1063,14 +1064,14 @@ en:
 
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>The type of the second-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     managed_container_2_indicator: Child Container Indicator
     managed_container_2_indicator_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     managed_container_3_type: Grandchild Container Type
     managed_container_3_type_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>The type of the third-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     managed_container_3_indicator: Grandchild Container Indicator
     managed_container_3_indicator_tooltip: |
@@ -1157,7 +1158,7 @@ en:
         basic_information: Basic Information
     name: Name
     name_tooltip: |
-        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>  
+        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
         <p>Examples:</p>
         <ul>
         <li>document box</li>

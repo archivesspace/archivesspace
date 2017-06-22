@@ -16,29 +16,29 @@ module ASpaceExport
     def self.has_html?(text)
       !!(text =~ /.*\<[^>]+>.*/   )
     end
-    
+
     def self.has_xml_node?(node, text)
-      !!(text =~  /\<#{node}*/ ) 
+      !!(text =~  /\<#{node}*/ )
     end
 
     # some notes don't allow heads....
     def self.headless_notes
-     %w{ legalstatus } 
+     %w{ legalstatus }
     end
-   
+
     # ... and some notes don't allow p's.
     def self.notes_with_p
-      %w{ accessrestrict accruals acqinfo altformavail appraisal arrangement 
-      bibliography bioghist blockquote controlaccess custodhist daodesc descgrp 
-      div dsc dscgrp editionstmt fileplan index note odd originalsloc otherfindaid 
-      phystech prefercite processinfo publicationstmt relatedmaterial scopecontent 
+      %w{ accessrestrict accruals acqinfo altformavail appraisal arrangement
+      bibliography bioghist blockquote controlaccess custodhist daodesc descgrp
+      div dsc dscgrp editionstmt fileplan index note odd originalsloc otherfindaid
+      phystech prefercite processinfo publicationstmt relatedmaterial scopecontent
       separatedmaterial seriesstmt titlepage userestrict }
     end
 
     def self.include_p?(note_type)
       self.notes_with_p.include?(note_type)
     end
-   
+
     def self.headless_note?(note_type, content)
        if content.strip.start_with?('<head') or self.headless_notes.include?(note_type)
           true

@@ -116,7 +116,9 @@ class ArchivesSpaceService < Sinatra::Base
              "Use numbered <c> tags in ead", :optional => true],
             ["print_pdf", BooleanParam,
              "Print EAD to pdf", :optional => true],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["ead3", BooleanParam,
+             "Export using EAD3 schema", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
@@ -124,7 +126,8 @@ class ArchivesSpaceService < Sinatra::Base
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
-                              (params[:numbered_cs] || false))
+                              (params[:numbered_cs] || false),
+                              (params[:ead3] || false))
 
     stream_response(ead_stream)
   end
