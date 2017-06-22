@@ -217,16 +217,16 @@
       <pre class="lines">
 
 
-155
-156
 157
 158
 159
 160
-161</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children_indexes identifier id'>children_indexes</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@children ivar id'>@children</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -256,8 +256,6 @@
       <pre class="lines">
 
 
-166
-167
 168
 169
 170
@@ -265,10 +263,12 @@
 172
 173
 174
-175</pre>
+175
+176
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 168</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_prefetched identifier id'>ensure_prefetched</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@prefetched_ids ivar id'>@prefetched_ids</span><span class='dot token'>.</span><span class='rubyid_cover? fid id'>cover?</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
@@ -301,18 +301,18 @@
       <pre class="lines">
 
 
-177
-178
 179
 180
 181
 182
 183
 184
-185</pre>
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 179</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_child identifier id'>get_child</span><span class='lparen token'>(</span><span class='rubyid_index identifier id'>index</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@child_class ivar id'>@child_class</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:prefetch</span><span class='rparen token'>)</span>
@@ -334,7 +334,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:18 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

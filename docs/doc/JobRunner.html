@@ -101,7 +101,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="BatchImportRunner.html" title="BatchImportRunner (class)">BatchImportRunner</a></span>, <span class='object_link'><a href="ContainerConversionRunner.html" title="ContainerConversionRunner (class)">ContainerConversionRunner</a></span>, <span class='object_link'><a href="FindAndReplaceRunner.html" title="FindAndReplaceRunner (class)">FindAndReplaceRunner</a></span>, <span class='object_link'><a href="PrintToPDFRunner.html" title="PrintToPDFRunner (class)">PrintToPDFRunner</a></span>, <span class='object_link'><a href="ReportRunner.html" title="ReportRunner (class)">ReportRunner</a></span></p>
+  <p class="children"><span class='object_link'><a href="BatchImportRunner.html" title="BatchImportRunner (class)">BatchImportRunner</a></span>, <span class='object_link'><a href="FindAndReplaceRunner.html" title="FindAndReplaceRunner (class)">FindAndReplaceRunner</a></span>, <span class='object_link'><a href="PrintToPDFRunner.html" title="PrintToPDFRunner (class)">PrintToPDFRunner</a></span>, <span class='object_link'><a href="ReportRunner.html" title="ReportRunner (class)">ReportRunner</a></span></p>
 </div>
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -509,7 +509,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_for_job_type identifier id'>register_for_job_type</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@@runners ivar id'>@@runners</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:allow_reregister</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_JobRunnerError constant id'>JobRunnerError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Attempting to register #{self} for job type #{type} &quot;</span> <span class='plus op'>+</span>
                              <span class='dstring node'>&quot;- already handled by #{@@runners[type]}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -583,7 +583,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/job_runner.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_runner_for identifier id'>registered_runner_for</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@runners ivar id'>@@runners</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No runner found for #{type}&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -811,7 +811,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:11 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:23 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

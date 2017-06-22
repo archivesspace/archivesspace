@@ -134,6 +134,7 @@ accessing the following URLs in your browser:</p>
   <li>http://localhost:8089/ – the backend</li>
   <li>http://localhost:8080/ – the staff interface</li>
   <li>http://localhost:8081/ – the public interface</li>
+  <li>http://localhost:8082/ – the OAI-PMH server</li>
   <li>http://localhost:8090/ – the Solr admin console</li>
 </ul>
 
@@ -560,6 +561,68 @@ appropriate and specify the <code>encryption</code> option:</p>
  <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 </code></pre>
 
+<h1 id="configuring-oai-pmh">Configuring OAI-PMH</h1>
+
+<p>ArchivesSpace provides an OAI-PMH server to allow others to harvest
+your records.  You can access this from your browser by hitting:</p>
+
+<p>http://localhost:8082?verb=Identify</p>
+
+<h2 id="supported-metadata-formats">Supported metadata formats</h2>
+
+<p>The following metadata formats are supported:</p>
+
+<ul>
+  <li>
+    <p>oai_dc – Archival Objects expressed in Dublin Core</p>
+  </li>
+  <li>
+    <p>oai_dcterms – Archival Objects expressed in DCMI Metadata Terms format</p>
+  </li>
+  <li>
+    <p>oai_ead – Resources expressed in EAD</p>
+  </li>
+  <li>
+    <p>oai_mods – Archival Objects expressed in MODS</p>
+  </li>
+  <li>
+    <p>oai_marc – Archival Objects expressed in MARCXML</p>
+  </li>
+</ul>
+
+<p>You can query the list of supported metadata formats using OAI-PMH
+itself by accessing:</p>
+
+<p>http://localhost:8082?verb=ListMetadataFormats</p>
+
+<h2 id="oai-sets">OAI sets</h2>
+
+<p>Harvesting the ArchivesSpace OAI-PMH server without specifying a set
+will yield all published records across all repositories.  However,
+you can configure OAI sets to limit harvests by repository and/or
+finding aid sponsor.  See the <code>AppConfig[:oai_sets]</code> option in your
+<code>config.rb</code> file for an example of how to do this (or view the default
+configuration online here:
+https://github.com/archivesspace/archivesspace/blob/master/common/config/config-defaults.rb).</p>
+
+<p>The ArchivesSpace also provides some predefined OAI sets based on the
+Level Of Description field of records.  This allows harvesters to
+target (for example) only Series level records, or only files.  You
+can see the list of available sets by accessing:</p>
+
+<p>http://localhost:8082?verb=ListSets</p>
+
+<h2 id="deletes">Deletes</h2>
+
+<p>The ArchivesSpace OAI-PMH server supports persistent deletes, so
+harvesters will be notified of any records that were deleted since
+they last harvested.</p>
+
+<h2 id="configuring-oai-sets">Configuring OAI sets</h2>
+
+<p>In addition to the standard OAI sets, you can define your own sets
+based on a combination of repository and finding aid sponsor.</p>
+
 <h1 id="plug-ins-and-local-customizations">Plug-ins and local customizations</h1>
 
 <p><a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md"> Plug-ins and local customizations readme</a></p>
@@ -612,7 +675,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:01 2017 by
+  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:13 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
