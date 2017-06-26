@@ -6,7 +6,7 @@ class AccessionsController <  ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   DEFAULT_AC_TYPES = %w{accession}
-  DEFAULT_AC_FACET_TYPES = %w{primary_type subjects agents repository}
+  DEFAULT_AC_FACET_TYPES = %w{primary_type subjects published_agents repository}
   DEFAULT_AC_SEARCH_OPTS = {
     'sort' => 'title_sort asc',
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],

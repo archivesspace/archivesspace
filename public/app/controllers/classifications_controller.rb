@@ -9,7 +9,7 @@ class ClassificationsController <  ApplicationController
   IDENTIFIER_SORT_DESC = 'identifier_sort desc, repo_sort desc, title_sort desc'
 
   DEFAULT_CL_TYPES = %w{pui_record_group}
-  DEFAULT_CL_FACET_TYPES = %w{primary_type subjects agents repository resource}
+  DEFAULT_CL_FACET_TYPES = %w{primary_type subjects published_agents repository resource}
   DEFAULT_CL_SEARCH_OPTS = {
     'sort' => IDENTIFIER_SORT_ASC,
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource'],

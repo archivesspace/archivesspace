@@ -9,7 +9,7 @@ class ObjectsController <  ApplicationController
 
   skip_before_filter  :verify_authenticity_token
   
-  DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects agents)
+  DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1,
