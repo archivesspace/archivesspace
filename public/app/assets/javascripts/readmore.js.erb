@@ -63,9 +63,6 @@ $.fn.readmore = function(idealCharCount) {
       var chunkedContent = parseGraphContent(innerHtml, []);
       _.forEach(chunkedContent, function(chunk) {
         if(chunk.match(/^</)) {
-          if(!chunk.match(/>$\s*/))
-             throw("bad markup in mixed content");
-
           var contentCount = chunk.replace(/^<[^>]+>/, '').replace(/<\/[^>]+>/, '').length
           offsetPlus += chunk.length - contentCount;
           counter += contentCount;
