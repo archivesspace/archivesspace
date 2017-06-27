@@ -9,7 +9,7 @@ class ResourcesController <  ApplicationController
   skip_before_filter  :verify_authenticity_token
 
 
-  DEFAULT_RES_FACET_TYPES = %w{primary_type subjects agents}
+  DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents}
   
   DEFAULT_RES_INDEX_OPTS = {
     'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'top_container_uri_u_sstr:id'],
