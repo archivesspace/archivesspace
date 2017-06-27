@@ -42,13 +42,30 @@ class CommonIndexer
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['location_profile', 'container_profile',
-                           'container_locations', 'subjects',
-                           'linked_agents', 'linked_records',
-                           'classifications', 'digital_object',
-                           'agent_representation', 'repository',
-                           'repository::agent_representation',
-                           'top_container', 'related_agents']
+  @@resolved_attributes = [
+    'location_profile',
+    'container_profile',
+    'container_locations',
+    'subjects',
+
+    # EAD export depends on this
+    'linked_agents',
+    'linked_records',
+    'classifications',
+
+    # EAD export depends on this
+    'digital_object',
+    'agent_representation',
+    'repository',
+    'repository::agent_representation',
+    'related_agents',
+
+    # EAD export depends on this
+    'top_container',
+
+    # EAD export depends on this
+    'top_container::container_profile'
+  ]
 
   @@paused_until = Time.now
 
