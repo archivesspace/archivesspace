@@ -82,14 +82,14 @@ module ArchivesSpace
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]
     end
 
-    I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
-    I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*.yml')]
+    config.i18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*.yml')]
 
     # Allow overriding of the i18n locales via the 'local' folder(s)
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
+        config.i18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
       end
     end
 
@@ -133,13 +133,6 @@ module ArchivesSpace
                                     path =~ /archivesspace\/rde\.less/ ||
                                     path =~ /archivesspace\/largetree\.less/)
                                  end]
-    # Allow overriding of the locales via the local folder(s)
-    if not ASUtils.find_local_directories.blank?
-      # i18n locales
-      ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
-        I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
-      end
-    end
 
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
