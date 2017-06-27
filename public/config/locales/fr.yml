@@ -925,6 +925,7 @@ fr:
       page: Page
       reel: Bobine
       volume: Volume
+      container: Contenant
     file_version_use_statement:
       audio-clip: Clip audio
       audio-master: Audio-Master
