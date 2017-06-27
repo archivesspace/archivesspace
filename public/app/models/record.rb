@@ -356,6 +356,8 @@ class Record
         if top_container_json['type']
           top_container_type = I18n.t("enumerations.container_type.#{top_container_json.fetch('type')}", :default => top_container_json.fetch('type'))
           top_container_display_string << "#{top_container_type}: "
+        else
+          top_container_display_string << "#{I18n.t('enumerations.container_type.container')}: "
         end
         top_container_display_string << top_container_json.fetch('indicator')
         parts << top_container_display_string
