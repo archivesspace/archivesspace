@@ -1,0 +1,8 @@
+<% define_template "assessment_material", jsonmodel_definition(:assessment_material) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("material_type", form.possible_options_for("material_type", true)) %>
+    <%= form.label_and_textarea("material_note") %>
+    <%= form.label_and_textarea("special_format_note") %>
+    <%= form.label_and_textarea("exhibition_value_note") %>
+  </div>
+<% end %>

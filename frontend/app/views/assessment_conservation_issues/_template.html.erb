@@ -1,0 +1,6 @@
+<% define_template "assessment_conservation_issue", jsonmodel_definition(:assessment_conservation_issue) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("issue_type", form.possible_options_for("issue_type", true)) %>
+    <%= form.label_and_textarea("issue_note") %>
+  </div>
+<% end %>

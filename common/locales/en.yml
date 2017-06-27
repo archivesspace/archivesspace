@@ -2004,3 +2004,34 @@ en:
       introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH v 2.0).</p>"
       form_header: Send a '%{verb}' request
       form_submit: Submit
+
+  assessment:
+    records: Records
+    accession_report: Accession Report
+    appraisal: Appraisal
+    container_list: Box/Container List
+    catalog_record: Catalog Record (MARC)
+    control_file: Collection/Control File
+    surveyed_by: Surveyed By
+    surveyed_date: Date of Survey
+    surveyed_duration: Time it took to Complete Survey
+    surveyed_extent: Extent Surveyed
+    purpose: Purpose of Assessment
+    scope: Scope of Assessment
+    is_material_sensitive: Sensitive Material?
+    _singular: Assessment
+    _plural: Assessments
+
+  assessment_material:
+    material_type: Type / Format
+    material_note: Materials
+    special_format_note: Special Format Note
+    exhibition_value_note: Exhibition Value Note
+    _singular: Assessment Material
+    _plural: Assessment Materials
+
+  assessment_conservation_issue:
+    issue_type: Issue Type
+    issue_note: Issue Note
+    _singular: Conservation Issue
+    _plural: Conservation Issues

@@ -1,0 +1,20 @@
+<%= setup_context(:object => @assessment) %>
+
+<%= form_for @assessment, :as => "assessment", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_form"} do |f| %>
+
+  <%= form_context :assessment, @assessment do |form| %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "sidebar" %>
+      </div>
+      <div class="col-md-9">
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+        <div class="record-pane">
+          <%= link_to_help :topic => "assessment" %>
+          <h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("assessment._singular") %> <span class="label label-info"><%= I18n.t("assessment._singular") %></span></h2>
+          <%= render_aspace_partial :partial => "assessments/form", :locals => {:form => form} %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

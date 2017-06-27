@@ -258,6 +258,12 @@ ArchivesSpace::Application.routes.draw do
     match('space_calculator' => 'space_calculator#show', :via => [:get])
     match('space_calculator' => 'space_calculator#calculate', :via => [:post])
 
+
+    resources :assessments
+    match 'assessments/:id' => 'assessments#update', :via => [:post]
+    match 'assessments/:id/delete' => 'assessments#delete', :via => [:post]
+
+
     if Plugins.system_menu_items?
       scope '/plugins' do
         Plugins.system_menu_items.each do |plugin|

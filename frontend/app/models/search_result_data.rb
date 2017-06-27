@@ -256,6 +256,10 @@ class SearchResultData
     []
   end
 
+  def self.ASSESSMENT_FACETS
+    []
+  end
+
 
   def self.add_result_hook(&block)
     @result_hooks ||= []

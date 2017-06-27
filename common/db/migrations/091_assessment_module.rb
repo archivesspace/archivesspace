@@ -143,6 +143,9 @@ Sequel.migration do
                           'newspaper',
                           'tape',
                           'heat_sensitive_paper'])
+
+
+    # TODO bootstrap update_assessment_record permission to those worthy 
   end
 
   down do

@@ -279,6 +279,10 @@ class ArchivesSpaceService
                       :implied_by => 'manage_location_profile_record',
                       :level => "global")
 
+    Permission.define("update_assessment_record",
+                      "The ability to create and modify assessment records",
+                      :level => "repository")
+
   end
 
 

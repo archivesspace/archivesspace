@@ -1,0 +1,35 @@
+<%= setup_context(:title => I18n.t("assessment._plural")) %>
+
+<%
+   @show_multiselect_column = user_can?("delete_archival_record")
+
+   add_browse_columns("assessment")
+
+%>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <% if user_can?('update_assessment_record') %>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <%= link_to I18n.t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+        </div>
+        <br style="clear:both" />
+      </div>
+    <% end %>
+    <div class="record-pane">
+      <%= link_to_help :topic => "search" %>
+
+      <h2><%= I18n.t("assessment._plural") %></h2>
+
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+      <%= render_aspace_partial :partial => "search/listing" %>
+    </div>
+  </div>
+</div>

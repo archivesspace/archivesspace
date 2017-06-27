@@ -1,0 +1,58 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @assessment, :form => form} %>
+
+<% define_template("assessment", jsonmodel_definition(:assessment)) do |form| %>
+  <section id="basic_information">
+    <h3>
+      <%= I18n.t "assessment._frontend.section.basic_information" %>
+      <%= link_to_help :topic => "assessment_basic_information" %>
+    </h3>
+    <fieldset>
+      <% form.push("records", form.obj["records"] || []) do %>
+        <div class="form-group required">
+          <%= form.label('records', {}, ['col-sm-2']) %>
+          <div class="col-sm-9">
+            <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.label_and_textarea 'accession_report' %>
+      <%= form.label_and_textarea 'appraisal' %>
+      <%= form.label_and_textarea 'container_list' %>
+      <%= form.label_and_textfield 'catalog_record' %>
+      <%= form.label_and_textfield 'control_file' %>
+
+      <br>
+
+      <% form.push("surveyed_by", form.obj["surveyed_by"] || {}) do %>
+        <div class="form-group required">
+          <%= form.label('surveyed_by', {}, ['col-sm-2']) %>
+          <div class="col-sm-9">
+            <%= render_aspace_partial :partial => "assessments/surveyor_linker", :locals => {:form => form} %>
+          </div>
+        </div>
+      <% end %>
+      <%= form.label_and_date 'surveyed_date' %>
+      <%= form.label_and_textfield 'surveyed_duration' %>
+      <%= form.label_and_textarea 'surveyed_extent' %>
+
+      <br>
+
+      <%= form.label_and_textarea 'purpose' %>
+      <%= form.label_and_textarea 'scope' %>
+      <%= form.label_and_boolean 'is_material_sensitive' %>
+    </fieldset>
+  </section>
+<% end %>
+
+<% form.emit_template("assessment") %>
+
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "materials", :template_erb => "assessment_materials/template", :heading_text => I18n.t('assessment_material._singular'), :singular => 'assessment_material'} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "conservation_issues", :template_erb => "assessment_conservation_issues/template", :heading_text => I18n.t('assessment_conservation_issue._singular'), :singular => 'assessment_conservation_issue'} %>
+
+<%= form_plugins_for("assessment", form) %>
+
+<div class="form-actions">            
+  <button type="submit" class="btn btn-primary"><%= I18n.t("assessment._frontend.action.save") %></button>
+  <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+</div>

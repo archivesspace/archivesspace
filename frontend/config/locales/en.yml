@@ -1297,3 +1297,21 @@ en:
     _frontend:
       action:
         add: Add Act
+
+  assessment:
+    _frontend:
+      action:
+        create: Create Assessment
+        save: Save Assessment
+      section:
+        basic_information: Basic Information
+
+  assessment_material:
+    _frontend:
+      action:
+        add: Add Material
+
+  assessment_conservation_issue:
+    _frontend:
+      action:
+        add: Add Conservation Issue

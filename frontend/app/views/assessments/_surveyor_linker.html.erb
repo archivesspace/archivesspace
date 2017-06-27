@@ -1,0 +1,31 @@
+<%
+  unless form.obj.has_key?('_resolved')
+    selected_json =  form.obj['_resolved'].to_json
+  else
+    selected_json = "{}"
+  end
+%>
+<div class="form-group required">
+  <div class="input-group linker-wrapper">
+    <input type="text" class="linker"
+           id="<%= form.id_for("ref") %>"
+           data-label="<%= I18n.t "assessment.surveyed_by" %>"
+           data-label_plural="<%= I18n.t "assessment.surveyed_by" %>"
+           data-path="<%= form.path %>"
+           data-name="ref"
+           data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+           data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ASSESSMENT_FACETS, :display_identifier => true %>"
+           data-selected="<%= selected_json %>"
+           data-format_property="display_string"
+           data-multiplicity="one"
+           data-types='["agent_person"]'
+    />
+
+    <div class="input-group-btn">
+      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
