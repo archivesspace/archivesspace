@@ -707,4 +707,19 @@ FactoryGirl.define do
     show_suppressed { false }
     publish { false }
   end
+
+  factory :json_assessment, class: JSONModel(:assessment) do
+    surveyed_date { generate(:yyyy_mm_dd) }
+    surveyed_extent { generate(:alphanumstr) }
+  end
+
+  factory :json_assessment_material, class: JSONModel(:assessment_material) do
+    material_type { generate(:assessment_material_type) }
+    material_note { generate(:alphanumstr) }
+  end
+
+  factory :json_assessment_conservation_issue, class: JSONModel(:assessment_conservation_issue) do
+    issue_type { generate(:assessment_conservation_issue_type) }
+    issue_note { generate(:alphanumstr) }
+  end
 end
