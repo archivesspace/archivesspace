@@ -43,6 +43,10 @@
       <h4><%= t('accession._public.section.inventory') %></h4>
       <p><%= @result.inventory %></p>
     <% end %>
+
+    <% ASUtils.find_local_directories('public/views/_upper_record_innards.html.erb').each do |template| %>
+      <%= render :file => template if File.exists?(template) %>
+    <% end %>
 </div>
 
     <div class="acc_holder clear" >
@@ -107,6 +111,9 @@
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
         <% end %>
       </div>
+      <% ASUtils.find_local_directories('public/views/_lower_record_innards.html.erb').each do |template| %>
+        <%= render :file => template if File.exists?(template) %>
+      <% end %>
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
     </script>
