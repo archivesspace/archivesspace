@@ -111,6 +111,10 @@ class ClassificationsController <  ApplicationController
       uri = "/repositories/#{params[:rid]}/classification_terms/#{params[:id]}"
       fetch_and_process(uri)
       fetch_linked_records(uri)
+
+      # Always show the sidebar for these
+      @has_children = true
+
       render 'classifications/show'
     rescue RecordNotFound
       @type =  I18n.t('classification_term._singular')
