@@ -10,22 +10,21 @@
   <% (0...[1, @search.q.length].max).each do |i| %>
   <div class="row search_row" id="search_row_<%= i %>">
     <div class="col-sm-1 bool form-group form-inline">
-      <% op_options = Search.get_boolean_opts %>
-      <% op_options = [''] + op_options if i == 0 %>
       <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'sr-only') %>
-      <%= select_tag('op[]', options_for_select(op_options, @search[:op][i]), :id => "op#{i}",:class=> 'form-control fill-column') %>
+      <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' hidden' : '')) %>
+      <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
     </div>
-    <div class="col-sm-3 form-group form-inline">
+    <div class="<%= i == 0 ? "col-sm-3" : "col-sm-6" %> form-group form-inline">
       <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}", 
             :class=> 'form-control repeats fill-column') %>
     </div>
-    <div class="col-sm-3 form-group form-inline norepeat">
-      <% if i == 0 %>
-      <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
-      <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
-      <% end %>
-    </div>
+    <% if i == 0 %>
+      <div class="col-sm-3 form-group form-inline norepeat">
+        <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
+        <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
+      </div>
+    <% end %>
     <div class="col-sm-5 form-group form-inline">
       <%= label_tag(:"field#{i}", t('search-field'),:class => 'sr-only repeats') %>
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
