@@ -4,7 +4,7 @@
   <h2>Record Requested</h2>
   <strong>Title</strong>: <%= @request.title %><br>
   <% url = "#{AppConfig[:public_url].sub(/\/^/, '')}#{@request.request_uri}" %>
-  <strong>URL</strong>: <%= link_to url, url %>
+  <strong>URL</strong>: <%= link_to url, app_prefix(url) %>
 </div>
 
 <div class="user">

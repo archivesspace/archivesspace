@@ -15,7 +15,7 @@
       <div class="creator clear">
         <span class="inline-label clear">
           <%= t('classification.creator') %>: </span>
-          <%= link_to @result.creator.display_string, @result.creator.uri %>
+          <%= link_to @result.creator.display_string, app_prefix(@result.creator.uri) %>
       </div>
       <% end %>
     </div>

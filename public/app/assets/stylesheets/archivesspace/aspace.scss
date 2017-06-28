@@ -382,7 +382,7 @@ a:hover {
 
 
 /* .logo { */
-/*   background-image: url('../img/Aspace-logo-transparent.png'); */
+/*   background-image: asset_url('Aspace-logo-transparent.png'); */
 /*   background-size: contain; */
 /*   background-repeat: no-repeat; */
 /* } */
@@ -493,7 +493,7 @@ h5 {
   border-bottom: 1px solid;
 }
 li.remove {
-  background-image: url("../img/remove.png");
+  background-image: asset_url("remove.png");
   background-position: right;
   background-repeat: no-repeat;
 }

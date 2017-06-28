@@ -30,6 +30,8 @@ module ArchivesSpacePublic
     config.paths["app/controllers"].concat(ASUtils.find_local_directories("public/controllers"))
     config.paths["app/models"].concat(ASUtils.find_local_directories("public/models"))
 
+    config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix].sub(/\/$/, '')
+
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       I18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')]

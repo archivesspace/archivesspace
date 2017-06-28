@@ -37,7 +37,7 @@
         var $link = row.find('a.record-title');
 
         if (this.should_link_to_record) {
-            $link.attr('href', rootNode.uri);
+            $link.attr('href', <%= PrefixHelper.app_prefix_js %> rootNode.uri);
         }
 
         $link.html(rootNode.parsed_title);
@@ -60,7 +60,7 @@
         }
 
         if (this.should_link_to_record) {
-            $link.attr('href', node.uri);
+            $link.attr('href', <%= PrefixHelper.app_prefix_js %> node.uri);
         }
     };
 
