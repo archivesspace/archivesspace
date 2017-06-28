@@ -69,7 +69,7 @@ fr:
     collection_management_tooltip: |
         <p>Information supplémentaire, à usage purement interne, concernant la façon dont les documents décrits seront, ou ont été traités.</p>
     classification_tooltip: |
-        <p>Utilisé pour relier les documents décrits à une classification ou à une convention de classification (par ex. un système de groupes d'archives) géré à l'intérieur de l'application.</p>
+        <p>Utilisé pour relier les documents décrits à un classement ou à un élément de classement (par ex. un système de groupes d'archives) géré à l'intérieur de l'application.</p>
     user_defined_tooltip: |
         <p>Champs définis par l'utilisateur pour noter toute information utile n'entrant pas dans une autre rubrique de l'application.</p>
 
@@ -155,7 +155,7 @@ fr:
     barcode_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
         <p>Utilisé pour saisir le code-barres, par ex. d'un rayon ou d'une rangée qui identifie une localisation de manière unique.</p>
-    classification: Classification
+    classification: Classement
     classification_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL: renseigner soit le code-barres, soit le classement, soit le label de coordonnée 1 et l'indicateur de coordonnée 1.</p>
         <p>Utilisé pour saisir un numéro de classement qui identifie une localisation de manière unique.</p>
@@ -880,7 +880,7 @@ fr:
         <li>12 boîtes à chaussures.</li>
         <li>4 boîtes d'archivage, 32 tubes.</li>
         </ul>
-    physical_details: Détails physiques
+    physical_details: Caractéristiques du support
     physical_details_tooltip: |
         <p>Autres caractéristiques physiques des documents décrits, par ex. analogiques, n&b, négatifs.</p>
         <p>Voir DACS 2.5</p>
@@ -1378,8 +1378,8 @@ fr:
       suppress_archival_record: bloquer les principaux types de notices dans ce service d'archives
       delete_archival_record: supprimer les principaux types de notices dans ce service d'archives
       delete_event_record: supprimer des notices événements dans ce service d'archives
-      update_classification_record: créer/actualiser classifications et termes de classification
-      delete_classification_record: supprimer classifications et termes de classification
+      update_classification_record: créer/actualiser classements et termes de classements
+      delete_classification_record: supprimer classements et termes de classements
       merge_agents_and_subjects: fusionner notices agent/matière
       merge_archival_record: fusionner principaux types de notices dans ce service d'archives
       transfer_repository: transférer le contenu entier d'un service d'archives
@@ -1751,8 +1751,8 @@ fr:
     _plural: Listes de valeurs contrôlées
 
   classification:
-    _singular: Classification
-    _plural: Classifications
+    _singular: Classement
+    _plural: Classements
     identifier: Identifiant
     title: Titre
     description: Description
@@ -1760,8 +1760,8 @@ fr:
     id_separator: /
 
   classification_term:
-    _singular: Terme de classification
-    _plural: Termes de classification
+    _singular: Terme de classement
+    _plural: Termes de classement
     identifier: Identifiant
     title: Titre
     description: Description
@@ -1870,7 +1870,7 @@ fr:
     is_required_if_there_is_an_authority_id: est requis s'il y a un 'identifiant d'autorité'
     you_must_provide_a_label__title_or_date: vous devez fournir un label, un titre ou une date
     location_fields_error: >
-      Vous devez spécifier un code-barres ou une classification, ou les deux, comme label de coordonnée 1 et indicateur de coordonnée 1
+      Vous devez spécifier un code-barres ou un classement, ou les deux, comme label de coordonnée 1 et indicateur de coordonnée 1
     location_must_be_unique_within_a_record: Doit être unique dans une notice
     location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de nouvelles localisation avant d'effectuer la suppression.
     cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la localisation n'est pas temporaire.
