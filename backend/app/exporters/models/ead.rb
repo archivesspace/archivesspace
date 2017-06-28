@@ -4,6 +4,8 @@ class EADModel < ASpaceExport::ExportModel
   include ASpaceExport::ArchivalObjectDescriptionHelpers
   include ASpaceExport::LazyChildEnumerations
 
+  RESOLVE = ['subjects', 'linked_agents', 'digital_object', 'top_container', 'top_container::container_profile']
+
   @data_src = Class.new do
     def initialize(json)
       @json = json
@@ -77,8 +79,6 @@ class EADModel < ASpaceExport::ExportModel
   @ao = Class.new do
     include ASpaceExport::ArchivalObjectDescriptionHelpers
     include ASpaceExport::LazyChildEnumerations
-
-    RESOLVE = ['subjects', 'linked_agents', 'digital_object', 'top_container', 'top_container::container_profile']
 
     def self.prefetch(tree_nodes, repo_id)
       RequestContext.open(:repo_id => repo_id) do
