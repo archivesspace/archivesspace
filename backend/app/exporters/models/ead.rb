@@ -4,6 +4,8 @@ class EADModel < ASpaceExport::ExportModel
   include ASpaceExport::ArchivalObjectDescriptionHelpers
   include ASpaceExport::LazyChildEnumerations
 
+  RESOLVE = ['subjects', 'linked_agents', 'digital_object', 'top_container', 'top_container::container_profile']
+
   @data_src = Class.new do
     def initialize(json)
       @json = json
@@ -79,13 +81,11 @@ class EADModel < ASpaceExport::ExportModel
     include ASpaceExport::LazyChildEnumerations
 
     def self.prefetch(tree_nodes, repo_id)
-      resolve = ['subjects', 'linked_agents', 'digital_object', 'top_container']
-
       RequestContext.open(:repo_id => repo_id) do
         # NOTE: We assume that the above `resolve` properties have also been
         # resolved by the indexer.
         IndexedArchivalObjectPrefetcher.new.fetch(tree_nodes.map {|tree| tree['id']},
-                                                  resolve)
+                                                  RESOLVE)
       end
     end
 
@@ -100,7 +100,7 @@ class EADModel < ASpaceExport::ExportModel
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object', 'top_container'])
+        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), RESOLVE)
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end

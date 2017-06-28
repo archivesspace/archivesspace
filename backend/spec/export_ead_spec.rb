@@ -3,6 +3,9 @@ require 'nokogiri'
 require 'spec_helper'
 require_relative 'export_spec_helper'
 
+# Used to check that the fields EAD needs resolved are being resolved by the indexer.
+require_relative '../../indexer/app/lib/indexer_common_config'
+
 describe "EAD export mappings" do
 
   #######################################################################
@@ -225,6 +228,14 @@ describe "EAD export mappings" do
 
   let(:repo) { JSONModel(:repository).find($repo_id) }
 
+
+  describe "indexing prerequisites" do
+    it "resolves all required fields for the EAD model" do
+      missing_fields = (EADModel::RESOLVE - CommonIndexerConfig.resolved_attributes)
+
+      missing_fields.should eq([])
+    end
+  end
 
   # Examples used by resource and archival_objects
   shared_examples "archival object desc mappings" do
