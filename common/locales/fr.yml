@@ -216,7 +216,7 @@ fr:
   container_location:
     status: Etat
     status_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Indique si la déclaration de localisation pour cette notice est actuelle ou se refère à une précédente localisation de l'exemplaire décrit.</p>
+        <p>CHAMP OBLIGATOIRE. Indique si la mention de localisation pour cette notice est actuelle ou se refère à une précédente localisation de l'exemplaire décrit.</p>
     start_date: Date de début
     start_date_tooltip: |
         <p>CHAMP OBLIGATOIRE. Indique la date à laquelle l'exemplaire décrit a été entreposé à cette localisation, ou une date connue à partir de laquelle le matériel a été stocké ici.</p>
@@ -671,6 +671,9 @@ fr:
     note_outline: Schéma
     note_text: Texte
     note_type: Type de note
+    note_rights_statement: Note de mention de droits
+    note_rights_statement_act: Note de convention
+    note_agent_rights_statement: Note de mention de droits (ne pas utiliser)
     _singular: Note
     _plural: Notes
 
@@ -704,6 +707,15 @@ fr:
   note_digital_object:
     <<: *note_attributes
 
+  note_rights_statement:
+    <<: *note_attributes
+
+  note_rights_statement_act:
+    <<: *note_attributes
+
+  note_agent_rights_statement:
+    <<: *note_attributes
+
   note_bibliography:
     <<: *note_attributes
     option: Bibliographie
@@ -725,7 +737,7 @@ fr:
 
   note_definedlist:
     <<: *note_attributes
-    option: Defined List
+    option: Liste contrôlée
 
   definedlist_item:
     label: Label
@@ -755,12 +767,12 @@ fr:
     xlink: XLink
 
   note_citation_xlink:
-    actuate: Actionne
+    actuate: Actuate
     arcrole: Arc Role
     href: Href
-    role: Rôle
-    show: Montrer
-    title: Titre
+    role: Role
+    show: Show
+    title: Title
     type: Type
 
   note_outline:
@@ -794,7 +806,7 @@ fr:
     publish: Publier?
     publish_tooltip: |
         <p>Détermine si cette version du fichier est publiée sur les interfaces publiques.</p>
-    use_statement: Déclaration d'usage
+    use_statement: Mention d'usage
     use_statement_tooltip: |
         <p>Un descripteur indiquant pour quel usage est conçu le fichier numérique (par ex., une miniature).</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
@@ -859,7 +871,7 @@ fr:
         <p>Un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
         <p>Voir DACS 2.5</p>
-    container_summary: Résumé contenant
+    container_summary: Conditionnement
     container_summary_tooltip: |
         <p>Une liste de contenants et de types de contenants abritant les documents décrits dans la notice composant.</p>
         <p>Exemples:</p>
@@ -904,6 +916,12 @@ fr:
     _plural: Documents externes
     _singular: Document externe
 
+  rights_statement_external_document:
+    <<: *external_document_attributes
+    identifier_type: Type d'identifiant
+    identifier_type_tooltip: |
+        <p>Le type d'identifiant indique à quel domaine appartient le document externe.</p>
+
   external_id:
     _plural: Identifiants externes
     _singular: Identifiant externe
@@ -920,66 +938,53 @@ fr:
     rights_type_tooltip: |
         <p>La base servant à la mention des droits. Quatre bases sont autorisées: propriété intellectuelle, permission telle qu'un accord du donateur, statut légal tel que le Fair Use ou le FERPA, et règles de l'institution.</p>
     rights_type_message: Merci de sélectionner un type de droits
-    materials: Documents
-    materials_tooltip: |
-        <p>Un terme ou une phrase brève décrivant les documents dans l'acquisition, la ressource ou la collection à laquelle s'applique la mention des droits.</p>
-        <p>Exemples:</p>
-        <ul>
-        <li>Journaux intimes d'Alex Doe</li>
+    status: Statut
+    status_tooltip: |
+        <p>Une désignation codée pour le statut du copyright de l'objet au moment où la mention de droits est enregistrée.</p>
+        <ul> 
+          <li>Protégé = sous copyright.</li>
+          <li>Domaine public = dans le domaine public.</li>
+          <li>Inconnu = le statut de copyright de la ressource est inconnu</li>
         </ul>
-    ip_status: Statut de PI
-    ip_status_tooltip: |
-        <p>Un terme indiquant le statut de la propriété intellectuelle des documents décrits.</p>
-    ip_expiration_date: Date d'expiration de la PI
-    ip_expiration_date_tooltip: |
-        <p>La date à laquelle le droit d'auteur ou tout autre statut de propriété intellectuelle est censé expirer.</p>
-    license_identifier_terms: Termes d'identifiant autorisation
-    license_identifier_terms_tooltip: |
-        <p>Une déclaration (texte bref ou résumé) des permissions concédées dans l'autorisation.</p>
-    statute_citation: Mention de statut
+    license_terms: Termes de la licence
+    license_terms_tooltip: |
+        <p>Une mention (résumé ou court extrait) des permissions concédées dans la licence.</p>
+    statute_citation: Citation de statut
     statute_citation_tooltip: |
-        <p>Une mention, un URI ou toute autre référence aux statuts relatifs à cette déclaration de droits.</p>
+        <p>Une mention, un URI ou toute autre référence aux statuts relatifs à cette mention de droits.</p>
         <p>Exemples:</p>
         <ul>
         <li>Freedom of Information and Protection of Privacy Act [RSBC 1996] Chapter 165</li>
         </ul>
     jurisdiction: Juridiction
     jurisdiction_tooltip: |
-        <p>L'entité politique justifiant le droit d'auteur ou le statut, par ex. un pays ou une région.</p>
-    type_note: Note de type
+        <p>Droits d'auteur: le pays dont les lois relatives aux droits d'auteur s'appliquent.</p>
+        <p>Statut: pays ou entité politique promulgant le statut.</p>
+        <p>Conforme à la norme ISO 3166.</p>
+    type_note: Type de note
     type_note_tooltip: |
-        <p>Tout information supplémentaire concernant le droit d'auteur, l'autorisation, le statut, ou la pratique institutionnelle et/ou son application aux documents décrits.</p>
+        <p>Toute information supplémentaire concernant le droit d'auteur, l'autorisation, le statut, ou la pratique institutionnelle et/ou son application aux documents décrits.</p>
         <p>Exemples:</p>
         <ul>
         <li>Restrictions(s) d'utilisation: Cette œuvre est peut-être protégée par une loi de copyright. L'utilisation de cette œuvre au-delà de ce qui est permis par le statut de copyright en vigueur requiert la permission écrite du/des détenteur(s) du droit d'auteur.</li>
         </ul>
-    permissions: Permissions
-    permissions_tooltip: |
-        <p>Une description de ce que le service d'archives et/ou l'utilisateur final peut faire.</p>
-    restrictions: Restrictions
-    restrictions_tooltip: |
-        <p>Une description de ce que le service d'archives et/ou l'utilisateur final ne peut pas faire.</p>
-        <p>Exemples:</p>
-        <ul>
-        <li>Il n'est pas permis de photocopier, scanner, ou photographier des documents.</li>
-        </ul>
-    restriction_start_date: Date de début des restrictions
-    restriction_start_date_tooltip: |
-        <p>La date à laquelle les restrictions prennent effet.</p>
-    restriction_end_date: Date de fin des restrictions
-    restriction_end_date_tooltip: |
-        <p>La date à laquelle les restrictions cessent de s'appliquer.</p>
-    granted_note: Note concédé
-    granted_note_tooltip: |
-        <p>Toute information pertinente concernant les permissions concédées ou les restrictions à appliquer.</p>
-        <p>Exemples</p>
-        <ul>
-        <li>Contacter la famille du donateur si une demande de consultation survient avant la date de fin des restrictions.</li>
-        </ul>
+    determination_date: Date de détermination
+    determination_date_tooltip: |
+        <p>Copyright: La date à laquelle le statut de copyright enregistré dans le statut de copyright a été déterminé.</p>
+        <p>Statute: The date that the determination was made that the statute authorized the permission(s) noted.</p>
+    start_date: Date de début
+    start_date_tooltip: |
+        <p>Date à laquelle la mention de droits est entrée en vigueur.</p>
+    end_date: Date de fin
+    end_date_tooltip: |
+        <p>Date à laquelle la mention de droits cesse d'être en vigeur.</p>
+    other_rights_basis: Fondement des autres droits
+    other_rights_basis_tooltip: |
+      <p>Types de droits des mentions de droits autres que les statuts, licences et droits d'auteur.</p>
     _plural: Mentions de droits
-    _singular: Mention de droits
+    _singular: Mention de droit
 
-  rights_type_intellectual_property:
+  rights_type_copyright:
     <<: *rights_statement_attributes
 
   rights_type_license:
@@ -988,7 +993,7 @@ fr:
   rights_type_statute:
     <<: *rights_statement_attributes
 
-  rights_type_institutional_policy:
+  rights_type_other:
     <<: *rights_statement_attributes
 
   date: &date_attributes
@@ -1123,7 +1128,7 @@ fr:
     general_note: Note Générale
     general_note_tooltip: |
         <p>Un champ de note fourre-tout pour toute information ne rentrant pas dans les champs expressément définis.</p>
-    inventory: Inventaire
+    inventory: Description
     inventory_tooltip: |
       <p>Une liste des contenants et de leur contenu constituant une entrée. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
         <p>Exemple:</p>
@@ -1967,3 +1972,28 @@ fr:
     reparent_error:
       title: Pas moyen d'effectuer le déplacement
       message: Le déplacement a été refusé car un parent ne peut devenir son propre fils.
+
+  rights_statement_act: &rights_statement_act_attributes
+    _singular: Convention
+    _plural: Conventions
+    act_type: Type de convention
+    act_type_tooltip: |
+        <p>L'action que permet cette mention de droits.</p>
+    restriction: Restriction
+    restriction_tooltip: |
+        <p>Une condition ou limitation touchant la convention.</p>
+        <p>Exemples:</p>
+        <ul>
+          <li>Pas plus de trois</li>
+          <li>Autorisé seulement après une année accomplie de conservation archivistique</li>
+          <li>Le détenteur des droits doit être prévenu lorsque la convention cesse d'être en vigueur</li>
+        </ul>
+    start_date: Date de début
+    start_date_tooltip: |
+        <p>Date à laquelle la convention entre en vigueur.</p>
+    end_date: Date de fin
+    end_date_tooltip: |
+        <p>Date à laquelle la convention cesse d'être en vigueur.</p>
+
+  act:
+    <<: *rights_statement_act_attributes
