@@ -26,16 +26,17 @@ fr:
     home: Page d'accueil
     welcome_head: Bienvenue dans la nouvelle interface publique d'ArchivesSpace
     welcome_message: |
-                     <p> Vous pouvez mettre tout ce que vous voulez dans cet espace, en 
-                     éditant <strong>brand.welcome_message</strong> dans le fichier <em>config/custom/locales/*yml</em> approprié</p>
+                     <p>Faites des recherches croisées dans nos collections, objets numériques et autres.</p>
 
     welcome_search_label: "Trouvez ce que vous cherchez:"
-    welcome_page_title: Bienvenue! Un nouveau jour se lève!
+    welcome_page_title: Interface publique d'ArchivesSpace
 
   actions:
     search: Chercher
     search_within: Chercher dans les résultats
     search_in: "Rechercher %{type}"
+    new_search: Nouvelle recherche
+    refine_search: Affiner la recherche
     browse: Parcourir
     show_advanced_search: Montrer Recherche avancée
     hide_advanced_search: Cacher Recherche avancée
@@ -45,12 +46,16 @@ fr:
     bookmark: Signet
     request: Requête
     print: Impression
+    print-generating: Génération d'impression
     collection_overview: Survol des collections
     hierarch: Organisation des collections
-    numeric: Inventaire des contenants
+    numeric: Description du conditionnement
     detailed: Contenu détaillé
     record_details: Détails de la notice
     clipboard: Copier dans le presse-papier
+    search_add_row: Ajouter une ligne
+    search_remove_row: Supprimer une ligne dessous
+    staff_link: Réservé au personnel
 
   page_actions: Page Actions    
 
@@ -61,7 +66,7 @@ fr:
     date: Date d'arrivée prévue
     note: Avis au personnel
     visit: "Soumettre une demande de visite à %{repo_name} pour consulter <strong>%{archival_object}</strong>"
-    submit: Soumettre demande
+    submit: Soumettre une demande
     submitted: Merci, votre demande a été transmise.  Vous recevrez bientôt un courriel avec la copie de votre demande.
     errors:
       name: Veuillez entrer votre nom
@@ -117,6 +122,7 @@ fr:
     anything: tout
     search_term: Terme à chercher
     title: Toutes les notices
+    error: Votre recherche n'a pas pu être effectuée en raison d'une erreur inattendue
     no_results: Aucune notice trouvée
     no_results_prefix: La recherche n'a rien donné pour
     result_type: Type de notice
@@ -131,10 +137,14 @@ fr:
     created: Créé
     modified: Modifié
     component_switch: Inclure composants
+    more_facets: plus
+    fewer_facets: moins
     op:
       AND: et
       OR:  ou
       NOT:  et pas
+    op_first_row:
+      NOT: pas
     filter:
       head: Filtrer résultats
       add: Filtres supplémentaires
@@ -170,7 +180,8 @@ fr:
       child_container_u_sstr: Contenant fils
       grand_child_container_u_sstr: Contenant petit-fils
       type_enum_s: Type
-      series_title_u_sstr: Série organique
+      published_series_title_u_sstr: Série
+      instance_type_enum_s: Type d'instance
 
   search_sorting:
     sort_by: "Trier par:"
@@ -195,6 +206,7 @@ fr:
     select: Sélectionner
     year_sort: Année
     sorting: "%{type} %{direction}"
+    classification_identifier: Identifiant
 
   inherit:
     inherited: "Du %{level}:"
@@ -215,6 +227,7 @@ fr:
     error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir été enlevée."
     backend_down: Pas moyen de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
+    unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur inattendue
 
   boolean:
     "true": "Oui"
@@ -259,7 +272,7 @@ fr:
  
   # I don't have a place for these, so I'm putting them here
   scope_note : Note de portée
-  multiple_containers: Contenants multiples
+  multiple_containers: Conditionnements divers
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
@@ -271,11 +284,14 @@ fr:
   listing: Listing
   list: "Liste %{type}"
   cont_arr: Organisation des collections
+  dig_cont_arr: Organisation des objets numériques
   subgroups: Sous-groupes
   accessed: Accédé
-  containers: Liste de contenants
+  containers: Liste de Conditionnements
   related_accessions: Entrées liées
   related_resources: Ressources liées
+  linked_instances: Notices liées
+  linked_digital_objects: Objets numériques
 
   accession:
    _singular: Non traitée 
@@ -283,6 +299,14 @@ fr:
    _public:
       section:
         summary: Résumé
+        acquisition_type: Type d'acquisition
+        provenance: Provenance
+        access_restrictions: Restrictions de communicabilité
+        access_restrictions_apply: Des restrictions s'appliquent
+        use_restrictions: Restrictions d'utilisation
+        use_restrictions_apply: Des restrictions d'utilisation s'appliquent
+        content_description: Description de contenu
+        inventory: Inventaire
       related_accessions:
        accessions: Notices entrées
        deaccessions: Notices aliénations
@@ -300,7 +324,7 @@ fr:
        dates: Dates
        lang: Langue
        physdesc: Description physique
-       storage: Information contenants
+       storage: Information de conditionnement
        access: Conditions d'accès
        use: Restrictions d'utilisation
        component: Composant
@@ -320,17 +344,19 @@ fr:
   context: Trouvé dans
   bulk:
      _singular: "Majeure partie des documents trouvés en %{dates}" 
-     _plural: "Majeure partide des documents trouvés entre %{dates}"
+     _plural: "Majeure partie des documents trouvés entre %{dates}"
 
   resource:
     _singular: Collection
     _plural: Collections
     _public:
-      extent: Importance matérielle
+      identifier: Identifiant
+      extent: Volume
       dates: Dates
       lang: Langue
+      digital_object: Objet numérique
       physdesc: Description physique
-      storage: Information contenants
+      storage: Info conditionnement
       access: Conditions d'accès
       use: Restrictions d'utilisation
       additional: Compléments descriptifs
@@ -347,6 +373,7 @@ fr:
         author: Auteur
         date:  Date
         description_rules: Règles de description
+        identifier: Identifiant
         language: Langue de description
         sponsor: Sponsor
         edition_statement: Mention d'édition
@@ -358,19 +385,20 @@ fr:
         deaccessions: Notices aliénations
 
   top_container:
-    _singular: Contenant
-    _plural: Contenants
+    _singular: Conditionnement
+    _plural: Conditionnements
 
   related_resource:
     _singular: Collection liée
     _plural: Collections liées
 
   digital_object: &digital_object_attributes
-    _singular: Docment numérique
+    _singular: Document numérique
     _plural: Documents numériques
     _public:
       thumbnail: miniature
       link: Lien vers objet numérique
+      badge_label: Numérique %{level}
       section:
         components: Composants
         summary: Résumé
@@ -400,20 +428,25 @@ fr:
     _singular: Groupe d'archives
     _plural: Groupes d'archives
     creator: Producteur
+    identifier_separator: "."
+    _public:
+      actions:
+        show_subgroups: Montrer sous-groupes
 
   classification_term:
-   _singular: Terme de regroupement
-   _plural: Termes de regroupement
+    _singular: Terme de regroupement
+    _plural: Termes de regroupement
+    identifier_separator: "/"
 
   all_agents: Créateurs de contenu
   
   an_agent: Créateur de contenu
 
   pui_agent:
-    _singular: Créateur de contenu
-    _plural:  Créateurs de contenu
-    related: Créateur de contenu associé
-
+    _singular: Nome
+    _plural:  Nomes
+    related: Nom relié
+    creator: Producteur
   record:
     _singular: Document
     _plural: Documents
@@ -423,11 +456,17 @@ fr:
     _plural: Groupes d'archives
 
   agent:
-    _singular: Créateur du contenu
-    _plural: Créateurs du contenu
+    _singular: Nom
+    _plural: Noms
     _public:
       section:
         summary: Résumé
+        other_names: Formes de noms
+        other_names_preamble: "Egalement connu sous les noms suivants:"
+        related_agents: Agents liés
+        dates_of_existence: Dates
+        related_agent_description: Description
+        related_agent_dates: Dates
    
   agent_person:
     _singular: Personne
@@ -925,7 +964,7 @@ fr:
       page: Page
       reel: Bobine
       volume: Volume
-      container: Contenant
+      container: Conditionnement
     file_version_use_statement:
       audio-clip: Clip audio
       audio-master: Audio-Master
@@ -1460,7 +1499,7 @@ fr:
     date_type:
       expression: Expression
       single: Unique
-      bulk: Dates de la grosse masse
+      bulk: Dates de la majeure partie
       inclusive: Dates extrêmes 
       range: Fourchette
     date_label:
@@ -1894,7 +1933,7 @@ fr:
       arrivals: Arrivées
       shared: Partagés
 
-        
+
   enumeration_names:
     accession_acquisition_type: Type d'acquisition de l'entrée
     accession_parts_relator: Rapport entre parties d'entrée
@@ -1971,3 +2010,11 @@ fr:
     access_date: Date d'accès
     access_restrictions_note: Conditions d'accès
     use_restrictions_note: Restrictions d'utilisation
+
+  pdf_reports:
+    administrative_information: Information administrative
+    collection_inventory: Inventaire des collections
+    summary_information: Résumé informatif
+    table_of_contents: Table des matières
+    publication_statement: Mention de publication
+    controlled_access_headings: En-têtes de confidentialité
