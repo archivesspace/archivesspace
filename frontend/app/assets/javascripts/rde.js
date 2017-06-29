@@ -133,9 +133,12 @@ $(function() {
                 } else {
                   $target.removeAttr("checked");
                 }
-	      } else if ($source.is(":hidden") && $source.parents().closest("div").hasClass("linker-wrapper")) {
-		  // a linker!
-		  $target.attr("data-selected", $source.val());
+              } else if ($source.is(":hidden") && $source.parents().closest("div").hasClass("linker-wrapper")) {
+                // a linker!
+                $target.attr("data-selected", $source.val());
+              } else if ($source.is('.linker:text')) {
+                // $source is a yet to be initialized linker (when adding multiple rows)
+                $target.attr("data-selected", $source.attr("data-selected"));
               } else {
                 $target.val($source.val());
               }
