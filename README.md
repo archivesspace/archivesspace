@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/archivesspace/archivesspace.png?label=ready&title=Ready)](https://waffle.io/archivesspace/archivesspace?utm_source=badge)
 ArchivesSpace README
 --------------------
 
