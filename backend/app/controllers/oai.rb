@@ -22,4 +22,12 @@ class ArchivesSpaceService < Sinatra::Base
     [200, {"Content-Type" => "text/xml"}, provider.process_request(params)]
   end
 
+
+  Endpoint.get('/oai_sample')
+    .description("A HTML form to generate one sample OAI requests")
+    .permissions([])            # No permissions because the endpoint is effectively public
+    .returns([200, "HTML"]) \
+  do
+    erb :'oai/sample'
+  end
 end
