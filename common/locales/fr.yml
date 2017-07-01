@@ -1336,7 +1336,7 @@ fr:
     restrictions_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
-    repository_processing_note: Note de traitement 
+    repository_processing_note: Note de l'archiviste 
     automate_title: Intitulé automatiquement généré
     language: Langue
     language_tooltip: |
@@ -1435,7 +1435,7 @@ fr:
     resource_type_tooltip: |
         <p>Liste de termes en usage dans un service d'archives pour classer ses ressources selon des types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
-    repository_processing_note: Note de traitement
+    repository_processing_note: Note de l'archiviste
     extents_tooltip: |
         <p>SOUS-CHAMP OBLIGATOIRE. Sert à entrer la taille des documents décrits.</p>
         <p>Voir DACS 2.5</p>

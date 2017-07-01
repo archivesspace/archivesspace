@@ -1170,7 +1170,7 @@ fr:
         </ul>
     url: URL
     url_tooltip: |
-        <p>Un lien hypertexte pour vers une description externe du conditionnement.</p>
+        <p>Un lien hypertexte vers une description externe du conditionnement.</p>
     dimension_units: Unité de mesure
     dimension_units_tooltip: |
         <p>Unité de mesure pour l'importance matérielle.</p>
