@@ -2012,13 +2012,17 @@ en:
     container_list: Box/Container List
     catalog_record: Catalog Record (MARC)
     control_file: Collection/Control File
+    finding_aid_ead: Finding Aid (EAD-encoding)
+    finding_aid_paper: Finding Aid (paper only)
+    finding_aid_word: Finding Aid (word processing document)
+    finding_aid_spreadsheet: Finding Aid (spreadsheet)
     surveyed_by: Surveyed By
     surveyed_date: Date of Survey
     surveyed_duration: Time it took to Complete Survey
     surveyed_extent: Extent Surveyed
     purpose: Purpose of Assessment
     scope: Scope of Assessment
-    is_material_sensitive: Sensitive Material?
+    sensitive_material: Sensitive Material?
     _singular: Assessment
     _plural: Assessments
 

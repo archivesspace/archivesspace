@@ -1305,6 +1305,10 @@ en:
         save: Save Assessment
       section:
         basic_information: Basic Information
+      messages:
+        created: Assessment Created
+        updated: Assessment Updated
+        deleted: Assessment Deleted
 
   assessment_material:
     _frontend:

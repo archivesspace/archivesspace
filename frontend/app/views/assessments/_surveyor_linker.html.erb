@@ -1,8 +1,10 @@
 <%
-  unless form.obj.has_key?('_resolved')
-    selected_json =  form.obj['_resolved'].to_json
+  unless form.obj.empty?
+    selected_json =  form.obj.map{|obj|
+      ASUtils.to_json(obj['_resolved'])
+    }
   else
-    selected_json = "{}"
+    selected_json = "[]"
   end
 %>
 <div class="form-group required">
@@ -17,7 +19,7 @@
            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ASSESSMENT_FACETS, :display_identifier => true %>"
            data-selected="<%= selected_json %>"
            data-format_property="display_string"
-           data-multiplicity="one"
+           data-multiplicity="many"
            data-types='["agent_person"]'
     />
 

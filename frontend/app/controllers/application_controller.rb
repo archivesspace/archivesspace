@@ -389,7 +389,7 @@ class ApplicationController < ActionController::Base
 
 
   protected
-
+  
   def cleanup_params_for_schema(params_hash, schema)
     # We're expecting a HashWithIndifferentAccess...
     if params_hash.respond_to?(:to_unsafe_hash)
@@ -487,13 +487,17 @@ class ApplicationController < ActionController::Base
     end
 
 
-    JSONSchemaUtils.map_hash_with_schema(params_hash,
+    result = JSONSchemaUtils.map_hash_with_schema(params_hash,
                                          schema,
                                          [fix_arrays,
                                           set_false_for_checkboxes,
                                           deserialise_resolved_json_blobs,
                                           coerce_integers,
                                           expand_multiple_item_linker_values])
+
+    p ['result', result]
+   
+    result
   end
 
   def params_for_backend_search

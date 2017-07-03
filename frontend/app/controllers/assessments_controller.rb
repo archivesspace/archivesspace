@@ -20,9 +20,7 @@ class AssessmentsController < ApplicationController
 
 
   def show
-    @assessment = fetch_resolved(params[:id])
-
-    flash[:info] = I18n.t("assessment._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:assessment => @assessment)) if @assessment.suppressed
+    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
   end
 
 
@@ -32,11 +30,7 @@ class AssessmentsController < ApplicationController
 
 
   def edit
-    @assessment = JSONModel(:assessment).find(params[:id])
-
-    if @assessment.suppressed
-      redirect_to(:controller => :assessments, :action => :show, :id => params[:id])
-    end
+    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
   end
 
 
@@ -72,5 +66,30 @@ class AssessmentsController < ApplicationController
 
     flash[:success] = I18n.t("assessment._frontend.messages.deleted", JSONModelI18nWrapper.new(:assessment => assessment))
     redirect_to(:controller => :assessments, :action => :index, :deleted_uri => assessment.uri)
+  end
+
+
+  private
+
+  def cleanup_params_for_schema(params_hash, schema)
+    if ASUtils.wrap(params_hash.dig('records', 'ref')).length > 0
+      params_hash['records'] = ASUtils.wrap(params_hash['records']['ref']).zip(ASUtils.wrap(params_hash['records']['_resolved'])).map {|ref, resolved|
+        {
+          'ref' => ref,
+          '_resolved' => resolved
+        }
+      }
+    end
+
+    if ASUtils.wrap(params_hash.dig('surveyed_by', 'ref')).length > 0
+      params_hash['surveyed_by'] = ASUtils.wrap(params_hash['surveyed_by']['ref']).zip(ASUtils.wrap(params_hash['surveyed_by']['_resolved'])).map {|ref, resolved|
+        {
+          'ref' => ref,
+          '_resolved' => resolved
+        }
+      }
+    end
+
+    super
   end
 end

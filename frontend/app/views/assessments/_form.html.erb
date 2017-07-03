@@ -7,48 +7,86 @@
       <%= link_to_help :topic => "assessment_basic_information" %>
     </h3>
     <fieldset>
-      <% form.push("records", form.obj["records"] || []) do %>
-        <div class="form-group required">
-          <%= form.label('records', {}, ['col-sm-2']) %>
-          <div class="col-sm-9">
-            <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
+      <% if form.readonly? %>
+        <div class="form-group">
+          <div class="control-label col-sm-2"><%= I18n.t("assessment.records") %></div>
+          <div class="controls token-list col-sm-10">
+            <% form['records'].each do |record| %>
+              <%= render_token :object => record['_resolved'],
+                               :label => record['_resolved']['title'],
+                               :type => record['_resolved']['jsonmodel_type'],
+                               :uri => record['ref'],
+                               :placement => "top" %>
+            <% end %>
           </div>
         </div>
+      <% else %>
+        <% form.push("records", form.obj["records"] || []) do %>
+          <div class="form-group required">
+            <%= form.label('records', {}, ['col-sm-2']) %>
+            <div class="col-sm-9">
+              <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
 
-      <%= form.label_and_textarea 'accession_report' %>
-      <%= form.label_and_textarea 'appraisal' %>
-      <%= form.label_and_textarea 'container_list' %>
-      <%= form.label_and_textfield 'catalog_record' %>
-      <%= form.label_and_textfield 'control_file' %>
+      <%= form.label_and_boolean 'accession_report' %>
+      <%= form.label_and_boolean 'appraisal' %>
+      <%= form.label_and_boolean 'container_list' %>
+      <%= form.label_and_boolean 'catalog_record' %>
+      <%= form.label_and_boolean 'control_file' %>
+      <%= form.label_and_boolean 'finding_aid_ead' %>
+      <%= form.label_and_boolean 'finding_aid_paper' %>
+      <%= form.label_and_boolean 'finding_aid_word' %>
+      <%= form.label_and_boolean 'finding_aid_spreadsheet' %>
 
-      <br>
+      <hr>
 
-      <% form.push("surveyed_by", form.obj["surveyed_by"] || {}) do %>
-        <div class="form-group required">
-          <%= form.label('surveyed_by', {}, ['col-sm-2']) %>
-          <div class="col-sm-9">
-            <%= render_aspace_partial :partial => "assessments/surveyor_linker", :locals => {:form => form} %>
+      <% if form.readonly? %>
+        <div class="form-group">
+          <div class="control-label col-sm-2"><%= I18n.t("assessment.surveyed_by") %></div>
+          <div class="controls token-list col-sm-10">
+            <% form['surveyed_by'].each do |surveyed_by| %>
+              <%= render_token :object => surveyed_by['_resolved'],
+                               :label => surveyed_by['_resolved']['title'],
+                               :type => surveyed_by['_resolved']['jsonmodel_type'],
+                               :uri => surveyed_by['ref'],
+                               :placement => "top" %>
+            <% end %>
           </div>
         </div>
+      <% else %>
+        <% form.push("surveyed_by", form.obj["surveyed_by"] || []) do %>
+          <div class="form-group required">
+            <%= form.label('surveyed_by', {}, ['col-sm-2']) %>
+            <div class="col-sm-9">
+              <%= render_aspace_partial :partial => "assessments/surveyor_linker", :locals => {:form => form} %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
       <%= form.label_and_date 'surveyed_date' %>
       <%= form.label_and_textfield 'surveyed_duration' %>
       <%= form.label_and_textarea 'surveyed_extent' %>
 
-      <br>
+      <hr>
 
       <%= form.label_and_textarea 'purpose' %>
       <%= form.label_and_textarea 'scope' %>
-      <%= form.label_and_boolean 'is_material_sensitive' %>
+      <%= form.label_and_boolean 'sensitive_material' %>
     </fieldset>
+  </section>
+
+  <section id="basic_information">
+    
   </section>
 <% end %>
 
 <% form.emit_template("assessment") %>
 
-<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "materials", :template_erb => "assessment_materials/template", :heading_text => I18n.t('assessment_material._singular'), :singular => 'assessment_material'} %>
-<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "conservation_issues", :template_erb => "assessment_conservation_issues/template", :heading_text => I18n.t('assessment_conservation_issue._singular'), :singular => 'assessment_conservation_issue'} %>
+<%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "materials", :template_erb => "assessment_materials/template", :heading_text => I18n.t('assessment_material._singular'), :singular => 'assessment_material'} %>
+<%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "conservation_issues", :template_erb => "assessment_conservation_issues/template", :heading_text => I18n.t('assessment_conservation_issue._singular'), :singular => 'assessment_conservation_issue'} %>
 
 <%= form_plugins_for("assessment", form) %>
 

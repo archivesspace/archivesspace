@@ -9,17 +9,17 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
 
-      TextField :accession_report
-      TextField :appraisal
-      TextField :container_list
-      String :catalog_record
-      String :control_file
+      TextField :display_string, :null => true
 
-      # What are these?
-      # Integer :is_finding_aid_ead, :default => 0, :null => false
-      # Integer :is_finding_aid_paper, :default => 0, :null => false
-      # Integer :is_finding_aid_word, :default => 0, :null => false
-      # Integer :is_finding_aid_spreadsheet, :default => 0, :null => false
+      Integer :accession_report, :default => 0, :null => false
+      Integer :appraisal, :default => 0, :null => false
+      Integer :container_list, :default => 0, :null => false
+      Integer :catalog_record, :default => 0, :null => false
+      Integer :control_file, :default => 0, :null => false
+      Integer :finding_aid_ead, :default => 0, :null => false
+      Integer :finding_aid_paper, :default => 0, :null => false
+      Integer :finding_aid_word, :default => 0, :null => false
+      Integer :finding_aid_spreadsheet, :default => 0, :null => false
 
       Date :surveyed_date
       String :surveyed_duration
@@ -27,7 +27,7 @@ Sequel.migration do
 
       TextField :purpose
       TextField :scope
-      Integer :is_material_sensitive, :default => 0, :null => false
+      Integer :sensitive_material, :default => 0, :null => false
 
       apply_mtime_columns
     end
@@ -77,72 +77,72 @@ Sequel.migration do
     end
 
 
-    create_table(:assessment_material) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-      Integer :json_schema_version, :null => false
-
-      Integer :assessment_id, :null => false
-
-      DynamicEnum :material_type_id, :null => false
-      TextField :material_note, :null => false
-      TextField :special_format_note
-      TextField :exhibition_value_note
-
-      apply_mtime_columns
-    end
-
-    alter_table(:assessment_material) do
-      add_foreign_key([:assessment_id], :assessment, :key => :id)
-    end
-
-    create_editable_enum("assessment_material_type",
-                         ['architectural_materials',
-                          'art_originals',
-                          'artifacts',
-                          'audio_materials',
-                          'biological_specimens',
-                          'botanical_specimens',
-                          'computer_storage_units',
-                          'film',
-                          'glass',
-                          'photographs',
-                          'scrapbooks',
-                          'technical_drawings_and_schematics',
-                          'textiles',
-                          'vellum_and_parchment',
-                          'video_materials',
-                          'other'])
-
-
-    create_table(:assessment_conservation_issue) do
-      primary_key :id
-
-      Integer :lock_version, :default => 0, :null => false
-      Integer :json_schema_version, :null => false
-
-      Integer :assessment_id, :null => false
-
-      DynamicEnum :issue_type_id, :null => false
-      TextField :issue_note, :null => false
-
-      apply_mtime_columns
-    end
-
-    alter_table(:assessment_conservation_issue) do
-      add_foreign_key([:assessment_id], :assessment, :key => :id)
-    end
-
-    create_editable_enum("assessment_conservation_issue_type",
-                         ['potential_mold_or_mold_damage',
-                          'recent_pest_damage',
-                          'deteriorating_film_base',
-                          'brittle_paper',
-                          'metal_fasteners',
-                          'newspaper',
-                          'tape',
-                          'heat_sensitive_paper'])
+    # create_table(:assessment_material) do
+    #   primary_key :id
+    # 
+    #   Integer :lock_version, :default => 0, :null => false
+    #   Integer :json_schema_version, :null => false
+    # 
+    #   Integer :assessment_id, :null => false
+    # 
+    #   DynamicEnum :material_type_id, :null => false
+    #   TextField :material_note, :null => false
+    #   TextField :special_format_note
+    #   TextField :exhibition_value_note
+    # 
+    #   apply_mtime_columns
+    # end
+    # 
+    # alter_table(:assessment_material) do
+    #   add_foreign_key([:assessment_id], :assessment, :key => :id)
+    # end
+    # 
+    # create_editable_enum("assessment_material_type",
+    #                      ['architectural_materials',
+    #                       'art_originals',
+    #                       'artifacts',
+    #                       'audio_materials',
+    #                       'biological_specimens',
+    #                       'botanical_specimens',
+    #                       'computer_storage_units',
+    #                       'film',
+    #                       'glass',
+    #                       'photographs',
+    #                       'scrapbooks',
+    #                       'technical_drawings_and_schematics',
+    #                       'textiles',
+    #                       'vellum_and_parchment',
+    #                       'video_materials',
+    #                       'other'])
+    # 
+    # 
+    # create_table(:assessment_conservation_issue) do
+    #   primary_key :id
+    # 
+    #   Integer :lock_version, :default => 0, :null => false
+    #   Integer :json_schema_version, :null => false
+    # 
+    #   Integer :assessment_id, :null => false
+    # 
+    #   DynamicEnum :issue_type_id, :null => false
+    #   TextField :issue_note, :null => false
+    # 
+    #   apply_mtime_columns
+    # end
+    # 
+    # alter_table(:assessment_conservation_issue) do
+    #   add_foreign_key([:assessment_id], :assessment, :key => :id)
+    # end
+    # 
+    # create_editable_enum("assessment_conservation_issue_type",
+    #                      ['potential_mold_or_mold_damage',
+    #                       'recent_pest_damage',
+    #                       'deteriorating_film_base',
+    #                       'brittle_paper',
+    #                       'metal_fasteners',
+    #                       'newspaper',
+    #                       'tape',
+    #                       'heat_sensitive_paper'])
 
 
     # TODO bootstrap update_assessment_record permission to those worthy 

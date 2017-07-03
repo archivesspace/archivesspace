@@ -297,6 +297,9 @@ $(function() {
           }
 
           return $this.data("selected").map(function(item) {
+            if (typeof item == 'string') {
+              item = JSON.parse(item);
+            }
             return {
               id: item.uri,
               name: item.display_string || item.title,

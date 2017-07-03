@@ -1,6 +1,8 @@
 <%
   unless form.obj.empty?
-    selected_json =  form.obj.map{|obj| obj['_resolved'].to_json}
+    selected_json =  form.obj.map{|obj|
+      ASUtils.to_json(obj['_resolved'])
+    }
   else
     selected_json = "[]"
   end
@@ -19,7 +21,7 @@
            data-format_property="display_string"
            data-multiplicity="many"
            data-sortable="true"
-           data-types='["resource", "accession", "digital_object", "archival_objects"]'
+           data-types='["resource", "accession", "digital_object", "archival_object"]'
     />
 
     <div class="input-group-btn">
