@@ -232,7 +232,7 @@ fr:
       equal: égal à
       greater_than: plus grand que
       lesser_than: moins que
-      vide: non assigné
+      empty: non assigné
     boolean_field:
       true_value: "Vrai"
       false_value: "Faux"
@@ -812,9 +812,9 @@ fr:
         finding_aid: Données de l'instrument de recherche
       action:
         add_child: Ajouter fils
-        rapid_data_entry: Saisie rapide de données
         create: Créer ressource
         save: Sauvegarder ressource
+        delete_multiple: Supprimer ressources
 
   preference:
     _frontend:
@@ -1298,3 +1298,5 @@ fr:
 
   act:
     _frontend:
+      action:
+        add: Ajouter convention
