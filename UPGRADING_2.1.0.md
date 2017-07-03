@@ -1,7 +1,7 @@
 UPGRADING TO 2.1.0
 ==================
 
-Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/) for the standard instructions that apply in all cases.
+Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md) for the standard instructions that apply in all cases.
 
 # For those upgrading from 1.4.2 and lower
 
