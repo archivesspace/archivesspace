@@ -42,13 +42,14 @@ class OAIMODSMapper
         Array(jsonmodel['dates']).each do |date|
           next unless date['label'] == 'creation'
 
-          date_str = if date['expression']
-                       date['expression']
-                     else
-                       [date['begin'], date['end']].compact.join(' -- ')
-                     end
-
-          xml.originInfo { xml.dateCreated(date_str) }
+          if date['begin'] || date['end']
+            xml.originInfo {
+              xml.dateCreated({'encoding' => 'iso8601'},
+                              [date['begin'], date['end']].compact.join(' -- '))
+            }
+          elsif date['expression']
+            xml.originInfo { xml.dateCreated(date['expression']) }
+          end
         end
 
         # Extent -> physicalDescription/extent
