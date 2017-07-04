@@ -128,7 +128,7 @@ describe 'OAI handler' do
   describe "OAI protocol and mapping support" do
 
     RESOURCE_BASED_FORMATS = ['oai_ead']
-    COMPONENT_BASED_FORMATS = ['oai_dc', 'oai_dcterms', 'oai_mods', 'oai_marc']
+    RESOURCE_AND_COMPONENT_BASED_FORMATS = ['oai_dc', 'oai_dcterms', 'oai_mods', 'oai_marc']
 
     it "responds to an OAI Identify request" do
       expect {
@@ -160,12 +160,17 @@ describe 'OAI handler' do
       end
     end
 
-    COMPONENT_BASED_FORMATS.each do |prefix|
+    RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
       it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
         expect {
           check_oai_request_against_fixture("getrecord_#{prefix}",
                                             :verb => 'GetRecord',
                                             :identifier => 'oai:archivesspace/' + @test_archival_object_record,
+                                            :metadataPrefix => prefix)
+
+          check_oai_request_against_fixture("getrecord_resource_#{prefix}",
+                                            :verb => 'GetRecord',
+                                            :identifier => 'oai:archivesspace/' + @test_resource_record,
                                             :metadataPrefix => prefix)
         }.to_not raise_error
       end
@@ -194,9 +199,9 @@ describe 'OAI handler' do
       end
     end
 
-    COMPONENT_BASED_FORMATS.each do |prefix|
+    RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
       it "responds to a ListIdentifiers request for type #{prefix}" do
-        list_identifiers(prefix).all? {|identifier| identifier =~ %r{/archival_objects/}}
+        list_identifiers(prefix).all? {|identifier| identifier =~ %r{/archival_objects|resources/}}
       end
     end
 
