@@ -69,7 +69,7 @@ class OAIMODSMapper
 
         # Language -> language/languageTerm
         if jsonmodel['language']
-          xml.language { xml.languageTerm(jsonmodel['language']) }
+          xml.language { xml.languageTerm({'authority' => 'iso639-2b'}, jsonmodel['language']) }
         end
 
         # Abstract note -> abstract
