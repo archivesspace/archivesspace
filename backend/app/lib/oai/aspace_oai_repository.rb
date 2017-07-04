@@ -8,10 +8,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   def self.available_record_types
     {
-      'oai_dc' => FormatOptions.new([ArchivalObject], 25),
-      'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
-      'oai_marc' => FormatOptions.new([ArchivalObject], 25),
-      'oai_mods' => FormatOptions.new([ArchivalObject], 25),
+      'oai_dc' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_dcterms' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_marc' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_mods' => FormatOptions.new([Resource, ArchivalObject], 25),
       'oai_ead' => FormatOptions.new([Resource], 1)
     }
   end
