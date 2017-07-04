@@ -175,7 +175,7 @@ class OAIDCTermsMapper
         # Originating Collection
         if jsonmodel['jsonmodel_type'] == 'archival_object'
           resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
-          resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(' ')
+          resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(', ')
 
           xml['dcterms'].isPartOf(resource_str)
         end
