@@ -381,12 +381,6 @@ a:hover {
 }
 
 
-/* .logo { */
-/*   background-image: asset_url('Aspace-logo-transparent.png'); */
-/*   background-size: contain; */
-/*   background-repeat: no-repeat; */
-/* } */
-
 h1, .h1 {
   font-family: $sans-font;
   font-size: rem-calc(30);
@@ -491,11 +485,6 @@ h5 {
 .facets li {
   width: 100%;
   border-bottom: 1px solid;
-}
-li.remove {
-  background-image: asset_url("remove.png");
-  background-position: right;
-  background-repeat: no-repeat;
 }
 ul.no-bullets {
   list-style-type: none;
