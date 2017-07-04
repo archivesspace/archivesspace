@@ -31,8 +31,6 @@ class ArchivesSpaceOAIRecord
   end
 
   def to_oai_marc
-    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
-
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
       marc = ASpaceExport.model(:marc21).from_archival_object(@jsonmodel_record)
       remove_xml_declaration(ASpaceExport::serialize(marc))
@@ -40,20 +38,14 @@ class ArchivesSpaceOAIRecord
   end
 
   def to_oai_dc
-    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
-
     OAIDCMapper.new.map_oai_record(self)
   end
 
   def to_oai_dcterms
-    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
-
     OAIDCTermsMapper.new.map_oai_record(self)
   end
 
   def to_oai_mods
-    raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'archival_object'
-
     OAIMODSMapper.new.map_oai_record(self)
   end
 
