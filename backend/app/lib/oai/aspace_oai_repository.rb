@@ -83,15 +83,15 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     raise OAI::IdException.new unless model
 
-    repo_uri = parsed_ref.fetch(:repository) { raise OAI:IdException.new }
+    repo_uri = parsed_ref.fetch(:repository) { raise OAI::IdException.new }
     raise OAI::IdException.new if repo_uri.nil?
 
-    repo_id = JSONModel.parse_reference(repo_uri).fetch(:id) { raise OAI:IdException.new }
+    repo_id = JSONModel.parse_reference(repo_uri).fetch(:id) { raise OAI::IdException.new }
 
     RequestContext.open(:repo_id => repo_id) do
       obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
 
-      raise IdException.new unless obj
+      raise OAI::IdException.new unless obj
 
       ArchivesSpaceOAIRecord.new(obj, fetch_jsonmodels(model, [obj])[0])
     end

@@ -9,7 +9,7 @@ module OAI::Provider::Response
       if options.include?(:identifier)
         uri = extract_identifier(options[:identifier])
 
-        jsonmodel_type = JSONModel.parse_reference(uri).fetch(:type) { raise OAI:IdException.new }
+        jsonmodel_type = JSONModel.parse_reference(uri).fetch(:type) { raise OAI::IdException.new }
 
         # Only select formats where this type is supported
         formats.select! {|f|
