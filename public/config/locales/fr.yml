@@ -1949,8 +1949,8 @@ fr:
     archival_record_level: Niveau de notice archivistique
     collection_management_processing_priority: Gestion de collection Priorité de traitement
     collection_management_processing_status: Gestion de collection Etat de traitement
-    container_location_status: Localisation contenant Statut
-    container_type: Type de contenant
+    container_location_status: Localisation conditionnement Statut
+    container_type: Type de conditionnement
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
     date_certainty: Fiabilité de la date
@@ -1979,13 +1979,13 @@ fr:
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom
     name_source: Source de nom
-    note_bibliography_type: Type de note Bibliographie
-    note_digital_object_type: Type de note Objet numérique
-    note_index_item_type: Type de note Item d'index
-    note_index_type: Type de note Index
-    note_multipart_type: Type de note Multipartite
+    note_bibliography_type: Note Type de bibliographie
+    note_digital_object_type: Note Type d'objet numérique
+    note_index_item_type: Note Type d'item d'index
+    note_index_type: Note Type d'index
+    note_multipart_type: Note Type de multipartite
     note_orderedlist_enumeration: Note Enumération en liste hiérarchique
-    note_singlepart_type: Type de note Simple
+    note_singlepart_type: Note Type de Simple
     telephone_number_type: Type de numéro de téléphone
     resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut
