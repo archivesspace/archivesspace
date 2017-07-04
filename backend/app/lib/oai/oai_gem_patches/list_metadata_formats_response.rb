@@ -11,8 +11,8 @@ module OAI::Provider::Response
 
         jsonmodel_type = JSONModel.parse_reference(uri).fetch(:type) { raise OAI:IdException.new }
 
-        # Remove any format that this particular record can't be provided in.
-        formats.reject! {|f|
+        # Only select formats where this type is supported
+        formats.select! {|f|
           format = ArchivesSpaceOAIRepository.available_record_types.fetch(f.prefix)
           format.record_types.any?{|jsonmodel_clz|
             jsonmodel_clz.my_jsonmodel.record_type == jsonmodel_type
