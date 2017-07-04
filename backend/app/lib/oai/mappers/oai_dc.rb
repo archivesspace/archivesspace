@@ -65,7 +65,7 @@ class OAIDCMapper
 
         # Extents
         Array(jsonmodel['extents']).each do |extent|
-          extent_str = [extent['number'] + ' ' + extent['extent_type'], extent['container_summary']].compact.join('; ')
+          extent_str = [extent['number'] + ' ' + I18n.t('enumerations.extent_extent_type.' + extent['extent_type'], :default => extent['extent_type']), extent['container_summary']].compact.join('; ')
           xml['dc'].extent(extent_str)
         end
 
