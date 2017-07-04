@@ -212,13 +212,25 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     unless resumption_token.any_records_left?
       # We've produced all records.  Start producing deletes.
-      resumption_token.start_deletes!
+      if have_deletes?(resumption_token, options)
+        resumption_token.start_deletes!
+      else
+        # finished with no resumption token needed
+        return matched_records
+      end
     end
 
     OAI::Provider::PartialResult.new(matched_records, resumption_token)
   end
 
-  def produce_next_delete_set(resumption_token, options)
+  # Look ahead a little to see whether we have some deletes to serve out.
+  # Allows us to avoid serving out a resumptionToken that would actually be
+  # fruitless.
+  def have_deletes?(resumption_token, options)
+    !build_delete_ds(resumption_token, options).empty?
+  end
+
+  def build_delete_ds(resumption_token, options)
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
     set = resumption_token.set || options.fetch(:set, nil)
 
@@ -238,7 +250,12 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # If our original query had a date range, limit the tombstones by date too
     from_timestamp = resumption_token.from || options.fetch(:from, nil)
     until_timestamp = resumption_token.until || options.fetch(:until, nil)
-    matching_tombstones = apply_time_restrictions(matching_tombstones, from_timestamp, until_timestamp, :timestamp)
+
+    apply_time_restrictions(matching_tombstones, from_timestamp, until_timestamp, :timestamp)
+  end
+
+  def produce_next_delete_set(resumption_token, options)
+    matching_tombstones = build_delete_ds(resumption_token, options)
 
     last_id = resumption_token.last_delete_id
 
