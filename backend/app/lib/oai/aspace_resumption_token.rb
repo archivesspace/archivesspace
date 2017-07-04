@@ -10,7 +10,8 @@ class ArchivesSpaceResumptionToken
     @options['last_delete_id'] ||= 0
 
     unless @options.has_key?('remaining_types')
-      @options['remaining_types'] = Hash[available_record_types.fetch(format).record_types.map {|type| [type.to_s, 0]}]
+      types_for_format = available_record_types.fetch(format) { raise OAI::FormatException.new }
+      @options['remaining_types'] = Hash[types_for_format.record_types.map {|type| [type.to_s, 0]}]
     end
   end
 

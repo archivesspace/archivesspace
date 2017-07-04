@@ -74,7 +74,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     metadata_prefix = options.fetch(:metadata_prefix)
 
-    format_options = ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
+    format_options = options_for_type(metadata_prefix)
     parsed_ref = JSONModel.parse_reference(uri)
 
     raise OAI::IdException.new if parsed_ref.nil?
@@ -144,7 +144,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   end
 
   def options_for_type(metadata_prefix)
-    ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
+    ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix) { raise OAI::FormatException.new }
   end
 
   def build_set_description(text)
