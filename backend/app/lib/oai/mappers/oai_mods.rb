@@ -16,7 +16,12 @@ class OAIMODSMapper
         }
 
         # Identifier -> identifier
-        merged_identifier = ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+        merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                            else
+                              (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
+                            end
+
         unless merged_identifier.empty?
           xml.identifier(merged_identifier)
         end
