@@ -19,7 +19,12 @@ class OAIDCTermsMapper
         end
 
         # Identifier (own component ID + IDs of parents)
-        merged_identifier = ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+        merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                            else
+                              (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
+                            end
+
         unless merged_identifier.empty?
           xml['dcterms'].identifier(merged_identifier)
         end
@@ -49,7 +54,11 @@ class OAIDCTermsMapper
         xml['dcterms'].title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
 
         # Finding Aid Title
-        xml['dcterms'].alternative(OAIUtils.strip_mixed_content(jsonmodel['resource']['_resolved']['finding_aid_title']))
+        if jsonmodel['jsonmodel_type'] == 'archival_object'
+          xml['dcterms'].alternative(OAIUtils.strip_mixed_content(jsonmodel['resource']['_resolved']['finding_aid_title']))
+        else
+          xml['dcterms'].alternative(OAIUtils.strip_mixed_content(jsonmodel['finding_aid_title']))
+        end
 
         # Dates
         Array(jsonmodel['dates']).each do |date|
@@ -164,10 +173,12 @@ class OAIDCTermsMapper
         end
 
         # Originating Collection
-        resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
-        resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(' ')
+        if jsonmodel['jsonmodel_type'] == 'archival_object'
+          resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
+          resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(' ')
 
-        xml['dcterms'].isPartOf(resource_str)
+          xml['dcterms'].isPartOf(resource_str)
+        end
       end
     end
 
