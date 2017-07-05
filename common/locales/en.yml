@@ -2020,9 +2020,19 @@ en:
     surveyed_date: Date Survey Completed
     surveyed_duration: Time it took to Complete Survey
     surveyed_extent: Extent Surveyed
+    review_required: Review Required?
     purpose: Purpose of Assessment
     scope: Scope of Assessment
     sensitive_material: Sensitive Material?
+    general_assessment_note: General Assessment Note
+    special_format_note: Special Format Note
+    exhibition_value_note: Exhibition Value Note
+    rating_attributes_value:
+      rating_1: "1"
+      rating_2: "2"
+      rating_3: "3"
+      rating_4: "4"
+      rating_5: "5"
     _singular: Assessment
     _plural: Assessments
 

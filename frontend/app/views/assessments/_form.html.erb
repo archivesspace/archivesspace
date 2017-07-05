@@ -31,15 +31,22 @@
         <% end %>
       <% end %>
 
-      <%= form.label_and_boolean 'accession_report' %>
-      <%= form.label_and_boolean 'appraisal' %>
-      <%= form.label_and_boolean 'container_list' %>
-      <%= form.label_and_boolean 'catalog_record' %>
-      <%= form.label_and_boolean 'control_file' %>
-      <%= form.label_and_boolean 'finding_aid_ead' %>
-      <%= form.label_and_boolean 'finding_aid_paper' %>
-      <%= form.label_and_boolean 'finding_aid_word' %>
-      <%= form.label_and_boolean 'finding_aid_spreadsheet' %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= form.label_and_boolean 'accession_report', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'appraisal', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'container_list', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'catalog_record', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'control_file', :label_opts => { :col_size => 6 } %>
+        </div>
+  
+        <div class="col-md-6">
+          <%= form.label_and_boolean 'finding_aid_ead', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'finding_aid_paper', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'finding_aid_word', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'finding_aid_spreadsheet', :label_opts => { :col_size => 6 } %>
+        </div>
+      </div>
 
       <hr>
 
@@ -69,6 +76,7 @@
       <%= form.label_and_date 'surveyed_date' %>
       <%= form.label_and_textfield 'surveyed_duration' %>
       <%= form.label_and_textarea 'surveyed_extent' %>
+      <%= form.label_and_boolean 'review_required' %>
 
       <hr>
 
@@ -78,8 +86,176 @@
     </fieldset>
   </section>
 
-  <section id="basic_information">
-    
+  <section id="rating_attributes" class="subrecord-form-dummy">
+    <h3>
+      <%= I18n.t "assessment._frontend.section.rating_attributes" %>
+      <%= link_to_help :topic => "assessment_rating_attributes" %>
+    </h3>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <%= form.label_and_textarea 'general_assessment_note' %>
+
+        <table id="rating_attributes_table" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th class="col-sm-5"></th>
+              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_1') %></th>
+              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_2') %></th>
+              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_3') %></th>
+              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_4') %></th>
+              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_5') %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reformatting Readiness</td>
+              <td class="text-center"><input type="radio" name="example1" /></td>
+              <td class="text-center"><input type="radio" name="example1" /></td>
+              <td class="text-center"><input type="radio" name="example1" /></td>
+              <td class="text-center"><input type="radio" name="example1" /></td>
+              <td class="text-center"><input type="radio" name="example1" /></td>
+              <td>
+                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
+                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
+              </td>
+            </tr>
+            <tr style="display:none">
+              <td>
+                <label>Reformatting Readiness note</label>
+              </td>
+              <td colspan="6">
+                <textarea class="form-control"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>Housing Quality</td>
+              <td class="text-center"><input type="radio" name="example2" /></td>
+              <td class="text-center"><input type="radio" name="example2" /></td>
+              <td class="text-center"><input type="radio" name="example2" /></td>
+              <td class="text-center"><input type="radio" name="example2" /></td>
+              <td class="text-center"><input type="radio" name="example2" /></td>
+              <td>
+                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
+                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
+              </td>
+            </tr>
+            <tr style="display:none">
+              <td>
+                <label>Housing Quality note</label>
+              </td>
+              <td colspan="6">
+                <textarea class="form-control"></textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <th colspan="7"><%= I18n.t('assessment._frontend.section.rating_attributes_additional') %></th>
+            </tr>
+
+            <tr>
+              <td>Repo X Rating A</td>
+              <td class="text-center"><input type="radio" name="example3" /></td>
+              <td class="text-center"><input type="radio" name="example3" /></td>
+              <td class="text-center"><input type="radio" name="example3" /></td>
+              <td class="text-center"><input type="radio" name="example3" /></td>
+              <td class="text-center"><input type="radio" name="example3" /></td>
+              <td>
+                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
+                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
+              </td>
+            </tr>
+            <tr style="display:none">
+              <td>
+                <label>Repo X Rating A note</label>
+              </td>
+              <td colspan="6">
+                <textarea class="form-control"></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="format_attributes" class="subrecord-form-dummy">
+    <h3>
+      <%= I18n.t "assessment._frontend.section.format_attributes" %>
+      <%= link_to_help :topic => "assessment_format_attributes" %>
+    </h3>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_2" col_size="6">Example Format 2</label><div class="col-sm-1 checkbox"><input id="example_format_2" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_3" col_size="6">Example Format 3</label><div class="col-sm-1 checkbox"><input id="example_format_3" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_4" col_size="6">Example Format 4</label><div class="col-sm-1 checkbox"><input id="example_format_4" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5><%= I18n.t('assessment._frontend.section.format_attributes_additional') %></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+        </div>
+
+        <hr>
+
+        <%= form.label_and_textarea 'special_format_note' %>
+        <%= form.label_and_textarea 'exhibition_value_note' %>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="conversion_issue_attributes" class="subrecord-form-dummy">
+    <h3>
+      <%= I18n.t "assessment._frontend.section.conversion_issue_attributes" %>
+      <%= link_to_help :topic => "assessment_conversion_issue_attributes" %>
+    </h3>
+    <div class="subrecord-form-container">
+      <div class="subrecord-form-fields">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_2" col_size="6">Example Format 2</label><div class="col-sm-1 checkbox"><input id="example_format_2" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_3" col_size="6">Example Format 3</label><div class="col-sm-1 checkbox"><input id="example_format_3" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_4" col_size="6">Example Format 4</label><div class="col-sm-1 checkbox"><input id="example_format_4" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5><%= I18n.t('assessment._frontend.section.conversion_issue_attributes_additional') %></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 <% end %>
 

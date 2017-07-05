@@ -444,7 +444,7 @@ module AspaceFormHelper
       controls_classes = %w(form-group), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
-        label_classes << 'col-sm-2'
+        label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
         controls_classes << "col-sm-#{opts[:col_size]}"
       end
       # There must be a better way to say this...

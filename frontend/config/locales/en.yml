@@ -1303,8 +1303,16 @@ en:
       action:
         create: Create Assessment
         save: Save Assessment
+        add_rating_note: Add Note
+        remove_rating_note: Remove Note
       section:
         basic_information: Basic Information
+        rating_attributes: Assessment Information
+        rating_attributes_additional: Additional Rating(s)
+        format_attributes: List of Material Types / Formats
+        format_attributes_additional: Additional Material Types / Formats
+        conversion_issue_attributes: Conservation Issues
+        conversion_issue_attributes_additional: Additonal Conservation Issues
       messages:
         created: Assessment Created
         updated: Assessment Updated

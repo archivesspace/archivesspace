@@ -24,10 +24,16 @@ Sequel.migration do
       Date :surveyed_date
       String :surveyed_duration
       TextField :surveyed_extent
+      Integer :review_required, :default => 0, :null => false
 
       TextField :purpose
       TextField :scope
       Integer :sensitive_material, :default => 0, :null => false
+
+      TextField :general_assessment_note
+
+      TextField :special_format_note
+      TextField :exhibition_value_note
 
       apply_mtime_columns
     end
