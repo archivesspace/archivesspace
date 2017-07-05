@@ -77,6 +77,18 @@ Sequel.migration do
     end
 
 
+    create_table(:assessment_attribute_definition) do
+      primary_key :id
+      Integer :repo_id, :null => false
+      String :label, :null => false
+      String :type, :null => false
+      Integer :position, :null => false
+    end
+
+    alter_table(:assessment_attribute_definition) do
+      add_unique_constraint([:repo_id, :label], :name => "assessment_attr_unique_label")
+    end
+
     # create_table(:assessment_material) do
     #   primary_key :id
     # 
