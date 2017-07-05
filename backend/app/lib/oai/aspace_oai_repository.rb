@@ -8,10 +8,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   def self.available_record_types
     {
-      'oai_dc' => FormatOptions.new([ArchivalObject], 25),
-      'oai_dcterms' => FormatOptions.new([ArchivalObject], 25),
-      'oai_marc' => FormatOptions.new([ArchivalObject], 25),
-      'oai_mods' => FormatOptions.new([ArchivalObject], 25),
+      'oai_dc' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_dcterms' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_marc' => FormatOptions.new([Resource, ArchivalObject], 25),
+      'oai_mods' => FormatOptions.new([Resource, ArchivalObject], 25),
       'oai_ead' => FormatOptions.new([Resource], 1)
     }
   end
@@ -74,7 +74,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     metadata_prefix = options.fetch(:metadata_prefix)
 
-    format_options = ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
+    format_options = options_for_type(metadata_prefix)
     parsed_ref = JSONModel.parse_reference(uri)
 
     raise OAI::IdException.new if parsed_ref.nil?
@@ -83,12 +83,15 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     raise OAI::IdException.new unless model
 
-    repo_id = JSONModel.parse_reference(parsed_ref.fetch(:repository)).fetch(:id)
+    repo_uri = parsed_ref.fetch(:repository) { raise OAI::IdException.new }
+    raise OAI::IdException.new if repo_uri.nil?
+
+    repo_id = JSONModel.parse_reference(repo_uri).fetch(:id) { raise OAI::IdException.new }
 
     RequestContext.open(:repo_id => repo_id) do
       obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
 
-      raise IdException.new unless obj
+      raise OAI::IdException.new unless obj
 
       ArchivesSpaceOAIRecord.new(obj, fetch_jsonmodels(model, [obj])[0])
     end
@@ -144,7 +147,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   end
 
   def options_for_type(metadata_prefix)
-    ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix)
+    ArchivesSpaceOAIRepository.available_record_types.fetch(metadata_prefix) { raise OAI::FormatException.new }
   end
 
   def build_set_description(text)
@@ -209,13 +212,25 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     unless resumption_token.any_records_left?
       # We've produced all records.  Start producing deletes.
-      resumption_token.start_deletes!
+      if have_deletes?(resumption_token, options)
+        resumption_token.start_deletes!
+      else
+        # finished with no resumption token needed
+        return matched_records
+      end
     end
 
     OAI::Provider::PartialResult.new(matched_records, resumption_token)
   end
 
-  def produce_next_delete_set(resumption_token, options)
+  # Look ahead a little to see whether we have some deletes to serve out.
+  # Allows us to avoid serving out a resumptionToken that would actually be
+  # fruitless.
+  def have_deletes?(resumption_token, options)
+    !build_delete_ds(resumption_token, options).empty?
+  end
+
+  def build_delete_ds(resumption_token, options)
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
     set = resumption_token.set || options.fetch(:set, nil)
 
@@ -235,7 +250,12 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # If our original query had a date range, limit the tombstones by date too
     from_timestamp = resumption_token.from || options.fetch(:from, nil)
     until_timestamp = resumption_token.until || options.fetch(:until, nil)
-    matching_tombstones = apply_time_restrictions(matching_tombstones, from_timestamp, until_timestamp, :timestamp)
+
+    apply_time_restrictions(matching_tombstones, from_timestamp, until_timestamp, :timestamp)
+  end
+
+  def produce_next_delete_set(resumption_token, options)
+    matching_tombstones = build_delete_ds(resumption_token, options)
 
     last_id = resumption_token.last_delete_id
 

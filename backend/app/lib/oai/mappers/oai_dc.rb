@@ -18,10 +18,16 @@ class OAIDCMapper
         end
 
         # Identifier (own component ID + IDs of parents)
-        merged_identifier = ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+        merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                            else
+                              (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
+                            end
+
         unless merged_identifier.empty?
           xml['dc'].identifier(merged_identifier)
         end
+
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
@@ -59,7 +65,7 @@ class OAIDCMapper
 
         # Extents
         Array(jsonmodel['extents']).each do |extent|
-          extent_str = [extent['number'] + ' ' + extent['extent_type'], extent['container_summary']].compact.join('; ')
+          extent_str = [extent['number'] + ' ' + I18n.t('enumerations.extent_extent_type.' + extent['extent_type'], :default => extent['extent_type']), extent['container_summary']].compact.join('; ')
           xml['dc'].extent(extent_str)
         end
 
@@ -127,10 +133,12 @@ class OAIDCMapper
         end
 
         # Originating Collection
-        resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
-        resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(' ')
+        if jsonmodel['jsonmodel_type'] == 'archival_object'
+          resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
+          resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(', ')
 
-        xml['dc'].relation(resource_str)
+          xml['dc'].relation(resource_str)
+        end
       end
     end
 

@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class OAIUtils
   def self.extract_published_note_content(note, toplevel = true)
     if toplevel && !note['publish']
@@ -27,6 +29,6 @@ class OAIUtils
   def self.strip_mixed_content(s)
     return s if s.nil?
 
-    MixedContentParser.parse(s, '/')
+    Nokogiri::HTML(s).text
   end
 end

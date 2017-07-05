@@ -15,6 +15,17 @@ class ArchivesSpaceOAIServer < Sinatra::Base
     status 404
   end
 
+  get '/sample' do
+    oai_sample_url = URI.join(AppConfig[:backend_url], 'oai_sample')
+
+    ASHTTP.start_uri(oai_sample_url) do |http|
+      http_request = Net::HTTP::Get.new(oai_sample_url.request_uri)
+      response = http.request(http_request)
+
+      [Integer(response.code), prepare_headers(response.to_hash), response.body]
+    end
+  end
+
   get "/*" do
     send_get(request.query_string)
   end

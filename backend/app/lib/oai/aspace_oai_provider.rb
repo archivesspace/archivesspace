@@ -17,6 +17,7 @@ class ArchivesSpaceOaiProvider < OAI::Provider::Base
   repository_url AppConfig[:oai_proxy_url]
   record_prefix AppConfig[:oai_record_prefix]
   admin_email AppConfig[:oai_admin_email]
+  sample_id '/repositories/2/resources/1'
 
   deletion_support OAI::Const::Delete::PERSISTENT
 

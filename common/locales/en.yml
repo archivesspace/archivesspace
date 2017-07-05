@@ -1997,3 +1997,10 @@ en:
 
   act:
     <<: *rights_statement_act_attributes
+
+  oai:
+    sample_page:
+      title: "%{oai_repository_name} - Sample OAI-PMH requests"
+      introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH v 2.0).</p>"
+      form_header: Send a '%{verb}' request
+      form_submit: Submit

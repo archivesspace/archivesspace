@@ -16,7 +16,12 @@ class OAIMODSMapper
         }
 
         # Identifier -> identifier
-        merged_identifier = ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+        merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                            else
+                              (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
+                            end
+
         unless merged_identifier.empty?
           xml.identifier(merged_identifier)
         end
@@ -29,24 +34,27 @@ class OAIMODSMapper
         end
 
         # Title -> titleInfo/title
-        xml.title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        xml.titleinfo {
+          xml.title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        }
 
         # Dates -> originInfo/dateCreated
         Array(jsonmodel['dates']).each do |date|
           next unless date['label'] == 'creation'
 
-          date_str = if date['expression']
-                       date['expression']
-                     else
-                       [date['begin'], date['end']].compact.join(' -- ')
-                     end
-
-          xml.originInfo { xml.dateCreated(date_str) }
+          if date['begin'] || date['end']
+            xml.originInfo {
+              xml.dateCreated({'encoding' => 'iso8601'},
+                              [date['begin'], date['end']].compact.join(' -- '))
+            }
+          elsif date['expression']
+            xml.originInfo { xml.dateCreated(date['expression']) }
+          end
         end
 
         # Extent -> physicalDescription/extent
         Array(jsonmodel['extents']).each do |extent|
-          extent_str = [extent['number'] + ' ' + extent['extent_type'], extent['container_summary']].compact.join('; ')
+          extent_str = [extent['number'] + ' ' + I18n.t('enumerations.extent_extent_type.' + extent['extent_type'], :default => extent['extent_type']), extent['container_summary']].compact.join('; ')
           xml.physicalDescription { xml.extent(extent_str) }
         end
 
@@ -61,7 +69,7 @@ class OAIMODSMapper
 
         # Language -> language/languageTerm
         if jsonmodel['language']
-          xml.language { xml.languageTerm(jsonmodel['language']) }
+          xml.language { xml.languageTerm({'authority' => 'iso639-2b'}, jsonmodel['language']) }
         end
 
         # Abstract note -> abstract
@@ -143,6 +151,14 @@ class OAIMODSMapper
           when 'agent_corporate_entity'
             xml.subject { xml.name({'type' => 'corporate'}, link['_resolved']['title']) }
           end
+        end
+
+        # Originating Collection
+        if jsonmodel['jsonmodel_type'] == 'archival_object'
+          resource_id_str = (0..3).map {|i| jsonmodel['resource']['_resolved']["id_#{i}"]}.compact.join(".")
+          resource_str = [jsonmodel['resource']['_resolved']['title'], resource_id_str].join(', ')
+
+          xml.relatedItem({'type' => 'host'}, resource_str)
         end
       end
     end
