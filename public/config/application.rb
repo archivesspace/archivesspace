@@ -61,6 +61,8 @@ module ArchivesSpacePublic
     # add fonts to the asset path
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
+    config.assets.prefix = AppConfig[:public_proxy_prefix] + "assets"
+
     # mailer configuration
     if AppConfig[:pui_email_enabled]
       config.action_mailer.delivery_method = AppConfig[:pui_email_delivery_method]
