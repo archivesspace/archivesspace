@@ -12,7 +12,7 @@
         <ul class="nav nav navbar-nav">
           <%# TODO: add class="active" if we're on that page %>
           <% $MAIN_MENU.each do |link| %>
-            <li><a href="<%=link[0] %>"><%= t(link[1]) %></a></li>
+            <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
           <% end %>
         </ul>
       </div>

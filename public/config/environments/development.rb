@@ -26,6 +26,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  config.public_file_server.enabled = true
+
   # Don't care if the mailer can't send.
   # DISABLED BY MST # config.action_mailer.raise_delivery_errors = false
 
@@ -44,6 +46,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  config.assets.prefix = AppConfig[:public_proxy_prefix] + "assets"
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

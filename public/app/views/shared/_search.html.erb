@@ -6,7 +6,7 @@
   <h3><%=  t('actions.search') %>  <%= title %> </h3>
   <% end %>
   <% @search = Search.new unless defined?(@search) %>
-  <%= form_tag("#{search_url}", method: 'get', :id => 'advanced_search') do %>
+  <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
   <% (0...[1, @search.q.length].max).each do |i| %>
   <div class="row search_row" id="search_row_<%= i %>">
     <div class="col-sm-1 bool form-group form-inline">

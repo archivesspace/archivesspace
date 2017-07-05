@@ -45,7 +45,7 @@
       <dt><%= t('pui_agent.related') %></dt>
         <% @result.agents.collect(&:last).flatten.each do |relationship| %>
           <dd>
-            <%= link_to relationship.fetch('_resolved').fetch('title'), relationship.fetch('ref') %>
+            <%= link_to relationship.fetch('_resolved').fetch('title'), app_prefix(relationship.fetch('ref')) %>
           </dd>
         <% end %>
     <% end %>

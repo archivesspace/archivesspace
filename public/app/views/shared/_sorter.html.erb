@@ -3,7 +3,7 @@
 
 
 <div class="col-sm-3 text-right sorter">
- <%= form_tag("#{@base_search}", method: 'get', :class=> "form-inline") do %>
+ <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-inline") do %>
    <%= render partial: 'shared/hidden_params' %>
    <%= label_tag(:sort, "#{t('search_sorting.sort_by')}", :class=>'sr-only') %> 
    <%= select_tag(:sort, options_for_select(@sort_opts,@sort)) %>

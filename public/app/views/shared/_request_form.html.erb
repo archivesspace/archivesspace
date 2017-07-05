@@ -1,4 +1,4 @@
-<%= form_tag("#{AppConfig[:public_prefix]}fill_request", method: 'post', :id => 'request_form') do %>
+<%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
   <%= render partial: 'shared/request_hiddens' %>
   <div  id="request">
     <div class="form-group required ">

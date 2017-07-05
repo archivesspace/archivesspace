@@ -37,7 +37,7 @@
    <a name="search" title="<%= t('internal_links.search_collection') %>"></a>
     <div class="search">
 
-	<%= form_tag("#{@result['uri']}/search", method: 'get', :class=> "form-inline") do %>
+	<%= form_tag(app_prefix("#{@result['uri']}/search"), method: 'get', :class=> "form-inline") do %>
 	<div class="form-group">
 	  <%= label_tag(:filter_q0,  "#{t('actions.search_in', :type=> t('resource._singular'))}", :class => 'sr-only') %>
 
