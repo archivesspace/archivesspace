@@ -7,14 +7,29 @@ class AssessmentAttributeDefinitions
 
     DB.open do |db|
       # Don't allow a label to be set if it would conflict with a label used by one of the global attributes
-      conflicting_labels = db[:assessment_attribute_definition]
-                             .filter(:repo_id => 1, :label => definitions.map {|d| d['label']})
-                             .select(:label)
-                             .all
+      definitions.each do |d|
+        conflicting_labels = db[:assessment_attribute_definition]
+                               .filter(:repo_id => 1, :type => d['type'], :label => d['label'])
+                               .select(:label)
+                               .all
 
-      unless conflicting_labels.empty?
-        raise Sequel::ValidationFailed.new("Update would conflict with the following global labels: " +
-                                           conflicting_labels.map {|row| row[:label]}.join("; "))
+        unless conflicting_labels.empty?
+          raise ConflictException.new("Update would conflict with the following global labels of type #{d['type']}: " +
+                                      conflicting_labels.map {|row| row[:label]}.join("; "))
+        end
+
+        conflicting_repo_labels = db[:assessment_attribute_definition]
+                                    .filter(:repo_id => repo_id,
+                                            :type => d['type'],
+                                            :label => d['label'])
+                                    .where { Sequel.~(:id => d['id']) }
+                                    .select(:label)
+                                    .all
+
+        unless conflicting_repo_labels.empty?
+          raise ConflictException.new("Update would conflict with the following labels of type #{d['type']}: " +
+                                      conflicting_repo_labels.map {|row| row[:label]}.join("; "))
+        end
       end
 
       # Existing definitions get updated
