@@ -164,8 +164,8 @@ fr:
       scope: Portée
       notes: Notes
       source: Source
-      published_agents: Créateurs de contenu
-      agents_text: Créateurs de contenu
+      published_agents: Noms
+      agents_text: Noms
       classification_uri: Classification
       linked_agent_roles: Rôle
       from_year: De l'année
@@ -177,8 +177,8 @@ fr:
       year_now: maintenant
       year_begin: le début
       from_to: "Années: %{begin} à %{end}"
-      child_container_u_sstr: Contenant fils
-      grand_child_container_u_sstr: Contenant petit-fils
+      child_container_u_sstr: Conditionnement fils
+      grand_child_container_u_sstr: Conditionnement petit-fils
       type_enum_s: Type
       published_series_title_u_sstr: Série
       instance_type_enum_s: Type d'instance
@@ -216,7 +216,7 @@ fr:
     class: Classe
     file: Dossier
     fonds: Fonds
-    item: Item
+    item: Pièce
     otherlevel: Autre niveau
     recordgrp: Groupe d'archives
     subfonds: Sous-fonds
@@ -438,14 +438,14 @@ fr:
     _plural: Termes de regroupement
     identifier_separator: "/"
 
-  all_agents: Créateurs de contenu
+  all_agents: Noms
   
-  an_agent: Créateur de contenu
+  an_agent: Nom
 
   pui_agent:
-    _singular: Nome
-    _plural:  Nomes
-    related: Nom relié
+    _singular: Nom
+    _plural:  Noms
+    related: Nom associé
     creator: Producteur
   record:
     _singular: Document
@@ -463,7 +463,7 @@ fr:
         summary: Résumé
         other_names: Formes de noms
         other_names_preamble: "Egalement connu sous les noms suivants:"
-        related_agents: Agents liés
+        related_agents: Agents associés
         dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
@@ -853,7 +853,7 @@ fr:
       image: Image
     event_event_type:
       accession: Entrée
-      accumulation: Accumulation
+      accumulation: Production
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
       acknowledgement_received: Reçu réceptionné
@@ -875,7 +875,7 @@ fr:
       decryption: Décryptage
       deletion: Suppression
       digital_signature_validation: Validation de signature numérique
-      fixity_check: Fixity Check
+      fixity_check: Test de fixité
       ingestion: Ingestion
       message_digest_calculation: Message Digest Calculation
       migration: Migration
@@ -1811,7 +1811,7 @@ fr:
       statute: Statut
       institutional_policy: Politique institutionnelle
     rights_statement_ip_status:
-      copyrighted: Sous copyright
+      copyrighted: Droits d'auteur
       public_domain: Domaine public
       unknown: Inconnu
     subject_term_type:
@@ -1835,14 +1835,14 @@ fr:
       bibliography: Bibliographie
       bioghist: Biographique / Historique
       custodhist: Historique de la conservation
-      fileplan: Plan de classement
+      fileplan: Plan de fichiers
       index: Index
       odd: Autres données descriptives
       otherfindaid: Autre instrument de recherche
       originalsloc: Existence et lieux de conservation d'originaux
       phystech: Caractéristiques matérielles et contraintes techniques
       prefercite: Référence privilégiée
-      processinfo: Information sur le traitement
+      processinfo: Infos relatives au traitement
       relatedmaterial: Documents en relation
       scopecontent: Présentation du contenu
       separatedmaterial: Documents séparés
@@ -1949,8 +1949,8 @@ fr:
     archival_record_level: Niveau de notice archivistique
     collection_management_processing_priority: Gestion de collection Priorité de traitement
     collection_management_processing_status: Gestion de collection Etat de traitement
-    container_location_status: Localisation contenant Statut
-    container_type: Type de contenant
+    container_location_status: Localisation conditionnement Statut
+    container_type: Type de conditionnement
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
     date_certainty: Fiabilité de la date
@@ -1969,7 +1969,7 @@ fr:
     file_version_use_statement: Version de fichier Mention d'utilisation
     file_version_xlink_actuate_attribute: Version de fichier Xlink Actuate Attribute
     file_version_xlink_show_attribute: Version de fichier Xlink Show Attribute
-    instance_instance_type: Instance Instance Type
+    instance_instance_type: Instance Type d'instance
     language_iso639_2: Langue ISO 639-2
     linked_agent_archival_record_relators: Agent relié Rapports de notices archivistiques
     linked_agent_event_roles: Agent relié Rôles d'événement
@@ -1979,13 +1979,13 @@ fr:
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom
     name_source: Source de nom
-    note_bibliography_type: Type de note Bibliographie
-    note_digital_object_type: Type de note Objet numérique
-    note_index_item_type: Type de note Item d'index
-    note_index_type: Type de note Index
-    note_multipart_type: Type de note Multipartite
+    note_bibliography_type: Note Type de bibliographie
+    note_digital_object_type: Note Type d'objet numérique
+    note_index_item_type: Note Type d'item d'index
+    note_index_type: Note Type d'index
+    note_multipart_type: Note Type de multipartite
     note_orderedlist_enumeration: Note Enumération en liste hiérarchique
-    note_singlepart_type: Type de note Simple
+    note_singlepart_type: Note Type de Simple
     telephone_number_type: Type de numéro de téléphone
     resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut
@@ -2018,3 +2018,16 @@ fr:
     table_of_contents: Table des matières
     publication_statement: Mention de publication
     controlled_access_headings: En-têtes de confidentialité
+    finding_aid_date_prefix: Instrument de recherche élaboré à l'aide d'ArchivesSpace sur
+    finding_aid_written_in: Instrument de recherche écrit en
+    your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
+    your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
+    submit: Envoyez-moi un PDF
+    description: Pour recevoir une version PDF de cette collection, veuillez entrer ci-dessous votre adresse email.
+    coming_soon: La génération de votre PDF est en cours. Il vous sera envoyé dès qu'il sera prêt.
+    required: Requis
+    user_email: Votre adresse email
+
+  readmore:
+    see_more: Voir plus
+    see_less: Voir moins

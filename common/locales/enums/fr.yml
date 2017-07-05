@@ -989,7 +989,7 @@
     date_type:
       expression: Expression
       single: Unique
-      bulk: Dates du gros
+      bulk: Dates de la majeure partie
       inclusive: Dates extrêmes
       range: Fourchette
     date_label:
@@ -1312,7 +1312,7 @@
       statute: Statut
       institutional_policy: Politique institutionnelle
     rights_statement_ip_status:
-      copyrighted: Sous copyright
+      copyrighted: Droits d'auteur
       public_domain: Domaine public
       unknown: Inconnu
     rights_statement_other_rights_basis:
@@ -1595,13 +1595,15 @@
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom
     name_source: Source de nom
-    note_bibliography_type: Type de note Bibliographie
-    note_digital_object_type: Type de note Objet numérique
-    note_index_item_type: Type de note Item d'index
-    note_index_type: Type de note Index
-    note_multipart_type: Type de note Multipartite
+    note_bibliography_type: Note Type de bibliographie
+    note_digital_object_type: Note Type d'objet numérique
+    note_index_item_type: Note Type d'item d'index
+    note_index_type: Note Type d'index
+    note_multipart_type: Note Type de multipartite
     note_orderedlist_enumeration: Note Enumération en liste hiérarchique
-    note_singlepart_type: Type de note Simple
+    note_rights_statement_act_type: Note Type de convention
+    note_rights_statement_type: Note Type de mention de droits
+    note_singlepart_type: Note Type de singlepart
     telephone_number_type: Type de numéro de téléphone
     resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut

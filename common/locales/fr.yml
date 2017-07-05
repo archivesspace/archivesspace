@@ -469,7 +469,7 @@ fr:
         </ul>
     dates: Dates
     dates_tooltip: |
-        <p>OBSOLÈTE. MERCI D'UTILISER LA SECTION DATES D'EXISTENCE</p>
+        <p>Utiliser ce champ pour conformer la notice à la norme MARC. Ces dates sont ajoutées au nom à l'affichage, plutôt que les dates d'existence.</p>
         <p>Dates d'existence de l'entité nommée.</p>
         <p>Exemples:<p>
         <ul>
@@ -784,7 +784,7 @@ fr:
     is_representative: Est représentatif? 
     instance_type: Type
     instance_type_tooltip: |
-        <p>Une désignation de la manifestation pour les documents décrits. La désignation d'exemplaire est facultative, mais nécessaire pour ouvrir et compléter une notice contenant pour le document décrit.</p>
+        <p>Une désignation de la manifestation pour les documents décrits. La désignation d'instance est facultative, mais nécessaire pour ouvrir et compléter une notice de conditionnement pour le document décrit.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     digital_object: Objet numérique
     _plural: Exemplaires
@@ -830,7 +830,7 @@ fr:
         </ul>
     file_format_version: Version du format de fichier
     file_format_version_tooltip: |
-        <p>La Version du format pour ce type de fichier.</p>
+        <p>La version du format pour ce type de fichier.</p>
         <p>Exemples:</p>
         <ul>
         <li>5.0 <em>(pour TIFF 5.0)</em></li>
@@ -873,7 +873,7 @@ fr:
         <p>Voir DACS 2.5</p>
     container_summary: Conditionnement
     container_summary_tooltip: |
-        <p>Une liste de contenants et de types de contenants abritant les documents décrits dans la notice composant.</p>
+        <p>Une liste de conditionnements et de types de conditionnements abritant les documents décrits dans la notice composant.</p>
         <p>Exemples:</p>
         <ul>
         <li>10 conteneurs d'archivage, 6 boîtes archives, 3 grands portfolios.</li>
@@ -1130,7 +1130,7 @@ fr:
         <p>Un champ de note fourre-tout pour toute information ne rentrant pas dans les champs expressément définis.</p>
     inventory: Description
     inventory_tooltip: |
-      <p>Une liste des contenants et de leur contenu constituant une entrée. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
+      <p>Une liste des conditionnements et de leur contenu constituant une entrée. Dans le AT, la zone de liste peut être composée dans le champ, copiée et collée dans le champ, ou référencée comme document externe. La référence au document externe peut être saisie ici ou dans une sous-notice de documents externes.</p>
         <p>Exemple:</p>
         <ul>
         <li>Boîte 1:   Journaux intimes</li>
@@ -1317,10 +1317,10 @@ fr:
         <p>Valeurs prescrites par le schéma EAD.</p>
     other_level: Autre niveau
     other_level_tooltip: |
-      <p>CHAMP OBLIGATOIRE si "Autre niveau" est la valeur sélectionnée pour Niveau. Exprime le type de niveau en-dehors de valeurs spécifiées dans le schéma EAD.</p>
-    container_summary: Résumé contenant
+        <p>CHAMP OBLIGATOIRE si "Autre niveau" est la valeur sélectionnée pour Niveau. Exprime le type de niveau en-dehors de valeurs spécifiées dans le schéma EAD.</p>
+    container_summary: Conditionnement
     container_summary_tooltip: |
-      <p>Pour enregistrer le nombre et le type de contenants comprenant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
+      <p>Pour enregistrer le nombre et le type de conditionnements composant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
         <p>Voir DACS 2.5</p>
         <p>Exemples:</p>
         <ul>
@@ -1336,7 +1336,7 @@ fr:
     restrictions_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
-    repository_processing_note: Note de traitement 
+    repository_processing_note: Note de l'archiviste 
     automate_title: Intitulé automatiquement généré
     language: Langue
     language_tooltip: |
@@ -1353,7 +1353,7 @@ fr:
         <p>Version abrégée du nom du groupe.</p>
     description: Description
     description_tooltip: |
-        <p>Brève description textuelle du groupe.</p>
+        <p>Un texte décrivant brièvement le groupe.</p>
         <p>Exemples:
         <ul>
         <li>Stagiaires de l'été 2013</li>
@@ -1386,12 +1386,12 @@ fr:
       transfer_archival_record: transférer principaux types de notices d'un service d'archives vers un autre
       manage_subject_record: créer/actualiser/supprimer notices matières
       manage_agent_record: créer/actualiser/supprimer notices agents
-      manage_vocabulary_record: créer/actualiser/supprimier notices vocabulaire
+      manage_vocabulary_record: créer/actualiser/supprimer notices vocabulaire
       import_records: lancer des tâches d'import
       cancel_importer_job: annuler une tâche d'import
-      update_container_record: créer/actualiser notices top contenants
-      manage_container_record: supprimer/actualiser en masse notices top contenants
-      manage_container_profile_record: créer/actualiser/supprimer notices de profils contenants
+      update_container_record: créer/actualiser notices de conditionnements
+      manage_container_record: supprimer/actualiser en masse notices de conditionnements
+      manage_container_profile_record: créer/actualiser/supprimer notices de profils de conditionnements
       manage_location_profile_record: créer/actualiser/supprimer notices de profils localisations
       create_job: créer et lancer une tâche d'arrière-plan
       cancel_job: annuler une tâche d'arrière-plan
@@ -1435,7 +1435,7 @@ fr:
     resource_type_tooltip: |
         <p>Liste de termes en usage dans un service d'archives pour classer ses ressources selon des types de base.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
-    repository_processing_note: Note de traitement
+    repository_processing_note: Note de l'archiviste
     extents_tooltip: |
         <p>SOUS-CHAMP OBLIGATOIRE. Sert à entrer la taille des documents décrits.</p>
         <p>Voir DACS 2.5</p>
@@ -1602,7 +1602,7 @@ fr:
         <p>L'identifiant unique pour la notice dans la source d'où provient l'acquisition, (par ex. un numéro LCSH). L'identifiant peut être représenté sous forme d'URI.</p>
     source: Source
     source_tooltip: |
-        <p>Le glossaire d'où vient un terme standard.</p>
+        <p>Le glossaire d'où provient un terme standard.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
         <p>Exemples:</p>
         <ul>
@@ -1737,18 +1737,18 @@ fr:
     # tooltips not displaying
     name: Nom
     name_tooltip: |
-        <p>Le nom de la liste de valeurs contrôlées à laquelle vous voulez ajouter une valeur.</p>
+        <p>Le nom de la liste contrôlée à laquelle vous voulez ajouter une valeur.</p>
     value: Valeur
     value_tooltip: |
-        <p>La valeur de la liste de valeurs contrôlées que vous souhaitez ajouter ou modifier.</p>
+        <p>La valeur de la liste contrôlée que vous souhaitez ajouter ou modifier.</p>
         <p>Autant que possible, les valeurs devraient être en bas de casse et avoir des tirets bas ("_") au lieu d'espaces. Les traductions devraient être ajoutées aux fichiers locaux.</p>
     translation: Traduction
     position: Position
     suppress: Bloquer
     unsuppress: Débloquer
     merge_into: Fusionner dans
-    _singular: Liste de valeurs contrôlées
-    _plural: Listes de valeurs contrôlées
+    _singular: Liste contrôlée
+    _plural: Listes contrôlées
 
   classification:
     _singular: Classement
@@ -1875,13 +1875,13 @@ fr:
     location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de nouvelles localisation avant d'effectuer la suppression.
     cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la localisation n'est pas temporaire.
     authority_id_must_be_unique: Identifiant d'autorité déjà utilisé
-    either_type_1_or_barcode_is_required: Un contenant doit contenir un type de contenant 1 ou un code-barres.
+    either_type_1_or_barcode_is_required: Un conditionnement doit contenir un type de conditionnement 1 ou un code-barres.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne comprenant pas plus de 9 chiffres et 5 décimales.
     container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
     container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez un type
-    container_2_is_required_if_container_3_is_provided: Vous devez fournir un contenant fils si vous fournissez un contenant petit-fils
+    container_2_is_required_if_container_3_is_provided: Vous devez fournir un conditionnement fils si vous fournissez un conditionnement petit-fils
     a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du service d'archives
-    container_profile_name_not_unique: Un nom de profil contenant doit être unique
+    container_profile_name_not_unique: Un nom de profil conditionnement doit être unique
     must_be_a_number_with_no_more_than_2_decimal_places: Doit être un nombre à 2 décimales au plus
     length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la fourchette définie dans la configuration
     is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
