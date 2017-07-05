@@ -83,6 +83,9 @@
                 <% if user_can?('update_classification_record') %>
                   <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
                 <% end %>
+                <% if user_can?('update_assessment_record') %>
+                  <li><%= link_to I18n.t("assessment._singular"), :controller => :assessments, :action => :new %></li>
+                <% end %>
 
                 <% if user_can?('create_job') %>
                   <li class="divider"></li>
