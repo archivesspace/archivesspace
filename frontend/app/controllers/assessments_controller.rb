@@ -25,7 +25,19 @@ class AssessmentsController < ApplicationController
 
 
   def new
-    @assessment = JSONModel(:assessment).new({:assessment_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    if params[:record_uri]
+      uri_bits = JSONModel.parse_reference(params[:record_uri])
+      record = JSONModel(uri_bits.fetch(:type)).find(uri_bits.fetch(:id))
+
+      @assessment = JSONModel(:assessment).new({
+        'records' => [{
+          'ref' => params[:record_uri],
+          '_resolved' => record
+        }]
+      })._always_valid!
+    end
+
+    @assessment ||= JSONModel(:assessment).new._always_valid!
   end
 
 

@@ -1305,6 +1305,7 @@ en:
         save: Save Assessment
         add_rating_note: Add Note
         remove_rating_note: Remove Note
+        create_for_record: Begin Assessment
       section:
         basic_information: Basic Information
         rating_attributes: Assessment Information
