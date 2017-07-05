@@ -328,7 +328,7 @@ en:
        access: Conditions Governing Access
        use: Conditions Governing Use
        component: Component
-       ref_id: Ref. ID
+       ref_id: Reference Identifier
 
   archive:
     _singular: The Archive
