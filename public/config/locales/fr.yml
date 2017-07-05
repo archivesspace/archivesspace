@@ -22,7 +22,7 @@
 fr:
   brand:
     title: ASpace Interface publique
-    title_link_text: Votre lien texte ici
+    title_link_text: Retourner à la page d'accueil ArchivesSpace
     home: Page d'accueil
     welcome_head: Bienvenue dans la nouvelle interface publique d'ArchivesSpace
     welcome_message: |
@@ -119,7 +119,7 @@ fr:
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"
     year_range: " entre <strong>%{from_year}</strong> et <strong>%{to_year}</strong>"
-    anything: tout
+    anything: "*"
     search_term: Terme à chercher
     title: Toutes les notices
     error: Votre recherche n'a pas pu être effectuée en raison d'une erreur inattendue
@@ -187,8 +187,8 @@ fr:
     sort_by: "Trier par:"
     sort: Trier
     and: "et:"
-    asc: Asc.
-    desc: Desc.
+    asc: ascendant
+    desc: descendant
     relevance: Pertinence
     title_sort: Intitulé
     user_mtime: Modifié
@@ -1877,10 +1877,10 @@ fr:
       is_earlier_form_of: Forme antérieure de relié
       is_later_form_of: Forme ultérieure de relié
     agent_relationship_parentchild_relator:
-      is_child_of: Fils de relié
-      is_parent_of: Parent de relié
+      is_child_of: Parent
+      is_parent_of: Enfant
     accession_sibling_relator:
-      sibling_of: Soeur de
+      sibling_of: Enfant de mêmes parents
     accession_parts_relator:
       forms_part_of: Fait partie de
       has_part: Has Part
