@@ -51,6 +51,8 @@ module ArchivesSpacePublic
       end
     end
 
+    config.i18n.default_locale = AppConfig[:locale]
+
     # Add template static assets to the path
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
