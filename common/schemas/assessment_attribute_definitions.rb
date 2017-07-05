@@ -13,6 +13,7 @@
             "id" => { "type" => "integer" },
             "label" => { "type" => "string", "ifmissing" => "error" },
             "type" => { "enum" => ["rating", "format", "conservation_issue"], "ifmissing" => "error" },
+            "global" => { "type" => "boolean", "default" => false }
           }
         }
       }

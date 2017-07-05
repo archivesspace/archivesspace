@@ -110,7 +110,6 @@ describe 'Digital Object Component controller' do
 
 
   it "lets you create digital object component with a parent" do
-
     digital_object = create(:json_digital_object)
 
     parent = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})

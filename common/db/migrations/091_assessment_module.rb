@@ -92,8 +92,43 @@ Sequel.migration do
     end
 
     alter_table(:assessment_attribute_definition) do
-      add_unique_constraint([:repo_id, :label], :name => "assessment_attr_unique_label")
+      add_unique_constraint([:repo_id, :type, :label], :name => "assessment_attr_unique_label")
     end
+
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Reformatting Readiness', :type => 'rating', :position => 0)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Housing Quality', :type => 'rating', :position => 1)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Physical Condition', :type => 'rating', :position => 2)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Physical Access (arrangement)', :type => 'rating', :position => 3)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Intellectual Access (description)', :type => 'rating', :position => 4)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Interest', :type => 'rating', :position => 5)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Documentation Quality', :type => 'rating', :position => 6)
+
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Architectural Materials', :type => 'format', :position => 7)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Art Originals', :type => 'format', :position => 8)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Artifacts', :type => 'format', :position => 9)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Audio Materials', :type => 'format', :position => 10)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Biological Specimens', :type => 'format', :position => 11)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Botanical Specimens', :type => 'format', :position => 12)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Computer Storage Units', :type => 'format', :position => 13)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Film (negative, slide, or motion picture)', :type => 'format', :position => 14)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Glass', :type => 'format', :position => 15)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Photographs', :type => 'format', :position => 16)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Scrapbooks', :type => 'format', :position => 17)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Technical Drawings & Schematics', :type => 'format', :position => 18)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Textiles', :type => 'format', :position => 19)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Vellum & Parchment', :type => 'format', :position => 20)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Video Materials', :type => 'format', :position => 21)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Other', :type => 'format', :position => 22)
+
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Potential Mold or Mold Damage', :type => 'conservation_issue', :position => 23)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Recent Pest Damage', :type => 'conservation_issue', :position => 24)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Deteriorating Film Base', :type => 'conservation_issue', :position => 25)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Brittle Paper', :type => 'conservation_issue', :position => 26)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Metal Fasteners', :type => 'conservation_issue', :position => 27)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Newspaper', :type => 'conservation_issue', :position => 28)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Tape', :type => 'conservation_issue', :position => 29)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Heat-Sensitive Paper', :type => 'conservation_issue', :position => 30)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Water Damage', :type => 'conservation_issue', :position => 31)
 
     # create_table(:assessment_material) do
     #   primary_key :id
