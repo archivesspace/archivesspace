@@ -22,7 +22,7 @@
 en:
   brand:
     title: ArchivesSpace Public Interface
-    title_link_text: Your link text here
+    title_link_text: Return to the ArchivesSpace homepage
     home: Home
     welcome_head: Welcome to ArchivesSpace
     welcome_message: |
@@ -119,7 +119,7 @@ en:
     creators_text_contain: "the <strong>creator</strong> contains <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
     year_range: " from <strong>%{from_year}</strong> to <strong>%{to_year}</strong>"
-    anything: anything
+    anything: "*"
     search_term: Search term
     title: All Records
     error: Your search could not be completed due to an unexpected error
@@ -187,8 +187,8 @@ en:
     sort_by: "Sort by:"
     sort: Sort
     and: "and:"
-    asc: Asc.
-    desc: Desc.
+    asc: (ascending)
+    desc: (descending)
     relevance: Relevance
     title_sort: Title
     user_mtime: Modified
@@ -288,8 +288,8 @@ en:
   subgroups: Subgroups
   accessed: Accessed
   containers: Physical Storage Information
-  related_accessions: Related Accessions
-  related_resources: Related Resources
+  related_accessions: Related Unprocessed Material
+  related_resources: Related Collections
   linked_instances: Linked Records
   linked_digital_objects: Digital Material
 
@@ -308,8 +308,8 @@ en:
         content_description: Content Description
         inventory: Inventory
       related_accessions:
-       accessions: Accession Records
-       deaccessions: Deaccession Records
+       accessions: Related Unprocessed Material
+       deaccessions: Deaccessioned Material
 
   archival_object:
     _singular: Archival Record
@@ -463,7 +463,7 @@ en:
         summary: Summary
         other_names: Names Forms
         other_names_preamble: "Also known by the following names:"
-        related_agents: Related Agents
+        related_agents: Related Names
         dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
@@ -1875,10 +1875,10 @@ en:
       is_earlier_form_of: Earlier Form of Related
       is_later_form_of: Later Form of Related
     agent_relationship_parentchild_relator:
-      is_child_of: Child of Related
-      is_parent_of: Parent of Related
+      is_child_of: Parent
+      is_parent_of: Child
     accession_sibling_relator:
-      sibling_of: Is Sibling of
+      sibling_of: Sibling
     accession_parts_relator:
       forms_part_of: Forms Part of
       has_part: Has Part
