@@ -39,7 +39,7 @@ class JSONResponse
         end
       end
     end
-    output
+    '[' + output.map { |s| "#{s}" }.join(', ') + ']'
   end
 
   def specific_report_parsing(doc)
@@ -78,6 +78,6 @@ class JSONResponse
         output.push(out_hash.to_json)
       end
     end
-    output
+    '[' + output.map { |s| "#{s}" }.join(', ') + ']'
   end
 end
