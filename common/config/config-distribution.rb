@@ -135,14 +135,24 @@ class AppConfig
   def self.load_user_config
     config = find_user_config
 
-    if config
+    if config && user_config_changed?(config)
       puts "Loading ArchivesSpace configuration file from path: #{config}"
       load config
+
+      @user_config_mtime = File.mtime(config)
     end
 
     self.load_overrides_from_properties
   end
 
+
+  def self.user_config_changed?(file)
+    if @user_config_mtime && File.mtime(file) == @user_config_mtime
+      return false
+    else
+      return true
+    end
+  end
 
   def self.demo_db_url
     "jdbc:derby:#{File.join(AppConfig[:data_directory], "archivesspace_demo_db")};create=true;aspacedemo=true"
@@ -161,6 +171,7 @@ class AppConfig
 
   def self.reload
     @@parameters = {}
+    @@changed_from_default = {}
 
     require_relative 'config-aliases'
 
