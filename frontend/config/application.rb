@@ -140,8 +140,6 @@ module ArchivesSpace
       end
     end
 
-    config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
-
     # ArchivesSpace Configuration
     AppConfig.load_into(config)
   end
