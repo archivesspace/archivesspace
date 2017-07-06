@@ -184,8 +184,6 @@
       <pre class="lines">
 
 
-2
-3
 4
 5
 6
@@ -206,10 +204,12 @@
 21
 22
 23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_utils.rb', line 2</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_utils.rb', line 4</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_published_note_content identifier id'>extract_published_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_toplevel identifier id'>toplevel</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_toplevel identifier id'>toplevel</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
@@ -255,19 +255,19 @@
       <pre class="lines">
 
 
-27
-28
 29
 30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_utils.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_utils.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_s identifier id'>s</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-  <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='comma token'>,</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_HTML constant id'>HTML</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -280,7 +280,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:28 2017 by
+  ArchivesSpace Version v2.1.0_RC2 Documentation Generated on Thu Jul  6 17:52:03 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

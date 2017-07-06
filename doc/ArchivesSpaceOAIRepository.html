@@ -377,10 +377,10 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_available_record_types identifier id'>available_record_types</span>
   <span class='lbrace token'>{</span>
-    <span class='string val'>&#39;oai_dc&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='string val'>&#39;oai_dcterms&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='string val'>&#39;oai_marc&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='string val'>&#39;oai_mods&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;oai_dc&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;oai_dcterms&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;oai_marc&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;oai_mods&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>25</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='string val'>&#39;oai_ead&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_FormatOptions constant id'>FormatOptions</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_Resource constant id'>Resource</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
@@ -541,7 +541,10 @@ pretty much stuck doing slow lookups.</p>
 92
 93
 94
-95</pre>
+95
+96
+97
+98</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 68</span>
@@ -555,7 +558,7 @@ pretty much stuck doing slow lookups.</p>
 
   <span class='rubyid_metadata_prefix identifier id'>metadata_prefix</span> <span class='assign token'>=</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:metadata_prefix</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_format_options identifier id'>format_options</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceOAIRepository constant id'>ArchivesSpaceOAIRepository</span><span class='dot token'>.</span><span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_metadata_prefix identifier id'>metadata_prefix</span><span class='rparen token'>)</span>
+  <span class='rubyid_format_options identifier id'>format_options</span> <span class='assign token'>=</span> <span class='rubyid_options_for_type identifier id'>options_for_type</span><span class='lparen token'>(</span><span class='rubyid_metadata_prefix identifier id'>metadata_prefix</span><span class='rparen token'>)</span>
   <span class='rubyid_parsed_ref identifier id'>parsed_ref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
 
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_parsed_ref identifier id'>parsed_ref</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -564,12 +567,15 @@ pretty much stuck doing slow lookups.</p>
 
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_model identifier id'>model</span>
 
-  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_parsed_ref identifier id'>parsed_ref</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span>
+  <span class='rubyid_repo_uri identifier id'>repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_parsed_ref identifier id'>parsed_ref</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+
+  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_repo_uri identifier id'>repo_uri</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rbrace token'>}</span>
 
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_add_visibility_restrictions identifier id'>add_visibility_restrictions</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parsed_ref identifier id'>parsed_ref</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
 
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_IdException constant id'>IdException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span>
 
     <span class='rubyid_ArchivesSpaceOAIRecord constant id'>ArchivesSpaceOAIRecord</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_fetch_jsonmodels identifier id'>fetch_jsonmodels</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -595,9 +601,6 @@ pretty much stuck doing slow lookups.</p>
       <pre class="lines">
 
 
-97
-98
-99
 100
 101
 102
@@ -620,10 +623,13 @@ pretty much stuck doing slow lookups.</p>
 119
 120
 121
-122</pre>
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_repository.rb', line 100</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_selector identifier id'>selector</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_selector identifier id'>selector</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
@@ -768,7 +774,7 @@ pretty much stuck doing slow lookups.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:29 2017 by
+  ArchivesSpace Version v2.1.0_RC2 Documentation Generated on Thu Jul  6 17:52:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

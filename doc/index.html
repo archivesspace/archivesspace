@@ -59,7 +59,8 @@
 
       <div id="content"><div id='filecontents'><h2 id="archivesspace-readme">ArchivesSpace README</h2>
 
-<p><a href="https://travis-ci.org/archivesspace/archivesspace"><img src="https://travis-ci.org/archivesspace/archivesspace.svg?branch=master" alt="Build Status" /></a><a href="https://coveralls.io/github/archivesspace/archivesspace?branch=master"><img src="https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master" alt="Coverage Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a></p>
+<p><a href="https://travis-ci.org/archivesspace/archivesspace"><img src="https://travis-ci.org/archivesspace/archivesspace.svg?branch=master" alt="Build Status" /></a><a href="https://coveralls.io/github/archivesspace/archivesspace?branch=master"><img src="https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master" alt="Coverage Status" /></a><a href="https://codeclimate.com/github/archivesspace/archivesspace"><img src="https://codeclimate.com/github/archivesspace/archivesspace.png" alt="Code Climate" /></a>
+<a href="https://waffle.io/archivesspace/archivesspace?utm_source=badge"><img src="https://badge.waffle.io/archivesspace/archivesspace.png?label=ready&amp;title=Ready" alt="Stories in Ready" /></a></p>
 
 <ul>
   <li><a href="http://archivesspace.org">archivesspace.org</a></li>
@@ -406,11 +407,13 @@ database</em> to create an empty database with the appropriate
 permissions.  Then, populate the database from your backup file using
 the MySQL client:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_mysql identifier id'>mysql</span> <span class='minus op'>-</span><span class='rubyid_uarchivesspace identifier id'>uarchivesspace</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='lt op'>&lt;</span> <span class='rubyid_mysqldump identifier id'>mysqldump</span><span class='dot token'>.</span><span class='rubyid_sql identifier id'>sql</span>
+<pre class="code ruby"><code class="ruby"><span class='xstring val'>`mysql -uas -p archivesspace &lt; mysqldump.sql`</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span>
+  <span class='xstring val'>`as`</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_user identifier id'>user</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='xstring val'>`archivesspace`</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='xstring val'>`mysqldump.sql`</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_mysqldump identifier id'>mysqldump</span> <span class='rubyid_filename identifier id'>filename</span>
 </code></pre>
 
-<p>(change the username as required and enter your password when
-prompted).</p>
+<p>You will be prompted for the password of the user.</p>
 
 <p>If you are using the demo database, your backup <code>.zip</code> file will
 contain a directory called <code>demo_db_backups</code>.  Each subdirectory of
@@ -675,7 +678,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:13 2017 by
+  ArchivesSpace Version v2.1.0_RC2 Documentation Generated on Thu Jul  6 17:51:48 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
