@@ -573,7 +573,8 @@
 12
 13
 14
-15</pre>
+15
+16</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 6</span>
@@ -585,7 +586,8 @@
   <span class='rubyid_@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='string val'>&#39;last_delete_id&#39;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='integer val'>0</span>
 
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;remaining_types&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='string val'>&#39;remaining_types&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_format identifier id'>format</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+    <span class='rubyid_types_for_format identifier id'>types_for_format</span> <span class='assign token'>=</span> <span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_format identifier id'>format</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_FormatException constant id'>FormatException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='string val'>&#39;remaining_types&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_types_for_format identifier id'>types_for_format</span><span class='dot token'>.</span><span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -616,12 +618,12 @@
       <pre class="lines">
 
 
-17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_format identifier id'>extract_format</span><span class='lparen token'>(</span><span class='rubyid_token identifier id'>token</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_token identifier id'>token</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_format identifier id'>format</span>
@@ -647,12 +649,12 @@
       <pre class="lines">
 
 
-82
 83
-84</pre>
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 83</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_token identifier id'>token</span><span class='comma token'>,</span> <span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='rparen token'>)</span>
   <span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_Base64 constant id'>Base64</span><span class='colon2 op'>::</span><span class='rubyid_urlsafe_decode64 identifier id'>urlsafe_decode64</span><span class='lparen token'>(</span><span class='rubyid_token identifier id'>token</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_available_record_types identifier id'>available_record_types</span><span class='rparen token'>)</span>
@@ -707,12 +709,12 @@
       <pre class="lines">
 
 
-65
 66
-67</pre>
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_any_records_left? fid id'>any_records_left?</span>
   <span class='notop op'>!</span><span class='rubyid_remaining_types identifier id'>remaining_types</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -738,12 +740,12 @@
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format identifier id'>format</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;metadata_prefix&#39;</span><span class='rparen token'>)</span>
@@ -769,12 +771,12 @@
       <pre class="lines">
 
 
-45
 46
-47</pre>
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_from identifier id'>from</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;from&#39;</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -800,12 +802,12 @@
       <pre class="lines">
 
 
-29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_last_delete_id identifier id'>last_delete_id</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;last_delete_id&#39;</span><span class='rparen token'>)</span>
@@ -831,12 +833,12 @@
       <pre class="lines">
 
 
-33
 34
-35</pre>
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_last_delete_id= identifier id'>last_delete_id=</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='string val'>&#39;last_delete_id&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
@@ -862,12 +864,12 @@
       <pre class="lines">
 
 
-53
 54
-55</pre>
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_remaining_types identifier id'>remaining_types</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;remaining_types&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid__ identifier id'>_</span><span class='bitor op'>|</span> <span class='rubyid_type identifier id'>type</span><span class='rbrace token'>}</span>
@@ -893,14 +895,14 @@
       <pre class="lines">
 
 
-86
 87
 88
 89
-90</pre>
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 87</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span>
   <span class='rubyid_issue_time identifier id'>issue_time</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_to_f identifier id'>to_f</span> <span class='mult op'>*</span> <span class='integer val'>1000</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
@@ -928,12 +930,12 @@
       <pre class="lines">
 
 
-41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;set&#39;</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -959,7 +961,6 @@
       <pre class="lines">
 
 
-69
 70
 71
 72
@@ -970,10 +971,11 @@
 77
 78
 79
-80</pre>
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_last_seen identifier id'>set_last_seen</span><span class='lparen token'>(</span><span class='rubyid_oai_record identifier id'>oai_record</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_self self kw'>self</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_oai_record identifier id'>oai_record</span>
@@ -1008,12 +1010,12 @@
       <pre class="lines">
 
 
-25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_start_deletes! fid id'>start_deletes!</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='lbrack token'>[</span><span class='string val'>&#39;state&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_PRODUCING_DELETES_STATE constant id'>PRODUCING_DELETES_STATE</span>
@@ -1039,12 +1041,12 @@
       <pre class="lines">
 
 
-21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_state identifier id'>state</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;state&#39;</span><span class='rparen token'>)</span>
@@ -1070,15 +1072,15 @@
       <pre class="lines">
 
 
-92
 93
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 93</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_xml identifier id'>to_xml</span>
   <span class='rubyid_xml identifier id'>xml</span> <span class='assign token'>=</span> <span class='rubyid_Builder constant id'>Builder</span><span class='colon2 op'>::</span><span class='rubyid_XmlMarkup constant id'>XmlMarkup</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -1107,12 +1109,12 @@
       <pre class="lines">
 
 
-49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 50</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_until until kw'>until</span>
   <span class='rubyid_@options ivar id'>@options</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;until&#39;</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -1138,16 +1140,16 @@
       <pre class="lines">
 
 
-57
 58
 59
 60
 61
 62
-63</pre>
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_resumption_token.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_depleted identifier id'>update_depleted</span><span class='lparen token'>(</span><span class='rubyid_types identifier id'>types</span><span class='rparen token'>)</span>
   <span class='rubyid_types identifier id'>types</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_depleted_type identifier id'>depleted_type</span><span class='bitor op'>|</span>
@@ -1167,7 +1169,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.0.1-reports Documentation Generated on Thu Jun 22 09:32:29 2017 by
+  ArchivesSpace Version v2.1.0_RC2 Documentation Generated on Thu Jul  6 17:52:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
