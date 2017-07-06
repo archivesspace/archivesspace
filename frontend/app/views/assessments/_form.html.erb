@@ -13,7 +13,7 @@
           <div class="controls token-list col-sm-10">
             <% form['records'].each do |record| %>
               <%= render_token :object => record['_resolved'],
-                               :label => record['_resolved']['title'],
+                               :label => record['_resolved']['title'] || record['_resolved']['display_string'],
                                :type => record['_resolved']['jsonmodel_type'],
                                :uri => record['ref'],
                                :placement => "top" %>

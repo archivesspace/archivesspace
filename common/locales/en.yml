@@ -1920,6 +1920,7 @@ en:
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
+    import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
