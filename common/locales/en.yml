@@ -61,7 +61,7 @@ en:
     external_documents_tooltip: |
         <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
     rights_statements_tooltip: |
-        <p>Information about the rights status of the materials described and whether there are specific restictions or permissions that have been indicated.</p>
+        <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
     instances_tooltip: |
         <p>Links description to information about physical or digital instantiations of material.</p>
     deaccessions_tooltip: |
@@ -246,8 +246,8 @@ en:
         <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
     relator_tooltip: |
-        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
-        <p>See MARC Code List for Relators.</p>
+        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>See MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -357,7 +357,7 @@ en:
     <<: *section_tooltips
     scope: Portion
     scope_tooltip: |
-        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
     description: Description
     description_tooltip: |
         <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
@@ -859,16 +859,16 @@ en:
   extent: &extent_attributes
     portion: Portion
     portion_tooltip: |
-        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
         <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
         <p>See DACS 2.5.7</p>
     number: Number
     number_tooltip: |
-        <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+        <p>REQIURED FIELD: A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
         <p>See DACS 2.5</p>
     extent_type: Type
     extent_type_tooltip: &extent_type_tooltip |
-        <p>A term indicating the type of unit used to measure the extent of materials described.</p>
+        <p>REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.</p>
         <p>Values in this Controlled Value List may be modified.</p>
         <p>See DACS 2.5</p>
     container_summary: Container Summary
@@ -900,13 +900,13 @@ en:
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
-        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
+        <p>The title of an external document referenced from the record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
     location_tooltip: |
         <p>The location of the file, ideally a resolvable URI.</p>
         <p>Examples:</p>
         <ul>
-        <li>http://www.archivesspace.org/membership</li>
+        <li>http://www.archivesspace.org/</li>
         <li>file:///c:/path/to/the%20file.txt</li>
         </ul>
     publish: Publish?
@@ -1003,7 +1003,7 @@ en:
         <p>See DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
-        <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
+        <p>REQUIRED FIELD: Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
@@ -1130,7 +1130,7 @@ en:
         <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
     inventory: Inventory
     inventory_tooltip: |
-        <p>A list of the containers and their contents making up an accession. In the AT, the box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
+        <p>A list of the containers and their contents making up an accession. The box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
         <p>Example:</p>
         <ul>
         <li>Box 1:   Diaries</li>
