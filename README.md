@@ -16,11 +16,11 @@ ArchivesSpace README
 # System requirements
 
 * Java 1.7 or 1.8.
-* At least 1024 MB RAM allocated to the application
+* At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
 * A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
-ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
+ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.
 
 MySQL is not required, but is **strongly** recommended for production use.
 
@@ -494,11 +494,11 @@ The system provides responses to a number of standard OAI-PMH requests, includin
 
 Some responses require the URL parameter metadataPrefix. There are five different metadata responses available:
 
-  	EAD	                  oai_ead (resources in EAD)
-  	Dublin Core	          oai_dc (archival objects and resources in Dublin Core)
-  	extended DCMI Terms	  oai_dcterms (archival objects and resources in DCMI Metadata Terms format)
-  	MARC	                oai_marc (archival objects and resources in MARC)
-  	MODS	                oai_mods (archival objects and resources in MODS)
+  EAD	                  oai_ead (resources in EAD)
+  Dublin Core	          oai_dc (archival objects and resources in Dublin Core)
+  extended DCMI Terms	  oai_dcterms (archival objects and resources in DCMI Metadata Terms format)
+  MARC	                oai_marc (archival objects and resources in MARC)
+  MODS	                oai_mods (archival objects and resources in MODS)
 
 The EAD response for resources and MARC response for resources and archival objects use the mappings from the built-in exporter for resources. The DC, DCMI terms, and MODS responses for resources and archival objects use mappings suggested by the community.
 
@@ -531,17 +531,17 @@ Here are some example URLs and other information for these requests:
 Harvesting the ArchivesSpace OAI-PMH server without specifying a set will yield all published records across all repositories.
 Predefined sets can be accessed using the set parameter. In order to retrieve records from sets include a set parameter in the URL and the DC metadataPrefix, such as "&set=collection&metadataPrefix=oai_dc". These sets can be from configured sets as shown above or from the following levels of description:
 
-  	Class	      class
-  	Collection	collection
-  	File	      file
-  	Fonds	      fonds
-  	Item	      item
-  	Other_Level	otherlevel
-  	Record_Group	recordgrp
-  	Series	    series
-  	Sub-Fonds	  subfonds
-  	Sub-Group	  subgrp
-  	Sub-Series	 subseries
+  Class	      class
+  Collection	collection
+  File	      file
+  Fonds	      fonds
+  Item	      item
+  Other_Level	otherlevel
+  Record_Group	recordgrp
+  Series	    series
+  Sub-Fonds	  subfonds
+  Sub-Group	  subgrp
+  Sub-Series	 subseries
 
 In addition to the sets based on level of description, you can define sets based on repository codes and/or sponsors in the config/config.rb file:
 
@@ -570,7 +570,7 @@ Note: you do not use the metadataPrefix when you use the resumptionToken
 The ArchivesSpace OAI-PMH server supports persistent deletes, so harvesters will be notified of any records that were deleted since
 they last harvested.
 
-Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include <p>, <abbr>, <address>, <archref>, <bibref>, <blockquote>, <chronlist>, <corpname>, <date>, <emph>, <expan>, <extptr>, <extref>, <famname>, <function>, <genreform>, <geogname>, <lb>, <linkgrp>, <list>, <name>, <note>, <num>, <occupation>, <origination>, <persname>, <ptr>, <ref>, <repository>, <subject>, <table>, <title>, <unitdate>, <unittitle>).
+```Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include <p>, <abbr>, <address>, <archref>, <bibref>, <blockquote>, <chronlist>, <corpname>, <date>, <emph>, <expan>, <extptr>, <extref>, <famname>, <function>, <genreform>, <geogname>, <lb>, <linkgrp>, <list>, <name>, <note>, <num>, <occupation>, <origination>, <persname>, <ptr>, <ref>, <repository>, <subject>, <table>, <title>, <unitdate>, <unittitle>).```
 
 The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface. 
 
