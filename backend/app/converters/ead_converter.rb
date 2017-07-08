@@ -892,7 +892,7 @@ class EADConverter < Converter
         title = ''
         ancestor(:resource, :archival_object ) { |ao|
           display_string = ArchivalObject.produce_display_string(ao)
-
+          display_string = Nokogiri::XML::DocumentFragment.parse(display_string).inner_text
           title << display_string + ' Digital Object'
         }
       end
