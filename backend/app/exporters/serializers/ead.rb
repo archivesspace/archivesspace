@@ -503,6 +503,7 @@ class EADSerializer < ASpaceExport::Serializer
           atts['xlink:type'] = 'locator'
           atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+          atts['xlink:title'] = file_version['caption'] if file_version['caption']
           xml.daoloc(atts)
         end
       }

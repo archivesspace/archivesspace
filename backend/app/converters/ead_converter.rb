@@ -866,7 +866,8 @@ class EADConverter < Converter
           :file_uri => att('href'),
           :xlink_actuate_attribute => att('actuate'),
           :xlink_show_attribute => att('show'),
-          :publish => att('audience') != 'internal'
+          :publish => att('audience') != 'internal',
+          :caption => att( 'title' )
         }
         set ancestor(:instance), :digital_object, obj
       end
@@ -891,7 +892,7 @@ class EADConverter < Converter
         title = ''
         ancestor(:resource, :archival_object ) { |ao|
           display_string = ArchivalObject.produce_display_string(ao)
-
+          display_string = Nokogiri::XML::DocumentFragment.parse(display_string).inner_text
           title << display_string + ' Digital Object'
         }
       end
@@ -932,6 +933,7 @@ class EADConverter < Converter
            fv_attrs[:file_uri] = daoloc['xlink:href'] if daoloc['xlink:href']
            fv_attrs[:use_statement] = daoloc['xlink:role'] if daoloc['xlink:role']
            fv_attrs[:publish] = daoloc['audience'] != 'internal'
+           fv_attrs[:caption] = daoloc['xlink:title'] if daoloc['xlink:title']
 
            obj.file_versions << fv_attrs
          end
