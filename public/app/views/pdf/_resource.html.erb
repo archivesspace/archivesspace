@@ -45,7 +45,13 @@
 <% record.notes.each do |note_type, note| %>
     <% next if ['physdesc'].include?(note_type) %>
     <a id="note-<%= note_type %>"></a>
-    <h2><%= I18n.t("enumerations._note_types.#{note_type}") %></h2>
+    <h2>
+        <% if note['label'] %>
+            <%= note['label'] %>
+        <% else %>
+            <%= I18n.t("enumerations._note_types.#{note_type}") %>
+        <% end %>
+    </h2>
     <p><%== note['note_text'] %></p>
 <% end %>
 
