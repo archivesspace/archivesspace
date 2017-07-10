@@ -383,7 +383,12 @@ class EADConverter < Converter
     end
 
 
-    {
+
+    # Multiple elements within one indexentry are generally related
+    # Parse the indexentry as a fragment, and map the child elements
+    # to ASpace equivalents, according to this mapping:
+
+    field_mapping = {
       'name' => 'name',
       'persname' => 'person',
       'famname' => 'family',
@@ -393,28 +398,40 @@ class EADConverter < Converter
       'occupation' => 'occupation',
       'genreform' => 'genre_form',
       'title' => 'title',
-      'geogname' => 'geographic_name'
-    }.each do |k, v|
-      with "indexentry/#{k}" do |node|
-        make :note_index_item, {
-          :type => v,
-          :value => format_content( inner_xml )
-        } do |item|
-          set ancestor(:note_index), :items, item
-        end
-      end
-    end
+      'geogname' => 'geographic_name',
+    }
 
-    # this is very imperfect.
-    with 'indexentry/ref' do |*|
-        make :note_index_item, {
-          :type => 'name',
-          :value => inner_xml,
-          :reference_text => format_content( inner_xml ),
-          :reference =>  att('target')
-        } do |item|
-          set ancestor(:note_index), :items, item
+    with 'indexentry' do
+
+      entry_type = ''
+      entry_value = ''
+      entry_reference = ''
+      entry_ref_target = ''
+
+      indexentry = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+
+      indexentry.children.each do |child|
+
+        if field_mapping.key? child.name
+          entry_value << child.content
+          entry_type << field_mapping[child.name]
+        elsif child.name == 'ref' && child.xpath('./ptr').count == 0
+          entry_reference << child.content
+          entry_ref_target << (child['target'] || '')
+        elsif child.name == 'ref'
+          entry_reference = format_content( child.inner_html )
         end
+
+      end
+
+      make :note_index_item, {
+             :type => entry_type,
+             :value => entry_value,
+             :reference_text => entry_reference,
+             :reference => entry_ref_target
+           } do |item|
+        set ancestor(:note_index), :items, item
+      end
     end
 
 
