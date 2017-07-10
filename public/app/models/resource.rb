@@ -39,7 +39,7 @@ class Resource < Record
       '@context' => ["http://schema.org/", {'library' => 'http://purl.org/library/'}],
       '@type' => ['schema:CreativeWorkSeries', 'library:ArchiveMaterial'],
       'name' => display_string,
-      'url' => AppConfig[:public_url] + uri,
+      'url' => AppConfig[:public_proxy_url] + uri,
       'identifier' => raw['four_part_id'],
     }
 
@@ -100,7 +100,7 @@ class Resource < Record
 
     md['provider'] = {
       '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
-      'url' => AppConfig[:public_url] + raw['repository'],
+      'url' => AppConfig[:public_proxy_url] + raw['repository'],
       '@type' => 'Organization',
       'name' => json['repository']['_resolved']['name']
     }
