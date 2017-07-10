@@ -92,6 +92,23 @@ module ManipulateNode
       newnode = process_pointer(newnode)
     elsif  newnode.name.match(/^extref/)
       newnode = process_anchor(newnode)
+    elsif newnode.name == 'table'
+      newnode.name = 'table'
+      newnode['class'] = "table"
+    elsif newnode.name == 'head'
+      newnode.name = 'caption'
+    elsif newnode.name == 'thead'
+      newnode.name = 'thead'
+    elsif newnode.name == 'tbody'
+      newnode.name = 'tbody'
+    elsif newnode.name == 'row'
+      newnode.name = 'tr'
+    elsif newnode.name == 'entry'
+      if el.ancestors('thead').length > 0
+        newnode.name = 'th'
+      else
+        newnode.name = 'td'
+      end
     elsif newnode.name == 'lb'
       newnode.name = 'br'
     else
