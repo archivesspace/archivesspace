@@ -1,5 +1,7 @@
 class AssessmentAttributeDefinitions
 
+  extend JSONModel
+
   def self.apply_definitions(repo_id, json)
     # Global definitions are immutable, so drop them out here.
     definitions = json.definitions.reject {|d| d['global']}

@@ -71,8 +71,9 @@
       "scope" => {"type" => "string"},
       "sensitive_material" => {"type" => "boolean"},
 
-      # "materials" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_material) object"}},
-      # "conservation_issues" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_conservation_issue) object"}},
+      "formats" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
+      "conservation_issues" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
+      "ratings" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
     },
   },
 }

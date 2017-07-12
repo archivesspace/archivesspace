@@ -130,6 +130,20 @@ Sequel.migration do
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Heat-Sensitive Paper', :type => 'conservation_issue', :position => 30)
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Water Damage', :type => 'conservation_issue', :position => 31)
 
+    create_table(:assessment_attribute) do
+      primary_key :id
+
+      Integer :assessment_id, :null => false
+      Integer :assessment_attribute_definition_id, :null => false
+      String :value, :null => true
+    end
+
+    alter_table(:assessment_attribute) do
+      add_foreign_key([:assessment_id], :assessment, :key => :id)
+      add_foreign_key([:assessment_attribute_definition_id], :assessment_attribute_definition, :key => :id)
+    end
+
+
     # create_table(:assessment_material) do
     #   primary_key :id
     # 
