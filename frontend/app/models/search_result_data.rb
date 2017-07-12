@@ -116,6 +116,10 @@ class SearchResultData
       return ClassificationHelper.format_classification(ASUtils.json_parse(facet))
     end
 
+    if facet_group === "assessment_review_required"
+      return I18n.t("assessment._frontend.assessment_review_required.#{facet}_value")
+    end
+
     facet
   end
 
@@ -257,7 +261,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    []
+    ['assessment_surveyors', 'assessment_review_required']
   end
 
 

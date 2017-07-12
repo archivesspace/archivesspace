@@ -656,6 +656,21 @@ class CommonIndexer
 
       docs
     }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'assessment'
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
+        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
+        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
+        doc['assessment_surveyed_date'] = "#{record['record']['surveyed_date']}T00:00:00Z"
+        doc['assessment_review_required'] = record['record']['review_required']
+      end
+    }
   end
 
 

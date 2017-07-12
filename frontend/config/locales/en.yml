@@ -180,6 +180,8 @@ en:
       location_profile_depth_u_sstr: Depth
       location_profile_dimension_units_u_sstr: Dimension Units
       rights_statement_agent_uris: Rights Statement Agent
+      assessment_surveyors: Surveyed By
+      assessment_review_required: Review Required
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -1318,6 +1320,9 @@ en:
         created: Assessment Created
         updated: Assessment Updated
         deleted: Assessment Deleted
+      assessment_review_required:
+        true_value: "Yes"
+        false_value: "No"
 
   assessment_material:
     _frontend:

@@ -65,6 +65,7 @@
       "surveyed_date" => {"type" => "date", "ifmissing" => "error"},
       "surveyed_duration" => {"type" => "string"},
       "surveyed_extent" => {"type" => "string", "ifmissing" => "error"},
+      "review_required" => {"type" => "boolean"},
 
       "purpose" => {"type" => "string"},
       "scope" => {"type" => "string"},

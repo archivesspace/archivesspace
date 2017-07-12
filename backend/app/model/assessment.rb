@@ -20,6 +20,6 @@ class Assessment < Sequel::Model(:assessment)
 
   auto_generate :property => :display_string,
                 :generator => lambda { |json|
-                  return "Assessment #{json['id']} display string TODO"
+                  return "Assessment #{json['id']} FIXME"
                 }
 end

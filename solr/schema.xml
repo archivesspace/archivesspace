@@ -196,6 +196,14 @@
    <field name="used_within_repository" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="used_within_published_repository" type="string" indexed="true" stored="true" multiValued="true" />
 
+   <!-- Assessment fields -->
+   <field name="assessment_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_records" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyor_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyors" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyed_date" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
+
    <!-- Audit fields -->
    <field name="created_by" type="string" indexed="true" stored="true" multiValued="false"/>
    <field name="last_modified_by" type="string" indexed="true" stored="true" multiValued="false"/>

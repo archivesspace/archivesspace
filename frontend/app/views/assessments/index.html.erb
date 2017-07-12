@@ -1,12 +1,16 @@
 <%= setup_context(:title => I18n.t("assessment._plural")) %>
 
 <%
-   @show_multiselect_column = user_can?("delete_archival_record")
+   @show_multiselect_column = false # FIXME allow multi delete
+   @no_title = true
+
+   add_column(I18n.t("assessment.records"), proc {|record| record['assessment_records'].join('; ')}, :sortable => false)
+   add_column(I18n.t("assessment.surveyed_by"), proc {|record| record['assessment_surveyors'].join('; ')}, :sortable => false)
+   add_column(I18n.t("assessment.surveyed_date"), proc {|record| Date.parse(record['assessment_surveyed_date'])}, :sortable => true, :sort_by => "assessment_surveyed_date")
 
    add_browse_columns("assessment")
 
 %>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">

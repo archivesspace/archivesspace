@@ -61,7 +61,7 @@ class AssessmentsController < ApplicationController
   def update
     handle_crud(:instance => :assessment,
                 :model => JSONModel(:assessment),
-                :obj => fetch_resolved(params[:id]),
+                :obj => JSONModel(:assessment).find(params[:id]),
                 :on_invalid => ->(){
                   return render action: "edit"
                 },

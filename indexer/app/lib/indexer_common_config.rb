@@ -18,7 +18,8 @@ class CommonIndexerConfig
       :location_profile,
       :archival_object,
       :digital_object_component,
-      :classification_term
+      :classification_term,
+      :assessment
     ]
   end
 
@@ -56,7 +57,12 @@ class CommonIndexerConfig
       'top_container',
 
       # EAD export depends on this
-      'top_container::container_profile'
+      'top_container::container_profile',
+
+      # Assessment module depends on these
+      'related_agents',
+      'records',
+      'surveyed_by'
     ]
   end
 
