@@ -225,6 +225,7 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
+    assessment_surveyed_date: Date Survey Completed
 
   advanced_search:
     operator:
