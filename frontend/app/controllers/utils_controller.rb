@@ -1,7 +1,7 @@
 class UtilsController  < ApplicationController
 
   set_access_control  :public => [:generate_sequence, :shortcuts, :note_order],
-                      "view_repository" => [:list_properties]
+                      "view_repository" => [:list_properties, :enumerations_translations]
 
 
   def generate_sequence
@@ -40,4 +40,20 @@ class UtilsController  < ApplicationController
     render :json => prefs['note_order']
   end
 
+
+  def enumerations_translations
+    translations = {}
+
+    ['instance_instance_type', 'container_type', 'resource_resource_type',
+     'archival_record_level', 'digital_object_digital_object_type'
+    ].each do |enumeration_name|
+      translations[enumeration_name] ||= {}
+
+      JSONModel.enum_values(enumeration_name).each do |enumeration_value| 
+        translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+      end
+    end
+
+    render :json => translations
+  end
 end

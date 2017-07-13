@@ -326,7 +326,7 @@ AjaxTree.prototype.add_new_after = function(node, level) {
         params[node_uri_parts.type + '_id'] = parent_id;
     }
 
-    var url = self._new_node_form_url_for(node.data('jsonmodel_type'));
+    var url = APP_PATH + self._new_node_form_url_for(node.data('jsonmodel_type'));
 
     self._ajax_the_pane(url, params, function() {
         // set form_changed = true for this new form

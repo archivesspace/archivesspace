@@ -1,3 +1,8 @@
+<%
+  small = (defined? small) ? small : false
+  created_for_collection = (defined? created_for_collection) ? created_for_collection : nil
+%>
+
 <%= form_for @top_container, :as => "top_container", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "new_top_container"} do |f| %>
   <%= form_context :top_container, @top_container do |form| %>
     <%= hidden_field "inline", "true" %>
@@ -8,7 +13,7 @@
   <% end %>
 <% end %>
 
-<script src="<%= "#{AppConfig[:frontend_proxy_prefix]}assets/form.js" %>"></script>
+<%= javascript_include_tag("form") %>
 <script>
   $(function() {
         $(".linker:not(.initialised)", $("#new_top_container")).linker();

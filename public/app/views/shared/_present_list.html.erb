@@ -8,7 +8,7 @@
 	<%= item['inherit'].html_safe %>
      <% end %>
      <% unless item['uri'].blank? %>
-     <a href="<%= item['uri'] %>">
+     <a href="<%= app_prefix(item['uri']) %>">
      <% end %>
      <%= item['title'] %>
      <% unless item['uri'].blank? %>
@@ -23,7 +23,7 @@
     <% list.each do |item| %>
      <li>
        <% if list_clss == 'subjects_list' && item['jsonmodel_type'].start_with?('agent_') %>
-         <a href="<%= item['uri'] %>">
+         <a href="<%= app_prefix(item['uri']) %>">
            <%= item['title'] %>
          </a>
          <% if item['_relator'] %>
@@ -33,7 +33,7 @@
        <% else %>
        <% if item.kind_of? Hash %>
         <% unless item['uri'].blank? %>
-         <a href="<%= item['uri'] %>">
+         <a href="<%= app_prefix(item['uri']) %>">
         <% end %>
         <%= item['title'] %>
         <% unless item['uri'].blank? %>

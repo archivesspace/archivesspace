@@ -171,7 +171,7 @@ $(function() {
           if (resourceUri.length) {
             var id = /\d+$/.exec(resourceUri)[0]
             $.ajax({
-              url: "/resources/" + id + "/models_in_graph",
+              url: APP_PATH + "/resources/" + id + "/models_in_graph",
               success: function(typeList) {
                 var oldVal = $selectRecordType.val();
                 $selectRecordType.empty();
@@ -197,7 +197,7 @@ $(function() {
         $selectRecordType.change(function() {
           var recordType = $(this).val();
           $.ajax({
-            url: "/schema/" + recordType + "/properties?type=string&editable=true",
+            url: APP_PATH + "/schema/" + recordType + "/properties?type=string&editable=true",
             success : function(propertyList) {
               $selectProperty.empty();
 

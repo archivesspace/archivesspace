@@ -1,3 +1,34 @@
+var ENUMERATION_TRANSLATIONS = undefined;
+
+function EnumerationTranslations() {
+    this.load();
+};
+
+EnumerationTranslations.prototype.load = function() {
+    var self = this;
+
+    if (typeof ENUMERATION_TRANSLATIONS == 'undefined') {
+        $.ajax({
+            url: APP_PATH + 'enumerations_translations',
+            async: false,
+            cache: true,
+            dataType: 'json',
+            success: function(json) {
+                ENUMERATION_TRANSLATIONS = json;
+            }
+        });
+    }
+};
+
+EnumerationTranslations.prototype.t = function(enumeration, enumeration_value) {
+    if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
+        if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
+            return ENUMERATION_TRANSLATIONS[enumeration][enumeration_value];
+        }
+    }
+    return null;
+};
+
 function BaseRenderer() {
     this.endpointMarkerTemplate = $('<tr class="end-marker" />');
 
@@ -11,6 +42,8 @@ function BaseRenderer() {
                           '  <td class="drag-handle"></td>' +
                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                           '</tr>');
+
+    this.enumerationTranslations = new EnumerationTranslations();
 }
 
 BaseRenderer.prototype.endpoint_marker = function () {
@@ -27,12 +60,7 @@ BaseRenderer.prototype.get_node_template = function () {
 };
 
 BaseRenderer.prototype.i18n = function (enumeration, enumeration_value) {
-    if (EnumerationTranlations.hasOwnProperty(enumeration)) {
-      if (EnumerationTranlations[enumeration].hasOwnProperty(enumeration_value)) {
-          return EnumerationTranlations[enumeration][enumeration_value];
-      }
-    }
-    return enumeration_value;
+    return this.enumerationTranslations.t(enumeration, enumeration_value);
 };
 
 
@@ -256,17 +284,3 @@ ClassificationRenderer.prototype.add_node_columns = function (row, node) {
 ClassificationRenderer.prototype.build_title = function(node) {
     return [node.identifier, node.title].join('. ');
 };
-
-
-
-var EnumerationTranlations = {};
-<% ['instance_instance_type', 'container_type', 'resource_resource_type',
-    'archival_record_level', 'digital_object_digital_object_type'
-   ].each do |enumeration_name|
-  translations = {}
-  JSONModel.enum_values(enumeration_name).each do |enumeration_value|
-    translations[enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
-  end
-%>
-  EnumerationTranlations['<%= enumeration_name %>'] = <%= ASUtils.to_json(translations) %>;
-<% end %>

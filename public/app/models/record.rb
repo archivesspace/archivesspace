@@ -3,6 +3,7 @@ class Record
   include ManipulateNode
   include JsonHelper
   include RecordHelper
+  include PrefixHelper
 
   attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
               :notes, :dates, :external_documents, :resolved_repository,
@@ -119,7 +120,7 @@ class Record
         if k == 'content' || k == 'items'
           ASUtils.wrap(v).each do |s|
             if s.is_a? String
-              s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{base_uri}/resolve/\\1'>\\2</a>")
+              s.gsub!(/<ref .*?target="(.+?)".*?>(.+?)<\/ref>/m, "<a href='#{app_prefix(base_uri)}/resolve/\\1'>\\2</a>")
             else
               rewrite_refs(s, base_uri)
             end
