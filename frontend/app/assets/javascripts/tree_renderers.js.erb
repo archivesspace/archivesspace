@@ -9,7 +9,7 @@ EnumerationTranslations.prototype.load = function() {
 
     if (typeof ENUMERATION_TRANSLATIONS == 'undefined') {
         $.ajax({
-            url: APP_PATH + 'enumerations_translations',
+            url: AS.app_prefix('enumerations_translations'),
             async: false,
             cache: true,
             dataType: 'json',

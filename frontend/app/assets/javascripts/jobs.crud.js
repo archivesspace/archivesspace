@@ -171,7 +171,7 @@ $(function() {
           if (resourceUri.length) {
             var id = /\d+$/.exec(resourceUri)[0]
             $.ajax({
-              url: APP_PATH + "/resources/" + id + "/models_in_graph",
+              url: AS.app_prefix("/resources/" + id + "/models_in_graph"),
               success: function(typeList) {
                 var oldVal = $selectRecordType.val();
                 $selectRecordType.empty();
@@ -197,7 +197,7 @@ $(function() {
         $selectRecordType.change(function() {
           var recordType = $(this).val();
           $.ajax({
-            url: APP_PATH + "/schema/" + recordType + "/properties?type=string&editable=true",
+            url: AS.app_prefix("/schema/" + recordType + "/properties?type=string&editable=true"),
             success : function(propertyList) {
               $selectProperty.empty();
 
@@ -336,7 +336,7 @@ $(function() {
         $progressBar.addClass("bar-success");
         $("#successMessage").show();
 
-        location.href = APP_PATH + "resolve/readonly?uri="+uri_to_resolve;
+        location.href = AS.app_prefix("resolve/readonly?uri="+uri_to_resolve);
       },
       error: function(xhr) {
         handleError(xhr.responseText);

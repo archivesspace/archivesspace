@@ -1,7 +1,7 @@
 $(function () {
     var username_typeahead = AS.delayedTypeAhead(function (query, callback) {
         $.ajax({
-            url: APP_PATH + "users/complete",
+            url: AS.app_prefix("users/complete"),
             data: {query: query},
             type: "GET",
             success: function(usernames) {

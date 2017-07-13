@@ -277,7 +277,7 @@ $(function() {
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
 
         $.ajax({
-          url: APP_PATH+"notes/note_order",
+          url: AS.app_prefix("notes/note_order"),
           type: "GET",
           success: function(note_order) {
             var $listed = $target_subrecord_list.children().detach()

@@ -31,7 +31,7 @@ BulkContainerSearch.prototype.perform_search = function(data) {
   self.$results_container.html(AS.renderTemplate("template_bulk_operation_loading"));
 
   $.ajax({
-    url:APP_PATH + "top_containers/bulk_operations/search",
+    url: AS.app_prefix("top_containers/bulk_operations/search"),
     data: data,
     type: "post",
     success: function(html) {
@@ -190,7 +190,7 @@ BulkActionIlsHoldingUpdate.prototype.perform_update = function($form, $modal) {
   var self = this;
 
   $.ajax({
-    url:APP_PATH + "top_containers/bulk_operations/update",
+    url:AS.app_prefix("top_containers/bulk_operations/update"),
     data: $form.serializeArray(),
     type: "post",
     success: function(html) {
@@ -256,7 +256,7 @@ BulkActionContainerProfileUpdate.prototype.perform_update = function($form, $mod
   var self = this;
 
   $.ajax({
-    url:APP_PATH + "top_containers/bulk_operations/update",
+    url: AS.app_prefix("top_containers/bulk_operations/update"),
     data: $form.serializeArray(),
     type: "post",
     success: function(html) {
@@ -322,7 +322,7 @@ BulkActionLocationUpdate.prototype.perform_update = function($form, $modal) {
   var self = this;
 
   $.ajax({
-    url:APP_PATH + "top_containers/bulk_operations/update",
+    url: AS.app_prefix("top_containers/bulk_operations/update"),
     data: $form.serializeArray(),
     type: "post",
     success: function(html) {

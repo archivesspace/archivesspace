@@ -116,7 +116,7 @@ function toggle_subgroups(event) {
             var root_uri = $result.data('uri');
             var should_link_to_record = true;
 
-            var tree = new LargeTree(new TreeDataSource(APP_PATH.replace(/\/$/, '') + root_uri + '/tree'),
+            var tree = new LargeTree(new TreeDataSource(AS.app_prefix(root_uri + '/tree')),
                 $tree,
                 root_uri,
                 true,

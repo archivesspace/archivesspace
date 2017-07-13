@@ -832,7 +832,7 @@ $(function() {
 
   $(document).bind('keydown', 'shift+/', function() {
     if (!$('#ASModal').length) {
-      AS.openAjaxModal(APP_PATH + "shortcuts");
+      AS.openAjaxModal(AS.app_prefix("shortcuts"));
     }
 
   });
@@ -910,3 +910,7 @@ $(function() {
   });
 
 });
+
+AS.app_prefix = function(path) {
+    return APP_PATH + path.replace(/^\//, '');
+};

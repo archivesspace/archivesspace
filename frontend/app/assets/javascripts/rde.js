@@ -1285,7 +1285,7 @@ $(function() {
     var path = uri.replace(/^\/repositories\/[0-9]+\//, '');
 
     $.ajax({
-      url: APP_PATH+path+"/rde",
+      url: AS.app_prefix(path+"/rde"),
       success: function(data) {
         $(".rde-wrapper", $modal).replaceWith("<div class='modal-body'></div>");
         $(".modal-body", $modal).replaceWith(data);

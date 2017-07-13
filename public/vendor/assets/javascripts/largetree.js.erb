@@ -27,7 +27,7 @@
     }
 
     TreeIds.backend_uri_to_frontend_uri = function (uri) {
-        return APP_PATH + uri.replace(/\/repositories\/[0-9]+\//, "")
+        return AS.app_prefix(uri.replace(/\/repositories\/[0-9]+\//, ""))
     }
 
     TreeIds.parse_tree_id = function (tree_id) {
