@@ -1,34 +1,3 @@
-var ENUMERATION_TRANSLATIONS = undefined;
-
-function EnumerationTranslations() {
-    this.load();
-};
-
-EnumerationTranslations.prototype.load = function() {
-    var self = this;
-
-    if (typeof ENUMERATION_TRANSLATIONS == 'undefined') {
-        $.ajax({
-            url: AS.app_prefix('enumerations_translations'),
-            async: false,
-            cache: true,
-            dataType: 'json',
-            success: function(json) {
-                ENUMERATION_TRANSLATIONS = json;
-            }
-        });
-    }
-};
-
-EnumerationTranslations.prototype.t = function(enumeration, enumeration_value) {
-    if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
-        if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
-            return ENUMERATION_TRANSLATIONS[enumeration][enumeration_value];
-        }
-    }
-    return null;
-};
-
 function BaseRenderer() {
     this.endpointMarkerTemplate = $('<tr class="end-marker" />');
 
@@ -42,8 +11,6 @@ function BaseRenderer() {
                           '  <td class="drag-handle"></td>' +
                           '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
                           '</tr>');
-
-    this.enumerationTranslations = new EnumerationTranslations();
 }
 
 BaseRenderer.prototype.endpoint_marker = function () {
@@ -60,7 +27,7 @@ BaseRenderer.prototype.get_node_template = function () {
 };
 
 BaseRenderer.prototype.i18n = function (enumeration, enumeration_value) {
-    return this.enumerationTranslations.t(enumeration, enumeration_value);
+    return EnumerationTranslations.t(enumeration, enumeration_value);
 };
 
 

@@ -219,7 +219,6 @@ ArchivesSpace::Application.routes.draw do
 
     match 'schema/:resource_type/properties' => 'utils#list_properties', :via => [:get]
 
-    match 'enumerations_translations' => 'utils#enumerations_translations', :via => [:get]
     match 'shortcuts' => 'utils#shortcuts', :via => [:get]
     match 'notes/note_order' => 'utils#note_order', :via =>[:get]
 
