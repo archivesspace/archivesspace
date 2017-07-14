@@ -6,7 +6,7 @@ class AgentPerson < Record
       '@type' => 'Person',
       '@id' => raw['authority_id'],
       'name' => json['display_name']['sort_name'],
-      'url' => AppConfig[:public_proxy_url] + uri,
+      'url' => AppConfig[:public_url] + uri,
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
     }
 
@@ -27,7 +27,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_url] + res['uri']
 
       knows = {}
 
@@ -49,7 +49,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_url] + res['uri']
 
       out
     end
@@ -59,7 +59,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_url] + res['uri']
 
       out
     end
@@ -70,7 +70,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_url] + res['uri']
 
       out
     end

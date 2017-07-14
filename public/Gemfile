@@ -6,8 +6,6 @@ gem 'rails', '5.0.1'
 # Use jdbcsqlite3 as the database for Active Record
 # gem 'activerecord-jdbcsqlite3-adapter'
 
-gem 'sprockets-rails', '2.3.3'
-
 gem "mizuno", "0.6.11"
 
 # use bootstrap's sass

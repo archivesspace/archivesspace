@@ -6,7 +6,7 @@ class AgentCorporateEntity < Record
       '@type' => 'Organization',
       '@id' => raw['authority_id'],
       'name' => json['display_name']['sort_name'],
-      'url' => AppConfig[:public_proxy_url] + uri,
+      'url' => AppConfig[:public_url] + uri,
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
     }
 

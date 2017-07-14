@@ -35,9 +35,4 @@ ArchivesSpace::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-
-  # If we're running with a prefix, write our on-the-fly compiled assets to the
-  # right spot.  NOTE: Don't enable this for production, as it's handled
-  # differently there due to precompilation.
-  config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
 end

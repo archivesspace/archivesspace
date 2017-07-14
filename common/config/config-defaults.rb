@@ -163,7 +163,9 @@ AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 # Don't override _prefix or _proxy_prefix unless you know what you're doing
+AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
+AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }
 
 # Setting any of the four keys below to false will prevent the associated
