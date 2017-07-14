@@ -88,7 +88,7 @@ if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
 end
 
 
-if AppConfig[:frontend_proxy_prefix] != "/"
+if AppConfig[:frontend_prefix] != "/"
   require 'action_dispatch/middleware/static'
 
   # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
@@ -96,7 +96,7 @@ if AppConfig[:frontend_proxy_prefix] != "/"
     class FileHandler
       alias :match_orig :match?
       def match?(path)
-        prefix = AppConfig[:frontend_proxy_prefix]
+        prefix = AppConfig[:frontend_prefix]
         modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
         match_orig(modified_path)
       end
