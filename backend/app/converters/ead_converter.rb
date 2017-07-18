@@ -401,7 +401,7 @@ class EADConverter < Converter
       'geogname' => 'geographic_name',
     }
 
-    with 'indexentry' do
+    with 'indexentry' do |*|
 
       entry_type = ''
       entry_value = ''
