@@ -76,12 +76,12 @@
 
 <ul>
   <li>Java 1.7 or 1.8.</li>
-  <li>At least 1024 MB RAM allocated to the application</li>
+  <li>At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.</li>
   <li>A <a href="https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers">supported browser</a></li>
 </ul>
 
-<p>ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, Windows 8, Windows Server 2008 &amp; 2012 ).</p>
+<p>ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.</p>
 
 <p>MySQL is not required, but is <strong>strongly</strong> recommended for production use.</p>
 
@@ -566,65 +566,99 @@ appropriate and specify the <code>encryption</code> option:</p>
 
 <h1 id="configuring-oai-pmh">Configuring OAI-PMH</h1>
 
-<p>ArchivesSpace provides an OAI-PMH server to allow others to harvest
-your records.  You can access this from your browser by hitting:</p>
+<p>A starter OAI-PMH interface for ArchivesSpace allowing other systems to harvest your records is included in version 2.1.0. Additional features and functionality will be added in later releases.</p>
 
-<p>http://localhost:8082?verb=Identify</p>
+<p>Information on configuring the OAI-PMH is available at https://github.com/archivesspace/archivesspace#configuring-oai-pmh. By default, it runs on port 8082. A sample request page is available at http://localhost:8082/sample. (To access it, make sure that you have set the AppConfig[:oai_proxy_url] appropriately.)</p>
 
-<h2 id="supported-metadata-formats">Supported metadata formats</h2>
+<p>The system provides responses to a number of standard OAI-PMH requests, including GetRecord, Identify, ListIdentifiers, ListMetadataFormats, ListRecords, and ListSets. Unpublished and suppressed records and elements are not included in any of the OAI-PMH responses.</p>
 
-<p>The following metadata formats are supported:</p>
+<p>Some responses require the URL parameter metadataPrefix. There are five different metadata responses available:</p>
 
-<ul>
-  <li>
-    <p>oai_dc – Archival Objects expressed in Dublin Core</p>
-  </li>
-  <li>
-    <p>oai_dcterms – Archival Objects expressed in DCMI Metadata Terms format</p>
-  </li>
-  <li>
-    <p>oai_ead – Resources expressed in EAD</p>
-  </li>
-  <li>
-    <p>oai_mods – Archival Objects expressed in MODS</p>
-  </li>
-  <li>
-    <p>oai_marc – Archival Objects expressed in MARCXML</p>
-  </li>
-</ul>
+<p>EAD	                  oai_ead (resources in EAD)
+  Dublin Core	          oai_dc (archival objects and resources in Dublin Core)
+  extended DCMI Terms	  oai_dcterms (archival objects and resources in DCMI Metadata Terms format)
+  MARC	                oai_marc (archival objects and resources in MARC)
+  MODS	                oai_mods (archival objects and resources in MODS)</p>
 
-<p>You can query the list of supported metadata formats using OAI-PMH
-itself by accessing:</p>
+<p>The EAD response for resources and MARC response for resources and archival objects use the mappings from the built-in exporter for resources. The DC, DCMI terms, and MODS responses for resources and archival objects use mappings suggested by the community.</p>
 
-<p>http://localhost:8082?verb=ListMetadataFormats</p>
+<p>Here are some example URLs and other information for these requests:</p>
 
-<h2 id="oai-sets">OAI sets</h2>
+<p><strong>GetRecord</strong> – needs a record identifier and metadataPrefix</p>
 
-<p>Harvesting the ArchivesSpace OAI-PMH server without specifying a set
-will yield all published records across all repositories.  However,
-you can configure OAI sets to limit harvests by repository and/or
-finding aid sponsor.  See the <code>AppConfig[:oai_sets]</code> option in your
-<code>config.rb</code> file for an example of how to do this (or view the default
-configuration online here:
-https://github.com/archivesspace/archivesspace/blob/master/common/config/config-defaults.rb).</p>
+  	http://localhost:8082/oai?verb=GetRecord&amp;identifier=oai:archivesspace//repositories/2/resources/138&amp;metadataPrefix=oai_ead
 
-<p>The ArchivesSpace also provides some predefined OAI sets based on the
-Level Of Description field of records.  This allows harvesters to
-target (for example) only Series level records, or only files.  You
-can see the list of available sets by accessing:</p>
+<p><strong>Identify</strong></p>
 
-<p>http://localhost:8082?verb=ListSets</p>
+  	http://localhost:8082/oai?verb=Identify
 
-<h2 id="deletes">Deletes</h2>
+<p><strong>ListIdentifiers</strong> – needs a metadataPrefix</p>
 
-<p>The ArchivesSpace OAI-PMH server supports persistent deletes, so
-harvesters will be notified of any records that were deleted since
+  	http://localhost:8082/oai?verb=ListIdentifiers&amp;metadataPrefix=oai_dc
+
+<p><strong>ListMetadataFormats</strong></p>
+
+  	http://localhost:8082/oai?verb=ListMetadataFormats
+
+<p><strong>ListRecords</strong> – needs a metadataPrefix</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8082/o</span><span class='rubyid_ai? fid id'>ai?</span><span class='rubyid_verb identifier id'>verb</span><span class='assign token'>=</span><span class='rubyid_ListRecords constant id'>ListRecords</span><span class='bitand op'>&amp;</span><span class='rubyid_metadataPrefix identifier id'>metadataPrefix</span><span class='assign token'>=</span><span class='rubyid_oai_dcterms identifier id'>oai_dcterms</span>
+</code></pre>
+
+<p><strong>ListSets</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8082/o</span><span class='rubyid_ai? fid id'>ai?</span><span class='rubyid_verb identifier id'>verb</span><span class='assign token'>=</span><span class='rubyid_ListSets constant id'>ListSets</span>
+</code></pre>
+
+<p>Harvesting the ArchivesSpace OAI-PMH server without specifying a set will yield all published records across all repositories.
+Predefined sets can be accessed using the set parameter. In order to retrieve records from sets include a set parameter in the URL and the DC metadataPrefix, such as “&amp;set=collection&amp;metadataPrefix=oai_dc”. These sets can be from configured sets as shown above or from the following levels of description:</p>
+
+<p>Class	      class
+  Collection	collection
+  File	      file
+  Fonds	      fonds
+  Item	      item
+  Other_Level	otherlevel
+  Record_Group	recordgrp
+  Series	    series
+  Sub-Fonds	  subfonds
+  Sub-Group	  subgrp
+  Sub-Series	 subseries</p>
+
+<p>In addition to the sets based on level of description, you can define sets based on repository codes and/or sponsors in the config/config.rb file:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:oai_sets</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&#39;repository_set&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+  <span class='symbol val'>:repo_codes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;hello626&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;A set of one or more repositories&quot;</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span><span class='comma token'>,</span>
+</code></pre>
+
+  	‘sponsor_set’ =&gt; {
+<pre class="code ruby"><code class="ruby">  <span class='symbol val'>:sponsors</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;The_Sponsor&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;A set of one or more sponsors&quot;</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span><span class='comma token'>,</span>
+<span class='rbrace token'>}</span>
+</code></pre>
+
+<p>The interface implements resumption tokens for pagination of results. As an example, the following URL format should be used to page through the results from a ListRecords request:</p>
+
+  	http://localhost:8082/oai?verb=ListRecords&amp;metadataPrefix=oai_ead
+
+<p>using the resumption token:</p>
+
+  	http://localhost:8082/oai?verb=ListRecords&amp;resumptionToken=eyJtZXRhZGF0YV9wcmVmaXgiOiJvYWlfZWFkIiwiZnJvbSI6IjE5NzAtMDEtMDEgMDA6MDA6MDAgVVRDIiwidW50aWwiOiIyMDE3LTA3LTA2IDE3OjEwOjQxIFVUQyIsInN0YXRlIjoicHJvZHVjaW5nX3JlY29yZHMiLCJsYXN0X2RlbGV0ZV9pZCI6MCwicmVtYWluaW5nX3R5cGVzIjp7IlJlc291cmNlIjoxfSwiaXNzdWVfdGltZSI6MTQ5OTM2MTA0Mjc0OX0=
+
+<p>Note: you do not use the metadataPrefix when you use the resumptionToken</p>
+
+<p>The ArchivesSpace OAI-PMH server supports persistent deletes, so harvesters will be notified of any records that were deleted since
 they last harvested.</p>
 
-<h2 id="configuring-oai-sets">Configuring OAI sets</h2>
+<p><code>Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include &lt;p&gt;, &lt;abbr&gt;, &lt;address&gt;, &lt;archref&gt;, &lt;bibref&gt;, &lt;blockquote&gt;, &lt;chronlist&gt;, &lt;corpname&gt;, &lt;date&gt;, &lt;emph&gt;, &lt;expan&gt;, &lt;extptr&gt;, &lt;extref&gt;, &lt;famname&gt;, &lt;function&gt;, &lt;genreform&gt;, &lt;geogname&gt;, &lt;lb&gt;, &lt;linkgrp&gt;, &lt;list&gt;, &lt;name&gt;, &lt;note&gt;, &lt;num&gt;, &lt;occupation&gt;, &lt;origination&gt;, &lt;persname&gt;, &lt;ptr&gt;, &lt;ref&gt;, &lt;repository&gt;, &lt;subject&gt;, &lt;table&gt;, &lt;title&gt;, &lt;unitdate&gt;, &lt;unittitle&gt;).</code></p>
 
-<p>In addition to the standard OAI sets, you can define your own sets
-based on a combination of repository and finding aid sponsor.</p>
+<p>The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface.</p>
+
+<p>ARKs have not yet been implemented, pending more discussion of how they should be formulated.</p>
 
 <h1 id="plug-ins-and-local-customizations">Plug-ins and local customizations</h1>
 
@@ -678,7 +712,7 @@ LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.0_RC2 Documentation Generated on Thu Jul  6 17:51:48 2017 by
+  ArchivesSpace Version v2.1.0 Documentation Generated on Tue Jul 18 09:45:53 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
