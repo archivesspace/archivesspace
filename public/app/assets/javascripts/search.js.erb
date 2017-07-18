@@ -142,15 +142,17 @@ $(function() {
         event.preventDefault();
 
         var $btn = $(this);
-        var $refine = $btn.closest('.searchstatement').find('.refinesearch');
+        var $refine = $btn.closest('.searchstatement').find('#refineSearchPanel');
         if ($refine.is(':visible')) {
             $refine.css('display', 'none');
             $refine.attr('aria-hidden', 'true');
             $btn.removeClass('active');
+            $btn.attr('aria-expanded', 'false');
         } else {
             $refine.css('display', 'block');
             $refine.attr('aria-hidden', 'false');
             $btn.addClass('active');
+            $btn.attr('aria-expanded', 'true');
         }
     });
 });

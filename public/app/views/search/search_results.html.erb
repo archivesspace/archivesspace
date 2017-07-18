@@ -10,12 +10,12 @@
     <div class="searchstatement">
       <div class="btn btn-group pull-right">
         <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-default" %>
-        <button class="btn btn-sm btn-default" id="toggleRefineSearch"><%= I18n.t('actions.refine_search') %></button>
+        <button class="btn btn-sm btn-default" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
       </div>
 
       <%= @search[:search_statement].html_safe %>
 
-      <div class="container refinesearch" aria-hidden="true" style="display:none;">
+      <div id="refineSearchPanel" class="container refinesearch" aria-hidden="true" style="display:none;">
         <%= render partial: 'shared/search', locals: {:search_url => @base_search,
                                                       :title => t('archive._plural'),
                                                       :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],

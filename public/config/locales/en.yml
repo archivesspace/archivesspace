@@ -2029,3 +2029,8 @@ en:
   readmore:
     see_more: See more
     see_less: See less
+
+  skipnav:
+    main_content: Skip to main content
+    sidebar: Skip to sidebar
+    search: Skip to search
