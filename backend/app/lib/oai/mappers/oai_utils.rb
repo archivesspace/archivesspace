@@ -10,11 +10,11 @@ class OAIUtils
       if note['publish']
         if note['jsonmodel_type'] == 'note_chronology'
           [
-            note['title'],
+            strip_mixed_content(note['title']),
             ASUtils.wrap(note['items']).map{|item|
               [
                 item['event_date'],
-                ASUtils.wrap(item['events']).join(', ')
+                ASUtils.wrap(item['events']).map{|e| strip_mixed_content(e)}.join(', ')
               ].compact.join(', ')
             }.join('; ')
           ].compact.join('. ')
@@ -23,15 +23,15 @@ class OAIUtils
             note['title'],
             ASUtils.wrap(note['items']).map{|item|
               [
-                item['label'],
-                item['value']
+                strip_mixed_content(item['label']),
+                strip_mixed_content(item['value'])
               ].compact.join(': ')
             }.join('; ')
           ].compact.join('. ')
         elsif note['jsonmodel_type'] == 'note_orderedlist'
           [
-            note['title'],
-            ASUtils.wrap(note['items']).join('; ')
+            strip_mixed_content(note['title']),
+            ASUtils.wrap(note['items']).map{|i| strip_mixed_content(i)}.join('; ')
           ].compact.join('. ')
         elsif note.has_key?('content')
           Array(note['content']).map {|content|

@@ -340,6 +340,61 @@
                     }
                 ],
                 "type": "accruals"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "414ff8ae987bb7ba4cf2c27ceb0055cf",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "items": [
+                            {
+                                "event_date": "2011-11-10",
+                                "events": [
+                                    "Event X",
+                                    "Event Y"
+                                ]
+                            },
+                            {
+                                "events": [
+                                    "Event A",
+                                    "Event B",
+                                    "Event C"
+                                ]
+                            }
+                        ],
+                        "jsonmodel_type": "note_chronology",
+                        "publish": true,
+                        "title": "I'm a chronology title"
+                    },
+                    {
+                        "items": [
+                            {
+                                "label": "Label X",
+                                "value": "Value X"
+                            },
+                            {
+                                "label": "Label Y",
+                                "value": "Value Y"
+                            }
+                        ],
+                        "jsonmodel_type": "note_definedlist",
+                        "publish": true,
+                        "title": "I'm a defined list"
+                    },
+                    {
+                        "enumeration": "arabic",
+                        "items": [
+                            "Item X",
+                            "Item Y",
+                            "Item Z"
+                        ],
+                        "jsonmodel_type": "note_orderedlist",
+                        "publish": true,
+                        "title": "I'm an ordered list"
+                    }
+                ],
+                "type": "odd"
             }
         ],
         "publish": true,
