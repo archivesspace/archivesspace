@@ -45,7 +45,7 @@ class OAIMODSMapper
           if date['begin'] || date['end']
             xml.originInfo {
               xml.dateCreated({'encoding' => 'iso8601'},
-                              [date['begin'], date['end']].compact.join(' -- '))
+                              [date['begin'], date['end']].compact.join('/'))
             }
           elsif date['expression']
             xml.originInfo { xml.dateCreated(date['expression']) }

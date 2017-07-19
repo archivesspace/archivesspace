@@ -1,9 +1,10 @@
 {
     "dates": [
         {
-            "begin": "2017-06-01",
+            "begin": "2012-06-01",
+            "end": "2016-06-01",
             "calendar": "gregorian",
-            "date_type": "single",
+            "date_type": "inclusive",
             "era": "ce",
             "jsonmodel_type": "date",
             "label": "creation"
