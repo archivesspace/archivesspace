@@ -163,6 +163,13 @@ class OAIDCTermsMapper
           end
         end
 
+        # Subjects continued - Agents as subjects
+        Array(jsonmodel['linked_agents']).each do |link|
+          if link['role'] == 'subject'
+            xml['dcterms'].subject(link['_resolved']['title'])
+          end
+        end
+
         # Physical facet note
         Array(jsonmodel['notes'])
           .select {|note| ['physfacet'].include?(note['type'])}
