@@ -348,7 +348,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       if set_definition[:sponsors]
         sponsor_hashes = set_definition[:sponsors].map {|sponsor| Digest::SHA1.hexdigest(sponsor)}
 
-        if model.is_a?(Resource)
+        if model == Resource
           dataset = dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
         else
           dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
