@@ -31,6 +31,8 @@ class OAIDCMapper
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
             xml['dc'].creator(link['_resolved']['title'])
           end
@@ -38,6 +40,8 @@ class OAIDCMapper
 
         # Contributor -- agents linked with role 'creator' and relator of 'contributor'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['ctb'].include?(link['relator'])
             xml['dc'].contributor(link['_resolved']['title'])
           end
@@ -45,6 +49,8 @@ class OAIDCMapper
 
         # Publisher -- agents linked with role 'creator' and relator of 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['pbl'].include?(link['relator'])
             xml['dc'].publisher(link['_resolved']['title'])
           end
@@ -125,6 +131,8 @@ class OAIDCMapper
 
         # Subjects continued - Agents as subjects
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'subject'
             xml['dc'].subject(link['_resolved']['title'])
           end

@@ -31,6 +31,8 @@ class OAIDCTermsMapper
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
             xml['dcterms'].creator(link['_resolved']['title'])
           end
@@ -38,6 +40,8 @@ class OAIDCTermsMapper
 
         # Contributor -- agents linked with role 'creator' and relator of 'contributor'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['ctb'].include?(link['relator'])
             xml['dcterms'].contributor(link['_resolved']['title'])
           end
@@ -45,6 +49,8 @@ class OAIDCTermsMapper
 
         # Publisher -- agents linked with role 'creator' and relator of 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['pbl'].include?(link['relator'])
             xml['dcterms'].publisher(link['_resolved']['title'])
           end
@@ -165,6 +171,8 @@ class OAIDCTermsMapper
 
         # Subjects continued - Agents as subjects
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'subject'
             xml['dcterms'].subject(link['_resolved']['title'])
           end

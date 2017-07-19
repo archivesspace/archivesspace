@@ -52,6 +52,12 @@
             "ref": "/agents/people/import_3",
             "role": "subject",
             "terms": []
+        },
+        {
+            "ref": "/agents/people/import_4",
+            "relator": "cre",
+            "role": "creator",
+            "title": "UNPUBLISHED Creator Agent"
         }
     ],
     "notes": [

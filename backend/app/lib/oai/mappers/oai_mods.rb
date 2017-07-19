@@ -28,6 +28,8 @@ class OAIMODSMapper
 
         # Creator -> name/namePart
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator'
             xml.name { xml.namePart(link['_resolved']['title']) }
           end
@@ -144,6 +146,7 @@ class OAIMODSMapper
         # Agents as subject
         Array(jsonmodel['linked_agents']).each do |link|
           next unless link['role'] == 'subject'
+          next unless link['_resolved']['publish']
 
           case link['_resolved']['agent_type']
           when 'agent_person', 'agent_family'
