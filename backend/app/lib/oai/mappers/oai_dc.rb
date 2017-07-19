@@ -19,7 +19,7 @@ class OAIDCMapper
 
         # Identifier (own component ID + IDs of parents)
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
-                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.uniq.join(".")
                             else
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
