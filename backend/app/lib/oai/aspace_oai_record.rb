@@ -32,7 +32,7 @@ class ArchivesSpaceOAIRecord
 
   def to_oai_marc
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
-      marc = ASpaceExport.model(:marc21).from_archival_object(@jsonmodel_record)
+      marc = ASpaceExport.model(:marc21).from_resource(@jsonmodel_record)
       remove_xml_declaration(ASpaceExport::serialize(marc))
     end
   end
