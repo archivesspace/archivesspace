@@ -51,7 +51,7 @@ class OAIDCMapper
         end
 
         # Title -- display string
-        xml['dc'].title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        xml['dc'].title(OAIUtils.display_string(jsonmodel))
 
         # Dates
         Array(jsonmodel['dates']).each do |date|

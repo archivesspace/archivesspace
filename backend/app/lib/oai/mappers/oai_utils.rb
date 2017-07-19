@@ -56,4 +56,9 @@ class OAIUtils
 
     Nokogiri::HTML(s).text
   end
+
+
+  def self.display_string(json)
+    self.strip_mixed_content(json['display_string'] || json['title'])
+  end
 end

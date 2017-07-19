@@ -51,7 +51,7 @@ class OAIDCTermsMapper
         end
 
         # Title -- display string
-        xml['dcterms'].title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        xml['dcterms'].title(OAIUtils.display_string(jsonmodel))
 
         # Finding Aid Title
         if jsonmodel['jsonmodel_type'] == 'archival_object'

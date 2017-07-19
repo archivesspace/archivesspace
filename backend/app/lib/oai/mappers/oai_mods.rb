@@ -35,7 +35,7 @@ class OAIMODSMapper
 
         # Title -> titleInfo/title
         xml.titleinfo {
-          xml.title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+          xml.title(OAIUtils.display_string(jsonmodel))
         }
 
         # Dates -> originInfo/dateCreated
