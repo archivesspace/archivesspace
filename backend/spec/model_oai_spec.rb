@@ -30,9 +30,9 @@ describe 'OAI handler' do
 
     # Create some test Resource records -- fully filled out with agents,
     # subjects and notes.
-    test_record_count = 5
+    @test_record_count = 5
 
-    test_resources = test_record_count.times.map do |i|
+    test_resources = @test_record_count.times.map do |i|
       resource = test_resource_template.clone
       resource['uri'] = "/repositories/2/resources/import_#{i}"
       resource['title'] = "Test resource #{i}"
@@ -45,7 +45,7 @@ describe 'OAI handler' do
     end
 
     # Create some Archival Object records -- same deal.
-    test_archival_objects = test_record_count.times.map do |i|
+    test_archival_objects = @test_record_count.times.map do |i|
       archival_object = test_archival_object_template.clone
       archival_object['uri'] = "/repositories/2/archival_objects/import_#{SecureRandom.hex}"
       archival_object['component_id'] = "ArchivalObject OAI test #{i}"
@@ -328,6 +328,53 @@ describe 'OAI handler' do
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
       response.records.all? {|record| record.sequel_record.repo_id == @oai_repo_id}
         .should be(true)
+    end
+
+    describe "OAI sets for resource records" do
+
+      let (:oai_repo) {
+        oai_repo = ArchivesSpaceOAIRepository.new
+
+        allow(oai_repo).to receive(:options_for_type)
+                             .with('oai_dc')
+                             .and_return(ArchivesSpaceOAIRepository::FormatOptions.new([Resource], 5))
+
+        oai_repo
+      }
+
+      it "supports OAI sets based on sponsors for resource records too" do
+        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
+        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+
+        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
+        allow(AppConfig).to receive(:[]).with(:oai_sets)
+                              .and_return('sponsor_0' => {
+                                            :sponsors => ['sponsor_0']
+                                          })
+
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+
+        # Just matched the single collection
+        response.records.length.should eq(1)
+
+        resource = response.records.first
+        resource.jsonmodel_record['finding_aid_sponsor'].should eq('sponsor_0')
+      end
+
+      it "supports OAI sets based on repositories for resource records too" do
+        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
+        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+
+        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
+        allow(AppConfig).to receive(:[]).with(:oai_sets)
+                              .and_return('by_repo' => {
+                                            :repo_codes => ['oai_test']
+                                          })
+
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
+        response.records.count.should eq(5)
+      end
+
     end
 
     it "doesn't reveal published or suppressed records" do

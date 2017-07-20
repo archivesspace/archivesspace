@@ -20,7 +20,7 @@ class OAIDCTermsMapper
 
         # Identifier (own component ID + IDs of parents)
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
-                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.uniq.join(".")
                             else
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
@@ -31,6 +31,8 @@ class OAIDCTermsMapper
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
             xml['dcterms'].creator(link['_resolved']['title'])
           end
@@ -38,6 +40,8 @@ class OAIDCTermsMapper
 
         # Contributor -- agents linked with role 'creator' and relator of 'contributor'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['ctb'].include?(link['relator'])
             xml['dcterms'].contributor(link['_resolved']['title'])
           end
@@ -45,13 +49,15 @@ class OAIDCTermsMapper
 
         # Publisher -- agents linked with role 'creator' and relator of 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['pbl'].include?(link['relator'])
             xml['dcterms'].publisher(link['_resolved']['title'])
           end
         end
 
         # Title -- display string
-        xml['dcterms'].title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        xml['dcterms'].title(OAIUtils.display_string(jsonmodel))
 
         # Finding Aid Title
         if jsonmodel['jsonmodel_type'] == 'archival_object'
@@ -160,6 +166,15 @@ class OAIDCTermsMapper
             xml['dcterms'].type(subject['_resolved']['title'])
           else
             xml['dcterms'].subject(subject['_resolved']['title'])
+          end
+        end
+
+        # Subjects continued - Agents as subjects
+        Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
+          if link['role'] == 'subject'
+            xml['dcterms'].subject(link['_resolved']['title'])
           end
         end
 

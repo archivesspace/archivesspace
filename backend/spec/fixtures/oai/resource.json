@@ -1,9 +1,10 @@
 {
     "dates": [
         {
-            "begin": "2017-06-01",
+            "begin": "2012-06-01",
+            "end": "2016-06-01",
             "calendar": "gregorian",
-            "date_type": "single",
+            "date_type": "inclusive",
             "era": "ce",
             "jsonmodel_type": "date",
             "label": "creation"
@@ -51,6 +52,12 @@
             "ref": "/agents/people/import_3",
             "role": "subject",
             "terms": []
+        },
+        {
+            "ref": "/agents/people/import_4",
+            "relator": "cre",
+            "role": "creator",
+            "title": "UNPUBLISHED Creator Agent"
         }
     ],
     "notes": [
@@ -340,6 +347,61 @@
                     }
                 ],
                 "type": "accruals"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "414ff8ae987bb7ba4cf2c27ceb0055cf",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "items": [
+                            {
+                                "event_date": "2011-11-10",
+                                "events": [
+                                    "Event X",
+                                    "Event Y"
+                                ]
+                            },
+                            {
+                                "events": [
+                                    "Event A",
+                                    "Event B",
+                                    "Event C"
+                                ]
+                            }
+                        ],
+                        "jsonmodel_type": "note_chronology",
+                        "publish": true,
+                        "title": "I'm a chronology title"
+                    },
+                    {
+                        "items": [
+                            {
+                                "label": "Label X",
+                                "value": "Value X"
+                            },
+                            {
+                                "label": "Label Y",
+                                "value": "Value Y"
+                            }
+                        ],
+                        "jsonmodel_type": "note_definedlist",
+                        "publish": true,
+                        "title": "I'm a defined list"
+                    },
+                    {
+                        "enumeration": "arabic",
+                        "items": [
+                            "Item X",
+                            "Item Y",
+                            "Item Z"
+                        ],
+                        "jsonmodel_type": "note_orderedlist",
+                        "publish": true,
+                        "title": "I'm an ordered list"
+                    }
+                ],
+                "type": "odd"
             }
         ],
         "publish": true,

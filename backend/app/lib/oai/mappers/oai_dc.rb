@@ -19,7 +19,7 @@ class OAIDCMapper
 
         # Identifier (own component ID + IDs of parents)
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
-                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
+                              ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.uniq.join(".")
                             else
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
@@ -31,6 +31,8 @@ class OAIDCMapper
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && !['ctb' ,'pbl'].include?(link['relator'])
             xml['dc'].creator(link['_resolved']['title'])
           end
@@ -38,6 +40,8 @@ class OAIDCMapper
 
         # Contributor -- agents linked with role 'creator' and relator of 'contributor'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['ctb'].include?(link['relator'])
             xml['dc'].contributor(link['_resolved']['title'])
           end
@@ -45,13 +49,15 @@ class OAIDCMapper
 
         # Publisher -- agents linked with role 'creator' and relator of 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator' && ['pbl'].include?(link['relator'])
             xml['dc'].publisher(link['_resolved']['title'])
           end
         end
 
         # Title -- display string
-        xml['dc'].title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+        xml['dc'].title(OAIUtils.display_string(jsonmodel))
 
         # Dates
         Array(jsonmodel['dates']).each do |date|
@@ -122,6 +128,16 @@ class OAIDCMapper
             xml['dc'].subject(subject['_resolved']['title'])
           end
         end
+
+        # Subjects continued - Agents as subjects
+        Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
+          if link['role'] == 'subject'
+            xml['dc'].subject(link['_resolved']['title'])
+          end
+        end
+
 
         # Physical facet note
         Array(jsonmodel['notes'])

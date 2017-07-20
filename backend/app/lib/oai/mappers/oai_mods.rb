@@ -28,6 +28,8 @@ class OAIMODSMapper
 
         # Creator -> name/namePart
         Array(jsonmodel['linked_agents']).each do |link|
+          next unless link['_resolved']['publish']
+
           if link['role'] == 'creator'
             xml.name { xml.namePart(link['_resolved']['title']) }
           end
@@ -35,7 +37,7 @@ class OAIMODSMapper
 
         # Title -> titleInfo/title
         xml.titleinfo {
-          xml.title(OAIUtils.strip_mixed_content(jsonmodel['display_string']))
+          xml.title(OAIUtils.display_string(jsonmodel))
         }
 
         # Dates -> originInfo/dateCreated
@@ -45,7 +47,7 @@ class OAIMODSMapper
           if date['begin'] || date['end']
             xml.originInfo {
               xml.dateCreated({'encoding' => 'iso8601'},
-                              [date['begin'], date['end']].compact.join(' -- '))
+                              [date['begin'], date['end']].compact.join('/'))
             }
           elsif date['expression']
             xml.originInfo { xml.dateCreated(date['expression']) }
@@ -144,6 +146,7 @@ class OAIMODSMapper
         # Agents as subject
         Array(jsonmodel['linked_agents']).each do |link|
           next unless link['role'] == 'subject'
+          next unless link['_resolved']['publish']
 
           case link['_resolved']['agent_type']
           when 'agent_person', 'agent_family'
