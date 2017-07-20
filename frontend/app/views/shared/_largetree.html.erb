@@ -18,7 +18,7 @@
   </a>
   <ul class="dropdown-menu tree-transfer-form">
     <li class="col-sm-12">
-      <%= form_tag("#{root_path}archival_objects/${node_id}/transfer") do |f| %>
+      <%= form_tag(archival_objects_path + "/${node_id}/transfer") do |f| %>
         <%= form_context :transfer, {} do |form| %>
           <fieldset>
             <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
