@@ -11,6 +11,8 @@ ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump
 
 class ArchivesSpaceOAIServer < Sinatra::Base
 
+  TIMEOUT = 600
+
   get "/favicon.ico" do
     status 404
   end
@@ -18,7 +20,7 @@ class ArchivesSpaceOAIServer < Sinatra::Base
   get '/sample' do
     oai_sample_url = URI.join(AppConfig[:backend_url], 'oai_sample')
 
-    ASHTTP.start_uri(oai_sample_url) do |http|
+    ASHTTP.start_uri(oai_sample_url, :open_timeout => TIMEOUT, :read_timeout => TIMEOUT) do |http|
       http_request = Net::HTTP::Get.new(oai_sample_url.request_uri)
       response = http.request(http_request)
 
@@ -39,7 +41,7 @@ class ArchivesSpaceOAIServer < Sinatra::Base
     oai_url = build_oai_url
     oai_url.query = query_string
 
-    ASHTTP.start_uri(oai_url) do |http|
+    ASHTTP.start_uri(oai_url, :open_timeout => TIMEOUT, :read_timeout => TIMEOUT) do |http|
       http_request = Net::HTTP::Get.new(oai_url.request_uri)
       response = http.request(http_request)
 
