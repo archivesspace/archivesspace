@@ -39,5 +39,4 @@ class UtilsController  < ApplicationController
     end
     render :json => prefs['note_order']
   end
-
 end

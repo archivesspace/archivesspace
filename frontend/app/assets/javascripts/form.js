@@ -9,7 +9,7 @@ $(function() {
 
       var checkForSession = function(event) {
         $.ajax({
-          url: APP_PATH + "has_session",
+          url: AS.app_prefix("has_session"),
           async: false,
           data_type: "json",
           success: function(json) {
@@ -29,7 +29,7 @@ $(function() {
                 $existingModal.hide();
               };
 
-              var $modal = AS.openAjaxModal(APP_PATH + "login");
+              var $modal = AS.openAjaxModal(AS.app_prefix("login"));
               $modal.removeClass("inline-login-modal");
               var $loginForm = $("form", $modal);
               AS.LoginHelper.init($loginForm);

@@ -78,6 +78,24 @@ ArchivesSpace::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  # Precompile all fonts and top-level javascript files (included with `javascript_include_tag`)
+  config.assets.precompile << proc {|filename, path|
+    path =~ /app\/assets\/javascripts\/[^\/]+\z/
+  }
+
+  config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf)\z/
+  config.assets.precompile << /\.(?:crud.js|index.js|show.js|batch.js)\z/
+  config.assets.precompile << 'html5shiv.js'
+  config.assets.precompile << 'codemirror/codemirror.less'
+  config.assets.precompile << 'codemirror/util/simple-hint.less'
+  config.assets.precompile << 'css-spinners/spinner'
+  config.assets.precompile << 'bootstrap-select/bootstrap-select'
+  config.assets.precompile << /jquery.kiketable/
+  config.assets.precompile << /jquery.tablesorter/
+  config.assets.precompile << 'tablesorter/bootstrap'
+  config.assets.precompile << '\.(gif|png|jpg)\z/'
+
 end
 
 
@@ -88,7 +106,7 @@ if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
 end
 
 
-if AppConfig[:frontend_prefix] != "/"
+if AppConfig[:frontend_proxy_prefix] != "/"
   require 'action_dispatch/middleware/static'
 
   # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
@@ -96,7 +114,7 @@ if AppConfig[:frontend_prefix] != "/"
     class FileHandler
       alias :match_orig :match?
       def match?(path)
-        prefix = AppConfig[:frontend_prefix]
+        prefix = AppConfig[:frontend_proxy_prefix]
         modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
         match_orig(modified_path)
       end

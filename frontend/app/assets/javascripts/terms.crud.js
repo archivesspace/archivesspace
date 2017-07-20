@@ -18,7 +18,7 @@ $(function() {
 
     var termTypeAhead = AS.delayedTypeAhead(function (query, callback) {
       $.ajax({
-        url: APP_PATH + "subjects/terms/complete",
+        url: AS.app_prefix("subjects/terms/complete"),
         data: {query: query},
         type: "GET",
         success: function(terms) {

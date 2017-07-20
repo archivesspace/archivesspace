@@ -1,7 +1,7 @@
 module PrefixHelper
 
-  def self.app_prefix(uri)
-    AppConfig[:public_proxy_prefix].gsub(/\/?$/, '') + uri
+  def self.app_prefix(path)
+    AppConfig[:public_proxy_prefix].gsub(/\/?$/, '') + (path.start_with?('/') ? path : "/#{path}")
   end
 
   def self.app_prefix_js
@@ -10,8 +10,8 @@ module PrefixHelper
     "'#{prefix}' +"
   end
 
-  def app_prefix(uri)
-    PrefixHelper.app_prefix(uri)
+  def app_prefix(path)
+    PrefixHelper.app_prefix(path)
   end
 
   def app_prefix_js
