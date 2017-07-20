@@ -100,7 +100,15 @@ class Record
 
         next if sub_container.nil?
 
-        containers.push(parse_sub_container_display_string(sub_container, inst, opts))
+        container_display_string = parse_sub_container_display_string(sub_container, inst, opts)
+        if top_container_uri = sub_container.dig('top_container', 'ref')
+          containers << {
+            'title' => container_display_string,
+            'uri' => top_container_uri
+          }
+        else
+          containers << container_display_string
+        end
 
         return I18n.t('multiple_containers') if summary && containers.length > 1
       end
