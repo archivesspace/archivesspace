@@ -34,7 +34,7 @@ class Assessment < Sequel::Model(:assessment)
   end
 
 
-  def update_from_json(json)
+  def update_from_json(json, opts = {}, apply_nested_records = true)
     super
     self.class.apply_attributes(self, json)
     self

@@ -398,6 +398,14 @@ module AspaceFormHelper
     end
 
 
+    def radio(name, value, opts = {})
+      options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
+      options[:checked] = "checked" if obj[name] == value
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+
     def required?(name)
       if @active_template && @parent.templates[@active_template]
         @parent.templates[@active_template][:definition].required?(name)

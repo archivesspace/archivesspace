@@ -95,86 +95,128 @@
       <div class="subrecord-form-fields">
         <%= form.label_and_textarea 'general_assessment_note' %>
 
-        <table id="rating_attributes_table" class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th class="col-sm-5"></th>
-              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_1') %></th>
-              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_2') %></th>
-              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_3') %></th>
-              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_4') %></th>
-              <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_5') %></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Reformatting Readiness</td>
-              <td class="text-center"><input type="radio" name="example1" /></td>
-              <td class="text-center"><input type="radio" name="example1" /></td>
-              <td class="text-center"><input type="radio" name="example1" /></td>
-              <td class="text-center"><input type="radio" name="example1" /></td>
-              <td class="text-center"><input type="radio" name="example1" /></td>
-              <td>
-                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
-                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
-              </td>
-            </tr>
-            <tr style="display:none">
-              <td>
-                <label>Reformatting Readiness note</label>
-              </td>
-              <td colspan="6">
-                <textarea class="form-control"></textarea>
-              </td>
-            </tr>
-            <tr>
-              <td>Housing Quality</td>
-              <td class="text-center"><input type="radio" name="example2" /></td>
-              <td class="text-center"><input type="radio" name="example2" /></td>
-              <td class="text-center"><input type="radio" name="example2" /></td>
-              <td class="text-center"><input type="radio" name="example2" /></td>
-              <td class="text-center"><input type="radio" name="example2" /></td>
-              <td>
-                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
-                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
-              </td>
-            </tr>
-            <tr style="display:none">
-              <td>
-                <label>Housing Quality note</label>
-              </td>
-              <td colspan="6">
-                <textarea class="form-control"></textarea>
-              </td>
-            </tr>
-
-            <tr>
-              <th colspan="7"><%= I18n.t('assessment._frontend.section.rating_attributes_additional') %></th>
-            </tr>
-
-            <tr>
-              <td>Repo X Rating A</td>
-              <td class="text-center"><input type="radio" name="example3" /></td>
-              <td class="text-center"><input type="radio" name="example3" /></td>
-              <td class="text-center"><input type="radio" name="example3" /></td>
-              <td class="text-center"><input type="radio" name="example3" /></td>
-              <td class="text-center"><input type="radio" name="example3" /></td>
-              <td>
-                <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
-                <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
-              </td>
-            </tr>
-            <tr style="display:none">
-              <td>
-                <label>Repo X Rating A note</label>
-              </td>
-              <td colspan="6">
-                <textarea class="form-control"></textarea>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <% if form.readonly? %>
+          <table id="rating_attributes_table" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="col-sm-5">Rating</th>
+                <th class="col-sm-1 text-center">Score</th>
+                <th class="col-sm-6 text-center">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% ASUtils.wrap(form.obj['ratings']).each do |rating| %>
+                <% next unless rating['value'] %>
+                <tr>
+                  <td><%= @assessment_attribute_definitions.label_for_id(rating.fetch('definition_id')) %></td>
+                  <td><%= rating.fetch('value') %></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <table id="rating_attributes_table" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="col-sm-5"></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_1') %></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_2') %></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_3') %></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_4') %></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_5') %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% ratings_index = 0 %>
+              <% @assessment_attribute_definitions.global_ratings.each do |rating| %>
+              <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
+                <tr>
+                  <td>
+                    <%= rating.fetch('label') %>
+                    <%= form.hidden_input('definition_id', rating.fetch('id')) %>
+                  </td>
+                  <td class="text-center">
+                    <%= form.radio('value', 'true') %>
+                  </td>
+                  <td class="text-center">
+                    <%= form.radio('value', '2') %>
+                  </td>
+                  <td class="text-center">
+                    <%= form.radio('value', '3') %>
+                  </td>
+                  <td class="text-center">
+                    <%= form.radio('value', '4') %>
+                  </td>
+                  <td class="text-center">
+                    <%= form.radio('value', '5') %>
+                  </td>
+                  <td>
+                    <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
+                    <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
+                  </td>
+                </tr>
+                  <tr style="display:none">
+                    <td>
+                      <label><%= rating.fetch('label') %> note</label>
+                    </td>
+                    <td colspan="6">
+                      <textarea class="form-control"></textarea>
+                    </td>
+                  </tr>
+                <% end %>
+                <% ratings_index += 1 %>
+              <% end %>
+  
+  
+              <% if @assessment_attribute_definitions.repo_ratings.length > 0 %>
+                <tr>
+                  <th colspan="7"><%= I18n.t('assessment._frontend.section.rating_attributes_additional') %></th>
+                </tr>
+  
+                <% @assessment_attribute_definitions.repo_ratings.each do |rating| %>
+                  <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
+                    <tr>
+                      <td>
+                        <%= rating.fetch('label') %>
+                        <%= form.hidden_input('definition_id', rating.fetch('id')) %>
+                      </td>
+                      <td class="text-center">
+                        <%= form.radio('value', 'true') %>
+                      </td>
+                      <td class="text-center">
+                        <%= form.radio('value', '2') %>
+                      </td>
+                      <td class="text-center">
+                        <%= form.radio('value', '3') %>
+                      </td>
+                      <td class="text-center">
+                        <%= form.radio('value', '4') %>
+                      </td>
+                      <td class="text-center">
+                        <%= form.radio('value', '5') %>
+                      </td>
+                      <td>
+                        <button class="btn btn-xs btn-default assessment-add-rating-note"><%= I18n.t('assessment._frontend.action.add_rating_note') %></button>
+                        <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= I18n.t('assessment._frontend.action.remove_rating_note') %></button>
+                      </td>
+                    </tr>
+                    <tr style="display:none">
+                      <td>
+                        <label><%= rating.fetch('label') %> note</label>
+                      </td>
+                      <td colspan="6">
+                        <textarea class="form-control"></textarea>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% ratings_index += 1 %>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
       </div>
     </div>
   </section>
@@ -188,30 +230,58 @@
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_2" col_size="6">Example Format 2</label><div class="col-sm-1 checkbox"><input id="example_format_2" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
+          <% if form.readonly? %>
+            <ul>
+              <% ASUtils.wrap(form.obj['formats']).each do |format| %>
+                <% next unless format['value'] %>
+                <li>
+                  <td><%= @assessment_attribute_definitions.label_for_id(format.fetch('definition_id')) %></td>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
 
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_3" col_size="6">Example Format 3</label><div class="col-sm-1 checkbox"><input id="example_format_3" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_4" col_size="6">Example Format 4</label><div class="col-sm-1 checkbox"><input id="example_format_4" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
+            <% formats_index = 0 %>
+            <% @assessment_attribute_definitions.global_formats.each do |format| %>
+              <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                    <%= label_tag form.id_for('value'), format.fetch('label'), :class => 'col-sm-6 control-label' %>
+                    <div class="col-sm-1 checkbox">
+                      <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <% formats_index += 1 %>
+            <% end %>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <h5><%= I18n.t('assessment._frontend.section.format_attributes_additional') %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-        </div>
+  
+          <% if @assessment_attribute_definitions.repo_formats.length > 0 %>
+            <div class="row">
+              <div class="col-md-12">
+                <h5><%= I18n.t('assessment._frontend.section.format_attributes_additional') %></h5>
+              </div>
+            </div>
+            <div class="row">
+              <% @assessment_attribute_definitions.repo_formats.each do |format| %>
+                <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                      <%= label_tag form.id_for('value'), format.fetch('label'), :class => 'col-sm-6 control-label' %>
+                      <div class="col-sm-1 checkbox">
+                        <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                <% formats_index += 1 %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
 
         <hr>
 
@@ -222,38 +292,65 @@
   </section>
 
 
-  <section id="conversion_issue_attributes" class="subrecord-form-dummy">
+  <section id="conservation_issue_attributes" class="subrecord-form-dummy">
     <h3>
-      <%= I18n.t "assessment._frontend.section.conversion_issue_attributes" %>
-      <%= link_to_help :topic => "assessment_conversion_issue_attributes" %>
+      <%= I18n.t "assessment._frontend.section.conservation_issue_attributes" %>
+      <%= link_to_help :topic => "assessment_conservation_issue_attributes" %>
     </h3>
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_2" col_size="6">Example Format 2</label><div class="col-sm-1 checkbox"><input id="example_format_2" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_3" col_size="6">Example Format 3</label><div class="col-sm-1 checkbox"><input id="example_format_3" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_4" col_size="6">Example Format 4</label><div class="col-sm-1 checkbox"><input id="example_format_4" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <h5><%= I18n.t('assessment._frontend.section.conversion_issue_attributes_additional') %></h5>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group"><label class="col-sm-6 control-label" for="example_format_1" col_size="6">Example Format 1</label><div class="col-sm-1 checkbox"><input id="example_format_1" type="checkbox" name="assessment[accession_report]" value="1" label_opts="{:col_size=>6}" col_size="1" controls_class="checkbox"></div></div>
-          </div>
-        </div>
+        <% if form.readonly? %>
+          <ul>
+            <% ASUtils.wrap(form.obj['conservation_issues']).each do |conservation_issue| %>
+              <% next unless conservation_issue['value'] %>
+              <li>
+                <td><%= @assessment_attribute_definitions.label_for_id(conservation_issue.fetch('definition_id')) %></td>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <div class="row">
+              <% conservation_issues_index = 0 %>
+              <% @assessment_attribute_definitions.global_conservation_issues.each do |conservation_issue| %>
+                <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.hidden_input('definition_id', conservation_issue.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                      <%= label_tag form.id_for('value'), conservation_issue.fetch('label'), :class => 'col-sm-6 control-label' %>
+                      <div class="col-sm-1 checkbox">
+                        <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                <% conservation_issues_index += 1 %>
+              <% end %>
+            </div>
+    
+            <% if @assessment_attribute_definitions.repo_conservation_issues.length > 0 %>
+              <div class="row">
+                <div class="col-md-12">
+                  <h5><%= I18n.t('assessment._frontend.section.conservation_issue_attributes_additional') %></h5>
+                </div>
+              </div>
+              <div class="row">
+                <% @assessment_attribute_definitions.repo_conservation_issues.each do |conservation_issue| %>
+                  <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.hidden_input('definition_id', conservation_issue.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                        <%= label_tag form.id_for('value'), conservation_issue.fetch('label'), :class => 'col-sm-6 control-label' %>
+                        <div class="col-sm-1 checkbox">
+                          <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                  <% conservation_issues_index += 1 %>
+                <% end %>
+              </div>
+            <% end %>
+        <% end %>
       </div>
     </div>
   </section>

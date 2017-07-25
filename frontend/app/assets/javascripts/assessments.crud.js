@@ -6,6 +6,7 @@ function AssessmentsForm($form) {
 
     this.$form.find(".linker:not(.initialised)").linker();
     this.setupRatingTable();
+    this.setupCheckboxes();
 };
 
 
@@ -36,6 +37,8 @@ AssessmentsForm.prototype.setupRatingNotes = function($table) {
     $table.on('click', '.assessment-add-rating-note', function(event) {
         event.preventDefault();
 
+        alert("TODO");
+
         var $ratingRow = $(this).closest('tr');
         //$ratingRow.find('td:first').attr('rowspan', 2);
 
@@ -61,6 +64,23 @@ AssessmentsForm.prototype.setupRatingNotes = function($table) {
 
         $(this).hide();
         $(this).siblings('.assessment-add-rating-note').show();
+    });
+};
+
+
+AssessmentsForm.prototype.setupCheckboxes = function() {
+    var self = this;
+
+    var $tables = self.$form.find('#format_attributes, #conservation_issue_attributes');
+
+    $tables.on('click', ':checkbox', function(event) {
+        if ($(this).is(':checked')) {
+            $(this).closest('.form-group').find(':hidden').prop('disabled', false);
+        } else {
+            $(this).closest('.form-group').find(':hidden').prop('disabled', true);
+        }
+
+        return true;
     });
 };
 

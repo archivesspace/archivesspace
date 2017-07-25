@@ -136,6 +136,7 @@
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
                     <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                     <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+                    <li><%= link_to I18n.t("navbar.manage_assessment_attributes"), :controller => :assessment_attributes, :action => :edit %></li>
                   <% end %>
                   <% if user_can?('manage_container_record') %>
                     <% found_an_item = true %>

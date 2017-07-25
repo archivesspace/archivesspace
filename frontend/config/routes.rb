@@ -262,6 +262,8 @@ ArchivesSpace::Application.routes.draw do
     resources :assessments
     match 'assessments/:id' => 'assessments#update', :via => [:post]
     match 'assessments/:id/delete' => 'assessments#delete', :via => [:post]
+    match 'assessment_attributes' => 'assessment_attributes#edit', :via => [:get]
+    match 'assessment_attributes' => 'assessment_attributes#update', :via => [:post]
 
 
     if Plugins.system_menu_items?

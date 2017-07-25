@@ -21,6 +21,7 @@ class AssessmentsController < ApplicationController
 
   def show
     @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
+    @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
 
@@ -38,18 +39,23 @@ class AssessmentsController < ApplicationController
     end
 
     @assessment ||= JSONModel(:assessment).new._always_valid!
+    @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
 
   def edit
     @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
+    @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
 
   def create
     handle_crud(:instance => :assessment,
                 :model => JSONModel(:assessment),
-                :on_invalid => ->(){ render action: "new" },
+                :on_invalid => ->(){
+                  @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil) 
+                  render action: "new"
+                },
                 :on_valid => ->(id){
                     flash[:success] = I18n.t("assessment._frontend.messages.created", JSONModelI18nWrapper.new(:assessment => @assessment))
                     redirect_to(:controller => :assessments,
@@ -63,6 +69,7 @@ class AssessmentsController < ApplicationController
                 :model => JSONModel(:assessment),
                 :obj => JSONModel(:assessment).find(params[:id]),
                 :on_invalid => ->(){
+                  @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
                   return render action: "edit"
                 },
                 :on_valid => ->(id){

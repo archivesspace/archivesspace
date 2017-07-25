@@ -298,6 +298,7 @@ en:
     global_admin: System
     system_info: System Information
     unpublished: Unpublished
+    manage_assessment_attributes: Manage Assessment Attributes
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -1315,8 +1316,8 @@ en:
         rating_attributes_additional: Additional Rating(s)
         format_attributes: List of Material Types / Formats
         format_attributes_additional: Additional Material Types / Formats
-        conversion_issue_attributes: Conservation Issues
-        conversion_issue_attributes_additional: Additonal Conservation Issues
+        conservation_issue_attributes: Conservation Issues
+        conservation_issue_attributes_additional: Additonal Conservation Issues
       messages:
         created: Assessment Created
         updated: Assessment Updated
@@ -1324,3 +1325,18 @@ en:
       assessment_review_required:
         true_value: "Yes"
         false_value: "No"
+
+  assessment_attribute_definitions:
+    _frontend:
+      title: Assessment Attributes
+      section:
+        formats: Material Types / Formats
+        ratings: Ratings
+        conservation_issues: Conservation Issues
+      global: Global %{type}
+      repository: Repository %{type}
+      action:
+        save: Save Assessment Attributes
+      messages:
+        updated: Assessment Attributes updated
+        error: Error updating Assessment Attributes
