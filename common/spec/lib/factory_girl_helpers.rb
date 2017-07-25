@@ -93,8 +93,6 @@ FactoryGirl.define do
   sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
   sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
   sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
-  sequence(:assessment_material_type) { sample(JSONModel(:assessment_material).schema['properties']['material_type']) }
-  sequence(:assessment_conservation_issue_type) { sample(JSONModel(:assessment_conservation_issue).schema['properties']['issue_type']) }
 
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }

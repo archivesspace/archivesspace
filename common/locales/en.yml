@@ -2035,17 +2035,3 @@ en:
       rating_5: "5"
     _singular: Assessment
     _plural: Assessments
-
-  assessment_material:
-    material_type: Type / Format
-    material_note: Materials
-    special_format_note: Special Format Note
-    exhibition_value_note: Exhibition Value Note
-    _singular: Assessment Material
-    _plural: Assessment Materials
-
-  assessment_conservation_issue:
-    issue_type: Issue Type
-    issue_note: Issue Note
-    _singular: Conservation Issue
-    _plural: Conservation Issues
