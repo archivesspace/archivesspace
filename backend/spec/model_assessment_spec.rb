@@ -108,4 +108,6 @@ describe 'Assessment model' do
       json.formats[0]['value'].should eq('true')
     end
 
+  end
+
 end
