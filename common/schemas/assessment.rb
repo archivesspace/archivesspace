@@ -69,11 +69,16 @@
 
       "purpose" => {"type" => "string"},
       "scope" => {"type" => "string"},
+
       "sensitive_material" => {"type" => "boolean"},
 
       "formats" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
       "conservation_issues" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
       "ratings" => {"type" => "array", "items" => {"type" => "JSONModel(:assessment_attribute) object"}},
+
+      "general_assessment_note" => {"type" => "string"},
+      "special_format_note" => {"type" => "string"},
+      "exhibition_value_note" => {"type" => "string"},
     },
   },
 }

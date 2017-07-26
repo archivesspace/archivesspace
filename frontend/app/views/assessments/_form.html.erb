@@ -108,7 +108,7 @@
               <% ASUtils.wrap(form.obj['ratings']).each do |rating| %>
                 <% next unless rating['value'] %>
                 <tr>
-                  <td><%= @assessment_attribute_definitions.label_for_id(rating.fetch('definition_id')) %></td>
+                  <td><%= rating.fetch('label') %></td>
                   <td><%= rating.fetch('value') %></td>
                   <td></td>
                 </tr>
@@ -138,7 +138,7 @@
                     <%= form.hidden_input('definition_id', rating.fetch('id')) %>
                   </td>
                   <td class="text-center">
-                    <%= form.radio('value', 'true') %>
+                    <%= form.radio('value', '1') %>
                   </td>
                   <td class="text-center">
                     <%= form.radio('value', '2') %>
@@ -183,7 +183,7 @@
                         <%= form.hidden_input('definition_id', rating.fetch('id')) %>
                       </td>
                       <td class="text-center">
-                        <%= form.radio('value', 'true') %>
+                        <%= form.radio('value', '1') %>
                       </td>
                       <td class="text-center">
                         <%= form.radio('value', '2') %>
@@ -235,7 +235,7 @@
               <% ASUtils.wrap(form.obj['formats']).each do |format| %>
                 <% next unless format['value'] %>
                 <li>
-                  <td><%= @assessment_attribute_definitions.label_for_id(format.fetch('definition_id')) %></td>
+                  <td><%= format.fetch('label') %></td>
                 </li>
               <% end %>
             </ul>
@@ -283,7 +283,9 @@
           <% end %>
         <% end %>
 
-        <hr>
+        <% unless form.readonly? %>
+          <hr>
+        <% end %>
 
         <%= form.label_and_textarea 'special_format_note' %>
         <%= form.label_and_textarea 'exhibition_value_note' %>
@@ -304,7 +306,7 @@
             <% ASUtils.wrap(form.obj['conservation_issues']).each do |conservation_issue| %>
               <% next unless conservation_issue['value'] %>
               <li>
-                <td><%= @assessment_attribute_definitions.label_for_id(conservation_issue.fetch('definition_id')) %></td>
+                <td><%= conservation_issue.fetch('label') %></td>
               </li>
             <% end %>
           </ul>
