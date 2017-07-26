@@ -14,6 +14,46 @@
 
           <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @assessment_attribute_definitions, :form => form} %>
 
+          <h3 id="ratings"><%= I18n.t('assessment_attribute_definitions._frontend.section.ratings') %></h3>
+
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @assessment_attribute_definitions.global_ratings.each do |format| %>
+              <tr>
+                <td><%= format.fetch('label') %></td>
+                <td class="col-xs-1"></td>
+              </tr>
+            <% end %>
+            </tbody>
+            <thead>
+            <tr>
+              <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
+              <tr>
+                <td>
+                  <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
+                  <%= hidden_field_tag 'ratings[][id]', format.fetch('id', nil) %>
+                  <%= hidden_field_tag 'ratings[][type]', 'rating' %>
+                </td>
+                <td><button class="btn btn-sm btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td colspan="2">
+                <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
           <h3 id="formats"><%= I18n.t('assessment_attribute_definitions._frontend.section.formats') %></h3>
 
           <table class="table table-bordered table-striped">
@@ -56,46 +96,6 @@
             </tbody>
           </table>
 
-          <h3 id="ratings"><%= I18n.t('assessment_attribute_definitions._frontend.section.ratings') %></h3>
-
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
-              </tr>
-            </thead>
-            <tbody>
-            <% @assessment_attribute_definitions.global_ratings.each do |format| %>
-              <tr>
-                <td><%= format.fetch('label') %></td>
-                <td class="col-xs-1"></td>
-              </tr>
-            <% end %>
-            </tbody>
-            <thead>
-            <tr>
-              <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.formats')) %></th>
-            </tr>
-            </thead>
-            <tbody>
-              <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
-                <tr>
-                  <td>
-                    <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
-                    <%= hidden_field_tag 'ratings[][id]', format.fetch('id', nil) %>
-                    <%= hidden_field_tag 'ratings[][type]', 'rating' %>
-                  </td>
-                  <td><button class="btn btn-sm btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
-                </tr>
-              <% end %>
-              <tr>
-                <td colspan="2">
-                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
           <h3 id="conservation_issues"><%= I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues') %></h3>
 
           <table class="table table-bordered table-striped">
@@ -114,7 +114,7 @@
             </tbody>
             <thead>
               <tr>
-                <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.formats')) %></th>
+                <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues')) %></th>
               </tr>
             </thead>
             <tbody>
