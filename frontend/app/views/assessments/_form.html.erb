@@ -207,7 +207,7 @@
                         <%= label_tag form.id_for('note'), I18n.t('assessment.rating_note', :label => rating.fetch('label')) %>
                       </td>
                       <td colspan="6">
-                        <%= form.textarea 'note' %>
+                        <%= form.textarea 'note', form.obj['note'] %>
                       </td>
                     </tr>
                   <% end %>
