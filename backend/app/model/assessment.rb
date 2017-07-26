@@ -49,6 +49,7 @@ class Assessment < Sequel::Model(:assessment)
         Array(json[key]).each do |attribute|
           db[:assessment_attribute].insert(:assessment_id => obj.id,
                                            :value => attribute['value'],
+                                           :note => attribute['note'],
                                            :assessment_attribute_definition_id => attribute['definition_id'])
         end
       end
@@ -76,6 +77,7 @@ class Assessment < Sequel::Model(:assessment)
             'global' => definition[:repo_id] == Repository.global_repo_id,
             'label' => definition[:label],
             'value' => nil,
+            'note' => nil,
             'definition_id' => definition[:id],
           }
 
@@ -96,6 +98,7 @@ class Assessment < Sequel::Model(:assessment)
         definition_json = definitions_by_obj.fetch(assessment_id).fetch(definition_id)
 
         definition_json['value'] = attribute[:value]
+        definition_json['note'] = attribute[:note]
       end
 
       jsons

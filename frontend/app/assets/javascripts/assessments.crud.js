@@ -37,10 +37,7 @@ AssessmentsForm.prototype.setupRatingNotes = function($table) {
     $table.on('click', '.assessment-add-rating-note', function(event) {
         event.preventDefault();
 
-        alert("TODO");
-
         var $ratingRow = $(this).closest('tr');
-        //$ratingRow.find('td:first').attr('rowspan', 2);
 
         var $noteRow = $ratingRow.next();
         $noteRow.find('textarea').prop('disabled', false);
@@ -55,7 +52,6 @@ AssessmentsForm.prototype.setupRatingNotes = function($table) {
         event.preventDefault();
 
         var $ratingRow = $(this).closest('tr');
-        //$ratingRow.find('td:first').attr('rowspan', 1);
 
         var $noteRow = $ratingRow.next();
         $noteRow.find('textarea').prop('disabled', true);
@@ -64,6 +60,21 @@ AssessmentsForm.prototype.setupRatingNotes = function($table) {
 
         $(this).hide();
         $(this).siblings('.assessment-add-rating-note').show();
+    });
+
+    $table.find('textarea[id$="_note_"]').each(function() {
+        var $textarea = $(this);
+        if ($textarea.val() == "") {
+            $textarea.prop('disabled', true);
+        } else {
+            var $ratingNoteRow = $textarea.closest('tr');
+            var $ratingRow = $ratingNoteRow.prev();
+
+            $ratingNoteRow.show();
+
+            $ratingRow.find('.assessment-add-rating-note').hide();
+            $ratingRow.find('.assessment-remove-rating-note').show();
+        }
     });
 };
 

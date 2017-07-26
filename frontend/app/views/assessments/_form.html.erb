@@ -106,11 +106,11 @@
             </thead>
             <tbody>
               <% ASUtils.wrap(form.obj['ratings']).each do |rating| %>
-                <% next unless rating['value'] %>
+                <% next unless rating['value'] || rating['note'] %>
                 <tr>
                   <td><%= rating.fetch('label') %></td>
-                  <td><%= rating.fetch('value') %></td>
-                  <td></td>
+                  <td><%= rating.fetch('value', '') %></td>
+                  <td><%= rating.fetch('note', '') %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -159,10 +159,10 @@
                 </tr>
                   <tr style="display:none">
                     <td>
-                      <label><%= rating.fetch('label') %> note</label>
+                      <%= label_tag form.id_for('note'), I18n.t('assessment.rating_note', :label => rating.fetch('label')) %>
                     </td>
                     <td colspan="6">
-                      <textarea class="form-control"></textarea>
+                      <%= form.textarea 'note', form.obj['note'] %>
                     </td>
                   </tr>
                 <% end %>
@@ -204,10 +204,10 @@
                     </tr>
                     <tr style="display:none">
                       <td>
-                        <label><%= rating.fetch('label') %> note</label>
+                        <%= label_tag form.id_for('note'), I18n.t('assessment.rating_note', :label => rating.fetch('label')) %>
                       </td>
                       <td colspan="6">
-                        <textarea class="form-control"></textarea>
+                        <%= form.textarea 'note' %>
                       </td>
                     </tr>
                   <% end %>

@@ -136,6 +136,7 @@ Sequel.migration do
       Integer :assessment_id, :null => false
       Integer :assessment_attribute_definition_id, :null => false
       String :value, :null => true
+      TextField :note, :null => true
     end
 
     alter_table(:assessment_attribute) do

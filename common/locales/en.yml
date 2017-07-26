@@ -2033,5 +2033,6 @@ en:
       rating_3: "3"
       rating_4: "4"
       rating_5: "5"
+    rating_note: "%{label} Note"
     _singular: Assessment
     _plural: Assessments

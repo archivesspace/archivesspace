@@ -8,6 +8,7 @@
       "label" => { "type" => "string", "readonly" => true },
       "global" => { "type" => "boolean", "readonly" => true },
       "value" => { "type" => "string" },
+      "note" => { "type" => "string" },
     }
   }
 }
