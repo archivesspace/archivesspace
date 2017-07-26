@@ -32,8 +32,8 @@ class AssessmentAttributeDefinitions < JSONModel(:assessment_attribute_definitio
     set_repo_attributes_for_type('rating', ratings)
   end
 
-  def repo_conservation_issues=(consevation_issues)
-    set_repo_attributes_for_type('conservation_issue', consevation_issues)
+  def repo_conservation_issues=(conservation_issues)
+    set_repo_attributes_for_type('conservation_issue', conservation_issues)
   end
 
   def label_for_id(id)
