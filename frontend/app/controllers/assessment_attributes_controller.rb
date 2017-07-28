@@ -19,8 +19,8 @@ class AssessmentAttributesController < ApplicationController
       @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
       flash.now[:success] = I18n.t('assessment_attribute_definitions._frontend.messages.updated')
     rescue
-      flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.error')
-      raise $!.inspect # FIXME add real validation handling
+      # FIXME add real validation handling
+      flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.error') + '<br><br>'.html_safe + $!.message
     end
 
     render :template => 'assessment_attributes/edit'
