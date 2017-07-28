@@ -2,6 +2,7 @@ function AssessmentAttributesForm() {
     this.$form = $("#assessment_attributes_form");
 
     this.setupEvents();
+    this.setupDragAndDrop();
 };
 
 AssessmentAttributesForm.prototype.setupEvents = function() {
@@ -19,6 +20,17 @@ AssessmentAttributesForm.prototype.setupEvents = function() {
     self.$form.on('click', '.remove-repo-attribute', function(event) {
         event.preventDefault();
         $(this).closest('tr').remove();
+    });
+};
+
+AssessmentAttributesForm.prototype.setupDragAndDrop = function() {
+    var self = this;
+
+    self.$form.find('tbody.repository-attributes').each(function() {
+        $(this).sortable({
+            handle: '.repo-attribute-drag-handle',
+            cursor: "move"
+        });
     });
 };
 
