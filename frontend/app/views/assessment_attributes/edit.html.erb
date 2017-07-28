@@ -35,28 +35,30 @@
             </tr>
             </thead>
             <tbody class="repository-attributes">
-            <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
+              <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
+                <tr>
+                  <td>
+                    <div class="input-group">
+                      <span class="input-group-addon repo-attribute-drag-handle">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                      </span>
+                      <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
+                      <span class="input-group-btn">
+                        <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                      </span>
+                    </div>
+                    <%= hidden_field_tag 'ratings[][id]', format.fetch('id', nil) %>
+                    <%= hidden_field_tag 'ratings[][type]', 'rating' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tbody>
               <tr>
-                <td>
-                  <div class="input-group">
-                    <span class="input-group-addon repo-attribute-drag-handle">
-                      <span class="glyphicon glyphicon-menu-hamburger"></span>
-                    </span>
-                    <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
-                    <span class="input-group-btn">
-                      <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                    </span>
-                  </div>
-                  <%= hidden_field_tag 'ratings[][id]', format.fetch('id', nil) %>
-                  <%= hidden_field_tag 'ratings[][type]', 'rating' %>
+                <td colspan="2">
+                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </td>
               </tr>
-            <% end %>
-            <tr>
-              <td colspan="2">
-                <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-              </td>
-            </tr>
             </tbody>
           </table>
 
@@ -98,6 +100,8 @@
                   </td>
                 </tr>
               <% end %>
+            </tbody>
+            <tbody>
               <tr>
                 <td>
                   <button class="btn btn-sm btn-success add-repo-attribute" data-type="format"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
@@ -144,6 +148,8 @@
                   </td>
                 </tr>
               <% end %>
+            </tbody>
+            <tbody>
               <tr>
                 <td>
                   <button class="btn btn-sm btn-success add-repo-attribute" data-type="conservation_issue"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>

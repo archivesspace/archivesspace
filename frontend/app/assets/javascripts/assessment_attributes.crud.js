@@ -13,7 +13,8 @@ AssessmentAttributesForm.prototype.setupEvents = function() {
 
         if ($(this).data('type')) {
             var $newRow = AS.renderTemplate('template_' + $(this).data('type'));
-            $(this).closest('tr').before($newRow);
+            var $tbody = $(this).closest('tbody');
+            $tbody.prev('.repository-attributes').append($newRow);
         }
     });
 
