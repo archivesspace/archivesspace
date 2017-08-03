@@ -2034,3 +2034,5 @@ en:
     main_content: Skip to main content
     sidebar: Skip to sidebar
     search: Skip to search
+
+  search_tab: Search %{target}

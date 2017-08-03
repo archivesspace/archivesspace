@@ -1,10 +1,11 @@
 <%
   show_header = true if show_header.nil?
+  header_size = '3' if header_size.nil?
 %>
 <div class="search" role="search">
   <a name="search" id="search"></a>
   <% if show_header %>
-  <h3><%=  t('actions.search') %>  <%= title %> </h3>
+  <h<%= header_size %>><%=  t('actions.search') %>  <%= title %> </h<%= header_size %>>
   <% end %>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
