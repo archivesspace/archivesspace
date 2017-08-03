@@ -5,3 +5,6 @@
 <% elsif defined?(@search) && !defined?(@no_statement) %>
   <%= link_to I18n.t('skipnav.search'), '#toggleRefineSearch', :class => 'sr-only sr-only-focusable' %>
 <% end %>
+<% if defined?(@search) && defined?(@results) %>
+  <%= link_to I18n.t('skipnav.search_results'), '#searchresults', :class => 'sr-only sr-only-focusable' %>
+<% end %>
