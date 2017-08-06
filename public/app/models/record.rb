@@ -9,7 +9,8 @@ class Record
               :notes, :dates, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
-              :identifier, :classifications, :level, :other_level, :linked_digital_objects
+              :identifier, :classifications, :level, :other_level, :linked_digital_objects,
+              :container_titles_and_uris
 
   attr_accessor :criteria 
 
@@ -37,6 +38,7 @@ class Record
     @display_string = parse_full_title
     @container_display = parse_container_display
     @container_summary_for_badge = parse_container_summary_for_badge
+    @container_titles_and_uris = parse_container_display(:include_uri => true)
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
@@ -93,6 +95,7 @@ class Record
 
   def parse_container_display(opts = {})
     summary = opts.fetch(:summary, false)
+    include_uri = opts.fetch(:include_uri, false)
     containers = []
 
     if !json['instances'].blank? && json['instances'].kind_of?(Array)
@@ -102,7 +105,7 @@ class Record
         next if sub_container.nil?
 
         container_display_string = parse_sub_container_display_string(sub_container, inst, opts)
-        if top_container_uri = sub_container.dig('top_container', 'ref')
+        if include_uri && top_container_uri = sub_container.dig('top_container', 'ref')
           containers << {
             'title' => container_display_string,
             'uri' => top_container_uri
