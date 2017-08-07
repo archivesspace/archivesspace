@@ -42,3 +42,4 @@ Gemfile.local
 supervisord.*
 mysql-connector*.jar
 common/config/config.rb
+backend/spec/fixtures/oai/responses/getrecord_*_marc.xml
