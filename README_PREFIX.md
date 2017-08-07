@@ -23,9 +23,9 @@ your machines, and all commands are to be run as root (or with sudo).
 
 The following edits can be made in the httpd.conf file itself, or in an included file:
 
-    ProxyPass /staff http://localhost:8080/
+    ProxyPass /staff http://localhost:8080/staff
     ProxyPassReverse /staff http://localhost:8080/
-    ProxyPass /public http://localhost:8081/
+    ProxyPass /public http://localhost:8081/public
     ProxyPassReverse /public http://localhost:8081/
 
 Now restart Apache.
