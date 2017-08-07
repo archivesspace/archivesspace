@@ -9,13 +9,13 @@ gem 'rails', '5.0.1'
 gem 'sprockets-rails', '2.3.3'
 
 gem "mizuno", "0.6.11"
-
+gem 'sprockets-rails', '2.3.3'
 # use bootstrap's sass
 gem 'bootstrap-sass', '~> 3.3.6'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.5'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '3.0.4'
+gem 'uglifier', '3.2.0'
 # Use font-awesome icons
 gem 'font-awesome-sass'
 
@@ -23,7 +23,7 @@ gem 'font-awesome-sass'
 # gem 'compass-rails'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '4.2.1'
+gem 'coffee-rails', '4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyrhino'
 # Use jquery as the JavaScript library
@@ -51,3 +51,4 @@ gem 'listen', group: :development
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pry-rails', group: :development
+gem "nokogiri", "1.8.0"
