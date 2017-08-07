@@ -56,10 +56,6 @@
 
 <% if defined?(@results) %>
 <div class="row">
-  <div class="col-sm-3 pull-right">
-    <a name="filter" title="<%= t('internal_links.filter') %>"></a>
-  <%= render partial: 'shared/facets' %>
-  </div>
   <div class="col-sm-9">
     <a name="main" title="<%= t('internal_links.main') %>"></a>
     <div class="row"><div class="col-sm-9">
@@ -79,6 +75,10 @@
     <div class="row"><div class="col-sm-9">
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     </div></div>
+  </div>
+  <div class="col-sm-3">
+    <a name="filter" title="<%= t('internal_links.filter') %>"></a>
+    <%= render partial: 'shared/facets' %>
   </div>
 
 </div>
