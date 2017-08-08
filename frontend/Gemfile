@@ -13,7 +13,7 @@ gem 'tzinfo-data'
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails'
-gem 'coffee-rails', '4.2.2'
+gem 'coffee-rails'
 gem 'coffee-script'
 gem 'coffee-script-source'
 gem 'uglifier'
@@ -46,7 +46,7 @@ gem "multipart-post", "1.2.0"
 gem "rubyzip", "1.0.0"
 gem "zip-zip", "0.3"
 
-gem "nokogiri", "1.8.0"
+gem "nokogiri", "1.7.0.1"
 
 
 require 'asutils'
