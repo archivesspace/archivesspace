@@ -1130,8 +1130,14 @@ describe "EAD export mappings" do
           {'results' => []}
         end
 
+        @unpublished_agent = create(:json_agent_person, :publish => false)
+
         unpublished_resource = create(:json_resource,
-                                      :publish => false)
+                                      :publish => false,
+                                      :linked_agents => [{
+                                        :ref => @unpublished_agent.uri,
+                                        :role => 'creator'
+                                      }])
 
         @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
 
@@ -1169,6 +1175,19 @@ describe "EAD export mappings" do
 
       item = items.first
       item.should_not have_attribute('audience', 'internal')
+    end
+
+    it "include the unpublished agent with audience internal when include_unpublished is true" do
+      creators = @xml_including_unpublished.xpath('//origination')
+      creators.length.should eq(1)
+      creator = creators.first
+      creator.should have_attribute('label', 'creator')
+      creator.should have_attribute('audience', 'internal')
+    end
+
+    it "does not include the unpublished agent with audience internal when include_unpublished is false" do
+      creators = @xml_not_including_unpublished.xpath('//origination')
+      creators.length.should eq(0)
     end
   end
 
