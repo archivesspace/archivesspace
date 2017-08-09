@@ -313,6 +313,10 @@ class EADSerializer < ASpaceExport::Serializer
     unless data.creators_and_sources.nil?
       data.creators_and_sources.each do |link|
         agent = link['_resolved']
+        published = agent['publish'] === true
+
+        next if !published && !@include_unpublished
+
         role = link['role']
         relator = link['relator']
         sort_name = agent['display_name']['sort_name']
@@ -324,7 +328,10 @@ class EADSerializer < ASpaceExport::Serializer
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
                     end
-        xml.origination(:label => role) {
+
+        origination_attrs = {:label => role}
+        origination_attrs[:audience] = 'internal' unless published
+        xml.origination(origination_attrs) {
          atts = {:role => relator, :source => source, :rules => rules, :authfilenumber => authfilenumber}
          atts.reject! {|k, v| v.nil?}
 
