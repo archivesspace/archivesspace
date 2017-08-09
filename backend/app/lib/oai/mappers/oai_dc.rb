@@ -28,6 +28,10 @@ class OAIDCMapper
           xml['dc'].identifier(merged_identifier)
         end
 
+        # And a second identifier containing the public url - if public is running
+        if AppConfig[:enable_public]
+          xml['dc'].identifier(AppConfig[:public_proxy_url] + jsonmodel['uri'])
+        end
 
         # Creator -- agents linked with role 'creator' that don't have a relator of 'contributor' or 'publisher'
         Array(jsonmodel['linked_agents']).each do |link|
