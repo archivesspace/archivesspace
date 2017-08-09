@@ -235,7 +235,14 @@ module Notes
 
 
     def load_subnote_metadata(notes)
-      Hash[SubnoteMetadata.filter(:note_id => notes.values.flatten.map(&:id)).
+      note_ids = notes.values.flatten.map(&:id)
+
+      # Avoid empty sequel `SELECT * FROM subnote_metadata WHERE note_id != note_id`
+      # MySQL does not optimise such a query and this may lead to performance
+      # degradation for databases with large numbers of notes.
+      return {} if note_ids.empty?
+
+      Hash[SubnoteMetadata.filter(:note_id => note_ids).
                            all.
                            map {|sm|
              [sm.guid, sm]
@@ -261,6 +268,14 @@ module Notes
 
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
+
+      # Avoid empty sequel `SELECT * FROM note WHERE association[:key] != association[:key]`
+      # when there are no objs. This can happen when the primary record is not
+      # linked to any nested record objects that use this mixin e.g. an
+      # accession with no rights statements.  MySQL does not optimise such a
+      # query and this may lead to performance degradation for databases with
+      # large numbers of notes.
+      return jsons if objs.empty?
 
       association = self.association_reflection(:note)
       notes = {}
