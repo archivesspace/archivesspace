@@ -164,7 +164,7 @@ class AssessmentConverter < Converter
             :on_row_complete => Proc.new { |cache, attr|
               if attr.value == 'true'
                 assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-                assessment.formats << { :value => 'true', :definition_id => defn[:id]  }
+                assessment.conservation_issues << { :value => 'true', :definition_id => defn[:id]  }
               end
             }
           }
