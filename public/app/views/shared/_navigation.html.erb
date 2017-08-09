@@ -14,6 +14,14 @@
           <% $MAIN_MENU.each do |link| %>
             <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
           <% end %>
+          <% unless AppConfig[:pui_hide][:search_tab] %>
+            <li>
+              <%= link_to({:controller => :search, :action => :search, :reset => 'true'}, {:title => I18n.t('search_tab', :target => t('archive._plural'))}) do %>
+                <span class="fa fa-search" aria-hidden="true"></span>
+                <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
+              <% end %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>

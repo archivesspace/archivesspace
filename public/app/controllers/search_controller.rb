@@ -1,5 +1,7 @@
 class SearchController < ApplicationController
 
+  include PrefixHelper
+
   DEFAULT_SEARCH_FACET_TYPES = ['repository','primary_type', 'subjects', 'published_agents']
   DEFAULT_SEARCH_OPTS = {
 #    'sort' => 'title_sort asc',
@@ -13,8 +15,14 @@ class SearchController < ApplicationController
     @repo_id = params.fetch(:rid, nil)
     repo_url = "/repositories/#{@repo_id}"
     @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
-    fallback_location = @repo_id ? repo_url : root_path;
+    fallback_location = @repo_id ? app_prefix(repo_url) : app_prefix('/search?reset=true');
     @new_search = fallback_location
+
+    if params[:reset] == 'true'
+      @reset = true
+      @search = Search.new(params)
+      return render 'search/search_results'
+    end
 
       search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
@@ -35,7 +43,7 @@ class SearchController < ApplicationController
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = I18n.t('search_results.no_results')
       fallback_location = URI(fallback_location)
-      fallback_location.query = URI(@base_search).query
+      fallback_location.query = URI(@base_search).query + "&reset=true"
       redirect_to(fallback_location.to_s)
     else
       process_search_results(@base_search)
