@@ -7,8 +7,7 @@ class AssessmentConverter < Converter
   @booleans = ['basic_accession_report', 'basic_appraisal', 'basic_container_list',
                'basic_catalog_record', 'basic_control_file', 'basic_finding_aid_ead',
                'basic_finding_aid_paper', 'basic_finding_aid_word', 'basic_finding_aid_spreadsheet',
-               'basic_sensitive_material', 'basic_review_required',
-               'format_architectural']
+               'basic_sensitive_material', 'basic_review_required']
 
   # overriding this because we are special
   # this importer is self configuring, so it has to configure itself on each run
@@ -81,7 +80,6 @@ class AssessmentConverter < Converter
 
       elsif section_field.start_with?('basic_surveyed_by')
         agents += 1
-#        name = "#{section}.#{field}_#{agents}"
         data_path = "agents_#{agents}.uri"
         val_filter = user_to_uri
 
