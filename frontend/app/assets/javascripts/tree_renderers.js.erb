@@ -151,7 +151,9 @@ ResourceRenderer.prototype.build_container_summary = function(node) {
             if (container.type_3) {
                 summary_items.push(self.i18n('container_type', container.type_3) + ': ' + container.indicator_3);
             }
-            container_summaries.push(summary_items.join(', '));
+            if (summary_items.length > 0) {
+                container_summaries.push(summary_items.join(', '));
+            }
         });
 
         container_summary = container_summaries.join('; ');

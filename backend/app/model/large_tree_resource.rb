@@ -5,9 +5,9 @@ class LargeTreeResource
 
     # Collect all container data
     Instance
-      .join(:sub_container, :sub_container__instance_id => :instance__id)
-      .join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
-      .join(:top_container, :id => :top_container_link_rlshp__top_container_id)
+      .left_join(:sub_container, :sub_container__instance_id => :instance__id)
+      .left_join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
+      .left_join(:top_container, :id => :top_container_link_rlshp__top_container_id)
       .left_join(Sequel.as(:enumeration_value, :top_container_type), :id => :top_container__type_id)
       .left_join(Sequel.as(:enumeration_value, :type_2), :id => :sub_container__type_2_id)
       .left_join(Sequel.as(:enumeration_value, :type_3), :id => :sub_container__type_3_id)
@@ -88,9 +88,9 @@ class LargeTreeResource
 
     # Display container information
     Instance
-      .join(:sub_container, :sub_container__instance_id => :instance__id)
-      .join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
-      .join(:top_container, :id => :top_container_link_rlshp__top_container_id)
+      .left_join(:sub_container, :sub_container__instance_id => :instance__id)
+      .left_join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
+      .left_join(:top_container, :id => :top_container_link_rlshp__top_container_id)
       .left_join(Sequel.as(:enumeration_value, :top_container_type), :id => :top_container__type_id)
       .left_join(Sequel.as(:enumeration_value, :type_2), :id => :sub_container__type_2_id)
       .left_join(Sequel.as(:enumeration_value, :type_3), :id => :sub_container__type_3_id)
