@@ -4,6 +4,8 @@ var FORM_CHANGED_KEY = 'form_changed';
 var FORM_SUBMITTED_EVENT = 'submitted';
 
 function AjaxTree(tree, $pane) {
+    var self = this;
+
     this.tree = tree;
     this.$pane = $pane;
 
@@ -18,8 +20,7 @@ function AjaxTree(tree, $pane) {
     }
 
     this.tree.large_tree.setCurrentNode(tree_id, function() {
-        var midpoint = (tree.large_tree.elt.height() - $('#'+tree_id).height()) / 2;
-        tree.large_tree.elt.scrollTo('#'+tree_id, 0, {offset: -midpoint});
+        self.scroll_to_node(tree_id);
         if (tree.current().is(':not(.root-row)')) {
             tree.large_tree.expandNode(tree.current());
         }
@@ -184,6 +185,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
                 self.tree.large_tree.redisplayAndShow([uri], function() {
                     var tree_id = TreeIds.uri_to_tree_id(uri);
                     self.tree.large_tree.setCurrentNode(tree_id, function() {
+                        self.scroll_to_node(tree_id);
                         self.tree.toolbar_renderer.notify_form_loaded($form);
                         if (shouldPlusOne) {
                             self.add_new_after(tree.current(), tree.current().data('level'));
@@ -214,6 +216,7 @@ AjaxTree.prototype.setup_ajax_form = function() {
         var tree_id = tree.large_tree.current_tree_id;
         self.blockout_form();
         tree.toolbar_renderer.reset();
+        self.scroll_to_node(tree_id);
         self.loadPaneForId(tree_id);
     });
 
@@ -337,7 +340,9 @@ AjaxTree.prototype.add_new_after = function(node, level) {
             var tree_id= node.attr('id');
             var uri = node.data('uri');
             self.tree.large_tree.redisplayAndShow([uri], function() {
-                self.tree.large_tree.setCurrentNode(tree_id);
+                self.tree.large_tree.setCurrentNode(tree_id, function() {
+                    self.scroll_to_node(tree_id);
+                });
             });
 
             self.quietly_change_hash('tree::'+tree_id);
@@ -411,7 +416,9 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
         var uri = $('#' + tree_id).data('uri');
 
         self.tree.large_tree.redisplayAndShow([uri], function() {
-            self.tree.large_tree.setCurrentNode(tree_id);
+            self.tree.large_tree.setCurrentNode(tree_id, function() {
+                self.scroll_to_node(tree_id);
+            });
         });
         d.resolve(true);
     });
@@ -477,3 +484,9 @@ AjaxTree.prototype._new_node_form_url_for = function(jsonmodel_type) {
         throw 'No new form available for: '+ jsonmodel_type;
     }
 };
+
+AjaxTree.prototype.scroll_to_node = function(tree_id) {
+    var self = this;
+    var midpoint = (self.tree.large_tree.elt.height() - $('#'+tree_id).height()) / 2;
+    self.tree.large_tree.elt.scrollTo('#'+tree_id, 0, {offset: -midpoint});
+}
