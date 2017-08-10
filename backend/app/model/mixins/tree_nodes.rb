@@ -249,6 +249,21 @@ module TreeNodes
   end
 
 
+  def previous_node
+    pos = self.position
+    node = self.class.filter(:parent_id => self.parent_id)
+                     .filter(:root_record_id => self.root_record_id)
+                     .where { position < pos }
+                     .reverse(:position).limit(1).first
+
+    if !node && !self.parent_id
+      raise NotFoundException.new("No previous node")
+    end
+
+    node || self.class[self.parent_id]
+  end
+
+
   def transfer_to_repository(repository, transfer_group = [])
     # All records under this one will be transferred too
     children.each_with_index do |child, i|
