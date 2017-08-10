@@ -26,8 +26,6 @@ gem 'jquery-ui-rails'
 gem "json", "1.8.6"
 gem 'json-schema', '1.0.10'
 
-gem 'useragent'
-
 gem "jruby-jars", "= 9.1.8.0"
 gem 'atomic', '= 1.0.1'
 

@@ -313,10 +313,6 @@ fr:
       success: Localisations supprimées
       error: "Pas moyen de supprimer localisations:"
 
-  browser_support:
-    bronze: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
-    unknown: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
-
   welcome:
     heading: Bienvenue sur ArchivesSpace
     message: Votre gestionnaire d'archives convivial.
