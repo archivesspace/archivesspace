@@ -31,7 +31,13 @@ class OAIMODSMapper
           next unless link['_resolved']['publish']
 
           if link['role'] == 'creator'
-            xml.name { xml.namePart(link['_resolved']['title']) }
+            attrs = {}
+            if link['_resolved']['display_name']['authority_id']
+              attrs['authority'] = link['_resolved']['display_name']['authority_id']
+            end
+            xml.name(attrs) {
+              xml.namePart(link['_resolved']['title'])
+            }
           end
         end
 
@@ -148,11 +154,16 @@ class OAIMODSMapper
           next unless link['role'] == 'subject'
           next unless link['_resolved']['publish']
 
+          attrs = {}
+          if link['_resolved']['display_name']['authority_id']
+            attrs['authority'] = link['_resolved']['display_name']['authority_id']
+          end
+
           case link['_resolved']['agent_type']
           when 'agent_person', 'agent_family'
-            xml.subject { xml.name({'type' => 'personal'}, link['_resolved']['title']) }
+            xml.subject { xml.name(attrs.merge({'type' => 'personal'}), link['_resolved']['title']) }
           when 'agent_corporate_entity'
-            xml.subject { xml.name({'type' => 'corporate'}, link['_resolved']['title']) }
+            xml.subject { xml.name(attrs.merge({'type' => 'corporate'}), link['_resolved']['title']) }
           end
         end
 
