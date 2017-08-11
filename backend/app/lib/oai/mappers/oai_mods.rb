@@ -1,3 +1,4 @@
+require 'uri'
 require_relative 'oai_utils'
 
 class OAIMODSMapper
@@ -31,13 +32,7 @@ class OAIMODSMapper
           next unless link['_resolved']['publish']
 
           if link['role'] == 'creator'
-            attrs = {}
-            if link['_resolved']['display_name']['authority_id']
-              attrs['authority'] = link['_resolved']['display_name']['authority_id']
-            end
-            xml.name(attrs) {
-              xml.namePart(link['_resolved']['title'])
-            }
+            make_name(xml, link['_resolved'])
           end
         end
 
@@ -154,16 +149,11 @@ class OAIMODSMapper
           next unless link['role'] == 'subject'
           next unless link['_resolved']['publish']
 
-          attrs = {}
-          if link['_resolved']['display_name']['authority_id']
-            attrs['authority'] = link['_resolved']['display_name']['authority_id']
-          end
-
           case link['_resolved']['agent_type']
           when 'agent_person', 'agent_family'
-            xml.subject { xml.name(attrs.merge({'type' => 'personal'}), link['_resolved']['title']) }
+            xml.subject { make_name(xml, link['_resolved'], {'type' => 'personal'}) }
           when 'agent_corporate_entity'
-            xml.subject { xml.name(attrs.merge({'type' => 'corporate'}), link['_resolved']['title']) }
+            xml.subject { make_name(xml, link['_resolved'], {'type' => 'corporate'}) }
           end
         end
 
@@ -178,6 +168,43 @@ class OAIMODSMapper
     end
 
     result.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::NO_DECLARATION)
+  end
+
+
+  def make_name(xml, agent, attrs = {})
+    if (auth = agent['display_name']['authority_id'])
+      begin
+        # testing scheme here because guessing the jira means URL
+        if URI(auth).scheme
+          attrs['authority'] = auth
+        end
+      rescue URI::InvalidURIError
+        # only include authority if it is a valid URI
+        # https://archivesspace.atlassian.net/browse/ANW-212
+      end
+    end
+
+    xml.name(attrs) {
+      xml.namePart(agent['title'])
+
+      if agent['agent_type'] == 'agent_person'
+        if agent['display_name']['name_order'] == 'inverted'
+          xml.namePart({'type' => 'family'}, agent['display_name']['primary_name'])
+          xml.namePart({'type' => 'given'}, agent['display_name']['rest_of_name'])
+        else
+          xml.namePart({'type' => 'given'}, agent['display_name']['primary_name'])
+        end
+
+        if (dates_of = agent['dates_of_existence'][0])
+          date = [dates_of['begin'], dates_of['end']].join('/')
+          xml.namePart({'type' => 'date'}, date)
+        end
+
+        if (prefix = agent['display_name']['prefix'])
+          xml.namePart({'type' => 'termsOfAddress'}, prefix)
+        end
+      end
+    }
   end
 
 end
