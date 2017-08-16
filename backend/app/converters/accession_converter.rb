@@ -133,8 +133,8 @@ class AccessionConverter < Converter
       'agent_contact_post_code' => 'agent_contact.post_code',
       'agent_contact_region' => 'agent_contact.region',
       'agent_contact_salutation' => 'agent_contact.salutation',
-      'agent_contact_telephone' => 'contact_telephone.number',
-      'agent_contact_telephone_ext' => 'contact_telephone.ext',
+      'agent_contact_telephone' => 'agent_contact.telephone',
+      'agent_contact_telephone_ext' => 'agent_contact.telephone_ext',
 
       'agent_name_authority_id' => 'agent_name.authority_id',
       'agent_name_dates' => 'agent_name.dates',
@@ -190,14 +190,6 @@ class AccessionConverter < Converter
         :on_row_complete => Proc.new {|cache, this|
           agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
           agent.agent_contacts << this
-        }
-      },
-
-      :contact_telephone => {
-        :record_type => :telephone,
-        :on_row_complete => Proc.new {|cache, this|
-          agent_contact = cache.find {|obj| obj.class.record_type == 'agent_contact'}
-          agent_contact.telephones << this
         }
       },
 
