@@ -22,6 +22,7 @@ class AssessmentConverter < Converter
       @section_headers = row
       @field_headers = []
       @cell_handlers = []
+      @defns = nil
       # return empty cell handlers so that #run calls us again
       return [[], []]
     end
@@ -48,8 +49,6 @@ class AssessmentConverter < Converter
     config = {}    
     records = 0
     agents = 0
-
-    defns = AssessmentAttributeDefinitions.get(Thread.current[:request_context][:repo_id]).definitions
 
     @field_headers.each do |section_field|
       (section, field) = section_field.split('_', 2)
@@ -99,76 +98,59 @@ class AssessmentConverter < Converter
         }
 
       elsif section == 'format'
-        format = field.gsub(/_/, ' ')
+        defn = match_definition('format', field)
 
-        defn = defns.select{|d| d[:type] == 'format' && normalize_label(d[:label]).index(format)}.first
+        data_path = "#{section_field}.value"
+        val_filter = boolean_to_s
 
-        if defn
-          data_path = "#{section_field}.value"
-          val_filter = boolean_to_s
-
-          config[section_field.intern] = {
-            :record_type => 'assessment_attribute',
-            :on_row_complete => Proc.new { |cache, attr|
-              if attr.value == 'true'
-                assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-                assessment.formats << { :value => 'true', :definition_id => defn[:id]  }
-              end
-            }
+        config[section_field.intern] = {
+          :record_type => 'assessment_attribute',
+          :on_row_complete => Proc.new { |cache, attr|
+            if attr.value == 'true'
+              assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
+              assessment.formats << { :value => 'true', :definition_id => defn[:id]  }
+            end
           }
-
-        end
+        }
 
       elsif section == 'rating'
 
         if field.end_with?('_note')
           data_path = section_field.sub(/_note$/, '') + '.note'
         else
+          defn = match_definition('rating', field)
 
-          rating = field.gsub(/_/, ' ')
-
-          defn = defns.select{|d| d[:type] == 'rating' && normalize_label(d[:label]).index(rating)}.first
-
-          if defn
-            data_path = "#{section_field}.value"
-
-            config[section_field.intern] = {
-              :record_type => 'assessment_attribute',
-              :on_row_complete => Proc.new { |cache, attr|
-                assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-                assessment.formats << {
-                                        :value => attr.value,
-                                        :note => attr.note,
-                                        :definition_id => defn[:id]
-                                      }
-              }
-            }
-
-          end
-
-        end
-
-      elsif section == 'conservation'
-        issue = field.gsub(/_/, ' ')
-
-        defn = defns.select{|d| d[:type] == 'conservation_issue' && normalize_label(d[:label]).index(issue)}.first
-
-        if defn
           data_path = "#{section_field}.value"
-          val_filter = boolean_to_s
 
           config[section_field.intern] = {
             :record_type => 'assessment_attribute',
             :on_row_complete => Proc.new { |cache, attr|
-              if attr.value == 'true'
-                assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
-                assessment.conservation_issues << { :value => 'true', :definition_id => defn[:id]  }
-              end
+              assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
+              assessment.formats << {
+                :value => attr.value,
+                :note => attr.note,
+                :definition_id => defn[:id]
+              }
             }
           }
 
         end
 
+      elsif section == 'conservation'
+        defn = match_definition('conservation_issue', field)
+
+        data_path = "#{section_field}.value"
+        val_filter = boolean_to_s
+
+        config[section_field.intern] = {
+          :record_type => 'assessment_attribute',
+          :on_row_complete => Proc.new { |cache, attr|
+            if attr.value == 'true'
+              assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
+              assessment.conservation_issues << { :value => 'true', :definition_id => defn[:id]  }
+            end
+          }
+        }
       end
 
       config[name] = [val_filter, data_path]
@@ -246,6 +228,24 @@ class AssessmentConverter < Converter
       User.to_jsonmodel(user).agent_record['ref']
     }
     @user_to_uri
+  end
+
+  def self.match_definition(type, field)
+    @defns ||= AssessmentAttributeDefinitions.get(Thread.current[:request_context][:repo_id]).definitions
+    type_defns = @defns.select{|d| d[:type] == type}
+    matched_defns = type_defns.select{|d| normalize_label(d[:label]).index(field.gsub(/_/, ' '))}
+
+    if matched_defns.empty?
+      raise "Unknown #{type} in column header: #{field}. " +
+        "Allowed #{type}s for this repository: #{type_defns.map{|d| d[:label]}.join(', ')}"
+    end
+
+    if matched_defns.length > 1
+      raise "Ambiguous #{type} type in column header: #{field}. " +
+        "Matched #{matched_defns.map{|d| d[:label]}.join(', ')}"
+    end
+
+    matched_defns.first
   end
 
 end
