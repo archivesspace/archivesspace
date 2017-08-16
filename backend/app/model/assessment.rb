@@ -162,4 +162,12 @@ class Assessment < Sequel::Model(:assessment)
     raise "Unrecognized key: #{target_key}"
   end
 
+
+  def self.handle_delete(ids_to_delete)
+    DB.open do |db|
+      db[:assessment_attribute].filter(:assessment_id => ids_to_delete).delete
+    end
+
+    super
+  end
 end

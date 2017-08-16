@@ -319,6 +319,9 @@ en:
     locations:
       success: Locations deleted
       error: "Unable to delete locations:"
+    assessments:
+      success: Assessments deleted
+      error: "Unable to delete assessments:"
 
   welcome:
     heading: Welcome to ArchivesSpace

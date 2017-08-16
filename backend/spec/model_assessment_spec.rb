@@ -110,6 +110,18 @@ describe 'Assessment model' do
   end
 
 
+  it "can delete an assessment" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+    }))
+
+    assessment.delete
+
+    Assessment[assessment.id].should be(nil)
+  end
+
+
   describe "repository attributes" do
 
     before(:each) do
@@ -151,6 +163,25 @@ describe 'Assessment model' do
 
       json = Assessment.to_jsonmodel(assessment.id)
       json.formats[0]['value'].should eq('true')
+    end
+
+
+    it "can delete an assessment with repo attributes" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+      }))
+
+      json = Assessment.to_jsonmodel(assessment.id)
+      json.formats[0]['value'] = 'true'
+      json.ratings[0]['value'] = '5'
+      json.ratings[1]['value'] = '4'
+      json.conservation_issues[0]['value'] = 'true'
+      Assessment[assessment.id].update_from_json(json)
+
+      Assessment[assessment.id].delete
+
+      Assessment[assessment.id].should be(nil)
     end
 
   end

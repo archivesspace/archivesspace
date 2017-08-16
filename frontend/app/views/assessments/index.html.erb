@@ -1,7 +1,7 @@
 <%= setup_context(:title => I18n.t("assessment._plural")) %>
 
 <%
-   @show_multiselect_column = false # FIXME allow multi delete
+   @show_multiselect_column = true
    @no_title = true
 
    add_column(I18n.t("assessment.records"), proc {|record| Array(record['assessment_records']).join('; ')}, :sortable => false)
@@ -22,6 +22,9 @@
       <div class="record-toolbar">
         <div class="btn-group pull-right">
           <%= link_to I18n.t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% if user_can?("delete_archival_record") %> <%# FIXME replace with assessment permission %>
+            <%= button_delete_multiple_action(:assessments) %>
+          <% end %>
         </div>
         <br style="clear:both" />
       </div>
