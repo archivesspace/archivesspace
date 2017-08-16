@@ -536,4 +536,23 @@ module JSONModel::Validations
       check_rights_statement_external_document(hash)
     end
   end
+
+
+  def self.check_assessment_monetary_value(hash)
+    errors = []
+
+    if monetary_value = hash['monetary_value']
+      unless monetary_value =~ /\A[0-9]+\z/ || monetary_value =~ /\A[0-9]+\.[0-9]{1,2}\z/
+        errors << ['monetary_value', "must be a number with no more than 2 decimal places"]
+      end
+    end
+
+    errors
+  end
+
+  if JSONModel(:assessment)
+    JSONModel(:assessment).add_validation("check_assessment_monetary_value") do |hash|
+      check_assessment_monetary_value(hash)
+    end
+  end
 end

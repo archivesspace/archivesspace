@@ -22,12 +22,17 @@ class Assessment < Sequel::Model(:assessment)
                       :json_property => 'surveyed_by',
                       :contains_references_to_types => proc {[AgentPerson]})
 
+  define_relationship(:name => :assessment_reviewer,
+                      :json_property => 'reviewer',
+                      :contains_references_to_types => proc {[AgentPerson]})
+
   auto_generate :property => :display_string,
                 :generator => lambda { |json|
     return "Assessment #{json['id']} display string TODO"
   }
 
   def self.create_from_json(json, opts = {})
+    prepare_monetary_value_for_save(json, opts)
     obj = super
     apply_attributes(obj, json)
     obj
@@ -35,6 +40,7 @@ class Assessment < Sequel::Model(:assessment)
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
+    self.class.prepare_monetary_value_for_save(json, opts)
     super
     self.class.apply_attributes(self, json)
     self
@@ -59,6 +65,8 @@ class Assessment < Sequel::Model(:assessment)
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
+
+    prepare_monetary_value_for_jsonmodel(jsons, objs)
 
     definitions_by_obj = {}
 
@@ -106,6 +114,34 @@ class Assessment < Sequel::Model(:assessment)
   end
 
   private
+
+  def self.prepare_monetary_value_for_save(json, opts)
+    if json['monetary_value']
+      opts['monetary_value'] = BigDecimal.new(json['monetary_value'])
+    end
+  end
+
+  def self.prepare_monetary_value_for_jsonmodel(objs, jsons)
+    jsons.zip(objs).each do |json, obj|
+      # These columns come out of the DB as BigDecimal objects.  Format them as
+      # NNN.DD.
+      if obj[:monetary_value]
+        value = obj[:monetary_value].to_s('F')
+
+        # If the value is 500.0, just render as 500
+        value = value.gsub(/\.0$/, '')
+
+        # If the value is 500.4, show 500.40
+        if value =~ /\.[0-9]$/
+          value += '0'
+        end
+
+        json['monetary_value'] = value
+      end
+    end
+
+    jsons
+  end
 
   def self.json_key_for_type(target_type)
     KEY_TO_TYPE.each do |key, type|

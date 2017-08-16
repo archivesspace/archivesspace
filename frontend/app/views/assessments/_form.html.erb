@@ -7,6 +7,7 @@
       <%= link_to_help :topic => "assessment_basic_information" %>
     </h3>
     <fieldset>
+      <%= form.label_and_boolean 'inactive' %>
       <% if form.readonly? %>
         <div class="form-group">
           <div class="control-label col-sm-2"><%= I18n.t("assessment.records") %></div>
@@ -31,6 +32,8 @@
         <% end %>
       <% end %>
 
+      <h4><%= I18n.t("assessment._frontend.section.existing_description") %></h4>
+
       <div class="row">
         <div class="col-md-6">
           <%= form.label_and_boolean 'accession_report', :label_opts => { :col_size => 6 } %>
@@ -38,14 +41,21 @@
           <%= form.label_and_boolean 'container_list', :label_opts => { :col_size => 6 } %>
           <%= form.label_and_boolean 'catalog_record', :label_opts => { :col_size => 6 } %>
           <%= form.label_and_boolean 'control_file', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'deed_of_gift', :label_opts => { :col_size => 6 } %>
         </div>
   
         <div class="col-md-6">
           <%= form.label_and_boolean 'finding_aid_ead', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'finding_aid_online', :label_opts => { :col_size => 6 } %>
           <%= form.label_and_boolean 'finding_aid_paper', :label_opts => { :col_size => 6 } %>
           <%= form.label_and_boolean 'finding_aid_word', :label_opts => { :col_size => 6 } %>
           <%= form.label_and_boolean 'finding_aid_spreadsheet', :label_opts => { :col_size => 6 } %>
+          <%= form.label_and_boolean 'related_eac_records', :label_opts => { :col_size => 6 } %>
         </div>
+      </div>
+
+      <div class="row">
+        <%= form.label_and_textarea 'documentation_notes' %>
       </div>
 
       <hr>
@@ -68,15 +78,43 @@
           <div class="form-group required">
             <%= form.label('surveyed_by', {}, ['col-sm-2']) %>
             <div class="col-sm-9">
-              <%= render_aspace_partial :partial => "assessments/surveyor_linker", :locals => {:form => form} %>
+              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form} %>
             </div>
           </div>
         <% end %>
       <% end %>
-      <%= form.label_and_date 'surveyed_date' %>
+      <%= form.label_and_date 'survey_begin' %>
+      <%= form.label_and_date 'survey_end' %>
       <%= form.label_and_textfield 'surveyed_duration' %>
       <%= form.label_and_textarea 'surveyed_extent' %>
+
+      <hr>
+
       <%= form.label_and_boolean 'review_required' %>
+      <% if form.readonly? %>
+        <div class="form-group">
+          <div class="control-label col-sm-2"><%= I18n.t("assessment.reviewer") %></div>
+          <div class="controls token-list col-sm-10">
+            <% form['reviewer'].each do |reviewer| %>
+              <%= render_token :object => reviewer['_resolved'],
+                               :label => reviewer['_resolved']['title'],
+                               :type => reviewer['_resolved']['jsonmodel_type'],
+                               :uri => reviewer['ref'],
+                               :placement => "top" %>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <% form.push("reviewer", form.obj["reviewer"] || []) do %>
+          <div class="form-group">
+            <%= form.label('reviewer', {}, ['col-sm-2']) %>
+            <div class="col-sm-9">
+              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :label => I18n.t('assessment._frontend.browse_reviewers')} %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <%= form.label_and_textarea 'review_note' %>
 
       <hr>
 

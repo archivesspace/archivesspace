@@ -6,13 +6,16 @@
   else
     selected_json = "[]"
   end
+
+  label ||= I18n.t("assessment.surveyed_by")
+  label_plural ||= label
 %>
 <div class="form-group required">
   <div class="input-group linker-wrapper">
     <input type="text" class="linker"
            id="<%= form.id_for("ref") %>"
-           data-label="<%= I18n.t "assessment.surveyed_by" %>"
-           data-label_plural="<%= I18n.t "assessment.surveyed_by" %>"
+           data-label="<%= label %>"
+           data-label_plural="<%= label_plural %>"
            data-path="<%= form.path %>"
            data-name="ref"
            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"

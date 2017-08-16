@@ -37,10 +37,15 @@
       "container_list" => {"type" => "boolean"},
       "catalog_record" => {"type" => "boolean"},
       "control_file" => {"type" => "boolean"},
+      "deed_of_gift" => {"type" => "boolean"},
       "finding_aid_ead" => {"type" => "boolean"},
+      "finding_aid_online" => {"type" => "boolean"},
       "finding_aid_paper" => {"type" => "boolean"},
       "finding_aid_word" => {"type" => "boolean"},
       "finding_aid_spreadsheet" => {"type" => "boolean"},
+      "related_eac_records" => {"type" => "boolean"},
+
+      "documentation_notes" => {"type" => "string"},
 
       "surveyed_by" => {
         "type" => "array",
@@ -62,10 +67,32 @@
         }
       },
 
-      "surveyed_date" => {"type" => "date", "ifmissing" => "error"},
+      "survey_begin" => {"type" => "date", "ifmissing" => "error"},
+      "survey_end" => {"type" => "date"},
       "surveyed_duration" => {"type" => "string"},
-      "surveyed_extent" => {"type" => "string", "ifmissing" => "error"},
+      "surveyed_extent" => {"type" => "string"},
+
       "review_required" => {"type" => "boolean"},
+      "reviewer" => {
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:agent_person) uri"}],
+              "ifmissing" => "error"
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
+      "review_note" => {"type" => "string"},
+
+      "inactive" => {"type" => "boolean"},
 
       "purpose" => {"type" => "string"},
       "scope" => {"type" => "string"},
@@ -79,6 +106,9 @@
       "general_assessment_note" => {"type" => "string"},
       "special_format_note" => {"type" => "string"},
       "exhibition_value_note" => {"type" => "string"},
+
+      "monetary_value" => {"type" => "string"},
+      "monetary_value_note" => {"type" => "string"},
     },
   },
 }

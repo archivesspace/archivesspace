@@ -20,7 +20,7 @@ class AssessmentsController < ApplicationController
 
 
   def show
-    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
+    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records', 'reviewer'])
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
@@ -44,7 +44,7 @@ class AssessmentsController < ApplicationController
 
 
   def edit
-    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records'])
+    @assessment = JSONModel(:assessment).find(params[:id], 'resolve[]' => ['surveyed_by', 'records', 'reviewer'])
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
@@ -102,6 +102,15 @@ class AssessmentsController < ApplicationController
 
     if ASUtils.wrap(params_hash.dig('surveyed_by', 'ref')).length > 0
       params_hash['surveyed_by'] = ASUtils.wrap(params_hash['surveyed_by']['ref']).zip(ASUtils.wrap(params_hash['surveyed_by']['_resolved'])).map {|ref, resolved|
+        {
+          'ref' => ref,
+          '_resolved' => resolved
+        }
+      }
+    end
+
+    if ASUtils.wrap(params_hash.dig('reviewer', 'ref')).length > 0
+      params_hash['reviewer'] = ASUtils.wrap(params_hash['reviewer']['ref']).zip(ASUtils.wrap(params_hash['reviewer']['_resolved'])).map {|ref, resolved|
         {
           'ref' => ref,
           '_resolved' => resolved

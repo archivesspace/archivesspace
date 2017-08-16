@@ -2013,15 +2013,25 @@ en:
     container_list: Box/Container List
     catalog_record: Catalog Record (MARC)
     control_file: Collection/Control File
+    deed_of_gift: Deed of Gift
+    documentation_notes: Documentation Notes
     finding_aid_ead: Finding Aid (EAD-encoding)
+    finding_aid_online: Finding Aid (online)
     finding_aid_paper: Finding Aid (paper only)
     finding_aid_word: Finding Aid (word processing document)
     finding_aid_spreadsheet: Finding Aid (spreadsheet)
+    inactive: Inactive?
+    monetary_value: Monetary Value
+    monetary_value_note: Monetary Value Note
     surveyed_by: Surveyed By
-    surveyed_date: Date Survey Completed
+    survey_begin: Survey Begin Date
+    survey_end: Survey Completed Date
     surveyed_duration: Time it took to Complete Survey
     surveyed_extent: Extent Surveyed
+    related_eac_records: Related EAC Record(s)
     review_required: Review Required?
+    review_note: Review Note
+    reviewer: Who Needs to Review
     purpose: Purpose of Assessment
     scope: Scope of Assessment
     sensitive_material: Sensitive Material?

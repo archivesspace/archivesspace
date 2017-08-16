@@ -709,7 +709,7 @@ FactoryGirl.define do
   end
 
   factory :json_assessment, class: JSONModel(:assessment) do
-    surveyed_date { generate(:yyyy_mm_dd) }
+    survey_begin { generate(:yyyy_mm_dd) }
     surveyed_extent { generate(:alphanumstr) }
   end
 end

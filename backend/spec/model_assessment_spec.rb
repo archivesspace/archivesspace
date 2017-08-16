@@ -9,6 +9,7 @@ describe 'Assessment model' do
 
   let(:resource) { create_resource }
   let(:surveyor) { create(:json_agent_person) }
+  let(:reviewer) { create(:json_agent_person) }
 
   it "can create an assessment" do
     assessment = Assessment.create_from_json(build(:json_assessment, {
@@ -23,6 +24,20 @@ describe 'Assessment model' do
 
     json.surveyed_by.should_not be_empty
     json.surveyed_by.first['ref'].should eq(surveyor.uri)
+  end
+
+
+  it "can create assign a reviewer" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+      'reviewer' => [{'ref' => reviewer.uri}],
+    }))
+
+    json = Assessment.to_jsonmodel(assessment.id)
+    json.should_not be_nil
+    json.reviewer.should_not be_empty
+    json.reviewer.first['ref'].should eq(reviewer.uri)
   end
 
 
@@ -62,6 +77,36 @@ describe 'Assessment model' do
     json.formats.length.should eq(0)
 
     json.ratings[0]['value'].should eq('5')
+  end
+
+
+  it "validates monetary value as a two position decimal" do
+    # random string
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'monetary_value' => 'not a decimal',
+      }))
+    }.to raise_error(JSONModel::ValidationException)
+
+    # too many decimal places
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'monetary_value' => '10.123',
+      }))
+    }.to raise_error(JSONModel::ValidationException)
+
+    # perfect!
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'monetary_value' => '10.12',
+      }))
+    }.to_not raise_error
   end
 
 

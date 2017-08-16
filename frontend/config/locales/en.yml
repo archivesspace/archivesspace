@@ -1312,6 +1312,7 @@ en:
         create_for_record: Create Assessment
       section:
         basic_information: Basic Information
+        existing_description: Existing Description
         rating_attributes: Assessment Information
         rating_attributes_additional: Additional Rating(s)
         format_attributes: List of Material Types / Formats
@@ -1325,6 +1326,7 @@ en:
       assessment_review_required:
         true_value: "Yes"
         false_value: "No"
+      browse_reviewers: Reviewers
 
   assessment_attribute_definitions:
     _frontend:
