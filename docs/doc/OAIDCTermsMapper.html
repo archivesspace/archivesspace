@@ -342,7 +342,27 @@
 183
 184
 185
-186</pre>
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_dcterms.rb', line 5</span>
@@ -365,7 +385,7 @@
 
       <span class='comment val'># Identifier (own component ID + IDs of parents)</span>
       <span class='rubyid_merged_identifier identifier id'>merged_identifier</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;archival_object&#39;</span>
-                            <span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;ancestors&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;.&quot;</span><span class='rparen token'>)</span>
+                            <span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;ancestors&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;.&quot;</span><span class='rparen token'>)</span>
                           <span class='rubyid_else else kw'>else</span>
                             <span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_id identifier id'>id</span><span class='bitor op'>|</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;id_#{id}&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;.&#39;</span><span class='rparen token'>)</span>
                           <span class='rubyid_end end kw'>end</span>
@@ -374,8 +394,15 @@
         <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='lparen token'>(</span><span class='rubyid_merged_identifier identifier id'>merged_identifier</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
 
+      <span class='comment val'># And a second identifier containing the public url - if public is running</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:enable_public</span><span class='rbrack token'>]</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='comment val'># Creator -- agents linked with role &#39;creator&#39; that don&#39;t have a relator of &#39;contributor&#39; or &#39;publisher&#39;</span>
       <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_agents&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
+
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='lbrack token'>[</span><span class='string val'>&#39;ctb&#39;</span> <span class='comma token'>,</span><span class='string val'>&#39;pbl&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_creator identifier id'>creator</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
@@ -383,6 +410,8 @@
 
       <span class='comment val'># Contributor -- agents linked with role &#39;creator&#39; and relator of &#39;contributor&#39;</span>
       <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_agents&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
+
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;ctb&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_contributor identifier id'>contributor</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
@@ -390,13 +419,15 @@
 
       <span class='comment val'># Publisher -- agents linked with role &#39;creator&#39; and relator of &#39;publisher&#39;</span>
       <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_agents&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
+
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pbl&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_publisher identifier id'>publisher</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='comment val'># Title -- display string</span>
-      <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='lparen token'>(</span><span class='rubyid_OAIUtils constant id'>OAIUtils</span><span class='dot token'>.</span><span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='lparen token'>(</span><span class='rubyid_OAIUtils constant id'>OAIUtils</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 
       <span class='comment val'># Finding Aid Title</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;archival_object&#39;</span>
@@ -508,6 +539,15 @@
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
+      <span class='comment val'># Subjects continued - Agents as subjects</span>
+      <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_agents&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span>
+        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;subject&#39;</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dcterms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_subject identifier id'>subject</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='comment val'># Physical facet note</span>
       <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
         <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='string val'>&#39;physfacet&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
@@ -540,7 +580,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.0 Documentation Generated on Tue Jul 18 09:46:09 2017 by
+  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:44 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
