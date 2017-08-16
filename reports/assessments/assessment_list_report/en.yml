@@ -1,0 +1,39 @@
+en:
+  reports:
+    assessment_list_report:
+      accession_report: Accession Report
+      appraisal: Appraisal
+      assessment: Assessment
+      assessment_information: Assessment Information
+      assessment_note: Note
+      assessment_rating: Rating
+      assessment_score: Score
+      basic_information: Basic Information
+      catalog_record: Catalog Record (MARC)
+      conservation_issues: Conservation Issues
+      container_list: Box/Container List
+      control_file: Collection/Control File
+      description: All Created Assessment Records
+      exhibition_value_note: Exhibition Value Note
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      formats: List of Material Types / Formats
+      full_title: All Created Assessment Records
+      general_assessment_note: General Assessment Note
+      linked_records: Linked Records
+      linked_record_title: Title
+      linked_record_type: Record Type
+      number_of_assessments: Number Of Assessments
+      purpose: Purpose of Assessment
+      review_required: Review Required?
+      scope: Scope of Assessment
+      sensitive_material: Sensitive Material?
+      special_format_note: Special Format Note
+      surveyed_by: Surveyed By
+      survey_begin: Date Survey Started
+      survey_end: Date Survey Ended
+      surveyed_duration: Time it took to Complete Survey
+      surveyed_extent: Extent Surveyed
+      title: Assessment Record List

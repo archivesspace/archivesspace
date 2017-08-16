@@ -1,0 +1,114 @@
+<div class="titlepage">
+
+    <div class="title"><%= h @report.title %></div>
+
+    <dl>
+        <dt><%= t('number_of_assessments') %></dt>
+        <dd><%= h @report.total_count %></dd>
+    </dl>
+</div>
+
+<% @report.each_assessment do |assessment| %>
+    <div class="report-record">
+        <div style="display: none;" class="identifier"><%= h assessment['uri'] %></div>
+        <div class="record-title"><h1><%= t('assessment') %> <%= h assessment['display_string'] %></h1></div>
+
+        <h2><%= t('linked_records') %></h2>
+
+        <table>
+            <tr><th><%= t('linked_record_type') %></th><th><%= t('linked_record_title') %></th></tr>
+            <% Array(assessment['records']).each do |linked_record| %>
+                <tr>
+                    <td><%= h linked_record['_resolved']['jsonmodel_type'] %></td>
+                    <td><%= h linked_record['_resolved']['title'] %></td>
+                </tr>
+            <% end %>
+        </table>
+
+        <h2><%= t('basic_information') %></h2>
+
+        <dl>
+            <%
+            BOOLEAN_FIELDS = ['accession_report', 'appraisal', 'container_list', 'catalog_record',
+                              'control_file', 'finding_aid_ead', 'finding_aid_paper',
+                              'finding_aid_word', 'finding_aid_spreadsheet']
+            %>
+            <% BOOLEAN_FIELDS.each do |field| %>
+                <dt><%= t(field)%></dt>
+                <dd><%= format_boolean(assessment[field]) %></dd>
+            <% end %>
+        </dl>
+
+        <hr />
+
+        <dl>
+            <dt><%= t('surveyed_by') %></dt>
+            <dd><%= h assessment['surveyed_by'].map {|agent| agent['_resolved']['title']}.join('; ') %></dd>
+
+            <dt><%= t('survey_begin') %></dt>
+            <dd><%= format_date(assessment['survey_begin']) %></dd>
+
+            <dt><%= t('survey_end') %></dt>
+            <dd><%= format_date(assessment['survey_end']) %></dd>
+
+            <dt><%= t('surveyed_duration') %></dt>
+            <dd><%= h assessment['surveyed_duration'] %></dd>
+
+            <dt><%= t('surveyed_extent') %></dt>
+            <dd><%= h assessment['surveyed_extent'] %></dd>
+
+            <dt><%= t('review_required') %></dt>
+            <dd><%= format_boolean(assessment['review_required']) %></dd>
+
+            <dt><%= t('sensitive_material') %></dt>
+            <dd><%= format_boolean(assessment['sensitive_material']) %></dd>
+        </dl>
+
+        <%= text_section(t('purpose'), assessment['purpose']) %>
+
+        <%= text_section(t('scope'), assessment['scope']) %>
+
+        <h2><%= t('assessment_information') %></h2>
+
+        <table>
+            <tr>
+                <th><%= t('assessment_rating') %></th>
+                <th><%= t('assessment_score') %></th>
+                <th><%= t('assessment_note') %></th>
+            </tr>
+            <% Array(assessment['ratings']).each do |rating| %>
+                <tr>
+                    <td><%= h rating['label'] %></td>
+                    <td><%= h rating['value'] %></td>
+                    <td><%= h rating['note'] %></td>
+                </tr>
+            <% end %>
+        </table>
+
+        <%= text_section(t('general_assessment_note'), assessment['general_assessment_note']) %>
+
+        <h2><%= t('formats') %></h2>
+
+        <ul>
+        <% Array(assessment['formats']).each do |format| %>
+            <% if format['value'] %>
+                <li><%= h format['label'] %></li>
+            <% end %>
+        <% end %>
+        </ul>
+
+        <%= text_section(t('special_format_note'), assessment['special_format_note']) %>
+
+        <%= text_section(t('exhibition_value_note'), assessment['exhibition_value_note']) %>
+
+        <h2><%= t('conservation_issues') %></h2>
+
+        <ul>
+        <% Array(assessment['conservation_issues']).each do |issue| %>
+            <% if issue['value'] %>
+                <li><%= h issue['label'] %></li>
+            <% end %>
+        <% end %>
+        </ul>
+    </div>
+<% end %>
