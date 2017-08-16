@@ -216,8 +216,21 @@ class AssessmentConverter < Converter
 
 
   def self.record_to_uri
+    @record_types ||=  %w{resource archival_object accession digital_object}
     @record_to_uri ||= Proc.new{|val|
-      (junk, type, id) = val.match(/^(.*?).(\d+)$/).to_a
+      (junk, type, id) = val.downcase.match(/^\s*([a-z_]*?)[_\/\. ]+(\d+)\s*$/).to_a
+
+      unless type && id
+        raise "Invalid basic_record reference #{val}. " +
+          "Must have the form [#{@record_types.join('|')}][delimiter]id. " +
+          "Where [delimiter] can be any of _ / . or space."
+      end
+
+      unless @record_types.include?(type)
+        raise "Invalid basic_record reference #{val}. " +
+          "Record type #{type} not allowed. Must be one of #{@record_types.join(', ')}."
+      end
+
       JSONModel::JSONModel(type.intern).uri_for(id, :repo_id => Thread.current[:request_context][:repo_id])
     }
     @record_to_uri
