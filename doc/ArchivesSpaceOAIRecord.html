@@ -704,7 +704,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_marc identifier id'>to_oai_marc</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@sequel_record ivar id'>@sequel_record</span><span class='dot token'>.</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_marc identifier id'>marc</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:marc21</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_archival_object identifier id'>from_archival_object</span><span class='lparen token'>(</span><span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span><span class='rparen token'>)</span>
+    <span class='rubyid_marc identifier id'>marc</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:marc21</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span><span class='rparen token'>)</span>
     <span class='rubyid_remove_xml_declaration identifier id'>remove_xml_declaration</span><span class='lparen token'>(</span><span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_marc identifier id'>marc</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -781,7 +781,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.0 Documentation Generated on Tue Jul 18 09:46:08 2017 by
+  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
