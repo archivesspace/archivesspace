@@ -26,11 +26,6 @@ class Assessment < Sequel::Model(:assessment)
                       :json_property => 'reviewer',
                       :contains_references_to_types => proc {[AgentPerson]})
 
-  auto_generate :property => :display_string,
-                :generator => lambda { |json|
-    return "Assessment #{json['id']} display string TODO"
-  }
-
   def self.create_from_json(json, opts = {})
     prepare_monetary_value_for_save(json, opts)
     obj = super
@@ -67,6 +62,10 @@ class Assessment < Sequel::Model(:assessment)
     jsons = super
 
     prepare_monetary_value_for_jsonmodel(jsons, objs)
+
+    jsons.zip(objs).each do |json, obj|
+      json['display_string'] = obj.id.to_s
+    end
 
     definitions_by_obj = {}
 
