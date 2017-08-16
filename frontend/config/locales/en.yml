@@ -182,6 +182,8 @@ en:
       rights_statement_agent_uris: Rights Statement Agent
       assessment_surveyors: Surveyed By
       assessment_review_required: Review Required
+      assessment_reviewer_uris: Reviewer
+      assessment_surveyed_by_uris: Surveyed By
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -1328,6 +1330,10 @@ en:
         true_value: "Yes"
         false_value: "No"
       browse_reviewers: Reviewers
+      linked_records:
+        linked_via_assessment_records: Assessments
+        linked_via_assessment_surveyed_by: Assessments - Surveyed By
+        linked_via_assessment_reviewer: Assessments - Reviewer
 
   assessment_attribute_definitions:
     _frontend:

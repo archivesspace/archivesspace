@@ -62,7 +62,8 @@ class CommonIndexerConfig
       # Assessment module depends on these
       'related_agents',
       'records',
-      'surveyed_by'
+      'surveyed_by',
+      'reviewer',
     ]
   end
 

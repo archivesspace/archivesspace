@@ -670,6 +670,11 @@ class CommonIndexer
         doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
         doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
         doc['assessment_review_required'] = record['record']['review_required']
+        if (ASUtils.wrap(record['record']['reviewer']).length > 0)
+          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
+          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
+        end
+
       end
     }
   end

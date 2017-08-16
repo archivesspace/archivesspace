@@ -1,6 +1,6 @@
 class AssessmentsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show],
+  set_access_control  "view_repository" => [:index, :show, :embedded_search],
                       "update_assessment_record" => [:new, :edit, :create, :update],
                       "delete_archival_record" => [:delete]
 
@@ -85,6 +85,25 @@ class AssessmentsController < ApplicationController
 
     flash[:success] = I18n.t("assessment._frontend.messages.deleted", JSONModelI18nWrapper.new(:assessment => assessment))
     redirect_to(:controller => :assessments, :action => :index, :deleted_uri => assessment.uri)
+  end
+
+
+  def embedded_search
+    respond_to do |format|
+      format.js {
+        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({'facet[]' => SearchResultData.ASSESSMENT_FACETS, 'type[]' => ['assessment']}))
+        @display_identifier = false
+        if params[:listing_only]
+          render_aspace_partial :partial => "assessments/search_listing"
+        else
+          render_aspace_partial :partial => "search/results"
+        end
+      }
+      format.html {
+        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({'facet[]' => SearchResultData.ASSESSMENT_FACETS, 'type[]' => ['assessment']}))
+        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
+      }
+    end
   end
 
 
