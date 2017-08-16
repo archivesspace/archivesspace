@@ -81,9 +81,9 @@ your machines, and all commands are to be run as root (or with sudo).</p>
 
 <p>The following edits can be made in the httpd.conf file itself, or in an included file:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span><span class='rubyid_staff identifier id'>staff</span>
 <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
-<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span>
 <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
 </code></pre>
 
@@ -116,7 +116,7 @@ want to close them off. See README_HTTPS for more information on closing ports u
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.0 Documentation Generated on Tue Jul 18 09:45:53 2017 by
+  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
