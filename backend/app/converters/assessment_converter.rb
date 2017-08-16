@@ -7,7 +7,8 @@ class AssessmentConverter < Converter
   @booleans = ['basic_accession_report', 'basic_appraisal', 'basic_container_list',
                'basic_catalog_record', 'basic_control_file', 'basic_finding_aid_ead',
                'basic_finding_aid_paper', 'basic_finding_aid_word', 'basic_finding_aid_spreadsheet',
-               'basic_sensitive_material', 'basic_review_required']
+               'basic_finding_aid_online', 'basic_related_eac_records', 'basic_inactive',
+               'basic_sensitive_material', 'basic_review_required', 'basic_deed_of_gift']
 
   # overriding this because we are special
   # this importer is self configuring, so it has to configure itself on each run
@@ -29,6 +30,7 @@ class AssessmentConverter < Converter
 
     records = 0
     agents = 0
+    reviewers = 0
     @field_headers = @section_headers.zip(row).map{|section, field|
       hdr = "#{section}_#{field}"
       if hdr == 'basic_record'
@@ -37,6 +39,9 @@ class AssessmentConverter < Converter
       elsif hdr == 'basic_surveyed_by'
         agents += 1
         hdr += "_#{agents}"
+      elsif hdr == 'basic_reviewer'
+        reviewers += 1
+        hdr += "_#{reviewers}"
       end
       # our parent is very strict about headers ...
       normalize_label(hdr.downcase).gsub(/ /, '_')
@@ -49,6 +54,7 @@ class AssessmentConverter < Converter
     config = {}    
     records = 0
     agents = 0
+    reviewers = 0
 
     @field_headers.each do |section_field|
       (section, field) = section_field.split('_', 2)
@@ -72,7 +78,7 @@ class AssessmentConverter < Converter
             assessment.records << {'ref' => record.uri}
 
             # nil the record in the cache to avoid having it created
-            cache.map! {|obj| (obj && obj.uri == record.uri) ? nil : obj}
+            cache.map! {|obj| (obj && obj.key == record.key) ? nil : obj}
           }
         }
 
@@ -93,7 +99,27 @@ class AssessmentConverter < Converter
             assessment.surveyed_by << {'ref' => agent.uri}
 
             # nil the agent in the cache to avoid having it created
-            cache.map! {|obj| (obj && obj.uri == agent.uri) ? nil : obj}
+            cache.map! {|obj| (obj && obj.key == agent.key) ? nil : obj}
+          }
+        }
+
+      elsif section_field.start_with?('basic_reviewer')
+        reviewers += 1
+        data_path = "reviewers_#{reviewers}.uri"
+        val_filter = user_to_uri
+
+        config["reviewers_#{reviewers}".intern] = {
+          :record_type => Proc.new {|data|
+            JSONModel.parse_reference(data['uri'])[:type]
+          },
+          :on_row_complete => Proc.new { |cache, agent|
+
+            assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
+
+            assessment.reviewer << {'ref' => agent.uri}
+
+            # nil the agent in the cache to avoid having it created
+            cache.map! {|obj| (obj && obj.key == agent.key) ? nil : obj}
           }
         }
 
