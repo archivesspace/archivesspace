@@ -667,7 +667,8 @@ class CommonIndexer
         doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
         doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
         doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
-        doc['assessment_surveyed_date'] = "#{record['record']['surveyed_date']}T00:00:00Z"
+        doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
+        doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
         doc['assessment_review_required'] = record['record']['review_required']
       end
     }

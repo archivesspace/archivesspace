@@ -201,7 +201,8 @@
    <field name="assessment_records" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_surveyor_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_surveyors" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="assessment_surveyed_date" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_begin" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_end" type="date" indexed="true" stored="true" multiValued="false" />
    <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <!-- Audit fields -->
