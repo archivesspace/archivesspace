@@ -15,8 +15,8 @@ module ASModel
         },
         'date' => {
           :description => "Date strings become dates",
-          :json_to_db => ->(s) { Date.parse(s) },
-          :db_to_json => ->(date) { date.strftime('%Y-%m-%d') }
+          :json_to_db => ->(s) { s.nil? ? s : Date.parse(s) },
+          :db_to_json => ->(date) { date.nil? ? date : date.strftime('%Y-%m-%d') }
         }
       }
 
