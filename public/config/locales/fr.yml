@@ -76,7 +76,7 @@ fr:
 
   search-button:
     label: Chercher
-  search-limit: "Limité à %{limit}"
+  search-limit: "Limité Chercher"
   search-limiting: "Limité à %{limit}"
   search-limits:
     all: tous types de notices
