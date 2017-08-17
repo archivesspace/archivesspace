@@ -3,6 +3,7 @@ ArchivesSpace README
 
 [![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg?branch=master)](https://travis-ci.org/archivesspace/archivesspace)[![Coverage Status](https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master)](https://coveralls.io/github/archivesspace/archivesspace?branch=master)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
 [![Stories in Ready](https://badge.waffle.io/archivesspace/archivesspace.png?label=ready&title=Ready)](https://waffle.io/archivesspace/archivesspace?utm_source=badge)
+[![Dependency Status](https://gemnasium.com/badges/github.com/archivesspace/archivesspace.svg)](https://gemnasium.com/github.com/archivesspace/archivesspace)
 
 
 * [archivesspace.org](http://archivesspace.org)
@@ -572,7 +573,7 @@ they last harvested.
 
 ```Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include <p>, <abbr>, <address>, <archref>, <bibref>, <blockquote>, <chronlist>, <corpname>, <date>, <emph>, <expan>, <extptr>, <extref>, <famname>, <function>, <genreform>, <geogname>, <lb>, <linkgrp>, <list>, <name>, <note>, <num>, <occupation>, <origination>, <persname>, <ptr>, <ref>, <repository>, <subject>, <table>, <title>, <unitdate>, <unittitle>).```
 
-The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface. 
+The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface.
 
 ARKs have not yet been implemented, pending more discussion of how they should be formulated.
 
