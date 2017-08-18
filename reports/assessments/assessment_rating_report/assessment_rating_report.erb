@@ -1,0 +1,20 @@
+<h2><%= @report.rating_name %></h2>
+
+<h3><%= t('showing_values') %>: <%= @report.values_of_interest.join(", ") %>
+
+<table>
+    <tr>
+        <th><%= t('assessment_number') %></th>
+        <th><%= t('linked_record_type') %></th>
+        <th><%= t('linked_record_title') %></th>
+        <th><%= t('rating') %></th>
+    </tr>
+    <% @report.each_record do |record| %>
+        <tr>
+            <td><%= h record[:assessment_id] %></td>
+            <td><%= h record[:linked_record_type] %></td>
+            <td><%= h record[:linked_record] %></td>
+            <td><%= h record[:rating] %></td>
+        </tr>
+    <% end %>
+</table>

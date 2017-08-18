@@ -1,0 +1,8 @@
+en:
+  reports:
+    assessment_rating_report:
+      showing_values: Showing records with rating values
+      assessment_number: Assessment Number
+      linked_record_type: Record Type
+      linked_record_title: Record Title
+      rating: Rating

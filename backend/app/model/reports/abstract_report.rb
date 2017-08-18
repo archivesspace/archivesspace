@@ -2,7 +2,7 @@ require_relative 'report_manager'
 
 class AbstractReport
   include ReportManager::Mixin
-  
+
   attr_accessor :repo_id
   attr_accessor :format
   attr_accessor :params

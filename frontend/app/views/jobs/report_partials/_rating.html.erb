@@ -1,0 +1,11 @@
+<%
+definitions = JSONModel(:assessment_attribute_definitions).find(nil)
+global_ratings = definitions.definitions.select {|definition| definition['type'] == 'rating' && definition['global']}
+%>
+
+<select name="job[job_params][rating]">
+  <% global_ratings.each do |rating| %>
+    <option value="<%= rating['id'] %>"><%= rating['label'] %></option>
+  <% end %>
+</select>
+
