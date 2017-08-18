@@ -7,8 +7,8 @@ class AssessmentListReport < AbstractReport
 
   def initialize(params, job, db)
     super
-    from = params["from"] || Time.now.to_s
-    to = params["to"] || Time.now.to_s
+    from = params["from"].to_s.empty? ? Time.at(0).to_s : params["from"]
+    to = params["to"].to_s.empty? ? Time.at(0).to_s : params["to"]
 
     @from = DateTime.parse(from).to_time.strftime("%Y-%m-%d %H:%M:%S")
     @to = DateTime.parse(to).to_time.strftime("%Y-%m-%d %H:%M:%S")

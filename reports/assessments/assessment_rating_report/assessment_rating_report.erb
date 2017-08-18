@@ -9,12 +9,12 @@
         <th><%= t('linked_record_title') %></th>
         <th><%= t('rating') %></th>
     </tr>
-    <% @report.each_record do |record| %>
+    <% @report.each do |record| %>
         <tr>
-            <td><%= h record[:assessment_id] %></td>
-            <td><%= h record[:linked_record_type] %></td>
-            <td><%= h record[:linked_record] %></td>
-            <td><%= h record[:rating] %></td>
+            <td><%= h record['assessment_id'] %></td>
+            <td><%= h record['record_type'] %></td>
+            <td><%= h record['title'] %></td>
+            <td><%= h record['rating'] %></td>
         </tr>
     <% end %>
 </table>
