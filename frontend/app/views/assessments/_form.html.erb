@@ -330,6 +330,11 @@
 
         <%= form.label_and_textarea 'special_format_note' %>
         <%= form.label_and_textarea 'exhibition_value_note' %>
+
+        <hr>
+
+        <%= form.label_and_textfield 'monetary_value' %>
+        <%= form.label_and_textarea 'monetary_value_note' %>
       </div>
     </div>
   </section>
@@ -394,6 +399,8 @@
               </div>
             <% end %>
         <% end %>
+        <hr>
+        <%= form.label_and_textarea 'conservation_note' %>
       </div>
     </div>
   </section>

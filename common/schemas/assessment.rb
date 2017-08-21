@@ -109,6 +109,8 @@
 
       "monetary_value" => {"type" => "string"},
       "monetary_value_note" => {"type" => "string"},
+
+      "conservation_note" => {"type" => "string"},
     },
   },
 }

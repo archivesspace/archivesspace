@@ -61,7 +61,7 @@ class Assessment < Sequel::Model(:assessment)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
-    prepare_monetary_value_for_jsonmodel(jsons, objs)
+    prepare_monetary_value_for_jsonmodel(objs, jsons)
 
     jsons.zip(objs).each do |json, obj|
       json['display_string'] = obj.id.to_s
@@ -135,7 +135,7 @@ class Assessment < Sequel::Model(:assessment)
           value += '0'
         end
 
-        json['monetary_value'] = value
+        json[:monetary_value] = value
       end
     end
 

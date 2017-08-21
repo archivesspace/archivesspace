@@ -110,6 +110,18 @@ describe 'Assessment model' do
   end
 
 
+  it "saves monetary value as decimal and formats as string" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+      'monetary_value' => '10.12',
+    }))
+
+    Assessment[assessment.id].monetary_value.should eq(10.12)
+    Assessment.to_jsonmodel(assessment.id).monetary_value.should eq('10.12')
+  end
+
+
   it "can delete an assessment" do
     assessment = Assessment.create_from_json(build(:json_assessment, {
       'records' => [{'ref' => resource.uri}],

@@ -2013,6 +2013,7 @@ en:
     container_list: Box/Container List
     catalog_record: Catalog Record (MARC)
     control_file: Collection/Control File
+    conservation_note: Conservation Note
     deed_of_gift: Deed of Gift
     documentation_notes: Documentation Notes
     finding_aid_ead: Finding Aid (EAD-encoding)
