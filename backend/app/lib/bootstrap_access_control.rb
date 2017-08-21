@@ -283,6 +283,13 @@ class ArchivesSpaceService
                       "The ability to create and modify assessment records",
                       :level => "repository")
 
+    Permission.define("delete_assessment_record",
+                      "The ability to delete assessment records",
+                      :level => "repository")
+
+    Permission.define("manage_assessment_attributes",
+                      "The ability to managae assessment attribute definitions",
+                      :level => "repository")
   end
 
 

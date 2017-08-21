@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Delete an Assessment")
     .params(["id", :id],
             ["repo_id", :repo_id])
-    .permissions([:delete_archival_record])
+    .permissions([:delete_assessment_record])
     .returns([200, :deleted]) \
   do
     handle_delete(Assessment, params[:id])

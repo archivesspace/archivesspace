@@ -1,6 +1,6 @@
 class AssessmentAttributesController < ApplicationController
 
-  set_access_control  "manage_repository" => [:edit, :update]
+  set_access_control  "manage_assessment_attributes" => [:edit, :update]
 
 
   def edit

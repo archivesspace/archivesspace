@@ -143,8 +143,6 @@ Sequel.migration do
       add_foreign_key([:assessment_id], :assessment, :key => :id)
       add_foreign_key([:assessment_attribute_definition_id], :assessment_attribute_definition, :key => :id)
     end
-
-    # TODO bootstrap update_assessment_record permission to those worthy 
   end
 
   down do

@@ -2,7 +2,7 @@ class AssessmentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :embedded_search],
                       "update_assessment_record" => [:new, :edit, :create, :update],
-                      "delete_archival_record" => [:delete] # FIXME replace with assessment permission
+                      "delete_assessment_record" => [:delete]
 
   def index
     respond_to do |format| 

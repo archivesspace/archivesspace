@@ -1,10 +1,11 @@
 class BatchDeleteController < ApplicationController
 
-  set_access_control  "delete_archival_record" => [:archival_records, :assessments], #FIXME replace with assessment only permission
+  set_access_control  "delete_archival_record" => [:archival_records],
                       "delete_subject_record" => [:subjects],
                       "delete_agent_record" => [:agents],
                       "delete_classification_record" => [:classifications],
-                      "administer_system" => [:locations]
+                      "administer_system" => [:locations],
+                      "delete_assessment_record" => [:assessments]
   
   def locations
     delete_records(params[:record_uris])

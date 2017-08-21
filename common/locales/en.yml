@@ -1395,6 +1395,9 @@ en:
       manage_location_profile_record: create/update/delete location profile records
       create_job: create and run a background job
       cancel_job: cancel a background job
+      update_assessment_record: create/update assessment records
+      delete_assessment_record: delete assessment records
+      manage_assessment_attributes: create/update/delete repository assessment attributes definitions
     _singular: Group
     _plural: Groups
 
