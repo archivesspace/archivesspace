@@ -1652,7 +1652,7 @@ Sequel.migration do
 
     remaining = tables.reject {|t| t == :schema_info}
 
-    ceiling = 100
+    ceiling = 300
 
     begin
       

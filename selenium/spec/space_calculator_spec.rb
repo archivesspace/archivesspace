@@ -87,8 +87,9 @@ describe "Space Calculator" do
 
   it "can run the calculator for a specific location" do
     @driver.find_element(:link => "By Location(s)").click
-    @driver.clear_and_send_keys([:id, "token-input-location"], @location.title)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    
+    input_token = @driver.find_element(:id, "token-input-location")
+    @driver.typeahead_and_select( input_token, @location.title ) 
 
     @driver.find_element(:css => "#spaceCalculatorModal #space_calculator .btn.btn-primary").click
 

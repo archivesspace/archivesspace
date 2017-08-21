@@ -51,11 +51,12 @@ end
 
 class PeriodicIndexer < CommonIndexer
 
-  def initialize(backend_url = nil, state = nil, indexer_name = nil)
+  def initialize(backend_url = nil, state = nil, indexer_name = nil, verbose = true)
     super(backend_url || AppConfig[:backend_url])
 
     @indexer_name = indexer_name || 'PeriodicIndexer'
     @state = state || IndexState.new
+    @verbose = verbose 
 
     # A small window to account for the fact that transactions might be committed
     # after the periodic indexer has checked for updates, but with timestamps from
@@ -192,7 +193,7 @@ class PeriodicIndexer < CommonIndexer
 
         checkpoints << [repository, type, start]
 
-        $stderr.puts("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
+        log("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
       end
 
       index_round_complete(repository)
@@ -255,7 +256,8 @@ class PeriodicIndexer < CommonIndexer
   end
 
   def log(line)
-    $stderr.puts("#{@indexer_name} [#{Time.now}] #{line}")
+    return unless @verbose
+    $stderr.puts("#{@indexer_name} [#{Time.now}] #{line}") 
     $stderr.flush
   end
 

@@ -117,7 +117,10 @@ describe "Resources and archival objects" do
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
     # The new Resource shows up on the tree
-    assert(5) { tree_current.text.strip.should match(resource_regex) }
+    assert(5) { 
+      sleep(2) 
+      tree_current.text.strip.should match(resource_regex)
+    }
   end
 
 
