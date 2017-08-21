@@ -21,7 +21,9 @@
     <% if user_can?('update_assessment_record') %>
       <div class="record-toolbar">
         <div class="btn-group pull-right">
-          <%= link_to I18n.t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% if user_can?("update_assessment_record") %>
+            <%= link_to I18n.t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% end %>
           <% if user_can?("delete_assessment_record") %>
             <%= button_delete_multiple_action(:assessments) %>
           <% end %>
