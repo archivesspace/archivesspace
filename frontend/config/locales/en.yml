@@ -228,6 +228,7 @@ en:
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
     assessment_survey_begin: Survey Begin Date
+    assessment_survey_end: Survey Completed Date
 
   advanced_search:
     operator:
