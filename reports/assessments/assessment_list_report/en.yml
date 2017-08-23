@@ -13,9 +13,11 @@ en:
       conservation_issues: Conservation Issues
       container_list: Box/Container List
       control_file: Collection/Control File
+      deed_of_gift: Deed Of Gift
       description: All Created Assessment Records
       exhibition_value_note: Exhibition Value Note
       finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
       finding_aid_paper: Finding Aid (paper only)
       finding_aid_spreadsheet: Finding Aid (spreadsheet)
       finding_aid_word: Finding Aid (word processing document)
@@ -27,6 +29,7 @@ en:
       linked_record_type: Record Type
       number_of_assessments: Number Of Assessments
       purpose: Purpose of Assessment
+      related_eac_records: Related EAC Record(s)
       review_required: Review Required?
       scope: Scope of Assessment
       sensitive_material: Sensitive Material?

@@ -30,7 +30,7 @@ class AssessmentRatingReport < AbstractReport
     end
 
     from = params["from"].to_s.empty? ? Time.at(0).to_s : params["from"]
-    to = params["to"].to_s.empty? ? Time.now.to_s : params["to"]
+    to = params["to"].to_s.empty? ? Time.parse('9999-01-01').to_s : params["to"]
 
     @from = DateTime.parse(from).to_time.strftime("%Y-%m-%d %H:%M:%S")
     @to = DateTime.parse(to).to_time.strftime("%Y-%m-%d %H:%M:%S")
