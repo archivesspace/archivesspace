@@ -213,7 +213,18 @@
   
               <% if @assessment_attribute_definitions.repo_ratings.length > 0 %>
                 <tr>
-                  <th colspan="7"><strong><%= I18n.t('assessment._frontend.section.rating_attributes_additional') %></strong></th>
+                  <th colspan="7">
+                    <strong><%= I18n.t('assessment._frontend.section.rating_attributes_additional') %></strong>
+                    <div>
+                      <small class="text-muted">
+                        <% if user_can?('manage_assessment_attributes') %>
+                          <%= link_to I18n.t('assessment._frontend.messages.manage_attributes_hint', :attribute_type => I18n.t('assessment._frontend.ratings')), :controller => :assessment_attributes, :action => :edit %>
+                        <% else %>
+                          <%= I18n.t('assessment._frontend.messages.attributes_hint', :attribute_type => I18n.t('assessment._frontend.ratings')) %>
+                        <% end %>
+                      </small>
+                    </div>
+                  </th>
                 </tr>
   
                 <% @assessment_attribute_definitions.repo_ratings.each do |rating| %>
@@ -302,7 +313,18 @@
           <% if @assessment_attribute_definitions.repo_formats.length > 0 %>
             <div class="row">
               <div class="col-md-12">
-                <h5><strong><%= I18n.t('assessment._frontend.section.format_attributes_additional') %></strong></h5>
+                <h5>
+                  <strong><%= I18n.t('assessment._frontend.section.format_attributes_additional') %></strong>
+                  <div>
+                    <small class="text-muted">
+                      <% if user_can?('manage_assessment_attributes') %>
+                        <%= link_to I18n.t('assessment._frontend.messages.manage_attributes_hint', :attribute_type => I18n.t('assessment._frontend.formats')), :controller => :assessment_attributes, :action => :edit %>
+                      <% else %>
+                        <%= I18n.t('assessment._frontend.messages.attributes_hint', :attribute_type => I18n.t('assessment._frontend.formats')) %>
+                      <% end %>
+                    </small>
+                  </div>
+                </h5>
               </div>
             </div>
             <div class="row">
@@ -378,7 +400,18 @@
             <% if @assessment_attribute_definitions.repo_conservation_issues.length > 0 %>
               <div class="row">
                 <div class="col-md-12">
-                  <h5><strong><%= I18n.t('assessment._frontend.section.conservation_issue_attributes_additional') %></strong></h5>
+                  <h5>
+                    <strong><%= I18n.t('assessment._frontend.section.conservation_issue_attributes_additional') %></strong>
+                    <div>
+                      <small class="text-muted">
+                        <% if user_can?('manage_assessment_attributes') %>
+                          <%= link_to I18n.t('assessment._frontend.messages.manage_attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')), :controller => :assessment_attributes, :action => :edit %>
+                        <% else %>
+                          <%= I18n.t('assessment._frontend.messages.attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')) %>
+                        <% end %>
+                      </small>
+                    </div>
+                  </h5>
                 </div>
               </div>
               <div class="row">
