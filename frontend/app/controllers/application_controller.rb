@@ -140,6 +140,9 @@ class ApplicationController < ActionController::Base
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+    rescue ConflictException => e
+      flash[:error] = I18n.t("errors.merge_conflict", :message => e.conflicts)
+      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
     rescue RecordNotFound => e
       flash[:error] = I18n.t("errors.error_404")
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))

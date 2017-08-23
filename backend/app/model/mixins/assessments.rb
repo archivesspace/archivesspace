@@ -12,7 +12,7 @@ module Assessments
       assessment_rlshp = self.class.find_relationship(:assessment)
 
       if object_graph.models.any? {|model| model.is_relationship? && model == assessment_rlshp }
-        raise ConflictException.new("Record cannot be deleted as linked to an assessment")
+        raise ConflictException.new("Record cannot be deleted as it is linked to an assessment")
       end
 
       super
@@ -36,7 +36,7 @@ module Assessments
                            self.class.find_relationship(:assessment_reviewer)]
 
       if object_graph.models.any? {|model| model.is_relationship? && assessment_rlshps.include?(model) }
-        raise ConflictException.new("Agent cannot be deleted as linked to an assessment")
+        raise ConflictException.new("Agent cannot be deleted as it is linked to an assessment")
       end
 
       super
