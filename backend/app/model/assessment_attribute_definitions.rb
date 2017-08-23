@@ -9,10 +9,15 @@ class AssessmentAttributeDefinitions
 
     DB.open do |db|
       # Deleted things are deleted!  That is, IDs that aren't in our new list
-      db[:assessment_attribute_definition]
-        .filter(:repo_id => repo_id)
-        .where { Sequel.~(:id => definitions.map {|d| d['id']}.compact) }
-        .delete
+      begin
+        db[:assessment_attribute_definition]
+          .filter(:repo_id => repo_id)
+          .where { Sequel.~(:id => definitions.map {|d| d['id']}.compact) }
+          .delete
+      rescue Sequel::ForeignKeyConstraintViolation
+          raise ConflictException.new("RECORD_IN_USE")
+      end
+
 
       # Don't allow a label to be set if it would conflict with a label used by one of the global attributes
       definitions.each do |d|

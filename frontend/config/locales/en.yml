@@ -1372,3 +1372,4 @@ en:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
         conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"
+        attribute_in_use: Unable to delete an attribute that is currently in use by an assessment
