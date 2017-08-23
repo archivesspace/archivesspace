@@ -1,20 +1,27 @@
 <h2><%= @report.rating_name %></h2>
 
-<h3><%= t('showing_values') %>: <%= @report.values_of_interest.join(", ") %>
+<h3><%= t('showing_values') %>: <%= @report.values_of_interest.join(", ") %></h3>
 
-<table>
-    <tr>
-        <th><%= t('assessment_number') %></th>
-        <th><%= t('linked_record_type') %></th>
-        <th><%= t('linked_record_title') %></th>
-        <th><%= t('rating') %></th>
-    </tr>
-    <% @report.each do |record| %>
-        <tr>
-            <td><%= h record['assessment_id'] %></td>
-            <td><%= I18n.t(record['record_type'] + '._singular') %></td>
-            <td><%= h record['title'] %></td>
-            <td><%= h record['rating'] %></td>
-        </tr>
-    <% end %>
-</table>
+<% rows = @report.to_a %>
+
+<% if rows.empty? %>
+    <p><%= t('no_matches') %></p>
+<% else %>
+    <% headers = rows[0].keys %>
+    <table class="report-listing">
+        <thead>
+            <tr>
+                <% headers.each do |column| %>
+                    <th><%= column %></th>
+                <% end %>
+            </tr>
+        </thead>
+        <% rows.each do |record| %>
+            <tr>
+                <% headers.map {|header| record[header]}.each do |value| %>
+                    <td><%= value %></td>
+                <% end  %>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

@@ -9,6 +9,8 @@ class CSVResponse
   end
 
   def generate
+    return @report.to_csv if @report.respond_to?(:to_csv)
+
     doc = config_report
     if @report.template.include? 'generic_listing'
       generic_report_parsing(doc)

@@ -5,5 +5,6 @@ en:
       assessment_number: Assessment Number
       linked_record_type: Record Type
       linked_record_title: Record Title
+      no_matches: There were no assessment records matching your criteria
       rating: Rating
       title: Assessment Rating Report

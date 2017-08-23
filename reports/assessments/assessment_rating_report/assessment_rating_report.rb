@@ -1,3 +1,5 @@
+require 'csv'
+
 class AssessmentRatingReport < AbstractReport
 
   # Gives us each_slice, used below
@@ -42,6 +44,53 @@ class AssessmentRatingReport < AbstractReport
 
   def rating_name
     db[:assessment_attribute_definition].filter(:id => @rating_id).get(:label)
+  end
+
+  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating']
+  FIELDS = ['assessment_id', 'record_type', 'title', 'rating']
+
+  def to_a
+    result = []
+
+    renderer = ReportErbRenderer.new(self, {})
+
+    each do |record|
+      hash = {}
+
+      HEADERS.zip(FIELDS).each do |header, field|
+        translated_header = renderer.t(header)
+
+        if field == 'record_type'
+          hash[translated_header] = I18n.t(record[field] + '._singular')
+        else
+          hash[translated_header] = record[field]
+        end
+      end
+
+      result << hash
+    end
+
+    result
+  end
+
+  def to_json
+    ASUtils.to_json(to_a)
+  end
+
+  def to_csv
+    result = to_a
+
+    return "" if result.empty?
+
+    headers = result[0].keys
+
+    CSV.generate do |csv|
+      csv << headers
+
+      result.each do |row|
+        csv << headers.map {|header| row[header]}
+      end
+    end
   end
 
   def query
