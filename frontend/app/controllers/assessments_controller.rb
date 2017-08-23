@@ -39,6 +39,7 @@ class AssessmentsController < ApplicationController
     end
 
     @assessment ||= JSONModel(:assessment).new._always_valid!
+    @assessment.survey_begin ||= Date.today.strftime('%Y-%m-%d')
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
