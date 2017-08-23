@@ -46,8 +46,15 @@ class Assessment < Sequel::Model(:assessment)
     DB.open do |db|
       db[:assessment_attribute].filter(:assessment_id => obj.id).delete
 
+      valid_attribute_ids = db[:assessment_attribute_definition]
+                              .filter(:repo_id => [Repository.global_repo_id, active_repository])
+                              .select(:id)
+                              .map {|row| row[:id]}
+
       KEY_TO_TYPE.each do |key, type|
         Array(json[key]).each do |attribute|
+          next unless valid_attribute_ids.include?(attribute['definition_id'])
+
           db[:assessment_attribute].insert(:assessment_id => obj.id,
                                            :value => attribute['value'],
                                            :note => attribute['note'],

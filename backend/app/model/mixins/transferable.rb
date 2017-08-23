@@ -2,6 +2,7 @@ module Transferable
 
   def transfer_to_repository(repository, transfer_group = [])
     events_to_clone = []
+    assessments_to_clone = []
     containers_to_clone = {}
 
     graph = self.object_graph
@@ -77,6 +78,23 @@ module Transferable
         event_role = event_json.linked_records.find {|link| link['ref'] == self.uri}['role']
 
         events_to_clone << {:event => event_json, :role => event_role}
+      end
+    end
+
+    ## As with events, Assessment records will be transferred if they only link
+    ## to records that are being transferred too.  Otherwise, we clone the
+    ## assessment in the target repository.
+    Assessment.find_relationship(:assessment).who_participates_with(self).each do |assessment|
+      linked_records = assessment.related_records(:assessment)
+
+      if linked_records.length == 1
+        # Assessments whose linked_records list contains only the record being
+        # transferred should themselves be transferred.
+        assessment.transfer_to_repository(repository, transfer_group + [self])
+      else
+        assessment_json = Assessment.to_jsonmodel(assessment)
+
+        assessments_to_clone << {:assessment => assessment_json}
       end
     end
 
@@ -166,8 +184,9 @@ module Transferable
       end
     end
 
-    ## Clone any required events in the new repository
+    ## Clone any required events and assessments in the new repository
     RequestContext.open(:repo_id => repository.id) do
+      # Events
       events_to_clone.each do |to_clone|
         event = to_clone[:event].to_hash(:trusted).
                 merge('linked_records' => [{
@@ -177,6 +196,17 @@ module Transferable
 
         Event.create_from_json(JSONModel(:event).from_hash(event),
                                :repo_id => repository.id)
+      end
+
+      # Assessments
+      assessments_to_clone.each do |to_clone|
+        assessment = to_clone[:assessment].to_hash(:trusted).
+                       merge('records' => [{
+                                             'ref' => self.uri,
+                                           }])
+
+        Assessment.create_from_json(JSONModel(:assessment).from_hash(assessment),
+                                    :repo_id => repository.id)
       end
     end
   end
