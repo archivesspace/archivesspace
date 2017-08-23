@@ -50,6 +50,8 @@
 
       "publish" => {"type" => "boolean"},
 
+      "is_user" => {"readonly" => true, "type" => "boolean"},
+
     },
   },
 }

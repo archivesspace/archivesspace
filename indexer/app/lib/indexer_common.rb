@@ -424,6 +424,13 @@ class CommonIndexer
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
 
+        if record['record']['is_user']
+          doc['is_user'] = true
+          doc['types'] << 'agent_with_user'
+        else
+          doc['is_user'] = false
+        end
+
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
       end

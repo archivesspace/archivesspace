@@ -337,6 +337,8 @@ module AgentManager
 
           populate_display_name(json)
           json.title = json['display_name']['sort_name']
+
+          json.is_user = obj.class == AgentPerson && User.filter(:agent_record_id => obj.id).count > 0
         end
 
         jsons

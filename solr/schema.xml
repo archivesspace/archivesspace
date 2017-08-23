@@ -195,6 +195,7 @@
    <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="used_within_repository" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="used_within_published_repository" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="is_user" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <!-- Assessment fields -->
    <field name="assessment_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
