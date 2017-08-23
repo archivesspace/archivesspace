@@ -146,7 +146,7 @@
               </tr>
             </thead>
             <tbody>
-              <% ASUtils.wrap(form.obj['ratings']).each do |rating| %>
+              <% ASUtils.wrap(form.obj['ratings']).sort{|a, b| a.fetch('label') <=> b.fetch('label')}.each do |rating| %>
                 <% next unless rating['value'] || rating['note'] %>
                 <tr>
                   <td><%= rating.fetch('label') %></td>
@@ -171,7 +171,10 @@
             </thead>
             <tbody>
               <% ratings_index = 0 %>
-              <% @assessment_attribute_definitions.global_ratings.each do |rating| %>
+              <% @assessment_attribute_definitions.global_ratings.sort{|a, b|
+                   # FIXME I18n this too
+                   a.fetch('label') <=> b.fetch('label')
+                 }.each do |rating| %>
               <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
                 <tr>
                   <td>
@@ -284,7 +287,10 @@
         <div class="row">
           <% if form.readonly? %>
             <ul>
-              <% ASUtils.wrap(form.obj['formats']).each do |format| %>
+              <% ASUtils.wrap(form.obj['formats']).sort{|a, b|
+                  # FIXME I18n this too
+                  a.fetch('label') <=> b.fetch('label')
+                 }.each do |format| %>
                 <% next unless format['value'] %>
                 <li>
                   <td><%= format.fetch('label') %></td>
@@ -294,19 +300,24 @@
           <% else %>
 
             <% formats_index = 0 %>
-            <% @assessment_attribute_definitions.global_formats.each do |format| %>
-              <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                    <%= label_tag form.id_for('value'), format.fetch('label'), :class => 'col-sm-6 control-label' %>
-                    <div class="col-sm-1 checkbox">
-                      <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <% formats_index += 1 %>
+            <% @assessment_attribute_definitions.global_formats.sort{|a, b|
+                 # FIXME I18n this too
+                 a.fetch('label') <=> b.fetch('label')
+               }.each_slice((@assessment_attribute_definitions.global_formats.length.to_f / 2).ceil).each do |group| %>
+              <div class="col-md-6">
+                <% group.each do |format| %>
+                  <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
+                      <div class="form-group">
+                        <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                        <%= label_tag form.id_for('value'), format.fetch('label'), :class => 'col-sm-6 control-label' %>
+                        <div class="col-sm-1 checkbox">
+                          <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                        </div>
+                      </div>
+                  <% end %>
+                  <% formats_index += 1 %>
+                <% end %>
+              </div>
             <% end %>
           </div>
   
@@ -371,7 +382,10 @@
       <div class="subrecord-form-fields">
         <% if form.readonly? %>
           <ul>
-            <% ASUtils.wrap(form.obj['conservation_issues']).each do |conservation_issue| %>
+            <% ASUtils.wrap(form.obj['conservation_issues']).sort{|a, b|
+                 # FIXME I18n this too
+                 a.fetch('label') <=> b.fetch('label')
+               }.each do |conservation_issue| %>
               <% next unless conservation_issue['value'] %>
               <li>
                 <td><%= conservation_issue.fetch('label') %></td>
@@ -380,8 +394,47 @@
           </ul>
         <% else %>
           <div class="row">
-              <% conservation_issues_index = 0 %>
-              <% @assessment_attribute_definitions.global_conservation_issues.each do |conservation_issue| %>
+            <% conservation_issues_index = 0 %>
+            <% @assessment_attribute_definitions.global_conservation_issues.sort{|a, b|
+              # FIXME I18n this too
+              a.fetch('label') <=> b.fetch('label')
+            }.each_slice((@assessment_attribute_definitions.global_conservation_issues.length.to_f / 2).ceil).each do |group| %>
+              <div class="col-md-6">
+                <% group.each do |conservation_issue| %>
+                  <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
+                    <div class="form-group">
+                      <%= form.hidden_input('definition_id', conservation_issue.fetch('id'), :disabled => form.obj['value'].nil?) %>
+                      <%= label_tag form.id_for('value'), conservation_issue.fetch('label'), :class => 'col-sm-6 control-label' %>
+                      <div class="col-sm-1 checkbox">
+                        <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <% conservation_issues_index += 1 %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <% if @assessment_attribute_definitions.repo_conservation_issues.length > 0 %>
+            <div class="row">
+              <div class="col-md-12">
+                <h5>
+                  <strong><%= I18n.t('assessment._frontend.section.conservation_issue_attributes_additional') %></strong>
+                  <div>
+                    <small class="text-muted">
+                      <% if user_can?('manage_assessment_attributes') %>
+                        <%= link_to I18n.t('assessment._frontend.messages.manage_attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')), :controller => :assessment_attributes, :action => :edit %>
+                      <% else %>
+                        <%= I18n.t('assessment._frontend.messages.attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')) %>
+                      <% end %>
+                    </small>
+                  </div>
+                </h5>
+              </div>
+            </div>
+            <div class="row">
+              <% @assessment_attribute_definitions.repo_conservation_issues.each do |conservation_issue| %>
                 <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
                   <div class="col-md-6">
                     <div class="form-group">
@@ -396,41 +449,7 @@
                 <% conservation_issues_index += 1 %>
               <% end %>
             </div>
-    
-            <% if @assessment_attribute_definitions.repo_conservation_issues.length > 0 %>
-              <div class="row">
-                <div class="col-md-12">
-                  <h5>
-                    <strong><%= I18n.t('assessment._frontend.section.conservation_issue_attributes_additional') %></strong>
-                    <div>
-                      <small class="text-muted">
-                        <% if user_can?('manage_assessment_attributes') %>
-                          <%= link_to I18n.t('assessment._frontend.messages.manage_attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')), :controller => :assessment_attributes, :action => :edit %>
-                        <% else %>
-                          <%= I18n.t('assessment._frontend.messages.attributes_hint', :attribute_type => I18n.t('assessment._frontend.conservation_issues')) %>
-                        <% end %>
-                      </small>
-                    </div>
-                  </h5>
-                </div>
-              </div>
-              <div class="row">
-                <% @assessment_attribute_definitions.repo_conservation_issues.each do |conservation_issue| %>
-                  <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.hidden_input('definition_id', conservation_issue.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                        <%= label_tag form.id_for('value'), conservation_issue.fetch('label'), :class => 'col-sm-6 control-label' %>
-                        <div class="col-sm-1 checkbox">
-                          <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                  <% conservation_issues_index += 1 %>
-                <% end %>
-              </div>
-            <% end %>
+          <% end %>
         <% end %>
         <hr>
         <%= form.label_and_textarea 'conservation_note' %>
