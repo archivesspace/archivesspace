@@ -254,8 +254,7 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
-        if !data.component_id.nil? && !data.component_id.empty? &&
-          !(data.external_ids.select {|x| x['external_id'] == data.component_id }).empty?
+        if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
 
         end
