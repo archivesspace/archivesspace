@@ -47,7 +47,6 @@ Sequel.migration do
       end
 
       groups_allowed_to_crud_assessments = [
-        'administrators',
         'repository-managers',
         'repository-archivists',
         'repository-project-managers',
@@ -55,7 +54,6 @@ Sequel.migration do
       ]
 
       groups_allowed_to_manage_assessment_attributes = [
-        'administrators',
         'repository-managers',
       ]
 
