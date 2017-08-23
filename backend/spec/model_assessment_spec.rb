@@ -134,6 +134,61 @@ describe 'Assessment model' do
   end
 
 
+  it "doesn't allow delete of a record when linked to an assessment" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+    }))
+
+    expect {
+      resource.delete
+    }.to raise_error(ConflictException)
+
+    assessment.delete
+
+    expect {
+      resource.delete
+    }.to_not raise_error
+  end
+
+
+  it "doesn't allow delete of a surveyor agent when linked to an assessment" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+    }))
+
+    expect {
+      surveyor.delete
+    }.to raise_error(ConflictException)
+
+    assessment.delete
+
+    expect {
+      surveyor.delete
+    }.to_not raise_error
+  end
+
+
+  it "doesn't allow delete of a reviewer agent when linked to an assessment" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+      'reviewer' => [{'ref' => reviewer.uri}],
+    }))
+
+    expect {
+      reviewer.delete
+    }.to raise_error(ConflictException)
+
+    assessment.delete
+
+    expect {
+      reviewer.delete
+    }.to_not raise_error
+  end
+
+
   describe "repository attributes" do
 
     before(:each) do

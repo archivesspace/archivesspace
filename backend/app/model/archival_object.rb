@@ -24,6 +24,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ReindexTopContainers
   include RightsRestrictionNotes
   include RepresentativeImages
+  include Assessments::LinkedRecord
 
   enable_suppression
 
