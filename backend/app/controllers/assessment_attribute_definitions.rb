@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/assessment_attribute_definitions')
     .description("Get this repository's assessment attribute definitions")
     .params(["repo_id", :repo_id])
-    .permissions([:manage_assessment_attributes])
+    .permissions([:view_repository])
     .returns([200, "(:assessment_attribute_definitions)"]) \
   do
     json_response(AssessmentAttributeDefinitions.get(params.fetch(:repo_id)))
