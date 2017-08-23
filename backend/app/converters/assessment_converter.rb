@@ -1,3 +1,5 @@
+require 'date'
+
 require_relative 'converter'
 class AssessmentConverter < Converter
 
@@ -9,6 +11,8 @@ class AssessmentConverter < Converter
                'basic_finding_aid_paper', 'basic_finding_aid_word', 'basic_finding_aid_spreadsheet',
                'basic_finding_aid_online', 'basic_related_eac_records', 'basic_inactive',
                'basic_sensitive_material', 'basic_review_required', 'basic_deed_of_gift']
+
+  @dates = ['basic_survey_begin', 'basic_survey_end']
 
   # overriding this because we are special
   # this importer is self configuring, so it has to configure itself on each run
@@ -61,6 +65,7 @@ class AssessmentConverter < Converter
       name = section_field
       data_path = "assessment.#{field}"
       val_filter = @booleans.include?(section_field) ? normalize_boolean : nil
+      val_filter = @dates.include?(section_field) ? reformat_date : nil
 
       if section_field.start_with?('basic_record')
         records += 1
@@ -208,6 +213,24 @@ class AssessmentConverter < Converter
 
   def self.normalize_label(label)
     label.downcase.gsub(/[^a-z0-9]+/, ' ')
+  end
+
+
+  def self.reformat_date
+    # excel annoyingly reformats dates in csv, so let's try to do the right thing
+    @reformat_date ||= Proc.new {|val|
+      if val.index('/')
+        # assume it's mm/dd/yy unless mm is > 12
+        (m, d, y) = val.split('/')
+        # assume it's this century unless yy is greater than this year
+        y = y.length == 2 ? (y.to_i > Date.today.year.to_s[2..3].to_i ? "19#{y}" : "20#{y}") : y
+        (m.to_i > 12 ? Date.new(y.to_i, d.to_i, m.to_i) : Date.new(y.to_i, m.to_i, d.to_i)).iso8601
+      else
+        # this probably isn't required, but it's nice to be reassured
+        Date.parse(val).iso8601
+      end
+    }
+    @reformat_date
   end
 
 
