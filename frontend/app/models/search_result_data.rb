@@ -128,6 +128,10 @@ class SearchResultData
       return I18n.t("#{facet}._singular", :default => facet)
     end
 
+    if facet_group === "assessment_completed"
+      return I18n.t("assessment._frontend.assessment_completed.#{facet}_value")
+    end
+
     facet
   end
 
@@ -269,7 +273,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_inactive', 'assessment_survey_year']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year']
   end
 
 

@@ -188,6 +188,7 @@ en:
       assessment_inactive: Inactive
       assessment_survey_year: Survey Year
       assessment_record_types: Record Type
+      assessment_completed: Completed
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -1344,6 +1345,9 @@ en:
         true_value: "Yes"
         false_value: "No"
       assessment_inactive:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_completed:
         true_value: "Yes"
         false_value: "No"
       browse_reviewers: Reviewers

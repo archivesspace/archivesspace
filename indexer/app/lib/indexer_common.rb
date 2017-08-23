@@ -688,6 +688,8 @@ class CommonIndexer
 
         doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
         doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+
+        doc['assessment_completed'] = !record['record']['survey_end'].nil?
       end
     }
   end
