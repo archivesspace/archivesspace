@@ -65,6 +65,9 @@ class Assessment < Sequel::Model(:assessment)
 
     jsons.zip(objs).each do |json, obj|
       json['display_string'] = obj.id.to_s
+      json['collections'] = obj.linked_collection_uris.map{|uri| {
+        'ref' => uri
+      }}
     end
 
     definitions_by_obj = {}
@@ -111,6 +114,20 @@ class Assessment < Sequel::Model(:assessment)
       jsons
     end
   end
+
+
+  def linked_collection_uris
+    uris = self.class.find_relationship(:assessment).who_participates_with(self).map do |record|
+      if record.is_a? Resource
+        JSONModel(:resource).uri_for(record.id, :repo_id => record.repo_id)
+      elsif record.is_a? ArchivalObject
+        JSONModel(:resource).uri_for(record.root_record_id, :repo_id => record.repo_id)
+      end
+    end
+
+    uris.compact.uniq
+  end
+
 
   private
 

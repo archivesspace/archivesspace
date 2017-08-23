@@ -5,6 +5,7 @@
    @no_title = true
 
    add_column(I18n.t("assessment.records"), proc {|record| Array(record['assessment_records']).join('; ')}, :sortable => false)
+   add_column(I18n.t("assessment.collections"), proc {|record| Array(record['assessment_collections']).join('; ')}, :sortable => false)
    add_column(I18n.t("assessment.surveyed_by"), proc {|record| Array(record['assessment_surveyors']).join('; ')}, :sortable => false)
    add_column(I18n.t("assessment.survey_end"), proc {|record| record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''}, :sortable => true, :sort_by => "assessment_survey_end")
 

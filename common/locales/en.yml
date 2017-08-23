@@ -2015,6 +2015,7 @@ en:
     appraisal: Appraisal
     container_list: Box/Container List
     catalog_record: Catalog Record (MARC)
+    collections: Collections
     control_file: Collection/Control File
     conservation_note: Conservation Note
     deed_of_gift: Deed of Gift

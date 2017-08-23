@@ -685,6 +685,9 @@ class CommonIndexer
         doc['assessment_inactive'] = record['record']['inactive']
 
         doc['assessment_survey_year'] = CommonIndexer.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
+
+        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
+        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
       end
     }
   end

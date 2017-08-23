@@ -111,6 +111,24 @@
       "monetary_value_note" => {"type" => "string"},
 
       "conservation_note" => {"type" => "string"},
+
+      "collections" => {
+        "readonly" => "true",
+        "type" => "array",
+        "items" => {
+          "type" => "object",
+          "subtype" => "ref",
+          "properties" => {
+            "ref" => {
+              "type" => [{"type" => "JSONModel(:resource) uri"}],
+            },
+            "_resolved" => {
+              "type" => "object",
+              "readonly" => "true"
+            }
+          }
+        }
+      },
     },
   },
 }

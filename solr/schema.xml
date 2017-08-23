@@ -200,6 +200,8 @@
    <!-- Assessment fields -->
    <field name="assessment_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_records" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collection_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collections" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_surveyor_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_surveyors" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_survey_begin" type="date" indexed="true" stored="true" multiValued="false" />

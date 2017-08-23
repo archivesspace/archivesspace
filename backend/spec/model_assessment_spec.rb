@@ -189,6 +189,34 @@ describe 'Assessment model' do
   end
 
 
+  it "returns the collections of the records linked" do
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => resource.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+    }))
+
+    json = Assessment.to_jsonmodel(assessment.id)
+    json.collections.length.should eq(1)
+    json.collections.first['ref'].should eq(resource.uri)
+  end
+
+
+  it "returns the collections of the archival object linked" do
+    archival_object = create(:json_archival_object, 'resource' => {
+      'ref'=> resource.uri
+    })
+
+    assessment = Assessment.create_from_json(build(:json_assessment, {
+      'records' => [{'ref' => archival_object.uri}],
+      'surveyed_by' => [{'ref' => surveyor.uri}],
+    }))
+
+    json = Assessment.to_jsonmodel(assessment.id)
+    json.collections.length.should eq(1)
+    json.collections.first['ref'].should eq(resource.uri)
+  end
+
+
   describe "repository attributes" do
 
     before(:each) do
