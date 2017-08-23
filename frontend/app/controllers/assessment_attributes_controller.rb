@@ -8,19 +8,18 @@ class AssessmentAttributesController < ApplicationController
   end
 
   def update
-    # FIXME add real form paths
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
-    @assessment_attribute_definitions.repo_formats = ASUtils.wrap(params[:formats])
-    @assessment_attribute_definitions.repo_ratings = ASUtils.wrap(params[:ratings])
-    @assessment_attribute_definitions.repo_conservation_issues = ASUtils.wrap(params[:conservation_issues])
+    @assessment_attribute_definitions.repo_formats = ASUtils.wrap(params[:formats]).reject {|entry| entry['label'].blank?}
+    @assessment_attribute_definitions.repo_ratings = ASUtils.wrap(params[:ratings]).reject {|entry| entry['label'].blank?}
+    @assessment_attribute_definitions.repo_conservation_issues = ASUtils.wrap(params[:conservation_issues].reject {|entry| entry['label'].blank?})
 
     begin
       @assessment_attribute_definitions.save
       @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
       flash.now[:success] = I18n.t('assessment_attribute_definitions._frontend.messages.updated')
-    rescue
-      # FIXME add real validation handling
-      flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.error') + '<br><br>'.html_safe + $!.message
+    rescue ConflictException => e
+      flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.conflict',
+                                 :conflicts => e.conflicts.join('; '))
     end
 
     render :template => 'assessment_attributes/edit'

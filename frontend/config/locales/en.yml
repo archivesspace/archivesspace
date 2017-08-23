@@ -1365,3 +1365,4 @@ en:
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
+        conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"

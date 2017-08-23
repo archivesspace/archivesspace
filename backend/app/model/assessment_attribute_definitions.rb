@@ -8,6 +8,12 @@ class AssessmentAttributeDefinitions
     definitions.each do |d| d.delete('global'); end
 
     DB.open do |db|
+      # Deleted things are deleted!  That is, IDs that aren't in our new list
+      db[:assessment_attribute_definition]
+        .filter(:repo_id => repo_id)
+        .where { Sequel.~(:id => definitions.map {|d| d['id']}.compact) }
+        .delete
+
       # Don't allow a label to be set if it would conflict with a label used by one of the global attributes
       definitions.each do |d|
         conflicting_labels = db[:assessment_attribute_definition]
@@ -16,8 +22,7 @@ class AssessmentAttributeDefinitions
                                .all
 
         unless conflicting_labels.empty?
-          raise ConflictException.new("Update would conflict with the following global labels of type #{d['type']}: " +
-                                      conflicting_labels.map {|row| row[:label]}.join("; "))
+          raise ConflictException.new(conflicting_labels.map {|row| row[:label]})
         end
 
         conflicting_repo_labels = db[:assessment_attribute_definition]
@@ -29,8 +34,7 @@ class AssessmentAttributeDefinitions
                                     .all
 
         unless conflicting_repo_labels.empty?
-          raise ConflictException.new("Update would conflict with the following labels of type #{d['type']}: " +
-                                      conflicting_repo_labels.map {|row| row[:label]}.join("; "))
+          raise ConflictException.new(conflicting_repo_labels.map {|row| row[:label]})
         end
       end
 
@@ -44,8 +48,12 @@ class AssessmentAttributeDefinitions
       end
 
       # New definitions are inserted
+      seen_labels = {}
+
       definitions.each_with_index do |definition, position|
-        next if definition['id']
+        next if definition['id'] || seen_labels[definition['label']]
+
+        seen_labels[definition['label']] = true
         db[:assessment_attribute_definition].insert(definition.merge(:repo_id => repo_id, :position => position))
       end
     end
