@@ -120,6 +120,14 @@ class SearchResultData
       return I18n.t("assessment._frontend.assessment_review_required.#{facet}_value")
     end
 
+    if facet_group === "assessment_inactive"
+      return I18n.t("assessment._frontend.assessment_inactive.#{facet}_value")
+    end
+
+    if facet_group === "assessment_record_types"
+      return I18n.t("#{facet}._singular", :default => facet)
+    end
+
     facet
   end
 
@@ -261,7 +269,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_surveyors', 'assessment_review_required']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_inactive', 'assessment_survey_year']
   end
 
 

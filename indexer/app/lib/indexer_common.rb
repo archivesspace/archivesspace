@@ -665,6 +665,7 @@ class CommonIndexer
 
         doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
         doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['jsonmodel_type']}.uniq.sort
         doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
         doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
         doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
@@ -674,7 +675,9 @@ class CommonIndexer
           doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
           doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
         end
+        doc['assessment_inactive'] = record['record']['inactive']
 
+        doc['assessment_survey_year'] = CommonIndexer.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
       end
     }
   end

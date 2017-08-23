@@ -206,6 +206,9 @@
    <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="assessment_reviewer_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_reviewers" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_inactive" type="boolean" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_survey_year" type="int" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_record_types" type="string" indexed="true" stored="true" multiValued="true" />
 
 
    <!-- Audit fields -->
