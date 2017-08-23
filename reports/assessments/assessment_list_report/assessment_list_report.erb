@@ -19,7 +19,7 @@
             <tr><th><%= t('linked_record_type') %></th><th><%= t('linked_record_title') %></th></tr>
             <% Array(assessment['records']).each do |linked_record| %>
                 <tr>
-                    <td><%= h linked_record['_resolved']['jsonmodel_type'] %></td>
+                    <td><%= I18n.t(linked_record['_resolved']['jsonmodel_type'] + '._singular') %></td>
                     <td><%= h linked_record['_resolved']['title'] %></td>
                 </tr>
             <% end %>

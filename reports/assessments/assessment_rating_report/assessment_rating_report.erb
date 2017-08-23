@@ -12,7 +12,7 @@
     <% @report.each do |record| %>
         <tr>
             <td><%= h record['assessment_id'] %></td>
-            <td><%= h record['record_type'] %></td>
+            <td><%= I18n.t(record['record_type'] + '._singular') %></td>
             <td><%= h record['title'] %></td>
             <td><%= h record['rating'] %></td>
         </tr>
