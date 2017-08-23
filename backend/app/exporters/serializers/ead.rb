@@ -157,8 +157,10 @@ class EADSerializer < ASpaceExport::Serializer
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
-            data.external_ids.each do |exid|
-              xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+            if @include_unpublished
+              data.external_ids.each do |exid|
+                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+              end
             end
 
             serialize_extents(data, xml, @fragments)
@@ -256,11 +258,12 @@ class EADSerializer < ASpaceExport::Serializer
 
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
-
         end
 
-        data.external_ids.each do |exid|
-          xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+        if @include_unpublished
+          data.external_ids.each do |exid|
+            xml.unitid  ({ "audience" => "internal",  "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+          end
         end
 
         serialize_origination(data, xml, fragments)
