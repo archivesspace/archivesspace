@@ -278,7 +278,6 @@ describe 'Assessment model' do
 
       Assessment[assessment.id].should be(nil)
     end
-
   end
 
 end

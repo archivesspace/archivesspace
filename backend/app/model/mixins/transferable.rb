@@ -205,8 +205,8 @@ module Transferable
                                              'ref' => self.uri,
                                            }])
 
-        Assessment.create_from_json(JSONModel(:assessment).from_hash(assessment),
-                                    :repo_id => repository.id)
+        Assessment.clone_from_json(JSONModel(:assessment).from_hash(assessment),
+                                   :repo_id => repository.id)
       end
     end
   end

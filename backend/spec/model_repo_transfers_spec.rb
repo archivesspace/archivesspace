@@ -368,4 +368,159 @@ describe 'Record transfers' do
     }.to raise_error(TransferConstraintError)
   end
 
+  describe 'Assessment transfers' do
+
+    let (:resource) { create(:json_resource, "title" => "transferred resource") }
+    let (:accession) { create(:json_accession, "title" => "non-transferred accession") }
+    let (:surveyor) { create(:json_agent_person) }
+    let (:repository_attributes) {
+      {
+        'definitions' => [
+          {
+            'label' => 'A Test Rating',
+            'type' => 'rating',
+          },
+          {
+            'label' => 'A Test Format',
+            'type' => 'format',
+          },
+          {
+            'label' => 'A Test Conservation Issue',
+            'type' => 'conservation_issue',
+          }
+        ]
+      }
+    }
+
+    it "transfers an assessment along with its single linked record" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+                                                       'records' => [{'ref' => resource.uri}],
+                                                       'surveyed_by' => [{'ref' => surveyor.uri}],
+                                                     }))
+
+      Resource[resource.id].transfer_to_repository(@target_repo)
+
+      # This record is gone from the original repository
+      Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count.should eq(0)
+
+      # But is now present in the new one
+      RequestContext.open(:repo_id => @target_repo.id) do
+        expect { Assessment[assessment.id] }.to_not raise_error
+      end
+    end
+
+    def get_test_attribute(definitions, label, attribute_type)
+      result = definitions.definitions.find {|d|
+        d[:label] == label && d[:type] == attribute_type
+      }
+
+      unless result
+        raise "Couldn't find matching attribute for '#{label}' and type '#{attribute_type}'"
+      end
+
+
+      {'definition_id' => result[:id], 'value' => '3', 'note' => 'test note'}
+    end
+
+
+    def define_test_attributes(*repo_ids)
+      # Define some repository-specific attributes in both our source and target
+      # repositories.  They'll have different IDs in the database, but we'll be
+      # clever and match them up by label.
+      repo_ids.each do |repo_id|
+        JSONModel.with_repository(repo_id) do
+          RequestContext.open(:repo_id => repo_id) do
+            JSONModel(:assessment_attribute_definitions)
+              .from_hash(repository_attributes)
+              .save
+          end
+        end
+      end
+    end
+
+    def ensure_test_attributes_are_present(assessment_json)
+      assessment_json.formats.find {|a|
+        a['label'] == 'A Test Format' &&
+          a['value'] == '3' &&
+          a['note'] == 'test note' }.should_not be_nil
+
+      assessment_json.conservation_issues.find {|a|
+        a['label'] == 'A Test Conservation Issue' &&
+          a['value'] == '3' &&
+          a['note'] == 'test note' }.should_not be_nil
+
+      assessment_json.ratings.find {|a|
+        a['label'] == 'A Test Rating' &&
+          a['value'] == '3' &&
+          a['note'] == 'test note' }.should_not be_nil
+    end
+
+    it "attempts to preserve repository-specific attributes when transferring an assessment" do
+      define_test_attributes($repo_id, @target_repo.id)
+      source_repo_definitions = AssessmentAttributeDefinitions.get($repo_id)
+
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+                                                       'records' => [{'ref' => resource.uri}],
+                                                       'surveyed_by' => [{'ref' => surveyor.uri}],
+                                                       'formats' => [get_test_attribute(source_repo_definitions, 'A Test Format', 'format')],
+                                                       'conservation_issues' => [get_test_attribute(source_repo_definitions, 'A Test Conservation Issue', 'conservation_issue')],
+                                                       'ratings' => [get_test_attribute(source_repo_definitions, 'A Test Rating', 'rating')],
+                                                     }))
+
+
+      # Transfer our resource with its connected assessment
+      Resource[resource.id].transfer_to_repository(@target_repo)
+
+      # And verify that the repo-specific attributes made it over
+      RequestContext.open(:repo_id => @target_repo.id) do
+        assessment_json = Assessment.to_jsonmodel(assessment.id)
+        ensure_test_attributes_are_present(assessment_json)
+      end
+    end
+
+
+    it "clones an assessment in the target repository when only a subset of its linked records are transferred" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+                                                       'records' => [{'ref' => resource.uri},
+                                                                     {'ref' => accession.uri}],
+                                                       'surveyed_by' => [{'ref' => surveyor.uri}],
+                                                     }))
+
+      Resource[resource.id].transfer_to_repository(@target_repo)
+
+      # This record is still present in the original repository
+      Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count.should eq(1)
+
+      # But the target repository also contains an assessment that links to our transferred record
+      RequestContext.open(:repo_id => @target_repo.id) do
+        new_assessment = Assessment.find_relationship(:assessment).who_participates_with(Resource[resource.id]).first
+        new_assessment.should_not be_nil
+      end
+    end
+
+    it "attempts to preserve repository-specific attributes when cloning an assessment" do
+      define_test_attributes($repo_id, @target_repo.id)
+      source_repo_definitions = AssessmentAttributeDefinitions.get($repo_id)
+
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+                                                       'records' => [{'ref' => resource.uri},
+                                                                     {'ref' => accession.uri}],
+                                                       'surveyed_by' => [{'ref' => surveyor.uri}],
+                                                       'formats' => [get_test_attribute(source_repo_definitions, 'A Test Format', 'format')],
+                                                       'conservation_issues' => [get_test_attribute(source_repo_definitions, 'A Test Conservation Issue', 'conservation_issue')],
+                                                       'ratings' => [get_test_attribute(source_repo_definitions, 'A Test Rating', 'rating')],
+                                                     }))
+
+      Resource[resource.id].transfer_to_repository(@target_repo)
+
+      # But the target repository also contains an assessment that links to our transferred record
+      RequestContext.open(:repo_id => @target_repo.id) do
+        new_assessment = Assessment.find_relationship(:assessment).who_participates_with(Resource[resource.id]).first
+
+        assessment_json = Assessment.to_jsonmodel(new_assessment.id)
+        ensure_test_attributes_are_present(assessment_json)
+      end
+    end
+  end
+
 end
