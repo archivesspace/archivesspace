@@ -234,6 +234,7 @@ en:
     location_profile_display_string_u_ssort: Location Profile
     assessment_survey_begin: Survey Begin Date
     assessment_survey_end: Survey Completed Date
+    assessment_id: ID
 
   advanced_search:
     operator:

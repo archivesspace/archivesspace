@@ -2025,6 +2025,7 @@ en:
     finding_aid_paper: Finding Aid (paper only)
     finding_aid_word: Finding Aid (word processing document)
     finding_aid_spreadsheet: Finding Aid (spreadsheet)
+    id: ID
     inactive: Inactive?
     monetary_value: Monetary Value
     monetary_value_note: Monetary Value Note

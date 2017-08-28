@@ -213,6 +213,7 @@
    <field name="assessment_survey_year" type="int" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_record_types" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_completed" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_id" type="int" indexed="true" stored="true" multiValued="false" />
 
 
    <!-- Audit fields -->

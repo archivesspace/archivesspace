@@ -667,6 +667,7 @@ class CommonIndexer
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'assessment'
+        doc['assessment_id'] = JSONModel.parse_reference(record['record']['uri']).fetch(:id)
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
 
