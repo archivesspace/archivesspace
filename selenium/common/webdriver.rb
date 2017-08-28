@@ -440,21 +440,7 @@ return (
 
 
       def select_option_with_text(value)
-        passed = true 
-        Selenium::Config.retries.times do |try|
-          begin 
-            self.click
-            sleep(0.5) 
-            self.find_element( :xpath,  "./*[contains( text(), '#{value.strip}' )]").click
-            passed = true
-            break
-          rescue
-            $stderr.puts "Cannot find option with value #{value}. Trying again." 
-            sleep(0.5)
-            next
-          end
-        end
-        raise "Couldn't select value: #{value}" unless passed
+        self.find_element( :xpath,  "./*[contains( text(), '#{value.strip}' )]").click
       end
 
       def get_select_value
