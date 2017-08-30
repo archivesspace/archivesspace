@@ -216,8 +216,84 @@ describe 'Assessment model' do
     json.collections.first['ref'].should eq(resource.uri)
   end
 
+  describe "research value" do
+    before(:all) do
+      AssessmentSpecHelper.setup_research_value_ratings
+    end
+
+    let(:interest_definition) {
+      AssessmentAttributeDefinitions.get($repo_id).definitions.detect{|d| d[:type] == 'rating' && d[:label] == 'Interest'}
+    }
+
+    let(:documentation_quality_definition) {
+      AssessmentAttributeDefinitions.get($repo_id).definitions.detect{|d| d[:type] == 'rating' && d[:label] == 'Documentation Quality'}
+    }
+
+    it "calculted correctly when there are no ratings" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}]
+      }))
+
+      Assessment.to_jsonmodel(assessment.id).research_value.should eq(0)
+    end
+
+    it "calculted correctly when there is only Interest rating" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'ratings' => [
+          {
+            "definition_id" => interest_definition.fetch(:id),
+            "value" => "5",
+          }
+        ],
+      }))
+
+      Assessment.to_jsonmodel(assessment.id).research_value.should eq(5)
+    end
+
+    it "calculted correctly when there is only Documentation Quality rating" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'ratings' => [
+          {
+            "definition_id" => documentation_quality_definition.fetch(:id),
+            "value" => "4",
+          }
+        ],
+      }))
+
+      Assessment.to_jsonmodel(assessment.id).research_value.should eq(4)
+    end
+
+    it "calculted correctly when both ratings provided" do
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'ratings' => [
+          {
+            "definition_id" => interest_definition.fetch(:id),
+            "value" => "5",
+          },
+          {
+            "definition_id" => documentation_quality_definition.fetch(:id),
+            "value" => "4",
+          }
+        ],
+      }))
+
+      Assessment.to_jsonmodel(assessment.id).research_value.should eq(9)
+    end
+  end
+
 
   describe "repository attributes" do
+
+    before(:all) do
+      AssessmentSpecHelper.setup_global_ratings
+    end
 
     before(:each) do
       JSONModel(:assessment_attribute_definitions)

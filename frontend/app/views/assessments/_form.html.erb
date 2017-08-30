@@ -161,6 +161,16 @@
               </tbody>
             </table>
           <% end %>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="assessment_research_value_">
+              <%= I18n.t('assessment.research_value') %>
+            </label>
+            <div id="assessment_research_value_" class="col-sm-9 label-only">
+              <%= @assessment.research_value %>
+            </div>
+          </div>
+
         <% else %>
           <table id="rating_attributes_table" class="table table-bordered table-hover">
             <thead>

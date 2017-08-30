@@ -84,4 +84,26 @@ class AssessmentAttributeDefinitions
     result
   end
 
+  def self.get_for_type(type, repo_id, labels = [])
+    result = JSONModel(:assessment_attribute_definitions).new
+
+    DB.open do |db|
+      db[:assessment_attribute_definition]
+        .filter(:repo_id => [repo_id, Repository.global_repo_id])
+        .filter(:type => type)
+        .filter(:label => labels)
+        .order(:repo_id, :position, :id).each do |definition|
+
+        result.definitions << {
+          :id => definition[:id],
+          :label => definition[:label],
+          :type => definition[:type],
+          :global => (definition[:repo_id] == Repository.global_repo_id),
+        }
+      end
+    end
+
+    result
+  end
+
 end

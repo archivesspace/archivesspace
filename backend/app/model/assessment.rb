@@ -8,7 +8,6 @@ class Assessment < Sequel::Model(:assessment)
 
 
   include ASModel
-  include AutoGenerator
 
   corresponds_to JSONModel(:assessment)
 
@@ -27,6 +26,7 @@ class Assessment < Sequel::Model(:assessment)
                       :contains_references_to_types => proc {[AgentPerson]})
 
   def self.create_from_json(json, opts = {})
+    calculate_research_value(json, opts)
     prepare_monetary_value_for_save(json, opts)
     obj = super
     apply_attributes(obj, json)
@@ -35,6 +35,7 @@ class Assessment < Sequel::Model(:assessment)
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
+    self.class.calculate_research_value(json, opts)
     self.class.prepare_monetary_value_for_save(json, opts)
     super
     self.class.apply_attributes(self, json)
@@ -269,6 +270,27 @@ class Assessment < Sequel::Model(:assessment)
 
     jsons
   end
+
+  def self.calculate_research_value(json, opts)
+    # `research_value` is the sum of the rating values for Interest
+    # and Documentation Quality
+    research_value = 0
+
+    definitions_to_sum = db[:assessment_attribute_definition]
+                          .filter(:repo_id => [Repository.global_repo_id])
+                          .filter(:label => ['Interest', 'Documentation Quality'])
+                          .select(:id)
+                          .map{|row| row[:id]}
+
+    json.ratings.each do |rating|
+      if definitions_to_sum.include?(rating['definition_id'])
+        research_value += (rating['value'] || 0).to_i
+      end
+    end
+
+    opts['research_value'] = research_value
+  end
+
 
   def self.json_key_for_type(target_type)
     KEY_TO_TYPE.each do |key, type|
