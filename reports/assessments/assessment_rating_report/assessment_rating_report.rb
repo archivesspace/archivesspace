@@ -46,8 +46,8 @@ class AssessmentRatingReport < AbstractReport
     db[:assessment_attribute_definition].filter(:id => @rating_id).get(:label)
   end
 
-  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating']
-  FIELDS = ['assessment_id', 'record_type', 'title', 'rating']
+  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating', 'general_assessment_note', 'surveyors', 'survey_end']
+  FIELDS = ['assessment_id', 'record_type', 'title', 'rating', 'general_assessment_note', 'surveyors', 'survey_end']
 
   def to_a
     result = []
@@ -57,11 +57,15 @@ class AssessmentRatingReport < AbstractReport
     each do |record|
       hash = {}
 
+      record['surveyors'] = extract_surveyor_names(record['assessment_id']).join('; ')
+
       HEADERS.zip(FIELDS).each do |header, field|
         translated_header = renderer.t(header)
 
         if field == 'record_type'
           hash[translated_header] = I18n.t(record[field] + '._singular')
+        elsif field == 'rating'
+          hash[rating_name + ' ' + translated_header] = record[field]
         else
           hash[translated_header] = record[field]
         end
@@ -107,6 +111,8 @@ class AssessmentRatingReport < AbstractReport
       Sequel.as(:assessment_attribute__value, :rating),
       Sequel.as(:assessment__id, :assessment_id),
       :assessment__survey_begin,
+      :assessment__survey_end,
+      :assessment__general_assessment_note,
     ]
 
     accessions = base_query
@@ -131,6 +137,18 @@ class AssessmentRatingReport < AbstractReport
 
 
     accessions.union(resources).union(archival_objects).union(digital_objects).order(:survey_begin)
+  end
+
+  private
+
+  def extract_surveyor_names(assessment_id)
+    db[:surveyed_by_rlshp]
+    .join(:agent_person, :agent_person__id => :surveyed_by_rlshp__agent_person_id)
+    .join(:name_person, :name_person__agent_person_id => :agent_person__id)
+    .filter(:surveyed_by_rlshp__assessment_id => assessment_id)
+    .filter(:name_person__is_display_name => 1)
+    .select(:sort_name)
+    .map {|row| row[:sort_name] }
   end
 
 end

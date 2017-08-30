@@ -8,3 +8,6 @@ en:
       no_matches: There were no assessment records matching your criteria
       rating: Rating
       title: Assessment Rating Report
+      general_assessment_note: General Assessment Note
+      surveyors: Surveyors
+      survey_end: Survey Ended
