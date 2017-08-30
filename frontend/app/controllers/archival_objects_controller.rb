@@ -159,8 +159,14 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
 
     previous_record = JSONModel::HTTP.get_json("#{archival_object['uri']}/previous")
-    
-    archival_object.delete
+
+    begin
+      archival_object.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("archival_object._frontend.messages.delete_conflict", :error => e.message)
+      resolver = Resolver.new(archival_object['uri'])
+      return redirect_to resolver.view_uri
+    end
 
     flash[:success] = I18n.t("archival_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object).enable_parse_mixed_content!(url_for(:root)))
 

@@ -156,7 +156,13 @@ class DigitalObjectsController < ApplicationController
 
   def delete
     digital_object = JSONModel(:digital_object).find(params[:id])
-    digital_object.delete
+
+    begin
+      digital_object.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("digital_object._frontend.messages.delete_conflict", :error => e.message)
+      return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
+    end
 
     flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)

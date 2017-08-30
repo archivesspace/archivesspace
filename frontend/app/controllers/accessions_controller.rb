@@ -151,7 +151,12 @@ class AccessionsController < ApplicationController
 
   def delete
     accession = Accession.find(params[:id])
-    accession.delete
+    begin
+      accession.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("accession._frontend.messages.delete_conflict", :error => e.message)
+      return redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
+    end
 
     flash[:success] = I18n.t("accession._frontend.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)

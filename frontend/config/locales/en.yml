@@ -421,6 +421,7 @@ en:
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -491,6 +492,7 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
+        delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -578,6 +580,7 @@ en:
         unsuppressed: Digital Object <strong>%{digital_object.title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object.title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
+        delete_conflict: "Digital Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -821,6 +824,7 @@ en:
         unsuppressed: Resource <strong>%{resource.title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource.title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
+        delete_conflict: "Resource could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data

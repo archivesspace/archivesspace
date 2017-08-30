@@ -201,7 +201,14 @@ class ResourcesController < ApplicationController
 
   def delete
     resource = Resource.find(params[:id])
-    resource.delete
+
+    begin
+      resource.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("resource._frontend.messages.delete_conflict", :error => e.message)
+      return redirect_to(:controller => :resources, :action => :show, :id => params[:id])
+    end
+
 
     flash[:success] = I18n.t("resource._frontend.messages.deleted", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
