@@ -1336,10 +1336,13 @@ en:
         basic_information: Basic Information
         existing_description: Existing Description
         rating_attributes: Assessment Information
+        rating_attributes_empty: No assessment information entered
         rating_attributes_additional: Additional Rating(s)
         format_attributes: List of Material Types / Formats
+        format_attributes_empty: No material types / formats entered
         format_attributes_additional: Additional Material Types / Formats
         conservation_issue_attributes: Conservation Issues
+        conservation_issue_attributes_empty: No conservation issues entered
         conservation_issue_attributes_additional: Additonal Conservation Issues
       messages:
         created: Assessment Created
