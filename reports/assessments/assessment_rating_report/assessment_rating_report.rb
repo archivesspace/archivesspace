@@ -136,7 +136,7 @@ class AssessmentRatingReport < AbstractReport
                                                     Sequel.as('digital_object', :record_type)]))
 
 
-    accessions.union(resources).union(archival_objects).union(digital_objects).order(:survey_begin)
+    accessions.union(resources).union(archival_objects).union(digital_objects).order(Sequel.asc(:rating), Sequel.asc(:survey_begin))
   end
 
   private

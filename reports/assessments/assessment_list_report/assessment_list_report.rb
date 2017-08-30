@@ -26,7 +26,7 @@ class AssessmentListReport < AbstractReport
     RequestContext.open(:repo_id => repo_id) do
       Assessment.this_repo
         .filter(:survey_begin => (@from..@to))
-        .order(Sequel.asc(:survey_begin))
+        .order(Sequel.asc(:id))
     end
   end
 
