@@ -12,7 +12,7 @@
 <div class="row">
   <div class="information col-sm-9">
     <div class="clear">
-    <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %> 
+    <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %>
     </div>
 
 
@@ -51,7 +51,7 @@
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
         <% end %>
         <% unless @result.external_documents.blank? %>
-          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
         <% end %>
       </div>
