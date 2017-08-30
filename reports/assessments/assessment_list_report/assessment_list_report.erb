@@ -78,7 +78,7 @@
             </tr>
             <% Array(assessment['ratings']).each do |rating| %>
                 <tr>
-                    <td><%= h rating['label'] %></td>
+                    <td><%= h I18n.t("assessment_attribute.rating.#{rating['label']}", :default => rating['label']) %></td>
                     <td><%= h rating['value'] %></td>
                     <td><%= h rating['note'] %></td>
                 </tr>
@@ -92,7 +92,7 @@
         <ul>
         <% Array(assessment['formats']).each do |format| %>
             <% if format['value'] %>
-                <li><%= h format['label'] %></li>
+                <li><%= h I18n.t("assessment_attribute.format.#{format['label']}", :default => format['label']) %></li>
             <% end %>
         <% end %>
         </ul>
@@ -106,7 +106,7 @@
         <ul>
         <% Array(assessment['conservation_issues']).each do |issue| %>
             <% if issue['value'] %>
-                <li><%= h issue['label'] %></li>
+                <li><%= h I18n.t("assessment_attribute.conservation_issue.#{issue['label']}", :default => issue['label']) %></li>
             <% end %>
         <% end %>
         </ul>

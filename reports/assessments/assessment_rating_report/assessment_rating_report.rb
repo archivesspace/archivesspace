@@ -43,7 +43,8 @@ class AssessmentRatingReport < AbstractReport
   end
 
   def rating_name
-    db[:assessment_attribute_definition].filter(:id => @rating_id).get(:label)
+    label, type = db[:assessment_attribute_definition].filter(:id => @rating_id).get([:label, :type])
+    I18n.t("assessment_attribute.rating.#{label}", :default => label)
   end
 
   HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating', 'general_assessment_note', 'surveyors', 'survey_end']
