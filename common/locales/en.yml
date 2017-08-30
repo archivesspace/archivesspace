@@ -2054,3 +2054,40 @@ en:
     rating_note: "%{label} Note"
     _singular: Assessment
     _plural: Assessments
+
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Reformatting Readiness
+      "Housing Quality": Housing Quality
+      "Physical Condition": Physical Condition
+      "Physical Access (arrangement)": Physical Access (arrangement)
+      "Intellectual Access (description)": Intellectual Access (description)
+      "Interest": Interest
+      "Documentation Quality": Documentation Quality
+    format:
+      "Architectural Materials": Architectural Materials
+      "Art Originals": Art Originals
+      "Artifacts": Artifacts
+      "Audio Materials": Audio Materials
+      "Biological Specimens": Biological Specimens
+      "Botanical Specimens": Botanical Specimens
+      "Computer Storage Units": Computer Storage Units
+      "Film (negative, slide, or motion picture)": Film (negative, slide, or motion picture)
+      "Glass": Glass
+      "Photographs": Photographs
+      "Scrapbooks": Scrapbooks
+      "Technical Drawings & Schematics": Technical Drawings & Schematics
+      "Textiles": Textiles
+      "Vellum & Parchment": Vellum & Parchment
+      "Video Materials": Video Materials
+      "Other": Other
+    conservation_issue:
+      "Potential Mold or Mold Damage": Potential Mold or Mold Damage
+      "Recent Pest Damage": Recent Pest Damage
+      "Deteriorating Film Base": Deteriorating Film Base
+      "Brittle Paper": Brittle Paper
+      "Metal Fasteners": Metal Fasteners
+      "Newspaper": Newspaper
+      "Tape": Tape
+      "Heat-Sensitive Paper": Heat-Sensitive Paper
+      "Water Damage": Water Damage

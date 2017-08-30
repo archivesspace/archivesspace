@@ -1361,9 +1361,15 @@ en:
         false_value: "No"
       browse_reviewers: Reviewers
       linked_records:
+        heading: Linked Records
+        loading: Loading...
         linked_via_assessment_records: Assessments
         linked_via_assessment_surveyed_by: Assessments - Surveyed By
         linked_via_assessment_reviewer: Assessments - Reviewer
+      ratings_list:
+        rating: Rating
+        score: Score
+        note: Note
 
   assessment_attribute_definitions:
     _frontend:
@@ -1381,3 +1387,5 @@ en:
         error: Error updating Assessment Attributes
         conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"
         attribute_in_use: Unable to delete an attribute that is currently in use by an assessment
+      database_value: Database Value
+      translation: Translation

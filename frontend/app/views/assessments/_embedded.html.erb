@@ -4,7 +4,7 @@
 
   section_id ||= "linked_assessments"
 
-  heading_text = "Linked Records" if heading_text.blank?
+  heading_text = I18n.t('assessment._frontend.linked_records.heading') if heading_text.blank?
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
@@ -14,7 +14,9 @@
   </h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields embedded-search" data-url="<%= ajax_search_url %>">
-      <div class="alert alert-info">Loading...</div>
+      <div class="alert alert-info">
+        <%= I18n.t('assessment._frontend.linked_records.loading') %>
+      </div>
     </div>
   </div>
 

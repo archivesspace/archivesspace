@@ -19,25 +19,30 @@
           <table class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
+              <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
+            </tr>
+            <tr>
+              <th class="col-xs-6"><%= I18n.t('assessment_attribute_definitions._frontend.database_value')%></th>
+              <th class="col-xs-6"><%= I18n.t('assessment_attribute_definitions._frontend.translation')%></th>
             </tr>
             </thead>
             <tbody>
             <% @assessment_attribute_definitions.global_ratings.each do |format| %>
               <tr>
                 <td><%= format.fetch('label') %></td>
+                <td><%= I18n.t("assessment_attribute.rating.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
               </tr>
             <% end %>
             </tbody>
             <thead>
             <tr>
-              <th><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
+              <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.repository', :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></th>
             </tr>
             </thead>
             <tbody class="repository-attributes">
               <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
                 <tr>
-                  <td>
+                  <td colspan="2">
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -67,13 +72,18 @@
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.formats')) %></th>
+                <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.formats')) %></th>
+              </tr>
+              <tr>
+                <th><%= I18n.t('assessment_attribute_definitions._frontend.database_value')%></th>
+                <th><%= I18n.t('assessment_attribute_definitions._frontend.translation')%></th>
               </tr>
             </thead>
             <tbody>
               <% @assessment_attribute_definitions.global_formats.each do |format| %>
                 <tr>
                   <td><%= format.fetch('label') %></td>
+                  <td><%= I18n.t("assessment_attribute.format.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -85,7 +95,7 @@
             <tbody class="repository-attributes">
               <% @assessment_attribute_definitions.repo_formats.each do |format| %>
                 <tr>
-                  <td>
+                  <td colspan="2">
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -103,7 +113,7 @@
             </tbody>
             <tbody>
               <tr>
-                <td>
+                <td colspan="2">
                   <button class="btn btn-sm btn-success add-repo-attribute" data-type="format"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </td>
               </tr>
@@ -115,13 +125,18 @@
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues')) %></th>
+                <th colspan="2"><%= I18n.t('assessment_attribute_definitions._frontend.global', :type => I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues')) %></th>
+              </tr>
+              <tr>
+                <th><%= I18n.t('assessment_attribute_definitions._frontend.database_value')%></th>
+                <th><%= I18n.t('assessment_attribute_definitions._frontend.translation')%></th>
               </tr>
             </thead>
             <tbody>
               <% @assessment_attribute_definitions.global_conservation_issues.each do |format| %>
                 <tr>
                   <td><%= format.fetch('label') %></td>
+                  <td><%= I18n.t("assessment_attribute.conservation_issue.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -133,7 +148,7 @@
             <tbody class="repository-attributes">
               <% @assessment_attribute_definitions.repo_conservation_issues.each do |format| %>
                 <tr>
-                  <td>
+                  <td colspan="2">
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -151,7 +166,7 @@
             </tbody>
             <tbody>
               <tr>
-                <td>
+                <td colspan="2">
                   <button class="btn btn-sm btn-success add-repo-attribute" data-type="conservation_issue"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </td>
               </tr>
@@ -172,7 +187,7 @@
 
 <script id="template_format" type="text/template">
   <tr>
-    <td>
+    <td colspan="2">
       <div class="input-group">
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -187,7 +202,7 @@
 </script>
 <script id="template_rating" type="text/template">
   <tr>
-    <td>
+    <td colspan="2">
       <div class="input-group">
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -202,7 +217,7 @@
 </script>
 <script id="template_conservation_issue" type="text/template">
   <tr>
-    <td>
+    <td colspan="2">
       <div class="input-group">
         <span class="input-group-addon repo-attribute-drag-handle">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
