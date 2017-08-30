@@ -229,7 +229,7 @@ describe 'Assessment model' do
       AssessmentAttributeDefinitions.get($repo_id).definitions.detect{|d| d[:type] == 'rating' && d[:label] == 'Documentation Quality'}
     }
 
-    it "calculted correctly when there are no ratings" do
+    it "calculated correctly when there are no ratings" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
         'records' => [{'ref' => resource.uri}],
         'surveyed_by' => [{'ref' => surveyor.uri}]
@@ -238,7 +238,7 @@ describe 'Assessment model' do
       Assessment.to_jsonmodel(assessment.id).research_value.should eq(0)
     end
 
-    it "calculted correctly when there is only Interest rating" do
+    it "calculated correctly when there is only Interest rating" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
         'records' => [{'ref' => resource.uri}],
         'surveyed_by' => [{'ref' => surveyor.uri}],
@@ -253,7 +253,7 @@ describe 'Assessment model' do
       Assessment.to_jsonmodel(assessment.id).research_value.should eq(5)
     end
 
-    it "calculted correctly when there is only Documentation Quality rating" do
+    it "calculated correctly when there is only Documentation Quality rating" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
         'records' => [{'ref' => resource.uri}],
         'surveyed_by' => [{'ref' => surveyor.uri}],
@@ -268,7 +268,7 @@ describe 'Assessment model' do
       Assessment.to_jsonmodel(assessment.id).research_value.should eq(4)
     end
 
-    it "calculted correctly when both ratings provided" do
+    it "calculated correctly when both ratings provided" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
         'records' => [{'ref' => resource.uri}],
         'surveyed_by' => [{'ref' => surveyor.uri}],
