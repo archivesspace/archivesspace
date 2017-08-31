@@ -26,7 +26,6 @@ class Assessment < Sequel::Model(:assessment)
                       :contains_references_to_types => proc {[AgentPerson]})
 
   def self.create_from_json(json, opts = {})
-    calculate_research_value(json, opts)
     prepare_monetary_value_for_save(json, opts)
     obj = super
     apply_attributes(obj, json)
@@ -35,7 +34,6 @@ class Assessment < Sequel::Model(:assessment)
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
-    self.class.calculate_research_value(json, opts)
     self.class.prepare_monetary_value_for_save(json, opts)
     super
     self.class.apply_attributes(self, json)
@@ -134,9 +132,26 @@ class Assessment < Sequel::Model(:assessment)
                                            :assessment_attribute_definition_id => attribute['definition_id'])
         end
       end
+
+      # Calculate the derived "Research Value" rating (the sum of Interest and Documentation Quality)
+      research_value_id = db[:assessment_attribute_definition].filter(:label => 'Research Value').get(:id)
+      values = db[:assessment_attribute]
+        .join(:assessment_attribute_definition, :id => :assessment_attribute__assessment_attribute_definition_id)
+        .filter(:assessment_attribute_definition__label => ['Interest', 'Documentation Quality'],
+                :assessment_attribute__assessment_id => obj.id)
+        .select(:assessment_attribute__value)
+        .map {|row| row[:value] ? (Integer(row[:value]) rescue nil) : nil}
+
+      research_value = values.compact.reduce {|sum, n| sum + n}
+
+      if research_value
+        db[:assessment_attribute].insert(:assessment_id => obj.id,
+                                         :value => research_value.to_s,
+                                         :note => nil,
+                                         :assessment_attribute_definition_id => research_value_id)
+      end
     end
   end
-
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
@@ -270,27 +285,6 @@ class Assessment < Sequel::Model(:assessment)
 
     jsons
   end
-
-  def self.calculate_research_value(json, opts)
-    # `research_value` is the sum of the rating values for Interest
-    # and Documentation Quality
-    research_value = 0
-
-    definitions_to_sum = db[:assessment_attribute_definition]
-                          .filter(:repo_id => [Repository.global_repo_id])
-                          .filter(:label => ['Interest', 'Documentation Quality'])
-                          .select(:id)
-                          .map{|row| row[:id]}
-
-    json.ratings.each do |rating|
-      if definitions_to_sum.include?(rating['definition_id'])
-        research_value += (rating['value'] || 0).to_i
-      end
-    end
-
-    opts['research_value'] = research_value
-  end
-
 
   def self.json_key_for_type(target_type)
     KEY_TO_TYPE.each do |key, type|

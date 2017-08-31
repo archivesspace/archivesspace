@@ -11,8 +11,10 @@ class AssessmentSpecHelper
       db[:assessment_attribute_definition].filter(:repo_id => 1).delete
       db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Interest", :type => "rating", :position => 0)
       db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Documentation Quality", :type => "rating", :position => 1)
+      db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Research Value", :type => "rating", :position => 2, :readonly => 1)
     end
   end
+
 
   def self.sample_definitions
     [

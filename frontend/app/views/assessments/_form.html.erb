@@ -175,16 +175,6 @@
               </tbody>
             </table>
           <% end %>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="assessment_research_value_">
-              <%= I18n.t('assessment.research_value') %>
-            </label>
-            <div id="assessment_research_value_" class="col-sm-9 label-only">
-              <%= @assessment.research_value %>
-            </div>
-          </div>
-
         <% else %>
           <table id="rating_attributes_table" class="table table-bordered table-hover">
             <thead>
@@ -202,6 +192,7 @@
               <% ratings_index = 0 %>
               <% @assessment_attribute_definitions.global_ratings.sort{|a, b| i18n_rating(a.fetch('label')) <=> i18n_rating(b.fetch('label'))}.each do |rating| %>
                 <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
+                  <% next if rating['readonly'] %>
                   <tr>
                     <td>
                       <%= i18n_rating(rating.fetch('label')) %>
