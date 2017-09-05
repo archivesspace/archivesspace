@@ -28,12 +28,7 @@
         <h2><%= t('basic_information') %></h2>
 
         <dl>
-            <%
-            BOOLEAN_FIELDS = ['accession_report', 'appraisal', 'container_list', 'catalog_record',
-                              'control_file', 'deed_of_gift', 'finding_aid_ead', 'finding_aid_online', 'finding_aid_paper',
-                              'finding_aid_word', 'finding_aid_spreadsheet', 'related_eac_records']
-            %>
-            <% BOOLEAN_FIELDS.each do |field| %>
+            <% AssessmentListReport::BOOLEAN_FIELDS.each do |field| %>
                 <dt><%= t(field)%></dt>
                 <dd><%= format_boolean(assessment[field]) %></dd>
             <% end %>
