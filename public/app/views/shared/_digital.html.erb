@@ -6,7 +6,7 @@
    <% if !d_file['out'].blank? %>
     <% if d_file['thumb'].blank? %>
  <div class="objectimage">
-      <form id="larger" action="<%= d_file['out'] %>" method="post" target="new">
+      <form id="larger" action="<%= d_file['out'] %>" method="get" target="new">
        <button type="submit"  class="btn btn-default record-type-badge digital_object" title="<%= t('digital_object._public.link') %>" >
           <i class="fa fa-file-image-o fa-4x"></i><br/>
             <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
