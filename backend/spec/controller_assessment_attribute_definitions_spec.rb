@@ -78,6 +78,8 @@ describe 'Assessment attribute definitions controller' do
 
     aad = JSONModel(:assessment_attribute_definitions).find(nil)
 
+    repo_rating = aad.definitions.find {|d| d['type'] == 'rating' && !d['global']}
+
     resource = create_resource
     surveyor = create(:json_agent_person)
 
@@ -85,11 +87,13 @@ describe 'Assessment attribute definitions controller' do
                                                      'records' => [{'ref' => resource.uri}],
                                                      'surveyed_by' => [{'ref' => surveyor.uri}],
                                                      'ratings' => [{
-                                                                     'definition_id' => aad.definitions[1]['id'],
+                                                                     'definition_id' => repo_rating['id'],
                                                                      'value' => '3'
                                                                    }]
                                                    }))
 
+    # Blank the definitions to remove all repository-scoped attributes
+    # (including the one we just used).
     aad.definitions = []
 
     expect { aad.save }.to raise_error(ConflictException)

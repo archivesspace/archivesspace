@@ -33,6 +33,16 @@ class AssessmentSpecHelper
         'global' => true,
       },
       {
+        'label' => 'Global Format',
+        'type' => 'format',
+        'global' => true,
+      },
+      {
+        'label' => 'Global Conservation Issue',
+        'type' => 'conservation_issue',
+        'global' => true,
+      },
+      {
         'label' => 'Rating 1',
         'type' => 'rating',
       },

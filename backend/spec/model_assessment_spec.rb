@@ -314,7 +314,12 @@ describe 'Assessment model' do
 
         defns = JSONModel::HTTP.get_json("/repositories/#{$repo_id}/assessment_attribute_definitions")
 
-        defns['definitions'][2]['label'] = 'Rating'
+        defns['definitions'].each do |defn|
+          # Force a conflict
+          if defn['label'] == 'Other Rating'
+            defn['label'] = 'Rating'
+          end
+        end
 
         JSONModel(:assessment_attribute_definitions).from_hash(defns).save
       }.to raise_error(ConflictException)
