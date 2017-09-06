@@ -71,6 +71,8 @@ class AssessmentListReport < AbstractReport
         row.add_value('basic', field, !!assessment[field])
       end
 
+      row.add_value('basic', 'documentation_notes', assessment['documentation_notes'])
+
       assessment['surveyed_by'].each do |agent|
         row.add_multi_value('basic', 'surveyed_by', agent['_resolved']['is_user'])
       end
@@ -89,9 +91,15 @@ class AssessmentListReport < AbstractReport
       row.add_value('basic', 'purpose', assessment['purpose'])
       row.add_value('basic', 'scope', assessment['scope'])
 
+      row.add_value('basic', 'monetary_value', assessment['monetary_value'])
+      row.add_value('basic', 'monetary_value_note', assessment['monetary_value_note'])
+
+      row.add_value('basic', 'inactive', !!assessment['inactive'])
+
       row.add_value('basic', 'sensitive_material', assessment['sensitive_material'])
       row.add_value('basic', 'general_assessment_note', assessment['general_assessment_note'])
       row.add_value('basic', 'exhibition_value_note', assessment['exhibition_value_note'])
+      row.add_value('basic', 'conservation_note', assessment['conservation_note'])
       row.add_value('basic', 'special_format_note', assessment['special_format_note'])
 
       Array(assessment['ratings']).each do |rating|
