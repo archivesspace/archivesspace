@@ -134,7 +134,7 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        self.response.headers["Content-Type"] ||= "application/#{params[:format]}" 
+        self.response.headers["Content-Type"] = "application/#{params[:format]}" if params[:format]
         self.response.headers["Content-Disposition"] = "attachment; filename=#{filename}"
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s
 
