@@ -296,16 +296,6 @@ class Assessment < Sequel::Model(:assessment)
     raise "Unrecognized type: #{target_type}"
   end
 
-  def self.type_for_json_key(target_key)
-    KEY_TO_TYPE.each do |key, type|
-      if key == target_key
-        return type
-      end
-    end
-
-    raise "Unrecognized key: #{target_key}"
-  end
-
 
   def self.handle_delete(ids_to_delete)
     DB.open do |db|
