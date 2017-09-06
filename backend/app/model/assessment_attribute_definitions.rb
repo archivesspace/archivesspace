@@ -49,7 +49,8 @@ class AssessmentAttributeDefinitions
 
         db[:assessment_attribute_definition]
           .filter(:repo_id => repo_id, :id => definition['id'])
-          .update(definition.merge(:position => position))
+          .update(definition.merge('position' => position,
+                                   'readonly' => (definition['readonly'] ? 1 : 0)))
       end
 
       # New definitions are inserted
@@ -59,7 +60,9 @@ class AssessmentAttributeDefinitions
         next if definition['id'] || seen_labels[definition['label']]
 
         seen_labels[definition['label']] = true
-        db[:assessment_attribute_definition].insert(definition.merge(:repo_id => repo_id, :position => position))
+        db[:assessment_attribute_definition].insert(definition.merge('repo_id' => repo_id,
+                                                                     'position' => position,
+                                                                     'readonly' => (definition['readonly'] ? 1 : 0)))
       end
     end
   end
