@@ -16,8 +16,9 @@ class FindingAidPDF
     @resource = archivesspace.get_record("/repositories/#{repo_id}/resources/#{resource_id}")
     @ordered_records = archivesspace.get_record("/repositories/#{repo_id}/resources/#{resource_id}/ordered_records")
 
-    if @resource.finding_aid['title']
-      @short_title = @resource.finding_aid['title'].split("\n")[0].strip
+    # make sure finding aid title isn't only like /^\n$/
+    if @resource.finding_aid['title'] and @resource.finding_aid['title'] =~ /\w/
+      @short_title = @resource.finding_aid['title'].lstrip.split("\n")[0].strip
     end
   end
 
