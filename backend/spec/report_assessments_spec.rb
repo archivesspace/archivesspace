@@ -7,7 +7,7 @@ require_relative '../app/converters/assessment_converter.rb'
 describe 'Assessment reports' do
 
   before(:all) do
-    AssessmentSpecHelper.setup_global_ratings
+    AssessmentSpecHelper.setup_global_attributes
   end
 
   let(:resource) { create_resource }
@@ -20,34 +20,53 @@ describe 'Assessment reports' do
     AssessmentAttributeDefinitions.get($repo_id)
   end
 
+  def definition_id_for_attribute_type(type)
+    attribute_definitions.definitions.find {|d| d[:type] == type}.fetch(:id)
+  end
+
   let!(:assessments) do
     assessments = []
-    assessments << build(:json_assessment, {
-                           'records' => [{'ref' => resource.uri}],
-                           'surveyed_by' => [surveyor.agent_record],
-                           'surveyed_extent' => 'surveyed extent',
-                           'reviewer' => [reviewer.agent_record],
-                           'ratings' => [
-                             {
-                               "definition_id" => attribute_definitions.definitions[0].fetch(:id),
-                               "value" => "5",
-                             }
-                           ]
-                         })
 
-    assessments << build(:json_assessment, {
-                           'records' => [{'ref' => resource.uri},
-                                         {'ref' => accession.uri}],
-                           'surveyed_by' => [surveyor.agent_record],
-                           'surveyed_extent' => 'surveyed extent',
-                           'reviewer' => [reviewer.agent_record],
-                           'ratings' => [
-                             {
-                               "definition_id" => attribute_definitions.definitions[0].fetch(:id),
-                               "value" => "3",
-                             }
-                           ]
-                         })
+    base_record = {
+      'surveyed_by' => [surveyor.agent_record],
+      'surveyed_extent' => 'surveyed extent',
+      'reviewer' => [reviewer.agent_record],
+      'formats' => [
+        {
+          "definition_id" => definition_id_for_attribute_type('format'),
+          "value" => "true",
+        }
+      ],
+      'conservation_issues' => [
+        {
+          "definition_id" => definition_id_for_attribute_type('conservation_issue'),
+          "value" => "true",
+        }
+      ]
+    }
+
+    assessments << build(:json_assessment,
+                         base_record.merge({
+                                             'records' => [{'ref' => resource.uri}],
+                                             'ratings' => [
+                                               {
+                                                 "definition_id" => definition_id_for_attribute_type('rating'),
+                                                 "value" => "5",
+                                               }
+                                             ],
+                                           }))
+
+    assessments << build(:json_assessment,
+                         base_record.merge({
+                                             'records' => [{'ref' => resource.uri},
+                                                           {'ref' => accession.uri}],
+                                             'ratings' => [
+                                               {
+                                                 "definition_id" => definition_id_for_attribute_type('rating'),
+                                                 "value" => "3",
+                                               }
+                                             ],
+                                           }))
 
     assessments.each do |a|
       Assessment.create_from_json(a)
@@ -102,7 +121,7 @@ describe 'Assessment reports' do
   describe 'Assessment rating report' do
 
     let (:params) do
-      definition_id = attribute_definitions.definitions[0].fetch(:id)
+      definition_id = definition_id_for_attribute_type('rating')
 
       {:repo_id => $repo_id,
        'rating' => definition_id,

@@ -4,7 +4,7 @@ require 'assessment_spec_helper'
 describe 'Assessment attribute definitions controller' do
 
   before(:all) do
-    AssessmentSpecHelper.setup_global_ratings
+    AssessmentSpecHelper.setup_global_attributes
   end
 
   let (:sample_definitions) {

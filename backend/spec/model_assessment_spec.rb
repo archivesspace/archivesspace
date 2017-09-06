@@ -4,7 +4,7 @@ require 'assessment_spec_helper'
 describe 'Assessment model' do
 
   before(:all) do
-    AssessmentSpecHelper.setup_global_ratings
+    AssessmentSpecHelper.setup_global_attributes
   end
 
   let(:resource) { create_resource }
@@ -73,8 +73,8 @@ describe 'Assessment model' do
     json = Assessment.to_jsonmodel(assessment.id)
 
     json.ratings.length.should eq(1)
-    json.conservation_issues.length.should eq(0)
-    json.formats.length.should eq(0)
+    json.conservation_issues.length.should eq(1)
+    json.formats.length.should eq(1)
 
     json.ratings[0]['value'].should eq('5')
   end
@@ -232,7 +232,7 @@ describe 'Assessment model' do
   describe "repository attributes" do
 
     before(:all) do
-      AssessmentSpecHelper.setup_global_ratings
+      AssessmentSpecHelper.setup_global_attributes
     end
 
     before(:each) do
@@ -330,8 +330,8 @@ describe 'Assessment model' do
       json = Assessment.to_jsonmodel(assessment.id)
 
       json.ratings.length.should eq(2) # one global, one repo
-      json.formats.length.should eq(1)
-      json.conservation_issues.length.should eq(1)
+      json.formats.length.should eq(2)
+      json.conservation_issues.length.should eq(2)
 
       # Set a value
       json.formats[0]['value'] = 'true'

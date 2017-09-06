@@ -1,8 +1,10 @@
 class AssessmentSpecHelper
-  def self.setup_global_ratings
+  def self.setup_global_attributes
     DB.open do |db|
       db[:assessment_attribute_definition].filter(:repo_id => 1).delete
       db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Global Rating", :type => "rating", :position => 0)
+      db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Global Format", :type => "format", :position => 0)
+      db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Global Conservation Issue", :type => "conservation_issue", :position => 0)
     end
   end
 
