@@ -68,7 +68,9 @@ class AssessmentRatingReport < AbstractReport
         translated_header = renderer.t(header)
 
         if field == 'record_type'
-          hash[translated_header] = I18n.t(record[field] + '._singular')
+          # We call .strip here because Derby seems to end up with a bunch of
+          # padding on the literal string I gave it.  Maybe a Sequel bug?
+          hash[translated_header] = I18n.t(record[field].strip + '._singular')
         elsif field == 'rating'
           hash[rating_name + ' ' + translated_header] = record[field]
         elsif field == 'rating_note'
@@ -145,7 +147,7 @@ class AssessmentRatingReport < AbstractReport
                                                     Sequel.as('digital_object', :record_type)]))
 
 
-    accessions.union(resources).union(archival_objects).union(digital_objects).order(Sequel.asc(:rating), Sequel.asc(:assessment_id))
+    accessions.union(resources, :all => true).union(archival_objects, :all => true).union(digital_objects, :all => true).order(Sequel.asc(:rating), Sequel.asc(:assessment_id))
   end
 
   private
