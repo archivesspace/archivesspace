@@ -47,8 +47,12 @@ class AssessmentRatingReport < AbstractReport
     I18n.t("assessment_attribute.rating.#{label}", :default => label)
   end
 
-  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating', 'general_assessment_note', 'surveyors', 'survey_end']
-  FIELDS = ['assessment_id', 'record_type', 'title', 'rating', 'general_assessment_note', 'surveyors', 'survey_end']
+  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating', 'rating_note', 'general_assessment_note', 'surveyors', 'surveyed_extent', 'survey_end']
+  FIELDS = ['assessment_id', 'record_type', 'title', 'rating', 'rating_note', 'general_assessment_note', 'surveyors', 'surveyed_extent', 'survey_end']
+
+  def orientation
+    'landscape'
+  end
 
   def to_a
     result = []
@@ -66,6 +70,8 @@ class AssessmentRatingReport < AbstractReport
         if field == 'record_type'
           hash[translated_header] = I18n.t(record[field] + '._singular')
         elsif field == 'rating'
+          hash[rating_name + ' ' + translated_header] = record[field]
+        elsif field == 'rating_note'
           hash[rating_name + ' ' + translated_header] = record[field]
         else
           hash[translated_header] = record[field]
@@ -113,7 +119,9 @@ class AssessmentRatingReport < AbstractReport
       Sequel.as(:assessment__id, :assessment_id),
       :assessment__survey_begin,
       :assessment__survey_end,
+      Sequel.as(:assessment_attribute__note, :rating_note),
       :assessment__general_assessment_note,
+      :assessment__surveyed_extent,
     ]
 
     accessions = base_query

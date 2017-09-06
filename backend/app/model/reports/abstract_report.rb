@@ -7,7 +7,6 @@ class AbstractReport
   attr_accessor :format
   attr_accessor :params
   attr_accessor :db
-  attr_accessor :orientation
   attr_reader :job
 
   def initialize(params, job, db)
