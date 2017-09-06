@@ -36,6 +36,8 @@
 
         <hr />
 
+        <%= text_section(t('documentation_notes'), assessment['documentation_notes']) %>
+
         <dl>
             <dt><%= t('surveyed_by') %></dt>
             <dd><%= h assessment['surveyed_by'].map {|agent| agent['_resolved']['title']}.join('; ') %></dd>
@@ -54,6 +56,21 @@
 
             <dt><%= t('review_required') %></dt>
             <dd><%= format_boolean(assessment['review_required']) %></dd>
+
+            <dt><%= t('reviewer') %></dt>
+            <dd><%= h assessment['reviewer'].map {|agent| agent['_resolved']['title']}.join('; ') %></dd>
+
+            <dt><%= t('review_note') %></dt>
+            <dd><%= h assessment['review_note'] %></dd>
+
+            <dt><%= t('monetary_value') %></dt>
+            <dd><%= h assessment['monetary_value'] %></dd>
+
+            <dt><%= t('monetary_value_note') %></dt>
+            <dd><%= h assessment['monetary_value_note'] %></dd>
+
+            <dt><%= t('inactive') %></dt>
+            <dd><%= format_boolean(assessment['inactive']) %></dd>
 
             <dt><%= t('sensitive_material') %></dt>
             <dd><%= format_boolean(assessment['sensitive_material']) %></dd>
@@ -82,28 +99,34 @@
 
         <%= text_section(t('general_assessment_note'), assessment['general_assessment_note']) %>
 
-        <h2><%= t('formats') %></h2>
+        <% unless Array(assessment['formats']).none? {|format| format['value']} %>
+            <h2><%= t('formats') %></h2>
 
-        <ul>
-        <% Array(assessment['formats']).each do |format| %>
-            <% if format['value'] %>
-                <li><%= h I18n.t("assessment_attribute.format.#{format['label']}", :default => format['label']) %></li>
-            <% end %>
+            <ul>
+                <% Array(assessment['formats']).each do |format| %>
+                    <% if format['value'] %>
+                        <li><%= h I18n.t("assessment_attribute.format.#{format['label']}", :default => format['label']) %></li>
+                    <% end %>
+                <% end %>
+            </ul>
         <% end %>
-        </ul>
 
         <%= text_section(t('special_format_note'), assessment['special_format_note']) %>
 
         <%= text_section(t('exhibition_value_note'), assessment['exhibition_value_note']) %>
 
-        <h2><%= t('conservation_issues') %></h2>
+        <%= text_section(t('conservation_note'), assessment['conservation_note']) %>
 
-        <ul>
-        <% Array(assessment['conservation_issues']).each do |issue| %>
-            <% if issue['value'] %>
-                <li><%= h I18n.t("assessment_attribute.conservation_issue.#{issue['label']}", :default => issue['label']) %></li>
-            <% end %>
+        <% unless Array(assessment['conservation_issues']).none? {|issue| issue['value']} %>
+            <h2><%= t('conservation_issues') %></h2>
+
+            <ul>
+                <% Array(assessment['conservation_issues']).each do |issue| %>
+                    <% if issue['value'] %>
+                        <li><%= h I18n.t("assessment_attribute.conservation_issue.#{issue['label']}", :default => issue['label']) %></li>
+                    <% end %>
+                <% end %>
+            </ul>
         <% end %>
-        </ul>
     </div>
 <% end %>
