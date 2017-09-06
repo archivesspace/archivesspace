@@ -64,8 +64,9 @@ class AssessmentConverter < Converter
       (section, field) = section_field.split('_', 2)
       name = section_field
       data_path = "assessment.#{field}"
-      val_filter = @booleans.include?(section_field) ? normalize_boolean : nil
-      val_filter = @dates.include?(section_field) ? reformat_date : nil
+      val_filter = nil
+      val_filter ||= @booleans.include?(section_field) ? normalize_boolean : nil
+      val_filter ||= @dates.include?(section_field) ? reformat_date : nil
 
       if section_field.start_with?('basic_record')
         records += 1
