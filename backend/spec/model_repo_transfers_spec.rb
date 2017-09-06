@@ -511,6 +511,11 @@ describe 'Record transfers' do
                                                        'ratings' => [get_test_attribute(source_repo_definitions, 'A Test Rating', 'rating')],
                                                      }))
 
+      # Force the test to run without client mode so readonly properties are
+      # dropped when from_hash is called.  Exposes the bug that this commit
+      # fixes by forcing the unit test to fail the way production did!
+      allow(JSONModel).to receive(:client_mode?) { false }
+
       Resource[resource.id].transfer_to_repository(@target_repo)
 
       # But the target repository also contains an assessment that links to our transferred record

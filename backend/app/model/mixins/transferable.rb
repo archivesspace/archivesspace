@@ -205,7 +205,10 @@ module Transferable
                                              'ref' => self.uri,
                                            }])
 
-        Assessment.clone_from_json(JSONModel(:assessment).from_hash(assessment),
+        # Note: we use JSONModel#new here and not from_hash because we want to
+        # keep the readonly attribute (like attribute labels).  The clone needs
+        # access to those for the sake of cross-repository attribute matching.
+        Assessment.clone_from_json(JSONModel(:assessment).new(assessment),
                                    :repo_id => repository.id)
       end
     end
