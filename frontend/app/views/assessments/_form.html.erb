@@ -191,8 +191,8 @@
             <tbody>
               <% ratings_index = 0 %>
               <% @assessment_attribute_definitions.global_ratings.sort{|a, b| i18n_rating(a.fetch('label')) <=> i18n_rating(b.fetch('label'))}.each do |rating| %>
+                <% next if rating['readonly'] %>
                 <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
-                  <% next if rating['readonly'] %>
                   <tr>
                     <td>
                       <%= i18n_rating(rating.fetch('label')) %>
