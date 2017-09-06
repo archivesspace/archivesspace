@@ -15,6 +15,13 @@ class AssessmentSpecHelper
     end
   end
 
+  def self.setup_bad_definition
+    DB.open do |db|
+      db[:assessment_attribute_definition].filter(:repo_id => 1).delete
+      db[:assessment_attribute_definition].insert(:repo_id => 1, :label => "Bad definition", :type => "bad type", :position => 0)
+    end
+  end
+
 
   def self.sample_definitions
     [

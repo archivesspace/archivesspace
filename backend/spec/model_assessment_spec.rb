@@ -255,6 +255,34 @@ describe 'Assessment model' do
     end
 
 
+    it "complains if you give a definition a bad type" do
+      expect {
+        JSONModel(:assessment_attribute_definitions)
+          .from_hash('definitions' => [
+                                       {
+                                         'label' => 'Rating',
+                                         'type' => 'bad non rating type',
+                                       }
+                                      ])
+          .save
+      }.to raise_error(JSONModel::ValidationException)
+    end
+
+
+    it "complains if there is a bad definition type in the database" do
+      AssessmentSpecHelper.setup_bad_definition
+
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+                                                       'records' => [{'ref' => resource.uri}],
+                                                       'surveyed_by' => [{'ref' => surveyor.uri}],
+                                                     }))
+
+      expect {
+        Assessment.to_jsonmodel(assessment.id)
+      }.to raise_error(RuntimeError)
+    end
+
+
     it "successfully sets a value for a repository attribute" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
                                                        'records' => [{'ref' => resource.uri}],
