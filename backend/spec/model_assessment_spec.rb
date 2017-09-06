@@ -283,6 +283,44 @@ describe 'Assessment model' do
     end
 
 
+    it "complains if you give a duplicate global definition label" do
+      expect {
+        JSONModel(:assessment_attribute_definitions)
+          .from_hash('definitions' => [
+                                       {
+                                         'label' => 'Global Rating',
+                                         'type' => 'rating',
+                                       }
+                                      ])
+          .save
+      }.to raise_error(ConflictException)
+    end
+
+
+    it "complains if you give a duplicate repository definition label" do
+      expect {
+        JSONModel(:assessment_attribute_definitions)
+          .from_hash('definitions' => [
+                                       {
+                                         'label' => 'Rating',
+                                         'type' => 'rating',
+                                       },
+                                       {
+                                         'label' => 'Other Rating',
+                                         'type' => 'rating',
+                                       }
+                                      ])
+          .save
+
+        defns = JSONModel::HTTP.get_json("/repositories/#{$repo_id}/assessment_attribute_definitions")
+
+        defns['definitions'][2]['label'] = 'Rating'
+
+        JSONModel(:assessment_attribute_definitions).from_hash(defns).save
+      }.to raise_error(ConflictException)
+    end
+
+
     it "successfully sets a value for a repository attribute" do
       assessment = Assessment.create_from_json(build(:json_assessment, {
                                                        'records' => [{'ref' => resource.uri}],
