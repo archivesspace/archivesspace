@@ -99,6 +99,18 @@ describe 'Assessment model' do
       }))
     }.to raise_error(JSONModel::ValidationException)
 
+    # the second decimal place is free!
+    expect {
+      assessment = Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'monetary_value' => '10.1',
+      }))
+
+      Assessment.to_jsonmodel(assessment.id).monetary_value.should eq('10.10')
+
+    }.to_not raise_error
+
     # perfect!
     expect {
       Assessment.create_from_json(build(:json_assessment, {
