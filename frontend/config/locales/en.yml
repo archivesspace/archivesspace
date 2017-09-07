@@ -408,6 +408,7 @@ en:
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
     merge_conflict: "Merging agent(s) could not complete: %{message}"
+    linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
     _frontend:
@@ -434,6 +435,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select below agents to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent

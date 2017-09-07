@@ -163,7 +163,7 @@ class ArchivalObjectsController < ApplicationController
     begin
       archival_object.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("archival_object._frontend.messages.delete_conflict", :error => e.message)
+      flash[:error] = I18n.t("archival_object._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
       resolver = Resolver.new(archival_object['uri'])
       return redirect_to resolver.view_uri
     end

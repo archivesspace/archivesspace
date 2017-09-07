@@ -87,7 +87,7 @@ class AgentsController < ApplicationController
     begin
       agent.delete
     rescue ConflictException => e
-      flash[:error] = e.conflicts
+      flash[:error] = I18n.t("agent._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
       redirect_to(:controller => :agents, :action => :show, :id => params[:id])
       return
     end

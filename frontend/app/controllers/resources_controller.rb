@@ -205,7 +205,7 @@ class ResourcesController < ApplicationController
     begin
       resource.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("resource._frontend.messages.delete_conflict", :error => e.message)
+      flash[:error] = I18n.t("resource._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
       return redirect_to(:controller => :resources, :action => :show, :id => params[:id])
     end
 

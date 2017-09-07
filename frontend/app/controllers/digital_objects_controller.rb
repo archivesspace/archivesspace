@@ -160,7 +160,7 @@ class DigitalObjectsController < ApplicationController
     begin
       digital_object.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("digital_object._frontend.messages.delete_conflict", :error => e.message)
+      flash[:error] = I18n.t("digital_object._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
       return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
     end
 

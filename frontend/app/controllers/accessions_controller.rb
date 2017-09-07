@@ -154,7 +154,7 @@ class AccessionsController < ApplicationController
     begin
       accession.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("accession._frontend.messages.delete_conflict", :error => e.message)
+      flash[:error] = I18n.t("accession._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
       return redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
 
