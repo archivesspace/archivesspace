@@ -147,7 +147,7 @@ class AssessmentRatingReport < AbstractReport
                                                     Sequel.as('digital_object', :record_type)]))
 
 
-    accessions.union(resources, :all => true).union(archival_objects, :all => true).union(digital_objects, :all => true).order(Sequel.asc(:rating), Sequel.asc(:assessment_id))
+    accessions.union(resources, :all => true).union(archival_objects, :all => true).union(digital_objects, :all => true).order(Sequel.asc(Sequel.cast(:rating, Integer)), Sequel.asc(:assessment_id))
   end
 
   private
