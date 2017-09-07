@@ -17,7 +17,17 @@ class AssessmentConverter < Converter
   # overriding this because we are special
   # this importer is self configuring, so it has to configure itself on each run
   def self.configuration
-    self.configure
+    @config ||= self.configure
+  end
+
+  def self.reconfigure!
+    @config = nil
+  end
+
+  def run
+    self.class.reconfigure!
+
+    super
   end
 
 
