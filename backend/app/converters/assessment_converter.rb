@@ -58,7 +58,7 @@ class AssessmentConverter < Converter
         hdr += "_#{reviewers}"
       end
       # our parent is very strict about headers ...
-      normalize_label(hdr.downcase).gsub(/ /, '_')
+      normalize_label(hdr)
     }
 
     super(@field_headers)
@@ -223,7 +223,7 @@ class AssessmentConverter < Converter
 
 
   def self.normalize_label(label)
-    label.downcase.gsub(/[^a-z0-9]+/, ' ')
+    label.downcase.gsub(/[^a-z0-9]+/, '_')
   end
 
 
@@ -293,7 +293,7 @@ class AssessmentConverter < Converter
   def self.match_definition(type, field)
     @defns ||= AssessmentAttributeDefinitions.get(Thread.current[:request_context][:repo_id]).definitions
     type_defns = @defns.select{|d| d[:type] == type}
-    matched_defns = type_defns.select{|d| normalize_label(d[:label]).index(field.gsub(/_/, ' '))}
+    matched_defns = type_defns.select{|d| normalize_label(d[:label]) == normalize_label(field)}
 
     if matched_defns.empty?
       raise "Unknown #{type} in column header: #{field}. " +
