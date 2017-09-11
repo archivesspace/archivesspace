@@ -18,3 +18,8 @@ The migration tools are currently supported through version 1.4.2 only. If you w
 # Data migrations in this release
 
 The rights statements data model has changed in 2.1.0. If you currently use rights statements, your data will be converted to the new model during the setup-database step of the upgrade process. We strongly urge you to backup your database and run at least one test upgrade before putting 2.1.0 into production.
+
+
+# For those using an external Solr server
+
+The index schema has changed with 2.1.0. If you are using an external Solr server, you will need to update the [schema.xml](https://github.com/archivesspace/archivesspace/blob/master/solr/schema.xml) with the newer version. If you are using the default Solr index that ships with ArchivesSpace, no action is needed. 
