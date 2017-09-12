@@ -692,6 +692,10 @@ class CommonIndexer
         doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
 
         doc['assessment_completed'] = !record['record']['survey_end'].nil?
+
+        doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
       end
     }
   end

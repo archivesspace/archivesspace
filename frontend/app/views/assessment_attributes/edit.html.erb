@@ -29,7 +29,9 @@
             <tbody>
             <% @assessment_attribute_definitions.global_ratings.each do |format| %>
               <tr>
-                <td><%= format.fetch('label') %></td>
+                <td>
+                  <%= link_to format.fetch('label'), :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:#{format.fetch('label')}" %>
+                </td>
                 <td><%= I18n.t("assessment_attribute.rating.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
               </tr>
             <% end %>
