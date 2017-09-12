@@ -555,4 +555,44 @@ module JSONModel::Validations
       check_assessment_monetary_value(hash)
     end
   end
+
+  def self.check_survey_dates(hash)
+    errors = []
+
+    begin
+      begin_date = parse_sloppy_date(hash['survey_begin'])
+    rescue ArgumentError => e
+      errors << ["survey_begin", "not a valid date"]
+    end
+
+    begin
+      if hash['survey_end']
+        # If padding our end date with months/days would cause it to fall before
+        # the start date (e.g. if the start date was '2000-05' and the end date
+        # just '2000'), use the start date in place of end.
+        end_s = if begin_date && hash['survey_begin'] && hash['survey_begin'].start_with?(hash['survey_end'])
+                  hash['survey_begin']
+                else
+                  hash['survey_end']
+                end
+
+        end_date = parse_sloppy_date(end_s)
+      end
+    rescue ArgumentError
+      errors << ["survey_end", "not a valid date"]
+    end
+
+    if begin_date && end_date && end_date < begin_date
+      errors << ["survey_end", "must not be before begin"]
+    end
+
+    errors
+  end
+
+
+  if JSONModel(:assessment)
+    JSONModel(:assessment).add_validation("check_survey_dates") do |hash|
+      check_survey_dates(hash)
+    end
+  end
 end

@@ -80,6 +80,57 @@ describe 'Assessment model' do
   end
 
 
+  it "complains if survey dates are badly formed" do
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'survey_begin' => '26 May 1967',
+      }))
+    }.to raise_error(JSONModel::ValidationException)
+
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'survey_end' => '1977/10/28',
+      }))
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "complains if survey end is before survey begin" do
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'survey_begin' => '1970-01-01',
+        'survey_end' => '1969-08-15',
+      }))
+    }.to raise_error(JSONModel::ValidationException)
+
+    # no end date is fine
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'survey_begin' => '1969-07-20',
+        'survey_end' => '',
+      }))
+    }.to_not raise_error
+
+    # begin and end the saem is also fine
+    expect {
+      Assessment.create_from_json(build(:json_assessment, {
+        'records' => [{'ref' => resource.uri}],
+        'surveyed_by' => [{'ref' => surveyor.uri}],
+        'survey_begin' => '1963-11-22',
+        'survey_end' => '1963-11-22',
+      }))
+    }.to_not raise_error
+  end
+
+
   it "validates monetary value as a two position decimal" do
     # random string
     expect {
