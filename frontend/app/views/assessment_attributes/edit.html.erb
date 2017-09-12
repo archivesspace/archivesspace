@@ -30,7 +30,10 @@
             <% @assessment_attribute_definitions.global_ratings.each do |format| %>
               <tr>
                 <td>
-                  <%= link_to format.fetch('label'), :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:#{format.fetch('label')}" %>
+                  <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </a>
+                  <%= format.fetch('label') %>
                 </td>
                 <td><%= I18n.t("assessment_attribute.rating.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
               </tr>
@@ -48,6 +51,11 @@
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
+                      </span>
+                      <span class="input-group-addon repo-attribute-search">
+                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                          <span class="glyphicon glyphicon-search"></span>
+                        </a>
                       </span>
                       <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
                       <span class="input-group-btn">
@@ -84,7 +92,12 @@
             <tbody>
               <% @assessment_attribute_definitions.global_formats.each do |format| %>
                 <tr>
-                  <td><%= format.fetch('label') %></td>
+                  <td>
+                    <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                    <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                    <%= format.fetch('label') %>
+                  </td>
                   <td><%= I18n.t("assessment_attribute.format.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
                 </tr>
               <% end %>
@@ -101,6 +114,11 @@
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
+                      </span>
+                      <span class="input-group-addon repo-attribute-search">
+                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                          <span class="glyphicon glyphicon-search"></span>
+                        </a>
                       </span>
                       <%= text_field_tag 'formats[][label]', format.fetch('label'), :class => 'form-control' %>
                       <span class="input-group-btn">
@@ -137,7 +155,12 @@
             <tbody>
               <% @assessment_attribute_definitions.global_conservation_issues.each do |format| %>
                 <tr>
-                  <td><%= format.fetch('label') %></td>
+                  <td>
+                    <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                    <%= format.fetch('label') %>
+                  </td>
                   <td><%= I18n.t("assessment_attribute.conservation_issue.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
                 </tr>
               <% end %>
@@ -154,6 +177,11 @@
                     <div class="input-group">
                       <span class="input-group-addon repo-attribute-drag-handle">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
+                      </span>
+                      <span class="input-group-addon repo-attribute-search">
+                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                          <span class="glyphicon glyphicon-search"></span>
+                        </a>
                       </span>
                       <%= text_field_tag 'conservation_issues[][label]', format.fetch('label'), :class => 'form-control' %>
                       <span class="input-group-btn">
