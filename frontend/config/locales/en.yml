@@ -1350,7 +1350,7 @@ en:
         created: Assessment Created
         updated: Assessment Updated
         deleted: Assessment Deleted
-        attributes_hint: Please contact your Repository Manager to add additional %{attribute_type}
+        attributes_hint: Please contact your administrator to add additional %{attribute_type}
         manage_attributes_hint: Manage the additional %{attribute_type} for this repository
       assessment_review_required:
         true_value: "Yes"
