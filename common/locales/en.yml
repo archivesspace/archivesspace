@@ -2046,6 +2046,7 @@ en:
     special_format_note: Special Format Note
     exhibition_value_note: Exhibition Value Note
     rating_attributes_value:
+      rating_none: No Rating
       rating_1: "1"
       rating_2: "2"
       rating_3: "3"

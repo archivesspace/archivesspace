@@ -180,6 +180,7 @@
             <thead>
               <tr>
                 <th class="col-sm-5"></th>
+                <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_none') %></th>
                 <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_1') %></th>
                 <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_2') %></th>
                 <th class="col-sm-1 text-center"><%= I18n.t('assessment.rating_attributes_value.rating_3') %></th>
@@ -197,6 +198,9 @@
                     <td>
                       <%= i18n_rating(rating.fetch('label')) %>
                       <%= form.hidden_input('definition_id', rating.fetch('id')) %>
+                    </td>
+                    <td class="text-center">
+                      <%= form.radio('value', nil) %>
                     </td>
                     <td class="text-center">
                       <%= form.radio('value', '1') %>
