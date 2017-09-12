@@ -182,6 +182,7 @@ en:
       rights_statement_agent_uris: Rights Statement Agent
       assessment_surveyors: Surveyed By
       assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
       assessment_reviewer_uris: Reviewer
       assessment_surveyed_by_uris: Surveyed By
       assessment_reviewers: Reviewer
@@ -1353,6 +1354,9 @@ en:
         attributes_hint: Please contact your administrator to add additional %{attribute_type}
         manage_attributes_hint: Manage the additional %{attribute_type} for this repository
       assessment_review_required:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_sensitive_material:
         true_value: "Yes"
         false_value: "No"
       assessment_inactive:

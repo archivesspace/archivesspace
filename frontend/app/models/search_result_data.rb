@@ -120,6 +120,10 @@ class SearchResultData
       return I18n.t("assessment._frontend.assessment_review_required.#{facet}_value")
     end
 
+    if facet_group === "assessment_sensitive_material"
+      return I18n.t("assessment._frontend.assessment_sensitive_material.#{facet}_value")
+    end
+
     if facet_group === "assessment_inactive"
       return I18n.t("assessment._frontend.assessment_inactive.#{facet}_value")
     end
@@ -273,7 +277,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
   end
 
 

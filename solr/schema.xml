@@ -207,6 +207,7 @@
    <field name="assessment_survey_begin" type="date" indexed="true" stored="true" multiValued="false" />
    <field name="assessment_survey_end" type="date" indexed="true" stored="true" multiValued="false" />
    <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_sensitive_material" type="boolean" indexed="true" stored="true" multiValued="false" />
    <field name="assessment_reviewer_uris" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_reviewers" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="assessment_inactive" type="boolean" indexed="true" stored="true" multiValued="false" />
