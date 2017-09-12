@@ -71,6 +71,7 @@ class AssessmentsController < ApplicationController
                 :obj => JSONModel(:assessment).find(params[:id]),
                 :on_invalid => ->(){
                   @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
+                  @assessment.display_string = params[:id]
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
