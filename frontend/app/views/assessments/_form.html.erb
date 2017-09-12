@@ -47,25 +47,40 @@
 
       <h4><%= I18n.t("assessment._frontend.section.existing_description") %></h4>
 
-      <div class="row">
-        <div class="col-md-6">
-          <%= form.label_and_boolean 'accession_report', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'appraisal', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'container_list', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'catalog_record', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'control_file', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'deed_of_gift', :label_opts => { :col_size => 6 } %>
-        </div>
+      <% if form.readonly? %>
+        <ul>
+          <% %w(accession_report appraisal container_list catalog_record
+                control_file deed_of_gift finding_aid_ead finding_aid_online
+                finding_aid_paper finding_aid_word finding_aid_spreadsheet
+                related_eac_records).each do |existing_description| %>
+            <% if form[existing_description] %>
+              <li>
+                <td><%= I18n.t("assessment.#{existing_description}") %></td>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="row">
+          <div class="col-md-6">
+            <%= form.label_and_boolean 'accession_report', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'appraisal', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'container_list', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'catalog_record', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'control_file', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'deed_of_gift', :label_opts => { :col_size => 6 } %>
+          </div>
 
-        <div class="col-md-6">
-          <%= form.label_and_boolean 'finding_aid_ead', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'finding_aid_online', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'finding_aid_paper', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'finding_aid_word', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'finding_aid_spreadsheet', :label_opts => { :col_size => 6 } %>
-          <%= form.label_and_boolean 'related_eac_records', :label_opts => { :col_size => 6 } %>
+          <div class="col-md-6">
+            <%= form.label_and_boolean 'finding_aid_ead', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'finding_aid_online', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'finding_aid_paper', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'finding_aid_word', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'finding_aid_spreadsheet', :label_opts => { :col_size => 6 } %>
+            <%= form.label_and_boolean 'related_eac_records', :label_opts => { :col_size => 6 } %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="row">
         <%= form.label_and_textarea 'documentation_notes' %>
