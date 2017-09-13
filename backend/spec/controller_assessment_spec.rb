@@ -27,7 +27,7 @@ describe 'Assessment controller' do
   end
 
   it 'updates an assessment record' do
-    created = create_assessment('survey_end' => '2000-01-01')
+    created = create_assessment('survey_begin' => '1970-01-01', 'survey_end' => '2000-01-01')
 
     fetched = JSONModel(:assessment).find(created.id)
     fetched['survey_end'].should eq('2000-01-01')
