@@ -16,7 +16,7 @@ en:
       control_file: Collection/Control File
       deed_of_gift: Deed Of Gift
       description: All Created Assessment Records
-      documentation_notes: Documentation Notes
+      existing_description_notes: Existing Description Notes
       exhibition_value_note: Exhibition Value Note
       finding_aid_ead: Finding Aid (EAD-encoding)
       finding_aid_online: Finding Aid (Online)

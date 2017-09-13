@@ -45,7 +45,7 @@
       "finding_aid_spreadsheet" => {"type" => "boolean"},
       "related_eac_records" => {"type" => "boolean"},
 
-      "documentation_notes" => {"type" => "string"},
+      "existing_description_notes" => {"type" => "string"},
 
       "surveyed_by" => {
         "type" => "array",

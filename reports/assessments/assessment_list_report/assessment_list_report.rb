@@ -71,7 +71,7 @@ class AssessmentListReport < AbstractReport
         row.add_value('basic', field, !!assessment[field])
       end
 
-      row.add_value('basic', 'documentation_notes', assessment['documentation_notes'])
+      row.add_value('basic', 'existing_description_notes', assessment['existing_description_notes'])
 
       assessment['surveyed_by'].each do |agent|
         row.add_multi_value('basic', 'surveyed_by', agent['_resolved']['is_user'])
