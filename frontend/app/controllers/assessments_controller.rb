@@ -139,6 +139,16 @@ class AssessmentsController < ApplicationController
       }
     end
 
+    # When the 'No Rating' radio is selected, Rails gives the radio a value of
+    # `on`.  We change this 'on' value as 'No Rating' really means a `nil` value
+    ASUtils.wrap(params_hash.dig('ratings')).each do |rating_params|
+      rating_params.values.each do |rating|
+        if rating['value'] == 'on'
+          rating['value'] = nil
+        end
+      end
+    end
+
     super
   end
 end
