@@ -696,6 +696,8 @@ class CommonIndexer
         doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
         doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value')}.map{|r| r['label']}
         doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+
+        doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
       end
     }
   end
@@ -948,7 +950,7 @@ class CommonIndexer
           hook.call(doc, record)
         end
 
-        doc['title_sort'] = clean_for_sort(doc['title'])
+        doc['title_sort'] ||= clean_for_sort(doc['title'])
 
         # do this last of all so we know for certain the doc is published
         apply_pui_fields(doc, record)
