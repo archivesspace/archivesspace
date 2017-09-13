@@ -28,8 +28,8 @@ describe 'Assessment converter' do
         elsif header == 'surveyed_by' || header == 'reviewer'
           # Substitute our test user
           row[idx] = test_user
-        elsif header == 'survey_end'
-          # whacky excel date
+        elsif ['survey_begin', 'survey_end'].include?(header)
+          # Test a whacky excel date.  Set begin to end to avoid time-travel-related validation errors.
           row[idx] = test_dates[rownum % test_dates.length]
         end
       end
