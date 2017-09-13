@@ -30,7 +30,7 @@
             <% @assessment_attribute_definitions.global_ratings.each do |format| %>
               <tr>
                 <td>
-                  <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                  <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
                     <span class="glyphicon glyphicon-search"></span>
                   </a>
                   <%= format.fetch('label') %>
@@ -53,7 +53,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
@@ -93,7 +93,7 @@
               <% @assessment_attribute_definitions.global_formats.each do |format| %>
                 <tr>
                   <td>
-                    <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
                     <span class="glyphicon glyphicon-search"></span>
                     </a>
                     <%= format.fetch('label') %>
@@ -116,7 +116,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
@@ -156,7 +156,7 @@
               <% @assessment_attribute_definitions.global_conservation_issues.each do |format| %>
                 <tr>
                   <td>
-                    <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
                       <span class="glyphicon glyphicon-search"></span>
                     </a>
                     <%= format.fetch('label') %>
@@ -179,7 +179,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
