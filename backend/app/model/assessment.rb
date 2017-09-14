@@ -197,6 +197,7 @@ class Assessment < Sequel::Model(:assessment)
             'label' => definition[:label],
             'value' => nil,
             'note' => nil,
+            'readonly' => (definition[:readonly] == 1),
             'definition_id' => definition[:id],
           }
 

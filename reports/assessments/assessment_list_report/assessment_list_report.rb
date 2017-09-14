@@ -105,7 +105,11 @@ class AssessmentListReport < AbstractReport
       Array(assessment['ratings']).each do |rating|
         key = normalize_label(rating['label'])
         row.add_value('rating', key, rating['value'])
-        row.add_value('rating', "#{key}_note", rating['note'])
+
+        unless rating['readonly']
+          # Read-only ratings don't get notes!
+          row.add_value('rating', "#{key}_note", rating['note'])
+        end
       end
 
       Array(assessment['formats']).each do |format|

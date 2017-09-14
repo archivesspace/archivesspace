@@ -9,6 +9,7 @@
       "global" => { "type" => "boolean", "readonly" => true },
       "value" => { "type" => "string" },
       "note" => { "type" => "string" },
+      "readonly" => { "type" => "boolean", "default" => false },
     }
   }
 }
