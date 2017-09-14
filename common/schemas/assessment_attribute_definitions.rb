@@ -15,6 +15,7 @@
             "type" => { "enum" => ["rating", "format", "conservation_issue"], "ifmissing" => "error" },
             "global" => { "type" => "boolean", "default" => false },
             "readonly" => { "type" => "boolean", "default" => false },
+            "position" => { "type" => "integer", "readonly" => "true"},
           }
         }
       }

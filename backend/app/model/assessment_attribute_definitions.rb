@@ -43,14 +43,20 @@ class AssessmentAttributeDefinitions
         end
       end
 
+      position_index_by_type = {}
+
       # Existing definitions get updated
-      definitions.each_with_index do |definition, position|
+      definitions.each do |definition|
         next unless definition['id']
+
+        position_index_by_type[definition['type']] ||= 0
 
         db[:assessment_attribute_definition]
           .filter(:repo_id => repo_id, :id => definition['id'])
-          .update(definition.merge('position' => position,
+          .update(definition.merge('position' => position_index_by_type[definition['type']],
                                    'readonly' => (definition['readonly'] ? 1 : 0)))
+
+        position_index_by_type[definition['type']] += 1
       end
 
       # New definitions are inserted
@@ -81,6 +87,7 @@ class AssessmentAttributeDefinitions
           :type => definition[:type],
           :global => (definition[:repo_id] == Repository.global_repo_id),
           :readonly => (definition[:readonly] == 1),
+          :position => definition[:position],
         }
       end
     end

@@ -27,9 +27,9 @@ class AssessmentAttributesController < ApplicationController
         flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.attribute_in_use')
 
         # Add back anything that was deleted
-        @assessment_attribute_definitions.repo_formats += attribute_set_subtract(original_repo_formats, @assessment_attribute_definitions.repo_formats)
-        @assessment_attribute_definitions.repo_ratings += attribute_set_subtract(original_repo_ratings, @assessment_attribute_definitions.repo_ratings)
-        @assessment_attribute_definitions.repo_conservation_issues += attribute_set_subtract(original_repo_conservation_issues, @assessment_attribute_definitions.repo_conservation_issues)
+        @assessment_attribute_definitions.repo_formats = revert_deletions(@assessment_attribute_definitions.repo_formats, original_repo_formats)
+        @assessment_attribute_definitions.repo_ratings = revert_deletions(@assessment_attribute_definitions.repo_ratings, original_repo_ratings)
+        @assessment_attribute_definitions.repo_conservation_issues = revert_deletions(@assessment_attribute_definitions.repo_conservation_issues, original_repo_conservation_issues)
       else
         flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.conflict',
                                    :conflicts => e.conflicts.join('; '))
@@ -40,6 +40,12 @@ class AssessmentAttributesController < ApplicationController
   end
 
   private
+
+  # Revert any deleted definitions and restore the original sorting
+  def revert_deletions(form_definitions, original_definitions)
+    form_definitions += attribute_set_subtract(original_definitions, form_definitions)
+    form_definitions.sort{|a, b| a['position'] <=> b['position']}
+  end
 
   # Return only the attributes of `a1` that aren't present in `a2`
   #

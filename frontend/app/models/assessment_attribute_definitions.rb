@@ -51,12 +51,13 @@ class AssessmentAttributeDefinitions < JSONModel(:assessment_attribute_definitio
 
   def set_repo_attributes_for_type(type, attributes)
     definitions.delete_if {|d| d['type'] == type && !d['global']}
-    attributes.each do |attr|
+    attributes.each_with_index do |attr, i|
       definitions << {
         'label' => attr.fetch('label', ''),
         'id' => attr['id'] ? attr['id'].to_i : nil,
         'type' => type,
         'global' => false,
+        'position' => i,
       }
     end
   end

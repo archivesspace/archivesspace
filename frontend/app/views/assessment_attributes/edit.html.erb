@@ -27,15 +27,15 @@
             </tr>
             </thead>
             <tbody>
-            <% @assessment_attribute_definitions.global_ratings.each do |format| %>
+            <% @assessment_attribute_definitions.global_ratings.each do |rating| %>
               <tr>
                 <td>
-                  <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                  <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
                     <span class="glyphicon glyphicon-search"></span>
                   </a>
-                  <%= format.fetch('label') %>
+                  <%= rating.fetch('label') %>
                 </td>
-                <td><%= I18n.t("assessment_attribute.rating.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
+                <td><%= I18n.t("assessment_attribute.rating.#{rating.fetch('label')}", :default => rating.fetch('label')) %></td>
               </tr>
             <% end %>
             </tbody>
@@ -45,7 +45,7 @@
             </tr>
             </thead>
             <tbody class="repository-attributes">
-              <% @assessment_attribute_definitions.repo_ratings.each do |format| %>
+              <% @assessment_attribute_definitions.repo_ratings.each do |rating| %>
                 <tr>
                   <td colspan="2">
                     <div class="input-group">
@@ -53,16 +53,16 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
-                      <%= text_field_tag 'ratings[][label]', format.fetch('label'), :class => 'form-control' %>
+                      <%= text_field_tag 'ratings[][label]', rating.fetch('label'), :class => 'form-control' %>
                       <span class="input-group-btn">
                         <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                       </span>
                     </div>
-                    <%= hidden_field_tag 'ratings[][id]', format.fetch('id', nil) %>
+                    <%= hidden_field_tag 'ratings[][id]', rating.fetch('id', nil) %>
                     <%= hidden_field_tag 'ratings[][type]', 'rating' %>
                   </td>
                 </tr>
@@ -126,7 +126,7 @@
                       </span>
                     </div>
                     <%= hidden_field_tag 'formats[][id]', format.fetch('id', nil) %>
-                    <%= hidden_field_tag 'formats[][type]', 'rating' %>
+                    <%= hidden_field_tag 'formats[][type]', 'format' %>
                   </td>
                 </tr>
               <% end %>
@@ -153,15 +153,15 @@
               </tr>
             </thead>
             <tbody>
-              <% @assessment_attribute_definitions.global_conservation_issues.each do |format| %>
+              <% @assessment_attribute_definitions.global_conservation_issues.each do |conservation_issue| %>
                 <tr>
                   <td>
-                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
                       <span class="glyphicon glyphicon-search"></span>
                     </a>
-                    <%= format.fetch('label') %>
+                    <%= conservation_issue.fetch('label') %>
                   </td>
-                  <td><%= I18n.t("assessment_attribute.conservation_issue.#{format.fetch('label')}", :default => format.fetch('label')) %></td>
+                  <td><%= I18n.t("assessment_attribute.conservation_issue.#{conservation_issue.fetch('label')}", :default => conservation_issue.fetch('label')) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -171,7 +171,7 @@
               </tr>
             </thead>
             <tbody class="repository-attributes">
-              <% @assessment_attribute_definitions.repo_conservation_issues.each do |format| %>
+              <% @assessment_attribute_definitions.repo_conservation_issues.each do |conservation_issue| %>
                 <tr>
                   <td colspan="2">
                     <div class="input-group">
@@ -179,16 +179,16 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
-                      <%= text_field_tag 'conservation_issues[][label]', format.fetch('label'), :class => 'form-control' %>
+                      <%= text_field_tag 'conservation_issues[][label]', conservation_issue.fetch('label'), :class => 'form-control' %>
                       <span class="input-group-btn">
                         <button class="btn btn-danger remove-repo-attribute"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                       </span>
                     </div>
-                    <%= hidden_field_tag 'conservation_issues[][id]', format.fetch('id', nil) %>
+                    <%= hidden_field_tag 'conservation_issues[][id]', conservation_issue.fetch('id', nil) %>
                     <%= hidden_field_tag 'conservation_issues[][type]', 'conservation_issue' %>
                   </td>
                 </tr>
