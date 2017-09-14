@@ -27,9 +27,9 @@ class AssessmentAttributesController < ApplicationController
         flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.attribute_in_use')
 
         # Add back anything that was deleted
-        @assessment_attribute_definitions.repo_formats += (original_repo_formats - @assessment_attribute_definitions.repo_formats)
-        @assessment_attribute_definitions.repo_ratings += (original_repo_ratings - @assessment_attribute_definitions.repo_ratings)
-        @assessment_attribute_definitions.repo_conservation_issues += (original_repo_conservation_issues - @assessment_attribute_definitions.repo_conservation_issues)
+        @assessment_attribute_definitions.repo_formats += attribute_set_subtract(original_repo_formats, @assessment_attribute_definitions.repo_formats)
+        @assessment_attribute_definitions.repo_ratings += attribute_set_subtract(original_repo_ratings, @assessment_attribute_definitions.repo_ratings)
+        @assessment_attribute_definitions.repo_conservation_issues += attribute_set_subtract(original_repo_conservation_issues, @assessment_attribute_definitions.repo_conservation_issues)
       else
         flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.conflict',
                                    :conflicts => e.conflicts.join('; '))
@@ -40,6 +40,15 @@ class AssessmentAttributesController < ApplicationController
   end
 
   private
+
+  # Return only the attributes of `a1` that aren't present in `a2`
+  #
+  # Comparison is against the 'id' fields
+  def attribute_set_subtract(a1, a2)
+    a2_ids = a2.map {|a| a['id']}.compact
+
+    a1.select {|a| a['id'] && !a2_ids.include?(a['id'])}
+  end
 
   def prepare(attributes)
     result = ASUtils.wrap(attributes).reject {|entry| entry['label'].blank?}
