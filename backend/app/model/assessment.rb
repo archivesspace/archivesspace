@@ -56,14 +56,16 @@ class Assessment < Sequel::Model(:assessment)
     # are equivalent.
     DB.open do |db|
       repo_attribute_links = db[:assessment_attribute_definition]
-                               .join(:assessment_attribute, :assessment_attribute_definition_id => :assessment_attribute_definition__id)
-                               .filter(:assessment_attribute_definition__repo_id => self.class.active_repository,
-                                       :assessment_attribute__assessment_id => self.id)
+                               .left_join(:assessment_attribute, :assessment_attribute_definition_id => :assessment_attribute_definition__id)
+                               .left_join(:assessment_attribute_note, :assessment_attribute_definition_id => :assessment_attribute_definition__id)
+                               .filter(:assessment_attribute_definition__repo_id => self.class.active_repository)
+                               .where(Sequel.|({:assessment_attribute__assessment_id => self.id},
+                                               {:assessment_attribute_note__assessment_id => self.id}))
                                .select(:assessment_attribute_definition__id,
                                        :assessment_attribute_definition__label,
                                        :assessment_attribute_definition__type,
                                        :assessment_attribute__value,
-                                       :assessment_attribute__note)
+                                       :assessment_attribute_note__note)
                                .map {|row| TransferRepoAttribute.new(row[:id], row[:label], row[:type], row[:value], row[:note])}
 
       # Do the transfer
@@ -73,8 +75,13 @@ class Assessment < Sequel::Model(:assessment)
       self.refresh
 
       unless repo_attribute_links.empty?
-        # Unlink the repository-scoped attributes that are no longer valid
+        # Unlink the repository-scoped attributes and notes that are no longer valid
         db[:assessment_attribute]
+          .filter(:assessment_id => self.id,
+                  :assessment_attribute_definition_id => repo_attribute_links.map(&:definition_id))
+          .delete
+
+        db[:assessment_attribute_note]
           .filter(:assessment_id => self.id,
                   :assessment_attribute_definition_id => repo_attribute_links.map(&:definition_id))
           .delete
@@ -116,6 +123,7 @@ class Assessment < Sequel::Model(:assessment)
     # Add the appropriate list of attributes
     DB.open do |db|
       db[:assessment_attribute].filter(:assessment_id => obj.id).delete
+      db[:assessment_attribute_note].filter(:assessment_id => obj.id).delete
 
       valid_attribute_ids = db[:assessment_attribute_definition]
                               .filter(:repo_id => [Repository.global_repo_id, active_repository])
@@ -126,10 +134,17 @@ class Assessment < Sequel::Model(:assessment)
         Array(json[key]).each do |attribute|
           next unless valid_attribute_ids.include?(attribute['definition_id'])
 
-          db[:assessment_attribute].insert(:assessment_id => obj.id,
-                                           :value => attribute['value'],
-                                           :note => attribute['note'],
-                                           :assessment_attribute_definition_id => attribute['definition_id'])
+          if attribute['value']
+            db[:assessment_attribute].insert(:assessment_id => obj.id,
+                                             :value => attribute['value'],
+                                             :assessment_attribute_definition_id => attribute['definition_id'])
+          end
+
+          if attribute['note']
+            db[:assessment_attribute_note].insert(:assessment_id => obj.id,
+                                                  :note => attribute['note'],
+                                                  :assessment_attribute_definition_id => attribute['definition_id'])
+          end
         end
       end
 
@@ -147,7 +162,6 @@ class Assessment < Sequel::Model(:assessment)
       if research_value
         db[:assessment_attribute].insert(:assessment_id => obj.id,
                                          :value => research_value.to_s,
-                                         :note => nil,
                                          :assessment_attribute_definition_id => research_value_id)
       end
     end
@@ -193,6 +207,7 @@ class Assessment < Sequel::Model(:assessment)
         end
       end
 
+      # Load our attribute values
       db[:assessment_attribute]
         .filter(:assessment_id => objs.map(&:id))
         .each do |attribute|
@@ -203,6 +218,18 @@ class Assessment < Sequel::Model(:assessment)
         definition_json = definitions_by_obj.fetch(assessment_id).fetch(definition_id)
 
         definition_json['value'] = attribute[:value]
+      end
+
+      # Load our attribute notes
+      db[:assessment_attribute_note]
+        .filter(:assessment_id => objs.map(&:id))
+        .each do |attribute|
+
+        assessment_id = attribute[:assessment_id]
+        definition_id = attribute[:assessment_attribute_definition_id]
+
+        definition_json = definitions_by_obj.fetch(assessment_id).fetch(definition_id)
+
         definition_json['note'] = attribute[:note]
       end
 
@@ -236,10 +263,17 @@ class Assessment < Sequel::Model(:assessment)
                         .first
 
         if replacement
-          db[:assessment_attribute].insert(:assessment_id => cloned_assessment.id,
-                                           :assessment_attribute_definition_id => replacement[:id],
-                                           :value => link.value,
-                                           :note => link.note)
+          if link.value
+            db[:assessment_attribute].insert(:assessment_id => cloned_assessment.id,
+                                             :assessment_attribute_definition_id => replacement[:id],
+                                             :value => link.value)
+          end
+
+          if link.note
+            db[:assessment_attribute_note].insert(:assessment_id => cloned_assessment.id,
+                                                  :assessment_attribute_definition_id => replacement[:id],
+                                                  :note => link.note)
+          end
         end
       end
     end

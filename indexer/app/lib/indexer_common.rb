@@ -694,7 +694,7 @@ class CommonIndexer
         doc['assessment_completed'] = !record['record']['survey_end'].nil?
 
         doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
-        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value') || r.has_key?('note')}.map{|r| r['label']}
         doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
 
         doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')

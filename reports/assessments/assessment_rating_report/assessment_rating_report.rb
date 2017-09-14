@@ -111,6 +111,7 @@ class AssessmentRatingReport < AbstractReport
                    .join(:assessment_attribute, :assessment_id => :assessment__id)
                    .join(:assessment_rlshp, :assessment_id => :assessment_id)
                    .join(:assessment_attribute_definition, :id => :assessment_attribute__assessment_attribute_definition_id)
+                   .left_join(:assessment_attribute_note, :assessment_id => :assessment__id)
                    .filter(:assessment_attribute_definition__id => @rating_id)
                    .filter(:assessment_attribute__value => @values_of_interest.map(&:to_s))
                    .filter(:assessment__survey_begin => (@from..@to))
@@ -121,7 +122,7 @@ class AssessmentRatingReport < AbstractReport
       Sequel.as(:assessment__id, :assessment_id),
       :assessment__survey_begin,
       :assessment__survey_end,
-      Sequel.as(:assessment_attribute__note, :rating_note),
+      Sequel.as(:assessment_attribute_note__note, :rating_note),
       :assessment__general_assessment_note,
       :assessment__surveyed_extent,
     ]
