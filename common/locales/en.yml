@@ -2027,6 +2027,8 @@ en:
     finding_aid_spreadsheet: Finding Aid (spreadsheet)
     id: ID
     inactive: Inactive?
+    inactive_true: "Yes"
+    inactive_false: "No"
     monetary_value: Monetary Value
     monetary_value_note: Monetary Value Note
     surveyed_by: Surveyed By
@@ -2037,11 +2039,15 @@ en:
     related_eac_records: Related EAC Record(s)
     research_value: Research Value
     review_required: Review Required?
+    review_required_true: "Yes"
+    review_required_false: "No"
     review_note: Review Note
     reviewer: Who Needs to Review
     purpose: Purpose of Assessment
     scope: Scope of Assessment
     sensitive_material: Sensitive Material?
+    sensitive_material_true: "Yes"
+    sensitive_material_false: "No"
     general_assessment_note: General Assessment Note
     special_format_note: Special Format Note
     exhibition_value_note: Exhibition Value Note
