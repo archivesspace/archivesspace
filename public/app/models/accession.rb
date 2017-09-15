@@ -88,6 +88,7 @@ class Accession < Record
     request[:repo_name] = resolved_repository.dig('name')
     request[:repo_code] = resolved_repository.dig('repo_code')
     request[:repo_uri] = resolved_repository.dig('uri')
+    request[:repo_email] = resolved_repository.dig('agent_representation', '_resolved', 'agent_contacts', 0, 'email')
     request[:identifier] = identifier
     request[:title] = display_string
     request[:restrict] = json['access_restrictions_note']
