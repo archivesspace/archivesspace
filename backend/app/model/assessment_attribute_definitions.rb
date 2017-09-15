@@ -43,20 +43,14 @@ class AssessmentAttributeDefinitions
         end
       end
 
-      position_index_by_type = {}
-
       # Existing definitions get updated
-      definitions.each do |definition|
+      definitions.each_with_index do |definition, position|
         next unless definition['id']
-
-        position_index_by_type[definition['type']] ||= 0
 
         db[:assessment_attribute_definition]
           .filter(:repo_id => repo_id, :id => definition['id'])
-          .update(definition.merge('position' => position_index_by_type[definition['type']],
+          .update(definition.merge('position' => position,
                                    'readonly' => (definition['readonly'] ? 1 : 0)))
-
-        position_index_by_type[definition['type']] += 1
       end
 
       # New definitions are inserted
@@ -76,10 +70,15 @@ class AssessmentAttributeDefinitions
   def self.get(repo_id)
     result = JSONModel(:assessment_attribute_definitions).new
 
+    logical_position_by_repo_and_type = {}
+
     DB.open do |db|
       db[:assessment_attribute_definition]
         .filter(:repo_id => [repo_id, Repository.global_repo_id])
         .order(:repo_id, :position, :id).each do |definition|
+
+        logical_position_by_repo_and_type[definition[:repo_id]] ||= {}
+        logical_position_by_repo_and_type[definition[:repo_id]][definition[:type]] ||= 0
 
         result.definitions << {
           :id => definition[:id],
@@ -87,8 +86,10 @@ class AssessmentAttributeDefinitions
           :type => definition[:type],
           :global => (definition[:repo_id] == Repository.global_repo_id),
           :readonly => (definition[:readonly] == 1),
-          :position => definition[:position],
+          :position => logical_position_by_repo_and_type[definition[:repo_id]][definition[:type]],
         }
+
+        logical_position_by_repo_and_type[definition[:repo_id]][definition[:type]] += 1
       end
     end
 
