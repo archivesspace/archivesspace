@@ -520,7 +520,9 @@ module AspaceFormHelper
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
-      ((obj[name] === true) || obj[name] === "true") ? "True" : "False"
+      true_i18n = I18n.t("#{i18n_for(name)}_true", :default => I18n.t('boolean.true'))
+      false_i18n = I18n.t("#{i18n_for(name)}_false", :default => I18n.t('boolean.false'))
+      ((obj[name] === true) || obj[name] === "true") ? true_i18n : false_i18n
     end
 
     def label_with_field(name, field_html, opts = {})
