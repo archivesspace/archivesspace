@@ -89,7 +89,7 @@ describe "Assessments" do
     @driver.click_and_wait_until_gone(:link, 'Assessment')
 
     # Assess the accession and archival object
-    token_input = @driver.find_element(:id, 'token-input-assessment_records__ref_')
+    token_input = @driver.find_element(:id, 'token-input-assessment_records_')
     token_input.clear
     token_input.send_keys('Accession')
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
@@ -101,14 +101,14 @@ describe "Assessments" do
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
 
     # To be surveyed by the archivist
-    token_input = @driver.find_element(:id, 'token-input-assessment_surveyed_by__ref_')
+    token_input = @driver.find_element(:id, 'token-input-assessment_surveyed_by_')
     token_input.clear
     token_input.send_keys(@archivist_user.username)
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click
 
     # And reviewed by the repo manager
     @driver.find_element(:id, 'assessment_review_required_').click
-    token_input = @driver.find_element(:id, 'token-input-assessment_reviewer__ref_')
+    token_input = @driver.find_element(:id, 'token-input-assessment_reviewer_')
     token_input.clear
     token_input.send_keys(@manager_user.username)
     @driver.find_element(:css, 'li.token-input-dropdown-item2').click

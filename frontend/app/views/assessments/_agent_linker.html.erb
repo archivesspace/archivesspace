@@ -9,11 +9,12 @@
 
   label ||= I18n.t("assessment.surveyed_by")
   label_plural ||= label
+  linker_id ||= "assessment_surveyed_by_"
 %>
 <div class="form-group required">
   <div class="input-group linker-wrapper">
     <input type="text" class="linker"
-           id="assessment_surveyed_by_"
+           id="<%= linker_id %>"
            data-label="<%= label %>"
            data-label_plural="<%= label_plural %>"
            data-path="<%= form.path %>"

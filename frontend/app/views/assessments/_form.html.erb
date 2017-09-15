@@ -37,7 +37,7 @@
       <% else %>
         <% form.push("records", form.obj["records"] || []) do %>
           <div class="form-group required">
-            <%= form.label('records', {}, ['col-sm-2']) %>
+            <%= form.label('records', {:for => 'token-input-assessment_records_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
               <%= render_aspace_partial :partial => "assessments/records_linker", :locals => {:form => form} %>
             </div>
@@ -104,9 +104,9 @@
       <% else %>
         <% form.push("surveyed_by", form.obj["surveyed_by"] || []) do %>
           <div class="form-group required">
-            <%= form.label('surveyed_by', {}, ['col-sm-2']) %>
+            <%= form.label('surveyed_by', {:for => 'token-input-assessment_surveyed_by_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
-              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form} %>
+              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :linker_id => 'assessment_surveyed_by_'} %>
             </div>
           </div>
         <% end %>
@@ -135,9 +135,9 @@
       <% else %>
         <% form.push("reviewer", form.obj["reviewer"] || []) do %>
           <div class="form-group">
-            <%= form.label('reviewer', {}, ['col-sm-2']) %>
+            <%= form.label('reviewer', {:for => 'token-input-assessment_reviewer_'}, ['col-sm-2']) %>
             <div class="col-sm-9">
-              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :label => I18n.t('assessment._frontend.browse_reviewers')} %>
+              <%= render_aspace_partial :partial => "assessments/agent_linker", :locals => {:form => form, :label => I18n.t('assessment._frontend.browse_reviewers'), :linker_id => 'assessment_reviewer_'} %>
             </div>
           </div>
         <% end %>

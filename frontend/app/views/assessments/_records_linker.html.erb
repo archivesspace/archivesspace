@@ -6,11 +6,12 @@
   else
     selected_json = "[]"
   end
+  linker_id ||= "assessment_records_"
 %>
 <div class="form-group required">
   <div class="input-group linker-wrapper">
     <input type="text" class="linker"
-           id="assessment_records_"
+           id="<%= linker_id %>"
            data-label="<%= I18n.t "assessment.records" %>"
            data-label_plural="<%= I18n.t "assessment.records" %>"
            data-path="<%= form.path %>"
