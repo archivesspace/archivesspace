@@ -50,10 +50,7 @@ class AssessmentListReport < AbstractReport
   end
 
   def normalize_label(s)
-    # Comments in parens can be excluded
-    s = s.gsub(/\(.*?\)/, '')
-    s = s.strip
-    s.gsub(/ +/, '_').downcase
+    s.strip
   end
 
   def as_table
