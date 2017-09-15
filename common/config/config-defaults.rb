@@ -505,6 +505,9 @@ AppConfig[:pui_email_enabled] = false
 # 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
 #AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
 
+# use the repository record email address for requests (overrides config email)
+AppConfig[:pui_request_use_repo_email] = false
+
 # Example sendmail configuration:
 # AppConfig[:pui_email_delivery_method] = :sendmail
 # AppConfig[:pui_email_sendmail_settings] = {
