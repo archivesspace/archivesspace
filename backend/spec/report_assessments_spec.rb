@@ -31,6 +31,7 @@ describe 'Assessment reports' do
       'surveyed_by' => [surveyor.agent_record],
       'surveyed_extent' => 'surveyed extent',
       'reviewer' => [reviewer.agent_record],
+      'inactive' => false,
       'formats' => [
         {
           "definition_id" => definition_id_for_attribute_type('format'),
@@ -68,6 +69,18 @@ describe 'Assessment reports' do
                                              ],
                                            }))
 
+    assessments << build(:json_assessment,
+                         base_record.merge({
+                                             'inactive' => true,
+                                             'records' => [{'ref' => accession.uri}],
+                                             'ratings' => [
+                                               {
+                                                 "definition_id" => definition_id_for_attribute_type('rating'),
+                                                 "value" => "4",
+                                               }
+                                             ],
+                                           }))
+
     assessments.each do |a|
       Assessment.create_from_json(a)
     end
@@ -75,11 +88,20 @@ describe 'Assessment reports' do
     assessments
   end
 
+  def active_assessments
+    assessments.reject {|a| a['inactive']}
+  end
 
   describe 'Assessment list report' do
 
     def my_converter
       AssessmentConverter
+    end
+
+    it "excludes inactive assessments" do
+      DB.open do |db|
+        AssessmentListReport.new({:repo_id => $repo_id}, {}, db).total_count.should eq(2)
+      end
     end
 
     it "produces a CSV file that can be round-tripped with the importer" do
@@ -99,10 +121,10 @@ describe 'Assessment reports' do
         records.length.should eq(2)
 
         records.map {|assessment| assessment['survey_begin']}.sort
-          .should eq(assessments.map {|assessment| assessment['survey_begin']}.sort)
+          .should eq(active_assessments.map {|assessment| assessment['survey_begin']}.sort)
 
         records.map {|assessment| assessment['records']}.sort
-          .should eq(assessments.map {|assessment| assessment['records']}.sort)
+          .should eq(active_assessments.map {|assessment| assessment['records']}.sort)
       end
     end
 
@@ -114,7 +136,7 @@ describe 'Assessment reports' do
       json = ASUtils.json_parse(json_str)
 
       json.map {|assessment| assessment['basic']['survey_begin']}.sort
-        .should eq(assessments.map {|assessment| assessment['survey_begin']}.sort)
+        .should eq(active_assessments.map {|assessment| assessment['survey_begin']}.sort)
     end
   end
 
@@ -126,6 +148,13 @@ describe 'Assessment reports' do
       {:repo_id => $repo_id,
        'rating' => definition_id,
        'value_5' => 'on'}
+    end
+
+    it "excludes inactive assessments" do
+      DB.open do |db|
+        # Matches '5' but not '4', since that record is inactive.
+        AssessmentRatingReport.new(params.merge('value_4' => 'on'), {}, db).count.should eq(1)
+      end
     end
 
     it "produces a CSV file with matching ratings" do

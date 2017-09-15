@@ -114,6 +114,7 @@ class AssessmentRatingReport < AbstractReport
                    .left_join(:assessment_attribute_note, :assessment_id => :assessment__id)
                    .filter(:assessment_attribute_definition__id => @rating_id)
                    .filter(:assessment_attribute__value => @values_of_interest.map(&:to_s))
+                   .filter(Sequel.~(:assessment__inactive => 1))
                    .filter(:assessment__survey_begin => (@from..@to))
 
 
