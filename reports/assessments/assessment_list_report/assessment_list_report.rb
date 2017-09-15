@@ -62,9 +62,19 @@ class AssessmentListReport < AbstractReport
     each_assessment do |assessment|
       row = table.new_row
 
+      row.add_value('basic', 'assessment_id', assessment['display_string'])
+
       assessment['records'].each do |linked_record|
         parsed_uri = JSONModel.parse_reference(linked_record['ref'])
         row.add_multi_value('basic', 'record', [parsed_uri[:type], parsed_uri[:id]].join('_'))
+
+        resolved = linked_record['_resolved']
+        row.add_multi_value('basic', 'linked_record_titles', (resolved['display_string'] || resolved['title']))
+
+        row.add_multi_value('basic', 'linked_record_identifiers',
+                            ['id_0', 'id_1', 'id_2', 'id_3', 'component_id', 'digital_object_id'].map {|property|
+                              resolved[property]
+                            }.compact.join('.'))
       end
 
       BOOLEAN_FIELDS.each do |field|

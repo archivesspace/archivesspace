@@ -16,11 +16,18 @@
         <h2><%= t('linked_records') %></h2>
 
         <table>
-            <tr><th><%= t('linked_record_type') %></th><th><%= t('linked_record_title') %></th></tr>
+            <tr><th><%= t('linked_record_type') %></th><th><%= t('linked_record_title') %></th><th><%= t('linked_record_identifier') %></th></tr>
             <% Array(assessment['records']).each do |linked_record| %>
                 <tr>
                     <td><%= I18n.t(linked_record['_resolved']['jsonmodel_type'] + '._singular') %></td>
-                    <td><%= h linked_record['_resolved']['title'] %></td>
+                    <td><%= h linked_record['_resolved']['display_string'] || linked_record['_resolved']['title'] %></td>
+                    <td><%=
+                        ['id_0', 'id_1', 'id_2', 'id_3', 'component_id', 'digital_object_id']
+                        .map {|property| linked_record['_resolved'][property]}
+                        .compact
+                        .join('.')
+                        %>
+                    </td>
                 </tr>
             <% end %>
         </table>

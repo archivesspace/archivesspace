@@ -29,6 +29,7 @@ en:
       inactive: Inactive
       linked_record_title: Title
       linked_record_type: Record Type
+      linked_record_identifier: Identifier
       linked_records: Linked Records
       monetary_value: Monetary Value
       monetary_value_note: Monetary Value Note
