@@ -223,7 +223,7 @@ class AssessmentConverter < Converter
 
 
   def self.normalize_label(label)
-    label.downcase.gsub(/[^a-z0-9]+/, '_')
+    label.strip.downcase.gsub(/[^a-z0-9]+/, '_').gsub(/_+$/, '')
   end
 
 
