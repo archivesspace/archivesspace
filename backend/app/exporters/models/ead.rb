@@ -219,6 +219,32 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  def addresslines_keyed
+    agent = self.agent_representation
+    return [] unless agent && agent.agent_contacts[0]
+
+    contact = agent.agent_contacts[0]
+
+    data = {}
+    (1..3).each do |i|
+      data["address_#{i}"] = contact["address_#{i}"]
+    end
+
+    line = ""
+    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
+    line += " #{contact['post_code']}"
+    line.strip!
+    data['city_region_post_code'] = line unless line.empty?
+
+    data['telephone'] = contact['telephone']
+    data['email'] = contact['email']
+
+    data.delete_if { |k,v| v.nil? }
+
+    data
+  end
+
+
   def descrules
     return nil unless @descrules || self.finding_aid_description_rules
     @descrules ||= I18n.t("enumerations.resource_finding_aid_description_rules.#{self.finding_aid_description_rules}", :default => self.finding_aid_description_rules)

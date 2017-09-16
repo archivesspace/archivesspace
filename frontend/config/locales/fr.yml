@@ -100,7 +100,7 @@ fr:
 
   database_warning:
     message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
-  
+
   states:
     auto_generated: Généré automatiquement à la sauvegarde
 
@@ -109,6 +109,7 @@ fr:
     include_daos: Inclure balises &lt;dao&gt;
     numbered_cs: Utiliser balises numérotées &lt;c&gt;
     print_pdf: Imprimer en PDF
+    ead3: EAD3 schema
 
   pagination:
     first: Premier
@@ -995,7 +996,7 @@ fr:
         drag_and_drop_hint: Glissez-déplacez des fichiers ici
         find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
         find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
-        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>. 
+        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>.
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
@@ -1007,7 +1008,7 @@ fr:
       close_record: "Fermer une notice en cours d'édition"
       open_browse: "Ouvrir menu parcourir"
       open_create: "Ouvrir menu créer"
-                    
+
   instance_container:
     container: Conditionnement
 
@@ -1018,14 +1019,14 @@ fr:
         <p>Peut être sélectionné dans une liste de conditionnements principaux, en utilisant le type ci-devant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
     type_2: Type fils
     type_2_tooltip: |
-        <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_2: Indicateur fils
     indicator_2_tooltip: |
         <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
     type_3: Type petit-fils
     type_3_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_3: Indicateur petit-fils
     indicator_3_tooltip: |
@@ -1063,14 +1064,14 @@ fr:
 
     managed_container_2_type: Type de conditionnement fils
     managed_container_2_type_tooltip: |
-        <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_2_indicator: Indicateur de conditionnement fils
     managed_container_2_indicator_tooltip: |
         <p>Une expression alpha numérique indiquant l'identifiant du conditionnement de niveau 2, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
     managed_container_3_type: Tye de conditionnement petit-fils
     managed_container_3_type_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     managed_container_3_indicator: Indicateur de conditionnement petit-fils
     managed_container_3_indicator_tooltip: |
@@ -1157,7 +1158,7 @@ fr:
         basic_information: Information de base
     name: Nom
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>  
+        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
         <p>Exemples:</p>
         <ul>
         <li>Boîte d'archivage</li>
@@ -1240,7 +1241,7 @@ fr:
       messages:
         created: Profil de localisation créé
         updated: Profil de localisation actualisé
-        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.      
+        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.
       section:
         basic_information: Information de base
     name: Nom

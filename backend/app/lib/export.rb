@@ -5,11 +5,11 @@ require_relative 'AS_fop'
 module ExportHelpers
 
   ASpaceExport::init
-  
+
   def pdf_response(pdf)
     [status, {"Content-Type" => "application/pdf"}, pdf ]
   end
-  
+
   def generate_pdf_from_ead( ead )
     xml = ""
     ead.each { |e| xml << e  }
@@ -78,7 +78,7 @@ module ExportHelpers
   end
 
 
-  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags)
+  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags, ead3)
     resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container', 'top_container::container_profile']
 
     resource = Resource.get_or_die(id)
@@ -88,13 +88,21 @@ module ExportHelpers
     opts = {
       :include_unpublished => include_unpublished,
       :include_daos => include_daos,
-      :use_numbered_c_tags => use_numbered_c_tags
+      :use_numbered_c_tags => use_numbered_c_tags,
+      :ead3 => ead3
     }
+
+    if ead3
+      opts[:serializer] = :ead3
+    end
+
+    # SPECIFY SERIALIZER HERE
+
     ead = ASpaceExport.model(:ead).from_resource(jsonmodel, resource.tree(:all, mode = :sparse), opts)
-    ASpaceExport::stream(ead)
+    ASpaceExport::stream(ead, opts)
   end
 
-  
+
   def generate_eac(id, type)
     klass = Kernel.const_get(type.camelize)
     events = []
@@ -127,7 +135,7 @@ module ExportHelpers
   # this takes identifiers and makes sure there's no 'funny' characters.
   # usefuly for filenaming on exports.
   def safe_filename(id, suffix = "")
-    filename = "#{id}_#{Time.now.getutc}_#{suffix}" 
+    filename = "#{id}_#{Time.now.getutc}_#{suffix}"
     filename.gsub(/\s+/, '_').gsub(/[^0-9A-Za-z_\.]/, '')
   end
 
