@@ -788,6 +788,8 @@
   <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
   </target>
 
+  <target name="indexer:coverage" depends="set-classpath, indexer:test" description="Generate coverage reports for the indexer">
+  </target>
 
   <target name="frontend:coverage" depends="set-classpath, frontend:clean, selenium:test"
           description="Generate coverage reports for the frontend">

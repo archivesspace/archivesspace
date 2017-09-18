@@ -1,4 +1,4 @@
-class CommonIndexerConfig
+class IndexerCommonConfig
 
   def self.record_types
     [
