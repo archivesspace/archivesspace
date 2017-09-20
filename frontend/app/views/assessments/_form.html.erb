@@ -328,7 +328,13 @@
           <% else %>
             <ul>
               <% ASUtils.wrap(form.obj['formats']).sort{|a, b|
-                i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
+                if a.fetch('label') == 'Other'
+                  1
+                elsif b.fetch('label') == 'Other'
+                  -1
+                else
+                  i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
+                end
               }.each do |format| %>
                 <% next unless format['value'] %>
                 <li>
@@ -341,7 +347,13 @@
 
           <% formats_index = 0 %>
           <% @assessment_attribute_definitions.global_formats.sort{|a, b|
-            i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
+            if a.fetch('label') == 'Other'
+              1
+            elsif b.fetch('label') == 'Other'
+              -1
+            else
+              i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
+            end
           }.each_slice((@assessment_attribute_definitions.global_formats.length.to_f / 2).ceil).each do |group| %>
             <div class="col-md-6">
               <% group.each do |format| %>
