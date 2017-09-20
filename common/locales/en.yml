@@ -2011,6 +2011,8 @@ en:
 
   assessment:
     records: Records
+    records_tooltip: |
+        <p>REQUIRED FIELD: A link to the resource(s), accession(s), archival object(s), or digital object(s) that are the subjects of the assessment.</p>
     accession_report: Accession Report
     appraisal: Appraisal
     container_list: Box/Container List
@@ -2018,8 +2020,10 @@ en:
     collections: Collections
     control_file: Collection/Control File
     conservation_note: Conservation Note
+    conservation_note_tooltip: <p>Indicates areas of particular concern with regard to the conservation needs of the collection.</p>
     deed_of_gift: Deed of Gift
     existing_description_notes: Existing Description Notes
+    existing_description_notes_tooltip: <p>Any further information on existing description for the materials.</p>
     finding_aid_ead: Finding Aid (EAD-encoding)
     finding_aid_online: Finding Aid (online)
     finding_aid_paper: Finding Aid (paper only)
@@ -2027,30 +2031,52 @@ en:
     finding_aid_spreadsheet: Finding Aid (spreadsheet)
     id: ID
     inactive: Inactive?
+    inactive_tooltip: <p>Indicates if the Assessment record is no longer considered “active” and thus should not be included in searches or reports.</p>
     inactive_true: "Yes"
     inactive_false: "No"
     monetary_value: Monetary Value
+    monetary_value_tooltip: <p>Appraised or estimated market value of the assessed materials (numerical value).</p>
     monetary_value_note: Monetary Value Note
+    monetary_value_note_tooltip: <p>Indicates who provided the monetary value, date of appraisal, and any other relevant information.</p>
     surveyed_by: Surveyed By
+    surveyed_by_tooltip: |
+        <p>REQUIRED FIELD: Name(s) of the person(s) who performed the assessment. This field is restricted to those with user records in ArchivesSpace.</p>
     survey_begin: Survey Begin Date
+    survey_begin_tooltip: |
+        <p>REQUIRED FIELD: The date the survey began, in yyyy-mm-dd format.</p>
     survey_end: Survey Completed Date
+    survey_end_tooltip: <p>The date the survey ended, in yyyy-mm-dd format.</p>
     surveyed_duration: Time it took to Complete Survey
+    surveyed_duration_tooltip: <p>The time it took to complete the survey, measured in hour increments.</p>
     surveyed_extent: Extent Surveyed
+    surveyed_extent_tooltip: <p>The extent of the material surveyed in units such as cubic or linear feet.</p>
     related_eac_records: Related EAC Record(s)
     research_value: Research Value
+    research_value_tooltip: <p>This value is automatically calculated by adding the value in the Documentation Quality field with the value in the Interest field.</p>
     review_required: Review Required?
+    review_required_tooltip: <p>Indicates if review is required for the collection because of its format, subject matter, or circumstances.</p>
     review_required_true: "Yes"
     review_required_false: "No"
     review_note: Review Note
+    review_note_tooltip: <p>Explanation of the outcome of any special review.</p>
     reviewer: Who Needs to Review
+    reviewer_tooltip: <p>Indicates who needs to perform the review. This field is restricted to those with user records in ArchivesSpace.</p>
     purpose: Purpose of Assessment
+    purpose_tooltip: |
+        <p>Indicates the reason the assessment was undertaken. Examples: conservation priorities; processing priorities; appraisal; etc.</p>
     scope: Scope of Assessment
+    scope_tooltip: |
+        <p>Indicates the scope of the assessment. Examples: 10% sampling; entirety; a particular format or genre within or across collections; or other constraints or conditions on materials actively reviewed during an assessment.</p>
     sensitive_material: Sensitive Material?
+    sensitive_material_tooltip: <p>Indicates whether sensitive materials are present.</p>
     sensitive_material_true: "Yes"
     sensitive_material_false: "No"
     general_assessment_note: General Assessment Note
+    general_assessment_note_tooltip: <p>Any further notes on an assessment.</p>
     special_format_note: Special Format Note
+    special_format_note_tooltip: <p>Additional or explanatory information about the special formats present.</p>
     exhibition_value_note: Exhibition Value Note
+    exhibition_value_note_tooltip: <p>Indicates whether the collection itself or individual items found in the collection might be especially appropriate for exhibition. For example, this field might note a unique artifact or a letter or photograph of historical significance.</p>
     rating_attributes_value:
       rating_none: No Rating
       rating_1: "1"
@@ -2065,12 +2091,19 @@ en:
   assessment_attribute:
     rating:
       "Reformatting Readiness": Reformatting Readiness
+      "Reformatting Readiness_tooltip": <p>A rating from 1 to 5 that indicates how easily materials can be reformatted.</p>
       "Housing Quality": Housing Quality
+      "Housing Quality_tooltip": <p>A rating from 1 to 5 intended to describe the overall quality of housing of the materials in a collection; items or groups of materials within a collection may be in better or poorer housing than what the overall rating indicates.</p>
       "Physical Condition": Physical Condition
+      "Physical Condition_tooltip": <p>A rating from 1 to 5 intended to describe the overall condition of the materials in a collection; items or groups of materials of particular concern will be indicated in the conservation note.</p>
       "Physical Access (arrangement)": Physical Access (arrangement)
+      "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
       "Intellectual Access (description)": Intellectual Access (description)
+      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p> 
       "Interest": Interest
+      "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
       "Documentation Quality": Documentation Quality
+      "Documentation Quality_tooltip": <p>A rating from 1 to 5 that applies to the richness and depth of documentation available in a collection. Interest + Documentation Quality create the "Research Value" score.</p>
     format:
       "Architectural Materials": Architectural Materials
       "Art Originals": Art Originals
