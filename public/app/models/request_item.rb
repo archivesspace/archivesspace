@@ -5,7 +5,7 @@ class RequestItem < Struct.new(:user_name, :user_email, :date, :note,
                                :hierarchy, :repo_name, :resource_id, :linked_record_uris,
                                :machine,
                                :top_container_url, :container,  :barcode, :location_title, 
-                               :location_url, :repo_uri, :repo_code)
+                               :location_url, :repo_uri, :repo_code, :repo_email)
 
   def RequestItem.allow_for_type(repository_code, record_type)
     fallback = AppConfig[:pui_requests_permitted_for_types].include?(record_type)
