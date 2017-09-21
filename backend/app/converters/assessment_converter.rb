@@ -65,7 +65,7 @@ class AssessmentConverter < Converter
   end
 
   def self.configure
-    config = {}    
+    config = {}
     records = 0
     agents = 0
     reviewers = 0
@@ -284,7 +284,7 @@ class AssessmentConverter < Converter
       unless (user = User.find(:username => val))
         raise "User '#{val}' does not exist"
       end
-      
+
       User.to_jsonmodel(user).agent_record['ref']
     }
     @user_to_uri
