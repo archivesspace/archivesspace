@@ -18,7 +18,6 @@ selenium/webdriver-profile*
 /archivesspace*.zip
 build/target
 build/solr
-build/solr_home/
 build/solr_index
 build/indexer_state
 build/indexer_pui_state
