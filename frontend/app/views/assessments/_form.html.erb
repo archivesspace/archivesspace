@@ -12,6 +12,34 @@
   def i18n_conservation_issue(label)
     I18n.t("assessment_attribute.conservation_issue.#{label}", :default => label)
   end
+
+  def rating_tooltip(rating)
+    label = rating['label']
+    result = I18n.t("assessment_attribute.rating.#{label}_tooltip", :default => '')
+
+    unless result.empty?
+      result.gsub('"', '&quot;')
+    end
+  end
+
+  def rating_note_tooltip(rating)
+    label = rating['label']
+    result = I18n.t("assessment_attribute.rating.#{label}_note_tooltip", :default => '')
+
+    unless result.empty?
+      result.gsub('"', '&quot;')
+    end
+  end
+
+  def rating_values_tooltip(rating)
+    label = rating['label']
+    result = I18n.t("assessment_attribute.rating.#{label}_values_tooltip", :default => '')
+
+    unless result.empty?
+      result.gsub('"', '&quot;')
+    end
+  end
+
 %>
 
 <% define_template("assessment", jsonmodel_definition(:assessment)) do |form| %>
@@ -211,8 +239,21 @@
                 <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
                   <tr>
                     <td>
-                      <%= i18n_rating(rating.fetch('label')) %>
+                      <% rating_tooltip = rating_tooltip(rating) %>
+                      <label <% if rating_tooltip %> class="has-tooltip control-label" data-trigger="manual" data-html="true" title="<%= rating_tooltip %>" <% end %>>
+                        <%= i18n_rating(rating.fetch('label')) %>
+                      </label>
                       <%= form.hidden_input('definition_id', rating.fetch('id')) %>
+
+                      <% rating_values_tooltip = rating_values_tooltip(rating) %>
+                      <% if rating_values_tooltip %>
+                        <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label" 
+                               data-trigger="manual"
+                               data-html="true"
+                               title="<%= rating_values_tooltip %>"
+                               data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'>
+                        </label>
+                      <% end %>
                     </td>
                     <td class="text-center">
                       <%= form.radio('value', nil) %>
@@ -239,7 +280,22 @@
                   </tr>
                   <tr style="display:none">
                     <td>
-                      <%= label_tag form.id_for('note'), I18n.t('assessment.rating_note', :label => i18n_rating(rating.fetch('label'))) %>
+                      <%
+                      label_options = {}
+                      rating_note_tooltip = rating_note_tooltip(rating)
+
+                      if rating_note_tooltip
+                        label_options['class'] = 'control-label has-tooltip'
+                        label_options['data-trigger'] = 'manual'
+                        label_options['data-html'] = 'true'
+                        label_options['title'] = rating_note_tooltip
+                      end
+                      %>
+                      <%=
+                      label_tag(form.id_for('note'),
+                                I18n.t('assessment.rating_note', :label => i18n_rating(rating.fetch('label'))),
+                                label_options)
+                      %>
                     </td>
                     <td colspan="6">
                       <%= form.textarea 'note', form.obj['note'] %>
@@ -270,8 +326,22 @@
                   <% form.push(form.set_index("ratings[]", ratings_index), ASUtils.wrap(form.obj['ratings']).find{|r| r['definition_id'] == rating['id']} || {}) do %>
                     <tr>
                       <td>
-                        <%= i18n_rating(rating.fetch('label')) %>
+                        <% rating_tooltip = rating_tooltip(rating) %>
+                        <label <% if rating_tooltip %> class="has-tooltip control-label" data-trigger="manual" data-html="true" title="<%= rating_tooltip %>" <% end %>>
+                          <%= i18n_rating(rating.fetch('label')) %>
+                        </label>
+
                         <%= form.hidden_input('definition_id', rating.fetch('id')) %>
+
+                        <% rating_values_tooltip = rating_values_tooltip(rating) %>
+                        <% if rating_values_tooltip %>
+                          <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label" 
+                                 data-trigger="manual"
+                                 data-html="true"
+                                 title="<%= rating_values_tooltip %>"
+                                 data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'>
+                          </label>
+                        <% end %>
                       </td>
                       <td class="text-center">
                         <%= form.radio('value', nil) %>
@@ -298,7 +368,22 @@
                     </tr>
                     <tr style="display:none">
                       <td>
-                        <%= label_tag form.id_for('note'), I18n.t('assessment.rating_note', :label => i18n_rating(rating.fetch('label'))) %>
+                        <%
+                        label_options = {}
+                        rating_note_tooltip = rating_note_tooltip(rating)
+
+                        if rating_note_tooltip
+                          label_options['class'] = 'control-label has-tooltip'
+                          label_options['data-trigger'] = 'manual'
+                          label_options['data-html'] = 'true'
+                          label_options['title'] = rating_note_tooltip
+                        end
+                        %>
+                        <%=
+                        label_tag(form.id_for('note'),
+                                  I18n.t('assessment.rating_note', :label => i18n_rating(rating.fetch('label'))),
+                                  label_options)
+                        %>
                       </td>
                       <td colspan="6">
                         <%= form.textarea 'note', form.obj['note'] %>
