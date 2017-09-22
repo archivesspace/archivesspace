@@ -402,7 +402,7 @@ AppConfig[:record_inheritance] = {
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
-AppConfig[:pui_branding_img] = 'ASpaceOrgHome.jpg'
+AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
