@@ -481,9 +481,12 @@ class EAD3Serializer < EADSerializer
 
             serialize_origination(data, xml, @fragments)
 
-            data.external_ids.each do |exid|
-              xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+            if @include_unpublished
+              data.external_ids.each do |exid|
+                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+              end
             end
+
 
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
@@ -1061,15 +1064,16 @@ class EAD3Serializer < EADSerializer
           xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
-        if !data.component_id.nil? && !data.component_id.empty? &&
-          !(data.external_ids.select {|x| x['external_id'] == data.component_id }).empty?
+        if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
-
         end
 
-        data.external_ids.each do |exid|
-          xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+        if @include_unpublished
+          data.external_ids.each do |exid|
+            xml.unitid  ({ "audience" => "internal",  "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+          end
         end
+
 
         serialize_origination(data, xml, fragments)
         serialize_extents(data, xml, fragments)
