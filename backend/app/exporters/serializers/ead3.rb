@@ -1312,8 +1312,8 @@ class EAD3Serializer < EADSerializer
     else
       file_versions.each do |file_version|
         atts['href'] = file_version['file_uri'] || digital_object['digital_object_id']
-        atts['actuate'] = file_version['xlink_actuate_attribute'].downcase || 'onrequest'
-        atts['show'] = file_version['xlink_show_attribute'].downcase || 'new'
+        atts['actuate'] = (file_version['xlink_actuate_attribute'].respond_to?(:downcase) && file_version['xlink_actuate_attribute'].downcase) || 'onrequest'
+        atts['show'] = (file_version['xlink_show_attribute'].respond_to?(:downcase) && file_version['xlink_show_attribute'].downcase) || 'new'
         atts['localtype'] = file_version['use_statement'] if file_version['use_statement']
         xml.dao(atts) {
           xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
