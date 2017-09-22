@@ -4,7 +4,7 @@ class RequestMailer < ApplicationMailer
 
     @request = request
 
-    mail(from: email_address(@request),
+    mail(from: from_address(request.repo_code), 
          to: user_email,
          subject: I18n.t('request.email.subject', :title => request.title))
   end
@@ -12,31 +12,34 @@ class RequestMailer < ApplicationMailer
   def request_received_staff_email(request)
     @request = request
 
-    mail(from: email_address(@request),
-         to: to_address(@request, :to),
+    mail(from: from_address(request.repo_code),
+         to: to_address(request.repo_code),
          subject: I18n.t('request.email.subject', :title => request.title))
   end
 
-  # TODO: not implemented
-  # def email_pdf_finding_aid(request, recipient_email, suggested_filename, pdf_path)
-  #   attachments[suggested_filename] = File.read(pdf_path)
+  def email_pdf_finding_aid(recipient_email, repo_code, record_title, suggested_filename, pdf_path)
+    attachments[suggested_filename] = File.read(pdf_path)
 
-  #   mail(from: email_address(request),
-  #        to: recipient_email,
-  #        subject: I18n.t('pdf_reports.your_finding_aid_pdf', :title => record_title))
-  # end
+    mail(from: from_address(repo_code),
+         to: recipient_email,
+         subject: I18n.t('pdf_reports.your_finding_aid_pdf', :title => record_title))
+  end
 
   private
 
-  def email_address(request, type = :from)
-    use_repo_email = AppConfig[:pui_request_use_repo_email]
-    fallback_from  = AppConfig[:pui_request_email_fallback_from_address]
-    fallback_to    = AppConfig[:pui_request_email_fallback_to_address]
+  def from_address(repo_code)
     begin
-      use_repo_email ? request.repo_email : AppConfig[:pui_repos][request.repo_code][:request_email]
+      AppConfig[:pui_repos][repo_code.intern][:request_email]
     rescue
-      type == :from ? fallback_from : fallback_to
+      AppConfig[:pui_request_email_fallback_from_address]
     end
   end
 
+  def to_address(repo_code)
+    begin
+      AppConfig[:pui_repos][repo_code][:request_email]
+    rescue
+      AppConfig[:pui_request_email_fallback_to_address]
+    end
+  end
 end
