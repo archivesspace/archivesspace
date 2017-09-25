@@ -13,7 +13,7 @@ class RequestMailer < ApplicationMailer
     @request = request
 
     mail(from: email_address(@request),
-         to: to_address(@request, :to),
+         to: email_address(@request, :to),
          subject: I18n.t('request.email.subject', :title => request.title))
   end
 
