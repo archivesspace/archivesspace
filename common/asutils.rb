@@ -89,6 +89,9 @@ module ASUtils
     #
     # Example: /pat/to/archivesspace/backend/uri:classloader:
     this_dir = __dir__.gsub(/\Auri:classloader:/, '')
+    if this_dir == '/'
+      this_dir = '.'
+    end
 
     res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
