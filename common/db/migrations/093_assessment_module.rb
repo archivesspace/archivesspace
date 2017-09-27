@@ -188,6 +188,9 @@ Sequel.migration do
       add_foreign_key([:assessment_id], :assessment, :key => :id)
       add_foreign_key([:assessment_attribute_definition_id], :assessment_attribute_definition, :key => :id)
     end
+
+    # Reindex agents to pick up the new is_user property.
+    self[:agent_person].update(:system_mtime => Time.now)
   end
 
   down do
