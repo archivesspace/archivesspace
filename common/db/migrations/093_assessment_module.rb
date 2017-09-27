@@ -1,3 +1,5 @@
+require_relative 'utils'
+
 Sequel.migration do
 
   up do
@@ -9,8 +11,6 @@ Sequel.migration do
 
       Integer :repo_id, :null => false
 
-      TextField :display_string, :null => true
-
       Integer :accession_report, :default => 0, :null => false
       Integer :appraisal, :default => 0, :null => false
       Integer :container_list, :default => 0, :null => false
@@ -21,7 +21,6 @@ Sequel.migration do
       Integer :finding_aid_word, :default => 0, :null => false
       Integer :finding_aid_spreadsheet, :default => 0, :null => false
 
-      Date :surveyed_date
       String :surveyed_duration
       TextField :surveyed_extent
       Integer :review_required, :default => 0, :null => false
@@ -34,6 +33,18 @@ Sequel.migration do
 
       TextField :special_format_note
       TextField :exhibition_value_note
+
+      Integer :deed_of_gift, :null => true
+      Integer :finding_aid_online, :null => true
+      Integer :related_eac_records, :null => true
+      TextField :existing_description_notes, :null => true
+      Date :survey_begin, :null => false, :default => '1970-01-01'
+      Date :survey_end, :null => true
+      TextField :review_note, :null => true
+      Integer :inactive, :null => true
+      BigDecimal :monetary_value, :size => [16, 2], :null => true
+      TextField :monetary_value_note, :null => true
+      TextField :conservation_note, :null => true
 
       apply_mtime_columns
     end
@@ -55,6 +66,8 @@ Sequel.migration do
 
       Integer :aspace_relationship_position
 
+      Integer :suppressed, :default => 0, :null => false
+
       apply_mtime_columns(false)
     end
 
@@ -73,6 +86,7 @@ Sequel.migration do
       Integer :assessment_id, :null => false
       Integer :agent_person_id
       Integer :aspace_relationship_position
+      Integer :suppressed, :default => 0, :null => false
 
       apply_mtime_columns(false)
     end
@@ -89,6 +103,7 @@ Sequel.migration do
       String :label, :null => false
       String :type, :null => false
       Integer :position, :null => false
+      Integer :readonly, :null => false, :default => 0
     end
 
     alter_table(:assessment_attribute_definition) do
@@ -102,6 +117,7 @@ Sequel.migration do
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Intellectual Access (description)', :type => 'rating', :position => 4)
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Interest', :type => 'rating', :position => 5)
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Documentation Quality', :type => 'rating', :position => 6)
+    self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Research Value', :type => 'rating', :readonly => 1, :position => 7)
 
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Architectural Materials', :type => 'format', :position => 7)
     self[:assessment_attribute_definition].insert(:repo_id => 1, :label => 'Art Originals', :type => 'format', :position => 8)
@@ -135,11 +151,40 @@ Sequel.migration do
 
       Integer :assessment_id, :null => false
       Integer :assessment_attribute_definition_id, :null => false
-      String :value, :null => true
-      TextField :note, :null => true
+      String :value, :null => false
     end
 
     alter_table(:assessment_attribute) do
+      add_foreign_key([:assessment_id], :assessment, :key => :id)
+      add_foreign_key([:assessment_attribute_definition_id], :assessment_attribute_definition, :key => :id)
+    end
+
+    create_table(:assessment_reviewer_rlshp) do
+      primary_key :id
+
+      Integer :assessment_id, :null => false
+      Integer :agent_person_id
+      Integer :aspace_relationship_position
+
+      Integer :suppressed, :default => 0, :null => false
+
+      apply_mtime_columns(false)
+    end
+
+    alter_table(:assessment_reviewer_rlshp) do
+      add_foreign_key([:assessment_id], :assessment, :key => :id)
+      add_foreign_key([:agent_person_id], :agent_person, :key => :id)
+    end
+
+    create_table(:assessment_attribute_note) do
+      primary_key :id
+
+      Integer :assessment_id, :null => false
+      Integer :assessment_attribute_definition_id, :null => false
+      TextField :note, :null => false
+    end
+
+    alter_table(:assessment_attribute_note) do
       add_foreign_key([:assessment_id], :assessment, :key => :id)
       add_foreign_key([:assessment_attribute_definition_id], :assessment_attribute_definition, :key => :id)
     end
