@@ -16,7 +16,7 @@ module ASUtils
     result = {}
 
     hash.each do |key, value|
-      result[key.to_s] = value.is_a?(Date) ? value.to_s : value 
+      result[key.to_s] = value.is_a?(Date) ? value.to_s : value
     end
 
     result
@@ -88,7 +88,10 @@ module ASUtils
     # JRuby 9K seems to be adding this strange suffix...
     #
     # Example: /pat/to/archivesspace/backend/uri:classloader:
-    this_dir = __dir__.gsub(/uri:classloader:\z/, '')
+    this_dir = __dir__.gsub(/\Auri:classloader:/, '')
+    if this_dir == '/'
+      this_dir = '.'
+    end
 
     res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
@@ -103,7 +106,7 @@ module ASUtils
   def self.find_local_directories(base = nil, *plugins)
     plugins = AppConfig[:plugins] if plugins.empty?
     # if a specific plugins directory is set in config.rb,
-    # we use that. Otherwise, find the 'plugins' dir in the 
+    # we use that. Otherwise, find the 'plugins' dir in the
     # aspace base.
     base_directory =
       AppConfig.changed?(:plugins_directory) ?
@@ -141,7 +144,7 @@ module ASUtils
       :cpu_count => runtime.availableProcessors,
       :exception => exception && {:msg => exception, :backtrace => exception.backtrace}
     }
-   
+
  end
 
   def self.dump_diagnostics(exception = nil)
@@ -150,7 +153,7 @@ module ASUtils
       require 'json'
     end
 
-    diagnostics = self.get_diagnostics( exception ) 
+    diagnostics = self.get_diagnostics( exception )
     tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, "w") do |fh|
       fh.write(JSON.pretty_generate(diagnostics))

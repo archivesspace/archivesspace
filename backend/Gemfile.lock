@@ -30,7 +30,7 @@ GEM
     i18n (0.7.0)
     jdbc-derby (10.12.1.1)
     jdbc-mysql (5.1.13)
-    jruby-jars (9.1.8.0)
+    jruby-jars (9.1.13.0)
     jruby-rack (1.1.20)
     json (1.8.6-java)
     json-schema (1.0.10)
@@ -122,7 +122,7 @@ DEPENDENCIES
   i18n (>= 0.6.4)
   jdbc-derby (= 10.12.1.1)
   jdbc-mysql (= 5.1.13)
-  jruby-jars (= 9.1.8.0)
+  jruby-jars (= 9.1.13.0)
   json (= 1.8.6)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
@@ -151,4 +151,4 @@ DEPENDENCIES
   zip-zip (= 0.3)
 
 BUNDLED WITH
-   1.12.5
+   1.16.0.pre.2

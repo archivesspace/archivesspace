@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.8.0/jruby-complete-9.1.8.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.1.8.0.jar" />
+  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.13.0/jruby-complete-9.1.13.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.1.13.0.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
@@ -84,6 +84,27 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
       <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
+    </java>
+  </target>
+
+  <target name="bundler:update" depends="set-classpath" description="Run bundler update against a gemfile" >
+    <property name="build.home" location="."/>
+    <property name="excluded-gem-groups" value="" />
+    <property name="which-app" value="backend" />
+
+    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
+    </condition>
+
+    <echo message="Updating ${gem-to-update} in ${which-app}" />
+
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" dir="../${which-app}" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="${basedir}/gems/bin/bundle update ${gem-to-update}" />
     </java>
   </target>
 
