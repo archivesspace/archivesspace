@@ -94,8 +94,16 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model.each do |victim_model, victims|
 
+      # If we're merging a record of type A with relationship R into a record of
+      # type B, type B must also support that relationship type.  If it doesn't,
+      # we risk losing data through the merge and should abort.
+      #
       unless participating_models.include?(victim_model)
-        raise ReferenceError.new("This class doesn't belong to relationship #{self}: #{victim.class}")
+        found = self.find_by_participant_ids(victim_model, victims.map(&:id))
+
+        unless found.empty?
+          raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
+        end
       end
 
       victim_columns = self.reference_columns_for(victim_model)

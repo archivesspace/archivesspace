@@ -398,6 +398,14 @@ module AspaceFormHelper
     end
 
 
+    def radio(name, value, opts = {})
+      options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
+      options[:checked] = "checked" if obj[name] == value
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+
     def required?(name)
       if @active_template && @parent.templates[@active_template]
         @parent.templates[@active_template][:definition].required?(name)
@@ -444,7 +452,7 @@ module AspaceFormHelper
       controls_classes = %w(form-group), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
-        label_classes << 'col-sm-2'
+        label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
         controls_classes << "col-sm-#{opts[:col_size]}"
       end
       # There must be a better way to say this...
@@ -512,7 +520,9 @@ module AspaceFormHelper
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
-      ((obj[name] === true) || obj[name] === "true") ? "True" : "False"
+      true_i18n = I18n.t("#{i18n_for(name)}_true", :default => I18n.t('boolean.true'))
+      false_i18n = I18n.t("#{i18n_for(name)}_false", :default => I18n.t('boolean.false'))
+      ((obj[name] === true) || obj[name] === "true") ? true_i18n : false_i18n
     end
 
     def label_with_field(name, field_html, opts = {})

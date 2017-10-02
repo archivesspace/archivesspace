@@ -424,6 +424,13 @@ class CommonIndexer
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
 
+        if record['record']['is_user']
+          doc['is_user'] = true
+          doc['types'] << 'agent_with_user'
+        else
+          doc['is_user'] = false
+        end
+
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
       end
@@ -655,6 +662,43 @@ class CommonIndexer
       end
 
       docs
+    }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'assessment'
+        doc['assessment_id'] = JSONModel.parse_reference(record['record']['uri']).fetch(:id)
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
+        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['jsonmodel_type']}.uniq.sort
+        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
+        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
+        doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
+        doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
+        doc['assessment_review_required'] = record['record']['review_required']
+        doc['assessment_sensitive_material'] = record['record']['sensitive_material']
+        if (ASUtils.wrap(record['record']['reviewer']).length > 0)
+          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
+          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
+        end
+        doc['assessment_inactive'] = record['record']['inactive']
+
+        doc['assessment_survey_year'] = CommonIndexer.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
+
+        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
+        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+
+        doc['assessment_completed'] = !record['record']['survey_end'].nil?
+
+        doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value') || r.has_key?('note')}.map{|r| r['label']}
+        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+
+        doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
+      end
     }
   end
 
@@ -906,7 +950,7 @@ class CommonIndexer
           hook.call(doc, record)
         end
 
-        doc['title_sort'] = clean_for_sort(doc['title'])
+        doc['title_sort'] ||= clean_for_sort(doc['title'])
 
         # do this last of all so we know for certain the doc is published
         apply_pui_fields(doc, record)

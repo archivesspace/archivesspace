@@ -180,6 +180,16 @@ en:
       location_profile_depth_u_sstr: Depth
       location_profile_dimension_units_u_sstr: Dimension Units
       rights_statement_agent_uris: Rights Statement Agent
+      assessment_surveyors: Surveyed By
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_reviewer_uris: Reviewer
+      assessment_surveyed_by_uris: Surveyed By
+      assessment_reviewers: Reviewer
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_record_types: Record Type
+      assessment_completed: Completed
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -223,6 +233,9 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
+    assessment_survey_begin: Survey Begin Date
+    assessment_survey_end: Survey Completed Date
+    assessment_id: ID
 
   advanced_search:
     operator:
@@ -295,6 +308,7 @@ en:
     global_admin: System
     system_info: System Information
     unpublished: Unpublished
+    manage_assessment_attributes: Manage Assessment Attributes
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -313,6 +327,9 @@ en:
     locations:
       success: Locations deleted
       error: "Unable to delete locations:"
+    assessments:
+      success: Assessments deleted
+      error: "Unable to delete assessments:"
 
   welcome:
     heading: Welcome to ArchivesSpace
@@ -391,6 +408,8 @@ en:
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
+    merge_conflict: "Merging agent(s) could not complete: %{message}"
+    linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
     _frontend:
@@ -404,6 +423,7 @@ en:
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -416,6 +436,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select below agents to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
@@ -474,6 +495,7 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
+        delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -561,6 +583,7 @@ en:
         unsuppressed: Digital Object <strong>%{digital_object.title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object.title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
+        delete_conflict: "Digital Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -804,6 +827,7 @@ en:
         unsuppressed: Resource <strong>%{resource.title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource.title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
+        delete_conflict: "Resource could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data
@@ -1297,3 +1321,77 @@ en:
     _frontend:
       action:
         add: Add Act
+
+  assessment:
+    _frontend:
+      form_header: Assessment %{display_string}
+      formats: Material Types / Formats
+      ratings: Ratings
+      conservation_issues: Conservation Issues
+      record_types: Record Types
+      action:
+        create: Create Assessment
+        save: Save Assessment
+        add_rating_note: Add Note
+        remove_rating_note: Remove Note
+        create_for_record: Create Assessment
+      section:
+        basic_information: Basic Information
+        existing_description: Existing Description
+        rating_attributes: Assessment Information
+        rating_attributes_empty: No assessment information entered
+        rating_attributes_additional: Additional Rating(s)
+        format_attributes: List of Material Types / Formats
+        format_attributes_empty: No material types / formats entered
+        format_attributes_additional: Additional Material Types / Formats
+        conservation_issue_attributes: Conservation Issues
+        conservation_issue_attributes_empty: No conservation issues entered
+        conservation_issue_attributes_additional: Additonal Conservation Issues
+      messages:
+        created: Assessment Created
+        updated: Assessment Updated
+        deleted: Assessment Deleted
+        attributes_hint: Please contact your administrator to add additional %{attribute_type}
+        manage_attributes_hint: Manage the additional %{attribute_type} for this repository
+      assessment_review_required:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_sensitive_material:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_inactive:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_completed:
+        true_value: "Yes"
+        false_value: "No"
+      browse_reviewers: Reviewers
+      linked_records:
+        heading: Linked Records
+        loading: Loading...
+        linked_via_assessment_records: Assessments
+        linked_via_assessment_surveyed_by: Assessments - Surveyed By
+        linked_via_assessment_reviewer: Assessments - Reviewer
+      ratings_list:
+        rating: Rating
+        score: Score
+        note: Note
+
+  assessment_attribute_definitions:
+    _frontend:
+      title: Assessment Attributes
+      section:
+        formats: Material Types / Formats
+        ratings: Ratings
+        conservation_issues: Conservation Issues
+      global: Global %{type}
+      repository: Repository %{type}
+      action:
+        save: Save Assessment Attributes
+      messages:
+        updated: Assessment Attributes updated
+        error: Error updating Assessment Attributes
+        conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"
+        attribute_in_use: Unable to delete an attribute that is currently in use by an assessment
+      database_value: Database Value
+      translation: Translation

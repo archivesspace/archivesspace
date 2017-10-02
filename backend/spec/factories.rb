@@ -707,4 +707,9 @@ FactoryGirl.define do
     show_suppressed { false }
     publish { false }
   end
+
+  factory :json_assessment, class: JSONModel(:assessment) do
+    survey_begin { generate(:yyyy_mm_dd) }
+    surveyed_extent { generate(:alphanumstr) }
+  end
 end

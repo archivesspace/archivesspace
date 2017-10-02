@@ -1,0 +1,27 @@
+<h2><%= @report.rating_name %></h2>
+
+<h3><%= t('showing_values') %>: <%= @report.values_of_interest.join(", ") %></h3>
+
+<% rows = @report.to_a %>
+
+<% if rows.empty? %>
+    <p><%= t('no_matches') %></p>
+<% else %>
+    <% headers = rows[0].keys %>
+    <table class="report-listing">
+        <thead>
+            <tr>
+                <% headers.each do |column| %>
+                    <th><%= column %></th>
+                <% end %>
+            </tr>
+        </thead>
+        <% rows.each do |record| %>
+            <tr>
+                <% headers.map {|header| record[header]}.each do |value| %>
+                    <td><%= value %></td>
+                <% end  %>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

@@ -1395,6 +1395,9 @@ en:
       manage_location_profile_record: create/update/delete location profile records
       create_job: create and run a background job
       cancel_job: cancel a background job
+      update_assessment_record: create/update assessment records
+      delete_assessment_record: delete assessment records
+      manage_assessment_attributes: create/update/delete repository assessment attributes definitions
     _singular: Group
     _plural: Groups
 
@@ -1920,6 +1923,7 @@ en:
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
+    import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
@@ -2004,3 +2008,140 @@ en:
       introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH v 2.0).</p>"
       form_header: Send a '%{verb}' request
       form_submit: Submit
+
+  assessment:
+    records: Records
+    records_tooltip: |
+        <p>REQUIRED FIELD: A link to the resource(s), accession(s), archival object(s), or digital object(s) that are the subjects of the assessment.</p>
+    accession_report: Accession Report
+    appraisal: Appraisal
+    container_list: Box/Container List
+    catalog_record: Catalog Record (MARC)
+    collections: Collections
+    control_file: Collection/Control File
+    conservation_note: Conservation Note
+    conservation_note_tooltip: <p>Indicates areas of particular concern with regard to the conservation needs of the collection.</p>
+    deed_of_gift: Deed of Gift
+    existing_description_notes: Existing Description Notes
+    existing_description_notes_tooltip: <p>Any further information on existing description for the materials.</p>
+    finding_aid_ead: Finding Aid (EAD-encoding)
+    finding_aid_online: Finding Aid (online)
+    finding_aid_paper: Finding Aid (paper only)
+    finding_aid_word: Finding Aid (word processing document)
+    finding_aid_spreadsheet: Finding Aid (spreadsheet)
+    id: ID
+    inactive: Inactive?
+    inactive_tooltip: <p>Indicates if the Assessment record is no longer considered “active” and thus should not be included in searches or reports.</p>
+    inactive_true: "Yes"
+    inactive_false: "No"
+    monetary_value: Monetary Value
+    monetary_value_tooltip: <p>Appraised or estimated market value of the assessed materials (numerical value).</p>
+    monetary_value_note: Monetary Value Note
+    monetary_value_note_tooltip: <p>Indicates who provided the monetary value, date of appraisal, and any other relevant information.</p>
+    surveyed_by: Surveyed By
+    surveyed_by_tooltip: |
+        <p>REQUIRED FIELD: Name(s) of the person(s) who performed the assessment. This field is restricted to those with user records in ArchivesSpace.</p>
+    survey_begin: Survey Begin Date
+    survey_begin_tooltip: |
+        <p>REQUIRED FIELD: The date the survey began, in yyyy-mm-dd format.</p>
+    survey_end: Survey Completed Date
+    survey_end_tooltip: <p>The date the survey ended, in yyyy-mm-dd format.</p>
+    surveyed_duration: Time it took to Complete Survey
+    surveyed_duration_tooltip: <p>The time it took to complete the survey, measured in hour increments.</p>
+    surveyed_extent: Extent Surveyed
+    surveyed_extent_tooltip: <p>The extent of the material surveyed in units such as cubic or linear feet.</p>
+    related_eac_records: Related EAC Record(s)
+    research_value: Research Value
+    research_value_tooltip: <p>This value is automatically calculated by adding the value in the Documentation Quality field with the value in the Interest field.</p>
+    review_required: Review Required?
+    review_required_tooltip: <p>Indicates if review is required for the collection because of its format, subject matter, or circumstances.</p>
+    review_required_true: "Yes"
+    review_required_false: "No"
+    review_note: Review Note
+    review_note_tooltip: <p>Explanation of the outcome of any special review.</p>
+    reviewer: Who Needs to Review
+    reviewer_tooltip: <p>Indicates who needs to perform the review. This field is restricted to those with user records in ArchivesSpace.</p>
+    purpose: Purpose of Assessment
+    purpose_tooltip: |
+        <p>Indicates the reason the assessment was undertaken. Examples: conservation priorities; processing priorities; appraisal; etc.</p>
+    scope: Scope of Assessment
+    scope_tooltip: |
+        <p>Indicates the scope of the assessment. Examples: 10% sampling; entirety; a particular format or genre within or across collections; or other constraints or conditions on materials actively reviewed during an assessment.</p>
+    sensitive_material: Sensitive Material?
+    sensitive_material_tooltip: <p>Indicates whether sensitive materials are present.</p>
+    sensitive_material_true: "Yes"
+    sensitive_material_false: "No"
+    general_assessment_note: General Assessment Note
+    general_assessment_note_tooltip: <p>Any further notes on an assessment.</p>
+    special_format_note: Special Format Note
+    special_format_note_tooltip: <p>Additional or explanatory information about the special formats present.</p>
+    exhibition_value_note: Exhibition Value Note
+    exhibition_value_note_tooltip: <p>Indicates whether the collection itself or individual items found in the collection might be especially appropriate for exhibition. For example, this field might note a unique artifact or a letter or photograph of historical significance.</p>
+    rating_attributes_value:
+      rating_none: No Rating
+      rating_1: "1"
+      rating_2: "2"
+      rating_3: "3"
+      rating_4: "4"
+      rating_5: "5"
+    rating_note: "%{label} Note"
+    _singular: Assessment
+    _plural: Assessments
+
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Reformatting Readiness
+      "Reformatting Readiness_tooltip": <p>A rating from 1 to 5 that indicates how easily materials can be reformatted.</p>
+      "Housing Quality": Housing Quality
+      "Housing Quality_tooltip": <p>A rating from 1 to 5 intended to describe the overall quality of housing of the materials in a collection; items or groups of materials within a collection may be in better or poorer housing than what the overall rating indicates.</p>
+      "Physical Condition": Physical Condition
+      "Physical Condition_tooltip": <p>A rating from 1 to 5 intended to describe the overall condition of the materials in a collection; items or groups of materials of particular concern will be indicated in the conservation note.</p>
+      "Physical Access (arrangement)": Physical Access (arrangement)
+      "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
+      "Intellectual Access (description)": Intellectual Access (description)
+      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p> 
+      "Interest": Interest
+      "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
+      "Documentation Quality": Documentation Quality
+      "Documentation Quality_tooltip": <p>A rating from 1 to 5 that applies to the richness and depth of documentation available in a collection. Interest + Documentation Quality create the "Research Value" score.</p>
+      "Documentation Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Slight</li><li><b>Rating 2</b>: Incidentally valuable</li><li><b>Rating 3</b>: Moderately rich</li><li><b>Rating 4</b>: Rich</li><li><b>Rating 5</b>: Very rich</li></ul>"
+      "Housing Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Collection housed in non‐archival boxes, might have items loose on the shelf. Majority of material is not in folders and/or boxes are overstuffed or understuffed. For bound volumes, binding is in poor condition, lacking boards or otherwise compromising the text block.</li><li><b>Rating 2</b>: Collection housed in non‐archival boxes and folders. Significant number of boxes and folders might have unreasonable amount of material in them or are not the correct size and type for the materials they house. For bound volumes, binding is in fair condition (boards might be detached).</li><li><b>Rating 3</b>: Collection housed in non‐archival boxes and folders but they are in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in good condition (somewhat the worse for wear yet intact).</li><li><b>Rating 4</b>: Collection housed partially in acid‐free boxes and folders in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in very good condition (expected wear).</li><li><b>Rating 5</b>: Collection housed completely in acid‐free boxes and folders in good condition. Boxes and folders have reasonable amount of material in them. Boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in excellent condition.</li></ul>"
+      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Rating 1</b>: Researcher has no access to collection: Internal documentation such as a donor/control file or brief or inaccessible accession record serves as the only description of the collection. While such internal documentation may vary in quantity and quality, by its nature it is inaccessible to researchers.</li><li><b>Rating 2</b>: Researcher has poor access to collection: Collection has no finding aid or a substandard finding aid. The collection has printed catalog cards or another type of offline collection‐level description, but no collection‐level MARC record in the OPAC or a national bibliographic utility. Collection has no finding aid or a substandard finding aid. The collection has a MARC record in the OPAC or national bibliographic utility, but that does not provide sufficient access because it is a large or complex collection. In either case, the collection may be described in other online or offline sources available to researchers, but because of the complexity of the collection or the inadequacy of the sources, this provides insufficient access.</li><li><b>Rating 3</b>: Researcher has fair access to collection: The finding aid is substandard or there is no finding aid. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. In the absence of a full MARC record, there is another type of online collection‐level description. The collection‐level description in online or offline sources available to researchers provides sufficient access because it is a small or straightforward collection.</li><li><b>Rating 4</b>: Researcher has good access to collection: There is a good finding aid, but it is not available online. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. There is a good finding aid, online or offline, but there is no collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. Given the quality of the finding aid, the finding aid alone provides good access. In both cases, the collection may also be described in other online or offline sources that are available to researchers.</li><li><b>Rating 5</b>: Researcher has excellent access to collection: There is a good online finding aid (EAD,HTML, PDF, or other format). There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. The collection may also be described in other online or offline sources that are available to researchers (such as a printed or online guide to collections).</li></ul>"
+      "Interest_values_tooltip": "<ul><li><b>Rating 1</b>: Negligible</li><li><b>Rating 2</b>: Slight</li><li><b>Rating 3</b>: Moderate</li><li><b>Rating 4</b>: High</li><li><b>Rating 5</b>: Very high</li></ul>"
+      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Rating 1</b>: Totally unarranged; many, sometimes most, documents not yet removed from envelopes, unfolded, and flattened. Completely inaccessible to researcher.</li><li><b>Rating 2</b>: Partial or superficial arrangement and/or non‐standard housing and labeling discourage use except with special staff assistance.</li><li><b>Rating 3</b>: Rough arrangement by date, document type, function, source, or other characteristic; papers not thoroughly screened, but have been unfolded and flattened; series not fully established; files not fully established; researchers often must work through voluminous extraneous material to locate pertinent items. Single volumes might havehad more than one use, or have items pasted in or otherwise be somewhat disorganized.</li><li><b>Rating 4</b>: Arrangement in series to file level. There is generally good order within the files. Single volumes are orderly (i.e. an account book in alphabetical order or a neat scrapbook in thematic order).</li><li><b>Rating 5</b>: Full arrangement to item level in series and, as appropriate, subseries. Single volumes are orderly and indexed (i.e. chronological accounts with a name index).</li></ul>"
+      "Physical Condition_values_tooltip": "<ul><li><b>Rating 1</b>: Poor: Significant damage/deterioration that makes collection difficult to use.</li><li><b>Rating 2</b>: Fair: Somewhat worse than expected deterioration with some further deterioration possible.</li><li><b>Rating 3</b>: Good: Expected deterioration with some further deterioration possible.</li><li><b>Rating 4</b>: Very good: Little damage with some further deterioration possible, due to the mixed quality of the material.</li><li><b>Rating 5</b>: Excellent: Little damage with no further deterioration expected, based on the high quality of the material.</li></ul>"
+      "Reformatting Readiness_values_tooltip": "<ul><li><b>Rating 1</b>: Materials would be extremely difficult to reformat. They might have serious conservation issues, be in an extremely obsolete format, or have intellectual property concerns that restrict reformatting. Metadata might be missing or incomplete.</li><li><b>Rating 2</b>: Materials would be difficult to reformat. They might have conservation issues, be in an obsolete format, or have some intellectual property concerns. Metadata might be missing or incomplete.</li><li><b>Rating 3</b>: Materials would be moderately easy to reformat. They may have some conservation issues, be in an obsolete format, or have monimal intellectual property concerns. Metadata is present or could be created easily.</li><li><b>Rating 4</b>: Materials would be relatively easy to reformat. Conservation issues are minor, formats are not completely obsolete, or there are minimal intellectual property concerns. Metadata is present.</li><li><b>Rating 5</b>: Materials could be reformatted with no difficulty. There are no conservation issues, formats are recent, or there are no intellectual property concerns. Metadata is present and complete.</li></ul>"
+      "Documentation Quality_note_tooltip": "Further information on the documentation quality of the materials."
+      "Housing Quality_note_tooltip": "Indicates areas of particular concern with regard to the housing of the collection."
+      "Intellectual Access_note_tooltip": "Further information on intellectual access to and description of the materials."
+      "Interest_note_tooltip": "Further information on interest in the materials."
+      "Physical Access_note_tooltip": "Further information on physical access to and arrangement of the materials."
+      "Physical Condition_note_tooltip": "Indicates areas of particular concern with regard to the physical condition of the collection."
+      "Reformatting Readiness_note_tooltip": "Indicates areas of concern with regard to the potential digitization or other reformatting of the materials. "
+    format:
+      "Architectural Materials": Architectural Materials
+      "Art Originals": Art Originals
+      "Artifacts": Artifacts
+      "Audio Materials": Audio Materials
+      "Biological Specimens": Biological Specimens
+      "Botanical Specimens": Botanical Specimens
+      "Computer Storage Units": Computer Storage Units
+      "Film (negative, slide, or motion picture)": Film (negative, slide, or motion picture)
+      "Glass": Glass
+      "Photographs": Photographs
+      "Scrapbooks": Scrapbooks
+      "Technical Drawings & Schematics": Technical Drawings & Schematics
+      "Textiles": Textiles
+      "Vellum & Parchment": Vellum & Parchment
+      "Video Materials": Video Materials
+      "Other": Other
+    conservation_issue:
+      "Potential Mold or Mold Damage": Potential Mold or Mold Damage
+      "Recent Pest Damage": Recent Pest Damage
+      "Deteriorating Film Base": Deteriorating Film Base
+      "Brittle Paper": Brittle Paper
+      "Metal Fasteners": Metal Fasteners
+      "Newspaper": Newspaper
+      "Tape": Tape
+      "Heat-Sensitive Paper": Heat-Sensitive Paper
+      "Water Damage": Water Damage

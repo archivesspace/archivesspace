@@ -1,0 +1,50 @@
+en:
+  reports:
+    assessment_list_report:
+      accession_report: Accession Report
+      appraisal: Appraisal
+      assessment: Assessment
+      assessment_information: Assessment Information
+      assessment_note: Note
+      assessment_rating: Rating
+      assessment_score: Score
+      basic_information: Basic Information
+      catalog_record: Catalog Record (MARC)
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
+      container_list: Box/Container List
+      control_file: Collection/Control File
+      deed_of_gift: Deed Of Gift
+      description: All Created Assessment Records
+      existing_description_notes: Existing Description Notes
+      exhibition_value_note: Exhibition Value Note
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
+      formats: List of Material Types / Formats
+      full_title: All Created Assessment Records
+      general_assessment_note: General Assessment Note
+      inactive: Inactive
+      linked_record_title: Title
+      linked_record_type: Record Type
+      linked_record_identifier: Identifier
+      linked_records: Linked Records
+      monetary_value: Monetary Value
+      monetary_value_note: Monetary Value Note
+      number_of_assessments: Number Of Assessments
+      purpose: Purpose of Assessment
+      related_eac_records: Related EAC Record(s)
+      review_note: Review Note
+      review_required: Review Required?
+      reviewer: Reviewer
+      scope: Scope of Assessment
+      sensitive_material: Sensitive Material?
+      special_format_note: Special Format Note
+      survey_begin: Date Survey Started
+      survey_end: Date Survey Ended
+      surveyed_by: Surveyed By
+      surveyed_duration: Time it took to Complete Survey
+      surveyed_extent: Extent Surveyed
+      title: Assessment Record List

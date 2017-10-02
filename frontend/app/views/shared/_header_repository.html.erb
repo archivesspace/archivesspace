@@ -27,6 +27,7 @@
               <li><%= link_to I18n.t("event._plural"), :controller => :events, :action => :index %></li>
               <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
               <li><%= link_to I18n.t("classification._plural"), :controller => :classifications, :action => :index %></li>
+              <li><%= link_to I18n.t("assessment._plural"), :controller => :assessments, :action => :index %></li>
               <li class="divider"></li>
               <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
             </ul>
@@ -82,6 +83,9 @@
                 <% if user_can?('update_classification_record') %>
                   <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
                 <% end %>
+                <% if user_can?('update_assessment_record') %>
+                  <li><%= link_to I18n.t("assessment._singular"), :controller => :assessments, :action => :new %></li>
+                <% end %>
 
                 <% if user_can?('create_job') %>
                   <li class="divider"></li>
@@ -132,6 +136,9 @@
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
                     <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                     <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
+                  <% end %>
+                  <% if user_can?('manage_assessment_attributes') %>
+                    <li><%= link_to I18n.t("navbar.manage_assessment_attributes"), :controller => :assessment_attributes, :action => :edit %></li>
                   <% end %>
                   <% if user_can?('manage_container_record') %>
                     <% found_an_item = true %>
