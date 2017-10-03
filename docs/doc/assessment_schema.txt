@@ -1,0 +1,84 @@
+JSON Schema: Assessment
+/repositories/:repo_id/assessments
+Properties
+
+string	uri
+
+string (max length: 8192)	display_string
+
+array (Object (ref, _resolved))	records
+
+boolean	accession_report
+
+boolean	appraisal
+
+boolean	container_list
+
+boolean	catalog_record
+
+boolean	control_file
+
+boolean	deed_of_gift
+
+boolean	finding_aid_ead
+
+boolean	finding_aid_online
+
+boolean	finding_aid_paper
+
+boolean	finding_aid_word
+
+boolean	finding_aid_spreadsheet
+
+boolean	related_eac_records
+
+string	existing_description_notes
+
+array (Object (ref, _resolved))	surveyed_by
+
+date	survey_begin
+
+date	survey_end
+
+string	surveyed_duration
+
+string	surveyed_extent
+
+boolean	review_required
+
+array (Object (ref, _resolved))	reviewer
+
+string	review_note
+
+boolean	inactive
+
+string	purpose
+
+string	scope
+
+boolean	sensitive_material
+
+array (JSONModel(:assessment_attribute) object)	formats
+
+array (JSONModel(:assessment_attribute) object)	conservation_issues
+
+array (JSONModel(:assessment_attribute) object)	ratings
+
+string	general_assessment_note
+
+string	special_format_note
+
+string	exhibition_value_note
+
+string	monetary_value
+
+string	monetary_value_note
+
+string	conservation_note
+
+array (Object (ref, _resolved))	collections
+
+
+
+
+
