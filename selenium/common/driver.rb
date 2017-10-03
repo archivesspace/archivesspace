@@ -32,8 +32,8 @@ class Driver
     # for the sake of taking screenshots when things fail.
     @current_instance
   end
-
-  def initilize_ff
+  
+  def initialize_ff
     profile = Selenium::WebDriver::Firefox::Profile.new
     FileUtils.rm("/tmp/firefox_console", :force => true)
     profile["webdriver.log.file"] = "/tmp/firefox_console"
@@ -55,7 +55,7 @@ class Driver
      return Selenium::WebDriver.for :firefox,:profile => profile
   end
 
-  def initilize_chrome
+  def initialize_chrome
     prefs = { :download =>  { :default_directory => Dir.tmpdir  } }
     # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
     return Selenium::WebDriver.for :chrome, :prefs => prefs
@@ -63,9 +63,9 @@ class Driver
 
   def ff_or_chrome
     if ENV["SELENIUM_CHROME"]
-      initilize_chrome
+      initialize_chrome
     else
-      initilize_ff
+      initialize_ff
     end
   end
 

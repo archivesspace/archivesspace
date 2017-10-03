@@ -8,7 +8,6 @@ matrix:
 env:
   global:
   - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
-  - DISPLAY=:99.0
   - SCREENSHOT_ON_ERROR=1
   - SELENIUM_CHROME=true
   matrix:
@@ -21,14 +20,18 @@ env:
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
   - TASK=dist
 before_install:
-- /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
-  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x10240x24
-- export DISPLAY=:99.0
 - cat /etc/hosts # Fix buffer overflow in getLocalHostName of OpenJDK 6/7 by shortening the host name
 - sudo hostname "$(hostname | cut -c1-63)"
 - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts > /tmp/hosts
 - sudo mv /tmp/hosts /etc/hosts
 - cat /etc/hosts
+install:
+- wget -N http://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip -P ~/
+- unzip ~/chromedriver_linux64.zip -d ~/
+- rm ~/chromedriver_linux64.zip
+- sudo mv -f ~/chromedriver /usr/local/share/
+- sudo chmod +x /usr/local/share/chromedriver
+- sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 before_script:
 - free -m
 - sleep 3
