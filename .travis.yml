@@ -32,6 +32,7 @@ install:
 - sudo mv -f ~/chromedriver /usr/local/share/
 - sudo chmod +x /usr/local/share/chromedriver
 - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+- chromedriver -v
 before_script:
 - free -m
 - sleep 3

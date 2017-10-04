@@ -57,7 +57,7 @@ class Driver
 
   def initialize_chrome
     # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
-    opts = Selenium::WebDriver::Chrome::Options.new(:preferences => { :download =>  { :default_directory => Dir.tmpdir  } },
+    opts = Selenium::WebDriver::Chrome::Options.new(:prefs => { :download =>  { :default_directory => Dir.tmpdir  } },
                                                 :args => ['headless', 'disable-gpu', 'window-size=1200x800'] )
     return Selenium::WebDriver.for :chrome, :options => opts
   end
