@@ -51,14 +51,15 @@ class Driver
     else #osx
       ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
     end
-
+     
      return Selenium::WebDriver.for :firefox,:profile => profile
   end
 
   def initialize_chrome
-    prefs = { :download =>  { :default_directory => Dir.tmpdir  } }
     # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
-    return Selenium::WebDriver.for :chrome, :prefs => prefs
+    opts = Selenium::WebDriver::Chrome::Options.new(:preferences => { :download =>  { :default_directory => Dir.tmpdir  } },
+                                                :args => ['headless', 'disable-gpu', 'window-size=1200x800'] )
+    return Selenium::WebDriver.for :chrome, :options => opts
   end
 
   def ff_or_chrome
