@@ -440,21 +440,8 @@ return (
 
 
       def select_option_with_text(value)
-        self.click
-        self.find_elements(:tag_name => "option").each do |option|
-          if option.text === value
-            Selenium::Config.retries.times do |try|
-              return if option.attribute('selected')
-
-              option.click
-              sleep 0.1
-            end
-          end
-        end
-
-        raise "Couldn't select value: #{value}"
+        self.find_element( :xpath,  "./*[contains( text(), '#{value.strip}' )]").click
       end
-
 
       def get_select_value
         self.find_elements(:tag_name => "option").each do |option|
@@ -495,7 +482,7 @@ return (
 
           begin
             matches.each do | match |
-              return match if match.text =~ pattern
+              return match if match.text.chomp.strip =~ pattern
             end
           rescue
             # Ignore exceptions and retry

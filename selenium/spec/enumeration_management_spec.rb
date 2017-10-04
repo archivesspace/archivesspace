@@ -18,12 +18,10 @@ describe "Enumeration Management" do
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
-
+   
+    sleep(0.5)
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
-
-    # Wait for the table of enumerations to load
-    @driver.find_element(:css, '.enumeration-list')
 
     @driver.find_element(:link, 'Create Value').click
     @driver.clear_and_send_keys([:id, "enumeration_value_"], "manna")
@@ -35,14 +33,29 @@ describe "Enumeration Management" do
 
 
   it "lets you delete a value from an enumeration" do
-    manna = @driver.find_element_with_text('//tr', /manna/)
-    manna.find_element(:link, 'Delete').click
+    @driver.find_element(:link, 'System').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
 
+    enum_select = @driver.find_element(:id => "enum_selector")
+    enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
+
+    # Wait for the table of enumerations to load
+    @driver.find_element(:css, '.enumeration-list')
+
+    manna = "spiritual_nourishment_of_divine_origin"
+    @driver.find_element(:link, 'Create Value').click
+    @driver.clear_and_send_keys([:id, "enumeration_value_"], manna)
+
+    @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
+    
+    manna = @driver.find_element_with_text('//td', /#{manna}/)
+    manna.find_element(:xpath, "./..").find_element(:link, 'Delete').click
     @driver.click_and_wait_until_gone(:css => "form#delete_enumeration button[type='submit']")
 
     @driver.find_element_with_text('//div', /Value Deleted/)
 
-    @driver.ensure_no_such_element(:xpath, '//td[contains(text(), "manna")]')
+    @driver.ensure_no_such_element(:xpath, "//td[contains(text(), \"#{manna}\" )]")
   end
 
 
@@ -69,7 +82,7 @@ describe "Enumeration Management" do
 
     @driver.click_and_wait_until_gone(:css => "form#merge_enumeration button[type='submit']")
 
-    @driver.find_element_with_text('//div', /Value Merged/)
+    @driver.find_element_with_text('//div', /Merged/)
 
     @driver.ensure_no_such_element(:xpath, "//td[contains(text(), \"#{enum_b}\")]")
   end
@@ -150,6 +163,24 @@ describe "Enumeration Management" do
   end
 
   it "lets you see how many times the term has been used and search for it" do
+    # now lets make sure it's there
+    @driver.find_element(:link, "Create").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
+
+    cm_accession_title = SecureRandom.hex
+    @driver.clear_and_send_keys([:id, "accession_title_"], cm_accession_title)
+    @driver.complete_4part_id("accession_id_%d_", @driver.generate_4part_id)
+    @driver.clear_and_send_keys([:id, "accession_accession_date_"], "2012-01-01")
+    @driver.clear_and_send_keys([:id, "accession_content_description_"], "more stuff")
+    @driver.clear_and_send_keys([:id, "accession_condition_description_"], "stuffier")
+
+    #now add collection management
+    @driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.find_element(:id => "accession_collection_management__processing_priority_").select_option_with_text("High")
+    @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+
+    @driver.click_and_wait_until_gone(:link => cm_accession_title)
     @driver.get($frontend)
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown

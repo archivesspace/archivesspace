@@ -32,9 +32,8 @@ class Driver
     # for the sake of taking screenshots when things fail.
     @current_instance
   end
-
-  def initialize(frontend = $frontend)
-    @frontend = frontend
+  
+  def initialize_ff
     profile = Selenium::WebDriver::Firefox::Profile.new
     FileUtils.rm("/tmp/firefox_console", :force => true)
     profile["webdriver.log.file"] = "/tmp/firefox_console"
@@ -52,13 +51,32 @@ class Driver
     else #osx
       ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
     end
+     
+     return Selenium::WebDriver.for :firefox,:profile => profile
+  end
 
+  def initialize_chrome
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    opts = Selenium::WebDriver::Chrome::Options.new(:prefs => { :download =>  { :default_directory => Dir.tmpdir  } },
+                                                :args => ['headless', 'disable-gpu', 'window-size=1200x800'] )
+    return Selenium::WebDriver.for :chrome, :options => opts
+  end
 
-    if ENV['FIREFOX_PATH']
-      Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
+  def ff_or_chrome
+    if ENV["SELENIUM_CHROME"]
+      initialize_chrome
+    else
+      initialize_ff
     end
+  end
 
-    @driver = Selenium::WebDriver.for :firefox,:profile => profile
+  def initialize(frontend = $frontend)
+    @frontend = frontend
+
+    prefs = { :download =>  { :default_directory => Dir.tmpdir  } }
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+
+    @driver = ff_or_chrome
     @wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
     @driver.manage.window.maximize
   end
