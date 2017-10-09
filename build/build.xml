@@ -621,6 +621,7 @@
   <target name="travis:test" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="headless-tests" />
+    <antcall target="travis:db:nuke" />
   </target>
 
   <!-- Dist build -->

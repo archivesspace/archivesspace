@@ -191,9 +191,12 @@ class DBMigrator
     rescue ContainerMigrationError
       raise $!
     rescue Exception => e
+     
      $stderr.puts <<EOF
      
-     #{ 3.times { $stderr.puts "!" * 100  } } 
+     #{  "!" * 100  }  
+     #{  "!" * 100  }  
+     #{  "!" * 100  }  
      
      
      Database migration error. 
@@ -206,8 +209,10 @@ class DBMigrator
      #{e.message}
      #{e.backtrace.join("\n")}
 
+     #{  "!" * 100  }  
+     #{  "!" * 100  }  
+     #{  "!" * 100  }  
      
-     #{ 3.times { $stderr.puts "!" * 100  } }
 EOF
      
      raise e
