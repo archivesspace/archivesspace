@@ -26,7 +26,7 @@ before_install:
 - sudo mv /tmp/hosts /etc/hosts
 - cat /etc/hosts
 install:
-- wget -N http://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip -P ~/
+- wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/
 - unzip ~/chromedriver_linux64.zip -d ~/
 - rm ~/chromedriver_linux64.zip
 - sudo mv -f ~/chromedriver /usr/local/share/

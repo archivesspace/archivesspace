@@ -14,7 +14,8 @@ variable, e.g:
 
      $ export SELENIUM_CHROME=true
 
-When you run the tests ( see below  ), Selenium should launch a Chrome session.
+When you run the tests ( see below  ), Selenium should launch a Chrome session
+in headless mode.
 
 ***Please note, you must have either Firefox or Chrome installed on your system to
 run these tests. Consult the [Firefox WebDriver](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver) 

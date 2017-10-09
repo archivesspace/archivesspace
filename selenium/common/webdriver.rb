@@ -119,7 +119,7 @@ module Selenium
       def wait_for_dropdown
         # Tried EVERYTHING to avoid needing this sleep.  Buest guess at the moment:
         # JS hasn't been wired up to the click event and we get in too quickly.
-        sleep 0.5
+        sleep 1
       end
 
       def wait_for_ajax
@@ -384,7 +384,7 @@ return (
         end
         raise Selenium::WebDriver::Error::NoSuchElementError
       end
-
+      
       # adds to an input and selects a type ahead
       def typeahead_and_select(token_input, value, retries = 10 )
         token_input.clear
@@ -395,6 +395,7 @@ return (
             wait_for_dropdown 
             find_element_orig(:css, "li.token-input-dropdown-item2").click
           rescue Selenium::WebDriver::Error::NoSuchElementError => e
+            token_input.send_keys('') if retries % 2 == 0 # ensure we've focused, sometimes.
             sleep 1
             retry if ( retries -= 1 ) > 0
             raise e

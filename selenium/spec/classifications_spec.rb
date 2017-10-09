@@ -122,12 +122,12 @@ describe "Classifications" do
     # Now add a classification
     @driver.find_element(:css => '#accession_classifications_ .subrecord-form-heading .btn:not(.show-all)').click
 
+
+
     assert(5) {
       run_index_round
-      @driver.clear_and_send_keys([:id, "token-input-accession_classifications__0__ref_"],
-                                  test_classification)
-      sleep(1)
-      @driver.find_element(:css, "li.token-input-dropdown-item2").click
+      token_input = @driver.find_element(:id, "token-input-accession_classifications__0__ref_")
+      @driver.typeahead_and_select( token_input,  test_classification )
     }
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
