@@ -6,7 +6,7 @@ module EnumerationHelper
     query = AdvancedQueryBuilder.new
 
     relationships.each do |rel|
-      query.or("#{rel}_enum_s", value)
+      query.or("#{rel}_enum_s", value, 'text', true)
     end
 
     query.build.to_json

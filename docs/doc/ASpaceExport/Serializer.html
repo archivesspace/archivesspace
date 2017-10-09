@@ -374,7 +374,7 @@ for example, MODS data wrapped in METS</p>
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_with_namespace identifier id'>with_namespace</span><span class='lparen token'>(</span><span class='rubyid_prefix identifier id'>prefix</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_ns identifier id'>ns</span> <span class='assign token'>=</span> <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_namespace_definitions identifier id'>namespace_definitions</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_ns identifier id'>ns</span><span class='bitor op'>|</span> <span class='rubyid_ns identifier id'>ns</span><span class='dot token'>.</span><span class='rubyid_prefix identifier id'>prefix</span> <span class='eq op'>==</span> <span class='rubyid_prefix identifier id'>prefix</span><span class='rbrace token'>}</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@sticky_ns</span><span class='comma token'>,</span> <span class='rubyid_ns identifier id'>ns</span><span class='rparen token'>)</span>
-  <span class='rubyid_yield yield kw'>yield</span> 
+  <span class='rubyid_yield yield kw'>yield</span>
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@sticky_ns</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -388,7 +388,7 @@ for example, MODS data wrapped in METS</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:41 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

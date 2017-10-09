@@ -28,6 +28,8 @@ array (JSONModel(:date) object)	dates_of_existence
 
 boolean	publish
 
+string	is_user
+
 
 
 

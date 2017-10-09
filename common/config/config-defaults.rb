@@ -402,7 +402,7 @@ AppConfig[:record_inheritance] = {
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
-AppConfig[:pui_branding_img] = 'ASpaceOrgHome.jpg'
+AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
 AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
@@ -504,6 +504,9 @@ AppConfig[:pui_email_enabled] = false
 #AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'
 # 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
 #AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
+
+# use the repository record email address for requests (overrides config email)
+AppConfig[:pui_request_use_repo_email] = false
 
 # Example sendmail configuration:
 # AppConfig[:pui_email_delivery_method] = :sendmail

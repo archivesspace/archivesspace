@@ -460,7 +460,7 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_block_given? fid id'>block_given?</span>
     <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_ExportModel constant id'>ExportModel</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
     <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@model_for</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
-    <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_class_eval identifier id'>class_eval</span> <span class='rubyid_do do kw'>do</span> 
+    <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_class_eval identifier id'>class_eval</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_for? fid id'>model_for?</span><span class='lparen token'>(</span><span class='rubyid_name_queried identifier id'>name_queried</span><span class='rparen token'>)</span>
         <span class='rubyid_name_queried identifier id'>name_queried</span> <span class='eq op'>==</span> <span class='rubyid_@model_for ivar id'>@model_for</span>
       <span class='rubyid_end end kw'>end</span>
@@ -630,14 +630,14 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_block_given? fid id'>block_given?</span>
     <span class='rubyid_serializer identifier id'>serializer</span> <span class='assign token'>=</span> <span class='rubyid_Class constant id'>Class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_Serializer constant id'>Serializer</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
     <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_instance_variable_set identifier id'>instance_variable_set</span><span class='lparen token'>(</span><span class='symbol val'>:@serializer_for</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
-    <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_class_eval identifier id'>class_eval</span> <span class='rubyid_do do kw'>do</span> 
+    <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_class_eval identifier id'>class_eval</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_serializer_for? fid id'>serializer_for?</span><span class='lparen token'>(</span><span class='rubyid_name_queried identifier id'>name_queried</span><span class='rparen token'>)</span>
         <span class='rubyid_name_queried identifier id'>name_queried</span> <span class='eq op'>==</span> <span class='rubyid_@serializer_for ivar id'>@serializer_for</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_register_serializer identifier id'>register_serializer</span><span class='lparen token'>(</span><span class='rubyid_serializer identifier id'>serializer</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span> 
+  <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_@@serializers ivar id'>@@serializers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_serializer identifier id'>serializer</span><span class='bitor op'>|</span>
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_serializer identifier id'>serializer</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_serializer identifier id'>serializer</span><span class='dot token'>.</span><span class='rubyid_serializer_for? fid id'>serializer_for?</span> <span class='rubyid_name identifier id'>name</span>
     <span class='rubyid_end end kw'>end</span>
@@ -689,7 +689,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:31 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:27 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

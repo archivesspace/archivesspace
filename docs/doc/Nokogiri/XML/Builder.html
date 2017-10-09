@@ -222,9 +222,9 @@
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
     <span class='comment val'># this is a bit odd, but i would be better if the end-user gets the</span>
     <span class='comment val'># error information in their export, rather than in their output.</span>
-    <span class='rubyid_node identifier id'>node</span> <span class='assign token'>=</span> <span class='rubyid_@doc ivar id'>@doc</span><span class='dot token'>.</span><span class='rubyid_create_element identifier id'>create_element</span><span class='lparen token'>(</span> <span class='string val'>&quot;aspace_export_error&quot;</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_node identifier id'>node</span> <span class='assign token'>=</span> <span class='rubyid_@doc ivar id'>@doc</span><span class='dot token'>.</span><span class='rubyid_create_element identifier id'>create_element</span><span class='lparen token'>(</span> <span class='string val'>&quot;aspace_export_error&quot;</span> <span class='rparen token'>)</span>
     <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:
-    \n #{e.message} \n #{e.backtrace.inspect}&quot;</span> 
+    \n #{e.message} \n #{e.backtrace.inspect}&quot;</span>
     <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_add_child identifier id'>add_child</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -274,7 +274,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:41 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

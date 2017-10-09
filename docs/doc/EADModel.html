@@ -231,6 +231,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#addresslines_keyed-instance_method" title="#addresslines_keyed (instance method)">#<strong>addresslines_keyed</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#agent_representation-instance_method" title="#agent_representation (instance method)">#<strong>agent_representation</strong>  &#x21d2; Object </a>
     
 
@@ -819,6 +842,79 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="addresslines_keyed-instance_method">
+  
+    #<strong>addresslines_keyed</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 222</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_addresslines_keyed identifier id'>addresslines_keyed</span>
+  <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_agent_representation identifier id'>agent_representation</span>
+  <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_agent identifier id'>agent</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_agent_contacts identifier id'>agent_contacts</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_contact identifier id'>contact</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_agent_contacts identifier id'>agent_contacts</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_data identifier id'>data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='lparen token'>(</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+    <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;address_#{i}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_contact identifier id'>contact</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;address_#{i}&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_line identifier id'>line</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+  <span class='rubyid_line identifier id'>line</span> <span class='opasgn op'>+=</span> <span class='dstring node'>%w(city region)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_contact identifier id'>contact</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;, &#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_line identifier id'>line</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; #{contact[&#39;post_code&#39;]}&quot;</span>
+  <span class='rubyid_line identifier id'>line</span><span class='dot token'>.</span><span class='rubyid_strip! fid id'>strip!</span>
+  <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;city_region_post_code&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_line identifier id'>line</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_line identifier id'>line</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephone&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_contact identifier id'>contact</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephone&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;email&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_contact identifier id'>contact</span><span class='lbrack token'>[</span><span class='string val'>&#39;email&#39;</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rbrace token'>}</span>
+
+  <span class='rubyid_data identifier id'>data</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="agent_representation-instance_method">
   
     #<strong>agent_representation</strong>  &#x21d2; <tt>Object</tt> 
@@ -874,12 +970,12 @@
       <pre class="lines">
 
 
-239
-240
-241</pre>
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 265</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_creators_and_sources identifier id'>creators_and_sources</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='string val'>&#39;creator&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -905,14 +1001,14 @@
       <pre class="lines">
 
 
-222
-223
-224
-225
-226</pre>
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_descrules identifier id'>descrules</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@descrules ivar id'>@descrules</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_finding_aid_description_rules identifier id'>finding_aid_description_rules</span>
@@ -940,16 +1036,16 @@
       <pre class="lines">
 
 
-244
-245
-246
-247
-248
-249
-250</pre>
+270
+271
+272
+273
+274
+275
+276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 244</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 270</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_digital_objects identifier id'>digital_objects</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@include_daos ivar id'>@include_daos</span>
@@ -1087,12 +1183,12 @@
       <pre class="lines">
 
 
-234
-235
-236</pre>
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 260</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_with_digital_objects identifier id'>instances_with_digital_objects</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_inst identifier id'>inst</span><span class='bitor op'>|</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
@@ -1118,12 +1214,12 @@
       <pre class="lines">
 
 
-229
-230
-231</pre>
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 255</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_with_sub_containers identifier id'>instances_with_sub_containers</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_inst identifier id'>inst</span><span class='bitor op'>|</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>&#39;sub_container&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
@@ -1226,7 +1322,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:40 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:36 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

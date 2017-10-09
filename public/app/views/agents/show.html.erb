@@ -20,7 +20,7 @@
     <% end %>
 
     <%= render partial: 'shared/display_notes' %>
-  
+
  <% if !@results.blank? && @results['total_hits'] > 0 %>
      <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
@@ -33,7 +33,7 @@
 
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <% if @result.json['names'].length > 1 || 
+    <% if @result.json['names'].length > 1 ||
           (@result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty?) ||
           ASUtils.wrap(@result.external_documents).length > 0 %>
 
@@ -51,7 +51,7 @@
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
         <% end %>
         <% unless @result.external_documents.blank? %>
-          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
         <% end %>
       </div>

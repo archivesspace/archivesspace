@@ -302,14 +302,14 @@
       <pre class="lines">
 
 
-17
-18
 19
 20
-21</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_config_report identifier id'>config_report</span>
   <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='lparen token'>(</span><span class='rubyid_@html_report ivar id'>@html_report</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_config identifier id'>config</span><span class='bitor op'>|</span>
@@ -344,12 +344,16 @@
 12
 13
 14
-15</pre>
+15
+16
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 8</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate identifier id'>generate</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:to_json</span><span class='rparen token'>)</span>
+
   <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_config_report identifier id'>config_report</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='string val'>&#39;generic_listing&#39;</span>
     <span class='rubyid_generic_report_parsing identifier id'>generic_report_parsing</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
@@ -378,8 +382,6 @@
       <pre class="lines">
 
 
-23
-24
 25
 26
 27
@@ -398,10 +400,12 @@
 40
 41
 42
-43</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generic_report_parsing identifier id'>generic_report_parsing</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
   <span class='rubyid_output identifier id'>output</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -445,8 +449,6 @@
       <pre class="lines">
 
 
-45
-46
 47
 48
 49
@@ -482,10 +484,12 @@
 79
 80
 81
-82</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/json_response.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_specific_report_parsing identifier id'>specific_report_parsing</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
   <span class='rubyid_output identifier id'>output</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -536,7 +540,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:43 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:39 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

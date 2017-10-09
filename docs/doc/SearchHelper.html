@@ -502,7 +502,6 @@
       <pre class="lines">
 
 
-139
 140
 141
 142
@@ -514,10 +513,11 @@
 148
 149
 150
-151</pre>
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_browse_columns identifier id'>add_browse_columns</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_enum_locales identifier id'>enum_locales</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>5</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_a identifier id'>to_a</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span>
@@ -553,7 +553,6 @@
       <pre class="lines">
 
 
-119
 120
 121
 122
@@ -562,10 +561,11 @@
 125
 126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_column identifier id'>add_column</span><span class='lparen token'>(</span><span class='rubyid_label identifier id'>label</span><span class='comma token'>,</span> <span class='rubyid_block identifier id'>block</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@extra_columns ivar id'>@extra_columns</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -598,17 +598,17 @@
       <pre class="lines">
 
 
-130
 131
 132
 133
 134
 135
 136
-137</pre>
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_identifier_column identifier id'>add_identifier_column</span>
   <span class='rubyid_prop identifier id'>prop</span> <span class='assign token'>=</span> <span class='string val'>&quot;identifier&quot;</span> 
@@ -866,7 +866,8 @@
 113
 114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 105</span>
@@ -882,6 +883,7 @@
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;update_accession_record&#39;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;accession&quot;</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;update_resource_record&#39;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lbrack token'>[</span><span class='string val'>&quot;resource&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;archival_object&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;update_digital_object_record&#39;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lbrack token'>[</span><span class='string val'>&quot;digital_object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digital_object_component&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_user_can? fid id'>user_can?</span><span class='lparen token'>(</span><span class='string val'>&#39;update_assessment_record&#39;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;assessment&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -904,12 +906,12 @@
       <pre class="lines">
 
 
-154
 155
-156</pre>
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 155</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extra_columns identifier id'>extra_columns</span>
   <span class='rubyid_@extra_columns ivar id'>@extra_columns</span>
@@ -958,14 +960,14 @@
       <pre class="lines">
 
 
-159
 160
 161
 162
-163</pre>
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 160</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extra_columns? fid id'>extra_columns?</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@extra_columns ivar id'>@extra_columns</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -1310,7 +1312,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:34 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:30 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

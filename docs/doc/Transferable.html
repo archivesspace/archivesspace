@@ -329,13 +329,47 @@
 179
 180
 181
-182</pre>
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/transferable.rb', line 3</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_events_to_clone identifier id'>events_to_clone</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_assessments_to_clone identifier id'>assessments_to_clone</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_containers_to_clone identifier id'>containers_to_clone</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_graph identifier id'>graph</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_object_graph identifier id'>object_graph</span>
@@ -411,6 +445,23 @@
       <span class='rubyid_event_role identifier id'>event_role</span> <span class='assign token'>=</span> <span class='rubyid_event_json identifier id'>event_json</span><span class='dot token'>.</span><span class='rubyid_linked_records identifier id'>linked_records</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span>
 
       <span class='rubyid_events_to_clone identifier id'>events_to_clone</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:event</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_json identifier id'>event_json</span><span class='comma token'>,</span> <span class='symbol val'>:role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_event_role identifier id'>event_role</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'>## As with events, Assessment records will be transferred if they only link</span>
+  <span class='comment val'>## to records that are being transferred too.  Otherwise, we clone the</span>
+  <span class='comment val'>## assessment in the target repository.</span>
+  <span class='rubyid_Assessment constant id'>Assessment</span><span class='dot token'>.</span><span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_who_participates_with identifier id'>who_participates_with</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_assessment identifier id'>assessment</span><span class='bitor op'>|</span>
+    <span class='rubyid_linked_records identifier id'>linked_records</span> <span class='assign token'>=</span> <span class='rubyid_assessment identifier id'>assessment</span><span class='dot token'>.</span><span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_linked_records identifier id'>linked_records</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+      <span class='comment val'># Assessments whose linked_records list contains only the record being</span>
+      <span class='comment val'># transferred should themselves be transferred.</span>
+      <span class='rubyid_assessment identifier id'>assessment</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_assessment_json identifier id'>assessment_json</span> <span class='assign token'>=</span> <span class='rubyid_Assessment constant id'>Assessment</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_assessment identifier id'>assessment</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_assessments_to_clone identifier id'>assessments_to_clone</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:assessment</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_assessment_json identifier id'>assessment_json</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -500,8 +551,9 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='comment val'>## Clone any required events in the new repository</span>
+  <span class='comment val'>## Clone any required events and assessments in the new repository</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='comment val'># Events</span>
     <span class='rubyid_events_to_clone identifier id'>events_to_clone</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_to_clone identifier id'>to_clone</span><span class='bitor op'>|</span>
       <span class='rubyid_event identifier id'>event</span> <span class='assign token'>=</span> <span class='rubyid_to_clone identifier id'>to_clone</span><span class='lbrack token'>[</span><span class='symbol val'>:event</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span><span class='dot token'>.</span>
               <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&#39;linked_records&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
@@ -511,6 +563,20 @@
 
       <span class='rubyid_Event constant id'>Event</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:event</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_event identifier id'>event</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                              <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Assessments</span>
+    <span class='rubyid_assessments_to_clone identifier id'>assessments_to_clone</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_to_clone identifier id'>to_clone</span><span class='bitor op'>|</span>
+      <span class='rubyid_assessment identifier id'>assessment</span> <span class='assign token'>=</span> <span class='rubyid_to_clone identifier id'>to_clone</span><span class='lbrack token'>[</span><span class='symbol val'>:assessment</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                     <span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&#39;records&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                           <span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
+                                         <span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Note: we use JSONModel#new here and not from_hash because we want to</span>
+      <span class='comment val'># keep the readonly attribute (like attribute labels).  The clone needs</span>
+      <span class='comment val'># access to those for the sake of cross-repository attribute matching.</span>
+      <span class='rubyid_Assessment constant id'>Assessment</span><span class='dot token'>.</span><span class='rubyid_clone_from_json identifier id'>clone_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_assessment identifier id'>assessment</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                 <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -525,7 +591,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:32 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:28 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

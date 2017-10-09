@@ -261,7 +261,7 @@
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Generating PDF for #{resource_jsonmodel[&quot;title&quot;]}  &quot;</span><span class='rparen token'>)</span>
 
       <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_URIResolver constant id'>URIResolver</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_resource_jsonmodel identifier id'>resource_jsonmodel</span><span class='comma token'>,</span>
-                                           <span class='lbrack token'>[</span> <span class='string val'>&quot;repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digital_objects&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                                           <span class='lbrack token'>[</span> <span class='string val'>&quot;repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;linked_agents&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;subjects&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digital_objects&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container::container_profile&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
         <span class='symbol val'>:include_unpublished</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;include_unpublished&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
         <span class='symbol val'>:include_daos</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
@@ -305,7 +305,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:45 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:42 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

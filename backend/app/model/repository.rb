@@ -46,7 +46,8 @@ class Repository < Sequel::Model(:repository)
                                                  "view_repository", "delete_archival_record", "suppress_archival_record",
                                                  "manage_subject_record", "manage_agent_record", "manage_vocabulary_record",
                                                  "manage_rde_templates", "manage_container_record", "manage_container_profile_record",
-                                                 "manage_location_profile_record", "import_records", "cancel_job"]
+                                                 "manage_location_profile_record", "import_records", "cancel_job",
+                                                 "update_assessment_record", "delete_assessment_record", "manage_assessment_attributes"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -56,7 +57,8 @@ class Repository < Sequel::Model(:repository)
                                                  "update_container_record", "update_container_profile_record",
                                                  "update_location_profile_record", "view_repository", "manage_subject_record",
                                                  "manage_agent_record", "manage_vocabulary_record", "manage_container_record",
-                                                 "manage_container_profile_record", "manage_location_profile_record", "import_records"]
+                                                 "manage_container_profile_record", "manage_location_profile_record", "import_records",
+                                                 "update_assessment_record", "delete_assessment_record"]
                        },
                        {
                          :group_code => "repository-project-managers",
@@ -68,7 +70,8 @@ class Repository < Sequel::Model(:repository)
                                                  "delete_archival_record", "suppress_archival_record",
                                                  "manage_subject_record", "manage_agent_record", "manage_vocabulary_record",
                                                  "manage_container_record", "manage_container_profile_record",
-                                                 "manage_location_profile_record", "import_records", 'merge_agents_and_subjects']
+                                                 "manage_location_profile_record", "import_records", 'merge_agents_and_subjects',
+                                                 "update_assessment_record", "delete_assessment_record"]
                        },
                        {
                          :group_code => "repository-advanced-data-entry",
@@ -80,7 +83,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_subject_record", "manage_agent_record",
                                                  "manage_vocabulary_record", "manage_container_record",
                                                  "manage_container_profile_record", "manage_location_profile_record",
-                                                 "import_records"]
+                                                 "import_records", "update_assessment_record", "delete_assessment_record"]
                        },
                        {
                          :group_code => "repository-basic-data-entry",

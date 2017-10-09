@@ -135,6 +135,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#check_assessment_monetary_value-class_method" title="check_assessment_monetary_value (class method)">.<strong>check_assessment_monetary_value</strong>(hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#check_authority_id-class_method" title="check_authority_id (class method)">.<strong>check_authority_id</strong>(hash)  &#x21d2; Object </a>
     
 
@@ -549,6 +572,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#check_survey_dates-class_method" title="check_survey_dates (class method)">.<strong>check_survey_dates</strong>(hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#check_user_defined-class_method" title="check_user_defined (class method)">.<strong>check_user_defined</strong>(hash)  &#x21d2; Object </a>
     
 
@@ -670,6 +716,53 @@
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;dates&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
     <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;dates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;one or more required (or enter a Title)&quot;</span><span class='rbrack token'>]</span>
     <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be an empty string (or enter a Date)&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_assessment_monetary_value-class_method">
+  
+    .<strong>check_assessment_monetary_value</strong>(hash)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 541</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_assessment_monetary_value identifier id'>check_assessment_monetary_value</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_monetary_value identifier id'>monetary_value</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;monetary_value&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_monetary_value identifier id'>monetary_value</span> <span class='match op'>=~</span> <span class='regexp val'>/\A[0-9]+\z/</span> <span class='orop op'>||</span> <span class='rubyid_monetary_value identifier id'>monetary_value</span> <span class='match op'>=~</span> <span class='regexp val'>/\A[0-9]+\.[0-9]{1,2}\z/</span>
+      <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;monetary_value&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;must be a number with no more than 2 decimal places&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_errors identifier id'>errors</span>
@@ -1651,6 +1744,95 @@ See also: https://www.pivotaltracker.com/story/show/51373893</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="check_survey_dates-class_method">
+  
+    .<strong>check_survey_dates</strong>(hash)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/validations.rb', line 559</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_survey_dates identifier id'>check_survey_dates</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span>
+  <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='assign token'>=</span> <span class='rubyid_parse_sloppy_date identifier id'>parse_sloppy_date</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_begin&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;survey_begin&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;not a valid date&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_end&#39;</span><span class='rbrack token'>]</span>
+      <span class='comment val'># If padding our end date with months/days would cause it to fall before</span>
+      <span class='comment val'># the start date (e.g. if the start date was &#39;2000-05&#39; and the end date</span>
+      <span class='comment val'># just &#39;2000&#39;), use the start date in place of end.</span>
+      <span class='rubyid_end_s identifier id'>end_s</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_begin&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_begin&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_end&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_begin&#39;</span><span class='rbrack token'>]</span>
+              <span class='rubyid_else else kw'>else</span>
+                <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;survey_end&#39;</span><span class='rbrack token'>]</span>
+              <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_end_date identifier id'>end_date</span> <span class='assign token'>=</span> <span class='rubyid_parse_sloppy_date identifier id'>parse_sloppy_date</span><span class='lparen token'>(</span><span class='rubyid_end_s identifier id'>end_s</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;survey_end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;not a valid date&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_begin_date identifier id'>begin_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_date identifier id'>end_date</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_date identifier id'>end_date</span> <span class='lt op'>&lt;</span> <span class='rubyid_begin_date identifier id'>begin_date</span>
+    <span class='rubyid_errors identifier id'>errors</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='string val'>&quot;survey_end&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;must not be before begin&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_errors identifier id'>errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="check_user_defined-class_method">
   
     .<strong>check_user_defined</strong>(hash)  &#x21d2; <tt>Object</tt> 
@@ -1821,7 +2003,7 @@ valid on the way in remains valid on the way out.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:35 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:31 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

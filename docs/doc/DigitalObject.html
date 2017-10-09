@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="CollectionManagements.html" title="CollectionManagements (module)">CollectionManagements</a></span>, <span class='object_link'><a href="ComponentsAddChildren.html" title="ComponentsAddChildren (module)">ComponentsAddChildren</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html" title="DigitalObjectTrees (module)">DigitalObjectTrees</a></span>, <span class='object_link'><a href="Events.html" title="Events (module)">Events</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="FileVersions.html" title="FileVersions (module)">FileVersions</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span>, <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span>, <span class='object_link'><a href="UserDefineds.html" title="UserDefineds (module)">UserDefineds</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Agents.html" title="Agents (module)">Agents</a></span>, <span class='object_link'><a href="Assessments/LinkedRecord.html" title="Assessments::LinkedRecord (module)">Assessments::LinkedRecord</a></span>, <span class='object_link'><a href="CollectionManagements.html" title="CollectionManagements (module)">CollectionManagements</a></span>, <span class='object_link'><a href="ComponentsAddChildren.html" title="ComponentsAddChildren (module)">ComponentsAddChildren</a></span>, <span class='object_link'><a href="Dates.html" title="Dates (module)">Dates</a></span>, <span class='object_link'><a href="DigitalObjectTrees.html" title="DigitalObjectTrees (module)">DigitalObjectTrees</a></span>, <span class='object_link'><a href="Events.html" title="Events (module)">Events</a></span>, <span class='object_link'><a href="Extents.html" title="Extents (module)">Extents</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="FileVersions.html" title="FileVersions (module)">FileVersions</a></span>, <span class='object_link'><a href="Notes.html" title="Notes (module)">Notes</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>, <span class='object_link'><a href="Subjects.html" title="Subjects (module)">Subjects</a></span>, <span class='object_link'><a href="Trees.html" title="Trees (module)">Trees</a></span>, <span class='object_link'><a href="UserDefineds.html" title="UserDefineds (module)">UserDefineds</a></span></dd>
   </dl>
   
   
@@ -159,6 +159,17 @@
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Assessments/LinkedRecord.html" title="Assessments::LinkedRecord (module)">Assessments::LinkedRecord</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Assessments/LinkedRecord.html#delete-instance_method" title="Assessments::LinkedRecord#delete (method)">#delete</a></span>, <span class='object_link'><a href="Assessments/LinkedRecord.html#included-class_method" title="Assessments::LinkedRecord.included (method)">included</a></span></p>
 
   
   
@@ -379,7 +390,6 @@
       <pre class="lines">
 
 
-36
 37
 38
 39
@@ -412,10 +422,11 @@
 66
 67
 68
-69</pre>
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/digital_object.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -462,7 +473,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:40 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:37 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

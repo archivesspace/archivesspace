@@ -1,0 +1,35 @@
+<%
+  unless form.obj.empty?
+    selected_json =  form.obj.map{|obj|
+      ASUtils.to_json(obj['_resolved'])
+    }
+  else
+    selected_json = "[]"
+  end
+  linker_id ||= "assessment_records_"
+%>
+<div class="form-group required">
+  <div class="input-group linker-wrapper">
+    <input type="text" class="linker"
+           id="<%= linker_id %>"
+           data-label="<%= I18n.t "assessment.records" %>"
+           data-label_plural="<%= I18n.t "assessment.records" %>"
+           data-path="<%= form.path %>"
+           data-name="ref"
+           data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+           data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ASSESSMENT_FACETS, :display_identifier => true %>"
+           data-selected="<%= selected_json %>"
+           data-format_property="display_string"
+           data-multiplicity="many"
+           data-sortable="true"
+           data-types='["resource", "accession", "digital_object", "archival_object"]'
+    />
+
+    <div class="input-group-btn">
+      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+      </ul>
+    </div>
+  </div>
+</div>

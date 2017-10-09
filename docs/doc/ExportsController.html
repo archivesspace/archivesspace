@@ -397,13 +397,13 @@
       <pre class="lines">
 
 
-56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 57</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_eac identifier id'>download_eac</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -443,24 +443,26 @@
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_ead identifier id'>download_ead</span>
-  
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:print_pdf</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;true&quot;</span>
     <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.pdf&quot;</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml&quot;</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span>
                   <span class='symbol val'>:include_unpublished</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_unpublished</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_unpublished</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                   <span class='symbol val'>:print_pdf</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:print_pdf</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:print_pdf</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                   <span class='symbol val'>:include_daos</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_daos</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_daos</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                  <span class='symbol val'>:numbered_cs</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:numbered_cs</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:numbered_cs</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+                  <span class='symbol val'>:numbered_cs</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:numbered_cs</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:numbered_cs</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                  <span class='symbol val'>:ead3</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ead3</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ead3</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -525,7 +527,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mets identifier id'>download_mets</span>
-  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span> 
+  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
     <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml&quot;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -572,7 +574,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:46 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

@@ -77,9 +77,15 @@ module DriverMixin
 
   def clear_and_send_keys(selector, keys)
     elt = self.find_element(*selector)
-    elt.clear
-    elt.send_keys(keys)
+    self.clear_and_send_keys_to_el( elt, keys )
   end
+
+  def clear_and_send_keys_to_el( el, keys )
+    el.clear
+    el.send_keys(keys)
+  end
+
+
 end
 
 
@@ -387,22 +393,19 @@ return (
       
       # adds to an input and selects a type ahead
       def typeahead_and_select(token_input, value, retries = 10 )
-        token_input.clear
-        # token_input.click
-        token_input.send_keys(value)
-        if token_input["value"] == value
-          begin
-            wait_for_dropdown 
-            find_element_orig(:css, "li.token-input-dropdown-item2").click
-          rescue Selenium::WebDriver::Error::NoSuchElementError => e
-            token_input.send_keys('') if retries % 2 == 0 # ensure we've focused, sometimes.
-            sleep 1
-            retry if ( retries -= 1 ) > 0
-            raise e
-          end
-        else # for whatever reason, the input didn't get put in correctly, so let's try again
-          typeahead_and_select(token_input, value, retries - 1 )        
-        end 
+        self.clear_and_send_keys_to_el( token_input, value ) 
+        begin
+          wait_for_dropdown 
+          find_element_orig(:css, "li.token-input-dropdown-item2").click
+        rescue Selenium::WebDriver::Error::NoSuchElementError => e
+          if retries % 2 == 0 
+            self.clear_and_send_keys_to_el( token_input, value ) if retries % 2 == 0 
+            sleep 2
+          end 
+          sleep 1
+          retry if ( retries -= 1 ) > 0
+          raise e
+        end
       end
 
       def open_rde_add_row_dropdown

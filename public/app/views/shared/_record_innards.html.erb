@@ -4,7 +4,7 @@
 <div class="upper-record-details">
     <% over = @result.note('scopecontent') %>
     <% if over.blank?
-       over = @result.note('abstract') 
+       over = @result.note('abstract')
        folder.shift # remove abstract from in-folder notes
 
     end %>
@@ -33,8 +33,8 @@
 
     <% unless @result.extents.blank? %>
       <h4><%= t('resource._public.extent') %></h4>
-       <% @result.extents.each do |ext| %> 
-        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %> 
+       <% @result.extents.each do |ext| %>
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
 	  <%= ext['display']%>
 	</p>
       <% end %>
@@ -53,7 +53,7 @@
       <div class="panel-group" id="res_accordion">
 	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
 	<% unless x.blank? %>
-	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'), 
+	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
         <% if @result.kind_of?(Accession) && !@result.deaccessions.blank? %>
@@ -94,12 +94,12 @@
     <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_instances'), :p_id => 'linked_instances_list', :p_body => x} %>
   <% end %>
 	<% unless @result.external_documents.blank? %>
-	 <% x = render partial: 'shared/present_list', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+	 <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
 	<% end %>
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
            <% x= render partial: 'repositories/repository_details' %>
-	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'), 
+	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'),
 	    :p_id => 'repo_deets', :p_body => x} %>
         <% end %>
         <% if @result.kind_of?(Resource) && !@result.related_accessions.blank? %>
@@ -117,4 +117,3 @@
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
     </script>
-

@@ -920,20 +920,20 @@ describe "EAD export mappings" do
   end
 
 
-  describe "How the /ead/archdesc section gets built >> " do
-
-    it_behaves_like "archival object desc mappings" do
-      let(:object) { @resource }
-      let(:desc_path) { "/ead/archdesc" }
-      let(:desc_nspath) { "/xmlns:ead/xmlns:archdesc" }
-      let(:unitid_src) { (0..3).map{|i| object.send("id_#{i}")}.compact.join('.') }
-    end
-
-
-    it "maps repository.name to archdesc/repository/corpname" do
-      mt(repo.name, "archdesc/did/repository/corpname")
-    end
-  end
+  # describe "How the /ead/archdesc section gets built >> " do
+  #
+  #   it_behaves_like "archival object desc mappings" do
+  #     let(:object) { @resource }
+  #     let(:desc_path) { "/ead/archdesc" }
+  #     let(:desc_nspath) { "/xmlns:ead/xmlns:archdesc" }
+  #     let(:unitid_src) { (0..3).map{|i| object.send("id_#{i}")}.compact.join('.') }
+  #   end
+  #
+  #
+  #   it "maps repository.name to archdesc/repository/corpname" do
+  #     mt(repo.name, "archdesc/did/repository/corpname")
+  #   end
+  # end
 
 
   describe "How linked agents are mapped to the ead/archdesc/did section >> " do

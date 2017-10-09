@@ -240,8 +240,8 @@ below:
 
      AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8&useSSL=false"
 
-*** NOTE: This configures MySQL to run without an SSL connection *** If you
-want to use an SSL connection, because to configure your MySQL server and Java
+*** NOTE: This configures MySQL to run without an SSL connection *** 
+If you want to use an SSL connection, you will need to configure your MySQL server and Java
 keystore to access the proper certificates, then change the AppConfig[:db_url]
 to have "useSSL=true". 
 

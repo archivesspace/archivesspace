@@ -195,6 +195,30 @@
    <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="used_within_repository" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="used_within_published_repository" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="is_user" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Assessment fields -->
+   <field name="assessment_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_records" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collection_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collections" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyor_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyors" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_survey_begin" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_end" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_sensitive_material" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_reviewer_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_reviewers" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_inactive" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_year" type="int" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_record_types" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_completed" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_id" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_formats" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_ratings" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_conservation_issues" type="string" indexed="true" stored="true" multiValued="true" />
+
 
    <!-- Audit fields -->
    <field name="created_by" type="string" indexed="true" stored="true" multiValued="false"/>
@@ -314,7 +338,7 @@
     <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
         <!-- in this example, we will only use synonyms at query time
         <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
         -->
@@ -323,7 +347,7 @@
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
 	<filter class="solr.ASCIIFoldingFilterFactory"/>

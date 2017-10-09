@@ -1,0 +1,20 @@
+JSON Schema: Assessment_attribute
+
+Properties
+
+integer	definition_id
+
+string	label
+
+boolean	global
+
+string	value
+
+string	note
+
+boolean	readonly
+
+
+
+
+

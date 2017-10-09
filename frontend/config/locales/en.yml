@@ -93,14 +93,14 @@ en:
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
     download_report: Download Report
-    click_to_show: Please click to load records. 
+    click_to_show: Please click to load records.
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Reorder Mode Active
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
-  
+
   states:
     auto_generated: System generates when saved
 
@@ -109,6 +109,7 @@ en:
     include_daos: Include &lt;dao&gt; tags
     numbered_cs: Use numbered &lt;c&gt; tags
     print_pdf: Print to PDF
+    ead3: EAD3 schema
 
   pagination:
     first: First
@@ -179,6 +180,16 @@ en:
       location_profile_depth_u_sstr: Depth
       location_profile_dimension_units_u_sstr: Dimension Units
       rights_statement_agent_uris: Rights Statement Agent
+      assessment_surveyors: Surveyed By
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_reviewer_uris: Reviewer
+      assessment_surveyed_by_uris: Surveyed By
+      assessment_reviewers: Reviewer
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_record_types: Record Type
+      assessment_completed: Completed
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multple previous rows.
 
@@ -222,6 +233,9 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
+    assessment_survey_begin: Survey Begin Date
+    assessment_survey_end: Survey Completed Date
+    assessment_id: ID
 
   advanced_search:
     operator:
@@ -294,6 +308,7 @@ en:
     global_admin: System
     system_info: System Information
     unpublished: Unpublished
+    manage_assessment_attributes: Manage Assessment Attributes
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -312,6 +327,9 @@ en:
     locations:
       success: Locations deleted
       error: "Unable to delete locations:"
+    assessments:
+      success: Assessments deleted
+      error: "Unable to delete assessments:"
 
   welcome:
     heading: Welcome to ArchivesSpace
@@ -380,7 +398,7 @@ en:
     drag_and_drop_actions:
       before: Add Items Before
       after: Add Items After
-      as_child: Add Items as Children 
+      as_child: Add Items as Children
     unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
 
   errors:
@@ -390,6 +408,8 @@ en:
     error_404: Record Not Found
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
+    merge_conflict: "Merging agent(s) could not complete: %{message}"
+    linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
     _frontend:
@@ -403,6 +423,7 @@ en:
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession.display_string}</strong>"
+        delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -415,6 +436,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select below agents to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
@@ -473,6 +495,7 @@ en:
         suppressed: Archival Object <strong>%{archival_object.title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
+        delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -560,6 +583,7 @@ en:
         unsuppressed: Digital Object <strong>%{digital_object.title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object.title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
+        delete_conflict: "Digital Object could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
       action:
@@ -803,6 +827,7 @@ en:
         unsuppressed: Resource <strong>%{resource.title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource.title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
+        delete_conflict: "Resource could not be deleted: <pre>%{error}</pre>"
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data
@@ -995,7 +1020,7 @@ en:
         drag_and_drop_hint: Drag and drop files here
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
-        report_instructions: Choose a report to run by using the <b>Select</b> button. 
+        report_instructions: Choose a report to run by using the <b>Select</b> button.
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"
@@ -1007,7 +1032,7 @@ en:
       close_record: "Close a record being edited"
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
-                    
+
   instance_container:
     container: Container
 
@@ -1018,14 +1043,14 @@ en:
         <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
     type_2: Child Type
     type_2_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>The type of the second-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     indicator_2: Child Indicator
     indicator_2_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>The type of the third-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     indicator_3: Grandchild Indicator
     indicator_3_tooltip: |
@@ -1048,7 +1073,7 @@ en:
         <p>Used to record the barcode that uniquely identifies the highest level container.</p>
     type: Container Type
     type_tooltip: |
-        <p>The type of the highest level container.	
+        <p>The type of the highest level container.
         <p>Values in this Controlled Value List may be modified.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1063,14 +1088,14 @@ en:
 
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p> 
+        <p>The type of the second-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     managed_container_2_indicator: Child Container Indicator
     managed_container_2_indicator_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     managed_container_3_type: Grandchild Container Type
     managed_container_3_type_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p> 
+        <p>The type of the third-level container in which the described material is housed.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     managed_container_3_indicator: Grandchild Container Indicator
     managed_container_3_indicator_tooltip: |
@@ -1157,7 +1182,7 @@ en:
         basic_information: Basic Information
     name: Name
     name_tooltip: |
-        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>  
+        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
         <p>Examples:</p>
         <ul>
         <li>document box</li>
@@ -1296,3 +1321,77 @@ en:
     _frontend:
       action:
         add: Add Act
+
+  assessment:
+    _frontend:
+      form_header: Assessment %{display_string}
+      formats: Material Types / Formats
+      ratings: Ratings
+      conservation_issues: Conservation Issues
+      record_types: Record Types
+      action:
+        create: Create Assessment
+        save: Save Assessment
+        add_rating_note: Add Note
+        remove_rating_note: Remove Note
+        create_for_record: Create Assessment
+      section:
+        basic_information: Basic Information
+        existing_description: Existing Description
+        rating_attributes: Assessment Information
+        rating_attributes_empty: No assessment information entered
+        rating_attributes_additional: Additional Rating(s)
+        format_attributes: List of Material Types / Formats
+        format_attributes_empty: No material types / formats entered
+        format_attributes_additional: Additional Material Types / Formats
+        conservation_issue_attributes: Conservation Issues
+        conservation_issue_attributes_empty: No conservation issues entered
+        conservation_issue_attributes_additional: Additonal Conservation Issues
+      messages:
+        created: Assessment Created
+        updated: Assessment Updated
+        deleted: Assessment Deleted
+        attributes_hint: Please contact your administrator to add additional %{attribute_type}
+        manage_attributes_hint: Manage the additional %{attribute_type} for this repository
+      assessment_review_required:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_sensitive_material:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_inactive:
+        true_value: "Yes"
+        false_value: "No"
+      assessment_completed:
+        true_value: "Yes"
+        false_value: "No"
+      browse_reviewers: Reviewers
+      linked_records:
+        heading: Linked Records
+        loading: Loading...
+        linked_via_assessment_records: Assessments
+        linked_via_assessment_surveyed_by: Assessments - Surveyed By
+        linked_via_assessment_reviewer: Assessments - Reviewer
+      ratings_list:
+        rating: Rating
+        score: Score
+        note: Note
+
+  assessment_attribute_definitions:
+    _frontend:
+      title: Assessment Attributes
+      section:
+        formats: Material Types / Formats
+        ratings: Ratings
+        conservation_issues: Conservation Issues
+      global: Global %{type}
+      repository: Repository %{type}
+      action:
+        save: Save Assessment Attributes
+      messages:
+        updated: Assessment Attributes updated
+        error: Error updating Assessment Attributes
+        conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"
+        attribute_in_use: Unable to delete an attribute that is currently in use by an assessment
+      database_value: Database Value
+      translation: Translation

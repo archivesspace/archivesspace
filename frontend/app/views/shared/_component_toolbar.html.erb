@@ -42,6 +42,9 @@
                 <% other_shown = true %>
                 <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
                 <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
+                <% if user_can?('update_assessment_record') %>
+                  <li><%= link_to I18n.t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
+                <% end %>
               <% end %>
 
             <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>

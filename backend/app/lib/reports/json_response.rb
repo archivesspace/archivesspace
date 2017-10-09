@@ -6,6 +6,8 @@ class JSONResponse
   end
 
   def generate
+    return @report.to_json if @report.respond_to?(:to_json)
+
     doc = config_report
     if @report.template.include? 'generic_listing'
       generic_report_parsing(doc)

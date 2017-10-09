@@ -214,6 +214,7 @@ ArchivesSpace::Application.routes.draw do
     match 'batch_delete/agents' => 'batch_delete#agents', :via => [:post]
     match 'batch_delete/classifications' => 'batch_delete#classifications', :via => [:post]
     match 'batch_delete/locations' => 'batch_delete#locations', :via => [:post]
+    match 'batch_delete/assessments' => 'batch_delete#assessments', :via => [:post]
 
     match 'generate_sequence' => 'utils#generate_sequence', :via => [:get]
 
@@ -257,6 +258,16 @@ ArchivesSpace::Application.routes.draw do
 
     match('space_calculator' => 'space_calculator#show', :via => [:get])
     match('space_calculator' => 'space_calculator#calculate', :via => [:post])
+
+
+    match 'assessments/embedded_search' => 'assessments#embedded_search', :via => [:get]
+    resources :assessments
+    match 'assessments/:id' => 'assessments#update', :via => [:post]
+    match 'assessments/:id/delete' => 'assessments#delete', :via => [:post]
+    match 'assessment_attributes' => 'assessment_attributes#edit', :via => [:get]
+    match 'assessment_attributes' => 'assessment_attributes#update', :via => [:post]
+
+
 
     if Plugins.system_menu_items?
       scope '/plugins' do

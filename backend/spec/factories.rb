@@ -48,6 +48,7 @@ FactoryGirl.define do
       org_code { generate(:alphanumstr) }
       image_url { generate(:url) }
       publish { 1 }
+      country { 'US' }
       after(:create) do |r|
         $repo_id = r.id
         $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
@@ -122,6 +123,7 @@ FactoryGirl.define do
       extent_type { generate(:extent_type) }
       resource_id nil
       archival_object_id nil
+      dimensions { generate(:alphanumstr) }
     end
 
     factory :archival_object do
@@ -335,8 +337,23 @@ FactoryGirl.define do
     label 'creation'
     self.begin { generate(:yyyy_mm_dd) }
     self.end { self.begin }
+    self.certainty 'inferred'
+    self.era 'ce'
+    self.calendar 'gregorian'
     expression { generate(:alphanumstr) }
   end
+
+
+  factory :json_date_single, class: JSONModel(:date) do
+    date_type 'single'
+    label 'creation'
+    self.begin { generate(:yyyy_mm_dd) }
+    self.certainty 'inferred'
+    self.era 'ce'
+    self.calendar 'gregorian'
+    expression { generate(:alphanumstr) }
+  end
+
 
   factory :json_deaccession, class: JSONModel(:deaccession) do
     scope { "whole" }
@@ -370,6 +387,7 @@ FactoryGirl.define do
     portion { generate(:portion) }
     number { generate(:number) }
     extent_type { generate(:extent_type) }
+    dimensions { generate(:alphanumstr) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do
@@ -504,11 +522,13 @@ FactoryGirl.define do
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
     language { generate(:language) }
-    dates { [build(:json_date)] }
+    dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
+    finding_aid_series_statement { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
+    finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
     revision_statements {  [build(:json_revision_statement)]  }
@@ -538,7 +558,7 @@ FactoryGirl.define do
     rights_type 'copyright'
     status { generate(:status) }
     jurisdiction { generate(:jurisdiction) }
-    start_date { generate(:yyyy_mm_dd) }  
+    start_date { generate(:yyyy_mm_dd) }
   end
 
   factory :json_rights_statement_act, class: JSONModel(:rights_statement_act) do
@@ -686,5 +706,10 @@ FactoryGirl.define do
   factory :json_defaults, class: JSONModel(:defaults) do
     show_suppressed { false }
     publish { false }
+  end
+
+  factory :json_assessment, class: JSONModel(:assessment) do
+    survey_begin { generate(:yyyy_mm_dd) }
+    surveyed_extent { generate(:alphanumstr) }
   end
 end

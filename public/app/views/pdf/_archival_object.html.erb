@@ -14,7 +14,7 @@ end
 
 <div class="avoid-break">
     <div class="print-record-border print-record level-<%= level %>">
-        <h3><a class="record-title" id="<%= record.uri %>"><%== record.display_string %></a></h3>
+        <h3><a class="record-title" id="<%= record.uri %>"><%= record.display_string %></a></h3>
 
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>

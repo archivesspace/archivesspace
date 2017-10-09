@@ -6,7 +6,7 @@ class LocationAccessionsSubreport < AbstractReport
 
   def query
     db[:location]
-      .inner_join(:top_container_housed_at_rlshp, :top_container_housed_at_rlshp__id => :location__id)
+      .inner_join(:top_container_housed_at_rlshp, :top_container_housed_at_rlshp__location_id => :location__id)
       .inner_join(:top_container, :top_container__id => :top_container_housed_at_rlshp__top_container_id)
       .inner_join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
       .inner_join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)

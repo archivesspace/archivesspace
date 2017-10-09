@@ -50,7 +50,7 @@
           <% result.ancestors.each do |ancestor| %>
             /
             <span class="ancestor">
-            <%= link_to process_mixed_content(ancestor.fetch('title')).html_safe, app_prefix(ancestor.fetch('uri')) %>
+            <%= link_to process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe, app_prefix(ancestor.fetch('uri')) %>
             </span>
           <% end %>
         <% else %>

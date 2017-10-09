@@ -260,7 +260,13 @@
 26
 27
 28
-29</pre>
+29
+30
+31
+32
+33
+34
+35</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/resolver_controller.rb', line 22</span>
@@ -268,6 +274,12 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve_readonly identifier id'>resolve_readonly</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='colon op'>:</span><span class='rubyid_uri identifier id'>uri</span>
     <span class='rubyid_resolver identifier id'>resolver</span> <span class='assign token'>=</span> <span class='rubyid_Resolver constant id'>Resolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:autoselect_repo</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span> <span class='neq op'>!=</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo</span><span class='rbrack token'>]</span>
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_session_repo identifier id'>session_repo</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='comma token'>,</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span><span class='rparen token'>)</span>
+      <span class='rubyid_selected identifier id'>selected</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:success</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;repository._frontend.messages.changed&quot;</span><span class='comma token'>,</span> <span class='rubyid_JSONModelI18nWrapper constant id'>JSONModelI18nWrapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_selected identifier id'>selected</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_resolver identifier id'>resolver</span><span class='dot token'>.</span><span class='rubyid_view_uri identifier id'>view_uri</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_unauthorised_access identifier id'>unauthorised_access</span>
@@ -284,7 +296,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.1.1-ANW-212 Documentation Generated on Wed Aug 16 10:38:47 2017 by
+  ArchivesSpace Version 2017-10-02 Documentation Generated on Tue Oct  3 19:18:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
