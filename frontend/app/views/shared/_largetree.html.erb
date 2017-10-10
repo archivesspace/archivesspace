@@ -44,7 +44,7 @@
     ].each do |enumeration_name|
       translations[enumeration_name] ||= {}
 
-      JSONModel.enum_values(enumeration_name).each do |enumeration_value| 
+      JSONModel.enum_values(enumeration_name).each do |enumeration_value|
         translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
       end
     end
@@ -57,6 +57,8 @@
       if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
           if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
               return ENUMERATION_TRANSLATIONS[enumeration][enumeration_value];
+          } else if (enumeration == 'archival_record_level'){
+              return enumeration_value;
           }
       }
       return null;
