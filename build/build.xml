@@ -613,23 +613,15 @@
     <antcall target="db:nuke"/>
   </target>
 
-  <target name="travis:selenium" depends="set-classpath, bootstrap">
-    <antcall target="db:migrate" />
-    <antcall target="selenium:test" />
-    <antcall target="travis:db:nuke" />
-  </target>
-
-  <!-- ^- Replaced by -v -->
-
   <target name="travis:selenium:staff" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="selenium:staff" />
-    <antcall target="travis:db:nuke" />
   </target>
 
   <target name="travis:test" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="headless-tests" />
+    <antcall target="travis:db:nuke" />
   </target>
 
   <!-- Dist build -->
@@ -806,7 +798,7 @@
   </target>
 
 
-  <target name="test" depends="headless-tests, selenium:test"
+  <target name="test" depends="headless-tests, selenium:staff"
           description="Run the full suite of tests">
   </target>
 

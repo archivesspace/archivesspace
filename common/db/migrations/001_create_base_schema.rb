@@ -1651,7 +1651,6 @@ Sequel.migration do
   down do
 
     remaining = tables.reject {|t| t == :schema_info}
-
     ceiling = 100
 
     begin
@@ -1675,11 +1674,14 @@ Sequel.migration do
         end
       end
       
-      remaining = greylist.clone
+      remaining = greylist.shuffle.clone
       ceiling = ceiling - 1
-      
+       
     end while (not remaining.empty?) && ceiling > 0
-
+    unless remaining.empty? 
+      $stderr.puts "Could not drop the following tables : #{remaining.join(',')}" 
+      $stderr.puts "( check fk constaints )"
+    end
   end
 end
 

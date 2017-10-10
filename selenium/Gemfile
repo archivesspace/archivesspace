@@ -9,7 +9,7 @@ group :test do
   gem 'rubyzip', '1.0.0'
   gem "sinatra", "1.4.7", :require => false
   gem "activesupport", "5.0.1"
-  gem "selenium-webdriver", "= 3.3.0"
+  gem "selenium-webdriver", "= 3.6.0"
   gem "rspec"
   gem "rspec-retry"
   gem "parallel_tests", "~> 2.14.0"
@@ -20,6 +20,7 @@ group :test do
   gem "multipart-post", "1.2.0"
 
   gem "pry"
+  gem "mechanize"
 end
 
 group :development do

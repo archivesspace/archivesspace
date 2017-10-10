@@ -8,8 +8,8 @@ matrix:
 env:
   global:
   - INTEGRATION_LOGFILE=/var/tmp/aspace-integration.log
-  - DISPLAY=:99.0
   - SCREENSHOT_ON_ERROR=1
+  - SELENIUM_CHROME=true
   matrix:
   - DB=mysql TASK=travis:test
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
@@ -20,17 +20,21 @@ env:
   - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
   - TASK=dist
 before_install:
-- /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
-  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2560x10240x24
-- export DISPLAY=:99.0
 - cat /etc/hosts # Fix buffer overflow in getLocalHostName of OpenJDK 6/7 by shortening the host name
 - sudo hostname "$(hostname | cut -c1-63)"
 - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts > /tmp/hosts
 - sudo mv /tmp/hosts /etc/hosts
 - cat /etc/hosts
+install:
+- wget -N http://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip -P ~/
+- unzip ~/chromedriver_linux64.zip -d ~/
+- rm ~/chromedriver_linux64.zip
+- sudo mv -f ~/chromedriver /usr/local/share/
+- sudo chmod +x /usr/local/share/chromedriver
+- sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+- chromedriver -v
 before_script:
 - free -m
-- (cd /tmp; wget 'https://ftp.mozilla.org/pub/firefox/releases/52.0/linux-x86_64/en-US/firefox-52.0.tar.bz2'; tar xvjf firefox-52.0.tar.bz2)
 - sleep 3
 - if [[ "$DB" == "mysql" ]]; then (mkdir lib; cd lib; curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar );
   fi
@@ -39,8 +43,6 @@ before_script:
 - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
   character set utf8;"; fi
 - 'export JAVA_OPTS="-Xmx512m -verbose:gc $JAVA_OPTS"'
-- 'export PATH="/tmp/firefox:$PATH"'
-- firefox --version
 branches:
   except:
   - gh-pages
@@ -50,6 +52,7 @@ notifications:
   email: false
 bundler_args: --retry 5
 addons:
+  chrome: stable
   artifacts:
     debug: true
     bucket: astravisartifacts
@@ -61,5 +64,4 @@ addons:
     - $( ls  /var/tmp/aspace-integration.log | tr "\n" ":" )
 sudo: true
 after_failure:
-- if [[ -e "/tmp/firefox_console" ]]; then cat /tmp/firefox_console; fi
 - dmesg | tail -500

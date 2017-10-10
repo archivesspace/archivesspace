@@ -77,9 +77,15 @@ module DriverMixin
 
   def clear_and_send_keys(selector, keys)
     elt = self.find_element(*selector)
-    elt.clear
-    elt.send_keys(keys)
+    self.clear_and_send_keys_to_el( elt, keys )
   end
+
+  def clear_and_send_keys_to_el( el, keys )
+    el.clear
+    el.send_keys(keys)
+  end
+
+
 end
 
 
@@ -119,7 +125,7 @@ module Selenium
       def wait_for_dropdown
         # Tried EVERYTHING to avoid needing this sleep.  Buest guess at the moment:
         # JS hasn't been wired up to the click event and we get in too quickly.
-        sleep 0.5
+        sleep 1
       end
 
       def wait_for_ajax
@@ -148,7 +154,7 @@ module Selenium
         try = 0
         while true
           begin
-            elt = self.find_element(*selectors)
+            elt = self.find_element_orig(*selectors)
             return elt
           rescue Selenium::WebDriver::Error::NoSuchElementError
             puts "#{test_group_prefix}find_element failed: trying to turn the page"
@@ -341,13 +347,16 @@ return (
 
         begin
           self.find_element(:tag_name => "body").find_element_with_text(xpath, pattern, noError, noRetry)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError
-          if tries < Selenium::Config.retries
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
+          if tries < Selenium::Config.retries && !noRetry
             tries += 1
             $sleep_time += 0.1
             sleep 0.1
-
             retry
+          elsif noError
+            return nil
+          else
+            raise e
           end
         end
       end
@@ -381,17 +390,33 @@ return (
         end
         raise Selenium::WebDriver::Error::NoSuchElementError
       end
-
+      
+      # adds to an input and selects a type ahead
+      def typeahead_and_select(token_input, value, retries = 10 )
+        self.clear_and_send_keys_to_el( token_input, value ) 
+        begin
+          wait_for_dropdown 
+          find_element_orig(:css, "li.token-input-dropdown-item2").click
+        rescue Selenium::WebDriver::Error::NoSuchElementError => e
+          if retries % 2 == 0 
+            self.clear_and_send_keys_to_el( token_input, value ) if retries % 2 == 0 
+            sleep 2
+          end 
+          sleep 1
+          retry if ( retries -= 1 ) > 0
+          raise e
+        end
+      end
 
       def open_rde_add_row_dropdown
         modal = self.find_element(:id => "rapidDataEntryModal")
-        3.times do
+        3.times do |try|
           begin 
             modal.find_element(:css, ".btn.add-rows-dropdown").click
             modal.find_element_orig(:css => '.add-rows-form input').click
             break 
           rescue
-            $stderr.puts "hmmm...can't find the input..lets try and reopen the dropdown.. " 
+            # $stderr.puts "hmmm...can't find the input..lets try and reopen the dropdown.. " 
             next 
           end 
         end
@@ -440,21 +465,8 @@ return (
 
 
       def select_option_with_text(value)
-        self.click
-        self.find_elements(:tag_name => "option").each do |option|
-          if option.text === value
-            Selenium::Config.retries.times do |try|
-              return if option.attribute('selected')
-
-              option.click
-              sleep 0.1
-            end
-          end
-        end
-
-        raise "Couldn't select value: #{value}"
+        self.find_element( :xpath,  "./*[contains( text(), '#{value.strip}' )]").click
       end
-
 
       def get_select_value
         self.find_elements(:tag_name => "option").each do |option|
@@ -491,18 +503,22 @@ return (
 
       def find_element_with_text(xpath, pattern, noError = false, noRetry = false)
         Selenium::Config.retries.times do |try|
-          matches = self.find_elements(:xpath => xpath)
-
           begin
+            matches = self.find_elements(:xpath => xpath)
             matches.each do | match |
-              return match if match.text =~ pattern
+              return match if match.text.chomp.strip =~ pattern
             end
-          rescue
+          rescue => e
+            return nil if noError && noRetry
+            raise e if noRetry
             # Ignore exceptions and retry
           end
 
+          # we got here and there's nothing..
+          # raise an error unless we're told not to
           if noRetry
-            return nil
+            return nil if noError
+            raise Selenium::WebDriver::Error::NoSuchElementError
           end
 
           $sleep_time += 0.1
