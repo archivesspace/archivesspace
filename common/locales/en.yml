@@ -1568,6 +1568,9 @@ en:
     country: Country
     country_tooltip: |
         <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
+    description: Description
+    description_tooltip: |
+        <p>An about section or descriptive summary for the repository.</p>
     post_code: Postal Code
     telephone: Telephone
     telephone_ext: Extension
