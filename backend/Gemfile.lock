@@ -77,8 +77,7 @@ GEM
     rufus-lru (1.0.5)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
-    saxerator (0.9.5)
-      nokogiri (>= 1.4.0)
+    saxerator (0.9.8)
     saxon-xslt (0.7.2-java)
     sequel (4.20.0)
     simplecov (0.7.1)
@@ -139,7 +138,7 @@ DEPENDENCIES
   rubyzip (= 1.0.0)
   rufus-lru (= 1.0.5)
   rufus-scheduler (~> 2.0.24)
-  saxerator (= 0.9.5)
+  saxerator (~> 0.9.2)
   saxon-xslt
   sequel (~> 4.20.0)
   simplecov (= 0.7.1)
