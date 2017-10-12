@@ -238,12 +238,7 @@ database. When you modify your configuration file, **MAKE SURE THAT YOU
 SPECIFY THAT THE CHARACTER ENCODING FOR THE DATABASE TO BE `UTF-8`** as shown
 below:
 
-     AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8&useSSL=false"
-
-*** NOTE: This configures MySQL to run without an SSL connection *** 
-If you want to use an SSL connection, you will need to configure your MySQL server and Java
-keystore to access the proper certificates, then change the AppConfig[:db_url]
-to have "useSSL=true". 
+     AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 
 There is a database setup script that will create all the tables that
 ArchivesSpace requires.  Run this with:

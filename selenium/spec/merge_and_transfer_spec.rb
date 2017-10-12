@@ -45,14 +45,7 @@ describe "Merging and transfering resources" do
     @driver.find_element(:link, "Browse").click
     @driver.click_and_wait_until_gone(:link, "Resources")
 
-    begin
-      @driver.find_element_orig(:xpath => "//td[contains(text(), '#{@resource.title}')]")
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      run_all_indexers
-      sleep(1)
-      @driver.find_element(:xpath => "//td[contains(text(), '#{@resource.title}')]")
-    end
-
+    @driver.find_element(:xpath => "//td[contains(text(), '#{@resource.title}')]")
 
   end
 
@@ -125,8 +118,9 @@ describe "Merging and transfering resources" do
 
     # spaces in the search string seem to through off the token search, so:
     search_string = target.title.sub(/-\s.*/, "").strip
-    token_input = @driver.find_element(:id, "token-input-merge_ref_")
-    @driver.typeahead_and_select( token_input,  search_string ) 
+    @driver.clear_and_send_keys([:id, "token-input-merge_ref_"], search_string )
+    sleep(1)
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css, "button.merge-button").click
 
