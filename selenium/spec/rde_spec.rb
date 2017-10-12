@@ -69,11 +69,10 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
 
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
-    
-    sleep(2)
+
     expect {
-      node = tree_node_for_title('My AO, 2013')
-      node.find_element( :xpath =>  ".//td[contains(text(), 'Item')]" )
+      tree_node_for_title('My AO, 2013')
+      tree_node_for_title('Item')
     }.not_to raise_error
   end
 
@@ -119,12 +118,11 @@ describe "RDE" do
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
     @driver.wait_for_ajax
 
-    sleep(2)
-    expect {
+
+    assert(5) {
       tree_node_for_title('Child 1, 2013')
       tree_node_for_title('Child 2, 2013')
-    }.not_to raise_error
-    
+    }
   end
 
   it "can add multiple rows in one action" do
@@ -206,7 +204,6 @@ describe "RDE" do
     @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
-    @driver.wait_for_ajax 
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
@@ -316,11 +313,10 @@ describe "Digital Object RDE" do
 
     @driver.wait_for_ajax
 
-    sleep(2)
-    expect {
+
+    assert(5) {
       tree_node_for_title('My DO')
-    }.not_to raise_error
-  
+    }
   end
 
   it "can access the RDE form when editing an digital object" do
@@ -347,12 +343,10 @@ describe "Digital Object RDE" do
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
     @driver.wait_for_ajax
 
-    sleep(2)
-    expect {
+    assert(5) {
       tree_node_for_title('Child 1')
       tree_node_for_title('Child 2')
-    }.not_to raise_error
-  
+    }
   end
 
   it "can add multiple rows in one action" do

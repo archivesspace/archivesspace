@@ -1,6 +1,5 @@
 require 'rspec'
 require 'fileutils'
-require 'tmpdir'
 
 RSpec::Support.require_rspec_core "formatters/console_codes"
 
@@ -11,7 +10,8 @@ class ParallelFormatterHTML < RSpec::Core::Formatters::HtmlFormatter
 
 
   def initialize(param=nil)
-    output_dir = ENV['SELENIUM_LOG_DIR'] || File.join( Dir.tmpdir, 'log') 
+    # output_dir = ENV['OUTPUT_DIR'] || File.join(File.dirname(__FILE__), 'log')
+    output_dir = '/var/tmp'
     FileUtils.mkpath(output_dir) unless File.directory?(output_dir)
     raise "Invalid output directory: #{output_dir}" unless File.directory?(output_dir)
 

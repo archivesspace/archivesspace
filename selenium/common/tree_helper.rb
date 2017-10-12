@@ -43,12 +43,11 @@ module TreeHelperMethods
   end
 
   def tree_node_for_title(title)
-    tree_node_link_for_title(title) 
-    .find_element_orig(:xpath => "ancestor::tr")
+    @driver.find_element_with_text('//div[@id="tree-container"]//tr', /#{title}/)
   end
 
-  def tree_node_link_for_title(title) 
-    @driver.find_element_with_text('//div[@id="tree-container"]//a[@class="record-title"]', /#{title}/ )
+  def tree_node_link_for_title(title)
+    tree_node_for_title(title).find_element(:css, 'a.record-title')
   end
 
 
@@ -99,19 +98,5 @@ module TreeHelperMethods
   def tree_container
     @driver.find_element(:id, 'tree-container')
   end
-
-  def expand_tree_pane
-    begin
-      # if we're already maximized, we unmaximize first ( since it's possible
-      # there been children added since last maximization, so we need to resize ) 
-      @driver.find_element_orig( :css => ".ui-resizable-handle.ui-resizable-s.maximized").find_element("a.tree-resize-toggle")
-    rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
-      # we aren't currently maximized, so please continue.. 
-    ensure 
-      # now we maximize! 
-      @driver.find_element(:css => "a.tree-resize-toggle").click
-    end
-  end
-
 
 end

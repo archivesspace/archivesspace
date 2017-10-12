@@ -191,16 +191,13 @@ class DBMigrator
     rescue ContainerMigrationError
       raise $!
     rescue Exception => e
-     
      $stderr.puts <<EOF
-     
-     #{  "!" * 100  }  
-     #{  "!" * 100  }  
-     #{  "!" * 100  }  
-     
-     
-     Database migration error. 
-     Your upgrade has encountered a problem. 
+
+     #{ 3.times { $stderr.puts "!" * 100  } }
+
+
+     Database migration error.
+     Your upgrade has encountered a problem.
      You must resolve these issues before the database migration can complete.
 
 
@@ -209,10 +206,8 @@ class DBMigrator
      #{e.message}
      #{e.backtrace.join("\n")}
 
-     #{  "!" * 100  }  
-     #{  "!" * 100  }  
-     #{  "!" * 100  }  
-     
+
+     #{ 3.times { $stderr.puts "!" * 100  } }
 EOF
 
      raise e

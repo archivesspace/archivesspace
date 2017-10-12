@@ -226,8 +226,11 @@ describe "Resource instances and containers" do
     new_loc.find_element(:id, "top_container_container_locations__1__status_").select_option_with_text('Previous')
 
     token_input = new_loc.find_element(:css => "li.token-input-input-token input")
-    @driver.typeahead_and_select( token_input, @location_b.building ) 
-    
+    token_input.clear
+    token_input.click
+    token_input.send_keys(@location_b.building)
+
+    @driver.find_element(:css, "li.token-input-dropdown-item2").click
 
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
