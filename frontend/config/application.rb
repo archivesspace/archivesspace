@@ -42,9 +42,6 @@ module ArchivesSpace
     # https://github.com/rack/rack/issues/1075
     config.middleware.insert_before Rack::Runtime, MultipartBufferSize
 
-    # https://github.com/rack/rack/issues/1075
-    config.middleware.insert_before Rack::Runtime, MultipartBufferSize
-
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     atomic (1.0.1-java)
-    json (1.8.0-java)
+    json (1.8.6-java)
     rack (1.6.8)
     rack-protection (1.5.3)
       rack
@@ -17,7 +17,7 @@ PLATFORMS
 
 DEPENDENCIES
   atomic (= 1.0.1)
-  json (= 1.8.0)
+  json (= 1.8.6)
   sinatra (= 1.4.7)
 
 BUNDLED WITH

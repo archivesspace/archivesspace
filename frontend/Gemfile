@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '5.0.1'
 gem "activesupport", "5.0.1"
+gem 'loofah', '2.0.3'
+gem 'i18n', '0.7.0'
+
 gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
@@ -12,11 +15,11 @@ gem 'tzinfo-data'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails'
-gem 'coffee-rails'
+gem 'sass-rails', '5.0.5'
+gem 'coffee-rails', '4.2.1'
 gem 'coffee-script'
 gem 'coffee-script-source'
-gem 'uglifier'
+gem 'uglifier', '3.0.4'
 gem 'therubyrhino'
 
 gem 'less-rails'
