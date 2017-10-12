@@ -51,16 +51,24 @@ Restart the application and you should see your logo in the default view.
 
 You can customize CSS through the plugin system too. If you don't want to create a whole new plugin, the easiest way is to modify the 'local' plugin that ships with ArchivesSpace (it's intended for these kind of site-specific changes). As long as you've still got 'local' listed in your AppConfig[:plugins] list, your changes will get picked up.
 
-To do that, create a file called `archivesspace/plugins/local/frontend/views/layout_head.html.erb` and add the line:
+To do that, create a file called `archivesspace/plugins/local/frontend/views/layout_head.html.erb` for the staff side or `archivesspace/plugins/local/public/views/layout_head.html.erb` for the public. Then you can add the line to include the CSS in the site:
 
      <%= stylesheet_link_tag "#{@base_url}/assets/custom.css" %>
 
 Then place your CSS in the file:
 
+     staff side:
      archivesspace/plugins/local/frontend/assets/custom.css
+     or public side:
+     archivesspace/plugins/local/public/assets/custom.css
 
 and it will get loaded on each page.
 
+You may also want to make changes to the main index page, or the header and footer. Those overrides would go into the following places for the public side of your site:
+
+    archivesspace/plugins/local/public/views/layouts/application.html.erb 
+    archivesspace/plugins/local/public/views/shared/_header.html.erb 
+    archivesspace/plugins/local/public/views/shared/_footer.html.erb
 
 ## I want to heavily theme my site and make a lot of CSS changes and template changes!
 
