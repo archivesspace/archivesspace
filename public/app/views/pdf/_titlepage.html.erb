@@ -1,4 +1,5 @@
 <div class="title-page">
+    <div class="logo"><%= image_tag( record.resolved_repository['image_url'] || asset_url("Aspace-logo.png") ) %></div>
     <div class="title-block">
         <h1 class="title"><%= record.finding_aid['title'] %></h1>
         <h2 class="subtitle"><%= record.finding_aid['subtitle'] %></h2>
