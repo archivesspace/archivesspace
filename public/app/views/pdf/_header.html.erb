@@ -5,6 +5,8 @@
         <style>
  .title-page {
      page-break-after: always;
+     position: relative;
+     height: 58em;
  }
 
  .toc-page {
@@ -68,10 +70,12 @@
  }
 
  .title-page .repository-information {
-     position: relative;
-     top: 24em;
-     left: 4em;
+     position: absolute;
+     bottom: 0;
+     border: solid 2px gray;
+      width: 95%;
      padding: 1em;
+
  }
 
  .repository-information > * {
@@ -198,4 +202,3 @@
     </head>
     <body>
 
-        <div class="logo"><%= image_tag(asset_url("archivesspace.small.png")) %></div>
