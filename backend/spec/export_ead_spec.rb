@@ -231,7 +231,7 @@ describe "EAD export mappings" do
 
   describe "indexing prerequisites" do
     it "resolves all required fields for the EAD model" do
-      missing_fields = (EADModel::RESOLVE - CommonIndexerConfig.resolved_attributes)
+      missing_fields = (EADModel::RESOLVE - IndexerCommonConfig.resolved_attributes)
 
       missing_fields.should eq([])
     end

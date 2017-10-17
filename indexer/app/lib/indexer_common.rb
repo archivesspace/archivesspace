@@ -13,20 +13,21 @@ require 'record_inheritance'
 
 require_relative 'index_batch'
 require_relative 'indexer_common_config'
+require_relative 'indexer_timing'
 
 
-class CommonIndexer
+class IndexerCommon
 
   include JSONModel
 
-  @@record_types = CommonIndexerConfig.record_types
+  @@record_types = IndexerCommonConfig.record_types
 
-  @@global_types = CommonIndexerConfig.global_types
+  @@global_types = IndexerCommonConfig.global_types
 
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = CommonIndexerConfig.resolved_attributes
+  @@resolved_attributes = IndexerCommonConfig.resolved_attributes
 
   @@paused_until = Time.now
 
@@ -142,7 +143,7 @@ class CommonIndexer
 
 
   def self.build_fullrecord(record)
-    fullrecord = CommonIndexer.extract_string_values(record)
+    fullrecord = IndexerCommon.extract_string_values(record)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
         fullrecord << "#{record['record'][field]} "
@@ -151,7 +152,7 @@ class CommonIndexer
 
     if record['record'].has_key?('names')
       fullrecord << record['record']['names'].map {|name|
-        CommonIndexer.extract_string_values(name)
+        IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
     fullrecord
@@ -212,7 +213,7 @@ class CommonIndexer
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| CommonIndexer.extract_string_values(note) }.join(" ");
+      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
     end
   end
 
@@ -221,7 +222,7 @@ class CommonIndexer
     if record['record']['dates']
       doc['years'] = []
       record['record']['dates'].each do |date|
-        doc['years'] += CommonIndexer.generate_years_for_date_range(date['begin'], date['end'])
+        doc['years'] += IndexerCommon.generate_years_for_date_range(date['begin'], date['end'])
       end
       unless doc['years'].empty?
         doc['years'] = doc['years'].sort.uniq
@@ -446,7 +447,7 @@ class CommonIndexer
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
-        doc['identifier_sort'] = CommonIndexer.generate_sort_string_for_identifier(record['record']['identifier'])
+        doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
       end
@@ -504,7 +505,7 @@ class CommonIndexer
           doc['series_level_u_sstr'] = record['record']['series'].map {|series| series['level_display_string']}
           doc['series_identifier_stored_u_sstr'] = record['record']['series'].map {|series| series['identifier']}
           doc['series_identifier_u_stext'] = record['record']['series'].map {|series|
-            CommonIndexer.generate_permutations_for_identifier(series['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(series['identifier'])
           }.flatten
 
           record['record']['series'].select{|series| series['publish']}.each do |series|
@@ -520,7 +521,7 @@ class CommonIndexer
           doc['collection_display_string_u_sstr'] = record['record']['collection'].map {|collection| collection['display_string']}
           doc['collection_identifier_stored_u_sstr'] = record['record']['collection'].map {|collection| collection['identifier']}
           doc['collection_identifier_u_stext'] = record['record']['collection'].map {|collection|
-            CommonIndexer.generate_permutations_for_identifier(collection['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(collection['identifier'])
           }.flatten
         end
 
@@ -590,7 +591,7 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
+      doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
     }
 
 
@@ -647,7 +648,7 @@ class CommonIndexer
           'json' => cm.to_json(:max_nesting => false),
           'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
-          'processing_status' => cm['processing_status'], 
+          'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],
@@ -860,46 +861,6 @@ class CommonIndexer
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
     out.strip
-  end
-
-
-  class IndexerTiming
-    def initialize
-      @metrics = {}
-    end
-
-    def add(metric, val)
-      @metrics[metric] ||= 0
-      @metrics[metric] += val.to_i
-    end
-
-    def to_s
-      subtotal = @metrics.values.inject(0) {|a, b| a + b}
-
-      if @total
-        # If we have a total, report any difference between the total and the
-        # numbers we have.
-        add(:other, @total - subtotal)
-      else
-        # Otherwise, just tally up our numbers to determine the total.
-        @total = subtotal
-      end
-
-      "#{@total.to_i} ms (#{@metrics.map {|k, v| "#{k}: #{v}"}.join('; ')})"
-    end
-
-    def total=(ms)
-      @total = ms
-    end
-
-    def time_block(metric)
-      start_time = Time.now
-      begin
-        yield
-      ensure
-        add(metric, ((Time.now.to_f * 1000) - (start_time.to_f * 1000)))
-      end
-    end
   end
 
   def index_records(records, timing = IndexerTiming.new)
