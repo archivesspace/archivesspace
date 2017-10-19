@@ -135,8 +135,7 @@
   </target>
 
 
-  <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index configured in config/config.rb">
-    <delete dir="${aspace.data_directory}/solr_index" />
+  <target name="db:nuke" depends="set-classpath, solr:nuke" description="Delete database and Solr index configured in config/config.rb">
     <delete dir="${aspace.data_directory}/shared" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -341,6 +340,13 @@
 
 
   <!-- Solr -->
+  <target name="solr:nuke" description="Delete Solr index configured in config/config.rb">
+    <delete dir="${aspace.data_directory}/indexer_state" />
+    <delete dir="${aspace.data_directory}/indexer_pui_state" />
+    <delete dir="${aspace.data_directory}/solr_index" />
+  </target>
+
+
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
