@@ -1224,10 +1224,10 @@ en:
   rights_restriction:
     begin: Restriction Begin
     begin_tooltip: |
-        <p>For a time-bound restriction, the beginning date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+        <p>For a time-bound restriction, the beginning date for a restriction on access. Must be a single date in the form YYYY-MM-DD. Will be disassociated from the containers once it expires. Use the note text to indicate a less precise date or date span.</p>
     end: Restriction End
     end_tooltip: |
-        <p>For a time-bound restriction, the ending date for a restriction on access. Will be disassociated from the containers once it expires.</p>
+        <p>For a time-bound restriction, the ending date for a restriction on access. Must be a single date in the form YYYY-MM-DD. Will be disassociated from the containers once it expires. Use the note text to indicate a less precise date or date span.</p>
     local_access_restriction_type: Local Access Restriction Type
     local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
     local_access_restriction_type_tooltip: |
