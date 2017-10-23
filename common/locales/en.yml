@@ -1845,6 +1845,7 @@ en:
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
+    subject_must_be_unique: Subject records cannot be identical
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -1890,6 +1891,8 @@ en:
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
     location_profile_name_not_unique: Location Profile name must be unique
     must_be_a_positive_integer: Must be a positive integer
+    must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
+    short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
 
   job:
     _singular: Background Job
