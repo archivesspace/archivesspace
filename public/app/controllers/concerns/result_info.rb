@@ -66,7 +66,7 @@ module ResultInfo
     info = {}
     info['top'] = {}
     unless repo.nil?
-      %w(name uri url parent_institution_name image_url repo_code).each do | item |
+      %w(name uri url parent_institution_name image_url repo_code description).each do | item |
         info['top'][item] = repo[item] unless repo[item].blank?
       end
       unless repo['agent_representation'].blank? || repo['agent_representation']['_resolved'].blank? || repo['agent_representation']['_resolved']['jsonmodel_type'] != 'agent_corporate_entity'
