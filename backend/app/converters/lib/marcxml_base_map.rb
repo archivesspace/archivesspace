@@ -24,29 +24,38 @@ module MarcXMLBaseMap
     '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
   }
 
-  def record_type(type_of_record = nil, subject_source = nil)
-    @type ||= { type: :bibliographic, subject_source: nil }
+  def record_properties(type_of_record = nil, source = nil, rules = nil)
+    @properties ||= { type: :bibliographic, source: nil , rules: nil}
     if type_of_record
-      @type[:type] = type_of_record == 'z' ? :authority : :bibliographic
+      @properties[:type] = type_of_record == 'z' ? :authority : :bibliographic
     end
-    if subject_source
-      @type[:subject_source] = subject_source and @type[:type] == :authority ? subject_source : nil
+    if @properties[:type] == :authority
+      @properties[:source] = source if source
+      @properties[:rules]  = rules  if rules
     end
-    @type
+    @properties
   end
 
-  alias_method :set_record_type, :record_type
+  alias_method :set_record_properties, :record_properties
 
-  def subject_template(getterms, getsrc)
+  def subject_template(getterms, getsrc, variant_tag = nil)
     {
       :obj => :subject,
       :rel => :subjects,
       :map => {
+        "//controlfield[@tag='001']" => sets_authority_properties(true, false, :subject),
         "self::datafield" => -> subject, node {
+          subject.publish = true
           subject.terms = getterms.call(node)
           subject.source = getsrc.call(node)
           subject.vocabulary = '/vocabularies/1'
-        }
+        },
+        # skip handling variant (4XX) headings until subject / term data model
+        # supports authorized / unauthorized and multiple headings per subject
+        # these just pollute the database as is
+        # "//datafield[@tag='#{variant_tag || '999'}']" => -> subject, node {
+        #   # TODO
+        # }
       }
     }
   end
@@ -61,8 +70,8 @@ module MarcXMLBaseMap
 
   def sets_subject_source
     -> node {
-      if record_type[:type] == :authority
-        AUTH_SUBJECT_SOURCE[ record_type[:subject_source] ] || 'Source not specified'
+      if record_properties[:type] == :authority
+        AUTH_SUBJECT_SOURCE[ record_properties[:source] ] || 'Source not specified'
       else
         BIB_SUBJECT_SOURCE[node.attr('ind2')] || ( !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified' )
       end
@@ -73,6 +82,7 @@ module MarcXMLBaseMap
   def agent_template
     {
       :rel => -> resource, agent {
+        agent.publish = true
         resource[:linked_agents] << {
           # stashed value for the role
           :role => agent['_role'] || 'subject',
@@ -93,14 +103,15 @@ module MarcXMLBaseMap
             :name_order => 'direct',
             :source => 'ingest'
           }
-        }
+        },
       }
     }
   end
 
 
-  def name_person_map
+  def name_person_map(primary = false, authorized = false)
     {
+      "//controlfield[@tag='001']" => sets_authority_properties(primary, authorized),
       "subfield[@code='a']" => sets_primary_and_rest_of_name,
       "subfield[@code='b']" => :number,
       "subfield[@code='c']" => :title,
@@ -133,7 +144,7 @@ module MarcXMLBaseMap
         "self::datafield" => {
           :obj => :name_person,
           :rel => :names,
-          :map => name_person_map
+          :map => name_person_map(true, true)
         },
         "//datafield[@tag='400'][@ind1='0' or @ind1='1']" => {
           :obj => :name_person,
@@ -149,8 +160,9 @@ module MarcXMLBaseMap
   end
 
 
-  def name_family_map
+  def name_family_map(primary = false, authorized = false)
     {
+      "//controlfield[@tag='001']" => sets_authority_properties(primary, authorized),
       "subfield[@code='a']" => :family_name,
       "subfield[@code='c']" => :qualifier,
       "subfield[@code='d']" => :dates,
@@ -173,7 +185,7 @@ module MarcXMLBaseMap
         "self::datafield" => {
           :obj => :name_family,
           :rel => :names,
-          :map => name_family_map,
+          :map => name_family_map(true, true),
         },
         "//datafield[@tag='400'][@ind1='3']" => {
           :obj => :name_family,
@@ -189,8 +201,9 @@ module MarcXMLBaseMap
   end
 
 
-  def name_corp_map
+  def name_corp_map(primary = false, authorized = false)
     {
+      "//controlfield[@tag='001']" => sets_authority_properties(primary, authorized),
       "subfield[@code='a']" => :primary_name,
       "subfield[@code='b'][1]" => :subordinate_name_1,
       "subfield[@code='b'][2]" => :subordinate_name_2,
@@ -222,7 +235,7 @@ module MarcXMLBaseMap
         "self::datafield" => {
           :obj => :name_corporate_entity,
           :rel => :names,
-          :map => name_corp_map,
+          :map => name_corp_map(true, true),
         },
         "//datafield[@tag='410']" => {
           :obj => :name_corporate_entity,
@@ -384,6 +397,23 @@ module MarcXMLBaseMap
     }
   end
 
+
+  def sets_authority_properties(primary = false, authorized = false, type = :name)
+    -> auth, node {
+      if record_properties[:type] == :authority
+        authority_id = primary ? node.inner_text : nil
+        auth['authority_id'] = authority_id
+        if authorized
+          auth['authorized']      = true
+          auth['is_display_name'] = true
+        end
+        if type == :name
+          auth['rules']  = ['b', 'c', 'd'].include?(record_properties[:rules]) ? 'aacr' : nil
+          auth['source'] = (record_properties[:source] == 'a' ? 'naf' : 'ingest')
+        end
+      end
+    }
+  end
 
   def sets_primary_and_rest_of_name
     -> name, node {
@@ -558,7 +588,7 @@ module MarcXMLBaseMap
         #LEADER
         "//leader" =>  -> resource, node { 
           values = node.inner_text.strip
-          set_record_type values[6]
+          set_record_properties values[6]
 
           if resource.respond_to?(:level)
             resource.level = "item" if  values[7] == 'm'  
@@ -568,7 +598,7 @@ module MarcXMLBaseMap
         #CONTROLFIELD
         "//controlfield[@tag='008']" => -> resource, node {
           control = node.inner_text.strip
-          set_record_type nil, control[11]
+          set_record_properties nil, control[11], control[10]
           resource.language = control[35..37]
 
           if %w(i k s).include?(control[6])
@@ -968,7 +998,7 @@ module MarcXMLBaseMap
         "datafield[@tag='611']" => mix(corp_template, agent_as_subject, corp_variation),
 
         #SUBJECTS
-        "datafield[@tag='630' or @tag='130' or @tag='430']" => subject_template(
+        "datafield[@tag='630' or @tag='130']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
                                                                                   terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
@@ -983,9 +1013,9 @@ module MarcXMLBaseMap
                                                                                   end
                                                                                   terms
                                                                                 },
-                                                                                sets_subject_source),
+                                                                                sets_subject_source, '430'),
 
-        "datafield[@tag='650' or @tag='150' or @tag='450']" => subject_template(
+        "datafield[@tag='650' or @tag='150']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
                                                                                   node.xpath("subfield").each do |sf|
@@ -1003,9 +1033,9 @@ module MarcXMLBaseMap
                                                                                   end
                                                                                   terms
                                                                                 },
-                                                                                sets_subject_source),
+                                                                                sets_subject_source, '450'),
 
-        "datafield[@tag='651' or @tag='151' or @tag='451']" => subject_template(
+        "datafield[@tag='651' or @tag='151']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
                                                                                   node.xpath("subfield").each do |sf|
@@ -1020,9 +1050,9 @@ module MarcXMLBaseMap
                                                                                   end
                                                                                   terms
                                                                                 },
-                                                                                sets_subject_source),
+                                                                                sets_subject_source, '451'),
 
-        "datafield[@tag='655' or @tag='155' or @tag = '455']" => subject_template(
+        "datafield[@tag='655' or @tag='155']" => subject_template(
                                                                                   -> node {
                                                                                     terms = []
                                                                                     # FIXME: subfield `c` not handled
@@ -1039,7 +1069,7 @@ module MarcXMLBaseMap
                                                                                     end
                                                                                     terms
                                                                                   },
-                                                                                  sets_subject_source),
+                                                                                  sets_subject_source, '455'),
 
         "datafield[@tag='656']" => subject_template(
                                                     -> node {
