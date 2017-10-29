@@ -1,0 +1,13 @@
+<% define_template "classification-term" do |form, opts = {}|  %>
+  <div id="classification-term-container" class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <% if !opts[:readonly] %>
+        <%= render_aspace_partial :partial => "classification_terms/linker",
+                   :locals => {
+                       :form => form
+                   }
+         %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
