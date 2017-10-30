@@ -1,6 +1,6 @@
 module Searchable
   extend ActiveSupport::Concern
-# also sets up searches, handles search results.  
+# also sets up searches, handles search results.
 # TODO: refactor processing
   ABSTRACT = %w(abstract scopecontent)
 
@@ -85,6 +85,9 @@ module Searchable
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
+      # Solr reserved characters:
+      #   + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
+      query.gsub!(/( [-+!\(\)\{\}\[\]^"~*?:\\\/] | && | \|\|)/x) { |c| "\\" + c }
       query = '*' if query.blank?
       have_query = true
       op = @search[:op][i]
@@ -109,7 +112,7 @@ module Searchable
     }
     raise I18n.t('navbar.error_no_term') unless have_query  # just in case we missed something
 
-   # any  search within results? 
+   # any  search within results?
     @search[:filter_q].each do |v|
       value = v == '' ? '*' : v
       advanced_query_builder.and('keyword', value, 'text', false)
@@ -186,7 +189,7 @@ module Searchable
       @results['facets']['facet_fields'].keys.each do |type|
         facet_hash = strip_facets( @results['facets']['facet_fields'][type],1, hits)
         if facet_hash.present?
-          @facets[type] = facet_hash 
+          @facets[type] = facet_hash
           if type == 'repository'
             @facets['repository'].delete('global')
           end
@@ -200,11 +203,11 @@ module Searchable
     end
 #    q = params.require(:q)
     @page_search = "#{base}#{@facet_filter.get_filter_url_params}#{@search.get_filter_q_params}"
-    
+
     @page_search += "&sort=#{@sort}" if defined?(@sort) && @sort
 
     @filters = @facet_filter.get_filter_hash(@page_search)
-    
+
     @pager = Pager.new(@page_search,@results['this_page'],@results['last_page'])
     @page_title = I18n.t('search_results.page_title', :count => @results['total_hits'])
   end
@@ -236,8 +239,8 @@ module Searchable
       # handle dates
       handle_dates( result['json']) if result['json'].has_key?('dates') && full
       handle_external_docs(result['json']) if full
-      # the info is deeply nested; find & bring it up 
-      if result['_resolved_repository'].kind_of?(Hash) 
+      # the info is deeply nested; find & bring it up
+      if result['_resolved_repository'].kind_of?(Hash)
         rr = result['_resolved_repository'].shift
         if !rr[1][0]['json'].blank?
           result['_resolved_repository']['json'] = JSON.parse( rr[1][0]['json'])
@@ -262,7 +265,7 @@ module Searchable
     end
    results
   end
-  
+
 
   # process notes
   def html_notes(json, full)
@@ -314,8 +317,8 @@ module Searchable
           terms += ' ' + I18n.t('searched-field', :field => field_term)
         end
         unless from_year[i].blank? && to_year[i].blank?
-          terms += ' ' + I18n.t('search_results.filter.from_to', 
-                                :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]), 
+          terms += ' ' + I18n.t('search_results.filter.from_to',
+                                :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]),
                                 :end => (to_year[i].blank? || to_year[i] == '*' ? I18n.t('search_results.filter.year_now') : to_year[i]) )
         end
       end
@@ -340,7 +343,7 @@ module Searchable
   end
 
   private
-  
+
   # creates the html-ized search statement
   def set_search_statement
     rid = defined?(@repo_id) ? @repo_id : nil
@@ -348,7 +351,7 @@ module Searchable
     l = @search[:limit].blank? ? 'all' : @search[:limit]
     type = "<strong> #{I18n.t("search-limits.#{l}")}</strong>"
     type += I18n.t('search_results.in_repository', :name =>  CGI::escapeHTML(get_pretty_facet_value('repository', "/repositories/#{rid}"))) if rid
-    
+
     Rails.logger.debug("TYPE: #{type}")
     condition = " "
     @search[:q].each_with_index do |q,i|
@@ -370,7 +373,7 @@ module Searchable
       condition += '</li>'
       Rails.logger.debug("Condition: #{condition}")
     end
-    @search[:search_statement] = I18n.t('search_results.search_for', :type => type, 
+    @search[:search_statement] = I18n.t('search_results.search_for', :type => type,
                                         :conditions => "<ul class='no-bullets'>#{condition}</ul>")
   end
 
@@ -386,14 +389,13 @@ module Searchable
 
   # have to do this because we don't know the types at the moment
   def process_container_type(in_type)
-    type = '' 
+    type = ''
     if !in_type.blank?
-      type = (in_type == 'unspecified' ?'': in_type)
+      type = (in_type == 'unspecified' ? '': in_type)
 #      type = 'box' if type == 'boxes'
 #      type = type.chomp.chop if type.end_with?('s')
     end
     type
   end
-
 
 end
