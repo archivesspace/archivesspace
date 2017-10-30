@@ -20,7 +20,7 @@
            <% if note_struct['note_text'].length > 500 %>
              <% truncated_note = note_struct['note_text'][0..499] %>
              <% end_index = truncated_note.rindex(' ') || 499 %>
-             <%= strip_tags(truncated_note[0..end_index]) %>
+             <%= strip_tags(truncated_note[0..end_index - 1]) + '...' %>
            <% else %>
 	     <%= note_struct['note_text'].html_safe %>
            <% end %>
