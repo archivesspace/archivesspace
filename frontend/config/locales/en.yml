@@ -526,6 +526,7 @@ en:
         created: "Classification Term <strong>%{classification_term.title}</strong> created"
         created_with_parent: "Classification Term <strong>%{classification_term.title}</strong> created"
         updated: "Classification Term <strong>%{classification_term.title}</strong> updated"
+        updated_with_parent: "Classification Term <strong>%{classification_term.title}</strong> updated"
         deleted: "Classification Term <strong>%{classification_term.title}</strong> deleted"
       section:
         basic_information: Basic Information
