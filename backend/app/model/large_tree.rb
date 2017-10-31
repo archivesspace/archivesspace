@@ -74,8 +74,8 @@ class LargeTree
   def published_filter
     filter = {}
 
-    filter[:publish] = @published_only ? [1] : [NULL, 0, 1]
-    filter[:suppressed] = @published_only ? [0] : [NULL, 0, 1]
+    filter[:publish] = @published_only ? [1] : [0, 1]
+    filter[:suppressed] = @published_only ? [0] : [0, 1]
 
     filter
   end
