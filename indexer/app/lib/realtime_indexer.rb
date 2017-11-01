@@ -1,7 +1,7 @@
 require_relative 'indexer_common'
 require 'net/http'
 
-class RealtimeIndexer < CommonIndexer
+class RealtimeIndexer < IndexerCommon
 
   def initialize(backend_url, should_continue)
     super(backend_url)

@@ -4,6 +4,7 @@ require "aspace_gems"
 ASpaceGems.setup
 
 require ::File.expand_path('../config/environment',  __FILE__)
+require 'multipart_buffer_setter'
 
 module Rack
   class Server
@@ -19,5 +20,5 @@ module Rack
   end
 end
 
-
+use MultipartBufferSetter
 run ArchivesSpace::Application
