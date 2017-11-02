@@ -4,12 +4,12 @@ source "https://rubygems.org"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :test do
-  gem "json", "1.8.6"
+  gem "json", "1.8.0"
   gem 'multi_json', '~> 1.12.1'
   gem 'rubyzip', '1.0.0'
   gem "sinatra", "1.4.7", :require => false
   gem "activesupport", "5.0.1"
-  gem "selenium-webdriver", "= 3.3.0"
+  gem "selenium-webdriver", "= 3.6.0"
   gem "rspec"
   gem "rspec-retry"
   gem "parallel_tests", "~> 2.14.0"
@@ -18,9 +18,9 @@ group :test do
   gem "atomic", '= 1.0.1'
   gem "net-http-persistent", "2.8"
   gem "multipart-post", "1.2.0"
-  gem 'i18n', '0.7.0'
 
   gem "pry"
+  gem "mechanize"
 end
 
 group :development do

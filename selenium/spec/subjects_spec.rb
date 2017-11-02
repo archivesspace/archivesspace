@@ -58,7 +58,7 @@ describe "Subjects" do
     assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} -- really Subject") }
   end
 
-  xit "can reorder the terms and have them maintain order" do
+  it "can reorder the terms and have them maintain order" do
     @driver.get($frontend)
 
     first = "first_#{SecureRandom.hex}"
@@ -138,7 +138,8 @@ describe "Subjects" do
     @driver.find_element(:link => 'Browse').click
     @driver.click_and_wait_until_gone(:link => 'Subjects')
 
-    @driver.find_element(:link => "Download CSV").click
+    el = @driver.find_element(:link => "Download CSV")
+    @driver.download_file( el )
     sleep(1)
     assert(5) { Dir.glob(File.join( Dir.tmpdir,"*.csv" )).length.should eq(1) } 
     assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)  }  

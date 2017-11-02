@@ -207,10 +207,7 @@ describe "Accessions" do
     @driver.find_element(:id => "accession_linked_agents__0__role_").select_option("subject")
 
     token_input = @driver.find_element(:id, "token-input-accession_linked_agents__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys("Subject Agent")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, "Subject Agent" ) 
 
     @driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
     @driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
@@ -425,6 +422,7 @@ describe "Accessions" do
 
     # save changes
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
+    run_index_round
 
     sleep(10)
     # check the show page
@@ -493,10 +491,7 @@ describe "Accessions" do
     @driver.find_element(:class, "related-accession-type").select_option('accession_parts_relationship')
 
     token_input = @driver.find_element(:id, "token-input-accession_related_accessions__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@other_accession.title)
-    @driver.find_element(:css =>  "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @other_accession.title )
 
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 

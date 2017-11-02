@@ -106,10 +106,11 @@ describe "Collection Management" do
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
     @driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession")
+    expect {
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/unit Estimate - Must be a number with no more than nine digits and five decimal places\./, false, true)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./, false, true)
+    }.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
 
-    @driver.find_element(:css => '#accession_collection_management_ .subrecord-form-remove').click
-    @driver.find_element(:css => '#accession_collection_management_ .confirm-removal').click
-    @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
   end
 end

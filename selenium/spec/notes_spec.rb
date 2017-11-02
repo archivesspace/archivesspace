@@ -86,6 +86,7 @@ describe "Notes" do
     # Add a sub note
     notes[0].find_element(:css => '.collapse-subrecord-toggle').click
     assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
+    @driver.scroll_into_view(notes[0].find_last_element(:css => 'select.multipart-note-type'))
     notes[0].find_last_element(:css => 'select.multipart-note-type').select_option('note_chronology')
 
     @driver.find_element(:id => 'resource_notes__0__subnotes__2__title_')
