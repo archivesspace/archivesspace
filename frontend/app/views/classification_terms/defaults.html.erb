@@ -1,10 +1,10 @@
-<%= setup_context :object => @classification_term, :type => :classification, :title => I18n.t("actions.defaults") %>
+<%= setup_context :object => @classification_term, :type => :classification_term, :title => I18n.t("actions.defaults") %>
 
-<%= form_for @classification_term, :as => "classification", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_form"} do |f| %>
+<%= form_for @classification_term, :as => "classification_term", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_term_form"} do |f| %>
   <%= form_context :classification_term, @classification_term do |form| %>
     <div class="row">
        <div class="col-md-3">
-          <%= render_aspace_partial :partial => "classification_terms/sidebar" %>
+          <%= render_aspace_partial :partial => "sidebar" %>
        </div> <!-- col-md-3 -->
        <div class="col-md-9">
          <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
@@ -13,7 +13,7 @@
            <%= render_aspace_partial :partial => "classification_terms/form_container", :locals => {:form => form} %>
 
            <div class="form-actions">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("classification._singular") %></button>
+              <button type="submit" class="btn btn-primary"><%= I18n.t("actions.save_prefix") %> <%= I18n.t("classification_term._singular") %></button>
               <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
            </div>
          </div>

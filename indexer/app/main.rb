@@ -100,8 +100,8 @@ class ArchivesSpaceIndexer < Sinatra::Base
   end
 
   get "/" do
-    if CommonIndexer.paused?
-      "Indexers paused until #{CommonIndexer.class_variable_get(:@@paused_until)}"
+    if IndexerCommon.paused?
+      "Indexers paused until #{IndexerCommon.class_variable_get(:@@paused_until)}"
     else
       "Running every #{AppConfig[:solr_indexing_frequency_seconds].to_i} seconds. "
     end
@@ -111,8 +111,8 @@ class ArchivesSpaceIndexer < Sinatra::Base
   # without bogging down the server
   put "/" do
     duration = params[:duration].nil? ? 900 : params[:duration].to_i
-    CommonIndexer.pause duration  
-    "#{CommonIndexer.class_variable_get(:@@paused_until)}"
+    IndexerCommon.pause duration  
+    "#{IndexerCommon.class_variable_get(:@@paused_until)}"
   end
 
 

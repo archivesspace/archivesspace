@@ -19,18 +19,6 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-class MultipartBufferSize
-
-  def initialize(app)
-    @app = app
-  end
-
-  def call(env)
-    env.merge!(Rack::RACK_MULTIPART_BUFFER_SIZE => 1 * 1024 * 1024)
-    @app.call(env)
-  end
-end
-
 module ArchivesSpace
 
   class Application < Rails::Application
@@ -38,11 +26,6 @@ module ArchivesSpace
     def self.extend_aspace_routes(routes_file)
       ArchivesSpace::Application.config.paths['config/routes.rb'].concat([routes_file])
     end
-
-    # https://github.com/rack/rack/issues/1075
-    config.middleware.insert_before Rack::Runtime, MultipartBufferSize
-
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

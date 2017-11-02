@@ -11,8 +11,8 @@
        </div>
        <% end %>
 
-       <% note_struct = result.note('abstract') 
-	  if note_struct.blank? 
+       <% note_struct = result.note('abstract')
+	  if note_struct.blank?
 	    note_struct = result.note('scopecontent')
           end
 	  if !note_struct['note_text'].blank? %>
@@ -20,7 +20,7 @@
            <% if note_struct['note_text'].length > 500 %>
              <% truncated_note = note_struct['note_text'][0..499] %>
              <% end_index = truncated_note.rindex(' ') || 499 %>
-  	     <%= truncated_note[0..end_index].html_safe %> ...
+             <%= strip_tags(truncated_note[0..end_index - 1]) + '...' %>
            <% else %>
 	     <%= note_struct['note_text'].html_safe %>
            <% end %>
@@ -45,7 +45,7 @@
         <span  class="repo_name">
           <%= link_to result.resolved_repository.fetch('name'), app_prefix(result.resolved_repository.fetch('uri')) %>
         </span>
- 
+
         <% if result.respond_to?(:ancestors) && result.ancestors %>
           <% result.ancestors.each do |ancestor| %>
             /
@@ -55,7 +55,7 @@
           <% end %>
         <% else %>
           <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
-            / 
+            /
             <span class="resource_name">
               <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
             </span>

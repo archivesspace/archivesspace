@@ -1,0 +1,65 @@
+<%
+  # Allow multiple subjects to be linked if it's an empty linker
+  multiplicity = "many" if multiplicity.blank?
+
+  if form.obj['ref'].blank?
+    selected_json = (multiplicity === "many") ? "[]" : "{}"
+  else
+    multiplicity = "one"
+    selected_json = form.obj['_resolved'].to_json
+  end
+
+  data_path = form.path
+  data_name = "ref" # De-referenced by the controller if the schema def calls for an item array
+
+  exclude_ids = [] if exclude_ids.blank?
+  hide_create = false if hide_create.blank?
+
+  if !defined?(linker_label)
+    linker_label = (multiplicity === "many") ? I18n.t("classification_term._plural") : I18n.t("classification_term._singular")
+  end
+
+%>
+<div class="form-group required">
+   <label class="control-label col-sm-2"><%= linker_label %></label>
+   <div class="controls col-sm-8">
+       <div class="input-group linker-wrapper">
+          <input type="text" class="linker"
+            id="<%= form.id_for("ref") %>"
+            data-label="<%= I18n.t("classification_term._singular") %>"
+            data-label_plural="<%= I18n.t("classification_term._plural") %>"
+            data-path="<%= form.path %>"
+            data-name="ref"
+            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
+            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.RESOURCE_FACETS, :exclude => exclude_ids %>"
+            data-selected="<%= selected_json %>"
+            data-format_property="title"
+            data-multiplicity="<%= multiplicity %>"
+            <% if multiplicity === "many" %>data-sortable="true"<% end %>
+            data-types='["classification", "classification_term"]'
+            data-exclude='<%= exclude_ids.to_json %>'
+          />
+
+          <% if form.obj.has_key?('_resolved') %>
+
+            <input type="text"
+              class='prelinker'
+              name="<%= form.path %>[_resolved]"
+              value="<%= selected_json %>" />
+
+            <input type="text"
+              class='prelinker'
+              name="<%= form.path %>[ref]"
+              value="<%= form.obj["ref"] %>" />
+
+          <% end %>
+
+        <div class="input-group-btn">
+           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+           <ul class="dropdown-menu">
+             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+           </ul>
+         </div>
+       </div>
+   </div>
+</div>

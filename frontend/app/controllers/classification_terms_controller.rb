@@ -70,9 +70,11 @@ class ClassificationTermsController < ApplicationController
 
 
   def show
-    @classification_id = params['classification_id']
-    @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
-    render_aspace_partial :partial => "classification_terms/show_inline" if inline?
+    if params[:inline]
+      @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
+      return render_aspace_partial :partial => "classification_terms/show_inline"
+    end
+      @classification_id = params['classification_id']
   end
 
 

@@ -641,7 +641,7 @@ class EADConverter < Converter
       end
     end
 
-    def get_or_make_top_container(type, indicator, barcode, container_profile_name)
+    def get_or_make_top_container_uri(type, indicator, barcode, container_profile_name)
       # remember the top_containers we make in this hash
       # the values are top_container uris
       # the keys are barcodes or type:indicator
@@ -651,16 +651,16 @@ class EADConverter < Converter
       #   - type:indicator is not unique
       #       but only the last one seen will need to be added to
       #       so it's actually a blessing that prior ones get blatted
-      @top_containers ||= {}
+      @top_container_uris ||= {}
 
       if barcode
-        if (top_container_uri = @top_containers[barcode] || TopContainer.for_barcode(barcode))
-          return top_container_uri
+        if @top_container_uris[barcode]
+          return @top_container_uris[barcode]
+        elsif (TopContainer.for_barcode(barcode) && TopContainer.for_barcode(barcode).uri)
+          return TopContainer.for_barcode(barcode).uri
         end
-      else
-        if (top_container_uri = @top_containers["#{type}:#{indicator}"])
-          return top_container_uri
-        end
+      elsif @top_container_uris["#{type}:#{indicator}"]
+        return @top_container_uris["#{type}:#{indicator}"]
       end
 
       # don't make a container_profile, but link to one if there's a match
@@ -677,9 +677,9 @@ class EADConverter < Converter
       end
 
       if barcode
-        @top_containers[barcode] = context_obj.uri
+        @top_container_uris[barcode] = context_obj.uri
       else
-        @top_containers["#{type}:#{indicator}"] = context_obj.uri
+        @top_container_uris["#{type}:#{indicator}"] = context_obj.uri
       end
 
       context_obj.uri
@@ -737,7 +737,7 @@ class EADConverter < Converter
 
       instance = context_obj
 
-      top_container_uri = get_or_make_top_container(att('type'),
+      top_container_uri = get_or_make_top_container_uri(att('type'),
                                                     format_content(inner_xml),
                                                     barcode,
                                                     att("altrender"))

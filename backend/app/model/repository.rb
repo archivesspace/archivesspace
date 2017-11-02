@@ -58,7 +58,7 @@ class Repository < Sequel::Model(:repository)
                                                  "update_location_profile_record", "view_repository", "manage_subject_record",
                                                  "manage_agent_record", "manage_vocabulary_record", "manage_container_record",
                                                  "manage_container_profile_record", "manage_location_profile_record", "import_records",
-                                                 "update_assessment_record", "delete_assessment_record"]
+                                                 "update_assessment_record", "delete_assessment_record", "create_job", "cancel_job"]
                        },
                        {
                          :group_code => "repository-project-managers",
@@ -109,7 +109,7 @@ class Repository < Sequel::Model(:repository)
 
 
   def delete
-   
+
     # this is very expensive...probably need to come up with something
     # better...
     [ Classification, Event, Resource, DigitalObject, Accession ].each do |klass|

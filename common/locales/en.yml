@@ -1382,6 +1382,7 @@ en:
       delete_classification_record: delete classifications and classification terms
       merge_agents_and_subjects: merge agent/subject records
       merge_archival_record: merge the major record types in this repository
+      manage_rde_templates: manage RDE templates
       transfer_repository: transfer the entire contents of a repository
       transfer_archival_record: transfer major record types between repositories
       manage_subject_record: create/update/delete subject records
@@ -1568,6 +1569,9 @@ en:
     country: Country
     country_tooltip: |
         <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
+    description: Description
+    description_tooltip: |
+        <p>An about section or descriptive summary for the repository.</p>
     post_code: Postal Code
     telephone: Telephone
     telephone_ext: Extension
@@ -1845,6 +1849,7 @@ en:
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
+    subject_must_be_unique: Subject records cannot be identical
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -1890,6 +1895,8 @@ en:
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
     location_profile_name_not_unique: Location Profile name must be unique
     must_be_a_positive_integer: Must be a positive integer
+    must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
+    short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
 
   job:
     _singular: Background Job
