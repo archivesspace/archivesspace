@@ -31,7 +31,7 @@ gem "oai", "0.4.0"
 group :test do
   gem "factory_girl"
   gem "activesupport", "5.0.1"  # Loaded by factory_girl
-  gem "rspec"
+  gem 'rspec', "~> 3.6.0"
   gem "rspec-core"
   gem "ladle", "0.2.0"
   gem "simplecov", "0.7.1"
