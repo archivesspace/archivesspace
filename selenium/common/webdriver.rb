@@ -387,8 +387,8 @@ module Selenium
       end
 
       # adds to an input and selects a the first value provided by a typeahead 
-      def typeahead_and_select(token_input, value, retries = 10 )
-        raise Selenium::WebDriver::Error::NoSuchElementError if retries == 0
+      def typeahead_and_select(token_input, value, try = 0 )
+        raise Selenium::WebDriver::Error::NoSuchElementError if try == 10
         token_input.clear
         # token_input.click
         token_input.send_keys(value)
@@ -397,11 +397,11 @@ module Selenium
             wait_for_dropdown 
             find_element_orig(:css, "li.token-input-dropdown-item2").click
           rescue Selenium::WebDriver::Error::NoSuchElementError => e
-            sleep 1
-            case retries -= 1
+            sleep try
+            case try += 1
             when 5 #corny but sometimes the ajax hangs. let re-enter and see if retrigger helps
-              typeahead_and_select(token_input, value, retries )
-            when 1..4, 6..10
+              typeahead_and_select(token_input, value, try )
+            when 0..10
               retry
             else
               raise e
