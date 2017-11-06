@@ -78,6 +78,7 @@ describe "Events" do
   end
 
   it "creates an event and links it to an agent and accession" do
+    run_index_round
     @driver.find_element(:link, "Create").click
     @driver.click_and_wait_until_gone(:link, "Event")
     @driver.find_element(:id, "event_event_type_").select_option('virus_check')

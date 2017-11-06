@@ -120,7 +120,7 @@ module Selenium
       def wait_for_dropdown
         # Tried EVERYTHING to avoid needing this sleep.  Buest guess at the moment:
         # JS hasn't been wired up to the click event and we get in too quickly.
-        sleep 0.5
+        sleep 1
       end
 
       def wait_for_ajax
@@ -383,11 +383,12 @@ module Selenium
         find_elements(:css, "input" ).each do |input|
           return input if ( input.attribute("name") == name )
         end
-        raise Selenium::WebDriver::Error::NoSuchElementError
+        raise Selenium::WebDriver::Error::NoSuchElementError 
       end
 
-      # adds to an input and selects a type ahead
+      # adds to an input and selects a the first value provided by a typeahead 
       def typeahead_and_select(token_input, value, retries = 10 )
+        raise Selenium::WebDriver::Error::NoSuchElementError if retries == 0
         token_input.clear
         # token_input.click
         token_input.send_keys(value)
@@ -397,10 +398,17 @@ module Selenium
             find_element_orig(:css, "li.token-input-dropdown-item2").click
           rescue Selenium::WebDriver::Error::NoSuchElementError => e
             sleep 1
-            retry if ( retries -= 1 ) > 0
-            raise e
+            case retries -= 1
+            when 5 #corny but sometimes the ajax hangs. let re-enter and see if retrigger helps
+              typeahead_and_select(token_input, value, retries )
+            when 1..4, 6..10
+              retry
+            else
+              raise e
+            end
           end
-        else # for whatever reason, the input didn't get put in correctly, so let's try again
+        else # for whatever reason, the input didn't get put in correctly. so let's try again
+          $stderr.puts "Input did not have value #{value}, found value #{token_input['value']}. trying to enter input again.." 
           typeahead_and_select(token_input, value, retries - 1 )        
         end 
       end
