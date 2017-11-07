@@ -232,6 +232,7 @@ describe "Agents" do
 
     # Add a sub note
     @driver.scroll_into_view(notes[0])  
+    sleep 1 
     i = 0 
     begin 
       notes[0].find_element(:css => '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click 
