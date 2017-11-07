@@ -1,11 +1,11 @@
 <% if layout? %>
 
-<%
-if @report.template == 'generic_listing.erb'
-  # Listing template should be printed as landscape to fit on the page.
-  @report.orientation = 'landscape'
-end
-%>
+<% if @report.template == 'generic_listing.erb' %>
+  <!-- Listing template should be printed as landscape to fit on the page. -->
+  <% orientation = 'landscape' %>
+<% else %>
+  <% orientation = @report.orientation %>
+<% end %>
 
 <!DOCTYPE html>
 <html>
@@ -156,7 +156,7 @@ end
       }
 
       @page {
-        size: <%= @report.layout %> <%= @report.orientation %>;
+        size: <%= @report.layout %> <%= orientation %>;
         -fs-flow-bottom: "footer";
       }
 
