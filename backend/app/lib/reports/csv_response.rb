@@ -9,7 +9,7 @@ class CSVResponse
   end
 
   def generate
-    return @report.to_csv if @report.respond_to?(:to_csv)
+    return @report.to_csv if @report.template.include? 'assessment'
 
     doc = config_report
     if @report.template.include? 'generic_listing'
