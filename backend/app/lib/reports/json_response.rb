@@ -1,3 +1,4 @@
+
 class JSONResponse
 
   def initialize(report, params = {} )
@@ -6,9 +7,10 @@ class JSONResponse
   end
 
   def generate
-    return @report.to_json if @report.respond_to?(:to_json)
+    return @report.to_json if @report.template.include? 'assessment'
 
     doc = config_report
+
     if @report.template.include? 'generic_listing'
       generic_report_parsing(doc)
     else
@@ -25,6 +27,7 @@ class JSONResponse
   def generic_report_parsing(doc)
     output = []
     keys = []
+
     doc.search('table[@class="report-listing"]').each do |rec|
       keys = rec.at('thead').search('tr').search('th').map { |th_text| th_text.text }
       if keys.empty?
