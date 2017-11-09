@@ -174,6 +174,8 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/new' => 'agents#new', :via => [:get]
     match 'agents/:agent_type/defaults' => 'agents#defaults', :via => [:get]
     match 'agents/:agent_type/defaults' => 'agents#update_defaults', :via => [:post]
+    match 'agents/:agent_type/required' => 'agents#required', :via => [:get]
+    match 'agents/:agent_type/required' => 'agents#update_required', :via => [:post]
     match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
     match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
     match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]

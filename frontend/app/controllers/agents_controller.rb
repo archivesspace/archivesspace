@@ -3,7 +3,7 @@ class AgentsController < ApplicationController
   set_access_control  "view_repository" => [:index, :show],
                       "update_agent_record" => [:new, :edit, :create, :update, :merge],
                       "delete_agent_record" => [:delete],
-                      "manage_repository" => [:defaults, :update_defaults]
+                      "manage_repository" => [:defaults, :update_defaults, :required, :update_required]
 
 
   before_action :assign_types
@@ -126,6 +126,17 @@ class AgentsController < ApplicationController
     end
   end
 
+  def required
+    @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
+    render 'required'
+
+  end
+
+  def update_required
+    begin
+      redirect_to :controller => :agents, :action => :required
+    end
+  end
 
 
   def merge

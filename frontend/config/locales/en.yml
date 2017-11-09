@@ -19,6 +19,8 @@ en:
     edit_groups: Edit Groups
     edit_default_values: Edit Default Values
     edit_default_archival_object_values: Edit Component Defaults
+    edit_required_fields: Edit Required Fields
+    required: Required Fields
     export: Export
     view: View
     spawn: Spawn
@@ -393,6 +395,10 @@ en:
       classification_term: Classification Term Defaults
     messages:
       defaults_updated: Defaults Updated
+
+  required_fields:
+    form_title:
+      agent_person: Agent Record Required Fields (Person)
 
   tree:
     drag_and_drop_actions:
