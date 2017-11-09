@@ -8,8 +8,7 @@ describe 'DigitalObjectComponent model' do
     bib_note = build(:json_note_bibliography)
     do_note = build(:json_note_digital_object)
     doc.notes = [bib_note, do_note]
-
-    DigitalObjectComponent[doc.id].title.should eq("Digital Object Component Title: 1")
+    DigitalObjectComponent[doc.id].title.should eq(doc.title)
   end
 
 end
