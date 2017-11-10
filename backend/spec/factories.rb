@@ -370,6 +370,14 @@ FactoryGirl.define do
     dates { few_or_none(:json_date) }
   end
 
+  factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    position { rand(0..10) }
+    has_unpublished_ancestor { rand(2) == 0 }
+  end
+
   factory :json_digital_object_component_pub_ancestor, class: JSONModel(:digital_object_component) do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
