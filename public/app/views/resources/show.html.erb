@@ -18,13 +18,12 @@
 <div class="row" id="tabs">
   <div class="col-sm-9 text-center tabbing navbar navbar-default">
     <ul class="tabbing nav nav-pills">
-      <li><a class="active" href="#"><%= t('actions.collection_overview') %></a></li><li <% unless @has_children %>class="disabled"<% end %>>
-      <a <% if @has_children %> href="<%= url_for(:action => :infinite) %>" <% end %>><%= t('actions.hierarch') %></a></li>
-      <% unless AppConfig[:pui_hide][:container_inventory] %>
-        <li <% unless @has_containers %>class="disabled"<% end %>>
-          <a <% if @has_containers %> href="<%= url_for(:action => :inventory) %>" <% end %>><%= t('actions.numeric') %></a>
-        </li>
-      <% end %>
+      <%= render partial: 'resources/resource_tab', locals: {:action => :show, :text => t('actions.collection_overview'),
+                                                             :enabled => true, :hidden => false } %>
+      <%= render partial: 'resources/resource_tab', locals: {:action => :infinite, :text => t('actions.hierarch'),
+                                                             :enabled => @has_children, :hidden => false } %>
+      <%= render partial: 'resources/resource_tab', locals: {:action => :inventory, :text => t('actions.numeric'),
+                                                             :enabled => @has_containers, :hidden => AppConfig[:pui_hide][:container_inventory] } %>
     </ul>
   </div>
 </div>
