@@ -15,18 +15,9 @@
 <div class="row">
     <%= render partial: 'shared/breadcrumbs' %>
 </div>
-<div class="row" id="tabs">
-  <div class="col-sm-9 text-center tabbing navbar navbar-default">
-    <ul class="tabbing nav nav-pills">
-      <%= render partial: 'resources/resource_tab', locals: {:action => :show, :text => t('actions.collection_overview'),
-                                                             :enabled => true, :hidden => false } %>
-      <%= render partial: 'resources/resource_tab', locals: {:action => :infinite, :text => t('actions.hierarch'),
-                                                             :enabled => @has_children, :hidden => false } %>
-      <%= render partial: 'resources/resource_tab', locals: {:action => :inventory, :text => t('actions.numeric'),
-                                                             :enabled => @has_containers, :hidden => AppConfig[:pui_hide][:container_inventory] } %>
-    </ul>
-  </div>
-</div>
+
+<%= render partial: 'resources/resource_alltabs' %>
+
 <div class="row" id="notes_row">
   <div class="col-sm-9">
     <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
