@@ -860,7 +860,6 @@ en:
     portion: Portion
     portion_tooltip: |
         <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
-        <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
         <p>See DACS 2.5.7</p>
     number: Number
     number_tooltip: |
