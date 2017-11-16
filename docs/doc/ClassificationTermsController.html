@@ -361,12 +361,12 @@
       <pre class="lines">
 
 
-79
-80
-81</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 81</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_accept_children identifier id'>accept_children</span>
   <span class='rubyid_handle_accept_children identifier id'>handle_accept_children</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -457,8 +457,6 @@
       <pre class="lines">
 
 
-95
-96
 97
 98
 99
@@ -466,10 +464,12 @@
 101
 102
 103
-104</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;classification_term&#39;</span>
@@ -502,18 +502,18 @@
       <pre class="lines">
 
 
-84
-85
 86
 87
 88
 89
 90
 91
-92</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_classification_term identifier id'>classification_term</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -633,15 +633,19 @@
 73
 74
 75
-76</pre>
+76
+77
+78</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
-  <span class='rubyid_@classification_id ivar id'>@classification_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;classification_id&#39;</span><span class='rbrack token'>]</span>
-  <span class='rubyid_@classification_term ivar id'>@classification_term</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
-  <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;classification_terms/show_inline&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inline? fid id'>inline?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@classification_term ivar id'>@classification_term</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:classification_term</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span> <span class='symbol val'>:partial</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;classification_terms/show_inline&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_@classification_id ivar id'>@classification_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;classification_id&#39;</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -725,8 +729,6 @@
       <pre class="lines">
 
 
-106
-107
 108
 109
 110
@@ -742,10 +744,12 @@
 120
 121
 122
-123</pre>
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/classification_terms_controller.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_defaults identifier id'>update_defaults</span>
 
@@ -776,7 +780,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.2.0 Documentation Generated on Thu Oct 12 10:33:15 2017 by
+  ArchivesSpace Version v2.2.1 Documentation Generated on Thu Nov 16 12:34:10 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
