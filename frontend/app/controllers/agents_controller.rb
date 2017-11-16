@@ -127,13 +127,31 @@ class AgentsController < ApplicationController
   end
 
   def required
+    required = RequiredFields.get params['agent_type']
+
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
+
+    @agent.update(required.form_values) if required
+
     render 'required'
 
   end
 
   def update_required
     begin
+
+      RequiredFields.from_hash({
+                                "record_type" => @agent_type.to_s,
+                                "lock_version" => params['agent'].delete('lock_version'),
+                                "required" => cleanup_params_for_schema(
+                                                                        params['agent'],
+                                                                        JSONModel(@agent_type).schema)
+                              }).save
+
+      flash[:success] = I18n.t("required_fields.messages.required_fields_updated")
+      redirect_to :controller => :agents, :action => :required
+    rescue Exception => e
+      flash[:error] = e.message
       redirect_to :controller => :agents, :action => :required
     end
   end

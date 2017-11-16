@@ -399,6 +399,11 @@ en:
   required_fields:
     form_title:
       agent_person: Agent Record Required Fields (Person)
+      agent_family: Agent Record Required Fields (Family)
+      agent_corporate_entity: Agent Record Required Fields (Corporate Entity)
+      agent_software: Agent Record Required Fields (Software)
+    messages:
+      required_fields_updated: Required Fields Updated
 
   tree:
     drag_and_drop_actions:
