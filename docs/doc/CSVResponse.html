@@ -352,7 +352,7 @@
       <pre class="code"><span class="info file"># File 'backend/app/lib/reports/csv_response.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate identifier id'>generate</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_to_csv identifier id'>to_csv</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:to_csv</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_to_csv identifier id'>to_csv</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='string val'>&#39;assessment&#39;</span>
 
   <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_config_report identifier id'>config_report</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@report ivar id'>@report</span><span class='dot token'>.</span><span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='string val'>&#39;generic_listing&#39;</span>
@@ -572,7 +572,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.2.0 Documentation Generated on Thu Oct 12 10:33:08 2017 by
+  ArchivesSpace Version v2.2.1 Documentation Generated on Thu Nov 16 12:34:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>
