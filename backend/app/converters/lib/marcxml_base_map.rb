@@ -50,6 +50,9 @@ module MarcXMLBaseMap
           subject.source = getsrc.call(node)
           subject.vocabulary = '/vocabularies/1'
         },
+        "//datafield[@tag='680']" => -> subject, node {
+          subject.scope_note = concatenate_subfields(['a', 'i'], node, ' ', true)
+        }
         # skip handling variant (4XX) headings until subject / term data model
         # supports authorized / unauthorized and multiple headings per subject
         # these just pollute the database as is
@@ -547,13 +550,19 @@ module MarcXMLBaseMap
   end
 
   # codearray - any enumerable yielding letter / number codes
-  def concatenate_subfields(codearray, node, delim=' ')
+  def concatenate_subfields(codearray, node, delim=' ', subfield_order = false)
     result = ""
-    codearray.each do |code|
-      val = node.xpath("subfield[@code='#{code}']").inner_text
-      unless val.empty?
-        result += delim unless result.empty?
-        result += val
+    if subfield_order
+      result = node.children.map do |subfield|
+        codearray.include?(subfield[:code]) ? subfield.inner_text : ''
+      end.join(delim)
+    else
+      codearray.each do |code|
+        val = node.xpath("subfield[@code='#{code}']").inner_text
+        unless val.empty?
+          result += delim unless result.empty?
+          result += val
+        end
       end
     end
 
@@ -1001,7 +1010,7 @@ module MarcXMLBaseMap
         "datafield[@tag='630' or @tag='130']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
-                                                                                  terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
+                                                                                  terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' ', true))
                                                                                   node.xpath("subfield").each do |sf|
                                                                                     terms << make_term(
                                                                                                        {

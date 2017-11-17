@@ -396,6 +396,7 @@ END
       subject['publish'].should be_truthy
       subject['authority_id'].should eq('no2006087900')
       subject['source'].should eq("Library of Congress Subject Headings")
+      subject['scope_note'].should eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
       subject['terms'].count.should eq(1)
       subject['terms'][0]['term'].should eq('Cyberpunk')
     end

@@ -46,4 +46,10 @@
     <marcxml:subfield code="a">Creation Books site via WWW, Aug. 22, 2006</marcxml:subfield>
     <marcxml:subfield code="b">(series: Cyberpunk)</marcxml:subfield>
   </marcxml:datafield>
+      <marcxml:datafield tag="680" ind1=" " ind2=" ">
+    <marcxml:subfield code="i">Works on cyberpunk in the genre</marcxml:subfield>
+    <marcxml:subfield code="a">Science Fiction.</marcxml:subfield>
+    <marcxml:subfield code="i">May be combined with geographic name in the form</marcxml:subfield>
+    <marcxml:subfield code="a">Cyberpunk fiction-Japan.</marcxml:subfield>
+  </marcxml:datafield>
     </marcxml:record>
