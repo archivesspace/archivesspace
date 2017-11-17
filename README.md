@@ -595,7 +595,6 @@ ARKs have not yet been implemented, pending more discussion of how they should b
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
-
 # Monitoring with New Relic
 
 [Configuring ArchivesSpace to integrate with New Relic](https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md)
