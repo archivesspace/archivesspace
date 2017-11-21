@@ -4,13 +4,13 @@ source "https://rubygems.org"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :test do
-  gem "json", "1.8.0"
+  gem "json", "1.8.6"
   gem 'multi_json', '~> 1.12.1'
-  gem 'rubyzip', '1.0.0'
+  gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
   gem "sinatra", "1.4.7", :require => false
   gem "activesupport", "5.0.1"
-  gem "selenium-webdriver", "= 3.3.0"
-  gem "rspec"
+  gem "selenium-webdriver", "= 3.6.0"
+  gem "rspec", "~> 3.6.0"
   gem "rspec-retry"
   gem "parallel_tests", "~> 2.14.0"
   gem "factory_girl"
@@ -30,5 +30,3 @@ group :development do
     instance_eval(File.read(gemfile_local))
   end
 end
-
-
