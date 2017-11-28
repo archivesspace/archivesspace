@@ -69,6 +69,18 @@ class AppConfig
   end
 
 
+  def self.load_overrides_from_environment
+    # Override defaults from the environment
+    ENV.each do |envvar, value|
+      if envvar =~ /^APPCONFIG_/
+        # Convert envvar to property: i.e. turn APPCONFIG_DB_URL into :db_url
+        property = envvar.partition('_').last.downcase.to_sym
+        @@parameters[resolve_alias(property)] = parse_environment_value(value)
+      end
+    end
+  end
+
+
   def self.load_into(obj)
     @@parameters.each do |config, value|
       obj.send(:"#{config}=", value)
@@ -140,6 +152,7 @@ class AppConfig
       load config
     end
 
+    self.load_overrides_from_environment
     self.load_overrides_from_properties
   end
 
@@ -182,6 +195,13 @@ class AppConfig
 
     aliases[alias_parameter] = target_parameter
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
+  end
+
+  def self.parse_environment_value(value)
+    value = true  if value.to_s =~ /^(T|true)$/
+    value = false if value.to_s =~ /^(F|false)$/
+    value = value.to_i if value =~ /^\d+$/
+    value
   end
 
 end
