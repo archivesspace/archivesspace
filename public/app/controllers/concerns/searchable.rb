@@ -85,9 +85,7 @@ module Searchable
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
-      # Solr reserved characters:
-      #   + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
-      query.gsub!(/( [-+!\(\)\{\}\[\]^~*?:\\\/] | && | \|\|)/x) { |c| "\\" + c }
+      query.gsub!(/\[\]/x) { |c| "\\" + c }
       query = '*' if query.blank?
       have_query = true
       op = @search[:op][i]
