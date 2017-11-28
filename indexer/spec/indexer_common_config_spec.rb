@@ -9,7 +9,7 @@ describe "indexer common config" do
   end
   describe "record_types" do
     it "has the correct number of record_types" do
-      expect(@record_types.length).to eq(17)
+      expect(@record_types.length).to eq(18)
     end
     it "has the correct record_types" do
       expect(@record_types).to include(:resource)
@@ -29,6 +29,7 @@ describe "indexer common config" do
       expect(@record_types).to include(:archival_object)
       expect(@record_types).to include(:digital_object_component)
       expect(@record_types).to include(:classification_term)
+      expect(@record_types).to include(:assessment)
     end
     it "does not include any blank values" do
       expect(@record_types).not_to include("")
@@ -52,7 +53,7 @@ describe "indexer common config" do
   end
   describe "resolved_attributes" do
     it "has the correct number of resolved_attributes" do
-      expect(@resolved_attributes.length).to eq(14)
+      expect(@resolved_attributes.length).to eq(19)
     end
     it "has the correct resolved_attributes" do
       expect(@resolved_attributes).to include('location_profile')
@@ -69,6 +70,11 @@ describe "indexer common config" do
       expect(@resolved_attributes).to include('related_agents')
       expect(@resolved_attributes).to include('top_container')
       expect(@resolved_attributes).to include('top_container::container_profile')
+      expect(@resolved_attributes).to include('related_agents')
+      expect(@resolved_attributes).to include('records')
+      expect(@resolved_attributes).to include('collections')
+      expect(@resolved_attributes).to include('surveyed_by')
+      expect(@resolved_attributes).to include('reviewer')
     end
     it "does not include any blank values" do
       expect(@resolved_attributes).not_to include("")
