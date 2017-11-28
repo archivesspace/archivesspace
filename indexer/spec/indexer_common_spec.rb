@@ -60,18 +60,18 @@ describe "indexer common" do
     describe "additional attribute not already on resolved_attributes list" do
       it "adds additional attribute to resolve list" do
         expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).to_not include('test_attr')
-        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(14)
+        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(19)
         IndexerCommon.add_attribute_to_resolve('test_attr')
         expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).to include('test_attr')
-        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(15)
+        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(20)
       end
     end
     describe "additional attribute already on resolved_attributes list" do
       it "does not add additional attribute to resolve list" do
         expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).to include('repository')
-        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(14)
+        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(19)
         IndexerCommon.add_attribute_to_resolve('repository')
-        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(14)
+        expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(19)
       end
     end
   end
@@ -263,11 +263,10 @@ describe "indexer common" do
         rec = {}
         rec['record'] = {}
         rec['record']['junk'] = "Junk"
-        rec['record']['linked_agents'] = {'_resolved': {'display_name': {'sort_name': 'abc'}}}
+        rec['record']['linked_agents'] = [{'ref'=>'example.com','_resolved'=>{'display_name'=>{'sort_name'=>'abc'}}}, {'ref'=>'example2.com','_resolved'=>{'display_name'=>{'sort_name'=>'xyz'}}}]
         doc2 = doc
         @ic.add_agents(doc, rec)
-        puts doc
-        # def add_agents(doc, record)
+        expect(doc['agents']).to eq(['abc','xyz'])
       end
     end
   end
