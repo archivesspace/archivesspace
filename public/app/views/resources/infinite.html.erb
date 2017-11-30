@@ -68,7 +68,9 @@
                           function() {
                               syncer.treeIsReady(tree);
                           },
-                          $.noop);
+                          function(current_node, tree) {
+                            tree.expandNode(current_node);
+                          });
 
 window.tree = tree;
 </script>
