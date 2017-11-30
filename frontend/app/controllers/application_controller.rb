@@ -87,10 +87,22 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
+      
+
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
       else
         obj.update(instance)
+      end
+
+      if opts[:required]
+        required = opts[:required]
+        missing = compare(required, obj)
+        if !missing.nil?
+          missing.each do |field_name|
+            obj.add_error(field_name, "Property is required but was missing")
+          end
+        end
       end
 
       # Make the updated object available to templates
@@ -213,6 +225,29 @@ class ApplicationController < ActionController::Base
 
   def user_needs_to_be_global_admin
     unauthorised_access if not user_is_global_admin?
+  end
+
+  def compare(required, obj)
+    missing = []
+    required.keys.each do |key|
+      if required[key].is_a? Array and obj[key].is_a? Array
+        required[key].zip(obj[key]).each do |required_a, obj_a|
+          required_a.keys.each do |nested_key|
+            if required_a[nested_key].is_a? String
+              if required_a[nested_key] === "1" and obj_a[nested_key] === ""
+                missing << nested_key
+              end
+            end
+          end
+        end
+      end
+      if required[key].is_a? String
+         if required[key] === "1" and obj[key] === ""
+            missing << key
+        end
+      end
+    end
+    missing
   end
 
   helper_method :user_prefs
@@ -607,5 +642,7 @@ class ApplicationController < ActionController::Base
       query
     }
   end
+
+
 
 end

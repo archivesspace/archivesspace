@@ -11,7 +11,7 @@
         <div class="record-pane">
           <%= link_to_help :topic => "#{@agent.agent_type}" %>
           <h2><%= "#{I18n.t("required_fields.form_title.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
-          <%= render_aspace_partial :partial => "agents/form", :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "agents/form_required", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= I18n.t("#{@agent.agent_type}._frontend.action.save") %></button>
