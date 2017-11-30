@@ -32,9 +32,13 @@ class AgentsController < ApplicationController
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
     if user_prefs['default_values']
       defaults = DefaultValues.get @agent_type.to_s
-
       @agent.update(defaults.values) if defaults
     end
+    #render :plain => @agent
+    required = RequiredFields.get @agent_type.to_s
+    #render :plain => required.values
+    @agent.update_concat(required.values) if required
+    #render :plain => @agent
 
     if @agent.names.empty?
       @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
@@ -48,10 +52,14 @@ class AgentsController < ApplicationController
   end
 
   def create
+    required = RequiredFields.get @agent_type.to_s
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
+                :required => required.values,
                 :find_opts => find_opts,
                 :on_invalid => ->(){
+                  required = RequiredFields.get @agent_type.to_s
+                  @agent.update_concat(required.values) if required
                   return render_aspace_partial :partial => "agents/new" if inline?
                   return render :action => :new
                 },

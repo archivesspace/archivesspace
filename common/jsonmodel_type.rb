@@ -288,6 +288,12 @@ class JSONModelType
     replace(ASUtils.deep_merge(@data, params))
   end
 
+  # Update the values of the current JSONModel instance with the contents of
+  # 'params', validating before accepting the update.
+  def update_concat(params)
+    @validated = false
+    replace(ASUtils.deep_merge_concat(@data, params))
+  end
 
   # Replace the values of the current JSONModel instance with the contents
   # of 'params', validating before accepting the replacement.

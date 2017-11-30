@@ -296,6 +296,8 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = nil, opts =  {})
       value ||= obj[name] if !name.nil?
+      value = value[0...-2] if value.is_a? String and value.end_with?("_1")
+      value = nil if value === "1"
 
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
@@ -392,7 +394,7 @@ module AspaceFormHelper
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => 1}
-      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
 
       @forms.tag("input", options.merge(opts), false, false)
     end
@@ -464,6 +466,7 @@ module AspaceFormHelper
       end
 
       control_group_classes << "required" if required == true
+      control_group_classes << "required" if obj[name].is_a? String and obj[name].end_with?("1")
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
@@ -603,8 +606,8 @@ module AspaceFormHelper
 
 
     def required?(name)
-      (jsonmodel_schema_definition(name) &&
-       jsonmodel_schema_definition(name)['ifmissing'] === 'error')
+      ((jsonmodel_schema_definition(name) &&
+       jsonmodel_schema_definition(name)['ifmissing'] === 'error'))
     end
 
 
