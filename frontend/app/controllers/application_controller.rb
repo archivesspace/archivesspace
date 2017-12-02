@@ -231,11 +231,11 @@ class ApplicationController < ActionController::Base
     missing = []
     required.keys.each do |key|
       if required[key].is_a? Array and obj[key].is_a? Array
-        required[key].zip(obj[key]).each do |required_a, obj_a|
+        required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
           required_a.keys.each do |nested_key|
             if required_a[nested_key].is_a? String
               if required_a[nested_key] === "1" and obj_a[nested_key] === ""
-                missing << nested_key
+                missing << "#{key}/#{index}/#{nested_key}"
               end
             end
           end
