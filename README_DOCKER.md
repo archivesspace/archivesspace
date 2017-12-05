@@ -4,7 +4,7 @@ The [Docker](https://www.docker.com/) configuration is used to create [automated
 
 ## Quickstart
 
-Run ArchivesSpace with MySQL:
+Run ArchivesSpace with MySQL and external Solr:
 
 ```
 docker network create aspace
@@ -23,6 +23,13 @@ docker run -d \
   --innodb_buffer_pool_size=2G \
   --innodb_buffer_pool_instances=2
 
+docker run -d \
+  --network=aspace \
+  -p 8983:8983 \
+  --name solr \
+  archivesspace/solr:7.1 \
+  solr-create -p 8983 -c archivesspace -d /archivesspace
+
 VERSION=latest
 docker run --name archivesspace -it \
   --network=aspace \
@@ -32,6 +39,8 @@ docker run --name archivesspace -it \
   -p 8090:8090 \
   -p 8092:8092 \
   -e APPCONFIG_DB_URL='jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123' \
+  -e APPCONFIG_ENABLE_SOLR=false \
+  -e APPCONFIG_SOLR_URL='http://solr:8983/solr/archivesspace' \
   archivesspace/archivesspace:$VERSION
 ```
 
