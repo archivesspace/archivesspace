@@ -9,6 +9,8 @@ require 'action_mailer/railtie'
 require 'asutils'
 require_relative 'initializers/plugins'
 
+require 'aspace_logger'
+
 # Maybe we won't need these?
 
 # DISABLED BY MST # require 'active_record/railtie'
@@ -62,6 +64,19 @@ module ArchivesSpacePublic
 
     # add fonts to the asset path
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    
+    # Logging 
+    config.log_formatter = ::Logger::Formatter.new
+    logger = if AppConfig.changed?(:pui_log) 
+                      ASpaceLogger.new(AppConfig[:pui_log]) 
+                    else 
+                      ASpaceLogger.new($stderr)
+                    end
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+
+    config.log_level = AppConfig[:pui_log_level].intern
 
     # mailer configuration
     if AppConfig[:pui_email_enabled]

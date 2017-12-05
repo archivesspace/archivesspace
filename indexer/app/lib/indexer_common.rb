@@ -71,7 +71,7 @@ class IndexerCommon
         JSONModel::init(:client_mode => true, :url => @backend_url)
         break
       rescue
-        $stderr.puts "Connection to backend failed (#{$!}).  Retrying..."
+        Log.error("Connection to backend failed (#{$!}).  Retrying...")
         sleep(5)
       end
     end
@@ -819,7 +819,7 @@ class IndexerCommon
     req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
-    $stderr.puts "Deleted #{records.length} documents: #{response}"
+    Log.info "Deleted #{records.length} documents: #{response}"
 
     if response.code != '200'
       raise "Error when deleting records: #{response.body}"
@@ -992,7 +992,7 @@ class IndexerCommon
 
     if response.code != '200'
       if response.body =~ /exceeded limit of maxWarmingSearchers/
-        $stderr.puts "INFO: #{response.body}"
+        Log.info "INFO: #{response.body}"
       else
         raise "Error when committing: #{response.body}"
       end
