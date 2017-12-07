@@ -4,6 +4,8 @@ en:
       source: Source
       outcome: Outcome
       transfer: Transfer
+      context: Context
+      requested: Requested
     linked_agent_archival_record_relators:
       abr: Abridger
       act: Actor
@@ -281,6 +283,7 @@ en:
       executing_program: Executing Program
       implementer: Implementer
       recipient: Recipient
+      requester: Requester
       transmitter: Transmitter
       validator: Validator
     name_source:
@@ -377,6 +380,7 @@ en:
       processing_completed: Processing Completed
       publication: Publication
       replication: Replication
+      request: Request
       rights_transferred: Rights Transferred
       validation: Validation
       virus_check: Virus Check
@@ -437,6 +441,9 @@ en:
       pass: Pass
       partial pass: Partial Pass
       fail: Fail
+      cancelled: Cancelled
+      fulfilled: Fulfilled
+      pending: Pending
     agent_contact_salutation:
       mr: Mr.
       mrs: Mrs.
