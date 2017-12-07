@@ -13,15 +13,7 @@
   <%= render partial: 'shared/breadcrumbs' %>
 </div>
 
-<div class="row" id="tabs">
-  <div class="col-sm-9 text-center tabbing navbar navbar-default">
-    <ul class="tabbing nav nav-pills">
-      <li><%= link_to t('actions.collection_overview'), :action => :show %></li>
-      <li><a class='active' href='#'><%= t('actions.hierarch') %></a></li>
-      <li <% unless @has_containers %>class="disabled"<% end %>><a <% if @has_containers %> href="<%= url_for(:action => :inventory) %>"<% end %>><%= t('actions.numeric') %></a></li>
-    </ul>
-  </div>
-</div>
+<%= render partial: 'resources/resource_alltabs' %>
 
 <%= javascript_include_tag 'treesync' %>
 <%= javascript_include_tag 'infinite_scroll' %>
