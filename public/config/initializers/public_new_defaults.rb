@@ -155,3 +155,13 @@ module PublicNewDefaults
   end
 
 end
+
+# config public robots.txt
+if Rails.root.basename.to_s == 'WEB-INF'  # only need to do this when running out of unpacked .war
+  robtxt = ((Pathname.new AppConfig.find_user_config).dirname + 'robots.txt' )
+  dest = Rails.root.dirname
+  if robtxt.exist? && robtxt.file?  && dest.directory? && dest.writable?
+    p "*********    #{robtxt} exists: copying to #{dest} ****** "
+    FileUtils.cp( robtxt, dest, :verbose => true  )
+  end
+end
