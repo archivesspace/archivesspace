@@ -781,7 +781,7 @@ en:
     levels: Levels
 
   instance: &instance_attributes
-    is_representative: Is Representative? 
+    is_representative: Is Representative?
     instance_type: Type
     instance_type_tooltip: |
         <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
@@ -940,7 +940,7 @@ en:
     status: Status
     status_tooltip: |
         <p>A coded designation for the copyright status of the object at the time the rights statement is recorded.</p>
-        <ul> 
+        <ul>
           <li>Copyrighted = Under copyright.</li>
           <li>Public domain = In the public domain.</li>
           <li>Unknown = Copyright status of the resource is unknown</li>
@@ -1842,7 +1842,6 @@ en:
     formats:
       json: JSON
       csv: CSV
-      xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
 
@@ -1902,7 +1901,7 @@ en:
     _plural: Background Jobs
     job_type: Job Type
     types:
-      print_to_pdf_job: Print To PDF 
+      print_to_pdf_job: Print To PDF
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
       report_job: Reports
@@ -1960,7 +1959,7 @@ en:
       creators: Creator
       notes: Notes
       subjects: Subject
-      identifier: Identifier 
+      identifier: Identifier
     boolean:
       published: Published?
       suppressed: Suppressed?
@@ -2105,7 +2104,7 @@ en:
       "Physical Access (arrangement)": Physical Access (arrangement)
       "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
       "Intellectual Access (description)": Intellectual Access (description)
-      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p> 
+      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p>
       "Interest": Interest
       "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
       "Documentation Quality": Documentation Quality
