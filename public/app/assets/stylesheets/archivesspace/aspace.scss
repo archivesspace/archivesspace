@@ -20,7 +20,7 @@ a {
     height: rem-calc(90);
     margin-left: 0;
     margin-right: 0;
-    padding-left: rem-calc(60);
+    padding-left: rem-calc(30);
     padding-right: rem-calc(40);
     border-bottom: rem-calc(4) solid $primary-color;
     width: 100%;
@@ -34,10 +34,23 @@ a {
   }
 }
 
+#content {
+  margin: 0 rem-calc(30);
+}
+
+.panel-footer {
+  > .row {
+    margin: 0 rem-calc(30);
+  }
+  .footer-items {
+    text-align: right;
+  }
+}
+
 .no-pad {
 	padding-left: 0;
 	padding-right: 0;
-}	   
+}
 
 .top-bar {
   background: $nvBgDefault !important;
