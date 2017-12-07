@@ -1831,7 +1831,6 @@
     formats:
       json: JSON
       csv: CSV
-      xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
 

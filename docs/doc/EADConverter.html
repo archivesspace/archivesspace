@@ -248,7 +248,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_or_make_top_container-instance_method" title="#get_or_make_top_container (instance method)">#<strong>get_or_make_top_container</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; Object </a>
+      <a href="#get_or_make_top_container_uri-instance_method" title="#get_or_make_top_container_uri (instance method)">#<strong>get_or_make_top_container_uri</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; Object </a>
     
 
     
@@ -1962,7 +1962,7 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container identifier id'>get_or_make_top_container</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
     <span class='comment val'># remember the top_containers we make in this hash</span>
     <span class='comment val'># the values are top_container uris</span>
     <span class='comment val'># the keys are barcodes or type:indicator</span>
@@ -1972,16 +1972,16 @@
     <span class='comment val'>#   - type:indicator is not unique</span>
     <span class='comment val'>#       but only the last one seen will need to be added to</span>
     <span class='comment val'>#       so it&#39;s actually a blessing that prior ones get blatted</span>
-    <span class='rubyid_@top_containers ivar id'>@top_containers</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-        <span class='rubyid_return return kw'>return</span> <span class='rubyid_top_container_uri identifier id'>top_container_uri</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
       <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-        <span class='rubyid_return return kw'>return</span> <span class='rubyid_top_container_uri identifier id'>top_container_uri</span>
-      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='comment val'># don&#39;t make a container_profile, but link to one if there&#39;s a match</span>
@@ -1998,9 +1998,9 @@
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
-      <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+      <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
@@ -2058,7 +2058,7 @@
 
     <span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
 
-    <span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_get_or_make_top_container identifier id'>get_or_make_top_container</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                                   <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                                   <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span>
                                                   <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;altrender&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -2481,9 +2481,9 @@ actually want to ever see them.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="get_or_make_top_container-instance_method">
+  <h3 class="signature " id="get_or_make_top_container_uri-instance_method">
   
-    #<strong>get_or_make_top_container</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_or_make_top_container_uri</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2542,7 +2542,7 @@ actually want to ever see them.</p>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 644</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container identifier id'>get_or_make_top_container</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
   <span class='comment val'># remember the top_containers we make in this hash</span>
   <span class='comment val'># the values are top_container uris</span>
   <span class='comment val'># the keys are barcodes or type:indicator</span>
@@ -2552,16 +2552,16 @@ actually want to ever see them.</p>
   <span class='comment val'>#   - type:indicator is not unique</span>
   <span class='comment val'>#       but only the last one seen will need to be added to</span>
   <span class='comment val'>#       so it&#39;s actually a blessing that prior ones get blatted</span>
-  <span class='rubyid_@top_containers ivar id'>@top_containers</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
-    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_top_container_uri identifier id'>top_container_uri</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
     <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_top_container_uri identifier id'>top_container_uri</span>
-    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># don&#39;t make a container_profile, but link to one if there&#39;s a match</span>
@@ -2578,9 +2578,9 @@ actually want to ever see them.</p>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
-    <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
@@ -3130,7 +3130,7 @@ which greatly helps the performance.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.2.0 Documentation Generated on Thu Oct 12 10:33:08 2017 by
+  ArchivesSpace Version v2.2.1 Documentation Generated on Thu Nov 16 12:34:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.1).
 </div>

@@ -184,4 +184,7 @@ describe "Digital Objects" do
     grand_child = tree_node_for_title(child_title)
     expect(grand_child.attribute('class')).to include('indent-level-1')
   end
+
+  it "can change default values" do
+  end
 end

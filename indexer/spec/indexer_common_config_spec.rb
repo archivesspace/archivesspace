@@ -29,6 +29,7 @@ describe "indexer common config" do
       expect(@record_types).to include(:archival_object)
       expect(@record_types).to include(:digital_object_component)
       expect(@record_types).to include(:classification_term)
+      expect(@record_types).to include(:assessment)
     end
     it "does not include any blank values" do
       expect(@record_types).not_to include("")

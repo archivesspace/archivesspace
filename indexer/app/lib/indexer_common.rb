@@ -247,7 +247,7 @@ class IndexerCommon
         doc['summary'] = abstract['content'].join("\n")
       else
         scopecontent = notes.find {|note| note['type'] == 'scopecontent'}
-        if scopecontent
+        if scopecontent && scopecontent.has_key?('subnotes')
           doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
         end
       end

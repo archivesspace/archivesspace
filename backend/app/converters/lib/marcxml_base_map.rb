@@ -50,6 +50,9 @@ module MarcXMLBaseMap
           subject.source = getsrc.call(node)
           subject.vocabulary = '/vocabularies/1'
         },
+        "//datafield[@tag='680']" => -> subject, node {
+          subject.scope_note = concatenate_subfields(['a', 'i'], node, ' ', true)
+        }
         # skip handling variant (4XX) headings until subject / term data model
         # supports authorized / unauthorized and multiple headings per subject
         # these just pollute the database as is
@@ -264,7 +267,7 @@ module MarcXMLBaseMap
   def creators_and_sources
     {
       :map => {
-        "subfield[@code='d']" => :dates,  
+        "subfield[@code='d']" => :dates,
         "subfield[@code='e']" => -> agent, node {
           agent['_role'] = case
                            when ['Auctioneer (auc)',
@@ -457,15 +460,15 @@ module MarcXMLBaseMap
 
   def sets_use_date_from_code_d
     -> name, node {
-      
+
       date_begin, date_end = nil
       date_type = 'single'
-      
+
       if  node.inner_text.strip =~ /^([0-9]{4})-([0-9]{4})$/
-        date_begin,date_end = node.inner_text.strip.split("-")  
+        date_begin,date_end = node.inner_text.strip.split("-")
         date_type = "range"
       end
-      
+
       make(:date) do |date|
         date.label = 'other'
         date.date_type = date_type
@@ -547,13 +550,19 @@ module MarcXMLBaseMap
   end
 
   # codearray - any enumerable yielding letter / number codes
-  def concatenate_subfields(codearray, node, delim=' ')
+  def concatenate_subfields(codearray, node, delim=' ', subfield_order = false)
     result = ""
-    codearray.each do |code|
-      val = node.xpath("subfield[@code='#{code}']").inner_text
-      unless val.empty?
-        result += delim unless result.empty?
-        result += val
+    if subfield_order
+      result = node.children.map do |subfield|
+        codearray.include?(subfield[:code]) ? subfield.inner_text : ''
+      end.join(delim).squeeze(delim).strip
+    else
+      codearray.each do |code|
+        val = node.xpath("subfield[@code='#{code}']").inner_text
+        unless val.empty?
+          result += delim unless result.empty?
+          result += val
+        end
       end
     end
 
@@ -575,9 +584,9 @@ module MarcXMLBaseMap
 
   # this should be called 'build_base_map'
   # because the extending class calls it
-  # when it is configuring itself, and the 
+  # when it is configuring itself, and the
   # result may depend on methods defined in
-  # the extending class. 
+  # the extending class.
   def BASE_RECORD_MAP
     {
       :obj => :resource,
@@ -586,14 +595,14 @@ module MarcXMLBaseMap
       },
       :map => {
         #LEADER
-        "//leader" =>  -> resource, node { 
+        "//leader" =>  -> resource, node {
           values = node.inner_text.strip
           set_record_properties values[6]
 
           if resource.respond_to?(:level)
-            resource.level = "item" if  values[7] == 'm'  
-          end 
-        }, 
+            resource.level = "item" if  values[7] == 'm'
+          end
+        },
 
         #CONTROLFIELD
         "//controlfield[@tag='008']" => -> resource, node {
@@ -729,16 +738,16 @@ module MarcXMLBaseMap
           :obj => :extent,
           :rel => :extents,
           :map => {
-            "self::datafield" => -> extent, node {  
-              ex = node.xpath('.//subfield[@code="a"]') 
+            "self::datafield" => -> extent, node {
+              ex = node.xpath('.//subfield[@code="a"]')
               if ex.length > 0
-                ext = ex.first.text 
+                ext = ex.first.text
                 if ext =~ /^([0-9\.]+)+\s+(.*)$/
                   extent.number = $1
                   extent.extent_type = $2
-                end 
+                end
               end
-              
+
               extent.container_summary = subfield_template("{$3: }{$a }{$b, }{$c }({$e, }{$f, }{$g})", node)
             }
           },
@@ -848,7 +857,7 @@ module MarcXMLBaseMap
         "datafield[@tag='502']" => multipart_note('odd', 'Thesis / Dissertation Note', "{$a}"),
 
         "datafield[@tag='504']" => bibliography_note_template('Bibliographic References', "{$a }{$b}"),
-        
+
         "datafield[@tag='505']" => multipart_note('odd', 'Cumulative Index/Finding Aids Note', "{$a}"),
 
         "datafield[@tag='506']" => multipart_note('accessrestrict', ' Restrictions on Access', "{$3: }{$a, }{$b, }{$c, }{$d, }{$e, }{$u}."),
@@ -1001,7 +1010,7 @@ module MarcXMLBaseMap
         "datafield[@tag='630' or @tag='130']" => subject_template(
                                                                                 -> node {
                                                                                   terms = []
-                                                                                  terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' '))
+                                                                                  terms << make_term('uniform_title', concatenate_subfields(%w(a d e f g h k l m n o p r s t), node, ' ', true))
                                                                                   node.xpath("subfield").each do |sf|
                                                                                     terms << make_term(
                                                                                                        {
@@ -1135,9 +1144,9 @@ module MarcXMLBaseMap
                                                                    end
                                                                    srtd_keys.each do |k|
                                                                      if hsh[k] and !hsh[k].empty?
-                                                                       hsh[k].each do |t|  
+                                                                       hsh[k].each do |t|
                                                                         terms << make_term('topical', t)
-                                                                       end 
+                                                                       end
                                                                      end
                                                                    end
                                                                   terms

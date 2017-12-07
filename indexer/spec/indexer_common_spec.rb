@@ -263,11 +263,10 @@ describe "indexer common" do
         rec = {}
         rec['record'] = {}
         rec['record']['junk'] = "Junk"
-        rec['record']['linked_agents'] = {'_resolved': {'display_name': {'sort_name': 'abc'}}}
+        rec['record']['linked_agents'] = [{'ref'=>'example.com','_resolved'=>{'display_name'=>{'sort_name'=>'abc'}}}, {'ref'=>'example2.com','_resolved'=>{'display_name'=>{'sort_name'=>'xyz'}}}]
         doc2 = doc
         @ic.add_agents(doc, rec)
-        puts doc
-        # def add_agents(doc, record)
+        expect(doc['agents']).to eq(['abc','xyz'])
       end
     end
   end

@@ -20,18 +20,18 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="one"
              data-format_template="title"
-             data-types='["accession", "resource", "digital_object", "archival_object", "digital_object_component", "agent_person", "agent_software", "agent_corporate", "agent_family"]'
+             data-types='["accession", "resource", "digital_object", "archival_object", "digital_object_component", "agent_person", "agent_software", "agent_corporate", "agent_family", "top_container"]'
              />
-             
+
         <% if form.obj.has_key?('_resolved') %>
-          
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class='prelinker'
               name="<%= form.path %>[_resolved]"
               value="<%= selected_json %>" />
-              
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class='prelinker'
               name="<%= form.path %>[ref]"
               value="<%= form.obj["ref"] %>" />
 

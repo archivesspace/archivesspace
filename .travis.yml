@@ -42,7 +42,7 @@ before_script:
   fi
 - if [[ "$DB" == "mysql" ]]; then mysql -e "create database archivesspace default
   character set utf8;"; fi
-- 'export JAVA_OPTS="-Xmx512m -verbose:gc $JAVA_OPTS"'
+- 'export JAVA_OPTS="-Xmx1024m -verbose:gc $JAVA_OPTS"'
 branches:
   except:
   - gh-pages
