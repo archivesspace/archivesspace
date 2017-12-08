@@ -233,7 +233,25 @@ class ApplicationController < ActionController::Base
       if required[key].is_a? Array and obj[key].is_a? Array
         required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
           required_a.keys.each do |nested_key|
-            if required_a[nested_key].is_a? String
+            if required_a[nested_key].is_a? Array and obj_a[nested_key].is_a? Array
+              required_a[nested_key].zip(obj_a[nested_key]).each_with_index do |(required_a2, obj_a2), index2|
+                required_a2.keys.each do |nested_key2|
+                  if required_a2[nested_key2].is_a? Hash
+                    required_a2[nested_key2].keys.each do |nested_key3|
+                      if required_a2[nested_key2][nested_key3].is_a? String
+                        if required_a2[nested_key2][nested_key3] === "1" and obj_a2[nested_key2][nested_key3] === ""
+                          missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}/#{nested_key3}"
+                        end
+                      end
+                    end
+                  elsif required_a2[nested_key2].is_a? String
+                    if required_a2[nested_key2] === "1" and obj_a2[nested_key2] === ""
+                      missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}"
+                    end
+                  end
+                end
+              end
+            elsif required_a[nested_key].is_a? String
               if required_a[nested_key] === "1" and obj_a[nested_key] === ""
                 missing << "#{key}/#{index}/#{nested_key}"
               end

@@ -1,0 +1,21 @@
+<% define_template "external_document", jsonmodel_definition(:external_document) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_readonly "title" %>
+    <%= form.label_and_readonly "location" %>
+    <% if form["location"] && form["location"].match(%r{\A[a-zA-Z]+://}) %>
+      <%= form.label_with_field("document_link", link_to(form["location"], form["location"], {:target => "_blank"})) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% define_template "rights_statement_external_document", jsonmodel_definition(:rights_statement_external_document) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textarea "title" %>
+    <%= form.label_and_select("identifier_type", form.possible_options_for("identifier_type", true), {:required => true}) %>
+    <%= form.label_and_textarea "location" %>
+    <% if form["location"] && form["location"].match(%r{\A[a-zA-Z]+://}) %>
+      <%= form.label_with_field("document_link", link_to(form["location"], form["location"], {:target => "_blank"})) %>
+    <% end %>
+    <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
+  </div>
+<% end %>

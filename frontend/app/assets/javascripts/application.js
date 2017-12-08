@@ -26,4 +26,8 @@
 //= require bootstrap-select
 //= require bootstrap3-typeahead
 //= require agents.crud
+//= require notes.crud
+//= require dates.crud
+//= require related_agents.crud
+//= require subrecord.crud
 
