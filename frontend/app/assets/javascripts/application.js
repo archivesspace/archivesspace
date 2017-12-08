@@ -30,4 +30,5 @@
 //= require dates.crud
 //= require related_agents.crud
 //= require subrecord.crud
+//= require form
 
