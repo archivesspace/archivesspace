@@ -139,16 +139,12 @@
     <% form.emit_template("date_type_nil") %>
   <% end %>
 
-  <%= form.label_and_readonly "certainty" %>
-  <%= form.label_and_readonly "era" %>
-  <%= form.label_and_readonly "calendar" %>
-
-  <!--<% field_names = ["certainty", "era", "calendar"] %>
+  <% field_names = ["certainty", "era", "calendar"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
     <% else %>
       <%= form.label_and_boolean field_name %>
     <% end %>
-  <% end %>-->
+  <% end %>
 <% end %>
