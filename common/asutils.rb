@@ -198,10 +198,18 @@ EOF
         
         if hash1[key] === []
           target[key] = hash2[key]
+        elsif hash2[key] === []
+          target[key] = target[key]
         else
           target_array = []
           target[key].zip(hash2[key]).each do |target_a, hash2_a|
-            target_array << self.deep_merge_concat(target_a, hash2_a)
+            if target_a.nil?
+              target_array << hash2_a
+            elsif hash2_a.nil?
+              target_array << target_a
+            else  
+              target_array << self.deep_merge_concat(target_a, hash2_a)
+            end
           end
           target[key] = target_array
         end
