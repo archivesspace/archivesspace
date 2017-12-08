@@ -284,6 +284,8 @@ module AspaceFormHelper
     end
 
     def textarea(name = nil, value = "", opts =  {})
+      value = value[0...-2] if value.is_a? String and value.end_with?("_1")
+      value = nil if value === "1"
       options = {:id => id_for(name), :rows => 3}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
