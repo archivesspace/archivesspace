@@ -547,6 +547,15 @@ ul.no-bullets {
 }
 
 /* search results */
+.result_context {
+  padding-top: 1em;
+  strong {
+    padding-right: 0.5em;
+  }
+  span {
+    font-weight: bold;
+  }
+}
 
 .recordrow {
 
