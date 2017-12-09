@@ -232,6 +232,10 @@ a {
   }
 }
 
+#main-content.accessions, #main-content.objects {
+  padding: 0 1em;
+}
+
 #sidebar {
   border: 1px solid $border;
   padding: rem-calc(10);
@@ -547,6 +551,12 @@ ul.no-bullets {
 }
 
 /* search results */
+.result_context {
+  padding-top: 1em;
+  strong {
+    padding-right: 0.5em;
+  }
+}
 
 .recordrow {
 

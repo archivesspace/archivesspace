@@ -1,5 +1,5 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
-<div id="main-content" class="row">
+<div id="main-content" class="row objects">
   <div class="row" id="info_row">
     <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
@@ -8,9 +8,8 @@
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
     </div>
   </div>
-  <div class="row">
-     <%= render partial: 'shared/breadcrumbs' %>
-  </div>
+
+   <%= render partial: 'shared/breadcrumbs' %>
 
   <div class="row" id="notes_row">
    <div class="col-sm-9">

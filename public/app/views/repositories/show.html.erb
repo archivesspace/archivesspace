@@ -1,9 +1,9 @@
-<div id="main-content">
-  <div class="abstract row">
+<div id="main-content" class="repositories">
+  <div class="abstract">
     <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
   </div>
 
-  <div id="whats-in-container" class="row">
+  <div id="whats-in-container">
     <h3><%= t('repository.what') %> </h3>
     <div>
       <ul class="list-inline">
