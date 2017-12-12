@@ -12,7 +12,6 @@ ArchivesSpace README
 * [API](http://archivesspace.github.io/archivesspace/api)
 * [Wiki](http://wiki.archivesspace.org)
 * [Issue Tracker](http://development.archivesspace.org)
-* IRC: #archivesspace ( chat.freenode.net )
 
 # System requirements
 
@@ -86,6 +85,12 @@ repositories" at the top right hand side of the screen.  From the
 "System" menu, you can perform a variety of administrative tasks, such
 as creating and modifying user accounts.  **Be sure to change the
 "admin" user's password at this time.**
+
+# Customizing and Theming ArchivesSpace
+
+Changing labels and messages can be done in the config/config.rb files. In order
+to do more in-depth customization and theming, the best mechanism is with a
+plugin.
 
 # Configuring ArchivesSpace
 
