@@ -3,6 +3,10 @@ require 'aspace_logger'
 # ). Rails provides its own logging functionality, so its not needed in the
 # Frontend or PUI
 class Log
+
+
+  # By default start with STDERR, but allow people to change it. 
+  @@logger =  ASpaceLogger.new($stderr)
   
   def self.logger(log) 
     @@logger =  ASpaceLogger.new(log)
