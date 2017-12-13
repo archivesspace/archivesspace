@@ -577,11 +577,14 @@ The component level records include inherited data from superior hierarchical le
 
 ARKs have not yet been implemented, pending more discussion of how they should be formulated.
 
+# Customizing and theming ArchivesSpace
 
-# Plug-ins and local customizations
+[Customizing and theming readme](https://github.com/archivesspace/archivesspace/blob/master/CUSTOMIZING_THEMING.md) Changing labels and messages can be done in the config/config.rb files. In order to do more in-depth customization and theming, the best mechanism is with a
+plugin.
+
+ # Plug-ins and local customizations
 
 [ Plug-ins and local customizations readme](https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md)
-
 
 # Running ArchivesSpace with an external Solr instance
 
