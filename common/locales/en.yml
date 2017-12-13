@@ -600,6 +600,16 @@ en:
     ext_tooltip: |
         <p>Telephone number extension for the contact person.</p>
 
+  telephone_required: &telephone
+    _plural: Telephone Numbers
+    number_type: Number Type
+    number: Number
+    number_tooltip: |
+        <p>Telephone number for the contact person.</p>
+    ext: Telephone Extension
+    ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
+
   note_attributes: &note_attributes
     label: Label
     label_tooltip: |
