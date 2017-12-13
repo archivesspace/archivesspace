@@ -170,19 +170,6 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_boolean("title") %>
       <%= form.label_and_boolean("enumeration") %>
-
-      <!--<div class="form-group">
-        <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
-        <div class="controls">
-          <%= form.list_for(form["items"], "items[]") do |item| %>
-            <% form.emit_template("orderedlist_item", item) %>
-          <% end %>
-          <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-item-btn"><%= I18n.t("note._frontend.action.add_note_orderedlist") %></button>
-          <% end %>
-        </div>
-      </div>-->
-
     </div>
   </div>
 <% end %>
@@ -409,19 +396,6 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
       <%= form.hidden_input("ingest_problem") %>
-
-      <!--<div class="form-group">
-        <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
-        <div class="controls note-outline-levels">
-          <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
-            <% form.emit_template("note_outline_level", item) %>
-          <% end %>
-          <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-level-btn"><%= I18n.t("note._frontend.action.add_note_outline_level_item") %></button>
-          <% end %>
-        </div>
-      </div>-->
-
     </div>
   </div>
 <% end %>
@@ -530,17 +504,6 @@
 <% define_template "chronology_item" do |form, item| %>
   <div class="subrecord-form-fields" data-type="chronology_item">
     <%= form.label_and_boolean("event_date") %>
-    <!--<div class="form-group">
-      <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
-      <div class="controls">
-        <%= form.list_for(form["events"], "events[]") do |event| %>
-          <% form.emit_template("chronology_item_event", event) %>
-        <% end %>
-        <% if not form.readonly? %>
-          <button class="btn btn-xs btn-default add-event-btn"><%= I18n.t("note._frontend.action.add_event") %></button>
-        <% end %>
-      </div>
-    </div>-->
   </div>
 <% end %>
 

@@ -51,7 +51,7 @@
   <div class="inline-subform date-type-subform">
     <div class="form-group">
       <div class="control-label col-sm-2"></div>
-      <!--<div class="controls col-sm-6"><em><%= I18n.t("date.date_type_message") %></em></div>-->
+      <div class="controls col-sm-6"><em></em></div>
     </div>
   </div>
 <% end %>
@@ -69,7 +69,7 @@
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -87,7 +87,7 @@
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -104,8 +104,8 @@
           <%= form.label_and_boolean field_name %>
         <% end %>
       <% end %>
-			<%= form.label_and_select "date_type", form.possible_options_for("date_type", true,:exclude => ["range"] ), :required => true %>
-      <%form.emit_template("date_fields") %>
+			<%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -122,7 +122,7 @@
           <%= form.label_and_boolean field_name %>
         <% end %>
       <% end %>
-			<%= form.label_and_select "date_type", form.possible_options_for("date_type", true), :required => true %>
+			<%= form.label_and_readonly "date_type" %>
       <%form.emit_template("date_fields") %>
     </div>
   </div>
