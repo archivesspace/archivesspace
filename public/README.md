@@ -95,7 +95,6 @@ To run a development server, the PUI follows the same pattern as the rest of Arc
 
 * Don’t display the field at all – the record has no value of its own for the field and you don’t want it to display at all [uncomment the inheritance section in the config, delete the lines for the desired field (property)]
 
-Mark Custer wrote this up and posted it on the wiki, but much of this precedes the actual release of this feature, and it’s not in the technical docs in any case. But may be useful background.
 
 ### Archival Inheritance
 
@@ -141,6 +140,19 @@ AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
 :include_level => true,
 :identifier_delimiter => '. '
 }
+```
+
+To add extra fields, such as subjects you can add the following:
+
+```
+inherited_fields_extras = [
+  {
+    code: 'subjects',
+    property: 'subjects',
+    inherit_if: proc { |json| json.select { |j| true } },
+    inherit_directly: false,
+  },
+]
 ```
 
 When you set include_level to true, that means that the archival object level will be included in identifier so that you don't have to repeat that data. For example, if the level of description is "Series" and the archival object identifier is "1", and the parent resource identifier is "MSS 1", then the composite identifier would display as "MSS 1. Series 1" at the series 1 level, and any descendant record. If you set include_level to false, then the display would be "MSS 1. 1"
