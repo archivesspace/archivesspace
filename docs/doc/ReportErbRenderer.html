@@ -6,7 +6,7 @@
 <title>
   Class: ReportErbRenderer
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -487,13 +487,13 @@
       <pre class="lines">
 
 
+35
 36
 37
-38
-39</pre>
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_report identifier id'>report</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_@report ivar id'>@report</span> <span class='assign token'>=</span> <span class='rubyid_report identifier id'>report</span>
@@ -527,14 +527,14 @@
       <pre class="lines">
 
 
+52
 53
 54
 55
-56
-57</pre>
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format_4part identifier id'>format_4part</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -562,16 +562,16 @@
       <pre class="lines">
 
 
+90
 91
 92
 93
 94
 95
-96
-97</pre>
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 90</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format_boolean identifier id'>format_boolean</span><span class='lparen token'>(</span><span class='rubyid_boolean identifier id'>boolean</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_boolean identifier id'>boolean</span>
@@ -601,14 +601,14 @@
       <pre class="lines">
 
 
+84
 85
 86
 87
-88
-89</pre>
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 84</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format_date identifier id'>format_date</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -636,14 +636,14 @@
       <pre class="lines">
 
 
+98
 99
 100
 101
-102
-103</pre>
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 98</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_format_number identifier id'>format_number</span><span class='lparen token'>(</span><span class='rubyid_number identifier id'>number</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_number identifier id'>number</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -671,6 +671,7 @@
       <pre class="lines">
 
 
+104
 105
 106
 107
@@ -685,11 +686,10 @@
 116
 117
 118
-119
-120</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_insert_subreport identifier id'>insert_subreport</span><span class='lparen token'>(</span><span class='rubyid_subreport identifier id'>subreport</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='comment val'># If `subreport` is a class, create an instance.  Otherwise, use the</span>
@@ -751,12 +751,12 @@
       <pre class="lines">
 
 
+40
 41
-42
-43</pre>
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_layout? fid id'>layout?</span>
   <span class='rubyid_@params ivar id'>@params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:layout</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
@@ -782,12 +782,12 @@
       <pre class="lines">
 
 
+170
 171
-172
-173</pre>
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_transform_text identifier id'>transform_text</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/(?:\r\n)+/</span><span class='comma token'>,</span><span class='string val'>&quot;&lt;br&gt;&quot;</span><span class='rparen token'>)</span>
@@ -813,12 +813,12 @@
       <pre class="lines">
 
 
+48
 49
-50
-51</pre>
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span>
   <span class='rubyid_HTMLCleaner constant id'>HTMLCleaner</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_clean identifier id'>clean</span><span class='lparen token'>(</span><span class='rubyid_ERB constant id'>ERB</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_template_path identifier id'>template_path</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_result identifier id'>result</span><span class='lparen token'>(</span><span class='rubyid_binding identifier id'>binding</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -844,15 +844,15 @@
       <pre class="lines">
 
 
+71
 72
 73
 74
 75
-76
-77</pre>
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_subreport_section identifier id'>subreport_section</span><span class='lparen token'>(</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_subreport identifier id'>subreport</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_subreport_args identifier id'>subreport_args</span><span class='rparen token'>)</span>
   <span class='comment val'># Sick of typing these out...</span>
@@ -881,12 +881,12 @@
       <pre class="lines">
 
 
+44
 45
-46
-47</pre>
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;reports.#{@report.code}.#{key}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -912,16 +912,16 @@
       <pre class="lines">
 
 
+174
 175
 176
 177
 178
 179
-180
-181</pre>
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 174</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_template_path identifier id'>template_path</span><span class='lparen token'>(</span><span class='rubyid_template_name identifier id'>template_name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;app&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;views&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;reports&#39;</span><span class='comma token'>,</span> <span class='rubyid_template_name identifier id'>template_name</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -951,15 +951,15 @@
       <pre class="lines">
 
 
+58
 59
 60
 61
 62
-63
-64</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_text_section identifier id'>text_section</span><span class='lparen token'>(</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='comment val'># Sick of typing these out...</span>
@@ -988,6 +988,7 @@
       <pre class="lines">
 
 
+121
 122
 123
 124
@@ -1034,11 +1035,10 @@
 165
 166
 167
-168
-169</pre>
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/reports/report_response.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transform_text identifier id'>transform_text</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='string val'>&#39;&#39;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1099,9 +1099,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.2.1 Documentation Generated on Thu Nov 16 12:34:05 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:10 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

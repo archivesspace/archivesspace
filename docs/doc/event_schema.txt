@@ -4,6 +4,8 @@ Properties
 
 string	uri
 
+string	refid
+
 array (JSONModel(:external_id) object)	external_ids
 
 array (JSONModel(:external_document) object)	external_documents

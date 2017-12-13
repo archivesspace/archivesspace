@@ -447,6 +447,8 @@ AppConfig[:pui_hide][:subject_badge] = false
 AppConfig[:pui_hide][:agent_badge] = false
 AppConfig[:pui_hide][:classification_badge] = false
 AppConfig[:pui_hide][:counts] = false
+# The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
+AppConfig[:pui_hide][:container_inventory] = false
 # Other usage examples:
 # Don't display the accession ("unprocessed material") link on the main navigation menu
 # AppConfig[:pui_hide][:accessions] = true
