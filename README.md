@@ -579,8 +579,8 @@ ARKs have not yet been implemented, pending more discussion of how they should b
 
 # Customizing and theming ArchivesSpace
 
-[Customizing and theming readme](https://github.com/archivesspace/archivesspace/blob/master/CUSTOMIZING_THEMING.md) Changing labels and messages can be done in the config/config.rb files. In order to do more in-depth customization and theming, the best mechanism is with a
-plugin.
+[Customizing and theming readme](https://github.com/archivesspace/archivesspace/blob/master/CUSTOMIZING_THEMING.md) Changing labels and messages can be done in the locales files. To do more in-depth customization and theming, a
+plugin or a custom build is likely the best mechanism.
 
  # Plug-ins and local customizations
 
