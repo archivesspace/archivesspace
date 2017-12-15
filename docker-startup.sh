@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATA_TMP_DIR=${APPCONFIG_DATA_DIR:-"/archivesspace/data/tmp"}
+DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
 # http://www.tothenew.com/blog/setting-up-sendmail-inside-your-docker-container/
 line=$(head -n 1 /etc/hosts)
