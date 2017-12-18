@@ -3,6 +3,7 @@ require_relative 'index_state'
 require 'time'
 require 'thread'
 require 'java'
+require 'log'
 
 # Eagerly load this constant since we access it from multiple threads.  Having
 # two threads try to load it simultaneously seems to create the possibility for
@@ -67,7 +68,7 @@ class PeriodicIndexer < IndexerCommon
 
         did_something
       rescue
-        $stderr.puts("Failure in #{@indexer_name} worker thread: #{$!}")
+        Log.error("Failure in #{@indexer_name} worker thread: #{$!}")
         raise $!
       end
     end
@@ -207,18 +208,17 @@ class PeriodicIndexer < IndexerCommon
         run_index_round unless paused?
       rescue
         reset_session
-        log($!.backtrace.join("\n"))
-        log($!.inspect)
+        Log.error($!.backtrace.join("\n"))
+        Log.error($!.inspect)
       end
 
       sleep @time_to_sleep
     end
   end
 
+  # used for just info lines
   def log(line)
-    return unless @verbose 
-    $stderr.puts("#{@indexer_name} [#{Time.now}] #{line}")
-    $stderr.flush
+    Log.info("#{@indexer_name} [#{Time.now}] #{line}")
   end
 
   def self.get_indexer(state = nil, name = "Staff Indexer")

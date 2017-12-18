@@ -15,7 +15,8 @@ RUN apt-get update && \
 COPY . /source
 
 RUN cd /source && \
-    ./scripts/build_release -g && \
+    export ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-$(git rev-parse --abbrev-ref HEAD 2>/dev/null)} && \
+    ./scripts/build_release $ARCHIVESSPACE_VERSION && \
     mv ./*.zip / && \
     rm -rf /source && \
     cd / && \

@@ -51,8 +51,8 @@ class RealtimeIndexer < IndexerCommon
       # Doesn't matter...
     rescue
       reset_session
-      $stderr.puts("#{$!.inspect}")
-      $stderr.puts($@.join("\n"))
+      Log.error("#{$!.inspect}")
+      Log.error($@.join("\n"))
       sleep 5
     end
 
