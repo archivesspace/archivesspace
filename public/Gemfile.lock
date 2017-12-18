@@ -175,9 +175,12 @@ DEPENDENCIES
   clipboard-rails
   coffee-rails (= 4.2.1)
   font-awesome-sass
+  i18n (= 0.7.0)
   jquery-rails
   listen
+  loofah (= 2.0.3)
   mizuno (= 0.6.11)
+  nokogiri (= 1.7.0.1)
   pry-rails
   rails (= 5.0.1)
   sass-rails (= 5.0.5)

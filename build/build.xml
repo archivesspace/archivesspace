@@ -630,7 +630,6 @@
   <target name="travis:selenium:staff" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="selenium:staff" />
-    <antcall target="travis:db:nuke" />
   </target>
 
   <target name="travis:test" depends="set-classpath, bootstrap">
@@ -815,7 +814,7 @@
   </target>
 
 
-  <target name="test" depends="headless-tests, selenium:test"
+  <target name="test" depends="headless-tests, selenium:staff"
           description="Run the full suite of tests">
   </target>
 

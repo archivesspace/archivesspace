@@ -33,10 +33,7 @@ describe "Classifications" do
     @driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
     token_input = @driver.find_element(:id, "token-input-classification_creator__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@agent_sort_name)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @agent_sort_name ) 
 
     @driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
 
@@ -53,10 +50,7 @@ describe "Classifications" do
     @driver.clear_and_send_keys([:id, 'classification_term_title_'], test_classification_term)
 
     token_input = @driver.find_element(:id, "token-input-classification_term_creator__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@agent_sort_name)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @agent_sort_name )
 
     @driver.click_and_wait_until_gone(:css => "form#classification_term_form button[type='submit']")
 
@@ -92,6 +86,7 @@ describe "Classifications" do
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__0__ref_"],
                                   test_classification)
+      sleep 1 
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
     
@@ -99,6 +94,7 @@ describe "Classifications" do
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__1__ref_"],
                                   test_classification_term)
+      sleep 1 
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
 
@@ -127,9 +123,8 @@ describe "Classifications" do
 
     assert(5) {
       run_index_round
-      @driver.clear_and_send_keys([:id, "token-input-accession_classifications__0__ref_"],
-                                  test_classification)
-      @driver.find_element(:css, "li.token-input-dropdown-item2").click
+      token_input = @driver.find_element(:id, "token-input-accession_classifications__0__ref_")
+      @driver.typeahead_and_select( token_input,  test_classification )
     }
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")

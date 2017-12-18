@@ -12,11 +12,12 @@ java.util.concurrent.TimeUnit::MILLISECONDS
 
 class PeriodicIndexer < IndexerCommon
 
-  def initialize(backend_url = nil, state = nil, indexer_name = nil)
+  def initialize(backend_url = nil, state = nil, indexer_name = nil, verbose = true)
     super(backend_url || AppConfig[:backend_url])
 
     @indexer_name = indexer_name || 'PeriodicIndexer'
     @state = state || IndexState.new
+    @verbose = verbose
 
     # A small window to account for the fact that transactions might be committed
     # after the periodic indexer has checked for updates, but with timestamps from

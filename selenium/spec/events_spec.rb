@@ -46,10 +46,7 @@ describe "Events" do
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
 
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
-    token_input.clear
-    # token_input.click
-    token_input.send_keys("Admin")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, "Admin" )
 
     @driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
 
@@ -57,10 +54,7 @@ describe "Events" do
       nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys("Geddy")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select(token_input, "Geddy")
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
 
@@ -92,28 +86,21 @@ describe "Events" do
 
     @driver.find_element(:id, "event_date__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "event_date__begin_"], ["2000-01-01", :tab])
+    
 
     agent_subform = @driver.find_element(:id, "event_linked_agents__0__role_").
       nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
-
+    
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
-
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys("Geddy")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, "Geddy" )   
 
     @driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
 
     record_subform = @driver.find_element(:id, "event_linked_records__0__role_").
-      nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
-
+        nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@accession.title)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @accession.title )   
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
 

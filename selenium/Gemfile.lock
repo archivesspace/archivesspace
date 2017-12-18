@@ -23,6 +23,7 @@ GEM
     minitest (5.10.3)
     multi_json (1.12.2)
     multipart-post (1.2.0)
+    net-http-digest_auth (1.4.1)
     net-http-persistent (2.8)
     parallel (1.12.0)
     parallel_tests (2.14.3)
@@ -75,9 +76,11 @@ DEPENDENCIES
   factory_girl
   json (= 1.8.6)
   json-schema (= 1.0.10)
+  mechanize
   multi_json (~> 1.12.1)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
+  nokogiri (= 1.7.0.1)
   parallel_tests (~> 2.14.0)
   pry
   rspec (~> 3.6.0)

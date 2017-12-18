@@ -199,12 +199,14 @@ DEPENDENCIES
   coffee-rails (= 4.2.1)
   coffee-script
   coffee-script-source
+  i18n (= 0.7.0)
   jquery-rails
   jquery-ui-rails
   jruby-jars (= 9.1.8.0)
   json (= 1.8.6)
   json-schema (= 1.0.10)
   less-rails
+  loofah (= 2.0.3)
   mizuno (= 0.6.11)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)

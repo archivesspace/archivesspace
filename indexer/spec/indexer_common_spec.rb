@@ -255,7 +255,7 @@ describe "indexer common" do
       end
     end
     describe "record has linked agents" do
-      it "adds agents to doc" do
+      xit "adds agents to doc" do
         doc = {}
         doc['id'] = "ID1"
         doc['uri'] = "URI1"

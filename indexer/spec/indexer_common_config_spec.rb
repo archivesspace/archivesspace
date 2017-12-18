@@ -56,25 +56,13 @@ describe "indexer common config" do
       expect(@resolved_attributes.length).to eq(19)
     end
     it "has the correct resolved_attributes" do
-      expect(@resolved_attributes).to include('location_profile')
-      expect(@resolved_attributes).to include('container_profile')
-      expect(@resolved_attributes).to include('container_locations')
-      expect(@resolved_attributes).to include('subjects')
-      expect(@resolved_attributes).to include('linked_agents')
-      expect(@resolved_attributes).to include('linked_records')
-      expect(@resolved_attributes).to include('classifications')
-      expect(@resolved_attributes).to include('digital_object')
-      expect(@resolved_attributes).to include('agent_representation')
-      expect(@resolved_attributes).to include('repository')
-      expect(@resolved_attributes).to include('repository::agent_representation')
-      expect(@resolved_attributes).to include('related_agents')
-      expect(@resolved_attributes).to include('top_container')
-      expect(@resolved_attributes).to include('top_container::container_profile')
-      expect(@resolved_attributes).to include('related_agents')
-      expect(@resolved_attributes).to include('records')
-      expect(@resolved_attributes).to include('collections')
-      expect(@resolved_attributes).to include('surveyed_by')
-      expect(@resolved_attributes).to include('reviewer')
+      attrs = %w( location_profile container_profile container_locations subjects
+          linked_agents linked_records classifications digital_object agent_representation
+          repository repository::agent_representation related_agents top_container
+          top_container::container_profile related_agents
+          records collections surveyed_by reviewer )
+      expect(attrs.length).to eq(19)
+      attrs.each { |attr| expect(@resolved_attributes).to include(attr) }
     end
     it "does not include any blank values" do
       expect(@resolved_attributes).not_to include("")

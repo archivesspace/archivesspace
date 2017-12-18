@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "i18n", "0.7.0"
+gem "nokogiri", "1.7.0.1"
 
 group :test do
   gem "json", "1.8.6"
@@ -20,6 +22,7 @@ group :test do
   gem "multipart-post", "1.2.0"
 
   gem "pry"
+  gem "mechanize"
 end
 
 group :development do
