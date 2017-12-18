@@ -3,7 +3,6 @@ require 'atomic'
 
 class ASpaceLogger < Logger
 
-
   def initialize(logdev)                                                                                  
     @backlog = Atomic.new([]) 
     @recording = Atomic.new(false) 
@@ -65,6 +64,5 @@ class ASpaceLogger < Logger
     start_recording
     backlog_cache
   end
-
 
 end

@@ -48,8 +48,29 @@ AppConfig[:indexer_url] = "http://localhost:8091"
 # set it to something else below.
 AppConfig[:docs_url] = "http://localhost:8888"
 
+# Logging. By default, this will be output on the screen while the archivesspace
+# command is running. When running as a daemon/service, this is put into a
+# file in logs/archivesspace.out. You can change this file by changing the log
+# value to a filepath that archivesspace has write access to. 
+AppConfig[:frontend_log] = "default"
+# Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:frontend_log_level] = "debug"
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
+
+AppConfig[:pui_log] = "default"
+AppConfig[:pui_log_level] = "debug"
+
+AppConfig[:indexer_log] = "default"
+AppConfig[:indexer_log_level] = "debug"
+
+
+# Set to true to log all SQL statements.  Note that this will have a performance
+# impact!
+AppConfig[:db_debug_log] = false
+# Set to true if you have enabled MySQL binary logging
+AppConfig[:mysql_binlog] = false
 
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
@@ -141,12 +162,6 @@ AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
 
-# Set to true to log all SQL statements.  Note that this will have a performance
-# impact!
-AppConfig[:db_debug_log] = false
-
-# Set to true if you have enabled MySQL binary logging
-AppConfig[:mysql_binlog] = false
 
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 

@@ -1,10 +1,19 @@
 require 'aspace_logger'
-
+# This is a class used for logging in sinatra applications ( backend, indexer
+# ). Rails provides its own logging functionality, so its not needed in the
+# Frontend or PUI
 class Log
-  @@logger = ASpaceLogger.new($stderr)
 
+
+  # By default start with STDERR, but allow people to change it. 
+  @@logger =  ASpaceLogger.new($stderr)
+  
+  def self.logger(log) 
+    @@logger =  ASpaceLogger.new(log)
+  end
+  
   def self.noisiness(log_level)
-    @@logger.sev_threshold = log_level.constantize
+    @@logger.sev_threshold = log_level
   end
 
   def self.quiet_please

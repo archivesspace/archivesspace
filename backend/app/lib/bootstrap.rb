@@ -24,12 +24,16 @@ require "ashttp"
 require "asconstants"
 require 'open-uri'
 require 'aspace_i18n'
+require 'log'
 require_relative 'exceptions'
-require_relative 'logging'
 require 'config/config-distribution'
 require_relative 'username'
 
-
+if AppConfig.changed?(:backend_log)
+  Log.logger(AppConfig[:backend_log])
+else
+  Log.logger($stderr)
+end
 
 class ASpaceEnvironment
 
