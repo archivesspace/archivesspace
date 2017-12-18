@@ -383,7 +383,12 @@ class EADConverter < Converter
     end
 
 
-    {
+
+    # Multiple elements within one indexentry are generally related
+    # Parse the indexentry as a fragment, and map the child elements
+    # to ASpace equivalents, according to this mapping:
+
+    field_mapping = {
       'name' => 'name',
       'persname' => 'person',
       'famname' => 'family',
@@ -393,28 +398,40 @@ class EADConverter < Converter
       'occupation' => 'occupation',
       'genreform' => 'genre_form',
       'title' => 'title',
-      'geogname' => 'geographic_name'
-    }.each do |k, v|
-      with "indexentry/#{k}" do |node|
-        make :note_index_item, {
-          :type => v,
-          :value => format_content( inner_xml )
-        } do |item|
-          set ancestor(:note_index), :items, item
-        end
-      end
-    end
+      'geogname' => 'geographic_name',
+    }
 
-    # this is very imperfect.
-    with 'indexentry/ref' do |*|
-        make :note_index_item, {
-          :type => 'name',
-          :value => inner_xml,
-          :reference_text => format_content( inner_xml ),
-          :reference =>  att('target')
-        } do |item|
-          set ancestor(:note_index), :items, item
+    with 'indexentry' do |*|
+
+      entry_type = ''
+      entry_value = ''
+      entry_reference = ''
+      entry_ref_target = ''
+
+      indexentry = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+
+      indexentry.children.each do |child|
+
+        if field_mapping.key? child.name
+          entry_value << child.content
+          entry_type << field_mapping[child.name]
+        elsif child.name == 'ref' && child.xpath('./ptr').count == 0
+          entry_reference << child.content
+          entry_ref_target << (child['target'] || '')
+        elsif child.name == 'ref'
+          entry_reference = format_content( child.inner_html )
         end
+
+      end
+
+      make :note_index_item, {
+             :type => entry_type,
+             :value => entry_value,
+             :reference_text => entry_reference,
+             :reference => entry_ref_target
+           } do |item|
+        set ancestor(:note_index), :items, item
+      end
     end
 
 
@@ -624,7 +641,7 @@ class EADConverter < Converter
       end
     end
 
-    def get_or_make_top_container(type, indicator, barcode, container_profile_name)
+    def get_or_make_top_container_uri(type, indicator, barcode, container_profile_name)
       # remember the top_containers we make in this hash
       # the values are top_container uris
       # the keys are barcodes or type:indicator
@@ -634,16 +651,16 @@ class EADConverter < Converter
       #   - type:indicator is not unique
       #       but only the last one seen will need to be added to
       #       so it's actually a blessing that prior ones get blatted
-      @top_containers ||= {}
+      @top_container_uris ||= {}
 
       if barcode
-        if (top_container_uri = @top_containers[barcode] || TopContainer.for_barcode(barcode))
-          return top_container_uri
+        if @top_container_uris[barcode]
+          return @top_container_uris[barcode]
+        elsif (TopContainer.for_barcode(barcode) && TopContainer.for_barcode(barcode).uri)
+          return TopContainer.for_barcode(barcode).uri
         end
-      else
-        if (top_container_uri = @top_containers["#{type}:#{indicator}"])
-          return top_container_uri
-        end
+      elsif @top_container_uris["#{type}:#{indicator}"]
+        return @top_container_uris["#{type}:#{indicator}"]
       end
 
       # don't make a container_profile, but link to one if there's a match
@@ -660,9 +677,9 @@ class EADConverter < Converter
       end
 
       if barcode
-        @top_containers[barcode] = context_obj.uri
+        @top_container_uris[barcode] = context_obj.uri
       else
-        @top_containers["#{type}:#{indicator}"] = context_obj.uri
+        @top_container_uris["#{type}:#{indicator}"] = context_obj.uri
       end
 
       context_obj.uri
@@ -720,7 +737,7 @@ class EADConverter < Converter
 
       instance = context_obj
 
-      top_container_uri = get_or_make_top_container(att('type'),
+      top_container_uri = get_or_make_top_container_uri(att('type'),
                                                     format_content(inner_xml),
                                                     barcode,
                                                     att("altrender"))
@@ -866,7 +883,8 @@ class EADConverter < Converter
           :file_uri => att('href'),
           :xlink_actuate_attribute => att('actuate'),
           :xlink_show_attribute => att('show'),
-          :publish => att('audience') != 'internal'
+          :publish => att('audience') != 'internal',
+          :caption => att( 'title' )
         }
         set ancestor(:instance), :digital_object, obj
       end
@@ -891,7 +909,7 @@ class EADConverter < Converter
         title = ''
         ancestor(:resource, :archival_object ) { |ao|
           display_string = ArchivalObject.produce_display_string(ao)
-
+          display_string = Nokogiri::XML::DocumentFragment.parse(display_string).inner_text
           title << display_string + ' Digital Object'
         }
       end
@@ -932,6 +950,7 @@ class EADConverter < Converter
            fv_attrs[:file_uri] = daoloc['xlink:href'] if daoloc['xlink:href']
            fv_attrs[:use_statement] = daoloc['xlink:role'] if daoloc['xlink:role']
            fv_attrs[:publish] = daoloc['audience'] != 'internal'
+           fv_attrs[:caption] = daoloc['xlink:title'] if daoloc['xlink:title']
 
            obj.file_versions << fv_attrs
          end

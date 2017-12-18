@@ -1,0 +1,35 @@
+version: '2'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8089:8089"
+      - "8090:8090"
+      - "8092:8092"
+    depends_on:
+      - db
+      - solr
+    environment:
+      APPCONFIG_DB_URL: 'jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123'
+      # disable the embedded solr
+      APPCONFIG_ENABLE_SOLR: 'false'
+      APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'
+  db:
+    image: mysql:5.7
+    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: archivesspace
+      MYSQL_USER: as
+      MYSQL_PASSWORD: as123
+  solr:
+    build:
+      context: ./solr
+    image: archivesspace/solr:7.1
+    command: solr-create -p 8983 -c archivesspace -d /archivesspace
+    ports:
+      - "8983:8983"

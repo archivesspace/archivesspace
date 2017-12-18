@@ -71,6 +71,20 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/archival_objects/:id/previous')
+    .description("Get the previous record in the tree for an Archival Object")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:archival_object)"],
+             [404, "No previous node"]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:id]).previous_node
+
+    json_response(ArchivalObject.to_jsonmodel(ao))
+  end
+
+
   Endpoint.get('/repositories/:repo_id/archival_objects')
     .description("Get a list of Archival Objects for a Repository")
     .params(["repo_id", :repo_id])

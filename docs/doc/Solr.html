@@ -6,7 +6,7 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -293,7 +293,9 @@
 317
 318
 319
-320</pre>
+320
+321
+322</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 277</span>
@@ -302,9 +304,11 @@
 
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_to_solr_url identifier id'>to_solr_url</span>
 
-  <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Get constant id'>Get</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span>
+  <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Post constant id'>Post</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
+  <span class='rubyid_req identifier id'>req</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span> <span class='assign token'>=</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_query identifier id'>query</span>
+  <span class='rubyid_req identifier id'>req</span><span class='dot token'>.</span><span class='rubyid_content_type identifier id'>content_type</span> <span class='assign token'>=</span> <span class='string val'>&#39;application/x-www-form-urlencoded&#39;</span>
 
-  <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_start identifier id'>start</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_host identifier id'>host</span><span class='comma token'>,</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_http identifier id'>http</span><span class='bitor op'>|</span>
+  <span class='rubyid_ASHTTP constant id'>ASHTTP</span><span class='dot token'>.</span><span class='rubyid_start_uri identifier id'>start_uri</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_http identifier id'>http</span><span class='bitor op'>|</span>
     <span class='rubyid_solr_response identifier id'>solr_response</span> <span class='assign token'>=</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>&#39;200&#39;</span>
@@ -384,9 +388,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:10 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:03 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

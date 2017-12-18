@@ -1,0 +1,15 @@
+<% render_outline_level = lambda do | note_outline_level | %>
+  <ul class="note_outline_level">
+    <% Array(note_outline_level['items']).each do |item| %>
+      <% if item.kind_of? String %>
+        <li><%== process_mixed_content(item).html_safe %></li>
+      <% else %>
+        <%== render_outline_level.call(item) %>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% Array(note['levels']).each do |outline_level| %>
+  <%== render_outline_level.call(outline_level) %>
+<% end %>

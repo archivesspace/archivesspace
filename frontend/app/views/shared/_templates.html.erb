@@ -236,3 +236,23 @@
     </div>
   </div>
 --></div>
+
+<div id="template_note_summary"><!--
+  <div class="subrecord-summary-title">
+    {if type != ""}
+    ${type}
+    {/if}
+    {if label != "" && label != type}
+    {if type != ""} - {/if}
+    ${label}
+    {/if}
+    {if label == "" && type == ""}
+    ${jsonmodel_type}
+    {/if}
+  </div>
+  {if summary.length > 0}
+  <div class="subrecord-summary-content">
+    ${summary}
+  </div>
+  {/if}
+--></div>

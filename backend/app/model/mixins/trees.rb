@@ -35,6 +35,14 @@ module Trees
   end
 
 
+  def children?
+    self.class.node_model.
+      this_repo.filter(:root_record_id => self.id,
+                       :parent_id => nil)
+               .count > 0
+  end
+
+
   def build_node_query
     self.class.node_model.this_repo.filter(:root_record_id => self.id)
   end
@@ -184,6 +192,8 @@ module Trees
     end
 
     id_positions = {}
+    id_display_strings = {}
+    id_depths = {nil => 0}
     parent_to_child_id = {}
 
     # Any record that is either suppressed or unpublished will be excluded from
@@ -194,6 +204,7 @@ module Trees
       .filter(:root_record_id => self.id)
       .select(:id, :position, :parent_id, :display_string, :publish, :suppressed).each do |row|
       id_positions[row[:id]] = row[:position]
+      id_display_strings[row[:id]] = row[:display_string]
       parent_to_child_id[row[:parent_id]] ||= []
       parent_to_child_id[row[:parent_id]] << row[:id]
 
@@ -223,13 +234,22 @@ module Trees
 
       children = parent_to_child_id.fetch(next_rec, []).sort_by {|child| id_positions[child]}
       children.reverse.each do |child|
+        id_depths[child] = id_depths[next_rec] + 1
         root_set.unshift(child)
       end
     end
 
-    [{'ref' => self.uri}] +
-      result.map {|id| {'ref' => self.class.node_model.uri_for(self.class.node_type, id)}
-    }
+    extra_root_properties = self.class.ordered_record_properties([self.id])
+    extra_node_properties = self.class.node_model.ordered_record_properties(result)
+
+    [{'ref' => self.uri,
+      'display_string' => self.title,
+      'depth' => 0}.merge(extra_root_properties.fetch(self.id, {}))] +
+      result.map {|id| {
+                    'ref' => self.class.node_model.uri_for(self.class.node_type, id),
+                    'display_string' => id_display_strings.fetch(id),
+                    'depth' => id_depths.fetch(id),
+                  }.merge(extra_node_properties.fetch(id, {}))}
   end
 
   # Update `excluded_rows` to mark any descendant of an excluded record as
@@ -348,6 +368,11 @@ module Trees
       end
 
       super
+    end
+
+    # Default: to be overriden by implementing models
+    def ordered_record_properties(record_ids)
+      {}
     end
   end
 

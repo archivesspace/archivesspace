@@ -1,0 +1,10 @@
+JSON Schema: Assessment_attribute_definitions
+/repositories/:repo_id/assessment_attribute_definitions
+Properties
+
+array (Object (id, label, type, global, readonly, position))	definitions
+
+
+
+
+

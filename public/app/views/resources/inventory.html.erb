@@ -1,0 +1,34 @@
+<a name="main" title="<%= t('internal_links.main') %>"></a>
+
+<div id="main-content" class="row">
+  <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+  </div>
+</div>
+
+<div class="row">
+    <%= render partial: 'shared/breadcrumbs' %>
+</div>
+
+<%= render partial: 'resources/resource_alltabs' %>
+
+<div class="row">
+  <div class="col-sm-9">
+    <% unless @results.blank? || @results['total_hits'] == 0 %>
+      <% @results.records.each do |result| %>
+        <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+      <% end %>
+      <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+    <% end %>
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <% unless @results.blank? || @results['total_hits'] == 0 %>
+      <%= render partial: 'shared/facets' %>
+    <% end %>
+  </div>
+</div>
+
+<%= render partial: 'shared/modal_actions' %>

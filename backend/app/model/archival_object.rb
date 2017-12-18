@@ -24,6 +24,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include ReindexTopContainers
   include RightsRestrictionNotes
   include RepresentativeImages
+  include Assessments::LinkedRecord
 
   enable_suppression
 
@@ -75,6 +76,26 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      :message => "An Archival Object Ref ID must be unique to its resource")
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
     super
+  end
+
+  # For archival objects, we want the level returned in our ordered_record
+  # response
+  def self.ordered_record_properties(record_ids)
+    result = super.clone
+
+    self.filter(:id => record_ids).select(:id, :level_id, :other_level).each do |row|
+      id = row[:id]
+      level = if row[:other_level]
+                row[:other_level]
+              else
+                BackendEnumSource.value_for_id('archival_record_level', row[:level_id])
+              end
+
+      result[id] ||= {}
+      result[id][:level] = level
+    end
+
+    result
   end
 
 end

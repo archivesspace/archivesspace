@@ -1,77 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= AppConfig[:locale] %>">
 <head>
-  <title><%= I18n.t("brand.title") %> | <% if @repository %><%= @repository.repo_code %> | <% end %><% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
+	<%= csrf_meta_tags %>
+<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
+	<% if AppConfig[:pui_block_referrer] %>
+		<meta name="referrer" content="origin-when-cross-origin" />
+	<% end %>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+	</script>
 
-  <link href="<%= AppConfig[:public_proxy_prefix] %>favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<%= stylesheet_link_tag    'application', media: 'all' %>
+	<%= javascript_include_tag 'application' %>
 
-  <%= javascript_include_tag 'jquery' %>
+        <%= render partial: 'shared/metadata' %>
 
-  <% if ENV["TEST_MODE"] %>
-    <script>
-      TEST_ERRORS = [];
-      window.onerror = function(errorMsg, url, lineNo) {
-        TEST_ERRORS.push({
-          message: errorMsg,
-          url: url,
-          line: lineNo
-        })
-      }
-    </script>
-  <% end %>
-
-  <%= include_theme_css %>
-
-  <%= csrf_meta_tags %>
-
-  <% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |layout| %>
-    <% if File.exist?(layout) %>
-      <!-- Begin plugin layout -->
-      <%= render :file => layout %>
-      <!-- End plugin layout -->
-    <% end %>
-  <% end %>
-
-  <script>
-    FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
-    PUBLIC_URL = "<%= j(AppConfig[:public_proxy_url]) %>";
-    APP_PATH = "<%= j(AppConfig[:public_proxy_prefix]) %>";
-    FACET_SHOW_FEWER = "<%= I18n.t("search_results.filter.show_fewer") %>";
-    FACET_SHOW_MORE = "<%= I18n.t("search_results.filter.show_more") %>";
-  </script>
-
+	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+		<% if File.exists?(template) %>
+			<!-- Begin plugin layout -->
+			<%= render :file => template %>
+			<!-- End plugin layout -->
+		<% end %>
+	<% end %>
 </head>
 
-<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20">
+<body>
+	<%= render partial: 'shared/skipnav' %>
 
-  <header>
-    <div class="branding-container container">
-      <div class="row-fluid">
-        <%= render "site/branding" %>
-      </div>
-    </div>
-    <div class="container">
-      <%= render "site/header" %>
-    </div>
-  </header>
+	<div class="container-fluid no-pad">
+		<%= render partial: 'shared/header' %>
+		<%= render partial: 'shared/navigation' %>
+	</div>
 
-  <div class="container">
-    <% if !current_page?(root_url) %>
-      <div class="advanced-search-container <% if params["advanced"].blank? or params["advanced"]  === 'false' %>hide<% end %>">
-        <%= render_aspace_partial :partial => "site/advanced_search" %>
-      </div>
-    <% end %>
-    <%= render_aspace_partial :partial => "site/breadcrumb" %>
-    <%= yield %>
-  </div>
+	<section id="content" class="container-fluid">
+		<a name="maincontent" id="maincontent"></a>
+		<%= flash_messages %>
+		<%= yield %>
+	</section>
 
-  <footer>
-    <%= render "site/footer" %>
-  </footer>
+	<script  type="text/javascript" >
+		$(".upper-record-details .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
+	</script>
 
-  <%= javascript_include_tag "application" %>
+	<%= render partial: 'shared/footer' %>
+
+	<% if AppConfig[:pui_enable_staff_link] %>
+		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
+			<script>
+				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+				RECORD_URI = "<%= j(@result.uri) %>";
+			</script>
+		<% end %>
+	<% end %>
 
 </body>
 </html>

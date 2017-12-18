@@ -1,9 +1,6 @@
 # This file is used by Rack-based servers to start the application.
 
-require "aspace_gems"
-ASpaceGems.setup
-
-require ::File.expand_path('../config/environment',  __FILE__)
+require_relative 'config/environment'
 
 module Rack
   class Server
@@ -19,5 +16,4 @@ module Rack
   end
 end
 
-
-run ArchivesSpacePublic::Application
+run Rails.application

@@ -37,6 +37,7 @@ class OpenSearcher
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
+      p uri
 
       HTTPRequest.new.get(uri) do |response|
         if response.code != '200'
@@ -66,12 +67,12 @@ class OpenSearcher
   def search(query, page, records_per_page)
     uri = URI(@base_url)
     start_record = calculate_start_record(page, records_per_page)
-    params = default_params.merge('q' => [query.to_s, @scheme],
+    params = default_params.merge('q' => [query.to_s, 'cs:' + @scheme],
                                   'count' => records_per_page,
                                   'start' => start_record)
 
     uri.query = URI.encode_www_form(params)
-
+    p uri
     results = HTTPRequest.new.get(uri) do |response|
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")

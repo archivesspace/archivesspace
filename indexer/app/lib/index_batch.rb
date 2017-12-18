@@ -50,7 +50,6 @@ class IndexBatch
     @record_count += 1
   end
 
-
   def rewind
     @filestore.rewind
     @filestore.readline         # skip the opening [

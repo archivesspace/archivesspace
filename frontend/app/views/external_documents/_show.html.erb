@@ -1,5 +1,6 @@
 <%
    section_id = "external_documents" if section_id.blank?
+   jsonmodel = :external_document if jsonmodel.blank?
 %>
 <section id="<%= section_id %>" class="subrecord-form-dummy">
 
@@ -7,9 +8,10 @@
 
   <div class="subrecord-form-container">
     <% external_documents.each_with_index do | document, index | %>
-      <%= readonly_context :external_document, document do |readonly| %>
+      <%= readonly_context jsonmodel, document do |readonly| %>
       <div class="subrecord-form-fields external-document">
         <%= readonly.label_and_textfield "title" %>
+        <%= readonly.label_and_select "identifier_type", readonly.possible_options_for('identifier_type', true) %>
 
         <% loc_uri = (document["location"] || "").slice(URI.regexp) %>
         <% if loc_uri.nil? %>

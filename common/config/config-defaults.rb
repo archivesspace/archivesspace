@@ -24,28 +24,53 @@ AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] *
 # something else below.
 AppConfig[:backend_url] = "http://localhost:8089"
 
-# The ArchivesSpace staff interface listens on port 8089 by default.  You can
+# The ArchivesSpace staff interface listens on port 8080 by default.  You can
 # set it to something else below.
 AppConfig[:frontend_url] = "http://localhost:8080"
 
-# The ArchivesSpace public interface listens on port 8089 by default.  You can
+# The ArchivesSpace public interface listens on port 8081 by default.  You can
 # set it to something else below.
 AppConfig[:public_url] = "http://localhost:8081"
 
-# The ArchivesSpace Solr index listens on port 8089 by default.  You can
+# The ArchivesSpace OAI server listens on port 8082 by default.  You can
+# set it to something else below.
+AppConfig[:oai_url] = "http://localhost:8082"
+
+# The ArchivesSpace Solr index listens on port 8090 by default.  You can
 # set it to something else below.
 AppConfig[:solr_url] = "http://localhost:8090"
 
-# The ArchivesSpace indexer listens on port 8089 by default.  You can
+# The ArchivesSpace indexer listens on port 8091 by default.  You can
 # set it to something else below.
 AppConfig[:indexer_url] = "http://localhost:8091"
 
-# The ArchivesSpace API documentation listens on port 8089 by default.  You can
+# The ArchivesSpace API documentation listens on port 8888 by default.  You can
 # set it to something else below.
 AppConfig[:docs_url] = "http://localhost:8888"
 
+# Logging. By default, this will be output on the screen while the archivesspace
+# command is running. When running as a daemon/service, this is put into a
+# file in logs/archivesspace.out. You can change this file by changing the log
+# value to a filepath that archivesspace has write access to. 
+AppConfig[:frontend_log] = "default"
+# Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:frontend_log_level] = "debug"
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
+
+AppConfig[:pui_log] = "default"
+AppConfig[:pui_log_level] = "debug"
+
+AppConfig[:indexer_log] = "default"
+AppConfig[:indexer_log_level] = "debug"
+
+
+# Set to true to log all SQL statements.  Note that this will have a performance
+# impact!
+AppConfig[:db_debug_log] = false
+# Set to true if you have enabled MySQL binary logging
+AppConfig[:mysql_binlog] = false
 
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
@@ -61,13 +86,31 @@ AppConfig[:locale] = :en
 # Plug-ins to load. They will load in the order specified
 AppConfig[:plugins] = ['local',  'lcnaf']
 
-# The aspace-public-formats plugin is not supported in the new public application
-AppConfig[:plugins] << 'aspace-public-formats' unless ENV['ASPACE_PUBLIC_NEW'] == 'true'
-
 # The number of concurrent threads available to run background jobs
 # Introduced for AR-1619 - long running jobs were blocking the queue
 # Resist the urge to set this to a big number!
 AppConfig[:job_thread_count] = 2
+
+# OAI configuration options
+AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
+AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
+AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+AppConfig[:oai_admin_email] = 'admin@example.com'
+
+# In addition to the sets based on level of description, you can define OAI Sets
+# based on repository codes and/or sponsors as follows
+#
+# AppConfig[:oai_sets] = {
+#   'repository_set' => {
+#     :repo_codes => ['hello626'],
+#     :description => "A set of one or more repositories",
+#   },
+#
+#   'sponsor_set' => {
+#     :sponsors => ['The_Sponsor'],
+#     :description => "A set of one or more sponsors",
+#   },
+# }
 
 
 ##
@@ -119,12 +162,6 @@ AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
 
-# Set to true to log all SQL statements.  Note that this will have a performance
-# impact!
-AppConfig[:db_debug_log] = false
-
-# Set to true if you have enabled MySQL binary logging
-AppConfig[:mysql_binlog] = false
 
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 
@@ -141,9 +178,7 @@ AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 
 # Don't override _prefix or _proxy_prefix unless you know what you're doing
-AppConfig[:frontend_prefix] = proc { "#{URI(AppConfig[:frontend_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
-AppConfig[:public_prefix] = proc { "#{URI(AppConfig[:public_url]).path}/".gsub(%r{/+$}, "/") }
 AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }
 
 # Setting any of the four keys below to false will prevent the associated
@@ -157,6 +192,7 @@ AppConfig[:enable_public] = true
 AppConfig[:enable_solr] = true
 AppConfig[:enable_indexer] = true
 AppConfig[:enable_docs] = true
+AppConfig[:enable_oai] = true
 
 # Some use cases want the ability to shutdown the Jetty service using Jetty's
 # ShutdownHandler, which allows a POST request to a specific URI to signal
@@ -222,16 +258,6 @@ AppConfig[:plugins_directory] = "plugins"
 # You can remove this from the footer by making the value blank.
 AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
 
-
-#
-# The following are used by the aspace-public-formats plugin
-# https://github.com/archivesspace/aspace-public-formats
-AppConfig[:public_formats_resource_links] = []
-AppConfig[:public_formats_digital_object_links] = []
-AppConfig[:xsltproc_path] = nil
-AppConfig[:xslt_path] = nil
-
-
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true
 
@@ -262,12 +288,12 @@ AppConfig[:max_location_range] = 1000
 # ASpace backend will not start if the db's schema_info version is not set
 # correctly for this version of ASPACE. This is to ensure that all the
 # migrations have run and completed before starting the app. You can override
-# this check here. Do so at your own peril. 
+# this check here. Do so at your own peril.
 AppConfig[:ignore_schema_info_check] = false
 
 # This is a URL that points to some demo data that can be used for testing,
 # teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
-AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip" 
+AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip"
 
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
@@ -276,9 +302,9 @@ AppConfig[:show_external_ids] = false
 # This sets the allowed size of the request/response header that Jetty will accept (
 # anything bigger gets a 403 error ). Note if you want to jack this size up,
 # you will also have to configure your Nginx/Apache  as well if
-# you're using that 
-AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024 
-AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024 
+# you're using that
+AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024
+AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 
 # Define the fields for a record type that are inherited from ancestors
 # if they don't have a value in the record itself.
@@ -307,7 +333,7 @@ AppConfig[:record_inheritance] = {
                           },
                           {
                             :property => 'extents',
-                            :inherit_directly => true
+                            :inherit_directly => false
                           },
                           {
                             :property => 'linked_agents',
@@ -322,6 +348,11 @@ AppConfig[:record_inheritance] = {
                           {
                             :property => 'notes',
                             :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+                            :inherit_directly => false
+                          },
+                          {
+                            :property => 'notes',
+                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
                             :inherit_directly => false
                           },
                          ]
@@ -385,9 +416,18 @@ AppConfig[:record_inheritance] = {
 # PUI Configurations
 # TODO: Clean up configuration options
 
-AppConfig[:pui_search_results_page_size] = 25
-AppConfig[:pui_branding_img] = '/img/Aspace-logo.png'
+AppConfig[:pui_search_results_page_size] = 10
+AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
+AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
+
+# The number of PDFs we'll generate (in the background) at the same time.
+#
+# PDF generation can be a little memory intensive for large collections, so we
+# set this fairly low out of the box.
+AppConfig[:pui_max_concurrent_pdfs] = 2
+# You can set this to nil or zero to prevent a timeout
+AppConfig[:pui_pdf_timeout] = 600
 
 # The following determine which 'tabs' are on the main horizontal menu
 AppConfig[:pui_hide] = {}
@@ -398,25 +438,30 @@ AppConfig[:pui_hide][:accessions] = false
 AppConfig[:pui_hide][:subjects] = false
 AppConfig[:pui_hide][:agents] = false
 AppConfig[:pui_hide][:classifications] = false
+AppConfig[:pui_hide][:search_tab] = false
 # The following determine globally whether the various "badges" appear on the Repository page
 # can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
-AppConfig[:pui_hide][:record_badge] = false
+AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:subject_badge] = false
 AppConfig[:pui_hide][:agent_badge] = false
 AppConfig[:pui_hide][:classification_badge] = false
 AppConfig[:pui_hide][:counts] = false
+# The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
+AppConfig[:pui_hide][:container_inventory] = false
 # Other usage examples:
 # Don't display the accession ("unprocessed material") link on the main navigation menu
 # AppConfig[:pui_hide][:accessions] = true
 
-# the following determine when the request button gets greyed out/disabled
+# the following determine when the request button is displayed
+AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
 # Repository-specific examples.  We are using the imaginary repository code of 'foo'.  Note the lower-case
 AppConfig[:pui_repos] = {}
 # Example:
 # AppConfig[:pui_repos][{repo_code}] = {}
+# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component] # for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)
 # AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
 # AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
 # AppConfig[:pui_repos][{repo_code}][:hide] = {}
@@ -433,7 +478,7 @@ AppConfig[:pui_page_actions_print] = true
 # Add page actions via the configuration
 AppConfig[:pui_page_custom_actions] = []
 # Examples:
-# Javascript action example: 
+# Javascript action example:
 # AppConfig[:pui_page_custom_actions] << {
 #   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
 #   'label' => 'actions.do_something', # the I18n path for the action button
@@ -477,7 +522,10 @@ AppConfig[:pui_email_enabled] = false
 # 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
 #AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
 
-# Example sendmail configuration: 
+# use the repository record email address for requests (overrides config email)
+AppConfig[:pui_request_use_repo_email] = false
+
+# Example sendmail configuration:
 # AppConfig[:pui_email_delivery_method] = :sendmail
 # AppConfig[:pui_email_sendmail_settings] = {
 #   location: '/usr/sbin/sendmail',
@@ -498,3 +546,6 @@ AppConfig[:pui_email_enabled] = false
 #}
 #AppConfig[:pui_email_perform_deliveries] = true
 #AppConfig[:pui_email_raise_delivery_errors] = true
+
+#The number of characters to truncate before showing the 'Read More' link on notes
+AppConfig[:pui_readmore_max_characters] = 450

@@ -1,0 +1,12 @@
+Thank you for your request.
+
+-- Record Requested --
+Title: <%= @request.title %>
+URL: <%= "#{AppConfig[:public_proxy_url].sub(/\/^/, '')}#{@request.request_uri}" %>
+
+-- Your Details --
+Name: <%= @request.user_name %>
+Email: @request.user_email %>
+Date: <%= @request.date %>
+Notes for Staff:
+<%= @request.note  %>

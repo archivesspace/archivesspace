@@ -1,0 +1,10 @@
+JSON Schema: Note_agent_rights_statement
+
+Properties
+
+array (string)	content
+
+
+
+
+

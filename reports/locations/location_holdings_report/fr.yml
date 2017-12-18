@@ -3,7 +3,7 @@ fr:
     location_holdings_report:
       title: Stockages
       description: Rapport sur les contenants entreposés dans une ou plusieurs localisations
-      repository_report_type: Dépôt
+      repository_report_type: Service
       building_report_type: Bâtiment
       single_location_report_type: Localisation unique
       location_range_report_type: Plage de localisations

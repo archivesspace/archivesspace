@@ -28,6 +28,8 @@
 
       "created_for_collection" => {"type" => "string", "maxLength" => 255, "required" => false},
 
+      "is_linked_to_published_record" => {"type" => "boolean", "readonly" => true},
+
       "active_restrictions" => {
         "type" => "array",
         "readonly" => "true",
@@ -67,6 +69,7 @@
             "display_string" => {"type" => "string"},
             "identifier" => {"type" => "string"},
             "level_display_string" => {"type" => "string"},
+            "publish" => {"type" => "boolean"},
             "_resolved" => {
               "type" => "object",
               "readonly" => "true"

@@ -156,7 +156,7 @@ describe "Digital Objects" do
     @driver.click_and_wait_until_gone(:css => "form#new_digital_object_component button[type='submit']")
     @driver.wait_for_ajax
 
-
+    expand_tree_pane
     root = tree_node_for_title(@do.title)
     expect(root.attribute('class')).to include('root-row')
     child = @driver.find_element(:id, "digital_object_component_#{@do_child1.id}")
@@ -183,5 +183,8 @@ describe "Digital Objects" do
     expect(child.attribute('class')).to include('indent-level-1')
     grand_child = tree_node_for_title(child_title)
     expect(grand_child.attribute('class')).to include('indent-level-1')
+  end
+
+  it "can change default values" do
   end
 end

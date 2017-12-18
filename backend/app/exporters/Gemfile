@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "nokogiri", ">=1.5.9"
+gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
 gem "factory_girl"
 gem "rufus-lru"
 gem "net-http-persistent"

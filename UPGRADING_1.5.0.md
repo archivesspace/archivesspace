@@ -1,9 +1,9 @@
 UPGRADING TO 1.5.0 
-==================
+===============================================================================================
 
-Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/) for the standard instructions that apply in all cases.
+Additional upgrade considerations specific to this release, which also apply to upgrading from 1.4.2 or lower to any version through 2.0.1. Refer to the [upgrade documentation](http://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/) for the standard instructions that apply in all cases.
 
-#General overview
+# General overview
 
 The upgrade process to the new data model in 1.5.0 requires considerable data transformation and it is important for users to review this document to understand the implications and possible side-effects. 
 
@@ -18,7 +18,7 @@ A quick overview of the steps are:
 7. When the conversion is done, the web application will start and the indexer will rebuild your index. Performance might be slower while the indexer runs, depending on your server environment and available resources. 
 8. Review the [output of the conversion process](#conversion) following the instructions below. How long it takes for the report to load will depend on the number of entries included in it.
 
-#Preparing for and Converting to the New Container Management Functionality
+# Preparing for and Converting to the New Container Management Functionality
 
 With version 1.5.0, ArchivesSpace is adopting a new data model that will enable more capable and efficient management of the containers in which you store your archival materials.  To take advantage of this improved functionality:
 * Repositories already using ArchivesSpace as a production application will need to upgrade their ArchivesSpace applications to the version 1.5.0.  (This upgrade / conversion must be done to take advantage of any other new features / bug fixes in ArchivesSpace 1.5.0 or later versions.)
@@ -27,7 +27,7 @@ With version 1.5.0, ArchivesSpace is adopting a new data model that will enable 
  
 Converting the container data model in version 1.4.2 and earlier versions of ArchivesSpace to the 1.5.0 version has some complexity and may not accommodate all the various ways in which container information has been recorded by diverse repositories.  As a consequence, upgrading from a pre-1.5.0 version of ArchivesSpace requires planning for the upgrade, reviewing the results, and, possibly, remediating data either prior to or after the final conversion process.  Because of all the variations in which container information can be recorded, it is impossible to know all the ways the data of repositories will be impacted.  For this reason, **all repositories upgrading their ArchivesSpace to version 1.5.0 should do so with a backup of their production ArchivesSpace instance and in a test environment.** A conversion may only be undone by reverting back to the source database.
 
-##Frequently Asked Questions
+## Frequently Asked Questions
 *How will my data be converted to the new model?*
 
 When your installation is upgraded to 1.5.0, the conversion will happen as part of the upgrade process.
@@ -57,7 +57,7 @@ During the conversion, ArchivesSpace will find all the Container 1s in your curr
 * If containers do not have barcodes, one top container is created for each unique combination of container 1 indicator and container type 1 within a resource or accession.
 * Once a top container is created, additional instance records for the same container within an accession or resource will be linked to that top container record.
 
-##Preparation <a name="preparation"></a>
+## Preparation <a name="preparation"></a>
 
 *What can I do to prepare my ArchivesSpace data for a smoother conversion to top containers?*
 
@@ -73,7 +73,7 @@ If you use the current Container Extent fields, these will no longer be availabl
 
 If you have a box and folder associated with a component (or any other hierarchical relationship of containers), you will need to add identifiers to the container element so that the EAD importer knows which is the top container. If you previously used Archivists' Toolkit to create EAD, your containers probably already have container identifiers. If your container elements do not have identifiers already, Yale University has made available an [XSLT transformation file](https://github.com/YaleArchivesSpace/xslt-files/blob/master/EAD_add_IDs_to_containers.xsl) to add them. You will need to run it before importing the EAD file into ArchivesSpace. 
 
-##Conversion <a name="conversion"></a> 
+## Conversion <a name="conversion"></a> 
 
 When upgrading from 1.4.2 (and earlier versions) to 1.5.0, the container conversion will happen as part of the upgrade process. You will be able to follow its progress in the log. Instructions for upgrading from a previous version of ArchivesSpace are available at [https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md]. 
 
@@ -119,4 +119,3 @@ The conversion process can resolve some of these errors for you by supplying or 
 *Are there any known conversion issues?*
 
 Due to a change in the ArchivesSpace EAD importer in 2015, some EADs with hierarchical containers not designated by a @parent attribute were turned into multiple instance records. This has since been corrected in the application, but we are working on a plugin (now available at [https://github.com/archivesspace/instance_joiner]) that will enable you to turn these back into single instances so that subcontainers are not mistakenly turned into top containers.
-

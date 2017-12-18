@@ -1,0 +1,9 @@
+<div class="note_orderedlist">
+  <div class="enumeration-<%= note['enumeration'] %>">
+    <ol>
+      <% Array(note['items']).each do |item| %>
+        <li><%= process_mixed_content(item).html_safe %></li>
+      <% end %>
+    </ol>
+  </div>
+</div>

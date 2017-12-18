@@ -1,7 +1,7 @@
 <%
   plugin = false if plugin.blank?
   i18n_prefix = plugin ? 'plugins.' : ''
-  singular = name.singularize
+  singular = name.singularize if singular.blank?
   section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3" if heading_size.blank?
   heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?

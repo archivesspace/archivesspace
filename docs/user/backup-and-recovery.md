@@ -85,11 +85,12 @@ database* to create an empty database with the appropriate
 permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
-    mysql -uarchivesspace -p < mysqldump.sql
+    `mysql -uas -p archivesspace < mysqldump.sql`, where
+      `as` is the user name
+      `archivesspace` is the database name
+      `mysqldump.sql` is the mysqldump filename
 
-(change the username as required and enter your password when
-prompted).
-
+You will be prompted for the password of the user.
 
 If you are using the demo database, your backup `.zip` file will
 contain a directory called `demo_db_backups`.  Each subdirectory of

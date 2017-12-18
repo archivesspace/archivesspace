@@ -6,7 +6,7 @@
 <title>
   Class: Repository
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -323,6 +323,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#reindex_classification_records-instance_method" title="#reindex_classification_records (instance method)">#<strong>reindex_classification_records</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#reindex_repository_records-instance_method" title="#reindex_repository_records (instance method)">#<strong>reindex_repository_records</strong>  &#x21d2; Object </a>
     
 
@@ -565,9 +588,6 @@
       <pre class="lines">
 
 
-131
-132
-133
 134
 135
 136
@@ -578,10 +598,13 @@
 141
 142
 143
-144</pre>
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -697,7 +720,10 @@
 102
 103
 104
-105</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 32</span>
@@ -719,7 +745,8 @@
                                                <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_rde_templates&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cancel_job&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cancel_job&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_assessment_attributes&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-archivists&quot;</span><span class='comma token'>,</span>
@@ -729,7 +756,8 @@
                                                <span class='string val'>&quot;update_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_container_profile_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;update_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;view_repository&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;create_job&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;cancel_job&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-project-managers&quot;</span><span class='comma token'>,</span>
@@ -741,7 +769,8 @@
                                                <span class='string val'>&quot;delete_archival_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;suppress_archival_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;merge_agents_and_subjects&#39;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;merge_agents_and_subjects&#39;</span><span class='comma token'>,</span>
+                                               <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-advanced-data-entry&quot;</span><span class='comma token'>,</span>
@@ -753,7 +782,7 @@
                                                <span class='string val'>&quot;manage_subject_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_agent_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_vocabulary_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_container_record&quot;</span><span class='comma token'>,</span>
                                                <span class='string val'>&quot;manage_container_profile_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;manage_location_profile_record&quot;</span><span class='comma token'>,</span>
-                                               <span class='string val'>&quot;import_records&quot;</span><span class='rbrack token'>]</span>
+                                               <span class='string val'>&quot;import_records&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;update_assessment_record&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;delete_assessment_record&quot;</span><span class='rbrack token'>]</span>
                      <span class='rbrace token'>}</span><span class='comma token'>,</span>
                      <span class='lbrace token'>{</span>
                        <span class='symbol val'>:group_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository-basic-data-entry&quot;</span><span class='comma token'>,</span>
@@ -797,16 +826,16 @@
       <pre class="lines">
 
 
-122
-123
-124
 125
 126
 127
-128</pre>
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assimilate identifier id'>assimilate</span><span class='lparen token'>(</span><span class='rubyid_other_repository identifier id'>other_repository</span><span class='rparen token'>)</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -836,9 +865,6 @@
       <pre class="lines">
 
 
-108
-109
-110
 111
 112
 113
@@ -847,13 +873,16 @@
 116
 117
 118
-119</pre>
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
- 
+
   <span class='comment val'># this is very expensive...probably need to come up with something</span>
   <span class='comment val'># better...</span>
   <span class='lbrack token'>[</span> <span class='rubyid_Classification constant id'>Classification</span><span class='comma token'>,</span> <span class='rubyid_Event constant id'>Event</span><span class='comma token'>,</span> <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='comma token'>,</span> <span class='rubyid_Accession constant id'>Accession</span> <span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span>
@@ -885,15 +914,48 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
   <span class='dstring node'>&quot;#{name} (#{repo_code})&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reindex_classification_records-instance_method">
+  
+    #<strong>reindex_classification_records</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 178</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_classification_records identifier id'>reindex_classification_records</span>
+  <span class='rubyid_ClassificationTerm constant id'>ClassificationTerm</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_Classification constant id'>Classification</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -916,16 +978,16 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166</pre>
+170
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 170</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -955,22 +1017,36 @@
       <pre class="lines">
 
 
-152
-153
-154
 155
 156
 157
-158</pre>
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 155</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_reindex_required identifier id'>reindex_required</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='neq op'>!=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+  <span class='rubyid_classification_reindex_required identifier id'>classification_reindex_required</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='neq op'>!=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_reindex_required identifier id'>reindex_required</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_reindex_required identifier id'>reindex_required</span>
+    <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_classification_reindex_required identifier id'>classification_reindex_required</span>
+    <span class='rubyid_reindex_classification_records identifier id'>reindex_classification_records</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_result identifier id'>result</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1021,9 +1097,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:12 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:05 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

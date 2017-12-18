@@ -1,0 +1,49 @@
+<% if list.kind_of? Hash
+   list.each do |k,v| %>
+   <h4><%= k %></h4>
+   <ul class="present_list <%= list_clss %>">
+   <% v.each do |item | %>
+     <li>
+     <% unless item['inherit'].blank? %>
+	<%= item['inherit'].html_safe %>
+     <% end %>
+     <% unless item['uri'].blank? %>
+     <a href="<%= app_prefix(item['uri']) %>">
+     <% end %>
+     <%= item['title'] %>
+     <% unless item['uri'].blank? %>
+     </a>
+     <% end %>
+     </li>
+   <% end %>
+   </ul>
+  <% end %>
+<% else %>
+  <ul class="present_list <%= list_clss %>">
+    <% list.each do |item| %>
+     <li>
+       <% if list_clss == 'subjects_list' && item['jsonmodel_type'].start_with?('agent_') %>
+         <a href="<%= app_prefix(item['uri']) %>">
+           <%= item['title'] %>
+         </a>
+         <% if item['_relator'] %>
+           (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}", :default => item['_relator'])  %>)
+         <% end %>
+         <%= item['_terms'].map{|t| " -- #{t['term']}"}.join %>
+       <% else %>
+       <% if item.kind_of? Hash %>
+        <% unless item['uri'].blank? %>
+         <a href="<%= app_prefix(item['uri']) %>">
+        <% end %>
+        <%= item['title'] %>
+        <% unless item['uri'].blank? %>
+         </a>
+        <% end %>
+       <% else %>
+         <%= item %>
+       <% end %>
+       <% end %>
+     </li>
+    <% end %>
+  </ul>
+ <% end %>

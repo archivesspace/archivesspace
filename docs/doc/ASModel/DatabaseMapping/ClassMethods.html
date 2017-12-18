@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::DatabaseMapping::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -98,8 +98,8 @@
   <span class='rbrace token'>}</span><span class='comma token'>,</span>
   <span class='string val'>&#39;date&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Date strings become dates&quot;</span><span class='comma token'>,</span>
-    <span class='symbol val'>:json_to_db</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
-    <span class='symbol val'>:db_to_json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='symbol val'>:json_to_db</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_s identifier id'>s</span> <span class='colon op'>:</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='symbol val'>:db_to_json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_date identifier id'>date</span> <span class='colon op'>:</span> <span class='rubyid_date identifier id'>date</span><span class='dot token'>.</span><span class='rubyid_strftime identifier id'>strftime</span><span class='lparen token'>(</span><span class='string val'>&#39;%Y-%m-%d&#39;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='rbrace token'>}</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
@@ -294,9 +294,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:00 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

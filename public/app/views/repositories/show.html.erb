@@ -1,0 +1,28 @@
+<div id="main-content" class="repositories">
+  <div class="abstract">
+    <%= render partial: 'repositories/repository', locals: {:result => @result,  :full => true} %>
+  </div>
+
+  <div id="whats-in-container">
+    <h3><%= t('repository.what') %> </h3>
+    <div>
+      <ul class="list-inline">
+	<% @badges.each do |type| %>
+	<%= render partial: 'repositories/badge', locals: {:type => type} %>
+	<% end %>
+      </ul>
+    </div>
+
+  </div>
+  <%= render partial: 'shared/search', locals: {:search_url => "#{@result['uri']}/search",
+   :title => t('repository._singular'),
+   :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
+            [t('search-limit', :limit => t('search-limits.resources')),'resource'],
+            [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],
+
+   :field_options => [["#{t('search_results.filter.fullrecord')}",''],
+            ["#{t('search_results.filter.title')}",'title'],
+            ["#{t('search_results.filter.creators')}",'creators_text'],
+            ["#{t('search_results.filter.notes')}", 'notes'],
+            ["#{t('search_results.filter.identifier')}", 'identifier'] ] } %>
+</div>

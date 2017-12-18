@@ -4,6 +4,8 @@ class EADModel < ASpaceExport::ExportModel
   include ASpaceExport::ArchivalObjectDescriptionHelpers
   include ASpaceExport::LazyChildEnumerations
 
+  RESOLVE = ['subjects', 'linked_agents', 'digital_object', 'top_container', 'top_container::container_profile']
+
   @data_src = Class.new do
     def initialize(json)
       @json = json
@@ -79,13 +81,11 @@ class EADModel < ASpaceExport::ExportModel
     include ASpaceExport::LazyChildEnumerations
 
     def self.prefetch(tree_nodes, repo_id)
-      resolve = ['subjects', 'linked_agents', 'digital_object', 'top_container']
-
       RequestContext.open(:repo_id => repo_id) do
         # NOTE: We assume that the above `resolve` properties have also been
         # resolved by the indexer.
         IndexedArchivalObjectPrefetcher.new.fetch(tree_nodes.map {|tree| tree['id']},
-                                                  resolve)
+                                                  RESOLVE)
       end
     end
 
@@ -100,7 +100,7 @@ class EADModel < ASpaceExport::ExportModel
       @child_class = self.class
       @json = nil
       RequestContext.open(:repo_id => repo_id) do
-        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), ['subjects', 'linked_agents', 'digital_object', 'top_container'])
+        rec = prefetched_rec || URIResolver.resolve_references(ArchivalObject.to_jsonmodel(tree['id']), RESOLVE)
         @json = JSONModel::JSONModel(:archival_object).new(rec)
       end
     end
@@ -135,6 +135,7 @@ class EADModel < ASpaceExport::ExportModel
     opts.each do |k, v|
       self.instance_variable_set("@#{k}", v)
     end
+
     repo_ref = obj.repository['ref']
     @repo_id = JSONModel::JSONModel(:repository).id_for(repo_ref)
     @repo = Repository.to_jsonmodel(@repo_id)
@@ -213,6 +214,32 @@ class EADModel < ASpaceExport::ExportModel
     end
 
     data.compact!
+
+    data
+  end
+
+
+  def addresslines_keyed
+    agent = self.agent_representation
+    return [] unless agent && agent.agent_contacts[0]
+
+    contact = agent.agent_contacts[0]
+
+    data = {}
+    (1..3).each do |i|
+      data["address_#{i}"] = contact["address_#{i}"]
+    end
+
+    line = ""
+    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
+    line += " #{contact['post_code']}"
+    line.strip!
+    data['city_region_post_code'] = line unless line.empty?
+
+    data['telephone'] = contact['telephone']
+    data['email'] = contact['email']
+
+    data.delete_if { |k,v| v.nil? }
 
     data
   end

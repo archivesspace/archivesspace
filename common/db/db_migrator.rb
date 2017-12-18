@@ -10,7 +10,7 @@ Sequel.database_timezone = :utc
 Sequel.typecast_timezone = :utc
 
 Sequel.extension :migration
-Sequel.extension :core_extensions 
+Sequel.extension :core_extensions
 
 
 module ColumnDefs
@@ -192,24 +192,27 @@ class DBMigrator
       raise $!
     rescue Exception => e
      $stderr.puts <<EOF
-     
-     #{ 3.times { $stderr.puts "!" * 100  } } 
-     
-     
-     Database migration error. 
-     Your upgrade has encountered a problem. 
-     You must resolve these issues before the database migration can complete.
-     
-     
-     Error: 
-     #{e.inspect}
-     #{e.message}
-     #{e.backtrace.join("\n")}
 
-     
-     #{ 3.times { $stderr.puts "!" * 100  } }
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!                                                                                                !!
+    !!                                      Database migration error.                                 !!
+    !!                                  Your upgrade has encountered a problem.                       !!
+    !!                  You must resolve these issues before the database migration can complete.     !!
+    !!                                                                                                !!
+    !!                                                                                                !!
+    !!                                                Error:                                          !!
+    !!  #{e.inspect}                                                                                  !!
+    !!  #{e.message}                                                                                  !!
+    !!  #{e.backtrace.join("\n")}                                                                     !!
+    !!                                                                                                !!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 EOF
-     
+
      raise e
     end
   end
@@ -221,7 +224,13 @@ EOF
   end
 
   def self.fail_if_managed_container_migration_needed!(db)
-    current_version = db[:schema_info].first[:version] rescue nil
+    # If brand new install with empty database, need to check
+    # for tables existence before determining the current version number
+    if db.tables.empty?
+      current_version = 0
+    else
+      current_version = db[:schema_info].first[:version]
+    end
 
     if current_version && current_version > 0 && current_version < CONTAINER_MIGRATION_NUMBER
       $stderr.puts <<EOM

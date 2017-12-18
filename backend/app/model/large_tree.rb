@@ -202,6 +202,7 @@ class LargeTree
 
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
                    "root_record_uri" => root_record_uri,
+                   "jsonmodel_type" => @node_type,
                    "title" => node_to_title_map.fetch(parent_node),
                    "offset" => node_to_waypoint_map.fetch(current_node),
                    "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')}
@@ -212,6 +213,7 @@ class LargeTree
         path << {"node" => nil,
                  "root_record_uri" => root_record_uri,
                  "offset" => node_to_waypoint_map.fetch(current_node),
+                 "jsonmodel_type" => @root_type,
                  "title" => root_record_titles[root_record_id],
                  "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
 

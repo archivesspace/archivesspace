@@ -180,7 +180,11 @@ class TopContainer < Sequel::Model(:top_container)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
+    publication_status = ImpliedPublicationCalculator.new.for_top_containers(objs)
+
     jsons.zip(objs).each do |json, obj|
+      json['is_linked_to_published_record'] = publication_status.fetch(obj)
+
       json['display_string'] = obj.display_string
       json['long_display_string'] = obj.long_display_string
 
@@ -190,7 +194,8 @@ class TopContainer < Sequel::Model(:top_container)
           'ref' => series.uri,
           'identifier' => series.component_id,
           'display_string' => find_title_for(series),
-          'level_display_string' => obj.level_display_string(series)
+          'level_display_string' => obj.level_display_string(series),
+          'publish' => !(series.suppressed == 1) && (series.publish == 1)
         }
       end
 

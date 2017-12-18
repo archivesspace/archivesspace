@@ -6,7 +6,7 @@
 <title>
   Class: Location
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span></dd>
   </dl>
   
   
@@ -117,11 +117,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#cached_relationships-instance_method" title="Relationships#cached_relationships (method)">#cached_relationships</a></span></p>
 
 
   
@@ -429,17 +424,6 @@
   
   
   
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#cache_relationships-instance_method" title="Relationships#cache_relationships (method)">#cache_relationships</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#related_records-instance_method" title="Relationships#related_records (method)">#related_records</a></span>, <span class='object_link'><a href="Relationships.html#transfer_to_repository-instance_method" title="Relationships#transfer_to_repository (method)">#transfer_to_repository</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="AutoGenerator.html#included-class_method" title="AutoGenerator.included (method)">included</a></span></p>
 
@@ -497,6 +481,7 @@
       <pre class="lines">
 
 
+82
 83
 84
 85
@@ -506,11 +491,10 @@
 89
 90
 91
-92
-93</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_batch_update identifier id'>batch_update</span><span class='lparen token'>(</span><span class='rubyid_location identifier id'>location</span><span class='rparen token'>)</span>
   <span class='rubyid_location identifier id'>location</span><span class='lbrack token'>[</span><span class='symbol val'>:record_uris</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_uri identifier id'>uri</span><span class='bitor op'>|</span>
@@ -544,6 +528,7 @@
       <pre class="lines">
 
 
+158
 159
 160
 161
@@ -578,11 +563,10 @@
 190
 191
 192
-193
-194</pre>
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 158</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_building_data identifier id'>building_data</span>
   <span class='rubyid_buildings identifier id'>buildings</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -641,13 +625,13 @@
       <pre class="lines">
 
 
+77
 78
 79
-80
-81</pre>
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_for_batch identifier id'>create_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
   <span class='rubyid_locations identifier id'>locations</span> <span class='assign token'>=</span> <span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
@@ -674,13 +658,13 @@
       <pre class="lines">
 
 
+65
 66
 67
-68
-69</pre>
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 65</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uniqify_functions identifier id'>uniqify_functions</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -707,6 +691,7 @@
       <pre class="lines">
 
 
+196
 197
 198
 199
@@ -715,11 +700,10 @@
 202
 203
 204
-205
-206</pre>
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 196</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_for_building identifier id'>for_building</span><span class='lparen token'>(</span><span class='rubyid_building identifier id'>building</span><span class='comma token'>,</span> <span class='rubyid_floor identifier id'>floor</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_room identifier id'>room</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_area identifier id'>area</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_query identifier id'>query</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -752,13 +736,13 @@
       <pre class="lines">
 
 
+136
 137
 138
-139
-140</pre>
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_indicators identifier id'>generate_indicators</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_range identifier id'>range</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;start&quot;</span><span class='rbrack token'>]</span><span class='dot2 op'>..</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;end&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_take identifier id'>take</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:max_location_range</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span><span class='rparen token'>)</span>
@@ -785,6 +769,7 @@
       <pre class="lines">
 
 
+99
 100
 101
 102
@@ -819,11 +804,10 @@
 131
 132
 133
-134
-135</pre>
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
   <span class='rubyid_indicators_1 identifier id'>indicators_1</span><span class='comma token'>,</span> <span class='rubyid_indicators_2 identifier id'>indicators_2</span><span class='comma token'>,</span> <span class='rubyid_indicators_3 identifier id'>indicators_3</span>  <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_1_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_2_range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_batch identifier id'>batch</span><span class='lbrack token'>[</span><span class='string val'>&quot;coordinate_3_range&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span>
@@ -882,6 +866,7 @@
       <pre class="lines">
 
 
+25
 26
 27
 28
@@ -899,11 +884,10 @@
 40
 41
 42
-43
-44</pre>
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_title identifier id'>generate_title</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
@@ -945,13 +929,13 @@
       <pre class="lines">
 
 
+94
 95
 96
-97
-98</pre>
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_titles_for_batch identifier id'>titles_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
   <span class='rubyid_locations identifier id'>locations</span> <span class='assign token'>=</span> <span class='rubyid_generate_locations_for_batch identifier id'>generate_locations_for_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='rparen token'>)</span>
@@ -978,6 +962,7 @@
       <pre class="lines">
 
 
+52
 53
 54
 55
@@ -987,11 +972,10 @@
 59
 60
 61
-62
-63</pre>
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_uniqify_functions identifier id'>uniqify_functions</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_found_fns identifier id'>found_fns</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1054,6 +1038,7 @@
       <pre class="lines">
 
 
+142
 143
 144
 145
@@ -1066,11 +1051,10 @@
 152
 153
 154
-155
-156</pre>
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 142</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='comment val'># only allow delete if the location doesn&#39;t have any relationships that should be preserved</span>
@@ -1107,13 +1091,13 @@
       <pre class="lines">
 
 
+71
 72
 73
-74
-75</pre>
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/location.rb', line 71</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uniqify_functions identifier id'>uniqify_functions</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
@@ -1130,9 +1114,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:12 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

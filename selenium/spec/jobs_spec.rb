@@ -35,11 +35,7 @@ describe "Jobs" do
     @driver.click_and_wait_until_gone(:link, 'Batch Find and Replace (Beta)')
 
     token_input = @driver.find_element(:id,"token-input-find_and_replace_job_ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@resource1.title)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
-    @driver.wait_for_ajax
+    @driver.typeahead_and_select( token_input, @resource1.title )
 
     @driver.find_element(:id => "find_and_replace_job_record_type_").select_option("extent")
 
@@ -68,10 +64,7 @@ describe "Jobs" do
     @driver.click_and_wait_until_gone(:link, 'Print To PDF')
 
     token_input = @driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@resource2.title)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @resource2.title ) 
 
     @driver.find_element(:css => "form#jobfileupload button[type='submit']").click
 

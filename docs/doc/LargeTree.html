@@ -6,7 +6,7 @@
 <title>
   Class: LargeTree
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -597,7 +597,9 @@
 220
 221
 222
-223</pre>
+223
+224
+225</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 137</span>
@@ -670,6 +672,7 @@
 
         <span class='rubyid_path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;node&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@node_type ivar id'>@node_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_parent_node identifier id'>parent_node</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                  <span class='string val'>&quot;root_record_uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_record_uri identifier id'>root_record_uri</span><span class='comma token'>,</span>
+                 <span class='string val'>&quot;jsonmodel_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@node_type ivar id'>@node_type</span><span class='comma token'>,</span>
                  <span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_to_title_map identifier id'>node_to_title_map</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_parent_node identifier id'>parent_node</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                  <span class='string val'>&quot;offset&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_to_waypoint_map identifier id'>node_to_waypoint_map</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_current_node identifier id'>current_node</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                  <span class='string val'>&quot;parsed_title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_node_to_title_map identifier id'>node_to_title_map</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_parent_node identifier id'>parent_node</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
@@ -680,6 +683,7 @@
       <span class='rubyid_path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;node&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span>
                <span class='string val'>&quot;root_record_uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_record_uri identifier id'>root_record_uri</span><span class='comma token'>,</span>
                <span class='string val'>&quot;offset&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_to_waypoint_map identifier id'>node_to_waypoint_map</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_current_node identifier id'>current_node</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+               <span class='string val'>&quot;jsonmodel_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@root_type ivar id'>@root_type</span><span class='comma token'>,</span>
                <span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_record_titles identifier id'>root_record_titles</span><span class='lbrack token'>[</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                <span class='string val'>&quot;parsed_title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_root_record_titles identifier id'>root_record_titles</span><span class='lbrack token'>[</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
@@ -818,8 +822,6 @@
       <pre class="lines">
 
 
-226
-227
 228
 229
 230
@@ -863,10 +865,12 @@
 268
 269
 270
-271</pre>
+271
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_waypoint identifier id'>waypoint</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_offset identifier id'>offset</span><span class='rparen token'>)</span>
   <span class='rubyid_record_ids identifier id'>record_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -925,9 +929,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:12 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:05 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

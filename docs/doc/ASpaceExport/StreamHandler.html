@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceExport::StreamHandler
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -291,6 +291,7 @@
       <pre class="lines">
 
 
+39
 40
 41
 42
@@ -315,11 +316,10 @@
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_stream_out identifier id'>stream_out</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_y identifier id'>y</span><span class='comma token'>,</span> <span class='rubyid_depth identifier id'>depth</span><span class='assign token'>=</span><span class='integer val'>0</span><span class='rparen token'>)</span>
   <span class='rubyid_xml_text identifier id'>xml_text</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span>
@@ -336,7 +336,7 @@
     <span class='rubyid_next_section identifier id'>next_section</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_shift identifier id'>shift</span>
     <span class='rubyid_next_id identifier id'>next_id</span> <span class='assign token'>=</span> <span class='rubyid_next_section identifier id'>next_section</span><span class='dot token'>.</span><span class='rubyid_slice! fid id'>slice!</span><span class='lparen token'>(</span><span class='regexp val'>/^_(\w+)_/</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/_/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_next_fragments identifier id'>next_fragments</span> <span class='assign token'>=</span> <span class='rubyid_RawXMLHandler constant id'>RawXMLHandler</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-    <span class='rubyid_doc_frag identifier id'>doc_frag</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span> <span class='string val'>&quot;&quot;</span>
+    <span class='rubyid_doc_frag identifier id'>doc_frag</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Document constant id'>Document</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='rparen token'>)</span>
     <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_with identifier id'>with</span><span class='lparen token'>(</span><span class='rubyid_doc_frag identifier id'>doc_frag</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
       <span class='rubyid_@sections ivar id'>@sections</span><span class='lbrack token'>[</span><span class='rubyid_next_id identifier id'>next_id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_next_fragments identifier id'>next_fragments</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
@@ -358,9 +358,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:17 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:10 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

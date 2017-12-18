@@ -1,0 +1,44 @@
+<div id="main-content" class="classifications">
+  <div class="row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    </div>
+    <div class="page_actions col-sm-5 right">
+      <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
+    </div>
+  </div>
+    <div class="row">
+      <div class="information col-sm-12">
+      <%= render partial: 'shared/breadcrumbs' %>
+      <div class="description"><%= @result.description %></div>
+      <% if @result.creator %>
+      <div class="creator clear">
+        <span class="inline-label clear">
+          <%= t('classification.creator') %>: </span>
+          <%= link_to @result.creator.display_string, app_prefix(@result.creator.uri) %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <% unless @results.blank? || @results['total_hits'] == 0 %>
+        <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
+        <% @results.records.each do |result| %>
+          <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+        <% end %>
+        <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+
+      <% end %>
+    </div>
+    <% if @has_children %>
+      <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
+        <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+
+        <% unless @results.blank? || @results['total_hits'] == 0 %>
+          <%= render partial: 'shared/facets' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -356,16 +356,36 @@ END
       converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
+      # we should only get one agent record
+      json.count.should eq(1)
 
-      new_record = json.last
+      agent = json.first
+      agent['publish'].should be_truthy
+      agent['notes'].count.should eq(1)
+      agent['notes'][0]['subnotes'][0]['content'].should eq(
+        'Biographical or historical data. Expansion ... Uniform Resource Identifier'
+      )
 
-      new_record['names'][0]['primary_name'].should eq("Davis")
-      new_record['names'][0]['rest_of_name'].should eq("John W.")
-      new_record['names'][0]['dates'].should eq("1873-1955")
+      agent['names'][0]['name_order'].should eq("inverted")
+      agent['names'][0]['authority_id'].should eq('n88218900')
+      agent['names'][0]['authorized'].should be_truthy
+      agent['names'][0]['is_display_name'].should be_truthy
+      agent['names'][0]['source'].should eq('naf')
+      agent['names'][0]['rules'].should eq('aacr')
+      agent['names'][0]['primary_name'].should eq("Davis")
+      agent['names'][0]['rest_of_name'].should eq("John W.")
+      agent['names'][0]['fuller_form'].should eq("John William")
+      agent['names'][0]['dates'].should eq("1873-1955")
 
       # Unauthorized names are added too
-      new_record['names'][1]['primary_name'].should eq("Davis")
-      new_record['names'][1]['rest_of_name'].should eq("John William,")
+      agent['names'][1]['name_order'].should eq("inverted")
+      agent['names'][1]['authority_id'].should be_nil
+      agent['names'][1]['authorized'].should be_falsey
+      agent['names'][1]['source'].should eq('naf')
+      agent['names'][1]['rules'].should eq('aacr')
+      agent['names'][1]['is_display_name'].should be_falsey
+      agent['names'][1]['primary_name'].should eq("Davis")
+      agent['names'][1]['rest_of_name'].should eq("John William")
     end
   end
 
@@ -377,14 +397,30 @@ END
       converter = MarcXMLConverter.for_subjects_and_agents_only(cyberpunk_file)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
+      # we should only get one subject record
+      json.count.should eq(1)
 
-      # ensure we get them in a standard order
-      badass, cyberpunk = json.sort_by { |j| j['terms'][0]['term'] }
-      badass['terms'][0]['term'].should eq("Badass sci-fi")
-      badass['source'].should eq("Library of Congress Subject Headings")
+      subject = json.first
+      subject['publish'].should be_truthy
+      subject['authority_id'].should eq('no2006087900')
+      subject['source'].should eq("Library of Congress Subject Headings")
+      subject['scope_note'].should eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
+      subject['terms'].count.should eq(1)
+      subject['terms'][0]['term'].should eq('Cyberpunk')
+    end
 
-      cyberpunk['terms'][0]['term'].should eq("Cyberpunk")
-      cyberpunk['source'].should eq("Library of Congress Subject Headings")
+    it "can import a subject authority record with lcgft source" do
+      lcgft_file = File.expand_path("../app/exporters/examples/marc/gf2014026450.xml",
+                                    File.dirname(__FILE__))
+
+      converter = MarcXMLConverter.for_subjects_and_agents_only(lcgft_file)
+      converter.run
+      json = JSON(IO.read(converter.get_output_path))
+      # we should only get one subject record
+      json.count.should eq(1)
+
+      subject = json.first
+      subject['source'].should eq("lcgft")
     end
   end
 

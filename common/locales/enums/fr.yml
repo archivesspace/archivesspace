@@ -343,7 +343,7 @@
       work: Oeuvre
       image: Image
     event_event_type:
-      accession: Collecte
+      accession: Entrée
       accumulation: Accumulation
       acknowledgement: Reçu
       acknowledgement_sent: Reçu envoyé
@@ -398,7 +398,7 @@
       under_revision: En révision
       unprocessed: Non traité
     instance_instance_type:
-      accession: Collecte
+      accession: Entrée
       audio: Audio
       books: Livres
       computer_disks: Disques durs
@@ -412,10 +412,10 @@
       realia: Realia
       text: Texte
     accession_acquisition_type:
-      deposit: Versement
+      deposit: Dépôt
       gift: Don
       purchase: Achat
-      transfer: Transfert
+      transfer: Versement
     accession_resource_type:
       collection: Collection
       publications: Publications
@@ -989,8 +989,8 @@
     date_type:
       expression: Expression
       single: Unique
-      bulk: Dates du gros
-      inclusive: Dates inclusives
+      bulk: Dates de la majeure partie
+      inclusive: Dates extrêmes
       range: Fourchette
     date_label:
       record_keeping: Maintenance notices
@@ -1009,7 +1009,7 @@
       other: Autre
     date_certainty:
       approximate: Approximative
-      inferred: Inférée
+      inferred: Supposée
       questionable: Douteuse
     extent_portion:
       whole: Tout
@@ -1295,15 +1295,29 @@
       YE: Yemen
       ZM: Zambie
       ZW: Zimbabwe
+    rights_statement_act_type:
+      delete: Supprimer
+      disseminate: Disséminer
+      migrate: Migrer
+      modify: Modifier
+      replicate: Dupliquer
+      use: Utiliser
+    rights_statement_act_restriction:
+      allow: Permettre
+      disallow: Interdire
+      conditional: Conditionnel
     rights_statement_rights_type:
       intellectual_property: Propriété intellectuelle
       license: Permission
       statute: Statut
       institutional_policy: Politique institutionnelle
     rights_statement_ip_status:
-      copyrighted: Sous copyright
+      copyrighted: Droits d'auteur
       public_domain: Domaine public
       unknown: Inconnu
+    rights_statement_other_rights_basis:
+      donor: Donateur
+      policy: Règle
     subject_term_type:
       cultural_context: Contexte culturel
       function: Fonction
@@ -1351,14 +1365,25 @@
       physloc: Localisation physique
       materialspec: Détails matériels spécifiques
       physfacet: Particularité physique
+      rights_statement: Droits
     note_digital_object_type:
       <<: *note_type_definitions
     note_multipart_type:
       <<: *note_type_definitions
     note_singlepart_type:
       <<: *note_type_definitions
+    note_rights_statement_type:
+      materials: Documents
+      type_note: Type de note
+      additional_information: Info supplémentaire
+    note_rights_statement_act_type:
+      expiration: Expiration
+      extension: Extension
+      permissions: Permissions
+      restrictions: Restrictions
+      additional_information: Additional Information
     linked_agent_role:
-      creator: Auteur
+      creator: Producteur
       source: Source
       subject: Matière
     agent_relationship_associative_relator:
@@ -1408,7 +1433,7 @@
       meters: Mètres
     restriction_type:
       RestrictedSpecColl: 1 - Restriction de consultation imposée par le donateur/l'université
-      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le dépôt
+      RestrictedCurApprSpecColl: 2 - Restriction de consultation imposée par le service d'archives
       RestrictedFragileSpecColl: 3 - Non consultable fragile
       InProcessSpecColl: 4 - Non consultable en cours de traitement
       ColdStorageBrbl: 5 - Autre
@@ -1416,15 +1441,122 @@
       av_materials: Documents audiovisuels
       arrivals: Arrivées
       shared: Partagés
-
+    rights_statement_external_document_identifier_type:
+      agrovoc: "AGROVOC multilingual agricultural thesaurus. (Rome: APIMONDIA)"
+      allmovie: "AllMovie"
+      allmusic: "AllMusic"
+      allocine: "AlloCiné"
+      amnbo: "American National Biography Online"
+      ansi: "American National Standards Institute and National Information Standards Organisation number for an ANSI or ANSI/NISO standard"
+      artsy: "Artsy"
+      bdusc: "Biographical Directory of the United States Congress (United States Congress)"
+      bfi: "BFI - British Film Institute"
+      bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
+      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
+      cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
+      danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
+      datoses: "datos.bne.es (Biblioteca Nacional de España)"
+      discogs: "Discogs"
+      dkfilm: "Det Danske Filminstitut Filmdatabasen"
+      doi: "Digital Object Identifier"
+      ean: "International Article Number"
+      eidr: "EIDR: Entertainment Identifier Registry"
+      fast: "Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)"
+      filmport: "filmportal.de"
+      findagr: "Find a Grave"
+      freebase: "Freebase"
+      gec: "Gran enciclopèdia catalana"
+      geogndb: "Geographic Names Database"
+      geonames: "GeoNames"
+      gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
+      gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
+      gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic Names)"
+      gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
+      hdl: "Handle"
+      ibdb: "IBDB - Internet Broadway Database"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur (ABES))"
+      imdb: "IMDb - Internet Movie Database"
+      isan: "International Standard Audiovisual Number"
+      isbn: "International Standard Book Number"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation (IDF))"
+      isbnre: "ISBN (International Standard Book Number) registrant element"
+      isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
+      ismn: "International Standard Music Number"
+      isni: "International Standard Name Identifier"
+      iso: "International Organization for Standardization number for an ISO standard"
+      isrc: "International Standard Recording Code"
+      issn: "International Standard Serial Number"
+      issn-l: "Linking International Standard Serial Number"
+      issue-number: "Sound recording issue number"
+      istc: "International Standard Text Code"
+      iswc: "International Standard Musical Work Code"
+      itar: "ITAR (Importtjeneste og autoritetsregistre)"
+      kinopo: "КиноПоиск = KinoPoisk"
+      lccn: "Library of Congress Control Number"
+      lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library of Congress)"
+      libaus: "Libraries Australia (National Library of Australia)"
+      local: "Locally defined identifier"
+      matrix-number: "Sound recording matrix number"
+      moma: "Museum of Modern Art (New York: Museum of Modern Art)"
+      munzing: "Munzinger (Munzinger Archiv)"
+      music-plate: "Publisher's music plate number"
+      music-publisher: "Publisher-assigned music number"
+      musicb: "MusicBrainz"
+      natgazfid: "U.S. National Gazetteer Feature Name Identifier"
+      nga: "National Gallery of Art (Washington DC: National Gallery of Art)"
+      nipo: "Número de Identificación de las Publicaciones Oficiales"
+      nndb: "NNDB (Notable Names Database)"
+      npg: "National Portrait Gallery (London: National Portrait Gallery)"
+      odnb: "Oxford Dictionary of National Biography (Oxford University Press)"
+      opensm: "OpenStreetMap"
+      orcid: "Open Researcher and Contributor IDentifier"
+      oxforddnb: "Oxford Biography Index"
+      porthu: "PORT.hu"
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association of College & Research Libraries)"
+      rid: "ResearcherID (Thomson Reuters)"
+      rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
+      saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
+      scholaru: "Scholar Universe"
+      scope: "Scope"
+      scopus: "Scopus Author Identifier"
+      sici: "Serial Item and Contribution Identifier"
+      spotify: "Spotify"
+      sprfbsb: "Sports Reference: Baseball"
+      sprfbsk: "Sports Reference: Basketball"
+      sprfcbb: "Sports Reference: College Basketball"
+      sprfcfb: "Sports Reference: College Football"
+      sprfhoc: "Sports Reference: Hockey"
+      sprfoly: "Sports Reference: Olympic Sports"
+      sprfpfb: "Sports Reference: Pro Football"
+      stock-number: "Publisher, distributor, or vendor stock number"
+      strn: "Standard Technical Report Number"
+      svfilm: "Svensk Filmdatabas"
+      tatearid: "Tate Artist Identifier"
+      theatr: "Theatricalia"
+      trove: "Trove (National Library of Australia)"
+      upc: "Universal Product Code"
+      uri: "Uniform Resource Identifier"
+      urn: "Uniform Resource Name"
+      viaf: "Virtual International Authority File number"
+      videorecording-identifier: "Publisher-assigned videorecording number"
+      wikidata: "Wikidata (Wikimedia Foundation)"
+      wndla: "Web NDL Authorities (Tokyo: National Diet Library (NDL))"
 
   enumeration_names:
-    accession_acquisition_type: Type d'acquisition de la collecte
-    accession_parts_relator: Rapport entre parties de collecte
-    accession_parts_relator_type: Type de rapport entre parties de collecte
-    accession_sibling_relator: "Rapport entre collectes soeurs"
-    accession_sibling_relator_type: Type de rapport entre collectes soeurs
-    accession_resource_type: Type de ressource de la collecte
+    accession_acquisition_type: Type d'acquisition de l'entrée
+    accession_parts_relator: Rapport entre les parties de l'entrée
+    accession_parts_relator_type: Type de rapport entre les parties de l'entrée
+    accession_sibling_relator: "Rapport entre entrées soeurs"
+    accession_sibling_relator_type: Type de rapport entre entrées soeurs
+    accession_resource_type: Type de ressource de l'entrée
     agent_contact_salutation: Formule de salutation de l'agent contact
     agent_relationship_associative_relator: Relation agents Rapport associatif
     agent_relationship_earlierlater_relator: Relation agents Rapport de succession dans le temps
@@ -1437,7 +1569,7 @@
     container_type: Type de contenant
     country_iso_3166: Pays ISO 3166
     date_calendar: Calendrier
-    date_certainty: Certitude de la date
+    date_certainty: Fiabilité de la date
     date_era: Ere
     date_label: Etiquette de date
     date_type: Type de date
@@ -1463,13 +1595,15 @@
     name_person_name_order: Nom de personne Ordre du nom
     name_rule: Règles de nom
     name_source: Source de nom
-    note_bibliography_type: Type de note Bibliographie
-    note_digital_object_type: Type de note Objet numérique
-    note_index_item_type: Type de note Item d'index
-    note_index_type: Type de note Index
-    note_multipart_type: Type de note Multipartite
+    note_bibliography_type: Note Type de bibliographie
+    note_digital_object_type: Note Type d'objet numérique
+    note_index_item_type: Note Type d'item d'index
+    note_index_type: Note Type d'index
+    note_multipart_type: Note Type de multipartite
     note_orderedlist_enumeration: Note Enumération en liste hiérarchique
-    note_singlepart_type: Type de note Simple
+    note_rights_statement_act_type: Note Type de convention
+    note_rights_statement_type: Note Type de mention de droits
+    note_singlepart_type: Note Type de singlepart
     telephone_number_type: Type de numéro de téléphone
     resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut
@@ -1486,3 +1620,7 @@
     dimension_units: Unités de dimensions
     restriction_type: Consultation locale Type de restriction
     location_function_type: Localisation Type de fonction
+    rights_statement_external_document_identifier_type: Déclaration de droits Type d'identifiant externe
+    rights_statement_act_restriction: Déclaration de droits Convention de restrictions
+    rights_statement_act_type: Déclaration de droits Type de convention
+    rights_statement_other_rights_basis: Déclaration de droits Autres fondements

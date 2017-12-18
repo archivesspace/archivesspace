@@ -1,19 +1,18 @@
 require_relative 'csv_response'
 require_relative 'json_response'
-require_relative 'xlsx_response'
 require_relative 'pdf_response'
 require_relative 'html_response'
 require 'erb'
 require 'nokogiri'
 
 class ReportResponse
- 
+
   attr_accessor :report
   attr_accessor :base_url
 
   def initialize(report,  params = {}  )
     @report = report
-    @params = params 
+    @params = params
   end
 
   def generate

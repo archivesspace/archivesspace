@@ -6,7 +6,7 @@
 <title>
   Class: DBMigrator
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -99,6 +99,18 @@
   
 </div>
 
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="DBMigrator/ContainerMigrationError.html" title="DBMigrator::ContainerMigrationError (class)">ContainerMigrationError</a></span>
+    
+  
+    
+  
+</p>
 
   <h2>Constant Summary</h2>
   <dl class="constants">
@@ -121,6 +133,12 @@
       <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 </pre></dd>
     
+      <dt id="CONTAINER_MIGRATION_NUMBER-constant" class="">CONTAINER_MIGRATION_NUMBER =
+        
+      </dt>
+      <dd><pre class="code"><span class='integer val'>60</span>
+</pre></dd>
+    
   </dl>
 
 
@@ -136,6 +154,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fail_if_managed_container_migration_needed!-class_method" title="fail_if_managed_container_migration_needed! (class method)">.<strong>fail_if_managed_container_migration_needed!</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -239,7 +280,62 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="latest_migration_number-class_method">
+  <h3 class="signature first" id="fail_if_managed_container_migration_needed!-class_method">
+  
+    .<strong>fail_if_managed_container_migration_needed!</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 224</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='comment val'># If brand new install with empty database, need to check</span>
+  <span class='comment val'># for tables existence before determining the current version number</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_tables identifier id'>tables</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_current_version identifier id'>current_version</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_current_version identifier id'>current_version</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:schema_info</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='lt op'>&lt;</span> <span class='rubyid_CONTAINER_MIGRATION_NUMBER constant id'>CONTAINER_MIGRATION_NUMBER</span>
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n=======================================================================\nImportant migration issue\n=======================================================================\n\nHello!\n\nIt appears that you are upgrading ArchivesSpace from version 1.4.2 or prior.  To\ncomplete this upgrade, there are some additional steps to follow.\n\nThe 1.5 series of ArchivesSpace introduced a new data model for containers,\nalong with a compatibility layer to provide a seamless transition between the\nold and new container models.  In ArchivesSpace version 2.1, this compatibility\nlayer was removed in the interest of long-term maintainability and system\nperformance.\n\nTo upgrade your ArchivesSpace installation, you will first need to upgrade to\nversion 2.0.1.  This will upgrade your containers to the new model and clear the\npath for future upgrades.  Once you have done this, you can upgrade to the\nlatest ArchivesSpace version as normal.\n\nFor more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade\nguide:\n\n  https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/\n\nThe upgrade guide for version 1.5.0 also contains specific instructions for\nthe container upgrade that you will be performing, and the steps in this guide\napply equally to version 2.0.1.  You can find that guide here:\n\n  https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md\n\n=======================================================================\n\n&quot;</span>
+
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ContainerMigrationError constant id'>ContainerMigrationError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="latest_migration_number-class_method">
   
     .<strong>latest_migration_number</strong>(db)  &#x21d2; <tt>Object</tt> 
   
@@ -253,23 +349,23 @@
       <pre class="lines">
 
 
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242</pre>
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 292</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_migration_number identifier id'>latest_migration_number</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_migration_numbers identifier id'>migration_numbers</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lparen token'>(</span><span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
@@ -329,16 +425,16 @@
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
-226
-227</pre>
+284
+285
+286
+287
+288
+289
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_needs_updating? fid id'>needs_updating?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -368,15 +464,15 @@
       <pre class="lines">
 
 
-214
-215
-216
-217
-218
-219</pre>
+277
+278
+279
+280
+281
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 277</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_nuke_database identifier id'>nuke_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -416,20 +512,30 @@
 190
 191
 192
-193</pre>
+193
+194
+195
+196
+197
+198</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 182</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_setup_database identifier id'>setup_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
-  <span class='rubyid_begin begin kw'>begin</span> 
+  <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
+
+    <span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+
     <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span>
     <span class='rubyid_PLUGIN_MIGRATIONS constant id'>PLUGIN_MIGRATIONS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_PLUGIN_MIGRATION_DIRS constant id'>PLUGIN_MIGRATION_DIRS</span><span class='lbrack token'>[</span><span class='rubyid_plugin identifier id'>plugin</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
                                                            <span class='symbol val'>:table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{plugin}_schema_info&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ContainerMigrationError constant id'>ContainerMigrationError</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-   <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;     \n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } } \n     \n     \n     Database migration error. \n     Your upgrade has encountered a problem. \n     You must resolve these issues before the database migration can complete.\n     \n     \n     Error: \n     \#{e.inspect}\n     \#{e.message}\n     \#{e.backtrace.join(\&quot;\\n\&quot;)}\n\n     \n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } }\n&quot;</span>
-   
+   <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } }\n\n\n     Database migration error.\n     Your upgrade has encountered a problem.\n     You must resolve these issues before the database migration can complete.\n\n\n     Error:\n     \#{e.inspect}\n     \#{e.message}\n     \#{e.backtrace.join(\&quot;\\n\&quot;)}\n\n\n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } }\n&quot;</span>
+
    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -444,9 +550,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:22 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:16 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

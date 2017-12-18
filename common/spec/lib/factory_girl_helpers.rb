@@ -60,6 +60,8 @@ FactoryGirl.define do
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
   sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
+  sequence(:rights_statement_note_type) { sample(JSONModel(:note_rights_statement).schema['properties']['type'])}
+  sequence(:rights_statement_act_note_type) { sample(JSONModel(:note_rights_statement_act).schema['properties']['type'])}
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
   sequence(:note_index_type) { sample(JSONModel(:note_index).schema['properties']['type'])}
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
@@ -73,8 +75,12 @@ FactoryGirl.define do
   sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
 
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
-  sequence(:ip_status) { sample(JSONModel(:rights_statement).schema['properties']['ip_status']) }
+  sequence(:status) { sample(JSONModel(:rights_statement).schema['properties']['status']) }
   sequence(:jurisdiction) { sample(JSONModel(:rights_statement).schema['properties']['jurisdiction']) }
+  sequence(:other_rights_basis) { sample(JSONModel(:rights_statement).schema['properties']['other_rights_basis']) }
+  sequence(:act_type) { sample(JSONModel(:rights_statement_act).schema['properties']['act_type']) }
+  sequence(:act_restriction) { sample(JSONModel(:rights_statement_act).schema['properties']['restriction']) }
+  sequence(:external_document_identifier_type) { sample(JSONModel(:rights_statement_external_document).schema['properties']['identifier_type']) }
 
   sequence(:container_location_status) { sample(JSONModel(:container_location).schema['properties']['status']) }
   sequence(:temporary_location_type) { sample(JSONModel(:location).schema['properties']['temporary']) }

@@ -6,7 +6,7 @@
 <title>
   Class: Session
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -757,16 +757,20 @@ offload the work to a background thread that will periodically update them.</p>
 119
 120
 121
-122</pre>
+122
+123
+124</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_expire_old_sessions identifier id'>expire_old_sessions</span>
-  <span class='rubyid_max_age identifier id'>max_age</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:session_expire_after_seconds</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='integer val'>7</span> <span class='mult op'>*</span> <span class='integer val'>24</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>60</span><span class='rparen token'>)</span>
+  <span class='rubyid_max_expirable_age identifier id'>max_expirable_age</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:session_expire_after_seconds</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='integer val'>7</span> <span class='mult op'>*</span> <span class='integer val'>24</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>60</span><span class='rparen token'>)</span>
+  <span class='rubyid_max_nonexpirable_age identifier id'>max_nonexpirable_age</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:session_nonexpirable_force_expire_after_seconds</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='integer val'>7</span> <span class='mult op'>*</span> <span class='integer val'>24</span> <span class='mult op'>*</span> <span class='integer val'>60</span> <span class='mult op'>*</span> <span class='integer val'>60</span><span class='rparen token'>)</span>
 
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span><span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='lt op'>&lt;</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_max_age identifier id'>max_age</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:expirable</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span><span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='lt op'>&lt;</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_max_expirable_age identifier id'>max_expirable_age</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:expirable</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
+    <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:session</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span><span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='lt op'>&lt;</span> <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_max_nonexpirable_age identifier id'>max_nonexpirable_age</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:expirable</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -990,12 +994,12 @@ offload the work to a background thread that will periodically update them.</p>
       <pre class="lines">
 
 
-130
-131
-132</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
@@ -1021,12 +1025,12 @@ offload the work to a background thread that will periodically update them.</p>
       <pre class="lines">
 
 
-125
-126
-127</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='aset op'>[]=</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_@store ivar id'>@store</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
@@ -1052,12 +1056,12 @@ offload the work to a background thread that will periodically update them.</p>
       <pre class="lines">
 
 
-151
-152
-153</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 153</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_age identifier id'>age</span>
   <span class='lparen token'>(</span><span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span> <span class='minus op'>-</span> <span class='rubyid_system_mtime identifier id'>system_mtime</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
@@ -1083,18 +1087,18 @@ offload the work to a background thread that will periodically update them.</p>
       <pre class="lines">
 
 
-135
-136
 137
 138
 139
 140
 141
 142
-143</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 137</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_save identifier id'>save</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
@@ -1126,12 +1130,12 @@ offload the work to a background thread that will periodically update them.</p>
       <pre class="lines">
 
 
-146
-147
-148</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/session.rb', line 148</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_touch identifier id'>touch</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_touch_session identifier id'>touch_session</span><span class='lparen token'>(</span><span class='rubyid_@id ivar id'>@id</span><span class='rparen token'>)</span>
@@ -1147,9 +1151,9 @@ offload the work to a background thread that will periodically update them.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:11 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

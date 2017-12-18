@@ -6,7 +6,7 @@
 <title>
   Class: Instance
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span>, <span class='object_link'><a href="SubContainers.html" title="SubContainers (module)">SubContainers</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></dd>
   </dl>
   
   
@@ -117,11 +117,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#cached_relationships-instance_method" title="Relationships#cached_relationships (method)">#cached_relationships</a></span></p>
 
 
   
@@ -190,28 +185,6 @@
   
   
   
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="SubContainers.html" title="SubContainers (module)">SubContainers</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="SubContainers.html#included-class_method" title="SubContainers.included (method)">included</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#cache_relationships-instance_method" title="Relationships#cache_relationships (method)">#cache_relationships</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#related_records-instance_method" title="Relationships#related_records (method)">#related_records</a></span>, <span class='object_link'><a href="Relationships.html#transfer_to_repository-instance_method" title="Relationships#transfer_to_repository (method)">#transfer_to_repository</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span>, <span class='object_link'><a href="Relationships.html#update_from_json-instance_method" title="Relationships#update_from_json (method)">#update_from_json</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ASModel.html#all_models-class_method" title="ASModel.all_models (method)">all_models</a></span>, <span class='object_link'><a href="ASModel.html#included-class_method" title="ASModel.included (method)">included</a></span>, <span class='object_link'><a href="ASModel.html#update_publish_flag-class_method" title="ASModel.update_publish_flag (method)">update_publish_flag</a></span>, <span class='object_link'><a href="ASModel.html#update_suppressed_flag-class_method" title="ASModel.update_suppressed_flag (method)">update_suppressed_flag</a></span></p>
 
@@ -247,14 +220,14 @@
       <pre class="lines">
 
 
+20
+21
+22
 23
-24
-25
-26
-27</pre>
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/instance.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/instance.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_validation identifier id'>before_validation</span>
   <span class='rubyid_super super kw'>super</span>
@@ -282,6 +255,9 @@
       <pre class="lines">
 
 
+27
+28
+29
 30
 31
 32
@@ -289,13 +265,10 @@
 34
 35
 36
-37
-38
-39
-40</pre>
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/instance.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/instance.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_is_representative identifier id'>is_representative</span>
@@ -319,9 +292,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:12 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:04 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

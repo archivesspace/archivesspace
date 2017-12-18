@@ -6,7 +6,7 @@
 <title>
   File: README_PREFIX
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -59,8 +59,10 @@
 
       <div id="content"><div id='filecontents'><h2 id="running-archivesspace-under-a-prefix">Running ArchivesSpace under a prefix</h2>
 
+<p><strong>Note: For versions &gt; 2.0.1, the use of a prefix is not working correctly. Please look for a complete implementation for prefixes later in 2017.</strong></p>
+
 <p>This document describes a simple approach for those wishing to deviate from the recommended
-practive of running each user-facing ArchivesSpace application on its own subdomain, and instead
+practice of running each user-facing ArchivesSpace application on its own subdomain, and instead
 serve each application under a prefix, e.g.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/aspace.myarchive.org/s</span><span class='rubyid_taff identifier id'>taff</span>
@@ -81,9 +83,9 @@ your machines, and all commands are to be run as root (or with sudo).</p>
 
 <p>The following edits can be made in the httpd.conf file itself, or in an included file:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span><span class='rubyid_staff identifier id'>staff</span>
 <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/staff http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8080</span><span class='div op'>/</span>
-<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
+<span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span>
 <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='regexp val'>/public http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='integer val'>8081</span><span class='div op'>/</span>
 </code></pre>
 
@@ -116,9 +118,9 @@ want to close them off. See README_HTTPS for more information on closing ports u
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:01 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:42:54 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

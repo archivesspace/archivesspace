@@ -1,6 +1,7 @@
 require 'record_inheritance'
 
 require_relative 'periodic_indexer'
+require_relative 'large_tree_doc_indexer'
 
 require 'set'
 
@@ -24,6 +25,8 @@ class PUIIndexer < PeriodicIndexer
     @time_to_sleep = AppConfig[:pui_indexing_frequency_seconds].to_i
     @thread_count = AppConfig[:pui_indexer_thread_count].to_i
     @records_per_thread = AppConfig[:pui_indexer_records_per_thread].to_i
+
+    @unpublished_records = java.util.Collections.synchronizedList(java.util.ArrayList.new)
   end
 
   def fetch_records(type, ids, resolve)
@@ -65,7 +68,7 @@ class PUIIndexer < PeriodicIndexer
       if RecordInheritance.has_type?(doc['primary_type'])
         parent_id = doc['id']
         doc['id'] = "#{parent_id}#pui"
-        doc['parent_id'] = parent_id
+        doc['pui_parent_id'] = parent_id
         doc['types'] ||= []
         doc['types'] << 'pui'
         doc['types'] << "pui_#{doc['primary_type']}"
@@ -91,7 +94,7 @@ class PUIIndexer < PeriodicIndexer
         # special handling for fullrecord because we don't want the ancestors indexed.
         # we're now done with the ancestors, so we can just delete them from the record
         record['record'].delete('ancestors')
-        doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
+        doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
       end
     }
   end
@@ -110,119 +113,21 @@ class PUIIndexer < PeriodicIndexer
     end
   end
 
-
-  class LargeTreeDocIndexer
-
-    attr_reader :batch
-
-    def initialize(batch)
-      # We'll track the nodes we find as we need to index their path from root
-      # in a relatively efficient way
-      @node_uris = []
-
-      @batch = batch
-    end
-
-    def add_largetree_docs(root_record_uris)
-      root_record_uris.each do |node_uri|
-        @node_uris.clear
-
-        json = JSONModel::HTTP.get_json(node_uri + '/tree/root',
-                                        :published_only => true)
-
-        batch << {
-          'id' => "#{node_uri}/tree/root",
-          'pui_parent_id' => node_uri,
-          'publish' => "true",
-          'primary_type' => "tree_root",
-          'json' => ASUtils.to_json(json)
-        }
-
-        add_waypoints(json, node_uri, nil)
-
-        index_paths_to_root(node_uri, @node_uris)
-      end
-    end
-
-    def add_waypoints(json, root_record_uri, parent_uri)
-      json.fetch('waypoints').times do |waypoint_number|
-        json = JSONModel::HTTP.get_json(root_record_uri + '/tree/waypoint',
-                                        :offset => waypoint_number,
-                                        :parent_node => parent_uri,
-                                        :published_only => true)
-
-
-        batch << {
-          'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
-          'pui_parent_id' => (parent_uri || root_record_uri),
-          'publish' => "true",
-          'primary_type' => "tree_waypoint",
-          'json' => ASUtils.to_json(json)
-        }
-
-        json.each do |waypoint_record|
-          add_nodes(root_record_uri, waypoint_record)
-        end
-      end
-    end
-
-    def add_nodes(root_record_uri, waypoint_record)
-      record_uri = waypoint_record.fetch('uri')
-
-      @node_uris << record_uri
-
-      # Index the node itself if it has children
-      if waypoint_record.fetch('child_count') > 0
-        json = JSONModel::HTTP.get_json(root_record_uri + '/tree/node',
-                                        :node_uri => record_uri,
-                                        :published_only => true)
-
-        # We might bomb out if a record was deleted out from under us.
-        return if json.nil?
-
-        batch << {
-          'id' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
-          'pui_parent_id' => json.fetch('uri'),
-          'publish' => "true",
-          'primary_type' => "tree_node",
-          'json' => ASUtils.to_json(json)
-        }
-
-        # Finally, walk the node's waypoints and index those too.
-        add_waypoints(json, root_record_uri, json.fetch('uri'))
-      end
-    end
-
-    def index_paths_to_root(root_uri, node_uris)
-      node_uris.each_slice(128) do |node_uris|
-
-        node_id_to_uri = Hash[node_uris.map {|uri| [JSONModel.parse_reference(uri).fetch(:id), uri]}]
-        node_paths = JSONModel::HTTP.get_json(root_uri + '/tree/node_from_root',
-                                              'node_ids[]' => node_id_to_uri.keys,
-                                              :published_only => true)
-
-        node_paths.each do |node_id, path|
-          batch << {
-            'id' => "#{root_uri}/tree/node_from_root_#{node_id}",
-            'pui_parent_id' => node_id_to_uri.fetch(Integer(node_id)),
-            'publish' => "true",
-            'primary_type' => "tree_node_from_root",
-            'json' => ASUtils.to_json({node_id => path})
-          }
-        end
-      end
-    end
-
-  end
-
-
   def skip_index_record?(record)
-    !record['record']['publish']
+    published = record['record']['publish']
+
+    stage_unpublished_for_deletion("#{record['record']['uri']}#pui") unless published
+
+    !published
   end
 
 
   def skip_index_doc?(doc)
-    !doc['publish']
+    published = doc['publish']
+
+    stage_unpublished_for_deletion(doc['id']) unless published
+
+    !published
   end
 
   def index_round_complete(repository)
@@ -276,10 +181,17 @@ class PUIIndexer < PeriodicIndexer
 
     handle_deletes(:parent_id_field => 'pui_parent_id')
 
+    # Delete any unpublished records and decendents
+    delete_records(@unpublished_records, :parent_id_field => 'pui_parent_id')
+    @unpublished_records.clear()
+
     checkpoints.each do |repository, type, start|
       @state.set_last_mtime(repository.id, type, start)
     end
 
   end
 
+  def stage_unpublished_for_deletion(doc_id)
+    @unpublished_records.add(doc_id) if doc_id =~ /#pui$/
+  end
 end

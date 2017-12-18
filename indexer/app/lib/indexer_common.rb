@@ -12,42 +12,22 @@ require 'config/config-distribution'
 require 'record_inheritance'
 
 require_relative 'index_batch'
+require_relative 'indexer_common_config'
+require_relative 'indexer_timing'
 
 
-class CommonIndexer
+class IndexerCommon
 
   include JSONModel
 
-  @@record_types = [:resource,
-                    :digital_object,
-                    :accession,
-                    :agent_person,
-                    :agent_software,
-                    :agent_family,
-                    :agent_corporate_entity,
-                    :subject,
-                    :location,
-                    :event,
-                    :top_container,
-                    :classification,
-                    :container_profile,
-                    :location_profile,
-                    :archival_object,
-                    :digital_object_component,
-                    :classification_term]
+  @@record_types = IndexerCommonConfig.record_types
 
-  @@global_types = [:agent_person, :agent_software, :agent_family, :agent_corporate_entity,
-                    :location, :subject]
+  @@global_types = IndexerCommonConfig.global_types
 
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['location_profile', 'container_profile',
-                           'container_locations', 'subjects',
-                           'linked_agents', 'linked_records',
-                           'classifications', 'digital_object',
-                           'agent_representation', 'repository',
-                           'top_container']
+  @@resolved_attributes = IndexerCommonConfig.resolved_attributes
 
   @@paused_until = Time.now
 
@@ -91,7 +71,7 @@ class CommonIndexer
         JSONModel::init(:client_mode => true, :url => @backend_url)
         break
       rescue
-        $stderr.puts "Connection to backend failed (#{$!}).  Retrying..."
+        Log.error("Connection to backend failed (#{$!}).  Retrying...")
         sleep(5)
       end
     end
@@ -131,6 +111,13 @@ class CommonIndexer
   end
 
 
+  # Isolate leading alpha and numeric values to create a sortable string
+  def self.generate_sort_string_for_identifier(identifier, size = 255)
+    letters, numbers, rest = identifier.scan(/([^0-9]*)([0-9]*)(.*)/)[0]
+    letters.strip.ljust(size).gsub(' ', '#') + numbers.strip.rjust(size).gsub(' ', '0') + rest.strip.ljust(size)
+  end
+
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
@@ -156,7 +143,7 @@ class CommonIndexer
 
 
   def self.build_fullrecord(record)
-    fullrecord = CommonIndexer.extract_string_values(record)
+    fullrecord = IndexerCommon.extract_string_values(record)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
         fullrecord << "#{record['record'][field]} "
@@ -165,7 +152,7 @@ class CommonIndexer
 
     if record['record'].has_key?('names')
       fullrecord << record['record']['names'].map {|name|
-        CommonIndexer.extract_string_values(name)
+        IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
     fullrecord
@@ -177,6 +164,16 @@ class CommonIndexer
       # index all linked agents first
       doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
       doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
+
+      # only published agents
+      doc['published_agents'] = []
+      doc['published_agent_uris'] = []
+      record['record']['linked_agents'].each do |link|
+        if link['_resolved']['publish']
+          doc['published_agents'] << link['_resolved']['display_name']['sort_name']
+          doc['published_agent_uris'] << link['ref']
+        end
+      end
 
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
@@ -216,7 +213,7 @@ class CommonIndexer
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| CommonIndexer.extract_string_values(note) }.join(" ");
+      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
     end
   end
 
@@ -225,7 +222,7 @@ class CommonIndexer
     if record['record']['dates']
       doc['years'] = []
       record['record']['dates'].each do |date|
-        doc['years'] += CommonIndexer.generate_years_for_date_range(date['begin'], date['end'])
+        doc['years'] += IndexerCommon.generate_years_for_date_range(date['begin'], date['end'])
       end
       unless doc['years'].empty?
         doc['years'] = doc['years'].sort.uniq
@@ -250,7 +247,7 @@ class CommonIndexer
         doc['summary'] = abstract['content'].join("\n")
       else
         scopecontent = notes.find {|note| note['type'] == 'scopecontent'}
-        if scopecontent
+        if scopecontent && scopecontent.has_key?('subnotes')
           doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
         end
       end
@@ -293,6 +290,7 @@ class CommonIndexer
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
         doc['component_id'] = record['record']['component_id']
+        doc['ref_id'] = record['record']['ref_id']
       end
     }
 
@@ -335,6 +333,7 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if record['record'].has_key?('used_within_repositories')
         doc['used_within_repository'] = record['record']['used_within_repositories']
+        doc['used_within_published_repository'] = record['record']['used_within_published_repositories']
       end
     }
 
@@ -422,10 +421,16 @@ class CommonIndexer
           doc['rules'] = authorized_name['rules']
         end
 
-        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
+
+        if record['record']['is_user']
+          doc['is_user'] = true
+          doc['types'] << 'agent_with_user'
+        else
+          doc['is_user'] = false
+        end
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -442,6 +447,9 @@ class CommonIndexer
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
+        doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
+        doc['has_classification_terms'] = record['record']['has_classification_terms']
       end
     }
 
@@ -497,8 +505,15 @@ class CommonIndexer
           doc['series_level_u_sstr'] = record['record']['series'].map {|series| series['level_display_string']}
           doc['series_identifier_stored_u_sstr'] = record['record']['series'].map {|series| series['identifier']}
           doc['series_identifier_u_stext'] = record['record']['series'].map {|series|
-            CommonIndexer.generate_permutations_for_identifier(series['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(series['identifier'])
           }.flatten
+
+          record['record']['series'].select{|series| series['publish']}.each do |series|
+            doc['published_series_uri_u_sstr'] ||= []
+            doc['published_series_uri_u_sstr'] << series['ref']
+            doc['published_series_title_u_sstr'] ||= []
+            doc['published_series_title_u_sstr'] << series['display_string']
+          end
         end
 
         if record['record']['collection']
@@ -506,7 +521,7 @@ class CommonIndexer
           doc['collection_display_string_u_sstr'] = record['record']['collection'].map {|collection| collection['display_string']}
           doc['collection_identifier_stored_u_sstr'] = record['record']['collection'].map {|collection| collection['identifier']}
           doc['collection_identifier_u_stext'] = record['record']['collection'].map {|collection|
-            CommonIndexer.generate_permutations_for_identifier(collection['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(collection['identifier'])
           }.flatten
         end
 
@@ -576,7 +591,7 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] = CommonIndexer.build_fullrecord(record)
+      doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
     }
 
 
@@ -606,6 +621,15 @@ class CommonIndexer
       }
     }
 
+    add_document_prepare_hook {|doc, record|
+      ASUtils.wrap(record['record']['rights_statements']).each do |rights_statement|
+        ASUtils.wrap(rights_statement['linked_agents']).each do |agent_link|
+          doc['rights_statement_agent_uris'] ||= []
+          doc['rights_statement_agent_uris'] << agent_link['ref']
+        end
+      end
+    }
+
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
       docs = []
@@ -624,7 +648,7 @@ class CommonIndexer
           'json' => cm.to_json(:max_nesting => false),
           'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
-          'processing_status' => cm['processing_status'], 
+          'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],
@@ -639,6 +663,43 @@ class CommonIndexer
       end
 
       docs
+    }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'assessment'
+        doc['assessment_id'] = JSONModel.parse_reference(record['record']['uri']).fetch(:id)
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
+        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['jsonmodel_type']}.uniq.sort
+        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
+        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
+        doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
+        doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
+        doc['assessment_review_required'] = record['record']['review_required']
+        doc['assessment_sensitive_material'] = record['record']['sensitive_material']
+        if (ASUtils.wrap(record['record']['reviewer']).length > 0)
+          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
+          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
+        end
+        doc['assessment_inactive'] = record['record']['inactive']
+
+        doc['assessment_survey_year'] = IndexerCommon.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
+
+        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
+        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+
+        doc['assessment_completed'] = !record['record']['survey_end'].nil?
+
+        doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value') || r.has_key?('note')}.map{|r| r['label']}
+        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+
+        doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
+      end
     }
   end
 
@@ -681,8 +742,11 @@ class CommonIndexer
   def do_http_request(url, req)
     req['X-ArchivesSpace-Session'] = @current_session
 
-    ASHTTP.start_uri(url) do |http|
-      http.read_timeout = AppConfig[:indexer_solr_timeout_seconds].to_i
+    opts = {
+      :read_timeout => AppConfig[:indexer_solr_timeout_seconds].to_i
+    }
+
+    ASHTTP.start_uri(url, opts) do |http|
       http.request(req)
     end
   end
@@ -755,7 +819,7 @@ class CommonIndexer
     req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
-    $stderr.puts "Deleted #{records.length} documents: #{response}"
+    Log.info "Deleted #{records.length} documents: #{response}"
 
     if response.code != '200'
       raise "Error when deleting records: #{response.body}"
@@ -797,46 +861,6 @@ class CommonIndexer
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
     out.strip
-  end
-
-
-  class IndexerTiming
-    def initialize
-      @metrics = {}
-    end
-
-    def add(metric, val)
-      @metrics[metric] ||= 0
-      @metrics[metric] += val.to_i
-    end
-
-    def to_s
-      subtotal = @metrics.values.inject(0) {|a, b| a + b}
-
-      if @total
-        # If we have a total, report any difference between the total and the
-        # numbers we have.
-        add(:other, @total - subtotal)
-      else
-        # Otherwise, just tally up our numbers to determine the total.
-        @total = subtotal
-      end
-
-      "#{@total.to_i} ms (#{@metrics.map {|k, v| "#{k}: #{v}"}.join('; ')})"
-    end
-
-    def total=(ms)
-      @total = ms
-    end
-
-    def time_block(metric)
-      start_time = Time.now
-      begin
-        yield
-      ensure
-        add(metric, ((Time.now.to_f * 1000) - (start_time.to_f * 1000)))
-      end
-    end
   end
 
   def index_records(records, timing = IndexerTiming.new)
@@ -887,7 +911,7 @@ class CommonIndexer
           hook.call(doc, record)
         end
 
-        doc['title_sort'] = clean_for_sort(doc['title'])
+        doc['title_sort'] ||= clean_for_sort(doc['title'])
 
         # do this last of all so we know for certain the doc is published
         apply_pui_fields(doc, record)
@@ -968,7 +992,7 @@ class CommonIndexer
 
     if response.code != '200'
       if response.body =~ /exceeded limit of maxWarmingSearchers/
-        $stderr.puts "INFO: #{response.body}"
+        Log.info "INFO: #{response.body}"
       else
         raise "Error when committing: #{response.body}"
       end
@@ -1019,9 +1043,11 @@ class CommonIndexer
 
     # index all top containers for pui
     if doc['primary_type'] == 'top_container'
-      doc['publish'] = true
-      doc['types'] << 'pui_container'
-      doc['types'] << 'pui'
+      doc['publish'] = record['record']['is_linked_to_published_record']
+      if doc['publish']
+        doc['types'] << 'pui_container'
+        doc['types'] << 'pui'
+      end
     end
   end
 end

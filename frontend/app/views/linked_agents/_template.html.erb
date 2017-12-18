@@ -1,15 +1,19 @@
 <%= render_aspace_partial :partial => "terms/template", :locals => {:form => form, :show_preview => false} %>
 
-<% [{:type => :accession, :relator => true},
-    {:type => :resource, :relator => true},
-    {:type => :archival_object, :relator => true},
-    {:type => :event, :relator => false},
-    {:type => :digital_object, :relator => true},
-    {:type => :digital_object_component, :relator => true}].each do |defn| %>
+<% [{:type => :accession, :relator => true, :role => true},
+    {:type => :resource, :relator => true, :role => true},
+    {:type => :archival_object, :relator => true, :role => true},
+    {:type => :event, :relator => false, :role => true},
+    {:type => :digital_object, :relator => true, :role => true},
+    {:type => :digital_object_component, :relator => true, :role => true},
+    {:type => :rights_statement, :relator => false, :role => false},
+   ].each do |defn| %>
 
   <% define_template "#{defn[:type]}_linked_agent", jsonmodel_definition(defn[:type], "linked_agents") do |form| %>
     <div class="subrecord-form-fields agent_links">
-      <%= form.label_and_select("role", form.possible_options_for("role", true), :field_opts => {:class => "linked_agent_role"}) %>
+      <% if defn[:role] %>
+        <%= form.label_and_select("role", form.possible_options_for("role", true), :field_opts => {:class => "linked_agent_role"}) %>
+      <% end %>
         
       <div class="agent-creator-title" style="display: none">
         <%= form.label_and_textfield "title" %>

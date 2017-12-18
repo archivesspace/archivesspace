@@ -1,0 +1,40 @@
+<% # Most ratings can take a value from 1 to 5, but Research Value runs from 1 to 10 %>
+
+<% [['standard', 5], ['extended', 10]].each do |range_type, max_value| %>
+    <div class="rating_range rating_range_<%= range_type %>" style="display: none" >
+        <% (1..max_value).each do |rating_value| %>
+            <div>
+                <label for="rating_value_<%= rating_value %>_<%= range_type %>">
+                    <input id="rating_value_<%= rating_value %>_<%= range_type %>" type="checkbox" name="job[job_params][value_<%= rating_value %>]">&nbsp;<%= rating_value %>
+                </label>
+            </div>
+        <% end %>
+    </div>
+<% end %>
+
+<script>
+ (function () {
+     var selectAppropriateRatingRange = function (selector) {
+         var EXTENDED_RANGE_REPORTS = ['Research Value'];
+
+         $('.rating_range input').find(':input').prop('disabled', true);
+
+         if (EXTENDED_RANGE_REPORTS.includes($(selector).find('option:selected').text())) {
+             $('.rating_range_extended').show().find(':input').prop('disabled', false);
+             $('.rating_range_standard').hide();
+         } else {
+             $('.rating_range_standard').show().find(':input').prop('disabled', false);
+             $('.rating_range_extended').hide();
+         }
+     };
+
+     $(document).on('change', '#assessment_ratings_report_rating_selection',
+                    function () {
+                        selectAppropriateRatingRange(this);
+                    })
+
+     $(function () {
+         selectAppropriateRatingRange($('#assessment_ratings_report_rating_selection'));
+     });
+ }());
+</script>

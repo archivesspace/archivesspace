@@ -1,126 +1,63 @@
-require 'advanced_query_builder'
-
 class SearchController < ApplicationController
 
-  DETAIL_TYPES = ['accession', 'resource', 'archival_object', 'digital_object',
-                  'digital_object_component', 'classification',
-                  'agent_person', 'agent_family', 'agent_software', 'agent_corporate_entity']
+  include PrefixHelper
 
-  VIEWABLE_TYPES = ['agent', 'repository', 'subject'] + DETAIL_TYPES
-
-  FACETS = ["repository", "primary_type", "subjects", "source", "linked_agent_roles"]
+  DEFAULT_SEARCH_FACET_TYPES = ['repository','primary_type', 'subjects', 'published_agents']
+  DEFAULT_SEARCH_OPTS = {
+#    'sort' => 'title_sort asc',
+    'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
+    'facet.mincount' => 1
+  }
+  DEFAULT_TYPES =  %w{archival_object digital_object agent resource repository accession classification subject}
 
 
   def search
-    set_search_criteria
+    @repo_id = params.fetch(:rid, nil)
+    repo_url = "/repositories/#{@repo_id}"
+    @base_search =  @repo_id ? "#{repo_url}/search?" : '/search?'
+    fallback_location = @repo_id ? app_prefix(repo_url) : app_prefix('/search?reset=true');
+    @new_search = fallback_location
 
-    @search_data = Search.all(@criteria, @repositories)
-    @term_map = params[:term_map] ? ASUtils.json_parse(params[:term_map]) : {}
-
-    respond_to do |format|
-      format.html { render "search/results" }
-      format.js { render_aspace_partial :partial => "search/inline_results", :content_type => "text/html", :locals => {:search_data => @search_data} }
-    end
-  end
-
-  def advanced_search
-    set_advanced_search_criteria
-
-    @search_data = Search.all(@criteria, @repositories)
-
-    render "search/results"
-  end
-
-  def repository
-    set_search_criteria
-
-    if params[:repo_id].blank?
-      @search_data = Search.all(@criteria.merge({"facet[]" => [], "type[]" => ["repository"]}), {})
-
-      return render "search/results"
+    if params[:reset] == 'true'
+      @reset = true
+      params[:rid] = nil
+      @search = Search.new(params)
+      return render 'search/search_results'
     end
 
-    @repository = @repositories.select{|repo| JSONModel(:repository).id_for(repo.uri).to_s === params[:repo_id]}.first
-
-    @breadcrumbs = [
-      [@repository['repo_code'], url_for(:controller => :search, :action => :repository, :id => @repository.id), "repository"]
-    ]
-
-    @search_data = Search.repo(@repository.id, @criteria, @repositories)
-
-    render "search/results"
-  end
-
-
-  private
-
-  def set_search_criteria
-    
-    @criteria = params.select{|k,v|
-      ["page", "q", "type", "sort",
-       "filter_term", "root_record", "format"].include?(k) and not v.blank?
-    }
-    
-    @criteria["page"] ||= 1
-    @criteria["sort"] = "title_sort asc" unless @criteria["sort"] or @criteria["q"] or params["advanced"].present?
-
-    if @criteria["filter_term"]
-      @criteria["filter_term[]"] = Array(@criteria["filter_term"]).reject{|v| v.blank?}.map { |ft|  ActionController::Base.helpers.sanitize(ft) }
-      @criteria.delete("filter_term")
+      search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
+    search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
+    begin
+      set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
+#NOTE the redirect back here on error!
+    rescue Exception => error
+      p error
+      flash[:error] = I18n.t('search_results.error')
+      redirect_back(fallback_location: root_path ) and return
     end
+    page = Integer(params.fetch(:page, "1"))
+    Rails.logger.debug("base search: #{@base_search}")
+    Rails.logger.debug("query: #{@query}")
 
-    apply_filters(@criteria)
-
-    if params[:type].blank?
-      @criteria['type[]'] = DETAIL_TYPES
+    @results = archivesspace.advanced_search(@base_search, page, @criteria)
+    @counts = archivesspace.get_types_counts(DEFAULT_TYPES)
+    if @results['total_hits'].blank? ||  @results['total_hits'] == 0
+      flash[:notice] = I18n.t('search_results.no_results')
+      fallback_location = URI(fallback_location)
+      fallback_location.query = URI(@base_search).query + "&reset=true"
+      redirect_to(fallback_location.to_s)
     else
-      @criteria['type[]'] = Array(params[:type]).keep_if {|t| VIEWABLE_TYPES.include?(t)}
-      @criteria.delete("type")
-    end
-
-    @criteria['exclude[]'] = params[:exclude] if not params[:exclude].blank?
-    @criteria['facet[]'] = FACETS
-  end
-
-
-  def set_advanced_search_criteria
-    set_search_criteria
-
-    terms = (0..2).collect{|i|
-      term = search_term(i)
-
-      if term and term["op"] === "NOT"
-        term["op"] = "AND"
-        term["negated"] = true
+      process_search_results(@base_search)
+      if @results['total_hits'] > 1
+        @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
+        @search[:text_within] = true
       end
-
-      term
-    }.compact
-
-    if not terms.empty?
-      @criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(terms).to_json
-      @criteria['facet[]'] = FACETS
-    end
-  end
-
-  def search_term(i)
-    if not params["v#{i}"].blank?
-      { "field" => params["f#{i}"], "value" => params["v#{i}"], "op" => params["op#{i}"], "type" => "text" }
-    end
-  end
-
-  def apply_filters(criteria)
-    queries = AdvancedQueryBuilder.new
-
-    Array(criteria['filter_term[]']).each do |json_filter|
-      filter = ASUtils.json_parse(json_filter)
-      queries.and(filter.keys[0], filter.values[0])
-    end
-
-    queries.and('types', 'pui')
-
-    unless queries.empty?
-      criteria['filter'] = queries.build.to_json
+      @sort_opts = []
+      all_sorts = Search.get_sort_opts
+      all_sorts.keys.each do |type|
+        @sort_opts.push(all_sorts[type])
+      end
+      render 'search/search_results'
     end
   end
 

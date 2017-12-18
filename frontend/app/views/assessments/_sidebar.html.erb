@@ -1,0 +1,11 @@
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+             :record_type => 'assessment',
+             :record => @assessment
+           }) do |sidebar| %>
+
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'rating_attributes', :property => :none, :anchor => 'rating_attributes') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'format_attributes', :property => :none, :anchor => 'format_attributes') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'conservation_issue_attributes', :property => :none, :anchor => 'conservation_issue_attributes') %>
+
+<% end %>

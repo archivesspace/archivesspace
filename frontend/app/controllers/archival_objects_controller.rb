@@ -157,12 +157,26 @@ class ArchivalObjectsController < ApplicationController
 
   def delete
     archival_object = JSONModel(:archival_object).find(params[:id])
-    archival_object.delete
+
+    previous_record = JSONModel::HTTP.get_json("#{archival_object['uri']}/previous")
+
+    begin
+      archival_object.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("archival_object._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      resolver = Resolver.new(archival_object['uri'])
+      return redirect_to resolver.view_uri
+    end
 
     flash[:success] = I18n.t("archival_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:archival_object => archival_object).enable_parse_mixed_content!(url_for(:root)))
 
-    resolver = Resolver.new(archival_object['resource']['ref'])
-    redirect_to resolver.view_uri
+    if previous_record
+      redirect_to :controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{JSONModel(:archival_object).id_for(previous_record['uri'])}"
+    else
+      # no previous node, so redirect to the resource
+      resolver = Resolver.new(archival_object['resource']['ref'])
+      redirect_to resolver.view_uri
+    end
   end
 
 

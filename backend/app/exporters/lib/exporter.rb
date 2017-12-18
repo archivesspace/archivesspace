@@ -31,14 +31,14 @@ module ASpaceExport
     if block_given?
       serializer = Class.new(Serializer, &block)
       serializer.instance_variable_set(:@serializer_for, name)
-      serializer.class_eval do 
+      serializer.class_eval do
         def self.serializer_for?(name_queried)
           name_queried == @serializer_for
         end
       end
 
       register_serializer(serializer)
-    else 
+    else
       @@serializers.each do |serializer|
         return serializer if serializer.serializer_for? name
       end
@@ -59,7 +59,7 @@ module ASpaceExport
     if block_given?
       model = Class.new(ExportModel, &block)
       model.instance_variable_set(:@model_for, name)
-      model.class_eval do 
+      model.class_eval do
         def self.model_for?(name_queried)
           name_queried == @model_for
         end
@@ -120,7 +120,7 @@ module ASpaceExport
     def self.with_namespace(prefix, xml)
       ns = xml.doc.root.namespace_definitions.find{|ns| ns.prefix == prefix}
       xml.instance_variable_set(:@sticky_ns, ns)
-      yield 
+      yield
       xml.instance_variable_set(:@sticky_ns, nil)
     end
   end
@@ -176,12 +176,12 @@ module ASpaceExport
       rescue => e
         # this is a bit odd, but i would be better if the end-user gets the
         # error information in their export, rather than in their output.
-        node = @doc.create_element( "aspace_export_error" ) 
+        node = @doc.create_element( "aspace_export_error" )
         node.content = "ASPACE EXPORT ERROR : YOU HAVE A PROBLEM WITH YOUR EXPORT OF YOUR RESOURCE. THE FOLLOWING INFORMATION MAY HELP:
-        \n #{e.message} \n #{e.backtrace.inspect}" 
+        \n #{e.message} \n #{e.backtrace.inspect}"
         @parent.add_child(node)
       end
-    
+
     end
   end
 end

@@ -10,7 +10,7 @@ fr:
     continue: Continuer
     confirm: Confirmer
     confirm_removal: Confirmer élimination
-    container_labels: Télécharger étiquettes de contenants
+    container_labels: Télécharger labels de conditionnements
     create: Créer
     cut: Couper
     defaults: Valeurs par défaut
@@ -47,11 +47,11 @@ fr:
     set_default: Définir comme défaut
     suppress: Bloquer
     suppress_confirm_title: Bloquer cette notice?
-    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de de donnée, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{target}' sera transférée vers le dépôt selectionné"
-    transfer_successful: Transfert réussi.  L'apparition des notices dans le dépôt cible peut tarder, le temps qu'une réindexation ait lieu.
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service d'archives selectionné"
+    transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
     unset_default: Désactiver défaut
@@ -62,9 +62,9 @@ fr:
     move_ordering_problem_message: "Problème de rangement occasionné par le déplacement de notice"
     delete: Supprimer
     delete_confirm_title: "Supprimer cette notice? %{title}"
-    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer la notice de la base de données, avec toutes les références faites aux autres notices.</p>"
-    delete_repository_confirm_title: "Supprimer ce dépôt? %{name}"
-    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>dépôt</strong> et toutes les notices associées, avec toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer la notice de la base de données, ainsi que toutes les références faites aux autres notices.</p>"
+    delete_repository_confirm_title: "Supprimer ce service d'archives? %{name}"
+    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de données le <strong>service d'archives</strong> et toutes les notices associées, ainsi que toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices?
     delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette opération va supprimer les notices de la base de données, avec toutes les références faites aux autres notices.</p>"
@@ -100,7 +100,7 @@ fr:
 
   database_warning:
     message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
-  
+
   states:
     auto_generated: Généré automatiquement à la sauvegarde
 
@@ -109,6 +109,7 @@ fr:
     include_daos: Inclure balises &lt;dao&gt;
     numbered_cs: Utiliser balises numérotées &lt;c&gt;
     print_pdf: Imprimer en PDF
+    ead3: EAD3 schema
 
   pagination:
     first: Premier
@@ -143,8 +144,8 @@ fr:
       primary_type: Type de notice
       digital_object_type: Type
       level: Niveau
-      classification_path: Classification
-      accession_date_year: Date de collecte
+      classification_path: Classement
+      accession_date_year: Date d'entrée
       creators: Producteur
       source: Source
       rules: Règles
@@ -156,13 +157,13 @@ fr:
       outcome: Résultat
       event_type: Type
       first_term_type: Type de terme (premier)
-      classification_uri: Classification
+      classification_uri: Classement
       location_uris: Localisation
       agents: Agent
       creators: Producteur
       fullrecord: Mot-clé
       subjects_text: Mot-matière
-      title: Titre
+      title: Intitulé
       creators_text: Producteur
       notes: Notes
       container_profile_width_u_sstr: Largeur
@@ -178,6 +179,7 @@ fr:
       location_profile_height_u_sstr: Hauteur
       location_profile_depth_u_sstr: Profondeur
       location_profile_dimension_units_u_sstr: Unités de mesure
+      rights_statement_agent_uris: Agent de mention de droits
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
@@ -208,7 +210,7 @@ fr:
     area: Aire
     resource_type: Type de Ressource
     acquisition_type: Type d'acquisition
-    accession_date: Date de collecte
+    accession_date: Date d'entrée
     restrictions_apply: Des restrictions s'appliquent
     access_restrictions: Restrictions d'accès
     use_restrictions: Restrictions d'utilisation
@@ -231,7 +233,7 @@ fr:
       equal: égal à
       greater_than: plus grand que
       lesser_than: moins que
-      vide: non assigné
+      empty: non assigné
     boolean_field:
       true_value: "Vrai"
       false_value: "Faux"
@@ -250,7 +252,7 @@ fr:
       empty: non attribué
 
   become-user:
-    become-user: Devenir utilisateur
+    become-user: Passer utilisateur
     failed: Echec de changement d'utilisateur
     success: Changement d'utilisateur réussi
 
@@ -263,7 +265,7 @@ fr:
     import_ead: Fichier EAD
     import_marcxml: MARCXML
     import_marcxml_subjects_and_agents: MARCXML (sujets et agents uniquement)
-    import_accession_csv: Collecte CSV
+    import_accession_csv: Entrée CSV
     import_digital_object_csv: Objet numérique CSV
     search_all: Toutes les notices
     search_placeholder: Chercher dans toutes les notices
@@ -271,15 +273,15 @@ fr:
     show_advanced_search_button_title: Montrer Recherche avancée
     hide_advanced_search_button_title: Cacher Recherche avancée
     plugins: Plug-ins
-    repositories_manage: Gérer dépôts
+    repositories_manage: Gérer services d'archives
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
-    manage_container_profiles: Gérer profils de contenants
+    manage_container_profiles: Gérer profils de conditionnements
     manage_location_profiles: Gérer profils de localisations
-    manage_top_containers: Gérer Top contenants
+    manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     user_global_preferences: Mes préférences globales
-    user_repo_preferences: Mes préférences de dépôt
+    user_repo_preferences: Mes préférences de service d'archives
     repo_preferences: Préférences par défaut de l'utilisateur
     manage_user_access: Gérer accès utilisateur
     logout: Déconnexion
@@ -312,10 +314,6 @@ fr:
       success: Localisations supprimées
       error: "Pas moyen de supprimer localisations:"
 
-  browser_support:
-    bronze: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
-    unknown: Votre navigateur n'est pas entièrement supporté par ArchivesSpace.  Nous vous conseillons de passer à la dernière version de Chrome, de Firefox ou d'Internet Explorer.
-
   welcome:
     heading: Bienvenue sur ArchivesSpace
     message: Votre gestionnaire d'archives convivial.
@@ -347,7 +345,7 @@ fr:
     ead_title: Importer un fichier EAD
     marcxml_title: Importer un fichier MARCXML
     marcxml_subjects_and_agents_title: Importer sujets et agents à partir d'un fichier MARCXML
-    accession_csv_title: Importer des notices de collectes à partir d'un fichier CSV
+    accession_csv_title: Importer des notices d'entrées à partir d'un fichier CSV
     digital_object_csv_title: Importer des notices d'objets numériques à partir d'un fichier CSV
     import_report: Importer un rapport
     import_another: Importer un autre fichier
@@ -355,7 +353,7 @@ fr:
     submit: Import
     submit_busy_message: Importation en cours...
     messages:
-      missing_repo: Vous devez sélectionner un dépôt avant d'importer
+      missing_repo: Vous devez sélectionner un service d'archives avant d'importer
       missing_file: Veuillez sélectionner un fichier EAD à téléverser
       error_prefix: Erreur d'importation de fichier
       complete: Import effectué
@@ -364,7 +362,7 @@ fr:
     form_title:
       archival_object: Valeurs par défaut d'une notice composant
       resource: Valeurs par défaut d'une notice Ressource
-      accession: Valeurs par défaut d'une notice collecte
+      accession: Valeurs par défaut d'une notice entrée
       subject: Valeurs par défaut d'une notice sujet
       agent_person: Valeurs par défaut d'une notice agent (personne)
       agent_family: Valeurs par défaut d'une notice agent (famille)
@@ -374,8 +372,8 @@ fr:
       digital_object_component: Valeurs par défaut d'un objet numérique composant
       location: Valeurs par défaut d'une notice de localisation
       event: Valeurs par défaut d'une notice événement
-      classification: Valeurs par défaut d'une notice de classification
-      classification_term: Valeurs par défaut d'un terme de classification
+      classification: Valeurs par défaut d'une notice de classement
+      classification_term: Valeurs par défaut d'un terme de classement
     messages:
       defaults_updated: Valeurs par défaut actualisées
 
@@ -397,20 +395,20 @@ fr:
   accession:
     _frontend:
       messages:
-        created: Collecte <strong>%{accession.display_string}</strong> créée
-        unsuppressed: Collecte <strong>%{accession.display_string}</strong> débloquée
-        updated: Collecte <strong>%{accession.display_string}</strong> actualisée
-        suppressed: Collecte <strong>%{accession.display_string}</strong> bloquée
-        suppressed_info: Collecte bloquée, ne pouvant pas être éditée
-        deleted: Collecte <strong>%{accession.display_string}</strong> supprimée
-        transfer_description: Transférer cette collecte vers...
-        transfer_target: Sélectionnez un dépôt vers lequel opérer le transfert
-        spawned: "Cette collecte a été générée à partir de la collecte <strong>%{accession.display_string}</strong>"
+        created: Entrée <strong>%{accession.display_string}</strong> créée
+        unsuppressed: Entrée <strong>%{accession.display_string}</strong> débloquée
+        updated: Entrée <strong>%{accession.display_string}</strong> actualisée
+        suppressed: Entrée <strong>%{accession.display_string}</strong> bloquée
+        suppressed_info: Entrée bloquée, ne pouvant pas être éditée
+        deleted: Entrée <strong>%{accession.display_string}</strong> supprimée
+        transfer_description: Transférer cette entrée vers...
+        transfer_target: Sélectionnez un service d'archives vers lequel opérer le transfert
+        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
       section:
-        basic_information: Information de base
+        basic_information: Informations de base
       action:
-        create: Créer Collecte
-        save: Sauvegarder Collecte
+        create: Créer entrée
+        save: Sauvegarder entrée
 
   agent: &agent_attributes
     _frontend:
@@ -422,11 +420,12 @@ fr:
         merged: Agent(s) fusionné(s)
         please_select_a_agent_to_merge: Sélectionner un agent
       section:
-        basic_information: Information de base
+        basic_information: Informations de base
         dates_of_existence: Dates d'existence
         name: Formes de nom
         contacts: Détails de contact
         search_embedded: Notices liées
+        linked_via_rights_statement: Notices liées via la mention de droits
       action:
         create: Créer agent
 
@@ -476,7 +475,7 @@ fr:
         suppressed_info: Document d'archives bloqué, ne peut être édité
         has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a un parent non publié.
       section:
-        basic_information: Information de base
+        basic_information: Informations de base
       action:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
@@ -487,34 +486,34 @@ fr:
   classification:
     _frontend:
       messages:
-        created: "Classification <strong>%{classification.title}</strong> créé"
-        updated: "Classification <strong>%{classification.title}</strong> actualisée"
-        deleted: "Classification <strong>%{classification.title}</strong> supprimée"
+        created: "Classement <strong>%{classification.title}</strong> créé"
+        updated: "Classement <strong>%{classification.title}</strong> actualisé"
+        deleted: "Classement <strong>%{classification.title}</strong> supprimé"
       section:
-        basic_information: Information de base
-        search_embedded: Notices liéess
+        basic_information: Informations de base
+        search_embedded: Notices liées
       action:
         add_child: Ajouter fils
-        create: Créer classification
-        save: Sauvegarder classification
-        add: Ajouter classification
+        create: Créer classement
+        save: Sauvegarder classement
+        add: Ajouter classement
 
   classification_term:
     _frontend:
       messages:
-        created: "Terme de classification <strong>%{classification_term.title}</strong> créé"
-        created_with_parent: "Terme de classification <strong>%{classification_term.title}</strong> créé"
-        updated: "Terme de classification <strong>%{classification_term.title}</strong> actualisé"
-        deleted: "Terme de classification <strong>%{classification_term.title}</strong> supprimé"
+        created: "Terme de classement <strong>%{classification_term.title}</strong> créé"
+        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong> créé"
+        updated: "Terme de classement <strong>%{classification_term.title}</strong> actualisé"
+        deleted: "Terme de classement <strong>%{classification_term.title}</strong> supprimé"
       section:
-        basic_information: Information de base
+        basic_information: Informations de base
         search_embedded: Notices liées
       action:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
         save: Sauvegarder terme
       tree:
-        new_record_title: Nouveau terme de classification
+        new_record_title: Nouveau terme de classement
 
   collection_management: &collection_management_attributes
     _frontend:
@@ -525,7 +524,7 @@ fr:
   container:
     _frontend:
       action:
-        add: Ajouter contenant
+        add: Ajouter conditionnement
 
   container_location:
     _frontend:
@@ -550,7 +549,7 @@ fr:
   digital_object:
     _frontend:
       messages:
-        created: "Objet numérique <strong>%{digital_object.title}</strong> crée"
+        created: "Objet numérique <strong>%{digital_object.title}</strong> créé"
         updated: "Objet numérique <strong>%{digital_object.title}</strong> actualisé"
         deleted: "Objet numérique <strong>%{digital_object.title}</strong> supprimé"
         published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses sous-notices et ses composants ont été publiés"
@@ -558,7 +557,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_target: Sélectionnez un dépôt cible pour le transfert
+        transfer_target: Sélectionnez un service d'archives cible pour le transfert
         unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -582,7 +581,7 @@ fr:
         suppressed_info: Composant d'objet numérique bloqué, ne pouvant être édité
         has_unpublished_ancestor: Attention! Cette notice a un ancêtre non publié.
       section:
-        basic_information: Information de base
+        basic_information: Informations de base
       action:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
@@ -598,7 +597,7 @@ fr:
         delete_error: Pas moyen de supprimer la valeur
         delete_conflict: "La valeur étant actuellement référencée par une notice, elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
-        created: Valeur crée
+        created: Valeur créée
         create_error: Echec de la création de valeur
         merged: Valeur fusionnée
         merge_tip: Cette valeur peut être fusionnée avec une autre
@@ -626,7 +625,7 @@ fr:
       action:
         save: Sauvegarder événement
         create: Créer événement
-    linked_agents: Liens agent
+    linked_agents: Agents liés
 
   extent:
     _frontend:
@@ -661,12 +660,12 @@ fr:
   linked_agent:
     _frontend:
       action:
-        add: Ajouter lien agent
+        add: Lier à un agent
 
   linked_record:
     _frontend:
       action:
-        add: Ajouter lien notice
+        add: Lier à une notice
 
   location:
     _frontend:
@@ -700,7 +699,7 @@ fr:
         location_batch_update_info: "Veuillez saisir ci-dessous les valeurs souhaitées."
         ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation de base</strong> ci-dessus sera remplacé par les valeurs générées par la plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
         number_to_create: Nombre de localisations
-        warning: En fonction de la taille de vos plages, ce processus peut prendre minutes à s'effectuer.
+        warning: En fonction de la taille de vos plages, ce processus peut prendre plusieurs minutes à s'effectuer.
       action:
         create: Créer localisations
         update: Actualiser localisations
@@ -745,7 +744,7 @@ fr:
   related_accession:
     _frontend:
       action:
-        add: Ajouter collecte associée
+        add: Ajouter entrée associée
 
   related_agent:
     _frontend:
@@ -767,41 +766,41 @@ fr:
   repository:
     _frontend:
       messages:
-        created: Dépôt créé
-        updated: Dépôt sauvegardé
-        deleted: Dépôt supprimé
-        selected: Dépôt actuellement sélectionné
+        created: Service d'archives créé
+        updated: Service d'archives sauvegardé
+        deleted: Service d'archives supprimé
+        selected: Service d'archives actuellement sélectionné
         selected_short: Sélectionné
-        changed: Le dépôt <strong>%{repository.repo_code}</strong> est maintenant activé
-        create_first_repository: "Pour créer votre premier dépôt, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer dépôts</strong>."
-        no_access_to_repositories: "<p>Vous n'avez accès à aucun dépôt.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
+        changed: Le service d'archives <strong>%{repository.repo_code}</strong> est maintenant activé
+        create_first_repository: "Pour créer votre premier service d'archives, cliquer dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services d'archives</strong>."
+        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_target: Sélectionnez un dépôt vers lequel transférer
-        transfer_warning: <strong>Avertissement:</strong> transférer ce dépôt va déplacer <strong>toutes</strong> ses notices dans le dépôt sélectionné.  <strong>Cette opération ne peut être annulée</strong>
-        cannot_delete_nonempty: Ne peut être supprimé - dépôt non vide
+        transfer_target: Sélectionnez un service d'archives vers lequel transférer
+        transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives va déplacer <strong>toutes</strong> ses notices dans le service d'archives sélectionné.  <strong>Cette opération ne peut être annulée</strong>
+        cannot_delete_nonempty: Ne peut être supprimé - service d'archives non vide
       section:
-        all_fields: Champs dépôt
-        transfer: Transférer dépôt
+        all_fields: Champs service d'archives
+        transfer: Transférer service d'archives
       action:
-        select: Sélectionner dépôt
-        create: Créer dépôt
-        save: Sauvegarder dépôt
-        create: Créer dépôt
+        select: Sélectionner service d'archives
+        create: Créer service d'archives
+        save: Sauvegarder service d'archives
+        create: Créer service d'archives
 
   resource:
     _frontend:
       messages:
         created: "Ressource <strong>%{resource.title}</strong> créée"
         updated: "Ressource <strong>%{resource.title}</strong> actualisée"
-        spawned: "Une nouvelle ressource a été générée depuis Collecte <strong>%{accession.display_string}</strong>"
+        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession.display_string}</strong>"
         deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
         published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices et composants ont été publiés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_target: Sélectionner un dépôt vers lequel opérer le transfert
+        transfer_target: Sélectionner un service d'archives vers lequel opérer le transfert
         unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
         suppressed: Ressource <strong>%{resource.title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
@@ -810,9 +809,9 @@ fr:
         finding_aid: Données de l'instrument de recherche
       action:
         add_child: Ajouter fils
-        rapid_data_entry: Saisie rapide de données
         create: Créer ressource
         save: Sauvegarder ressource
+        delete_multiple: Supprimer ressources
 
   preference:
     _frontend:
@@ -832,7 +831,7 @@ fr:
         add: Ajouter terme/subdivision
 
   transfer:
-    ref: Dépôt cible
+    ref: Service d'archives cible
 
   subject:
     _frontend:
@@ -925,7 +924,7 @@ fr:
       apply_order: Appliquer ordre de colonne
     save_template:
       save_template: Sauvegarder modèle
-      template_name: Nome de modèle
+      template_name: Nom de modèle
       confirm_removal: Confirmer suppression
     templates:
       listing: Modèles
@@ -964,7 +963,7 @@ fr:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
     stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez rafraîchir la page pour accéder à la dernière version.
     other_editors: "Cette notice est actuellement éditée par un autre utilisateur.  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
-    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de dépôt actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon dépôt."
+    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez une nouvelle fenêtre et réactivez le bon service d'archives."
   job:
     _frontend:
       audit_data: Audit Data
@@ -997,60 +996,60 @@ fr:
         drag_and_drop_hint: Glissez-déplacez des fichiers ici
         find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
         find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
-        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>. 
+        report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>.
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
     actions:
-      this_reference: "Ce référence de raccourci"
+      this_reference: "Cette référence de raccourci"
       close_modal: "Fermer une fenêtre (par ex. celle-ci)"
       toggle_shortcuts: "Activer / désactiver raccourcis clavier"
       save_record: "Sauvegarder la notice en cours d'édition"
       close_record: "Fermer une notice en cours d'édition"
       open_browse: "Ouvrir menu parcourir"
       open_create: "Ouvrir menu créer"
-                    
+
   instance_container:
-    container: Contenant
+    container: Conditionnement
 
   sub_container:
-    top_container: Top contenant
+    top_container: Conditionnement principal
     top_container_tooltip: |
         <p>CHAMP OBLIGATOIRE. Le conditionnement de plus haut niveau renfermant le matériel décrit.</p>
-        <p>Peut être sélectionné dans une liste de top contenants, en utilisant le type en avant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
+        <p>Peut être sélectionné dans une liste de conditionnements principaux, en utilisant le type ci-devant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
     type_2: Type fils
     type_2_tooltip: |
-        <p>Le type de contenant de second niveau renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_2: Indicateur fils
     indicator_2_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du contenant de second niveau, pouvant aussi indiquer sa position dans une séquence de contenants de même type. Des plages de contenants de second niveau sont aussi permises, par ex. chemises 1-16.</p>
+        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
     type_3: Type petit-fils
     type_3_tooltip: |
-        <p>Le type du contenant de niveau 3 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     indicator_3: Indicateur petit-fils
     indicator_3_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du contenant de niveau 3, pouvant aussi indiquer sa position dans une séquence de contenants de même typeof such contenants. Des plages de contenants de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
-    _singular: Sous-contenant
-    _plural: Sous-contenants
+        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de condionnements de même type. Des plages de condionnements de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
+    _singular: Sous-conditionnement
+    _plural: Sous-conditionnement
     _frontend:
       action:
-        add: Ajouter instance de contenant
+        add: Ajouter instance de conditionnement
 
   top_container:
-    container_profile: Profil contenant
+    container_profile: Profil conditionnement
     container_profile_tooltip: |
         <p>Une description des caractéristiques d'un certain type de conditionnement, y compris ses dimensions.</p>
     indicator: Indicateur
     indicator_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du contenant de plus haut niveau, pouvant être aussi sa position dans une séquence de contenants.</p>
+        <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du conditionnement de plus haut niveau, pouvant être aussi sa position dans une séquence de conditionnements.</p>
     barcode: Code-barres
     barcode_tooltip: |
-      <p>Sert à enregistrer le code-barres identifiant de manière unique le contenant de plus haut niveau.</p>
-    type: Type de contenant
+      <p>Sert à enregistrer le code-barres identifiant de manière unique le conditionnement de plus haut niveau.</p>
+    type: Type de conditionnement
     type_tooltip: |
-        <p>Le type du contenant de plus haut niveau.
+        <p>Le type de conditionnement de plus haut niveau.
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1061,105 +1060,105 @@ fr:
     exported_to_ils: Exporté vers ILS
     not_exported: Non exporté
     restricted: Soumis à des restrictions?
-    parent: Contenant parent
+    parent: conditionnement parent
 
-    managed_container_2_type: Type de contenant fils
+    managed_container_2_type: Type de conditionnement fils
     managed_container_2_type_tooltip: |
-        <p>Le type du contenant de niveau 2 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_2_indicator: Indicateur de contenant fils
+    managed_container_2_indicator: Indicateur de conditionnement fils
     managed_container_2_indicator_tooltip: |
-        <p>Une expression alpha numérique indiquant l'identifiant du contenant de niveau 2, pouvant aussi indiquer sa position dans une séquence de contenants identiques. Des plages de contenants sont aussi permises, par ex. chemises 1-16.</p>
-    managed_container_3_type: Tye de contenant petit-fils
+        <p>Une expression alpha numérique indiquant l'identifiant du conditionnement de niveau 2, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
+    managed_container_3_type: Tye de conditionnement petit-fils
     managed_container_3_type_tooltip: |
-        <p>Le type de contenant de niveau 3 renfermant les documents décrits.</p> 
+        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_3_indicator: Indicateur de contenant petit-fils
+    managed_container_3_indicator: Indicateur de conditionnement petit-fils
     managed_container_3_indicator_tooltip: |
-      <p>Une expression alphanumérique indiquant l'identifiant du contenant de niveau 3, pouvant aussi indiquer sa position dans une séquence de contenants identiques. Des plages de contenants sont aussi permises, par ex. chemises 1-16.</p>
-    barcode_length_for_this_repository: "Longueur de code-barres pour ce dépôt:"
+      <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
+    barcode_length_for_this_repository: "Longueur de code-barres pour ce service d'archives:"
     characters: caractères
 
     batch_delete:
-      success: Suppression des top contenants réussie
-      error: Problème rencontré pendant la suppression des top contenants
+      success: Suppression des top conditionnements réussie
+      error: Problème rencontré pendant la suppression des top conditionnements
 
-    _singular: Top contenant
-    _plural: Top contenants
+    _singular: Top conditionnement
+    _plural: Top conditionnements
 
     _frontend:
       section:
         active_restrictions: Restrictions en vigueur
         linked_records: Notices liées
-        basic_information: Information de contenant
+        basic_information: Information de conditionnement
       action:
-        add: Ajouter top contenant
-        create: Créer top contenant
-        save: Sauvegarder top contenant
+        add: Ajouter top conditionnement
+        create: Créer top conditionnement
+        save: Sauvegarder top conditionnement
       messages:
-        created: Top contenant créé
-        updated: Top contenant actualisé
+        created: Top conditionnement créé
+        updated: Top conditionnement actualisé
         filter_required: Veuillez choisir un filtre
         max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez affiner votre recherche.
         max_results_limit_details: "Montrer <strong>%{visible}</strong> sur <strong>%{num_found}</strong> résultats correspondants"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
-        bulk_action_success: Top contenants actualisés avec succès
+        bulk_action_success: Top conditionnements actualisés avec succès
         bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
-        collection_singular: Ressource/Collecte
-        collection_plural: Ressources/Collectes
+        collection_singular: Ressource/Entrée
+        collection_plural: Ressources/Entrées
         collection_resource_singular: Ressource
         collection_resource_plural: Ressources
-        collection_accession_singular: Collecte
-        collection_accession_plural: Collectes
+        collection_accession_singular: Entrée
+        collection_accession_plural: Entrées
         series: Série
         current_location: Localisation actuelle
         keyword_criteria: Mot-clé
         barcodes_criteria: Code(s)-barres
         exported_to_ils_true: "Oui"
         exported_to_ils_false: "Non"
-        empty: Contenants non associés
+        empty: conditionnements non associés
         empty_true: "Oui"
         empty_false: "Non"
         search: Recherche
         update_ils_holding_ids: Actualiser ILS Holding IDs
         update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
-        update_container_profiles: Actualiser profils de contenants
-        update_container_profiles_help: Choisir un profil de contenant pour tous les contenants sélectionnés.
+        update_container_profiles: Actualiser profils de conditionnements
+        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.
         update_locations_singular: "Actualiser localisations: localisation unique"
-        update_locations_singular_help: Choisir une localisation pour tous les contenants sélectionnés.
+        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.
         update_locations_multiple: "Actualiser localisations: localisations multiples"
-        update_locations_multiple_help: Choisir une localisation pour chaque contenant sélectionné.
+        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
-        batch_delete: Supprimer Top contenants
-        batch_delete_help: Supprimer tous les contenants sélectionnés.
+        batch_delete: Supprimer Top conditionnements
+        batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
 
   container_profile:
-    _singular: Profil de contenant
-    _plural: Profils de contenants
+    _singular: Profil de conditionnement
+    _plural: Profils de conditionnements
     _frontend:
       action:
-        save: Sauvegarder profil de contenant
-        edit: Editer profil de contenant
-        create: Créer profil de contenant
+        save: Sauvegarder profil de conditionnement
+        edit: Editer profil de conditionnement
+        create: Créer profil de conditionnement
         space_calculator: Calculateur d'espace
       messages:
-        created: Profil de contenant créé
-        updated: Profil de contenant actualisé
+        created: Profil de conditionnement créé
+        updated: Profil de conditionnement actualisé
       section:
         basic_information: Information de base
     name: Nom
     name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de contenants. Peut être générique ou spécifique.</p>  
+        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
         <p>Exemples:</p>
         <ul>
         <li>Boîte d'archivage</li>
@@ -1168,7 +1167,7 @@ fr:
         </ul>
     url: URL
     url_tooltip: |
-        <p>Un lien hypertexte pour une description externe du contenant.</p>
+        <p>Un lien hypertexte vers une description externe du conditionnement.</p>
     dimension_units: Unité de mesure
     dimension_units_tooltip: |
         <p>Unité de mesure pour l'importance matérielle.</p>
@@ -1178,33 +1177,33 @@ fr:
         <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
     extent_dimension_depth: Profondeur
     extent_dimension_depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur du contenant.</p>
+        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
     extent_dimension_height: Hauteur
     extent_dimension_height_tooltip: |
-        <p>Une valeur numérique pour la hauteur du contenant.</p>
+        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
     extent_dimension_width: Largeur
     extent_dimension_width_tooltip: |
-        <p>Une valeur numérique pour la largeur du contenant.</p>
+        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     depth: Profondeur
     depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur du contenant.</p>
+        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
     height: Hauteur
     height_tooltip: |
-        <p>Une valeur numérique pour la hauteur du contenant.</p>
+        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
     width: Largeur
     width_tooltip: |
-        <p>Une valeur numérique pour la largeur du contenant.</p>
+        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-        <p>Le nombre de ces contenants pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
+        <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
 
   rights_restriction:
     begin: Début de la restriction
     begin_tooltip: |
-        <p>Pour une restriction temporaire, date de début de la restriction d'accès. Sera dissociée des contenants à expiration.</p>
+        <p>Pour une restriction temporaire, date de début de la restriction d'accès. Sera dissociée des conditionnements à expiration.</p>
     end: Fin de la restriction
     end_tooltip: |
-        <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des contenants une fois expirée.</p>
+        <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des conditionnements une fois expirée.</p>
     local_access_restriction_type: Type de restriction de consultation locale
     local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) / Command (Mac) pour sélectionner des options multiples ou pour déselectionner un option"
     local_access_restriction_type_tooltip: |
@@ -1216,11 +1215,11 @@ fr:
   extent_calculator:
     no_object_message: Veuillez spécifier un objet sur lequel lancer le calculateur d'importance maltérielle.
     report_title: Rapport de calcul d'importance matérielle
-    container_profile_header: Profil de contenant
+    container_profile_header: Profil de conditionnement
     count_header: Total
     extent_header: Importance matérielle
     no_profile: <span class="text-error">PAS DE PROFIL</span>
-    all_containers_label: Tous les contenants
+    all_containers_label: Tous les conditionnements
     timestamp_label: Rapport généré à
     extent_record_header: Notice d'importance matérielle
     create_extent: Créer importance matérielle
@@ -1228,8 +1227,8 @@ fr:
     create_extent_record_message: Lancer le calcul d'importance matérielle en mode édition pour avoir la possibilité de créer une notice mesure basée sur le rapport.
     waiting_for_report_message: Calculer importance matérielle...
     container_summary_type:
-      _singular: contenant
-      _plural: contenants
+      _singular: conditionnement
+      _plural: conditionnements
 
   location_profile:
     _singular: Profil de localisation
@@ -1242,10 +1241,10 @@ fr:
       messages:
         created: Profil de localisation créé
         updated: Profil de localisation actualisé
-        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.      
-        section:
+        fields_required_for_calculator: Attention! Unités de mesure, profondeur, hauteur et largeur doivent être impérativement renseignées pour pouvoir lancer le calculateur d'espace. Les localisations seront omises si l'une de ces valeurs vient à manquer.
+      section:
         basic_information: Information de base
-    name: Name
+    name: Nom
     dimension_units: Unités de dimension
     depth: Profondeur
     height: Hauteur
@@ -1254,14 +1253,14 @@ fr:
   space_calculator:
     modal_title: Calculateur d'espace
     modal_loading: Chargement en cours...
-    message_container_profile_required: Le caculateur d'espace nécessite qu'un profil de contenant soit défini.
+    message_container_profile_required: Le caculateur d'espace nécessite qu'un profil de conditionnement soit défini.
     message_locations_required: Le calculateur d'espace nécessite qu'une ou plusieurs localisations soient définies.
     message_select_locations: "Vérifier l'espace dans la ou les localisation(s) suivante(s):"
     message_no_locations_with_space: Aucune localisation présentant de l'espace n'a été trouvée
-    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de contenant: %{total_spaces}"
-    message_total_containers: "Nombre total de contenants de ce type trouvés dans ces localisations: %{total_containers}"
+    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de conditionnement: %{total_spaces}"
+    message_total_containers: "Nombre total de conditionnements de ce type trouvés dans ces localisations: %{total_containers}"
     message_loading: Chargement en cours...
-    count: Espace disponible (de type de contenant)
+    count: Espace disponible (de type de conditionnement)
     reason: Résultat du calcul
     calculate_space: Vérification de l'espace
     locations_without_space_details: Passer en revue les localisations sans espace
@@ -1276,10 +1275,10 @@ fr:
     reason:
       location_lacks_a_profile: Localisation manquant d'un profil
       location_lacks_dimension_data: Profil de localisation manquant de données de dimensions
-      container_is_bigger: Contenant excédant la capacité de la localisation dans au moins une dimension
-      container_at_location_lacks_profile: Au moins un des contenants actuellement dans la localisation manque d'un profil
-      containers_at_location_dont_fit: Le contenant actuellement dans la localisation ne convient pas
-      location_cannot_fit_container: La localisation ne convient actuellement à aucun contenant de ce type
+      container_is_bigger: Conditionnement excédant la capacité de la localisation dans au moins une dimension
+      container_at_location_lacks_profile: Au moins un des conditionnements actuellement dans la localisation manque d'un profil
+      containers_at_location_dont_fit: Le conditionnement actuellement dans la localisation ne convient pas
+      location_cannot_fit_container: La localisation ne convient actuellement à aucun conditionnement de ce type
 
   date_calculator:
     toolbar_button: Calculer dates
@@ -1293,3 +1292,8 @@ fr:
     create_success: Date créée avec succès. Page en cours de rafraîchissement...
     no_dates: Pas de dates qui conviennent
     no_dates_for_label: Pas de date %{label} trouvée
+
+  act:
+    _frontend:
+      action:
+        add: Ajouter convention

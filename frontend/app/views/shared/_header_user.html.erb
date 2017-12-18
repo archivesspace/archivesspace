@@ -18,22 +18,28 @@
   <li class="dropdown system-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <% if user_can?('create_repository') || user_can?('manage_users') %>
-        <% if user_can?('create_repository') %>
-          <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
-        <% end %>
-        <% if user_can?('manage_users') %>
-          <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
-          <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
-        <% end %>
-        <% if user_can?('administer_system') %>
-          <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
-        <% end %>
+      <% if user_can?('manage_repository') %>
+        <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
+      <% end %>
+      <% if user_can?('update_container_profile_record') %>
         <li><%= link_to I18n.t("navbar.manage_container_profiles"), :controller => :container_profiles, :action => :index %></li>
-        <% if user_can?('manage_location_profile_record') %>
+      <% end %>
+      <% if user_can?('manage_location_profile_record')%>
         <li><%= link_to I18n.t("navbar.manage_location_profiles"), :controller => :location_profiles, :action => :index %></li>
-        <% end %>
+      <% end %>
 
+      <% if user_can?('manage_repository') || user_can?('update_container_profile_record') || user_can?('manage_location_profile_record') %>
+        <li class="divider"></li>
+      <% end %>
+
+      <% if user_can?('create_repository') %>
+        <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
+      <% end %>
+      <% if user_can?('manage_users') %>
+        <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
+      <% end %>
+      <% if user_can?('create_repository') || user_can?('manage_users') %>
+        <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
         <li class="divider"></li>
       <% end %>
 

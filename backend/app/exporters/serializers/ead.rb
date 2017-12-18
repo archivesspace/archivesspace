@@ -157,8 +157,10 @@ class EADSerializer < ASpaceExport::Serializer
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
-            data.external_ids.each do |exid|
-              xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+            if @include_unpublished
+              data.external_ids.each do |exid|
+                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+              end
             end
 
             serialize_extents(data, xml, @fragments)
@@ -254,14 +256,14 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
-        if !data.component_id.nil? && !data.component_id.empty? &&
-          !(data.external_ids.select {|x| x['external_id'] == data.component_id }).empty?
+        if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
-
         end
 
-        data.external_ids.each do |exid|
-          xml.unitid  ({ "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+        if @include_unpublished
+          data.external_ids.each do |exid|
+            xml.unitid  ({ "audience" => "internal",  "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+          end
         end
 
         serialize_origination(data, xml, fragments)
@@ -313,6 +315,10 @@ class EADSerializer < ASpaceExport::Serializer
     unless data.creators_and_sources.nil?
       data.creators_and_sources.each do |link|
         agent = link['_resolved']
+        published = agent['publish'] === true
+
+        next if !published && !@include_unpublished
+
         role = link['role']
         relator = link['relator']
         sort_name = agent['display_name']['sort_name']
@@ -324,7 +330,10 @@ class EADSerializer < ASpaceExport::Serializer
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
                     end
-        xml.origination(:label => role) {
+
+        origination_attrs = {:label => role}
+        origination_attrs[:audience] = 'internal' unless published
+        xml.origination(origination_attrs) {
          atts = {:role => relator, :source => source, :rules => rules, :authfilenumber => authfilenumber}
          atts.reject! {|k, v| v.nil?}
 
@@ -487,19 +496,27 @@ class EADSerializer < ASpaceExport::Serializer
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
-    else
-      file_versions.each do |file_version|
+    elsif file_versions.length == 1
         atts['xlink:type'] = 'simple'
-        atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
-        atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
-        atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
-        atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+        atts['xlink:href'] = file_versions.first['file_uri'] || digital_object['digital_object_id']
+        atts['xlink:actuate'] = file_versions.first['xlink_actuate_attribute'] || 'onRequest'
+        atts['xlink:show'] = file_versions.first['xlink_show_attribute'] || 'new'
+        atts['xlink:role'] = file_versions.first['use_statement'] if file_versions.first['use_statement']
         xml.dao(atts) {
           xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         }
-      end
+    else
+      xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
+        xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+        file_versions.each do |file_version|
+          atts['xlink:type'] = 'locator'
+          atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
+          atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+          atts['xlink:title'] = file_version['caption'] if file_version['caption']
+          xml.daoloc(atts)
+        end
+      }
     end
-
   end
 
 

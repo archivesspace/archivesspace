@@ -1,0 +1,21 @@
+<%
+  section_id = "rights_statement_acts" if section_id.blank?
+%>
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+
+  <h3><%= I18n.t("rights_statement_act._plural") %></h3>
+
+  <div class="subrecord-form-container">
+    <% acts.each_with_index do | act, index | %>
+      <div class="subrecord-form-fields rights-statement-act">
+        <%= read_only_view(act) %>
+        <% if act['notes'].length > 0 %>
+          <%= readonly_context :rights_statement_act, act do |readonly| %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => act['notes'], :context => readonly, :section_id => "rights_statement_act_#{index}_notes" } %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+</section>

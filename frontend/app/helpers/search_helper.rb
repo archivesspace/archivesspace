@@ -113,6 +113,7 @@ module SearchHelper
     return user_can?('update_accession_record') if record['primary_type'] === "accession"
     return user_can?('update_resource_record') if ["resource", "archival_object"].include?(record['primary_type'])
     return user_can?('update_digital_object_record') if ["digital_object", "digital_object_component"].include?(record['primary_type'])
+    return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
   end
 
 

@@ -2,6 +2,8 @@ ArchivesSpace README
 --------------------
 
 [![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg?branch=master)](https://travis-ci.org/archivesspace/archivesspace)[![Coverage Status](https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master)](https://coveralls.io/github/archivesspace/archivesspace?branch=master)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+[![Stories in Ready](https://badge.waffle.io/archivesspace/archivesspace.png?label=ready&title=Ready)](https://waffle.io/archivesspace/archivesspace?utm_source=badge)
+[![Dependency Status](https://gemnasium.com/badges/github.com/archivesspace/archivesspace.svg)](https://gemnasium.com/github.com/archivesspace/archivesspace)
 
 
 * [archivesspace.org](http://archivesspace.org)
@@ -15,11 +17,11 @@ ArchivesSpace README
 # System requirements
 
 * Java 1.7 or 1.8.
-* At least 1024 MB RAM allocated to the application
+* At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
 * A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
-ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
+ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.
 
 MySQL is not required, but is **strongly** recommended for production use.
 
@@ -69,7 +71,9 @@ accessing the following URLs in your browser:
   - http://localhost:8089/ -- the backend
   - http://localhost:8080/ -- the staff interface
   - http://localhost:8081/ -- the public interface
+  - http://localhost:8082/ -- the OAI-PMH server
   - http://localhost:8090/ -- the Solr admin console
+
 
 To start using the Staff interface application, log in using the adminstrator
 account:
@@ -328,11 +332,12 @@ database* to create an empty database with the appropriate
 permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
-    mysql -uarchivesspace -p < mysqldump.sql
+    `mysql -uas -p archivesspace < mysqldump.sql`, where
+      `as` is the user name
+      `archivesspace` is the database name
+      `mysqldump.sql` is the mysqldump filename
 
-(change the username as required and enter your password when
-prompted).
-
+You will be prompted for the password of the user.
 
 If you are using the demo database, your backup `.zip` file will
 contain a directory called `demo_db_backups`.  Each subdirectory of
@@ -480,10 +485,106 @@ appropriate and specify the `encryption` option:
      }]
 
 
-# Plug-ins and local customizations
+# Configuring OAI-PMH
+
+A starter OAI-PMH interface for ArchivesSpace allowing other systems to harvest your records is included in version 2.1.0. Additional features and functionality will be added in later releases.
+
+Information on configuring the OAI-PMH is available at https://github.com/archivesspace/archivesspace#configuring-oai-pmh. By default, it runs on port 8082. A sample request page is available at http://localhost:8082/sample. (To access it, make sure that you have set the AppConfig[:oai_proxy_url] appropriately.)
+
+The system provides responses to a number of standard OAI-PMH requests, including GetRecord, Identify, ListIdentifiers, ListMetadataFormats, ListRecords, and ListSets. Unpublished and suppressed records and elements are not included in any of the OAI-PMH responses.
+
+Some responses require the URL parameter metadataPrefix. There are five different metadata responses available:
+
+  EAD	                  oai_ead (resources in EAD)
+  Dublin Core	          oai_dc (archival objects and resources in Dublin Core)
+  extended DCMI Terms	  oai_dcterms (archival objects and resources in DCMI Metadata Terms format)
+  MARC	                oai_marc (archival objects and resources in MARC)
+  MODS	                oai_mods (archival objects and resources in MODS)
+
+The EAD response for resources and MARC response for resources and archival objects use the mappings from the built-in exporter for resources. The DC, DCMI terms, and MODS responses for resources and archival objects use mappings suggested by the community.
+
+Here are some example URLs and other information for these requests:
+
+**GetRecord** – needs a record identifier and metadataPrefix
+
+  	http://localhost:8082/oai?verb=GetRecord&identifier=oai:archivesspace//repositories/2/resources/138&metadataPrefix=oai_ead
+
+**Identify**
+
+  	http://localhost:8082/oai?verb=Identify
+
+**ListIdentifiers** – needs a metadataPrefix
+
+  	http://localhost:8082/oai?verb=ListIdentifiers&metadataPrefix=oai_dc
+
+**ListMetadataFormats**
+
+  	http://localhost:8082/oai?verb=ListMetadataFormats
+
+**ListRecords** – needs a metadataPrefix
+
+	http://localhost:8082/oai?verb=ListRecords&metadataPrefix=oai_dcterms
+
+**ListSets**
+
+	http://localhost:8082/oai?verb=ListSets
+
+Harvesting the ArchivesSpace OAI-PMH server without specifying a set will yield all published records across all repositories.
+Predefined sets can be accessed using the set parameter. In order to retrieve records from sets include a set parameter in the URL and the DC metadataPrefix, such as "&set=collection&metadataPrefix=oai_dc". These sets can be from configured sets as shown above or from the following levels of description:
+
+  Class	      class
+  Collection	collection
+  File	      file
+  Fonds	      fonds
+  Item	      item
+  Other_Level	otherlevel
+  Record_Group	recordgrp
+  Series	    series
+  Sub-Fonds	  subfonds
+  Sub-Group	  subgrp
+  Sub-Series	 subseries
+
+In addition to the sets based on level of description, you can define sets based on repository codes and/or sponsors in the config/config.rb file:
+
+	AppConfig[:oai_sets] = {
+  	'repository_set' => {
+    	:repo_codes => ['hello626'],
+    	:description => "A set of one or more repositories",
+  	},
+
+  	'sponsor_set' => {
+    	:sponsors => ['The_Sponsor'],
+    	:description => "A set of one or more sponsors",
+  	},
+	}
+
+The interface implements resumption tokens for pagination of results. As an example, the following URL format should be used to page through the results from a ListRecords request:
+
+  	http://localhost:8082/oai?verb=ListRecords&metadataPrefix=oai_ead
+
+using the resumption token:
+
+  	http://localhost:8082/oai?verb=ListRecords&resumptionToken=eyJtZXRhZGF0YV9wcmVmaXgiOiJvYWlfZWFkIiwiZnJvbSI6IjE5NzAtMDEtMDEgMDA6MDA6MDAgVVRDIiwidW50aWwiOiIyMDE3LTA3LTA2IDE3OjEwOjQxIFVUQyIsInN0YXRlIjoicHJvZHVjaW5nX3JlY29yZHMiLCJsYXN0X2RlbGV0ZV9pZCI6MCwicmVtYWluaW5nX3R5cGVzIjp7IlJlc291cmNlIjoxfSwiaXNzdWVfdGltZSI6MTQ5OTM2MTA0Mjc0OX0=
+
+Note: you do not use the metadataPrefix when you use the resumptionToken
+
+The ArchivesSpace OAI-PMH server supports persistent deletes, so harvesters will be notified of any records that were deleted since
+they last harvested.
+
+```Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include <p>, <abbr>, <address>, <archref>, <bibref>, <blockquote>, <chronlist>, <corpname>, <date>, <emph>, <expan>, <extptr>, <extref>, <famname>, <function>, <genreform>, <geogname>, <lb>, <linkgrp>, <list>, <name>, <note>, <num>, <occupation>, <origination>, <persname>, <ptr>, <ref>, <repository>, <subject>, <table>, <title>, <unitdate>, <unittitle>).```
+
+The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface.
+
+ARKs have not yet been implemented, pending more discussion of how they should be formulated.
+
+# Customizing and theming ArchivesSpace
+
+[Customizing and theming readme](https://github.com/archivesspace/archivesspace/blob/master/CUSTOMIZING_THEMING.md) Changing labels and messages can be done in the locales files. To do more in-depth customization and theming, a
+plugin or a custom build is likely the best mechanism.
+
+ # Plug-ins and local customizations
 
 [ Plug-ins and local customizations readme](https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md)
-
 
 # Running ArchivesSpace with an external Solr instance
 
@@ -496,7 +597,6 @@ appropriate and specify the `encryption` option:
 # Upgrading ArchivesSpace
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
-
 
 # Monitoring with New Relic
 

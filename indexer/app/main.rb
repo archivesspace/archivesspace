@@ -8,6 +8,15 @@ require_relative 'lib/pui_indexer'
 
 require 'archivesspace_thread_dump'
 ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump_indexer.txt"))
+require 'active_support/inflector'
+
+require 'log'
+if AppConfig.changed?(:indexer_log)
+  Log.logger(AppConfig[:indexer_log])
+else
+  Log.logger($stderr)
+end
+
 
 class ArchivesSpaceIndexer < Sinatra::Base
 
@@ -17,17 +26,17 @@ class ArchivesSpaceIndexer < Sinatra::Base
 
     threads = []
 
-    $stderr.puts "Starting periodic indexer"
+    Log.info("Starting periodic indexer")
     threads << Thread.new do
       begin
         periodic_indexer.run
       rescue
-        $stderr.puts "Unexpected failure in periodic indexer: #{$!}"
+        Log.error("Unexpected failure in periodic indexer: #{$!}")
       end
     end
 
     if AppConfig[:pui_indexer_enabled]
-      $stderr.puts "Starting PUI indexer"
+      Log.info "Starting PUI indexer"
       threads << Thread.new do
         # Stagger them to encourage them to run at different times
         sleep AppConfig[:solr_indexing_frequency_seconds]
@@ -35,7 +44,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
         begin
           pui_indexer.run
         rescue
-          $stderr.puts "Unexpected failure in PUI indexer: #{$!}"
+          Log.error "Unexpected failure in PUI indexer: #{$!}"
         end
       end
     end
@@ -57,14 +66,14 @@ class ArchivesSpaceIndexer < Sinatra::Base
           backend_urls.value.each do |url|
             if !realtime_indexers[url] || !realtime_indexers[url].alive?
 
-              $stderr.puts "Starting realtime indexer for: #{url}"
+              Log.info "Starting realtime indexer for: #{url}"
 
               realtime_indexers[url] = Thread.new do
                 begin
                   indexer = RealtimeIndexer.new(url, proc { backend_urls.value.include?(url) })
                   indexer.run
                 rescue
-                  $stderr.puts "Realtime indexing error (#{backend_url}): #{$!}"
+                  Log.error "Realtime indexing error (#{backend_url}): #{$!}"
                   sleep 5
                 end
               end
@@ -96,12 +105,15 @@ class ArchivesSpaceIndexer < Sinatra::Base
       ASUtils.dump_diagnostics($!)
     end
 
+    set :logging, false 
+    Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
+
     main
   end
 
   get "/" do
-    if CommonIndexer.paused?
-      "Indexers paused until #{CommonIndexer.class_variable_get(:@@paused_until)}"
+    if IndexerCommon.paused?
+      "Indexers paused until #{IndexerCommon.class_variable_get(:@@paused_until)}"
     else
       "Running every #{AppConfig[:solr_indexing_frequency_seconds].to_i} seconds. "
     end
@@ -111,8 +123,8 @@ class ArchivesSpaceIndexer < Sinatra::Base
   # without bogging down the server
   put "/" do
     duration = params[:duration].nil? ? 900 : params[:duration].to_i
-    CommonIndexer.pause duration  
-    "#{CommonIndexer.class_variable_get(:@@paused_until)}"
+    IndexerCommon.pause duration  
+    "#{IndexerCommon.class_variable_get(:@@paused_until)}"
   end
 
 

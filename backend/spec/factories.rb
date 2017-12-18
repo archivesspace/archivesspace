@@ -47,6 +47,8 @@ FactoryGirl.define do
       agent_representation_id { 1 }
       org_code { generate(:alphanumstr) }
       image_url { generate(:url) }
+      publish { 1 }
+      country { 'US' }
       after(:create) do |r|
         $repo_id = r.id
         $repo = JSONModel.JSONModel(:repository).uri_for(r.id)
@@ -121,6 +123,7 @@ FactoryGirl.define do
       extent_type { generate(:extent_type) }
       resource_id nil
       archival_object_id nil
+      dimensions { generate(:alphanumstr) }
     end
 
     factory :archival_object do
@@ -334,8 +337,23 @@ FactoryGirl.define do
     label 'creation'
     self.begin { generate(:yyyy_mm_dd) }
     self.end { self.begin }
+    self.certainty 'inferred'
+    self.era 'ce'
+    self.calendar 'gregorian'
     expression { generate(:alphanumstr) }
   end
+
+
+  factory :json_date_single, class: JSONModel(:date) do
+    date_type 'single'
+    label 'creation'
+    self.begin { generate(:yyyy_mm_dd) }
+    self.certainty 'inferred'
+    self.era 'ce'
+    self.calendar 'gregorian'
+    expression { generate(:alphanumstr) }
+  end
+
 
   factory :json_deaccession, class: JSONModel(:deaccession) do
     scope { "whole" }
@@ -356,6 +374,30 @@ FactoryGirl.define do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
     digital_object { {'ref' => create(:json_digital_object).uri} }
+    position { rand(0..10) }
+    has_unpublished_ancestor { rand(2) == 0 }
+  end
+
+  factory :json_digital_object_component_pub_ancestor, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    label { generate(:alphanumstr) }
+    display_string { generate(:alphanumstr) }
+    file_versions { few_or_none(:json_file_version) }
+    position { 5 }
+    has_unpublished_ancestor { false }
+  end
+
+  factory :json_digital_object_component_unpub_ancestor, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    label { generate(:alphanumstr) }
+    display_string { generate(:alphanumstr) }
+    file_versions { few_or_none(:json_file_version) }
+    position { 1 }
+    has_unpublished_ancestor { true }
   end
 
   factory :json_event, class: JSONModel(:event) do
@@ -369,6 +411,7 @@ FactoryGirl.define do
     portion { generate(:portion) }
     number { generate(:number) }
     extent_type { generate(:extent_type) }
+    dimensions { generate(:alphanumstr) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do
@@ -487,17 +530,29 @@ FactoryGirl.define do
     content { [ generate(:string), generate(:string) ] }
   end
 
+  factory :json_note_rights_statement, class: JSONModel(:note_rights_statement) do
+    type { generate(:rights_statement_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
+  factory :json_note_rights_statement_act, class: JSONModel(:note_rights_statement_act) do
+    type { generate(:rights_statement_act_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:html_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
     language { generate(:language) }
-    dates { [build(:json_date)] }
+    dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
+    finding_aid_series_statement { generate(:alphanumstr) }
     finding_aid_language { nil_or_whatever }
+    finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
     revision_statements {  [build(:json_revision_statement)]  }
@@ -524,10 +579,22 @@ FactoryGirl.define do
 
   # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
-    rights_type 'intellectual_property'
-    ip_status { generate(:ip_status) }
+    rights_type 'copyright'
+    status { generate(:status) }
     jurisdiction { generate(:jurisdiction) }
-    active true
+    start_date { generate(:yyyy_mm_dd) }
+  end
+
+  factory :json_rights_statement_act, class: JSONModel(:rights_statement_act) do
+    act_type { generate(:act_type) }
+    restriction { generate(:act_restriction) }
+    start_date { generate(:yyyy_mm_dd) }
+  end
+
+  factory :json_rights_statement_external_document, class: JSONModel(:rights_statement_external_document) do
+    title { "External Document #{generate(:generic_title)}" }
+    location { generate(:url) }
+    identifier_type { generate(:external_document_identifier_type) }
   end
 
   factory :json_subject, class: JSONModel(:subject) do
@@ -575,6 +642,87 @@ FactoryGirl.define do
     base_record_uri "repositories/2/resources/1"
   end
 
+  factory :json_accession_job, class: JSONModel(:job) do
+    job { build(:json_acc_job) }
+  end
+
+  factory :json_acc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionReport'
+    format 'json'
+  end
+
+  factory :json_deaccession_job, class: JSONModel(:job) do
+    job { build(:json_deacc_job) }
+  end
+
+  factory :json_deacc_job, class: JSONModel(:report_job) do
+    report_type 'AccessionDeaccessionsListReport'
+    format 'json'
+  end
+
+  factory :json_agent_job, class: JSONModel(:job) do
+    job { build(:json_agt_job) }
+  end
+
+  factory :json_agt_job, class: JSONModel(:report_job) do
+    report_type 'AgentListReport'
+    format 'json'
+  end
+
+  factory :json_dig_obj_file_job, class: JSONModel(:job) do
+    job { build(:json_do_file_job) }
+  end
+
+  factory :json_do_file_job, class: JSONModel(:report_job) do
+    report_type 'DigitalObjectFileVersionsReport'
+    format 'json'
+  end
+
+  factory :json_location_job, class: JSONModel(:job) do
+    job { build(:json_loc_job) }
+  end
+
+  factory :json_loc_job, class: JSONModel(:report_job) do
+    report_type 'LocationReport'
+    format 'json'
+  end
+
+  factory :json_resource_deacc_job, class: JSONModel(:job) do
+    job { build(:json_res_deacc_job) }
+  end
+
+  factory :json_res_deacc_job, class: JSONModel(:report_job) do
+    report_type 'ResourceDeaccessionsListReport'
+    format 'json'
+  end
+
+  factory :json_resource_restrict_job, class: JSONModel(:job) do
+    job { build(:json_res_res_job) }
+  end
+
+  factory :json_res_res_job, class: JSONModel(:report_job) do
+    report_type 'ResourceRestrictionsListReport'
+    format 'json'
+  end
+
+  factory :json_unproc_accession_job, class: JSONModel(:job) do
+    job { build(:json_unp_acc_job) }
+  end
+
+  factory :json_unp_acc_job, class: JSONModel(:report_job) do
+    report_type 'UnprocessedAccessionsReport'
+    format 'json'
+  end
+
+  factory :json_subject_list_job, class: JSONModel(:job) do
+    job { build(:json_sub_list_job) }
+  end
+
+  factory :json_sub_list_job, class: JSONModel(:report_job) do
+    report_type 'SubjectListReport'
+    format 'json'
+  end
+
   factory :json_preference, class: JSONModel(:preference) do
     defaults { build(:json_defaults) }
   end
@@ -582,5 +730,10 @@ FactoryGirl.define do
   factory :json_defaults, class: JSONModel(:defaults) do
     show_suppressed { false }
     publish { false }
+  end
+
+  factory :json_assessment, class: JSONModel(:assessment) do
+    survey_begin { generate(:yyyy_mm_dd) }
+    surveyed_extent { generate(:alphanumstr) }
   end
 end

@@ -62,7 +62,12 @@ class AssetPathRewriter
 
       return unless success
 
-      Dir.glob(File.join(base_dir, "assets", "themes", "**", "*.css")).each do |file|
+      rewrite_files = []
+      rewrite_files += Dir.glob(File.join(base_dir, "assets", "*.css"))
+      rewrite_files += Dir.glob(File.join(base_dir, "assets", "themes", "**", "*.css"))
+      rewrite_files += Dir.glob(File.join(base_dir, "assets", "archivesspace", "**", "*.css"))
+
+      rewrite_files.each do |file|
         rewrite_for_prefix(file, prefix)
       end
     end
@@ -73,6 +78,8 @@ class AssetPathRewriter
   def rewrite_for_prefix(path, prefix)
     css = File.read(path)
     css.gsub!(%r{url\(/assets/}, "url(#{prefix}assets/")
+    css.gsub!(%r{url\("/assets/}, "url(\"#{prefix}assets/")
+    css.gsub!(%r{url\('/assets/}, "url('#{prefix}assets/")
     File.open(path, "w") do |fh|
       fh.write(css)
     end

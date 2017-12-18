@@ -8,8 +8,8 @@
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
 
-  <property name="winstone_url" value="http://repo1.maven.org/maven2/org/jvnet/hudson/winstone/winstone/0.9.10/winstone-0.9.10.jar" />
-  <property name="winstone_file" value="winstone-0.9.10.jar" />
+  <property name="jettyrunner_url" value="http://central.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-9.2.22.v20170606.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
@@ -23,7 +23,7 @@
       Extra options for people who like lots of GC detail: -verbose:gc -XX:+PrintTenuringDistribution -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime
   -->
   <property name="env.JAVA_OPTS" value="" />
-  <property name="default_java_options" value="-XX:MaxPermSize=196m -Djava.security.egd=file:/dev/./urandom -Xmx600m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
+  <property name="default_java_options" value="-XX:MaxPermSize=196m -Djava.security.egd=file:/dev/./urandom -Xmx1024m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
 
 
   <target name="help" description="This help">
@@ -63,7 +63,7 @@
 
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${winstone_url}" dest="${winstone_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
 
@@ -100,9 +100,6 @@
 
     <property name="excluded-gem-groups" value="" />
     <property name="build.home" location="."/>
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
 
     <java classpath="${jruby_file}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -120,9 +117,9 @@
     <antcall target="bundler"><param name="gemfile" value="../frontend/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../${public-dir}/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../selenium-public/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../oai/Gemfile" /></antcall>
   </target>
 
 
@@ -138,8 +135,7 @@
   </target>
 
 
-  <target name="db:nuke" depends="set-classpath" description="Delete database and Solr index configured in config/config.rb">
-    <delete dir="${aspace.data_directory}/solr_index" />
+  <target name="db:nuke" depends="set-classpath, solr:nuke" description="Delete database and Solr index configured in config/config.rb">
     <delete dir="${aspace.data_directory}/shared" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -258,18 +254,18 @@
 
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
     <delete dir="integration.tmp" />
-    <delete dir="${java.io.tmpdir}/winstone.${user.name}" />
-    <mkdir dir="${java.io.tmpdir}/winstone.${user.name}" />
+    <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
+    <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
 
     <mkdir dir="../build/solr_home/collection1/conf" />
 
     <parallel>
       <daemons>
         <java
-          classpath="${winstone_file}:../solr:../common/lib/*"
-              classname="winstone.Launcher" fork="true">
-          <jvmarg line="${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/winstone.${user.name}" />
-          <arg line="--warfile=${solr_file} --httpPort=${aspace.solr.port} --ajp13Port=-1" />
+          classpath="${jettyrunner_file}:../solr:../common/lib/*"
+          classname="org.eclipse.jetty.runner.Runner" fork="true">
+          <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
+          <arg line="--port ${aspace.solr.port} ${solr_file}" />
         </java>
       </daemons>
       <record name="backend_test_log.out" action="start" />
@@ -344,6 +340,13 @@
 
 
   <!-- Solr -->
+  <target name="solr:nuke" description="Delete Solr index configured in config/config.rb">
+    <delete dir="${aspace.data_directory}/indexer_state" />
+    <delete dir="${aspace.data_directory}/indexer_pui_state" />
+    <delete dir="${aspace.data_directory}/solr_index" />
+  </target>
+
+
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
@@ -352,7 +355,17 @@
   </target>
 
 
-
+  <!-- OAI -->
+  <target name="oai:war" depends="set-classpath" description="Deploy the OAI application as a .war file">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
+          dir="../oai">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <arg line="../build/gems/bin/warble war" />
+    </java>
+  </target>
 
   <!-- Frontend -->
   <target name="frontend:test" depends="set-classpath" description="Run the unit test suite">
@@ -515,31 +528,6 @@
   </target>
 
 
-
-
-  <target name="selenium:public:test" depends="set-classpath, public:clean" description="Run the Selenium tests for the Public interface">
-    <property name="spec" value=""/>
-    <property name="example" value=""/>
-    <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
-      <isset property="example"/>
-    </condition>
-    <dirset id="plugins" dir="../plugins">
-      <include name="**/selenium-public"/>
-    </dirset>
-    <pathconvert pathsep=" " property="plugin-selenium-dirs" refid="plugins"/>
-
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
-          failonerror="true"
-          dir="../selenium-public">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -XX:MaxPermSize=96m"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
-      <arg line="--debug ../build/gems/bin/rspec -P '*_spec.rb' --order default -f d  ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
-    </java>
-  </target>
-
   <!-- TODO: add plugin support -->
   <target name="selenium:staff" depends="set-classpath, frontend:clean" description="Run integration tests on the staff UI">
     <property name="cores" value="2"/>
@@ -644,28 +632,18 @@
   <target name="travis:selenium:staff" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="selenium:staff" />
-    <antcall target="travis:db:nuke" />
-  </target>
-
-  <target name="travis:selenium:public" depends="set-classpath, bootstrap">
-    <antcall target="db:migrate" />
-    <antcall target="selenium:public:test" />
-    <antcall target="travis:db:nuke" />
   </target>
 
   <target name="travis:test" depends="set-classpath, bootstrap">
     <antcall target="db:migrate" />
     <antcall target="headless-tests" />
+    <antcall target="travis:db:nuke" />
   </target>
 
   <!-- Dist build -->
   <target name="build-zip" depends="set-classpath"
           description="Bundle everything up into a zip file">
     <delete failonerror="false" dir="target" />
-
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
 
     <mkdir dir="target/archivesspace/config" />
     <mkdir dir="target/archivesspace/data" />
@@ -677,7 +655,6 @@
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
     <mkdir dir="target/archivesspace/stylesheets" />
-    <mkdir dir="target/archivesspace/plugins/aspace-public-formats" />
     <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
     <mkdir dir="target/archivesspace/plugins/newrelic" />
     <mkdir dir="target/archivesspace/plugins/refid_rules" />
@@ -692,6 +669,7 @@
     <mkdir dir="target/archivesspace/plugins/local/public/views" />
     <mkdir dir="target/archivesspace/plugins/local/public/locales" />
     <mkdir dir="target/archivesspace/locales" />
+    <mkdir dir="target/archivesspace/locales/public" />
 
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
@@ -722,8 +700,9 @@
     <copy file="solr.war" todir="target/archivesspace/wars" />
     <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
-    <copy file="../${public-dir}/${public-dir}.war" tofile="target/archivesspace/wars/public.war" />
+    <copy file="../public/public.war" tofile="target/archivesspace/wars/public.war" />
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
+    <copy file="../oai/oai.war" todir="target/archivesspace/wars" />
 
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
@@ -738,6 +717,12 @@
 
     <copy todir="target/archivesspace/locales">
       <fileset dir="../common/locales" />
+    </copy>
+
+    <copy todir="target/archivesspace/locales/public">
+      <fileset dir="../public/config/locales">
+        <include name="**/*.yml" />
+      </fileset>
     </copy>
 
     <copy todir="target/archivesspace/docs">
@@ -760,10 +745,6 @@
       <fileset dir="../plugins/lcnaf"/>
     </copy>
 
-    <copy todir="target/archivesspace/plugins/aspace-public-formats">
-      <fileset dir="../plugins/aspace-public-formats"/>
-    </copy>
-
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
     </copy>
@@ -781,6 +762,7 @@
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="UPGRADING.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
+      <zipfileset dir=".." includes="launcher_rc.rb" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../clustering" prefix="archivesspace/clustering" filemode="755" />
       <zipfileset dir="../reports" prefix="archivesspace/reports" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
@@ -807,6 +789,7 @@
 
     <antcall target="set-classpath" />
     <antcall target="bootstrap"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+    <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
@@ -821,17 +804,19 @@
   <target name="backend:coverage" depends="set-classpath, backend:test" description="Generate coverage reports for the backend">
   </target>
 
+  <target name="indexer:coverage" depends="set-classpath, indexer:test" description="Generate coverage reports for the indexer">
+  </target>
 
   <target name="frontend:coverage" depends="set-classpath, frontend:clean, selenium:test"
           description="Generate coverage reports for the frontend">
   </target>
 
-  <target name="public:coverage" depends="set-classpath, public:clean, selenium:public:test"
+  <target name="public:coverage" depends="set-classpath, public:clean"
           description="Generate coverage reports for the public interface">
   </target>
 
 
-  <target name="test" depends="headless-tests, selenium:test, selenium:public:test"
+  <target name="test" depends="headless-tests, selenium:staff"
           description="Run the full suite of tests">
   </target>
 
@@ -846,20 +831,15 @@
 
   <!-- Public Interface -->
   <target name="public:clean" description="Delete the Rails tmp directory">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
-    <delete dir="../${public-dir}/tmp" />
-    <delete dir="../${public-dir}/public/assets" />
-    <mkdir dir="../${public-dir}/public/assets" />
-    <mkdir dir="../${public-dir}/public/assets/00-do-not-put-things-here" />
+    <delete dir="../public/tmp" />
+    <delete dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets" />
+    <mkdir dir="../public/public/assets/00-do-not-put-things-here" />
   </target>
 
 
   <target name="public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
-    <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public-new" /></antcall>
     <antcall target="-public:copy-shared-resources"><param name="publicdir" value="public" /></antcall>
-
   </target>
 
   <target name="-public:copy-shared-resources" description="Copy shared JS/CSS into the public application">
@@ -884,35 +864,26 @@
 
 
   <target name="public:devserver" depends="set-classpath, public:clean, public:copy-shared-resources" description="Start an instance of the ArchivesSpacePublic development server">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
-    <condition property="rails-bin" value="bin" else="script">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
-          dir="../${public-dir}">
-      <jvmarg line="-Daspace.service=public -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
+          dir="../public">
+      <jvmarg line="-Daspace.service=public -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ -Daspace.config.public_url=http://localhost:${aspace.public.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
-      <arg line="${rails-bin}/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 
 
   <target name="public:war" depends="set-classpath, public:clean, public:copy-shared-resources" description="Deploy the public application as a .war file">
-    <condition property="public-dir" value="public-new" else="public">
-      <equals arg1="${env.ASPACE_PUBLIC_NEW}" arg2="true" />
-    </condition>
    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
 
     <delete dir="../public/tmp" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
-          dir="../${public-dir}">
+          dir="../public">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}" />
       <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />
@@ -923,7 +894,7 @@
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
-          dir="../${public-dir}">
+          dir="../public">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="RAILS_ENV" value="production" />
       <env key="GEM_HOME" value="${gem_home}" />

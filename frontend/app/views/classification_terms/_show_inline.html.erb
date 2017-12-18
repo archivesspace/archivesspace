@@ -8,11 +8,12 @@
       <%= readonly_context :classification_term, @classification_term do |readonly| %>
         <h2><%= @classification_term.title %> <span class="label label-info"><%= I18n.t("classification_term._singular") %></span></h2>
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
+        <% define_template "classification_term", jsonmodel_definition(:classification_term) do |form, classification_term| %>
         <section id="basic_information">
           <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
-          <%= readonly.label_and_textarea "identifier" %>
-          <%= readonly.label_and_textarea "title" %>
-          <%= readonly.label_and_textarea "description" %>
+            <%= form.label_and_textarea "identifier" %>
+            <%= form.label_and_textarea "title" %>
+            <%= form.label_and_textarea "description" %>
 
           <% if !readonly["creator"].blank? %>
             <div class="token-list">
@@ -25,8 +26,10 @@
         </section>
       <% end %>
 
+      <% readonly.emit_template("classification_term", @classification_term) %>
       <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"classification_uris" => @classification_term.uri}.to_json, :heading_text => I18n.t("classification_term._frontend.section.search_embedded")} %>
 
+      <% end %>
     </div>
   </div>
 </div>

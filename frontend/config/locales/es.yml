@@ -106,6 +106,7 @@
     include_daos: Incluir etiquetas &lt; dao &gt;
     numbered_cs: Utilice etiquetas numeradas &lt; c &gt;
     print_pdf: Imprimir en PDF
+    ead3: EAD3 schema
 
   pagination:
     first: Primero
@@ -301,10 +302,6 @@
     locations:
       success: Ubicaciones eliminadas
       error: "No se puede eliminar ubicaciones:"
-
-  browser_support:
-    bronze: ArchivesSpace no admite totalmente este navegador.  Por favor considere actualizar su navegador a las últimas versiones de Chrome, Firefox o Internet Explorer.
-    unknown: ArchivesSpace no admite totalmente este navegador.  Por favor considere actualizar su navegador a las últimas versiones de Chrome, Firefox o Internet Explorer.
 
   welcome:
     heading: Bienvenido a ArchivesSpace

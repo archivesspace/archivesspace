@@ -1,0 +1,7 @@
+<ul>
+  <% resources.each do |resource| %>
+    <li>
+    <%= link_to resource.display_string, app_prefix(resource.uri) %>
+  </li>
+  <% end %>
+</ul>

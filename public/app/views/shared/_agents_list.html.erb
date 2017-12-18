@@ -1,0 +1,16 @@
+<% list.each do |role, relationships| %>
+  <h4><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></h4>
+  <ul class="present_list agents_list">
+    <% relationships.each do |relationship| %>
+      <% agent = relationship.fetch('_resolved') %>
+      <% relator = relationship['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{relationship['relator']}", :default => relationship['relator']) : nil %>
+      <li>
+        <% unless relationship['_inherited'].blank? %>
+          <%= inheritance(relationship['_inherited']).html_safe %>
+        <% end %>
+        <%= link_to agent['title'], app_prefix(agent['uri']) %>
+        (<%= [relator, I18n.t("#{agent['jsonmodel_type']}._singular")].compact.join(', ') %>)
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -133,9 +133,12 @@ $(function() {
                 } else {
                   $target.removeAttr("checked");
                 }
-	      } else if ($source.is(":hidden") && $source.parents().closest("div").hasClass("linker-wrapper")) {
-		  // a linker!
-		  $target.attr("data-selected", $source.val());
+              } else if ($source.is(":hidden") && $source.parents().closest("div").hasClass("linker-wrapper")) {
+                // a linker!
+                $target.attr("data-selected", $source.val());
+              } else if ($source.is('.linker:text')) {
+                // $source is a yet to be initialized linker (when adding multiple rows)
+                $target.attr("data-selected", $source.attr("data-selected"));
               } else {
                 $target.val($source.val());
               }
@@ -1282,7 +1285,7 @@ $(function() {
     var path = uri.replace(/^\/repositories\/[0-9]+\//, '');
 
     $.ajax({
-      url: APP_PATH+path+"/rde",
+      url: AS.app_prefix(path+"/rde"),
       success: function(data) {
         $(".rde-wrapper", $modal).replaceWith("<div class='modal-body'></div>");
         $(".modal-body", $modal).replaceWith(data);

@@ -1,0 +1,11 @@
+<% define_template "rights_statement_act", jsonmodel_definition(:rights_statement_act) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("act_type", form.possible_options_for("act_type", true)) %>
+    <%= form.label_and_select("restriction", form.possible_options_for("restriction", true)) %>
+    <%= form.label_and_date("start_date") %>
+    <%= form.label_and_date("end_date") %>
+    <div class="subrecord-form-container">
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:header_size => "h4", :form => form, :nested_in_jsonmodel => 'rights_statement_act', :nested_note_jsonmodel => 'rights_statement_act_notes', :show_apply_note_order_action => false} %>
+    </div>
+  </div>
+<% end %>

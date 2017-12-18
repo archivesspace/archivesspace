@@ -1,0 +1,12 @@
+<% active = (action.to_s == controller.action_name) %>
+<% unless hidden && !active %>
+  <li <% unless enabled %>class="disabled"<% end %>>
+    <%=
+      link_to_unless active || !enabled, text, { :action => action } do
+        link_to_if active, text, '#', :class => "active" do
+          link_to text, "#"
+        end
+      end
+    %>
+  </li>
+<% end %>

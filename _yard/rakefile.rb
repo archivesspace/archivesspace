@@ -37,7 +37,7 @@ namespace :doc do
 
     require_relative '../backend/app/lib/export'
 
-    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb') {|file| require file unless file =~ /system/}
+    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb').sort.each {|file| require file unless file =~ /system/}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
     @examples = JSON.parse( IO.read File.dirname(__FILE__) + "/../endpoint_examples.json" )

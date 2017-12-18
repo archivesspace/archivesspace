@@ -1,0 +1,7 @@
+<% if defined?(@request) && !@request.nil? && pass_email_requirements?(@result) %>
+  <%= form_tag "#{app_prefix(@request[:request_uri])}/request", :id => 'request_sub' do |f| %>
+    <%= render partial: 'shared/request_hiddens' %>
+    <button type="submit" class="btn page_action request  btn-default" title="<%= t('actions.request') %>">
+      <i class="fa fa-bullhorn fa-3x"></i><br/><%= t('actions.request') %></button>
+  <% end %>
+<% end %>

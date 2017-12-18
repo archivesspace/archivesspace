@@ -1,0 +1,7 @@
+<% if @result && @result.respond_to?(:metadata) %>
+
+<script type="application/ld+json">
+<%= JSON.pretty_generate(@result.metadata).html_safe %>
+</script>
+<% end %>
+

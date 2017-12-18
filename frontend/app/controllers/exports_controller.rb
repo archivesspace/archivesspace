@@ -10,8 +10,8 @@ class ExportsController < ApplicationController
      download_export(
        "/repositories/#{JSONModel::repository}/resource_labels/#{params[:id]}.tsv")
    end
-  
-  
+
+
   def download_marc
     download_export(
       "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml")
@@ -23,36 +23,37 @@ class ExportsController < ApplicationController
       "/repositories/#{JSONModel::repository}/digital_objects/dublin_core/#{params[:id]}.xml")
   end
 
-  
+
   def download_mods
     download_export(
       "/repositories/#{JSONModel::repository}/digital_objects/mods/#{params[:id]}.xml")
   end
 
 
-    
+
   def download_mets
-    download_export( 
+    download_export(
       "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml")
-  end  
-  
+  end
+
 
   def download_ead
-    
+
     if params[:print_pdf] == "true"
       url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.pdf"
     else
       url = "/repositories/#{JSONModel::repository}/resource_descriptions/#{params[:id]}.xml"
     end
-    
+
     download_export(url,
                     :include_unpublished => (params[:include_unpublished] ? params[:include_unpublished] : false),
                     :print_pdf => (params[:print_pdf] ? params[:print_pdf] : false),
                     :include_daos => (params[:include_daos] ? params[:include_daos] : false),
-                    :numbered_cs => (params[:numbered_cs] ? params[:numbered_cs] : false))
+                    :numbered_cs => (params[:numbered_cs] ? params[:numbered_cs] : false),
+                    :ead3 => (params[:ead3] ? params[:ead3] : false))
   end
-  
-  
+
+
   def download_eac
     download_export(
       "/repositories/#{JSONModel::repository}/archival_contexts/#{params[:type].sub(/^agent_/, '').pluralize}/#{params[:id]}.xml")

@@ -1,7 +1,7 @@
 require_relative 'indexer_common'
 require 'net/http'
 
-class RealtimeIndexer < CommonIndexer
+class RealtimeIndexer < IndexerCommon
 
   def initialize(backend_url, should_continue)
     super(backend_url)
@@ -51,8 +51,8 @@ class RealtimeIndexer < CommonIndexer
       # Doesn't matter...
     rescue
       reset_session
-      $stderr.puts("#{$!.inspect}")
-      $stderr.puts($@.join("\n"))
+      Log.error("#{$!.inspect}")
+      Log.error($@.join("\n"))
       sleep 5
     end
 

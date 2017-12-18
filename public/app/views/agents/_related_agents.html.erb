@@ -1,0 +1,35 @@
+<%
+  grouped_relationships = {}
+  related_agents.each do |relationship|
+    grouped_relationships[relationship['jsonmodel_type']] ||= []
+    grouped_relationships[relationship['jsonmodel_type']] << relationship
+  end
+%>
+
+<% grouped_relationships.each do |type, relationships| %>
+  <h5><%= I18n.t("#{type}._singular") %></h5>
+  <ul class="present_list">
+    <% relationships.each do |relationship| %>
+      <% agent = relationship['_resolved'] %>
+      <li>
+        <%= link_to agent['display_name']['sort_name'], app_prefix(agent['uri']) %>
+        (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>, 
+         <%= I18n.t("#{agent['jsonmodel_type']}._singular") %>)
+         <% if relationship['description'] || ASUtils.wrap(relationship['dates']).length > 0 %>
+           <dl>
+             <% if relationship['description'] %>
+               <dt><%= t('agent._public.section.related_agent_description') %></dt>
+               <dd><%= relationship['description'] %></dd>
+             <% end %>
+             <% if ASUtils.wrap(relationship['dates']).length > 0 %>
+               <dt><%= t('agent._public.section.related_agent_dates') %></dt>
+               <% ASUtils.wrap(relationship['dates']).each do |date| %>
+                <dd><%= parse_date(date).join %></dd>
+               <% end %>
+             <% end %>
+           </dl>
+         <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,119 @@
+<!-- Look for '_inherited' and '*_inherited' properties -->
+<% non_folder = %w(summary langmaterial physdesc accessrestrict userestrict) %>
+<% folder = %w(abstract bioghist arrangement phystech physloc otherfindaid custodhist acqinfo appraisal accruals originalsloc altformavail extent relatedmaterial separatedmaterial note_bibliography materialspec physdesc inscription physfacet dimensions edition fileplan legalstatus odd note processinfo note_index) %>
+<div class="upper-record-details">
+    <% over = @result.note('scopecontent') %>
+    <% if over.blank?
+       over = @result.note('abstract')
+       folder.shift # remove abstract from in-folder notes
+
+    end %>
+    <% unless over.blank? %>
+      <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :notitle => true} %>
+    <% end %>
+
+    <% unless @result.dates.blank? %>
+      <h4><%= t('resource._public.dates') %></h4>
+      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+    <% end %>
+
+    <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
+      <% a_direct_creator = @result.agents['creator'].reject{|r| r['_inherited']}.take(1) %>
+      <% unless a_direct_creator.empty? %>
+        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => a_direct_creator}} %>
+      <% end %>
+    <% end %>
+
+    <% non_folder.each do |type| %>
+       <% note_struct =  @result.note(type) %>
+       <% unless note_struct['note_text'].blank? %>
+        <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
+       <% end %>
+    <% end %>
+
+    <% unless @result.extents.blank? %>
+      <h4><%= t('resource._public.extent') %></h4>
+       <% @result.extents.each do |ext| %>
+        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
+	  <%= ext['display']%>
+	</p>
+      <% end %>
+    <% end %>
+    <% if @result.is_a?(Accession) && @result.inventory %>
+      <h4><%= t('accession._public.section.inventory') %></h4>
+      <p><%= @result.inventory %></p>
+    <% end %>
+
+    <% ASUtils.find_local_directories('public/views/_upper_record_innards.html.erb').each do |template| %>
+      <%= render :file => template if File.exists?(template) %>
+    <% end %>
+</div>
+
+    <div class="acc_holder clear" >
+      <div class="panel-group" id="res_accordion">
+	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
+	<% unless x.blank? %>
+	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
+	      :p_id => 'add_desc', :p_body => x } %>
+	<% end %>
+        <% if @result.kind_of?(Accession) && !@result.deaccessions.blank? %>
+          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
+        <% end %>
+        <% unless @result.subjects.blank? %>
+	   <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
+	      :p_id => 'subj_list', :p_body => x} %>
+	<% end %>
+  <% unless @result.classifications.blank? %>
+    <% x= render partial: 'classifications/related_listing', locals: {:classifications => @result.classifications} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('classification._plural'),
+                                                           :p_id => 'classifications_list', :p_body => x} %>
+  <% end %>
+	<% unless @result.agents.blank? %>
+	  <% x= render partial: 'shared/agents_list', locals: {:list => @result.agents} %>
+	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
+	     :p_id => 'agent_list', :p_body => x} %>
+        <% end %>
+	<% unless @result.linked_digital_objects.blank? %>
+		<% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
+		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
+	<% end %>
+	<% if @result.kind_of?(Resource) && !@result.finding_aid.blank? %>
+	  <% x= render partial: 'resources/finding_aid' %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
+	     :p_id => 'fa', :p_body => x} %>
+	<% end %>
+	<% unless @result.container_titles_and_uris.blank? %>
+	   <% x = render partial: 'shared/present_list', locals: {:list =>  @result.container_titles_and_uris, :list_clss => 'top_containers'} %>
+	 <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('containers'), :p_id => 'cont_list',
+	 :p_body => x} %>
+        <% end %>
+  <% if @result.kind_of?(DigitalObject) && !@result.linked_instances.blank? %>
+    <% x = render partial: 'digital_objects/linked_instances', locals: {:instances => @result.linked_instances} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_instances'), :p_id => 'linked_instances_list', :p_body => x} %>
+  <% end %>
+	<% unless @result.external_documents.blank? %>
+	 <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+	<% end %>
+	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
+           <% x= render partial: 'repositories/repository_details' %>
+	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'),
+	    :p_id => 'repo_deets', :p_body => x} %>
+        <% end %>
+        <% if @result.kind_of?(Resource) && !@result.related_accessions.blank? %>
+          <% x = render partial: 'resources/related_accessions', locals: {:accessions => @result.related_accessions} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => x} %>
+        <% end %>
+        <% if @result.kind_of?(Accession) && !@result.related_resources.blank? %>
+          <% x = render partial: 'accessions/related_resources', locals: {:resources => @result.related_resources} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
+        <% end %>
+      </div>
+      <% ASUtils.find_local_directories('public/views/_lower_record_innards.html.erb').each do |template| %>
+        <%= render :file => template if File.exists?(template) %>
+      <% end %>
+    </div>
+    <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+    </script>

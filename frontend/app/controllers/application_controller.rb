@@ -23,8 +23,6 @@ class ApplicationController < ActionController::Base
   # Note: This should be first!
   before_action :store_user_session
 
-  before_action :determine_browser_support
-
   before_action :refresh_permissions
 
   before_action :refresh_preferences
@@ -141,6 +139,9 @@ class ApplicationController < ActionController::Base
       redirect_to(resolver.view_uri)
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
+      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+    rescue ConflictException => e
+      flash[:error] = I18n.t("errors.merge_conflict", :message => e.conflicts)
       redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
     rescue RecordNotFound => e
       flash[:error] = I18n.t("errors.error_404")
@@ -389,27 +390,6 @@ class ApplicationController < ActionController::Base
     return render(defaults.merge(args))
   end
 
-
-
-  def determine_browser_support
-    if session[:browser_support]
-      @browser_support = session[:browser_support].intern
-      return
-    end
-
-    user_agent = UserAgent.parse(request.user_agent)
-
-    @browser_support = :unknown
-    if BrowserSupport.bronze.detect {|browser| user_agent <= browser}
-      @browser_support = :bronze
-    elsif BrowserSupport.silver.detect {|browser| user_agent <= browser}
-      @browser_support = :silver
-    elsif BrowserSupport.silver.detect {|browser| user_agent > browser} || BrowserSupport.gold.detect {|browser| user_agent >= browser}
-      @browser_support = :gold
-    end
-
-    session[:browser_support] = @browser_support
-  end
 
   protected
 

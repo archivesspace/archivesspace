@@ -6,7 +6,7 @@
 <title>
   Class: EADConverter
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -202,6 +202,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#add_to_instance-instance_method" title="#add_to_instance (instance method)">#<strong>add_to_instance</strong>(type, indicator, id, parent_id = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#format_content-instance_method" title="#format_content (instance method)">#<strong>format_content</strong>(content)  &#x21d2; Object </a>
     
 
@@ -217,6 +240,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>A lot of nodes need tweaking to format the content.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_or_make_top_container_uri-instance_method" title="#get_or_make_top_container_uri (instance method)">#<strong>get_or_make_top_container_uri</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -364,6 +410,52 @@
   <span class="summary_signature">
     
       <a href="#make_single_note-instance_method" title="#make_single_note (instance method)">#<strong>make_single_note</strong>(note_name, tag, tag_name = &quot;&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recall_instance-instance_method" title="#recall_instance (instance method)">#<strong>recall_instance</strong>(id = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remember_instance-instance_method" title="#remember_instance (instance method)">#<strong>remember_instance</strong>(instance, id = nil)  &#x21d2; Object </a>
     
 
     
@@ -1196,7 +1288,124 @@
 840
 841
 842
-843</pre>
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 92</span>
@@ -1244,9 +1453,25 @@
         <span class='comment val'># inner_xml.split(/[\/_\-\.\s]/).each_with_index do |id, i|</span>
         <span class='comment val'>#   set receiver, &quot;id_#{i}&quot;.to_sym, id</span>
         <span class='comment val'># end</span>
-        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='symbol val'>:id_0</span><span class='comma token'>,</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
-      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;archival_object&#39;</span>
-        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='symbol val'>:component_id</span><span class='comma token'>,</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
+        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='symbol val'>:id_0</span><span class='comma token'>,</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rubyid_if if_mod kw'>if</span>  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id_0 identifier id'>id_0</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_id_0 identifier id'>id_0</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attribute identifier id'>attribute</span><span class='lparen token'>(</span> <span class='string val'>&quot;type&quot;</span><span class='rparen token'>)</span>
+            <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:external_id</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+                <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attribute identifier id'>attribute</span><span class='lparen token'>(</span> <span class='string val'>&quot;type&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                <span class='symbol val'>:external_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
+            <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ext_id identifier id'>ext_id</span><span class='bitor op'>|</span>
+              <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span> <span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:external_ids</span><span class='comma token'>,</span> <span class='rubyid_ext_id identifier id'>ext_id</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;archival_object&#39;</span>
+        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='symbol val'>:component_id</span><span class='comma token'>,</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_component_id identifier id'>component_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_component_id identifier id'>component_id</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attribute identifier id'>attribute</span><span class='lparen token'>(</span> <span class='string val'>&quot;type&quot;</span> <span class='rparen token'>)</span>
+          <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:external_id</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+              <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_attribute identifier id'>attribute</span><span class='lparen token'>(</span> <span class='string val'>&quot;type&quot;</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
+              <span class='symbol val'>:external_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
+          <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ext_id identifier id'>ext_id</span><span class='bitor op'>|</span>
+            <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:external_ids</span><span class='comma token'>,</span> <span class='rubyid_ext_id identifier id'>ext_id</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -1257,7 +1482,7 @@
       <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;note_multipart&quot;</span>
         <span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='rparen token'>)</span>
         <span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>&quot;.//unitdate&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_remove identifier id'>remove</span>
-        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
+        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -1479,7 +1704,12 @@
   <span class='rubyid_end end kw'>end</span>
 
 
-  <span class='lbrace token'>{</span>
+
+  <span class='comment val'># Multiple elements within one indexentry are generally related</span>
+  <span class='comment val'># Parse the indexentry as a fragment, and map the child elements</span>
+  <span class='comment val'># to ASpace equivalents, according to this mapping:</span>
+
+  <span class='rubyid_field_mapping identifier id'>field_mapping</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
     <span class='string val'>&#39;name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;name&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;persname&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;person&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;famname&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;family&#39;</span><span class='comma token'>,</span>
@@ -1489,28 +1719,40 @@
     <span class='string val'>&#39;occupation&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;occupation&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;genreform&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;genre_form&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;title&#39;</span><span class='comma token'>,</span>
-    <span class='string val'>&#39;geogname&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;geographic_name&#39;</span>
-  <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
-    <span class='rubyid_with identifier id'>with</span> <span class='dstring node'>&quot;indexentry/#{k}&quot;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='bitor op'>|</span>
-      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_index_item</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-        <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span>
-        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span>
-      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
-        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_index</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:items</span><span class='comma token'>,</span> <span class='rubyid_item identifier id'>item</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
+    <span class='string val'>&#39;geogname&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;geographic_name&#39;</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span>
 
-  <span class='comment val'># this is very imperfect.</span>
-  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&#39;indexentry/ref&#39;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
-      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_index_item</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-        <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;name&#39;</span><span class='comma token'>,</span>
-        <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='comma token'>,</span>
-        <span class='symbol val'>:reference_text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
-        <span class='symbol val'>:reference</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;target&#39;</span><span class='rparen token'>)</span>
-      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
-        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_index</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:items</span><span class='comma token'>,</span> <span class='rubyid_item identifier id'>item</span>
+  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&#39;indexentry&#39;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_entry_type identifier id'>entry_type</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+    <span class='rubyid_entry_value identifier id'>entry_value</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+    <span class='rubyid_entry_reference identifier id'>entry_reference</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+    <span class='rubyid_entry_ref_target identifier id'>entry_ref_target</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+
+    <span class='rubyid_indexentry identifier id'>indexentry</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_indexentry identifier id'>indexentry</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_field_mapping identifier id'>field_mapping</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span>
+        <span class='rubyid_entry_value identifier id'>entry_value</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span>
+        <span class='rubyid_entry_type identifier id'>entry_type</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_field_mapping identifier id'>field_mapping</span><span class='lbrack token'>[</span><span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='string val'>&#39;ref&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>&#39;./ptr&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+        <span class='rubyid_entry_reference identifier id'>entry_reference</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span>
+        <span class='rubyid_entry_ref_target identifier id'>entry_ref_target</span> <span class='lshft op'>&lt;&lt;</span> <span class='lparen token'>(</span><span class='rubyid_child identifier id'>child</span><span class='lbrack token'>[</span><span class='string val'>&#39;target&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='string val'>&#39;ref&#39;</span>
+        <span class='rubyid_entry_reference identifier id'>entry_reference</span> <span class='assign token'>=</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_inner_html identifier id'>inner_html</span> <span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_index_item</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+           <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry_type identifier id'>entry_type</span><span class='comma token'>,</span>
+           <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry_value identifier id'>entry_value</span><span class='comma token'>,</span>
+           <span class='symbol val'>:reference_text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry_reference identifier id'>entry_reference</span><span class='comma token'>,</span>
+           <span class='symbol val'>:reference</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_entry_ref_target identifier id'>entry_ref_target</span>
+         <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:note_index</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:items</span><span class='comma token'>,</span> <span class='rubyid_item identifier id'>item</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
 
@@ -1692,65 +1934,143 @@
   <span class='rubyid_end end kw'>end</span>
 
 
-  <span class='comment val'># example of a 1:many tag:record relation (1+ &lt;container&gt; =&gt; 1 instance with 1 container)</span>
-  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&#39;container&#39;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
-      <span class='rubyid_@containers ivar id'>@containers</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='rubyid_@instances ivar id'>@instances</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_id identifier id'>id</span>
+    <span class='rubyid_@last_instance ivar id'>@last_instance</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span>
+  <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'># we&#39;ve found that the container has a parent att and the parent is in</span>
-      <span class='comment val'># our queue</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;parent&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@containers ivar id'>@containers</span><span class='lbrack token'>[</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;parent&#39;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
-        <span class='rubyid_cont identifier id'>cont</span> <span class='assign token'>=</span> <span class='rubyid_@containers ivar id'>@containers</span><span class='lbrack token'>[</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;parent&#39;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@last_instance ivar id'>@last_instance</span>
+  <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_sub_container identifier id'>sub_container</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_sub_container identifier id'>sub_container</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_3&#39;</span><span class='rbrack token'>]</span>
+        <span class='comment val'># trying to add to a full sub_container - this shouldn&#39;t happen</span>
       <span class='rubyid_else else kw'>else</span>
-        <span class='comment val'># there is not a parent. if there is an id, let&#39;s check if there&#39;s an</span>
-        <span class='comment val'># instance before we proceed</span>
-        <span class='rubyid_inst identifier id'>inst</span> <span class='assign token'>=</span> <span class='rubyid_context identifier id'>context</span> <span class='eq op'>==</span> <span class='symbol val'>:instance</span> <span class='question op'>?</span> <span class='rubyid_context_obj identifier id'>context_obj</span> <span class='colon op'>:</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
+        <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;2&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;3&quot;</span>
+        <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{level}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span>
+        <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{level}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_indicator identifier id'>indicator</span>
 
-        <span class='comment val'># if there are no instances, we need to make a new one.</span>
-        <span class='comment val'># or, if there is an @id ( but no @parent) we can assume its a new</span>
-        <span class='comment val'># top level container that will be referenced later, so we need to</span>
-        <span class='comment val'># make a new instance</span>
-        <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_inst identifier id'>inst</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_or or kw'>or</span>  <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span>  <span class='rparen token'>)</span>
-          <span class='rubyid_instance_label identifier id'>instance_label</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;label&quot;</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;label&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='string val'>&#39;mixed_materials&#39;</span>
-
-          <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance_label identifier id'>instance_label</span> <span class='match op'>=~</span> <span class='regexp val'>/(.*)\s\((.*)\)$/</span>
-            <span class='rubyid_instance_label identifier id'>instance_label</span> <span class='assign token'>=</span> <span class='rubyid_$1 nth_ref id'>$1</span>
-            <span class='rubyid_barcode identifier id'>barcode</span> <span class='assign token'>=</span> <span class='rubyid_$2 nth_ref id'>$2</span>
-          <span class='rubyid_end end kw'>end</span>
-
-          <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:instance</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-            <span class='symbol val'>:instance_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_instance_label identifier id'>instance_label</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
-          <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
-            <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:instances</span><span class='comma token'>,</span> <span class='rubyid_instance identifier id'>instance</span>
-          <span class='rubyid_end end kw'>end</span>
-
-          <span class='rubyid_inst identifier id'>inst</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
-        <span class='rubyid_end end kw'>end</span>
-
-        <span class='comment val'># now let&#39;s check out instance to see if there&#39;s a container...</span>
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_inst identifier id'>inst</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-          <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:container</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_cont identifier id'>cont</span><span class='bitor op'>|</span>
-            <span class='rubyid_set identifier id'>set</span> <span class='rubyid_inst identifier id'>inst</span><span class='comma token'>,</span> <span class='symbol val'>:container</span><span class='comma token'>,</span> <span class='rubyid_cont identifier id'>cont</span>
-          <span class='rubyid_end end kw'>end</span>
-        <span class='rubyid_end end kw'>end</span>
-
-        <span class='comment val'># and now finally we get the container.</span>
-        <span class='rubyid_cont identifier id'>cont</span> <span class='assign token'>=</span>  <span class='rubyid_inst identifier id'>inst</span><span class='dot token'>.</span><span class='rubyid_container identifier id'>container</span> <span class='orop op'>||</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
-        <span class='rubyid_cont identifier id'>cont</span><span class='lbrack token'>[</span><span class='string val'>&#39;barcode_1&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
-        <span class='rubyid_cont identifier id'>cont</span><span class='lbrack token'>[</span><span class='string val'>&#39;container_profile_key&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;altrender&quot;</span><span class='rparen token'>)</span>
+        <span class='comment val'># remember this one because someone might be adding to it</span>
+        <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='comment val'># can&#39;t find the instance to add to - this shouldn&#39;t happen</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'># now we fill it in</span>
-      <span class='lparen token'>(</span><span class='float val'>1</span><span class='dot2 op'>..</span><span class='integer val'>3</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_a identifier id'>to_a</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-        <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_cont identifier id'>cont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{i}&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-        <span class='rubyid_cont identifier id'>cont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{i}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span>
-        <span class='rubyid_cont identifier id'>cont</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{i}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span> <span class='rparen token'>)</span>
-        <span class='rubyid_break break kw'>break</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
+    <span class='comment val'># remember the top_containers we make in this hash</span>
+    <span class='comment val'># the values are top_container uris</span>
+    <span class='comment val'># the keys are barcodes or type:indicator</span>
+    <span class='comment val'># some assumptions:</span>
+    <span class='comment val'>#   - barcodes are unique in this repo</span>
+    <span class='comment val'>#   - a barcode will never look like a type:indicator</span>
+    <span class='comment val'>#   - type:indicator is not unique</span>
+    <span class='comment val'>#       but only the last one seen will need to be added to</span>
+    <span class='comment val'>#       so it&#39;s actually a blessing that prior ones get blatted</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+        <span class='rubyid_return return kw'>return</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
       <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'>#store it here incase we find it has a parent</span>
-      <span class='rubyid_@containers ivar id'>@containers</span><span class='lbrack token'>[</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;id&quot;</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_cont identifier id'>cont</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;id&quot;</span><span class='rparen token'>)</span>
+    <span class='comment val'># don&#39;t make a container_profile, but link to one if there&#39;s a match</span>
+    <span class='rubyid_container_profile identifier id'>container_profile</span> <span class='assign token'>=</span> <span class='rubyid_ContainerProfile constant id'>ContainerProfile</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
 
+    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span>
+      <span class='symbol val'>:indicator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span>
+      <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span>
+    <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_top_container identifier id'>top_container</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_container_profile identifier id'>container_profile</span>
+        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='comma token'>,</span> <span class='symbol val'>:container_profile</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:ref</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_profile identifier id'>container_profile</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
+      <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&#39;container&#39;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_context identifier id'>context</span> <span class='eq op'>==</span> <span class='symbol val'>:instance</span>
+      <span class='comment val'># this container is nested inside the last one</span>
+      <span class='comment val'># so add to the current sub_container</span>
+      <span class='comment val'># note: there is not an example of this in:</span>
+      <span class='comment val'>#     backend/app/exporters/examples/ead/</span>
+      <span class='comment val'># but the previous implementation supported it</span>
+      <span class='comment val'># so continuing support here</span>
+      <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;parent&#39;</span><span class='rparen token'>)</span>
+      <span class='comment val'># this container has a parent attribute</span>
+      <span class='comment val'># so there should have been a sub_container previously</span>
+      <span class='comment val'># with that id that we can add to</span>
+      <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;parent&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='rparen token'>)</span>
+      <span class='comment val'># this container doesn&#39;t have an @id</span>
+      <span class='comment val'># and has a container sibling before it</span>
+      <span class='comment val'># so even though it doesn&#39;t have a parent attribute</span>
+      <span class='comment val'># it is treated as a child of the prior sibling</span>
+      <span class='comment val'># this pattern is seen in the wnyu.xml example</span>
+      <span class='comment val'># it is necessary to test for @id because in vmi.xml a list</span>
+      <span class='comment val'># of sibling containers represents more than one instance</span>
+      <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># all of the cases that require adding to an existing sub_container</span>
+    <span class='comment val'># are now handled, so having arrived here it is necessary to</span>
+    <span class='comment val'># create a new instance with a sub_container</span>
+
+    <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;mixed_materials&#39;</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='match op'>=~</span> <span class='regexp val'>/(.*)\s+?[\(\[] *(.*) *[\)\]]$/</span>
+      <span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='rubyid_$1 nth_ref id'>$1</span>
+      <span class='rubyid_barcode identifier id'>barcode</span> <span class='assign token'>=</span> <span class='rubyid_$2 nth_ref id'>$2</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:instance</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:instance_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_instance_type identifier id'>instance_type</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+    <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:instances</span><span class='comma token'>,</span> <span class='rubyid_instance identifier id'>instance</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span>
+
+    <span class='rubyid_top_container_uri identifier id'>top_container_uri</span> <span class='assign token'>=</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;type&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                                  <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                                                  <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span>
+                                                  <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&quot;altrender&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:sub_container</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:top_container</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_top_container_uri identifier id'>top_container_uri</span><span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_sub_container identifier id'>sub_container</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='symbol val'>:sub_container</span><span class='comma token'>,</span> <span class='rubyid_sub_container identifier id'>sub_container</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># remember the instance as it might be necessary to add to it later</span>
+    <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
 
@@ -1884,7 +2204,8 @@
         <span class='symbol val'>:file_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;href&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
         <span class='symbol val'>:xlink_actuate_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;actuate&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
         <span class='symbol val'>:xlink_show_attribute</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;show&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-        <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span>
+        <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:caption</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span> <span class='string val'>&#39;title&#39;</span> <span class='rparen token'>)</span>
       <span class='rbrace token'>}</span>
       <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span>
     <span class='rubyid_end end kw'>end</span>
@@ -1907,7 +2228,11 @@
 
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_title identifier id'>title</span>
       <span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
-      <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span> <span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_ao identifier id'>ao</span><span class='bitor op'>|</span> <span class='rubyid_title identifier id'>title</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_ao identifier id'>ao</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='plus op'>+</span> <span class='string val'>&#39; Digital Object&#39;</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span> <span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_ao identifier id'>ao</span><span class='bitor op'>|</span>
+        <span class='rubyid_display_string identifier id'>display_string</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_produce_display_string identifier id'>produce_display_string</span><span class='lparen token'>(</span><span class='rubyid_ao identifier id'>ao</span><span class='rparen token'>)</span>
+        <span class='rubyid_display_string identifier id'>display_string</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_display_string identifier id'>display_string</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
+        <span class='rubyid_title identifier id'>title</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_display_string identifier id'>display_string</span> <span class='plus op'>+</span> <span class='string val'>&#39; Digital Object&#39;</span>
+      <span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
@@ -1946,6 +2271,7 @@
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:file_uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:href&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:href&#39;</span><span class='rbrack token'>]</span>
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:use_statement</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:role&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:role&#39;</span><span class='rbrack token'>]</span>
          <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:publish</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;audience&#39;</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span>
+         <span class='rubyid_fv_attrs identifier id'>fv_attrs</span><span class='lbrack token'>[</span><span class='symbol val'>:caption</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:title&#39;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_daoloc identifier id'>daoloc</span><span class='lbrack token'>[</span><span class='string val'>&#39;xlink:title&#39;</span><span class='rbrack token'>]</span>
 
          <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_fv_attrs identifier id'>fv_attrs</span>
        <span class='rubyid_end end kw'>end</span>
@@ -2046,7 +2372,66 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="format_content-instance_method">
+  <h3 class="signature first" id="add_to_instance-instance_method">
+  
+    #<strong>add_to_instance</strong>(type, indicator, id, parent_id = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 626</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_sub_container identifier id'>sub_container</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_sub_container identifier id'>sub_container</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_3&#39;</span><span class='rbrack token'>]</span>
+      <span class='comment val'># trying to add to a full sub_container - this shouldn&#39;t happen</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='string val'>&quot;2&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;3&quot;</span>
+      <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;type_#{level}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_type identifier id'>type</span>
+      <span class='rubyid_sub_container identifier id'>sub_container</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;indicator_#{level}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_indicator identifier id'>indicator</span>
+
+      <span class='comment val'># remember this one because someone might be adding to it</span>
+      <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='comment val'># can&#39;t find the instance to add to - this shouldn&#39;t happen</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="format_content-instance_method">
   
     #<strong>format_content</strong>(content)  &#x21d2; <tt>Object</tt> 
   
@@ -2088,6 +2473,117 @@ actually want to ever see them.</p>
   <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>%r{&lt;p(?: [^&gt;/]*)?&gt;}</span><span class='comma token'>,</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>%r{&lt;/p&gt;|&lt;p(?:\s+[^&gt;]*)?/&gt;}</span><span class='comma token'>,</span> <span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span>
     <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&lt;lb/&gt;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&lt;lb&gt;&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;\n\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&lt;/lb&gt;&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
     <span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_or_make_top_container_uri-instance_method">
+  
+    #<strong>get_or_make_top_container_uri</strong>(type, indicator, barcode, container_profile_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 644</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
+  <span class='comment val'># remember the top_containers we make in this hash</span>
+  <span class='comment val'># the values are top_container uris</span>
+  <span class='comment val'># the keys are barcodes or type:indicator</span>
+  <span class='comment val'># some assumptions:</span>
+  <span class='comment val'>#   - barcodes are unique in this repo</span>
+  <span class='comment val'>#   - a barcode will never look like a type:indicator</span>
+  <span class='comment val'>#   - type:indicator is not unique</span>
+  <span class='comment val'>#       but only the last one seen will need to be added to</span>
+  <span class='comment val'>#       so it&#39;s actually a blessing that prior ones get blatted</span>
+  <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='lparen token'>(</span><span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_TopContainer constant id'>TopContainer</span><span class='dot token'>.</span><span class='rubyid_for_barcode identifier id'>for_barcode</span><span class='lparen token'>(</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># don&#39;t make a container_profile, but link to one if there&#39;s a match</span>
+  <span class='rubyid_container_profile identifier id'>container_profile</span> <span class='assign token'>=</span> <span class='rubyid_ContainerProfile constant id'>ContainerProfile</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+
+  <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:barcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span>
+    <span class='symbol val'>:indicator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span>
+    <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_type identifier id'>type</span>
+  <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_top_container identifier id'>top_container</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_container_profile identifier id'>container_profile</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='comma token'>,</span> <span class='symbol val'>:container_profile</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:ref</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_container_profile identifier id'>container_profile</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_barcode identifier id'>barcode</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='rubyid_barcode identifier id'>barcode</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@top_container_uris ivar id'>@top_container_uris</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{type}:#{indicator}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_context_obj identifier id'>context_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2291,26 +2787,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865</pre>
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 849</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 966</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2350,26 +2846,26 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884</pre>
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 868</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 985</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2409,24 +2905,24 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 252</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_nested_note identifier id'>make_nested_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -2464,27 +2960,27 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904</pre>
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 887</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1004</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2525,23 +3021,23 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234</pre>
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 237</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_single_note identifier id'>make_single_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='comma token'>,</span> <span class='rubyid_tag_name identifier id'>tag_name</span><span class='assign token'>=</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -2563,14 +3059,80 @@ which greatly helps the performance.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="recall_instance-instance_method">
+  
+    #<strong>recall_instance</strong>(id = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+622
+623
+624</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 622</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@last_instance ivar id'>@last_instance</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remember_instance-instance_method">
+  
+    #<strong>remember_instance</strong>(instance, id = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+616
+617
+618
+619
+620</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 616</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_@instances ivar id'>@instances</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_id identifier id'>id</span>
+  <span class='rubyid_@last_instance ivar id'>@last_instance</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:16 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:09 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>

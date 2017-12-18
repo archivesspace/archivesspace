@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport::ExportModelHelpers
   
-    &mdash; Documentation by YARD 0.9.8
+    &mdash; Documentation by YARD 0.9.9
   
 </title>
 
@@ -196,18 +196,18 @@
       <pre class="lines">
 
 
-191
-192
 193
 194
 195
 196
 197
 198
-199</pre>
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 193</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_date_string identifier id'>extract_date_string</span><span class='lparen token'>(</span><span class='rubyid_date identifier id'>date</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;expression&#39;</span><span class='rbrack token'>]</span>
@@ -239,16 +239,16 @@
       <pre class="lines">
 
 
-202
-203
 204
 205
 206
 207
-208</pre>
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 204</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_note_content identifier id'>extract_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span>
@@ -278,12 +278,12 @@
       <pre class="lines">
 
 
-211
-212
-213</pre>
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 213</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_subnotes_by_type identifier id'>get_subnotes_by_type</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;subnotes&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span> <span class='rubyid_sn identifier id'>sn</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_note_type identifier id'>note_type</span><span class='rbrace token'>}</span>
@@ -299,9 +299,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v1.5.3.a Documentation Generated on Tue Apr 18 14:21:07 2017 by
+  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:00 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.8 (ruby-2.3.1).
+  0.9.9 (ruby-2.3.1).
 </div>
     </div>
   </body>
