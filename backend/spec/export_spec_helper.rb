@@ -4,11 +4,11 @@ require 'asutils'
 require_relative 'json_record_spec_helper'
 require_relative 'custom_matchers'
 require 'jsonmodel'
-require 'factory_girl'
+require 'factory_bot'
 
 if ENV['ASPACE_BACKEND_URL']
 
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
   I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
   I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
 
@@ -47,9 +47,9 @@ else
     if response.status == 200
       if raw
         response.body
-      else 
+      else
         Nokogiri::XML::Document.parse(response.body)
-      end 
+      end
     else
       raise "Invalid response from backend for URI #{uri}: #{response.body}"
     end
@@ -104,7 +104,7 @@ end
 
 def get_eac(rec, repo_id = $repo_id)
   repo_record = JSONModel(:repository).find($repo_id)
-  
+
   case rec.jsonmodel_type
   when 'agent_person'
     get_xml("/repositories/#{repo_id}/archival_contexts/people/#{rec.id}.xml")
@@ -151,5 +151,3 @@ def digital_object_note_set
           })
   end
 end
-
-

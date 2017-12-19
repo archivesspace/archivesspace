@@ -38,7 +38,7 @@ $frontend_start_fn = proc {
   pid
 }
 
-include FactoryGirl::Syntax::Methods
+include FactoryBot::Syntax::Methods
 
 RSpec.configure do |config|
 
@@ -50,7 +50,7 @@ RSpec.configure do |config|
 
   config.include BackendClientMethods
   config.include TreeHelperMethods
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.extend RSpecClassHelpers
   config.verbose_retry = true
 

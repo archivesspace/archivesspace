@@ -16,11 +16,11 @@ JSONModel::init(:enum_source => IndexerEnumSource.new)
 require_relative '../../backend/spec/factories'
 # require_relative "spec_helper_methods"
 
-FactoryGirl.define do
+FactoryBot.define do
   to_create{|instance| instance}
 end
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include JSONModel
 end
