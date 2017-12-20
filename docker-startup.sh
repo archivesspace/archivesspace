@@ -2,6 +2,19 @@
 
 DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
+# DEPLOY_PKG (optional): [./config/config.rb, ./plugins, ./stylesheets]
+if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
+  wget -O /deploy_pkg.zip $ASPACE_DEPLOY_PKG_URL
+  if [[ "$?" != 0 ]]; then
+    echo "Error downloading deploy package from: $ASPACE_DEPLOY_PKG_URL"
+  else
+    unzip -o /deploy_pkg.zip -d /tmp
+    cp /tmp/config/config.rb /archivesspace/config/config.rb || true
+    cp -r /tmp/plugins/* /archivesspace/plugins/ || true
+    cp /tmp/stylesheets/* /archivesspace/stylesheets/ || true
+  fi
+fi
+
 # http://www.tothenew.com/blog/setting-up-sendmail-inside-your-docker-container/
 line=$(head -n 1 /etc/hosts)
 line2=$(echo $line | awk '{print $2}')
