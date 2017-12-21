@@ -12,7 +12,6 @@ ArchivesSpace README
 * [API](http://archivesspace.github.io/archivesspace/api)
 * [Wiki](http://wiki.archivesspace.org)
 * [Issue Tracker](http://development.archivesspace.org)
-* IRC: #archivesspace ( chat.freenode.net )
 
 # System requirements
 
