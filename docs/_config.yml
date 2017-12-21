@@ -9,7 +9,7 @@ kramdown:
   hard_wrap: false
   input: GFM
   smart_quotes:   lsquo,rsquo,ldquo,rdquo
-gems:
+plugins:
   - jekyll-redirect-from
 sass:
   sass_dir: assets/stylesheets
