@@ -12,7 +12,7 @@
 
 # Set your database name and credentials here.  Example:
 #
-#  AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+#AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
 #
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 
@@ -51,7 +51,7 @@ AppConfig[:docs_url] = "http://localhost:8888"
 # Logging. By default, this will be output on the screen while the archivesspace
 # command is running. When running as a daemon/service, this is put into a
 # file in logs/archivesspace.out. You can change this file by changing the log
-# value to a filepath that archivesspace has write access to. 
+# value to a filepath that archivesspace has write access to.
 AppConfig[:frontend_log] = "default"
 # Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:frontend_log_level] = "debug"

@@ -19,11 +19,6 @@ class ResourceDeaccessionsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetResourceDeaccessionExtent(id)'), :deaccessionExtentNumber))
   end
 
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Total Extent of Resources
   def total_extent
     @total_extent ||= db.from(self.query).sum(:extentNumber)
@@ -35,7 +30,7 @@ class ResourceDeaccessionsListReport < AbstractReport
 
     deaccessions = db[:deaccession].where(:accession_id => self.query.select(:id))
     deaccession_extents = db[:extent].where(:deaccession_id => deaccessions.select(:id))
-    
+
     @total_extent_of_deaccessions = deaccession_extents.sum(:number)
 
     @total_extent_of_deaccessions

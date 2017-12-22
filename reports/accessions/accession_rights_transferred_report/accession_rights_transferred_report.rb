@@ -28,11 +28,6 @@ class AccessionRightsTransferredReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote))
   end
 
-  # Number of Records Reviewed
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Accessions with Rights Transferred
   def total_transferred
     @total_transferred ||= db.from(self.query).where(:rightsTransferred => 1).count

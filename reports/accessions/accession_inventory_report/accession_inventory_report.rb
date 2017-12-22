@@ -24,11 +24,6 @@ class AccessionInventoryReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
   end
 
-  # Number of Records Reviewed
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Accessions with Inventories
   def total_with_inventories
     @total_with_inventories ||= self.query.where(Sequel.~(:inventory => nil)).count

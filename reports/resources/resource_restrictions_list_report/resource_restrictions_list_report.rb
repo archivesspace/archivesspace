@@ -1,9 +1,9 @@
-class ResourceInstancesListReport < AbstractReport
+class ResourceRestrictionsListReport < AbstractReport
 
   register_report
 
   def template
-    'resource_instances_list_report.erb'
+    'resource_restrictions_list_report.erb'
   end
 
   def query
@@ -12,14 +12,10 @@ class ResourceInstancesListReport < AbstractReport
              Sequel.as(:repo_id, :repo_id),
              Sequel.as(:title, :title),
              Sequel.as(:identifier, :resourceIdentifier),
+             # Sequel.as(:restrictions_apply, :restrictionsApply),
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
              Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
              Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber))
-  end
-
-  # Total Extent of Resources
-  def total_extent
-    @total_extent ||= db.from(self.query).sum(:extentNumber)
   end
 
 end

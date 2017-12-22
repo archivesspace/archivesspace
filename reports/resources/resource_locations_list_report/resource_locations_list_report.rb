@@ -17,11 +17,6 @@ class ResourceLocationsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber))
   end
 
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Total Extent of Resources
   def total_extent
     @total_extent ||= db.from(self.query).sum(:extentNumber)

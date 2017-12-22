@@ -21,11 +21,6 @@ class AccessionUnprocessedReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
   end
 
-  # Number of Records Reviewed
-  def total_count
-    @total_count ||= self.query.count
-  end
-
   # Unprocessed Accessions
   def total_unprocessed
     @total_processed ||= db.from(self.query).where(Sequel.~(:accessionProcessed => 1)).count

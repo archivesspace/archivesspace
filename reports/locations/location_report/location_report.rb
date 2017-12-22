@@ -5,10 +5,6 @@ class LocationReport < AbstractReport
     "location_report.erb"
   end
 
-  def total_count
-    query.count
-  end
-
   def query
     db[:location]
       .select(Sequel.as(:id, :location_id),
