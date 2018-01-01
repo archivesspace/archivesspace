@@ -16,7 +16,8 @@ class AccessionReceiptReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :containerSummary),
              Sequel.as(Sequel.lit('GetRepositoryName(repo_id)'), :repositoryName),
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
+             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType)).
+       filter(:repo_id => @repo_id)
   end
 
 end

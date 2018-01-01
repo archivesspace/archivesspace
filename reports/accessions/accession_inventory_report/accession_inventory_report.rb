@@ -21,7 +21,9 @@ class AccessionInventoryReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionDatePart(id, \'bulk\', 2)'), :bulkDateEnd),
              Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :containerSummary),
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
+             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType)).
+       filter(:repo_id => @repo_id)
+       .where(Sequel.~(:inventory => nil))
   end
 
   # Accessions with Inventories

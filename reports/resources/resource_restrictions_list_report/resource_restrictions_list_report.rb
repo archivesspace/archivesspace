@@ -15,7 +15,8 @@ class ResourceRestrictionsListReport < AbstractReport
              # Sequel.as(:restrictions_apply, :restrictionsApply),
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
              Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber))
+             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber)).
+       filter(:repo_id => @repo_id)
   end
 
 end

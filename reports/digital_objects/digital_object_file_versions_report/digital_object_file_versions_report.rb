@@ -12,7 +12,8 @@ class DigitalObjectFileVersionsReport < AbstractReport
       select(Sequel.as(:id, :digitalObjectId),
              Sequel.as(:repo_id, :repo_id),
              Sequel.as(:digital_object_id, :identifier),
-             Sequel.as(:title, :title))
+             Sequel.as(:title, :title)).
+       filter(:repo_id => @repo_id)
   end
 
 end

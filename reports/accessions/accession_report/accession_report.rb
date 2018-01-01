@@ -53,7 +53,8 @@ class AccessionReport < AbstractReport
               Sequel.as(:use_restrictions_note, :useRestrictionsNote),
               Sequel.as(Sequel.lit("GetAccessionRightsTransferred(id)"), :rightsTransferred),
               Sequel.as(Sequel.lit("GetAccessionRightsTransferredNote(id)"), :rightsTransferredNote),
-              Sequel.as(Sequel.lit("GetAccessionAcknowledgementSent(id)"), :acknowledgementSent))
+              Sequel.as(Sequel.lit("GetAccessionAcknowledgementSent(id)"), :acknowledgementSent)).
+        filter(:repo_id => @repo_id)
   end
 
 end

@@ -25,7 +25,8 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType),
              Sequel.as(Sequel.lit('GetAccessionRightsTransferred(id)'), :rightsTransferred),
-             Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote))
+             Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote)).
+       filter(:repo_id => @repo_id)
   end
 
 end

@@ -15,7 +15,8 @@ class AccessionDeaccessionsListReport < AbstractReport
              Sequel.as(:accession_date, :accessionDate),
              Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :containerSummary),
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
+             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType)).
+       filter(:repo_id => @repo_id)
   end
 
   # Accessioned Between - From Date
