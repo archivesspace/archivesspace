@@ -1,15 +1,12 @@
 require 'spec_helper'
 
 describe AccessionInventoryReport do
-  let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
-                                                                      :name => "My new test repository")) }
+
   let(:datab) { Sequel.connect(AppConfig[:db_url]) }
-  let(:acc_job) { Job.create_from_json(build(:json_accession_job),
-                       :repo_id => repo.id,
-                       :user => create_nobody_user) }
-  let(:report) { AccessionInventoryReport.new({:repo_id => repo.id},
-                                acc_job,
+  let(:report) { AccessionInventoryReport.new({:repo_id => 2},
+                                {},
                                 datab) }
+
   it 'returns the correct fields for the accession report' do
     expect(report.query.first.keys.length).to eq(14)
     expect(report.query.first).to have_key(:accessionId)
@@ -33,6 +30,5 @@ describe AccessionInventoryReport do
   it 'renders the expected report' do
     rend = ReportErbRenderer.new(report,{})
     expect(rend.render(report.template)).to include('Accessions with Inventories')
-    expect(rend.render(report.template)).to include('accession_resources_subreport.erb')
   end
 end

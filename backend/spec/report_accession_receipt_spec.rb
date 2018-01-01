@@ -1,16 +1,12 @@
 require 'spec_helper'
 
 describe AccessionReceiptReport do
-  let(:repo)  { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
-                                                                      :name => "My new test repository")) }
   let(:datab) { Sequel.connect(AppConfig[:db_url]) }
-  let(:acc_job) { Job.create_from_json(build(:json_accession_job),
-                       :repo_id => repo.id,
-                       :user => create_nobody_user) }
-  let(:report) { AccessionReceiptReport.new({:repo_id => repo.id},
-                                acc_job,
+  let(:report) { AccessionReceiptReport.new({:repo_id => 2},
+                                {},
                                 datab) }
-  it 'returns the correct fields for the accession report' do
+
+  it 'returns the correct fields for the accession receipt report' do
     expect(report.query.first.keys.length).to eq(9)
     expect(report.query.first).to have_key(:accessionId)
     expect(report.query.first).to have_key(:repo_id)
