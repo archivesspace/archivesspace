@@ -21,5 +21,7 @@
                 tree.elt.scrollTo('#'+tree_id, 0, {offset: -50});
             });
         },
-        $.noop);
+        function(current_node, tree) {
+          tree.expandNode(current_node);
+        });
 </script>
