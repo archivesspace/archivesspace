@@ -179,7 +179,7 @@ require_relative "spec_helper_methods"
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include SpecHelperMethods
   config.include JSONModel
 
@@ -193,8 +193,8 @@ RSpec.configure do |config|
     DB.open(true) do
       SpecHelperMethods.as_test_user("admin") do
         RequestContext.open do
-          FactoryGirl.create(:agent_corporate_entity)
-          FactoryGirl.create(:repo)
+          FactoryBot.create(:agent_corporate_entity)
+          FactoryBot.create(:repo)
           $default_repo = $repo_id
           $repo_record = JSONModel.JSONModel(:repository).find($repo_id)
         end
