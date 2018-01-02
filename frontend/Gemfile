@@ -37,6 +37,7 @@ group :test do
   gem 'rspec', "~> 3.6.0"
   gem 'rspec-rails'
   gem 'simplecov', "0.7.1"
+  gem 'capybara'
 end
 
 gem "mizuno", "0.6.11"
