@@ -1,6 +1,6 @@
-require 'factory_girl'
+require 'factory_bot'
 
-module FactoryGirlSyntaxHelpers
+module FactoryBotSyntaxHelpers
 
   def sample(enum, exclude = [])
     values = if enum.has_key?('enum')
@@ -32,7 +32,7 @@ module FactoryGirlSyntaxHelpers
 
 
   def nil_or_whatever
-    [nil, FactoryGirl.generate(:alphanumstr)].sample
+    [nil, FactoryBot.generate(:alphanumstr)].sample
   end
 
 
@@ -43,11 +43,11 @@ module FactoryGirlSyntaxHelpers
   end
 end
 
-FactoryGirl::SyntaxRunner.send(:include, FactoryGirlSyntaxHelpers)
-FactoryGirl::Syntax::Default::DSL.send(:include, FactoryGirlSyntaxHelpers)
+FactoryBot::SyntaxRunner.send(:include, FactoryBotSyntaxHelpers)
+FactoryBot::Syntax::Default::DSL.send(:include, FactoryBotSyntaxHelpers)
 
 
-FactoryGirl.define do
+FactoryBot.define do
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
   sequence(:number) { rand(100).to_s }
@@ -67,7 +67,7 @@ FactoryGirl.define do
   sequence(:note_index_item_type) { sample(JSONModel(:note_index_item).schema['properties']['type'])}
   sequence(:note_bibliography_type) { sample(JSONModel(:note_bibliography).schema['properties']['type'])}
   sequence(:orderedlist_enumeration) { sample(JSONModel(:note_orderedlist).schema['properties']['enumeration']) }
-  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { FactoryGirl.generate(:alphanumstr) } } }
+  sequence(:chronology_item) { {'event_date' => nil_or_whatever, 'events' => (0..rand(3)).map { FactoryBot.generate(:alphanumstr) } } }
 
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }

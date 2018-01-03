@@ -51,12 +51,11 @@ begin
       if Dir.exist? (indexer_state)
         FileUtils.rm_rf(indexer_state)
       end
-
+    else
+      puts "Running migrations against #{AppConfig[:db_url_redacted]}"
+      DBMigrator.setup_database(db)
+      puts "All done."
     end
-
-    puts "Running migrations against #{AppConfig[:db_url_redacted]}"
-    DBMigrator.setup_database(db)
-    puts "All done."
   end
 rescue Sequel::AdapterNotFound => e
 

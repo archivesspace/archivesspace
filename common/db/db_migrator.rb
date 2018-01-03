@@ -193,21 +193,24 @@ class DBMigrator
     rescue Exception => e
      $stderr.puts <<EOF
 
-     #{ 3.times { $stderr.puts "!" * 100  } }
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!                                                                                                !!
+    !!                                      Database migration error.                                 !!
+    !!                                  Your upgrade has encountered a problem.                       !!
+    !!                  You must resolve these issues before the database migration can complete.     !!
+    !!                                                                                                !!
+    !!                                                                                                !!
+    !!                                                Error:                                          !!
+    !!  #{e.inspect}                                                                                  !!
+    !!  #{e.message}                                                                                  !!
+    !!  #{e.backtrace.join("\n")}                                                                     !!
+    !!                                                                                                !!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-     Database migration error.
-     Your upgrade has encountered a problem.
-     You must resolve these issues before the database migration can complete.
-
-
-     Error:
-     #{e.inspect}
-     #{e.message}
-     #{e.backtrace.join("\n")}
-
-
-     #{ 3.times { $stderr.puts "!" * 100  } }
 EOF
 
      raise e

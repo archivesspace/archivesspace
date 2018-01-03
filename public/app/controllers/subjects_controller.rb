@@ -3,7 +3,7 @@ class SubjectsController <  ApplicationController
   include ResultInfo
 
   skip_before_filter  :verify_authenticity_token
-  DEFAULT_SUBJ_TYPES = %w{repository resource archival_object digital_object}
+  DEFAULT_SUBJ_TYPES = %w{repository resource accession archival_object digital_object}
   DEFAULT_SUBJ_FACET_TYPES = %w{primary_type published_agents used_within_published_repository}
   DEFAULT_SUBJ_SEARCH_OPTS = {
     'sort' => 'title_sort asc',

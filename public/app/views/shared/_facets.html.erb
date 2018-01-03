@@ -33,7 +33,7 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
 <% if @search[:dates_within] || @search[:text_within] %>
 <h3><%= t('search_results.filter.head') %></h3>
  <div class="filter_more">
-   <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-inline") do %>
+   <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal") do %>
     <%= render partial: 'shared/hidden_params' %>
     <% if @search[:text_within] %>
       <div class="form-group">
@@ -44,13 +44,16 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
     <% end %>
     <% if @search.search_dates_within? %>
       <div class="form-group">
-	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from'),
-	:class=>"form-control") %>
-	<span class="inline-label">--</span>
-	<%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-	<%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
-	:placeholder => t('search_results.filter.to')) %>
+        <div class="col-md-6 year_from">
+        	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+        	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from_year'),
+        	:class=>"form-control") %>
+        </div>
+        <div class="col-md-6 year_to">
+        	<%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+        	<%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
+        	:placeholder => t('search_results.filter.to_year')) %>
+        </div>
       </div>
       <% else %>
         <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year]) %>

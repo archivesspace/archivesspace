@@ -124,7 +124,7 @@ module SeleniumTest
   end
 
   def self.save_screenshot(driver)
-    outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+    outfile = File.join( ENV['SCREENSHOT_DIR'] || Dir.tmpdir,  "#{Time.now.to_i}_#{$$}.png" ) 
     puts "Saving screenshot to #{outfile}"
     puts "Saving screenshot from Thread #{java.lang.Thread.currentThread.get_name}"
 

@@ -3,6 +3,7 @@ require_relative 'index_state'
 require 'time'
 require 'thread'
 require 'java'
+require 'log'
 
 # Eagerly load this constant since we access it from multiple threads.  Having
 # two threads try to load it simultaneously seems to create the possibility for
@@ -11,11 +12,12 @@ java.util.concurrent.TimeUnit::MILLISECONDS
 
 class PeriodicIndexer < IndexerCommon
 
-  def initialize(backend_url = nil, state = nil, indexer_name = nil)
+  def initialize(backend_url = nil, state = nil, indexer_name = nil, verbose = true)
     super(backend_url || AppConfig[:backend_url])
 
     @indexer_name = indexer_name || 'PeriodicIndexer'
     @state = state || IndexState.new
+    @verbose = verbose
 
     # A small window to account for the fact that transactions might be committed
     # after the periodic indexer has checked for updates, but with timestamps from
@@ -66,7 +68,7 @@ class PeriodicIndexer < IndexerCommon
 
         did_something
       rescue
-        $stderr.puts("Failure in #{@indexer_name} worker thread: #{$!}")
+        Log.error("Failure in #{@indexer_name} worker thread: #{$!}")
         raise $!
       end
     end
@@ -152,7 +154,7 @@ class PeriodicIndexer < IndexerCommon
 
         checkpoints << [repository, type, start]
 
-        $stderr.puts("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
+        log("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
       end
 
       index_round_complete(repository)
@@ -206,17 +208,17 @@ class PeriodicIndexer < IndexerCommon
         run_index_round unless paused?
       rescue
         reset_session
-        log($!.backtrace.join("\n"))
-        log($!.inspect)
+        Log.error($!.backtrace.join("\n"))
+        Log.error($!.inspect)
       end
 
       sleep @time_to_sleep
     end
   end
 
+  # used for just info lines
   def log(line)
-    $stderr.puts("#{@indexer_name} [#{Time.now}] #{line}")
-    $stderr.flush
+    Log.info("#{@indexer_name} [#{Time.now}] #{line}")
   end
 
   def self.get_indexer(state = nil, name = "Staff Indexer")

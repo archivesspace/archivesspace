@@ -1,4 +1,7 @@
 require_relative 'webdriver'
+require 'mechanize'
+require 'tempfile'
+require 'fileutils'
 
 # Increase Selenium's HTTP read timeout from the default of 60.  Address
 # Net::ReadTimeout errors on Travis.
@@ -32,9 +35,8 @@ class Driver
     # for the sake of taking screenshots when things fail.
     @current_instance
   end
-
-  def initialize(frontend = $frontend)
-    @frontend = frontend
+  
+  def initialize_ff
     profile = Selenium::WebDriver::Firefox::Profile.new
     FileUtils.rm("/tmp/firefox_console", :force => true)
     profile["webdriver.log.file"] = "/tmp/firefox_console"
@@ -52,13 +54,40 @@ class Driver
     else #osx
       ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
     end
+     
+     return Selenium::WebDriver.for :firefox,:profile => profile
+  end
 
 
-    if ENV['FIREFOX_PATH']
-      Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
+  def initialize_chrome
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    opts = Selenium::WebDriver::Chrome::Options.new(
+             :prefs => { :download => 
+                        { :default_directory => Dir.tmpdir,
+                          :directory_upgrade => true,
+                          :extensions_to_open => "",
+                          :prompt_for_download => false
+                        }},
+              :args => %w[ headless  disable-gpu window-size=1200x800]  
+            )
+    return Selenium::WebDriver.for :chrome, :options => opts
+  end
+
+  def ff_or_chrome
+    if ENV["SELENIUM_CHROME"]
+      initialize_chrome
+    else
+      initialize_ff
     end
+  end
 
-    @driver = Selenium::WebDriver.for :firefox,:profile => profile
+  def initialize(frontend = $frontend)
+    @frontend = frontend
+
+    prefs = { :download =>  { :default_directory => Dir.tmpdir  } }
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+
+    @driver = ff_or_chrome
     @wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
     @driver.manage.window.maximize
   end
@@ -146,6 +175,32 @@ class Driver
     end
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
+  end
+
+  # so chrome in headless mode isn't dt d/l (down to download )
+  # This is a hack that grabs the files and sticks it in the temp directory
+  # pass in a link element... 
+  def download_file( el )
+    if @driver.browser == :chrome
+      mech_agent = Mechanize.new 
+      form = mech_agent.get(@frontend).form
+      form.field_with(name: "username").value = "admin"
+      form.field_with(name: "password").value = "admin"
+      form.submit
+
+      tmp = Tempfile.new('mech')
+      begin 
+        dl = mech_agent.download( el["href"], tmp.path )
+        FileUtils.mv(tmp.path, File.join( Dir.tmpdir, dl.response["content-disposition"].split('=').last ))
+      ensure
+        tmp.close
+        tmp.unlink
+      end
+    # not chrome we can just click it and quit it
+    else
+      el.click
+    end
+
   end
 
 

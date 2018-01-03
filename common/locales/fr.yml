@@ -196,7 +196,7 @@ fr:
     coordinate_1_range: Plage de coordonnées 1
     coordinate_2_range: Plage de coordonnées 2
     coordinate_3_range: Plage de coordonnées 3
-    start: Borne inf. 
+    start: Borne inf.
     end: Borne sup.
     _singular: Localisations en lot
     _plural: Localisations en lot
@@ -322,7 +322,7 @@ fr:
       agreement_received: Accord reçu
       agreement_sent: Accord envoyé
       appraisal: Appréciation
-      assessment: Evaluation 
+      assessment: Evaluation
       capture: Capture
       cataloged: Catalogué
       collection: Collection
@@ -781,7 +781,7 @@ fr:
     levels: Niveaux
 
   instance: &instance_attributes
-    is_representative: Est représentatif? 
+    is_representative: Est représentatif?
     instance_type: Type
     instance_type_tooltip: |
         <p>Une désignation de la manifestation pour les documents décrits. La désignation d'instance est facultative, mais nécessaire pour ouvrir et compléter une notice de conditionnement pour le document décrit.</p>
@@ -941,7 +941,7 @@ fr:
     status: Statut
     status_tooltip: |
         <p>Une désignation codée pour le statut du copyright de l'objet au moment où la mention de droits est enregistrée.</p>
-        <ul> 
+        <ul>
           <li>Protégé = sous copyright.</li>
           <li>Domaine public = dans le domaine public.</li>
           <li>Inconnu = le statut de copyright de la ressource est inconnu</li>
@@ -1004,7 +1004,7 @@ fr:
     date_type: Type
     date_type_tooltip: |
         <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (extrêmes ou de la grosse masse).</p>
-    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée 
+    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée
     expression: Expression
     expression_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de l'entrée. Requis quand aucune date normalisée n'est enregistrée.</p>
@@ -1083,7 +1083,7 @@ fr:
     accession_date: Date d'entrée
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas 
+        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas
         nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
@@ -1094,8 +1094,8 @@ fr:
     id_2: Identifiant 3
     id_3: Identifiant 4
     id_0_tooltip: |
-        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une entrée au sein du 
-        service d'archives.</p> 
+        <p>CHAMP OBLIGATOIRE.  L'identifiant unique d'une entrée au sein du
+        service d'archives.</p>
         <p>Dans ArchivesSpace, quatre champs sont prévus pour répartir un
         identifiant d'entrée en ses composants. Chaque segment est limité
         à 50 caractères, ou à 200 caractères au total pour l'identifiant.
@@ -1114,7 +1114,7 @@ fr:
         au ranch Otay Mesa.</p>
     condition_description: Etat de conservation
     condition_description_tooltip: |
-        <p>Une description de l'état physique des documents collectés, 
+        <p>Une description de l'état physique des documents collectés,
         avec les éventuelles précautions à prendre pour la manipulation.</p>
         <p>Exemples:</p>
         <p>Les cartes de la boîte 4 sont friables et plusieurs sont couvertes de moisissures.
@@ -1225,7 +1225,7 @@ fr:
     part: "\"Partie de\" Relation"
     relator: Cette entrée
     forms_part_of: Fait partie de
-    has_part: Participe de 
+    has_part: Participe de
     relator_type: Type de lien
 
 
@@ -1336,7 +1336,7 @@ fr:
     restrictions_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
-    repository_processing_note: Note de l'archiviste 
+    repository_processing_note: Note de l'archiviste
     automate_title: Intitulé automatiquement généré
     language: Langue
     language_tooltip: |
@@ -1836,7 +1836,6 @@ fr:
     formats:
       json: JSON
       csv: CSV
-      xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
 
@@ -1930,7 +1929,7 @@ fr:
   find_and_replace_job:
     _singular: Tâche chercher et remplacer
     find: Chaîne de caractères à trouver
-    replace: Chaîne de caractères à substituer 
+    replace: Chaîne de caractères à substituer
     jsonmodel_type: Type de notice ou de sous-notice
     record_type: Type de notice ou de sous-notice
     property: Propriété cible

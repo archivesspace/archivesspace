@@ -1679,7 +1679,10 @@ Sequel.migration do
       ceiling = ceiling - 1
       
     end while (not remaining.empty?) && ceiling > 0
-
+    unless remaining.empty?
+      $stderr.puts "Could not drop the following tables : #{remaining.join(',')}"
+      $stderr.puts "( check fk constaints )"
+    end
   end
 end
 

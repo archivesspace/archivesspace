@@ -7,6 +7,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
+      "refid" => {"type" => "string"},
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
 
@@ -72,7 +73,8 @@
                          {"type" => "JSONModel(:resource) uri"},
                          {"type" => "JSONModel(:digital_object) uri"},
                          {"type" => "JSONModel(:archival_object) uri"},
-                         {"type" => "JSONModel(:digital_object_component) uri"}],
+                         {"type" => "JSONModel(:digital_object_component) uri"},
+                         {"type" => "JSONModel(:top_container) uri"}],
               "ifmissing" => "error"
             },
             "_resolved" => {

@@ -15,7 +15,8 @@
                                                     :field_options => [["#{t('search_results.filter.fullrecord')}",''],
                                                                        ["#{t('search_results.filter.title')}",'title'],
                                                                        ["#{t('search_results.filter.creators')}",'creators_text'],
-                                                                       ["#{t('search_results.filter.notes')}", 'notes'] ],
+                                                                       ["#{t('search_results.filter.notes')}", 'notes'],
+                                                                       ["#{t('search_results.filter.identifier')}", 'identifier'] ],
                                                     :header_size => '1',
                                                     :show_header => true } %>
   <% else %>
@@ -40,7 +41,8 @@
                                                       :field_options => [["#{t('search_results.filter.fullrecord')}",''],
                                                                          ["#{t('search_results.filter.title')}",'title'],
                                                                          ["#{t('search_results.filter.creators')}",'creators_text'],
-                                                                         ["#{t('search_results.filter.notes')}", 'notes'] ],
+                                                                         ["#{t('search_results.filter.notes')}", 'notes'],
+                                                                         ["#{t('search_results.filter.identifier')}", 'identifier'] ],
                                                       :show_header => false } %>
       </div>
     </div>
@@ -58,11 +60,11 @@
 <div class="row">
   <div class="col-sm-9">
     <a name="main" title="<%= t('internal_links.main') %>"></a>
-    <div class="row"><div class="col-sm-9">
+    <div class="row"><div class="col-sm-8">
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     </div>
     <%= render partial: 'shared/sorter' %>
-      
+
 </div>
     <div class="row search-results"><div class="col-sm-12">
 

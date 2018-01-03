@@ -1,0 +1,60 @@
+<marcxml:record xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:idx="info:lc/xq-modules/lcindex" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:mets="http://www.loc.gov/METS/" xmlns:semtriples="http://marklogic.com/semantic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:streams="info:lc/streams#">
+            <marcxml:leader>02572cz  a2200241n  4500</marcxml:leader>
+            <marcxml:controlfield tag="001">gf2014026450</marcxml:controlfield>
+            <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+            <marcxml:controlfield tag="005">20151222053135.0</marcxml:controlfield>
+            <marcxml:controlfield tag="008">141201|| anznnbabn          |a ana     c</marcxml:controlfield>
+            <marcxml:datafield tag="010" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">gf2014026450</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="040" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">IlChALCS</marcxml:subfield>
+              <marcxml:subfield code="b">eng</marcxml:subfield>
+              <marcxml:subfield code="c">DLC</marcxml:subfield>
+              <marcxml:subfield code="f">lcgft</marcxml:subfield>
+              <marcxml:subfield code="d">DLC</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="155" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Nō plays</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="455" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Nō drama</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="455" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Noh drama</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="455" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Noh plays</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="555" ind1=" " ind2=" ">
+              <marcxml:subfield code="w">g</marcxml:subfield>
+              <marcxml:subfield code="a">Drama</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Wilson, E. The theater experience, c2004, via McGraw-Hill Higher Education online learning center, Nov. 14, 2012:</marcxml:subfield>
+              <marcxml:subfield code="b">glossary (Nō: Also spelled noh. Rigidly traditional Japanese drama which in its present form dates back to the fourteenth century. Nō plays are short dramas combining music, dance, and lyrics with a highly stylized and ritualistic presentation. Virtually every aspect of a production--including costumes, masks, and a highly symbolic setting--is prescribed by tradition.)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">The Oxford companion to the theatre, 1983:</marcxml:subfield>
+              <marcxml:subfield code="b">pp. 433-434 (nō plays; general tone of nō should be noble; the language is honorific and sonorous, whatever the character for whom it is written; subject matter mainly taken from Japan's classical literature; players are all male; comic interludes called kyōgen ('mad words') were sometimes performed between nō plays)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Harmon, W. A handbook to literature, c2009</marcxml:subfield>
+              <marcxml:subfield code="b">(Noh (or Nō) Plays. The most important form of Japanese drama; The noh plays are harmonious combinations of dance, poetry, music, mime, and acting. There are 240 noh plays in the standard repertory, all written between 1300 and 1600; originally part of the religious ritual of the Japanese feudal aristocracy; short, one or two acts, usually presented at a festival in programs consisting of one each of the five types of noh plays)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Baldick, C. The Oxford dictionary of literary terms, 2008</marcxml:subfield>
+              <marcxml:subfield code="b">(nō (noh): A traditional form of Japanese drama characterized by highly ritualized chant and gesture, and its use of masked actors. Combining music, dance, and speech in prose and verse, the nō play derives from religious rituals, and is performed by an all-male cast, originally for an aristocratic audience. More than 200 such plays survive from as early as the 14th century, mostly on religious and mythological subjects.)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">The noh drama, 1937:</marcxml:subfield>
+              <marcxml:subfield code="b">p. 6 (nôgaku (Noh drama))</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">UNESCO WWW site, Aug. 6, 2015:</marcxml:subfield>
+              <marcxml:subfield code="b">(nôgaku theatre: Nôgaku encompasses two types of theatre: Noh and Kyôgen, which are performed in the same space)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="680" ind1=" " ind2=" ">
+              <marcxml:subfield code="i">Highly ritualized Japanese plays incorporating music, dance, and poetry.</marcxml:subfield>
+            </marcxml:datafield>
+          </marcxml:record>

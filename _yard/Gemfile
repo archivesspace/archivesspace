@@ -2,6 +2,6 @@
 source "https://rubygems.org"
 
 group :doc do
-  gem "yard"
+  gem "yard", "~> 0.9.11"
   gem "kramdown"
 end

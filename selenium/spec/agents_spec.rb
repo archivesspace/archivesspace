@@ -142,10 +142,7 @@ describe "Agents" do
     @driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
 
     token_input = @driver.find_element(:id, "token-input-agent_related_agents__1__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@other_agent.names.first['sort_name'])
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @other_agent.names.first['sort_name'] ) 
 
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
@@ -234,8 +231,21 @@ describe "Agents" do
     notes[0].find_element(:css => '.collapse-subrecord-toggle').click
 
     # Add a sub note
-    assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
-    notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
+    @driver.scroll_into_view(notes[0])  
+    sleep 1 
+    i = 0 
+    begin 
+      notes[0].find_element(:css => '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click 
+      el = notes[0].find_element_orig(:css => 'select.bioghist-note-type')
+      el.select_option('note_outline')
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      if i < 5 
+        i+= 1
+        redo
+      else
+        raise e
+      end
+    end
 
     # Woah! Slow down, cowboy. Ensure the sub form is initialised.
     notes[0].find_element(:css => ".subrecord-form-fields.initialised")

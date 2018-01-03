@@ -48,14 +48,14 @@
 
         <% if result.respond_to?(:ancestors) && result.ancestors %>
           <% result.ancestors.each do |ancestor| %>
-            /
+            <%= t('context_delimiter') %>
             <span class="ancestor">
             <%= link_to process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe, app_prefix(ancestor.fetch('uri')) %>
             </span>
           <% end %>
         <% else %>
           <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
-            /
+            <%= t('context_delimiter') %>
             <span class="resource_name">
               <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
             </span>

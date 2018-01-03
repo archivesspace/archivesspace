@@ -1,0 +1,18 @@
+# FILES
+.DS_Store
+*.log
+*.md
+common/config/config.rb
+
+# DIRS
+contributing/
+jmeter/
+supervisord/
+build/
+
+# REQUIRED FOR BUILD
+!build/ant/*
+!build/scripts/*
+!build/.gemrc
+!build/build.xml
+!build/run

@@ -2,24 +2,27 @@ source "https://rubygems.org"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "i18n", "0.7.0"
+gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
 
 group :test do
-  gem "json", "1.8.0"
+  gem "json", "1.8.6"
   gem 'multi_json', '~> 1.12.1'
-  gem 'rubyzip', '1.0.0'
+  gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
   gem "sinatra", "1.4.7", :require => false
   gem "activesupport", "5.0.1"
-  gem "selenium-webdriver", "= 3.3.0"
-  gem "rspec"
+  gem "selenium-webdriver", "= 3.6.0"
+  gem "rspec", "~> 3.6.0"
   gem "rspec-retry"
   gem "parallel_tests", "~> 2.14.0"
-  gem "factory_girl"
+  gem "factory_bot"
   gem "json-schema", "1.0.10"
   gem "atomic", '= 1.0.1'
   gem "net-http-persistent", "2.8"
   gem "multipart-post", "1.2.0"
 
   gem "pry"
+  gem "mechanize"
 end
 
 group :development do
@@ -30,5 +33,3 @@ group :development do
     instance_eval(File.read(gemfile_local))
   end
 end
-
-

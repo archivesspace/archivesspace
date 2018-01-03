@@ -1,7 +1,7 @@
-require 'factory_girl'
-require 'spec/lib/factory_girl_helpers'
+require 'factory_bot'
+require 'spec/lib/factory_bot_helpers'
 
-FactoryGirl.define do
+FactoryBot.define do
 
   def JSONModel(key)
     JSONModel::JSONModel(key)
@@ -12,10 +12,10 @@ FactoryGirl.define do
   sequence(:repo_code) {|n| "ASPACE REPO #{n} -- #{rand(1000000)}"}
   sequence(:username) {|n| "username_#{n}"}
 
-  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryGirl.generate(:alphanumstr)}</p>" }
-  sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryGirl.generate(:alphanumstr) }
-  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryGirl.generate(:alphanumstr) + "</p>" }
-  sequence(:string) { FactoryGirl.generate(:alphanumstr) }
+  sequence(:good_markup) { "<p>I'm</p><p>GOOD</p><p>#{ FactoryBot.generate(:alphanumstr)}</p>" }
+  sequence(:whack_markup) { "I'm <p><br/>WACK " + FactoryBot.generate(:alphanumstr) }
+  sequence(:wild_markup) { "<p> I AM \n WILD \n ! \n ! " + FactoryBot.generate(:alphanumstr) + "</p>" }
+  sequence(:string) { FactoryBot.generate(:alphanumstr) }
   sequence(:generic_title) { |n| "Title: #{n}"}
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
@@ -374,6 +374,30 @@ FactoryGirl.define do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
     digital_object { {'ref' => create(:json_digital_object).uri} }
+    position { rand(0..10) }
+    has_unpublished_ancestor { rand(2) == 0 }
+  end
+
+  factory :json_digital_object_component_pub_ancestor, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    label { generate(:alphanumstr) }
+    display_string { generate(:alphanumstr) }
+    file_versions { few_or_none(:json_file_version) }
+    position { 5 }
+    has_unpublished_ancestor { false }
+  end
+
+  factory :json_digital_object_component_unpub_ancestor, class: JSONModel(:digital_object_component) do
+    component_id { generate(:alphanumstr) }
+    title { "Digital Object Component #{generate(:generic_title)}" }
+    digital_object { {'ref' => create(:json_digital_object).uri} }
+    label { generate(:alphanumstr) }
+    display_string { generate(:alphanumstr) }
+    file_versions { few_or_none(:json_file_version) }
+    position { 1 }
+    has_unpublished_ancestor { true }
   end
 
   factory :json_event, class: JSONModel(:event) do

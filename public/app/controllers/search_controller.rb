@@ -20,6 +20,7 @@ class SearchController < ApplicationController
 
     if params[:reset] == 'true'
       @reset = true
+      params[:rid] = nil
       @search = Search.new(params)
       return render 'search/search_results'
     end
@@ -37,7 +38,7 @@ class SearchController < ApplicationController
     page = Integer(params.fetch(:page, "1"))
     Rails.logger.debug("base search: #{@base_search}")
     Rails.logger.debug("query: #{@query}")
-   
+
     @results = archivesspace.advanced_search(@base_search, page, @criteria)
     @counts = archivesspace.get_types_counts(DEFAULT_TYPES)
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0

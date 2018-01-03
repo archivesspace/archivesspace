@@ -34,6 +34,7 @@ require 'record_inheritance'
 
 require 'uri'
 require 'sinatra/base'
+require 'active_support/inflector'
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -211,7 +212,7 @@ class ArchivesSpaceService < Sinatra::Base
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
         Notifications.notify("BACKEND_STARTED")
-        Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
+        Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
       end
     rescue
       ASUtils.dump_diagnostics($!)

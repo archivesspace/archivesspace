@@ -26,7 +26,6 @@ module ArchivesSpace
     def self.extend_aspace_routes(routes_file)
       ArchivesSpace::Application.config.paths['config/routes.rb'].concat([routes_file])
     end
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -56,8 +55,19 @@ module ArchivesSpace
 
     config.i18n.default_locale = AppConfig[:locale]
 
-    config.logger = ASpaceLogger.new($stderr)
 
+    config.log_formatter = ::Logger::Formatter.new
+    logger = if AppConfig.changed?(:frontend_log) 
+                      ASpaceLogger.new(AppConfig[:frontend_log]) 
+                    else 
+                      ASpaceLogger.new($stderr)
+                    end
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+
+    config.log_level = AppConfig[:frontend_log_level].intern
+    
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')].reject {|path| path =~ /public/}
