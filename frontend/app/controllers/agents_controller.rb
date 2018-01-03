@@ -34,15 +34,14 @@ class AgentsController < ApplicationController
       defaults = DefaultValues.get @agent_type.to_s
       @agent.update(defaults.values) if defaults
     end
-    #render :plain => @agent
     required = RequiredFields.get @agent_type.to_s
-    #render :plain => required.values
     @agent.update_concat(required.values) if required
-    #render :plain => @agent
 
     if @agent.names.empty?
       @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
     end
+
+    ensure_auth_and_display()
 
     render_aspace_partial :partial => "agents/new" if inline?
   end
@@ -60,6 +59,7 @@ class AgentsController < ApplicationController
                 :on_invalid => ->(){
                   required = RequiredFields.get @agent_type.to_s
                   @agent.update_concat(required.values) if required
+                  ensure_auth_and_display()
                   return render_aspace_partial :partial => "agents/new" if inline?
                   return render :action => :new
                 },
@@ -184,5 +184,30 @@ class AgentsController < ApplicationController
 
       @agent_type = :"#{params[:agent_type]}"
       @name_type = name_type_for_agent_type(@agent_type)
+    end
+
+    def ensure_auth_and_display
+      if @agent.names.length == 1
+      @agent.names[0]["authorized"] = true
+      @agent.names[0]["is_display_name"] = true
+    elsif @agent.names.length > 1
+      authorized = false
+      display = false
+      @agent.names.each do |name|
+        if name["authorized"] == true
+          authorized = true
+        end
+        if name["is_display_name"] == true
+          display = true
+        end
+      end
+      if !authorized
+        @agent.names[0]["authorized"] = true
+      end
+      if !display
+        @agent.names[0]["is_display_name"] = true 
+      end
+    end
+
     end
 end
