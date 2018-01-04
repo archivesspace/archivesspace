@@ -279,8 +279,9 @@ module AspaceFormHelper
       else
         opts[:class] = "form-control"
       end
-
-      @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
+      selection = obj[name]
+      selection = selection[0...-2] if selection.is_a? String and selection.end_with?("_1")
+      @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
     def textarea(name = nil, value = "", opts =  {})
