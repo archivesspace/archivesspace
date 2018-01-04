@@ -161,20 +161,52 @@ module ResultInfo
   def process_file_versions(json)
     dig_f = {}
     unless json['file_versions'].blank?
+      embed_caption = ''
+      rep_caption = ''
       json['file_versions'].each do |version|
         if version.dig('publish') != false && version['file_uri'].start_with?('http')
-          dig_f['caption'] =  version['caption'] unless version['caption'].blank?
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
             dig_f['represent'] = 'embed' if version['is_representative']
+            # For an embedded file version, if the caption is empty,
+            # 1. set the embed_caption to the title
+            # 2. set the rep_caption to the title if it is a representative version
+            if version['caption'].blank?
+              embed_caption = version['title']
+              rep_caption =  version['title'] if version['is_representative']
+            else
+              # For an embedded file version, if the caption is not empty,
+              # 1. set the embed_caption to the caption
+              # 2. set the rep_caption to the caption if it is a representative version
+              embed_caption =  version['caption']
+              rep_caption =  version['caption'] if version['is_representative']
+            end
           else
             dig_f['represent'] = 'new'  if version['is_representative']
             dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
+            # if the caption is empty and it is a representative version,
+            # set the rep_caption to the title
+            if version['caption'].blank?
+              rep_caption =  version['title'] if version['is_representative']
+            else
+              # if the caption is not empty and it is a representative version,
+              # set the rep_caption to the caption
+              rep_caption =  version['caption'] if version['is_representative']
+            end
           end
         elsif !version['file_uri'].start_with?('http')
           Rails.logger.debug("****BAD URI? #{version['file_uri']}")
         end
       end
+    end
+    # Use the representative caption for the caption in the PUI if there is a
+    # representative caption
+    if !rep_caption.blank?
+      dig_f['caption'] = rep_caption
+    elsif !embed_caption.blank?
+      # Use the embed caption for the caption in the PUI if there is isn't a
+      # representative caption but there is an embedded caption
+      dig_f['caption'] = rep_caption
     end
     dig_f
   end
