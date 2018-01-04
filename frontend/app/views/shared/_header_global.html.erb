@@ -15,7 +15,7 @@
           <%= I18n.t("navbar.login") %>
         </button>
       <% end %>
-      <div class="navbar-collapse nav-global-collapse collapse navbar-right navbar-default">
+      <div class="navbar-collapse nav-global-collapse <%= session[:user] ? '' : 'collapse' %> navbar-right navbar-default">
         <ul class="nav pull-right navbar-nav navbar-login">
           <%= render "shared/header_user" %>
           <% if ArchivesSpaceHelp.enabled? %>
