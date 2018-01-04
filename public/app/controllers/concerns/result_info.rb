@@ -90,7 +90,7 @@ module ResultInfo
   def process_agents(agents_arr, subjects_arr = [])
     agents_h = {}
     agents_arr.each do |agent|
-      unless agent['role'].blank? || agent['_resolved'].blank? 
+      unless agent['role'].blank? || agent['_resolved'].blank?
         role = agent['role']
         if role == 'subject'
           subjects_arr.push(agent['_resolved'])
@@ -103,7 +103,7 @@ module ResultInfo
     agents_h
   end
 
-# digital object processing 
+# digital object processing
   def process_digital(json)
     dig_obj = {}
     unless json['digital_object_id'].blank? ||  !json['digital_object_id'].start_with?('http')
@@ -114,7 +114,7 @@ module ResultInfo
       dig_obj['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
       dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
     end
-    dig_obj.blank? ? [] : [dig_obj] 
+    dig_obj.blank? ? [] : [dig_obj]
   end
 
 
@@ -163,9 +163,7 @@ module ResultInfo
     unless json['file_versions'].blank?
       json['file_versions'].each do |version|
         if version.dig('publish') != false && version['file_uri'].start_with?('http')
-          unless !json.dig('html','note','note_text')
-            dig_f['caption'] =  json['html']['note']['note_text']
-          end
+          dig_f['caption'] =  version['caption'] unless version['caption'].blank?
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
             dig_f['represent'] = 'embed' if version['is_representative']
@@ -197,7 +195,7 @@ module ResultInfo
     rep = {}
     if instances && instances.kind_of?(Array)
       instances.each do |instance|
-        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank? 
+        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank?
           it =  instance['digital_object']['_resolved']
           unless !it['publish'] || it['file_versions'].blank?
             it['file_versions'].each do |ver|
