@@ -448,7 +448,7 @@ en:
   pui_agent:
     _singular: Name
     _plural:  Names
-    related: Related Name
+    related: Related Names
     creator: Creator
   record:
     _singular: Record
