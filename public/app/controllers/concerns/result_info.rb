@@ -173,25 +173,23 @@ module ResultInfo
             # 2. set the rep_caption to the title if it is a representative version
             if version['caption'].blank?
               embed_caption = version['title']
-              rep_caption =  version['title'] if version['is_representative']
+              rep_caption = version['title'] if version['is_representative']
             else
               # For an embedded file version, if the caption is not empty,
               # 1. set the embed_caption to the caption
               # 2. set the rep_caption to the caption if it is a representative version
-              embed_caption =  version['caption']
-              rep_caption =  version['caption'] if version['is_representative']
+              embed_caption = version['caption']
+              rep_caption = version['caption'] if version['is_representative']
             end
           else
             dig_f['represent'] = 'new'  if version['is_representative']
             dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
-            # if the caption is empty and it is a representative version,
-            # set the rep_caption to the title
+            # if the caption is empty set the rep_caption to the title
             if version['caption'].blank?
-              rep_caption =  version['title'] if version['is_representative']
+              rep_caption = version['title']
             else
-              # if the caption is not empty and it is a representative version,
-              # set the rep_caption to the caption
-              rep_caption =  version['caption'] if version['is_representative']
+              # if the caption is not empty set the rep_caption to the caption
+              rep_caption = version['caption']
             end
           end
         elsif !version['file_uri'].start_with?('http')
