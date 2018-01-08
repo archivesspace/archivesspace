@@ -17,7 +17,7 @@ gem 'saxon-xslt'
 gem 'tzinfo'
 gem "rufus-scheduler", "~> 2.0.24"
 gem "rufus-lru", "1.0.5"
-gem "net-ldap", "0.6.1"
+gem "net-ldap", '~> 0.16.0'
 gem "mizuno", "0.6.11"
 gem "i18n", "0.7.0"
 
