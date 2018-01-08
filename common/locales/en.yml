@@ -587,6 +587,7 @@ en:
     note: Contact Notes
     note_tooltip: |
         <p>Additional notes or contact information for the contact person.</p>
+    telephones: Telephone Numbers
     _singular: Contact
     _plural: Contact Details
 
@@ -641,6 +642,7 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Parent/Child Relationship
 
   agent_relationship_earlierlater:
@@ -648,6 +650,7 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Earlier/Later Relationship
 
   agent_relationship_subordinatesuperior:
@@ -655,12 +658,14 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Subordinate/Superior Relationship
 
   agent_relationship_associative:
     relator: Relationship Type
     description: Description
     date: Date
+    dates: Dates
     ref: Related Agent
     _singular: Associative Relationship
 
@@ -766,6 +771,7 @@ en:
 
   note_bioghist:
     <<: *note_attributes
+    subnotes: Sub Notes
 
   note_abstract:
     <<: *note_attributes
@@ -1252,6 +1258,7 @@ en:
     names: Name Forms
     names_tooltip: |
         <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
+    agent_contacts: Contact Details
     contacts_tooltip: |
         <p>Records contact information about a particular Agent.</p>
     notes_tooltip: |
@@ -1286,6 +1293,15 @@ en:
     <<: *agent_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
+  
+  related_agents_agent_person:
+    related_agents: Related Agents
+  related_agents_agent_family:
+    related_agents: Related Agents
+  related_agents_agent_software:
+    related_agents: Related Agents
+  related_agents_agent_corporate_entity:
+    related_agents: Related Agents
 
   archival_object: &archival_object_attributes
     title: Title
@@ -1871,6 +1887,7 @@ en:
     too_many_characters: Must be %{max_length} characters or fewer
     max_length_is_50_characters: Must not exceed 50 characters
     too_few_items: At least %{min_items} item(s) is required
+    must_contain_at_least_one_subnote: Must contain at least one Sub Note
     invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
     wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
     must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
