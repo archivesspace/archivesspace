@@ -246,31 +246,9 @@ class ApplicationController < ActionController::Base
           required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
             required_a.keys.each do |nested_key|
               if required_a[nested_key].is_a? Array and obj_a[nested_key].is_a? Array
-                if required_a[nested_key].length > obj_a[nested_key].length
-                  min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => required_a[nested_key].length}
-                elsif required_a[nested_key].length === obj_a[nested_key].length
-                  
-                  required_a[nested_key].zip(obj_a[nested_key]).each_with_index do |(required_a2, obj_a2), index2|
-                    required_a2.keys.each do |nested_key2|
-                      if required_a2[nested_key2].is_a? Hash
-                        if !obj_a2.key?(nested_key2)
-                          min_items << {"name" => "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}", "num" => 1}
-                        end
-                        required_a2[nested_key2].keys.each do |nested_key3|
-                          if required_a2[nested_key2][nested_key3].is_a? String
-                            if required_a2[nested_key2][nested_key3] === "1" and obj_a2[nested_key2][nested_key3] === ""
-                              missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}/#{nested_key3}"
-                            end
-                          end
-                        end
-                      elsif required_a2[nested_key2].is_a? String
-                        if required_a2[nested_key2] === "1" and obj_a2[nested_key2] === ""
-                          missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}"
-                        end
-                      end
-                    end
-                  end
-                end
+                missing2, min_items2 = compare_nested_arrays(required_a, obj_a, index, key, nested_key)
+                missing = missing.concat(missing2)
+                min_items = min_items.concat(min_items2)
               elsif required_a[nested_key].is_a? Hash
                 if !obj_a.key?(nested_key)
                   min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => 1}
@@ -294,6 +272,37 @@ class ApplicationController < ActionController::Base
       if required[key].is_a? String
          if required[key] === "1" and obj[key] === ""
             missing << key
+        end
+      end
+    end
+    return missing, min_items
+  end
+
+  def compare_nested_arrays(required_a, obj_a, index, key, nested_key)
+    missing = []
+    min_items = []
+    if required_a[nested_key].length > obj_a[nested_key].length
+      min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => required_a[nested_key].length}
+    elsif required_a[nested_key].length === obj_a[nested_key].length
+                  
+      required_a[nested_key].zip(obj_a[nested_key]).each_with_index do |(required_a2, obj_a2), index2|
+        required_a2.keys.each do |nested_key2|
+          if required_a2[nested_key2].is_a? Hash
+            if !obj_a2.key?(nested_key2)
+              min_items << {"name" => "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}", "num" => 1}
+            end
+            required_a2[nested_key2].keys.each do |nested_key3|
+              if required_a2[nested_key2][nested_key3].is_a? String and obj_a2[nested_key2].key?(nested_key3)
+                if required_a2[nested_key2][nested_key3] === "1" and obj_a2[nested_key2][nested_key3] === ""
+                  missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}/#{nested_key3}"
+                end
+              end
+            end
+          elsif required_a2[nested_key2].is_a? String
+            if required_a2[nested_key2] === "1" and obj_a2[nested_key2] === ""
+              missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}"
+            end
+          end
         end
       end
     end

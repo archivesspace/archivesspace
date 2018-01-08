@@ -1261,6 +1261,7 @@ en:
     agent_contacts: Contact Details
     contacts_tooltip: |
         <p>Records contact information about a particular Agent.</p>
+    notes: Notes
     notes_tooltip: |
         <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
     related_agents_tooltip: |
