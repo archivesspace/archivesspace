@@ -1,0 +1,30 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @agent, :form => form} %>
+
+<%= render_aspace_partial :partial => "agents/contact_details", :locals => {:form => form} %>
+
+<fieldset>
+  <section id="basic_information">
+    <h3>
+      <%= I18n.t("agent._frontend.section.basic_information") %>
+      <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
+    </h3>
+    <div class="form-group">
+      <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
+      <div class="col-sm-9 label-only">
+        <%= form.hidden_input "agent_type", @agent.agent_type %>
+        <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
+      </div>
+    </div>
+  </section>
+
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_required", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}_required", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_required", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
+  <%= render_aspace_partial :partial => "notes/form_required", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
+  <%= render_aspace_partial :partial => "related_agents/form_required", :locals => {:form => form} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_required", :help_topic => "#{@agent.agent_type}_external_documents"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
+
+<%= form_plugins_for("agent", form) %>
+
+</fieldset>

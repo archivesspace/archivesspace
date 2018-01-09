@@ -186,6 +186,64 @@ EOF
     target
   end
 
+  # Recursively concatenates hash2 onto hash 1
+  def self.deep_merge_concat(hash1, hash2)
+    target = hash1.dup
+    hash2.keys.each do |key|
+      if hash2[key].is_a? Hash and hash1[key].is_a? Hash
+        target[key] = self.deep_merge_concat(target[key], hash2[key])
+        next
+      end
+      if hash2[key].is_a? Array and hash1[key].is_a? Array
+        
+        if hash1[key] === []
+          target[key] = hash2[key]
+        elsif hash2[key] === []
+          target[key] = target[key]
+        else
+          target_array = []
+          target[key].zip(hash2[key]).each do |target_a, hash2_a|
+            if target_a.nil?
+              target_array << hash2_a
+            elsif hash2_a.nil?
+              target_array << target_a
+            else  
+              target_array << self.deep_merge_concat(target_a, hash2_a)
+            end
+          end
+          target[key] = target_array
+        end
+        next
+      end
+      if hash1[key] === true and key != "is_display_name" and key != "authorized"
+        hash1[key] = "true"
+      elsif hash1[key] === false and key != "is_display_name" and key != "authorized"
+        hash1[key] = "false"        
+      end
+      if hash2[key] === true and key != "is_display_name" and key != "authorized"
+        hash2[key] = "1"
+      elsif hash2[key] === false and key != "is_display_name" and key != "authorized"
+        hash2[key] = "0"        
+      end
+      if hash1[key].is_a? String
+        if hash1[key] == hash2[key]
+          target[key] = hash2[key]
+        else
+          if key == "jsonmodel_type" and hash1[key].include?("note") and hash2[key].include?("note")
+            raise "Required Note Types must not conflict with Default Note Types"
+          elsif key == "jsonmodel_type" and hash1[key].include?("relationship") and hash2[key].include?("relationship")
+            raise "Required Relationship Types must not conflict with Default Relationship Types"
+          else
+            target[key] = hash1[key] + '_' + hash2[key]
+          end
+        end
+      else
+        target[key] = hash2[key]
+      end
+    end
+    target
+  end
+
 
   def self.load_plugin_gems(context)
     ASUtils.find_local_directories.each do |plugin|
