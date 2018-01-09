@@ -229,7 +229,13 @@ EOF
         if hash1[key] == hash2[key]
           target[key] = hash2[key]
         else
-          target[key] = hash1[key] + '_' + hash2[key]
+          if key == "jsonmodel_type" and hash1[key].include?("note") and hash2[key].include?("note")
+            raise "Required Note Types must not conflict with Default Note Types"
+          elsif key == "jsonmodel_type" and hash1[key].include?("relationship") and hash2[key].include?("relationship")
+            raise "Required Relationship Types must not conflict with Default Relationship Types"
+          else
+            target[key] = hash1[key] + '_' + hash2[key]
+          end
         end
       else
         target[key] = hash2[key]

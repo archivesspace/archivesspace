@@ -34,8 +34,14 @@ class AgentsController < ApplicationController
       defaults = DefaultValues.get @agent_type.to_s
       @agent.update(defaults.values) if defaults
     end
+     
     required = RequiredFields.get @agent_type.to_s
-    @agent.update_concat(required.values) if required
+    begin
+      @agent.update_concat(required.values) if required
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :agents, :action => :required
+    end
 
     if @agent.names.empty?
       @agent.names = [@name_type.new({:authorized => true, :is_display_name => true})._always_valid!]
