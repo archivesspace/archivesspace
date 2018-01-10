@@ -55,7 +55,7 @@ addons:
   chrome: stable
   artifacts:
     debug: true
-    bucket: astravisartifacts
+    bucket: aspacetravisartifacts
     paths:
     - $( ls /var/tmp/*.png | tr "\n" ":" )
     - $( ls /tmp/*.png | tr "\n" ":" )
