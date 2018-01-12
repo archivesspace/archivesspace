@@ -58,6 +58,8 @@ module RecordHelper
               'fa-file-o'
               when 'digital_object'
               'fa-file-image-o'
+              when 'accession'
+              'fa-file-text-o'
               when 'subject'
               'fa-tag'
               when  'agent_person'

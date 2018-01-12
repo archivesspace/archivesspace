@@ -15,7 +15,7 @@ class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :paren
   # determine which badges to display
   def Repository.badge_list(repo_code)
     list = []
-    %i(resource record subject agent classification).each do |sym|
+    %i(resource record digital_object accession subject agent classification).each do |sym|
       badge = "#{sym}_badge".to_sym
       unless AppConfig[:pui_repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:pui_hide][badge] :  AppConfig[:pui_repos][repo_code][:hide][badge]
         list.push(sym.to_s)

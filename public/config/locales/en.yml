@@ -296,8 +296,8 @@ en:
   linked_digital_objects: Digital Material
 
   accession:
-   _singular: Unprocessed 
-   _plural: Instances of Unprocessed Material
+   _singular: Unprocessed
+   _plural: Unprocessed Materials
    _public:
       section:
         summary: Summary
@@ -397,7 +397,7 @@ en:
 
   digital_object: &digital_object_attributes
     _singular: Digital Record
-    _plural: Digital Material
+    _plural: Digital Materials
     _public:
       thumbnail: thumbnail
       link: Link to digital object
