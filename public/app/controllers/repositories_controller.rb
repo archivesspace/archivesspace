@@ -103,14 +103,14 @@ class RepositoriesController < ApplicationController
       render  'shared/not_found', :status => 404
     end
   end
-  
+
   private
   # get counts for repository
   def get_counts(repo_id = nil, collection_only = false)
     if collection_only
       types = ['pui_collection']
     else
-      types = %w(pui_collection pui_record pui_record_group pui_agent  pui_subject)
+      types = %w(pui_collection pui_record pui_record_group pui_accession pui_digital_object pui_agent  pui_subject)
     end
     # for now, we've got to get the whole enchilada, until we figure out what's wrong
     #  counts = archivesspace.get_types_counts(types, repo_id)

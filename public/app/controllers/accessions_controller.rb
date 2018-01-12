@@ -24,9 +24,17 @@ class AccessionsController <  ApplicationController
         params[k] = v
       end
     end
-    @base_search = '/accessions?'
+    @repo_id = params.fetch(:rid, nil)
+    if @repo_id
+      @base_search =  "/repositories/#{@repo_id}/accessions?"
+      repo = archivesspace.get_record("/repositories/#{@repo_id}")
+      @repo_name = repo.display_string
+    else
+      @base_search = '/accessions?'
+    end
     page = Integer(params.fetch(:page, "1"))
     search_opts = default_search_opts( DEFAULT_AC_SEARCH_OPTS)
+    search_opts['fq'] = ["repository:\"/repositories/#{@repo_id}\""] if @repo_id
     begin
       set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  search_opts, params)
     rescue NoResultsError
