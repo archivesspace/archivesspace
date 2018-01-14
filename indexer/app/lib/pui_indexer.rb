@@ -15,7 +15,8 @@ class PUIIndexer < PeriodicIndexer
   ]
 
   def initialize(backend = nil, state = nil, name)
-    index_state = state || IndexState.new(File.join(AppConfig[:data_directory], "indexer_pui_state"))
+    state_class = AppConfig[:index_state_class].constantize
+    index_state = state || state_class.new("indexer_pui_state")
 
     super(backend, index_state, name)
 

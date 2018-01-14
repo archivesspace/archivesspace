@@ -4,15 +4,16 @@ require_relative '../app/lib/index_state'
 describe "index state" do
   before(:each) do
     FileUtils.remove_dir("#{AppConfig[:data_directory]}" + "/indexer_state", true)
-    @state = IndexState.new
+    state_class = AppConfig[:index_state_class].constantize
+    @state = state_class.new
   end
   describe "initialize" do
-    it "initializes state with passed in directory" do
-      state = IndexState.new("#{AppConfig[:data_directory]}")
-      expect(state.instance_variable_get(:@state_dir)).to eq("#{AppConfig[:data_directory]}")
-    end
     it "initializes index state directory using data_directory from AppConfig and '/indexer_state'" do
       s_dir = "#{AppConfig[:data_directory]}" + "/indexer_state"
+      expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
+    end
+    it "initializes index state directory using data_directory from AppConfig and '/indexer_pui_state'" do
+      s_dir = "#{AppConfig[:data_directory]}" + "/indexer_pui_state"
       expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
     end
   end

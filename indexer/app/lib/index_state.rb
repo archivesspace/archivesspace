@@ -1,8 +1,8 @@
 # we store the state of uri's index in the indexer_state directory
 class IndexState
 
-  def initialize(state_dir = nil)
-    @state_dir = state_dir || File.join(AppConfig[:data_directory], "indexer_state")
+  def initialize(state_dir = "indexer_state")
+    @state_dir = File.join(AppConfig[:data_directory], state_dir)
   end
 
 
