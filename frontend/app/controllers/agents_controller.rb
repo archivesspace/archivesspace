@@ -58,9 +58,14 @@ class AgentsController < ApplicationController
 
   def create
     required = RequiredFields.get @agent_type.to_s
+    if required
+      required_values = required.values
+    else
+      required_values = nil
+    end
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
-                :required => required.values,
+                :required => required_values,
                 :find_opts => find_opts,
                 :on_invalid => ->(){
                   required = RequiredFields.get @agent_type.to_s
