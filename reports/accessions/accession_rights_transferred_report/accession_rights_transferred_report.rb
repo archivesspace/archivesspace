@@ -27,7 +27,7 @@ class AccessionRightsTransferredReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionRightsTransferred(id)'), :rightsTransferred),
              Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote)).
        filter(:repo_id => @repo_id).
-       .where(Sequel.~(:rightsTransferred => nil))
+       where(Sequel.~(:rightsTransferred => nil))
   end
 
   # Accessions with Rights Transferred
