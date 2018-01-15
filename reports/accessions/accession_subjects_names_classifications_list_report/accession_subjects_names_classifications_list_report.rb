@@ -25,12 +25,8 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType),
              Sequel.as(Sequel.lit('GetAccessionRightsTransferred(id)'), :rightsTransferred),
-             Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote))
-  end
-
-  # Number of Records Reviewed
-  def total_count
-    @total_count ||= self.query.count
+             Sequel.as(Sequel.lit('GetAccessionRightsTransferredNote(id)'), :rightsTransferredNote)).
+       filter(:repo_id => @repo_id)
   end
 
 end

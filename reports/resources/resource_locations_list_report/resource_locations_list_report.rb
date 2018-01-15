@@ -14,12 +14,8 @@ class ResourceLocationsListReport < AbstractReport
              Sequel.as(:identifier, :resourceIdentifier),
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
              Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber))
-  end
-
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
+             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber)).
+       filter(:repo_id => @repo_id)
   end
 
   # Total Extent of Resources

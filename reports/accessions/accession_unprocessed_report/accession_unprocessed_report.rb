@@ -18,12 +18,8 @@ class AccessionUnprocessedReport < AbstractReport
              Sequel.as(Sequel.lit('GetAccessionProcessedDate(id)'), :accessionProcessedDate),
              Sequel.as(Sequel.lit('GetAccessionCataloged(id)'), :cataloged),
              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType))
-  end
-
-  # Number of Records Reviewed
-  def total_count
-    @total_count ||= self.query.count
+             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType)).
+       filter(:repo_id => @repo_id)
   end
 
   # Unprocessed Accessions

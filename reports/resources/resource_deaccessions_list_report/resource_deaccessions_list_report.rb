@@ -16,12 +16,8 @@ class ResourceDeaccessionsListReport < AbstractReport
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
              Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
              Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetResourceDeaccessionExtent(id)'), :deaccessionExtentNumber))
-  end
-
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
+             Sequel.as(Sequel.lit('GetResourceDeaccessionExtent(id)'), :deaccessionExtentNumber)).
+       filter(:repo_id => @repo_id)
   end
 
   # Total Extent of Resources
@@ -35,7 +31,7 @@ class ResourceDeaccessionsListReport < AbstractReport
 
     deaccessions = db[:deaccession].where(:accession_id => self.query.select(:id))
     deaccession_extents = db[:extent].where(:deaccession_id => deaccessions.select(:id))
-    
+
     @total_extent_of_deaccessions = deaccession_extents.sum(:number)
 
     @total_extent_of_deaccessions

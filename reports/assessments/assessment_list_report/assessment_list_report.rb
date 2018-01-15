@@ -23,10 +23,6 @@ class AssessmentListReport < AbstractReport
     "assessment_list_report.erb"
   end
 
-  def total_count
-    query.count
-  end
-
   def query
     RequestContext.open(:repo_id => repo_id) do
       Assessment.this_repo
@@ -254,5 +250,3 @@ class AssessmentListReport < AbstractReport
     end
   end
 end
-
-

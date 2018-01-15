@@ -120,7 +120,7 @@ class LocationHoldingsReport < AbstractReport
                              Sequel.as(:resource__identifier, :resource_identifier),
                              Sequel.as(:resource_via_ao__identifier, :resource_via_ao_identifier),
                              Sequel.as(:accession__identifier, :accession_identifier),
-    )
+    ).filter(:repo_id => @repo_id)
 
     dataset
   end
