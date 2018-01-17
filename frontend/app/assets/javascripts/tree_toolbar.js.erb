@@ -25,6 +25,7 @@ var SHARED_TOOLBAR_ACTIONS = [
             $(event.target).toggleClass('btn-success');
 
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
+                $('.finish-editing').attr('disabled', 'true');
                 $(btn).text('<%= I18n.t('actions.reorder_active') %>');
                 tree.ajax_tree.hide_form();
                 $.scrollTo(0);
@@ -33,12 +34,14 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).show();
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
+                $('.finish-editing').attr('disabled', 'false');
                 $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
                 tree.ajax_tree.show_form();
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).show();
                 $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).hide();
                 $(btn).blur();
+                $('.save-changes button').click();
             }
         },
         isEnabled: function(node, tree, toolbarRenderer) {
