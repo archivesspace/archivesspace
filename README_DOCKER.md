@@ -1,57 +1,26 @@
 # Docker
 
-The [Docker](https://www.docker.com/) configuration is used to create [automated builds](#) on Docker Hub.
+The [Docker](https://www.docker.com/) configuration is used to create [automated builds](https://hub.docker.com/r/archivesspace/archivesspace/) on Docker Hub.
 
 ## Quickstart
 
-Run ArchivesSpace with MySQL and external Solr:
+Run ArchivesSpace with MySQL, external Solr and a Web Proxy:
 
-```
-docker network create aspace
+```bash
+# if you already have running containers and want to clear them out
+docker-compose stop
+docker-compose rm
 
-docker run -d \
-  --network=aspace \
-  -p 3306:3306 \
-  --name db \
-  -e MYSQL_ROOT_PASSWORD=123456 \
-  -e MYSQL_DATABASE=archivesspace \
-  -e MYSQL_USER=as \
-  -e MYSQL_PASSWORD=as123 \
-  mysql:5.7 \
-  --character-set-server=utf8 \
-  --collation-server=utf8_unicode_ci \
-  --innodb_buffer_pool_size=2G \
-  --innodb_buffer_pool_instances=2
-
-docker run -d \
-  --network=aspace \
-  -p 8983:8983 \
-  --name solr \
-  archivesspace/solr:7.1 \
-  solr-create -p 8983 -c archivesspace -d /archivesspace
-
-VERSION=latest
-docker run --name archivesspace -it \
-  --network=aspace \
-  -p 8080:8080 \
-  -p 8081:8081 \
-  -p 8089:8089 \
-  -p 8090:8090 \
-  -p 8092:8092 \
-  -e APPCONFIG_DB_URL='jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123' \
-  -e APPCONFIG_ENABLE_SOLR=false \
-  -e APPCONFIG_SOLR_URL='http://solr:8983/solr/archivesspace' \
-  archivesspace/archivesspace:$VERSION
-```
-
-## Local builds
-
-The docker-compose file can be used to test a release with MySQL built from the
-current working branch:
-
-```
-docker-compose build # whenever the branch is changed
+# build the local image
+docker-compose build # needed whenever the branch is changed and ready to test
 docker-compose up
+
+# running specific containers
+docker-compose up db solr web
+docker-compose run app bash # access app terminal
 ```
+
+- Create a hosts file entry: `127.0.0.1 aspace.local`
+- Browser access: 'http://aspace.local:8888'
 
 ---

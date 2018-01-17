@@ -16,6 +16,8 @@ services:
       # disable the embedded solr
       APPCONFIG_ENABLE_SOLR: 'false'
       APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'
+      APPCONFIG_FRONTEND_PROXY_URL: 'http://aspace.local:8888/staff/'
+      APPCONFIG_PUBLIC_PROXY_URL: 'http://aspace.local:8888/public/'
   db:
     image: mysql:5.7
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2
@@ -26,6 +28,14 @@ services:
       MYSQL_DATABASE: archivesspace
       MYSQL_USER: as
       MYSQL_PASSWORD: as123
+  web:
+    image: nginx:1.13
+    ports:
+      - "8888:80"
+    depends_on:
+      - app
+    volumes:
+      - ./docker-default.conf:/etc/nginx/conf.d/default.conf
   solr:
     build:
       context: ./solr
