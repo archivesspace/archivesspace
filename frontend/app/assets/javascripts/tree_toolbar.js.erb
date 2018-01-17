@@ -4,7 +4,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         cssClasses: 'btn-default drag-toggle',
         onRender: function(btn, node, tree, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                $(btn).addClass('active').addClass('btn-success');
+                $(btn).addClass('active').addClass('btn-success').addClass('save-changes');
 
                 $(btn).text('<%= I18n.t('actions.reorder_active') %>');
 
@@ -34,6 +34,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
             } else {
                 $(btn).text('<%= I18n.t('actions.enable_reorder') %>');
+                $(btn).addClass('save-changes');
                 tree.ajax_tree.show_form();
                 tree.resizer.reset();
                 $('.btn',toolbarRenderer.container).show();
@@ -285,7 +286,7 @@ var SHARED_TOOLBAR_ACTIONS = [
     // go back to the read only page
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
-        cssClasses: 'btn-success finish-editing',
+        cssClasses: 'btn-success finish-editing save-changes',
         groupCssClasses: 'pull-right',
         onRender: function(btn, node, tree, toolbarRenderer) {
             var readonlyPath = location.pathname.replace(/\/edit$/, '');
