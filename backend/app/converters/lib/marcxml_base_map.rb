@@ -115,6 +115,25 @@ module MarcXMLBaseMap
             :source => 'ingest'
           }
         },
+        "//datafield[@tag='046']" => {
+          :obj => :date,
+          :rel => :dates_of_existence,
+          :map => {
+            "self::datafield" => Proc.new {|date, node|
+              date.expression = concatenate_subfields(['f', 'q', 's', 'g', 'r', 't'], node, '-', true)
+              date.begin      = dates_of_existence_date_for(node, ['f', 'q', 's'])
+              end_date        = dates_of_existence_date_for(node, ['g', 'r', 't'])
+              if (date.begin and end_date) and (end_date.to_i > date.begin.to_i)
+                date.end = end_date
+              end
+              date.date_type  = date.end ? 'range' : 'single'
+            }
+          },
+          :defaults => {
+            :label => 'existence',
+            :date_type => 'single',
+          }
+        },
         "//datafield[@tag='678']" => {
           :obj => :note_bioghist,
           :rel => :notes,
@@ -602,6 +621,17 @@ module MarcXMLBaseMap
     end
 
     result
+  end
+
+
+  def dates_of_existence_date_for(node, subfields)
+    date = nil
+    subfields.each do |sc|
+      date_node = node.at_xpath("subfield[@code='#{sc}']")
+      date      = date_node.inner_text.strip.gsub(/[^\d]/, '') if date_node
+      date      = (date and date.length >= 4) ? date[0..3] : nil
+    end
+    date
   end
 
 
