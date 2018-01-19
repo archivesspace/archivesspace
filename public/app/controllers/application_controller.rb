@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   helper_method :process_json_notes
 
   protect_from_forgery with: :exception
+  
+  rescue_from LoginFailedException, :with => :render_backend_failure
+  rescue_from RequestFailedException, :with => :render_backend_failure
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
@@ -32,5 +35,13 @@ class ApplicationController < ActionController::Base
   def archivesspace
     ArchivesSpaceClient.instance
   end
+
+  private
+
+  def render_backend_failure(exception)
+    Rails.logger.error(exception)
+    render :template => '/error/backend_request_failure', :status => 500 
+  end
+
 
 end

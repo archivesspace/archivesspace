@@ -1,7 +1,3 @@
-class AccessDeniedException < StandardError
-end
-
-
 class ConflictException < StandardError
   attr_reader :conflicts
 
@@ -11,5 +7,7 @@ class ConflictException < StandardError
   end
 end
 
-class RecordNotFound < StandardError
-end
+class AccessDeniedException < StandardError; end
+class RecordNotFound < StandardError; end
+class LoginFailedException < StandardError; end
+class RequestFailedException < StandardError; end
