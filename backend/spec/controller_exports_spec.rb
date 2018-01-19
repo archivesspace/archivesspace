@@ -132,11 +132,60 @@ describe 'Exports controller' do
 
 
   it "lets you export labels for a resource as tab separated values" do
-    id = create(:json_resource).id
+    resource= create(:json_resource)
+
+    # create the record with all the instance/container etc
+    location = create(:json_location, :temporary => generate(:temporary_location_type))
+    status = 'current'
+    
+    container_profile = create(:json_container_profile)
+
+    top_container = create(:json_top_container,
+                           :container_profile => {'ref' => container_profile.uri},
+                           :container_locations => [{'ref' => location.uri,
+                                                      'status' => status,
+                                                      'start_date' => generate(:yyyy_mm_dd),
+                                                      'end_date' => generate(:yyyy_mm_dd)}])
+
+    archival_object = create(:json_archival_object,
+                             :resource => { :ref => resource.uri }, 
+                             :instances => [build(:json_instance,
+                                                  :sub_container => build(:json_sub_container,
+                                                                          :top_container => {:ref => top_container.uri}))]
+                             )
+
+    id = resource.id 
     get "/repositories/#{$repo_id}/resource_labels/#{id}.tsv"
     resp = last_response.body
-    resp.should match(/Repository Name\t/)
+  
+    # it should have the headers...
+    headers = %w(
+      Repository\ Name Resource\ Title  Resource\ Identifier Series\ Archival\ Object\ Title
+      Archival\ Object\ Title Container\ Profile Top\ Container Top\ Container\ Barcode
+      SubContainer\ 1 SubContainer\ 2 Current\ Location 
+    ).join('\t')
+    resp.should match(headers)
+
+    # it should have our location
+    resp.should match( Regexp.escape( location.title ))
+
+
+    # it should have all our tc info
+    resp.should match(Regexp.escape( container_profile.name ))
+    resp.should match(Regexp.escape( top_container.indicator ))
+    resp.should match(Regexp.escape( top_container.type ))
+  
+    # it should have our top container info
+    sub = archival_object.instances.first["sub_container"]
+    
+    resp.should match( Regexp.escape( sub["type_2"] ))
+    resp.should match( Regexp.escape( sub["type_3"] )) 
+    
+    resp.should match( Regexp.escape( sub["indicator_2"] ))
+    resp.should match( Regexp.escape( sub["indicator_3"] ))
+
   end
+
 
 
   it "lets you export a digital object in MODS" do
