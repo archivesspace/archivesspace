@@ -1305,6 +1305,7 @@ en:
     related_agents: Related Agents
 
   archival_object: &archival_object_attributes
+    <<: *section_tooltips
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1356,13 +1357,15 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
+        <p>Determines whether this archival object will be published to public (patron) interfaces.</p>
     restrictions: Restrictions?
     restrictions_apply: Restrictions Apply?
-    restrictions_tooltip: |
+    restrictions_apply_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
     repository_processing_note: Repository Processing Note
+    repository_processing_note_tooltip: |
+         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
     language: Language
     language_tooltip: |
@@ -1471,6 +1474,12 @@ en:
         <p>See DACS 2.5</p>
     related_accessions_tooltip: |
         <p>Used for linking associated Accessions with this Resource.</p>
+    publish_tooltip: |
+        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
+    restrictions: Restrictions Apply?
+    restrictions_tooltop: |
+        <p><p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+        <p>See DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
