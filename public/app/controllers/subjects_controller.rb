@@ -28,15 +28,7 @@ class SubjectsController <  ApplicationController
     @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
     default_facets = repo_id ? [] : ['used_within_published_repository']
     page = Integer(params.fetch(:page, "1"))
-    begin
-      set_up_and_run_search(['subject'],default_facets,search_opts, params)
-    rescue NoResultsError
-      flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
-    rescue Exception => error
-      flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/' ) and return
-    end
+    set_up_and_run_search(['subject'],default_facets,search_opts, params)
     @context = repo_context(repo_id, 'subject')
     if @results['total_hits'] > 1
       @search[:dates_within] = false

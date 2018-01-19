@@ -27,7 +27,9 @@ class RepositoriesController < ApplicationController
     @criteria['page_size'] = 100
     @search_data =  archivesspace.search(query, page, @criteria) || {}
     Rails.logger.debug("TOTAL HITS: #{@search_data['total_hits']}, last_page: #{@search_data['last_page']}")
+    Rails.logger.debug(@search_data.inspect) 
     @json = []
+
     if !@search_data['results'].blank?
       @pager =  Pager.new("/repositories?", @search_data['this_page'],@search_data['last_page'])
       @search_data['results'].each do |result| 
@@ -39,6 +41,8 @@ class RepositoriesController < ApplicationController
         end
       end
       Rails.logger.debug("First hash: #{@json[0]}")
+    else
+      raise NoResultsError.new("No repository records found!")
     end
     @json.sort_by!{|h| h['display_string'].upcase}
     @page_title = I18n.t('list', {:type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular'))})
