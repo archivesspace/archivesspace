@@ -1358,7 +1358,6 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this archival object will be published to public (patron) interfaces.</p>
-    restrictions: Restrictions?
     restrictions_apply: Restrictions Apply?
     restrictions_apply_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
@@ -1477,8 +1476,8 @@ en:
     publish_tooltip: |
         <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
     restrictions: Restrictions Apply?
-    restrictions_tooltop: |
-        <p><p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+    restrictions_tooltip: |
+        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
