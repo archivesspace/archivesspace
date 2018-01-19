@@ -1,7 +1,8 @@
 FROM openjdk:8-jre
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
-ENV LANG=C.UTF-8
+ENV ARCHIVESSPACE_LOGS=/dev/null \
+    LANG=C.UTF-8
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
