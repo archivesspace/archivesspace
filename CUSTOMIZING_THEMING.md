@@ -64,7 +64,7 @@ You may also want to make changes to the main index page, or the header and foot
 Complex changes can also be made in a plugin using the override methods show above, but there are some big disadvantages to doing this in that way. The first is that assets will not be compiled by the Rails asset pipeline. Another is that you won't be able to take advantage of the variables and mixins that Bootstrap and Less provide as a framework, which really helps keep your assets well organized.
 
 A better way to make complex theming changes is to pull down a copy of the ArchivesSpace code and build out a new theme. A good resource on how to do this is [this video](https://www.youtube.com/watch?v=Uny736mZVnk) .
-This video covers the staff frontend UI, but the same steps can be applied to the public UI as well. You should also become a little familiar with the [build system instructions ](https://github.com/archivesspace/archivesspace/blob/master/build/README.md)
+This video covers the staff frontend UI, but the same steps can be applied to the public UI as well. You should also become a little familiar with the [build system instructions ](https://github.com/archivesspace/archivesspace/blob/master/build/BUILD_README.md)
 
 First, pull down a new copy of ArchivesSpace using git and be sure to checkout a tag matching the version you're using or wanting to use.
 
