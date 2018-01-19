@@ -15,6 +15,10 @@
     <marcxml:subfield code="c">DLC</marcxml:subfield>
     <marcxml:subfield code="e">AACR2</marcxml:subfield>
   </marcxml:datafield>
+			<marcxml:datafield tag="046" ind1=" " ind2=" ">
+		<marcxml:subfield code="f">18990101</marcxml:subfield>
+		<marcxml:subfield code="g">19611201</marcxml:subfield>
+	</marcxml:datafield>
 	    <marcxml:datafield tag="100" ind1="1" ind2="0">
     <marcxml:subfield code="a">Davis, John W.</marcxml:subfield>
     <marcxml:subfield code="q">(John William),</marcxml:subfield>

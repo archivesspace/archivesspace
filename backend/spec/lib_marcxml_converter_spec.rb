@@ -361,6 +361,12 @@ END
 
       agent = json.first
       agent['publish'].should be_truthy
+
+      agent['dates_of_existence'].count.should eq(1)
+      agent['dates_of_existence'][0]['expression'].should eq('18990101-19611201')
+      agent['dates_of_existence'][0]['begin'].should eq('1899')
+      agent['dates_of_existence'][0]['end'].should eq('1961')
+
       agent['notes'].count.should eq(1)
       agent['notes'][0]['subnotes'][0]['content'].should eq(
         'Biographical or historical data. Expansion ... Uniform Resource Identifier'
