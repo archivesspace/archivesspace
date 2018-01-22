@@ -26,6 +26,7 @@ class DigitalObjectListTableReport < AbstractReport
              Sequel.as(:digital_object__title, :title),
              Sequel.as(Sequel.lit('GetEnumValueUF(digital_object.digital_object_type_id)'), :objectType),
              Sequel.as(Sequel.lit('GetDigitalObjectDateExpression(digital_object.id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceIdentiferForInstance(instance_do_link_rlshp.instance_id)'), :resourceIdentifier))
+             Sequel.as(Sequel.lit('GetResourceIdentiferForInstance(instance_do_link_rlshp.instance_id)'), :resourceIdentifier)).
+             filter(:repo_id => @repo_id)
   end
 end
