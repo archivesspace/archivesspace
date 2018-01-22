@@ -36,15 +36,16 @@ class EADModel < ASpaceExport::ExportModel
   # it elsewhere, but for now I'll let it incubate here :)
   #
   class IndexedArchivalObjectPrefetcher
-    RecordVersion = Struct.new(:id, :lock_version)
+    RecordVersion = Struct.new(:id, :lock_version, :position)
 
     def fetch(ao_ids, resolve)
-      # For each record of interest, calculate its URI and obtain its latest lock_version.
+      # For each record of interest, calculate its URI and obtain its latest lock_version
+      # and position.
       uri_to_version = {}
 
-      ArchivalObject.filter(:id => ao_ids).select(:id, :lock_version).each do |row|
+      ArchivalObject.filter(:id => ao_ids).select(:id, :lock_version, :position).each do |row|
         uri = ArchivalObject.uri_for(:archival_object, row[:id])
-        uri_to_version[uri] = RecordVersion.new(row[:id], row[:lock_version])
+        uri_to_version[uri] = RecordVersion.new(row[:id], row[:lock_version], row[:position])
       end
 
       # Try the search index
@@ -57,7 +58,16 @@ class EADModel < ASpaceExport::ExportModel
         desired_version = uri_to_version.fetch(indexed['uri']).lock_version
         indexed_version = indexed['lock_version']
 
+        desired_position = uri_to_version.fetch(indexed['uri']).position
+        indexed_position = indexed['position']
+
         if desired_version == indexed_version
+          # Reorder mode updates the position in the database without incrementing
+          # the lock_version. If position in the database is different from
+          # position in the index even though the lock versions are the same, set
+          # position in the good record to database position which corresponds to
+          # the position from re-ordering
+          indexed['position'] = desired_position if indexed_position != desired_position
           good_records << indexed
         end
       end
