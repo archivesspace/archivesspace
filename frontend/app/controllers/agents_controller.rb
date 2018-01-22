@@ -49,6 +49,8 @@ class AgentsController < ApplicationController
 
     ensure_auth_and_display()
 
+    set_sort_name_default()
+
     render_aspace_partial :partial => "agents/new" if inline?
   end
 
@@ -199,26 +201,32 @@ class AgentsController < ApplicationController
 
     def ensure_auth_and_display
       if @agent.names.length == 1
-      @agent.names[0]["authorized"] = true
-      @agent.names[0]["is_display_name"] = true
-    elsif @agent.names.length > 1
-      authorized = false
-      display = false
-      @agent.names.each do |name|
-        if name["authorized"] == true
-          authorized = true
-        end
-        if name["is_display_name"] == true
-          display = true
-        end
-      end
-      if !authorized
         @agent.names[0]["authorized"] = true
-      end
-      if !display
-        @agent.names[0]["is_display_name"] = true 
+        @agent.names[0]["is_display_name"] = true
+      elsif @agent.names.length > 1
+        authorized = false
+        display = false
+        @agent.names.each do |name|
+          if name["authorized"] == true
+            authorized = true
+          end
+          if name["is_display_name"] == true
+            display = true
+          end
+        end
+        if !authorized
+          @agent.names[0]["authorized"] = true
+        end
+        if !display
+          @agent.names[0]["is_display_name"] = true 
+        end
       end
     end
 
+    def set_sort_name_default
+      @agent.names.each do |name|
+        name["sort_name_auto_generate"] = true
+      end
     end
+
 end
