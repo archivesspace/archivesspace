@@ -4,9 +4,8 @@ class StaticAssetFinder
     static_dir = File.join(ASUtils.find_base_directory, base)
     plugins_dir = File.join(ASUtils.find_base_directory, 'plugins' )
 
-    @valid_paths = (Dir[File.join(static_dir, "**", "*")] +
-        ( AppConfig[:plugins].map { |p| Dir[File.join(plugins_dir, p, base, "**", "*")] }).reduce(:+)).
-                            select {|path| File.exist?(path) && File.file?(path)}
+    @valid_paths = ( (AppConfig[:plugins].map { |p| Dir[File.join(plugins_dir, p, base, "**", "*")] }).reduce(:+) +
+                      Dir[File.join(static_dir, "**", "*")] ).select {|path| File.exist?(path) && File.file?(path)}
 
   end
 
