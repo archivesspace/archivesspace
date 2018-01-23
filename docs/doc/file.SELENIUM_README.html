@@ -6,7 +6,7 @@
 <title>
   File: SELENIUM_README
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -59,6 +59,30 @@
 
       <div id="content"><div id='filecontents'><h1 id="selenium-test-suite">Selenium test suite</h1>
 
+<p>ArchivesSpace uses <a href="http://docs.seleniumhq.org/">Selenium</a> to run automated
+browser testing. Currently, you can run ArchivesSpace Selenium tests using
+<a href="https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver">Firefox</a> 
+and <a href="https://sites.google.com/a/chromium.org/chromedriver/home">Chrome</a>.
+Firefox is the default, and ArchivesSpace ships with the Firefox Webdriver
+executables for OSX and Linux.</p>
+
+<p>To run using Chrome, you must first download the <a href="https://sites.google.com/a/chromium.org/chromedriver/downloads">ChromeDriver
+execuitable</a>
+and place it somewhere in your OS system path. Then export a SELENIUM_CHROME enviroment
+variable, e.g:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_SELENIUM_CHROME constant id'>SELENIUM_CHROME</span><span class='assign token'>=</span><span class='rubyid_true true kw'>true</span>
+</code></pre>
+
+<p>When you run the tests ( see below  ), Selenium should launch a Chrome session
+in headless mode.</p>
+
+<p><strong><em>Please note, you must have either Firefox or Chrome installed on your system to
+run these tests. Consult the <a href="https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver">Firefox WebDriver</a> 
+or <a href="https://sites.google.com/a/chromium.org/chromedriver/home">ChromeDriver</a>
+documentation to ensure your Selenium, driver, browser, and OS versions all match
+and support each other.</em></strong></p>
+
 <h2 id="before-running">Before running:</h2>
 
 <p>Run the bootstrap build task to configure JRuby and all required
@@ -75,18 +99,32 @@ project directory.</p>
 
 <p>Run the full suite:</p>
 
-<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span>
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_staff identifier id'>staff</span>
 </code></pre>
 
-<p>The full suite can take a while to run. If you just want to run one
-group of tests, use the <em>example</em> property:</p>
+<p>The full suite can take a while to run. The selenium:staff task will run tests
+in parallel, with 2 browser sessions being run on default. You can adjust the
+number of sessions by passing a -Dcores to your selenium:staff task, e.g:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_staff identifier id'>staff</span> <span class='minus op'>-</span><span class='rubyid_Dcores constant id'>Dcores</span><span class='assign token'>=</span><span class='integer val'>6</span>
+</code></pre>
+
+<p>As a general rule, you don’t want the number of Selenium sessions to execeed the 
+number of processor cores, since this will just cause the tests to run slowly.</p>
+
+<p>If you want to run just one spec, use the <em>spec</em> property:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dspec constant id'>Dspec</span><span class='assign token'>=</span><span class='rubyid_merge_and_transfer_spec identifier id'>merge_and_transfer_spec</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>If you just want to run one group of tests, use the <em>example</em> property:</p>
 
 <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&#39;ArchivesSpace user interface Repositories&#39;</span>
 </code></pre>
 
-<p>See <em>spec/selenium_spec.rb</em> to find the <em>describe</em> blocks that define
-groups of tests that can be run independently. As a rule, individual
-examples cannot be run in isolation because each group is a sequence
+<p><strong><em>NOTE THE CHANGE BETWEEN ‘selenium:staff’ and ‘selenium:test’.</em></strong></p>
+
+<p>As a rule, individual examples cannot be run in isolation because each group is a sequence
 of dependent steps.</p>
 
 <h2 id="using-an-already-running-instance-of-archivesspace">Using an already running instance of ArchivesSpace:</h2>
@@ -107,7 +145,15 @@ environment variable:</p>
 <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_SCREENSHOT_ON_ERROR constant id'>SCREENSHOT_ON_ERROR</span><span class='assign token'>=</span><span class='integer val'>1</span>
 </code></pre>
 
-<p>The screenshot will be saved to /tmp</p>
+<p>A timestamped screenshot png will be saved to /tmp. To change the save
+location, export an enviornment variabled called SCREENSHOT_DIR to point to a
+different directory.</p>
+
+<h2 id="logging-the-output">Logging the output</h2>
+
+<p>The results will be put into a ‘log’ folder in your OS’ temporary directory (
+i.e. /tmp ). You can change this by exporting a SELENIUM_LOG_DIR enviorment
+variable to the session running Selenium.</p>
 
 <h2 id="interacting-with-selenium-on-the-command-line">Interacting with selenium on the command line:</h2>
 
@@ -160,9 +206,9 @@ backend and firefox</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:42:54 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:01:40 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>

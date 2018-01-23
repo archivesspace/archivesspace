@@ -6,7 +6,7 @@
 <title>
   Class: DBMigrator
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -294,9 +294,6 @@
       <pre class="lines">
 
 
-224
-225
-226
 227
 228
 229
@@ -308,10 +305,13 @@
 235
 236
 237
-238</pre>
+238
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 224</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 227</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='comment val'># If brand new install with empty database, need to check</span>
@@ -349,9 +349,6 @@
       <pre class="lines">
 
 
-292
-293
-294
 295
 296
 297
@@ -362,10 +359,13 @@
 302
 303
 304
-305</pre>
+305
+306
+307
+308</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 295</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_migration_number identifier id'>latest_migration_number</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_migration_numbers identifier id'>migration_numbers</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lparen token'>(</span><span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
@@ -425,16 +425,16 @@
       <pre class="lines">
 
 
-284
-285
-286
 287
 288
 289
-290</pre>
+290
+291
+292
+293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 287</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_needs_updating? fid id'>needs_updating?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -464,15 +464,15 @@
       <pre class="lines">
 
 
-277
-278
-279
 280
 281
-282</pre>
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 280</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_nuke_database identifier id'>nuke_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
   <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
@@ -534,7 +534,7 @@
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ContainerMigrationError constant id'>ContainerMigrationError</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-   <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } }\n\n\n     Database migration error.\n     Your upgrade has encountered a problem.\n     You must resolve these issues before the database migration can complete.\n\n\n     Error:\n     \#{e.inspect}\n     \#{e.message}\n     \#{e.backtrace.join(\&quot;\\n\&quot;)}\n\n\n     \#{ 3.times { $stderr.puts \&quot;!\&quot; * 100  } }\n&quot;</span>
+   <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!                                                                                                !!\n    !!                                      Database migration error.                                 !!\n    !!                                  Your upgrade has encountered a problem.                       !!\n    !!                  You must resolve these issues before the database migration can complete.     !!\n    !!                                                                                                !!\n    !!                                                                                                !!\n    !!                                                Error:                                          !!\n    !!  \#{e.inspect}                                                                                  !!\n    !!  \#{e.message}                                                                                  !!\n    !!  \#{e.backtrace.join(\&quot;\\n\&quot;)}                                                                     !!\n    !!                                                                                                !!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n&quot;</span>
 
    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
   <span class='rubyid_end end kw'>end</span>
@@ -550,9 +550,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:16 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:02:05 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>

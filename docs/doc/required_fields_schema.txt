@@ -1,0 +1,14 @@
+JSON Schema: Required_fields
+/repositories/:repo_id/required_fields/:record_type
+Properties
+
+string	uri
+
+string	record_type
+
+object	required
+
+
+
+
+

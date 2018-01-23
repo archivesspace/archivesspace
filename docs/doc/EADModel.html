@@ -6,7 +6,7 @@
 <title>
   Class: EADModel
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -604,21 +604,21 @@
       <pre class="lines">
 
 
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
 143
-144</pre>
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
@@ -661,18 +661,18 @@
       <pre class="lines">
 
 
-152
-153
-154
-155
-156
-157
-158
-159
-160</pre>
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 162</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@#{meth.to_s}&quot;</span><span class='rparen token'>)</span>
@@ -742,12 +742,12 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -779,16 +779,6 @@
       <pre class="lines">
 
 
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
 204
 205
 206
@@ -804,10 +794,20 @@
 216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 194</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 204</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_addresslines identifier id'>addresslines</span>
   <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_agent_representation identifier id'>agent_representation</span>
@@ -856,16 +856,6 @@
       <pre class="lines">
 
 
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
 232
 233
 234
@@ -879,10 +869,20 @@
 242
 243
 244
-245</pre>
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 232</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_addresslines_keyed identifier id'>addresslines_keyed</span>
   <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_agent_representation identifier id'>agent_representation</span>
@@ -929,17 +929,17 @@
       <pre class="lines">
 
 
-184
-185
-186
-187
-188
-189
-190
-191</pre>
+194
+195
+196
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 194</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_agent_representation identifier id'>agent_representation</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@repo ivar id'>@repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_representation_id&#39;</span><span class='rbrack token'>]</span>
@@ -970,12 +970,12 @@
       <pre class="lines">
 
 
-265
-266
-267</pre>
+275
+276
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 275</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_creators_and_sources identifier id'>creators_and_sources</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='string val'>&#39;creator&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
@@ -1001,14 +1001,14 @@
       <pre class="lines">
 
 
-248
-249
-250
-251
-252</pre>
+258
+259
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 258</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_descrules identifier id'>descrules</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@descrules ivar id'>@descrules</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_finding_aid_description_rules identifier id'>finding_aid_description_rules</span>
@@ -1036,16 +1036,16 @@
       <pre class="lines">
 
 
-270
-271
-272
-273
-274
-275
-276</pre>
+280
+281
+282
+283
+284
+285
+286</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 280</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_digital_objects identifier id'>digital_objects</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@include_daos ivar id'>@include_daos</span>
@@ -1098,12 +1098,12 @@
       <pre class="lines">
 
 
-168
-169
-170</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 178</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_include_daos? fid id'>include_daos?</span>
   <span class='rubyid_@include_daos ivar id'>@include_daos</span>
@@ -1152,12 +1152,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 173</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_include_unpublished? fid id'>include_unpublished?</span>
   <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
@@ -1183,12 +1183,12 @@
       <pre class="lines">
 
 
-260
-261
-262</pre>
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 270</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_with_digital_objects identifier id'>instances_with_digital_objects</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_inst identifier id'>inst</span><span class='bitor op'>|</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
@@ -1214,12 +1214,12 @@
       <pre class="lines">
 
 
-255
-256
-257</pre>
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 265</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_with_sub_containers identifier id'>instances_with_sub_containers</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_inst identifier id'>inst</span><span class='bitor op'>|</span> <span class='rubyid_inst identifier id'>inst</span><span class='lbrack token'>[</span><span class='string val'>&#39;sub_container&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
@@ -1245,13 +1245,13 @@
       <pre class="lines">
 
 
-178
-179
-180
-181</pre>
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_mainagencycode identifier id'>mainagencycode</span>
   <span class='rubyid_@mainagencycode ivar id'>@mainagencycode</span> <span class='opasgn op'>||=</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_country identifier id'>country</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span> <span class='integer val'>? </span><span class='lbrack token'>[</span><span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_country identifier id'>country</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_org_code identifier id'>org_code</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39;-&#39;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -1301,12 +1301,12 @@
       <pre class="lines">
 
 
-173
-174
-175</pre>
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 183</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_use_numbered_c_tags? fid id'>use_numbered_c_tags?</span>
   <span class='rubyid_@use_numbered_c_tags ivar id'>@use_numbered_c_tags</span>
@@ -1322,9 +1322,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:07 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:01:54 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>
