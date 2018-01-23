@@ -27,7 +27,7 @@ ArchivesSpace. Be sure that your new settings are not commented out
 
 # Set your database name and credentials here.  Example:
 #
-#  AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+#AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
 #
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 
@@ -63,8 +63,29 @@ AppConfig[:indexer_url] = "http://localhost:8091"
 # set it to something else below.
 AppConfig[:docs_url] = "http://localhost:8888"
 
+# Logging. By default, this will be output on the screen while the archivesspace
+# command is running. When running as a daemon/service, this is put into a
+# file in logs/archivesspace.out. You can change this file by changing the log
+# value to a filepath that archivesspace has write access to.
+AppConfig[:frontend_log] = "default"
+# Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:frontend_log_level] = "debug"
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
+AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
+
+AppConfig[:pui_log] = "default"
+AppConfig[:pui_log_level] = "debug"
+
+AppConfig[:indexer_log] = "default"
+AppConfig[:indexer_log_level] = "debug"
+
+
+# Set to true to log all SQL statements.  Note that this will have a performance
+# impact!
+AppConfig[:db_debug_log] = false
+# Set to true if you have enabled MySQL binary logging
+AppConfig[:mysql_binlog] = false
 
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
@@ -156,12 +177,6 @@ AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
 
-# Set to true to log all SQL statements.  Note that this will have a performance
-# impact!
-AppConfig[:db_debug_log] = false
-
-# Set to true if you have enabled MySQL binary logging
-AppConfig[:mysql_binlog] = false
 
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 
@@ -443,6 +458,8 @@ AppConfig[:pui_hide][:search_tab] = false
 # can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
 AppConfig[:pui_hide][:record_badge] = true # hide by default
+AppConfig[:pui_hide][:digital_object_badge] = false
+AppConfig[:pui_hide][:accession_badge] = false
 AppConfig[:pui_hide][:subject_badge] = false
 AppConfig[:pui_hide][:agent_badge] = false
 AppConfig[:pui_hide][:classification_badge] = false

@@ -6,7 +6,7 @@
 <title>
   Class: ASpaceLogger
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -334,14 +334,14 @@
       <pre class="lines">
 
 
+6
 7
 8
 9
-10
-11</pre>
+10</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_logdev identifier id'>logdev</span><span class='rparen token'>)</span>                                                                                  
   <span class='rubyid_@backlog ivar id'>@backlog</span> <span class='assign token'>=</span> <span class='rubyid_Atomic constant id'>Atomic</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> 
@@ -376,6 +376,7 @@
       <pre class="lines">
 
 
+12
 13
 14
 15
@@ -395,11 +396,10 @@
 29
 30
 31
-32
-33</pre>
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add identifier id'>add</span><span class='lparen token'>(</span><span class='rubyid_severity identifier id'>severity</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_progname identifier id'>progname</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@recording ivar id'>@recording</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
@@ -443,17 +443,17 @@
       <pre class="lines">
 
 
+34
 35
 36
 37
 38
 39
 40
-41
-42</pre>
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 34</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_to_backlog identifier id'>add_to_backlog</span><span class='lparen token'>(</span> <span class='rubyid_formatted_messsage identifier id'>formatted_messsage</span> <span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@backlog ivar id'>@backlog</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>100</span>
@@ -484,12 +484,12 @@
       <pre class="lines">
 
 
+43
 44
-45
-46</pre>
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_backlog identifier id'>backlog</span>
   <span class='rubyid_@backlog ivar id'>@backlog</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
@@ -515,15 +515,15 @@
       <pre class="lines">
 
 
+61
 62
 63
 64
 65
-66
-67</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_backlog_and_flush identifier id'>backlog_and_flush</span>
   <span class='rubyid_backlog_cache identifier id'>backlog_cache</span> <span class='assign token'>=</span> <span class='rubyid_backlog identifier id'>backlog</span>
@@ -552,12 +552,12 @@
       <pre class="lines">
 
 
+47
 48
-49
-50</pre>
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_flush_backlog identifier id'>flush_backlog</span>
   <span class='rubyid_@backlog ivar id'>@backlog</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span> <span class='lbrace token'>{</span>  <span class='bitor op'>|</span><span class='rubyid_bl identifier id'>bl</span><span class='bitor op'>|</span> <span class='rubyid_bl identifier id'>bl</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>  
@@ -583,13 +583,13 @@
       <pre class="lines">
 
 
+51
 52
 53
-54
-55</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_start_recording identifier id'>start_recording</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@recording ivar id'>@recording</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span> 
@@ -616,13 +616,13 @@
       <pre class="lines">
 
 
+56
 57
 58
-59
-60</pre>
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_logger.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_stop_recording identifier id'>stop_recording</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@recording ivar id'>@recording</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span> 
@@ -639,9 +639,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:15 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:02:04 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>

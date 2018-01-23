@@ -6,7 +6,7 @@
 <title>
   Module: ASUtils
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -162,6 +162,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Recursively overlays hash2 onto hash 1.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deep_merge_concat-class_method" title="deep_merge_concat (class method)">.<strong>deep_merge_concat</strong>(hash1, hash2)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Recursively concatenates hash2 onto hash 1.</p>
 </div></span>
   
 </li>
@@ -615,18 +638,18 @@
       <pre class="lines">
 
 
-260
-261
-262
-263
-264
-265
-266
-267
-268</pre>
+318
+319
+320
+321
+322
+323
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 318</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -691,6 +714,153 @@
       <span class='rubyid_next next kw'>next</span>
     <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_target identifier id'>target</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="deep_merge_concat-class_method">
+  
+    .<strong>deep_merge_concat</strong>(hash1, hash2)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Recursively concatenates hash2 onto hash 1</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 191</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_merge_concat identifier id'>deep_merge_concat</span><span class='lparen token'>(</span><span class='rubyid_hash1 identifier id'>hash1</span><span class='comma token'>,</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='rparen token'>)</span>
+  <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
+  <span class='rubyid_hash2 identifier id'>hash2</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Hash constant id'>Hash</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Hash constant id'>Hash</span>
+      <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_merge_concat identifier id'>deep_merge_concat</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_next next kw'>next</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
+      
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+        <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+        <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_target_array identifier id'>target_array</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+        <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_target_a identifier id'>target_a</span><span class='comma token'>,</span> <span class='rubyid_hash2_a identifier id'>hash2_a</span><span class='bitor op'>|</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_target_a identifier id'>target_a</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+            <span class='rubyid_target_array identifier id'>target_array</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_hash2_a identifier id'>hash2_a</span>
+          <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash2_a identifier id'>hash2_a</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+            <span class='rubyid_target_array identifier id'>target_array</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_target_a identifier id'>target_a</span>
+          <span class='rubyid_else else kw'>else</span>  
+            <span class='rubyid_target_array identifier id'>target_array</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_deep_merge_concat identifier id'>deep_merge_concat</span><span class='lparen token'>(</span><span class='rubyid_target_a identifier id'>target_a</span><span class='comma token'>,</span> <span class='rubyid_hash2_a identifier id'>hash2_a</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_target_array identifier id'>target_array</span>
+      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_next next kw'>next</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;is_display_name&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;authorized&quot;</span>
+      <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;true&quot;</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;is_display_name&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;authorized&quot;</span>
+      <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;false&quot;</span>        
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;is_display_name&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;authorized&quot;</span>
+      <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;1&quot;</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;is_display_name&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_key identifier id'>key</span> <span class='neq op'>!=</span> <span class='string val'>&quot;authorized&quot;</span>
+      <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0&quot;</span>        
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+        <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='string val'>&quot;jsonmodel_type&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;note&quot;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;note&quot;</span><span class='rparen token'>)</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Required Note Types must not conflict with Default Note Types&quot;</span>
+        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='string val'>&quot;jsonmodel_type&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;relationship&quot;</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;relationship&quot;</span><span class='rparen token'>)</span>
+          <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Required Relationship Types must not conflict with Default Relationship Types&quot;</span>
+        <span class='rubyid_else else kw'>else</span>
+          <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash1 identifier id'>hash1</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&#39;_&#39;</span> <span class='plus op'>+</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_target identifier id'>target</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_hash2 identifier id'>hash2</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_target identifier id'>target</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1136,17 +1306,17 @@
       <pre class="lines">
 
 
-191
-192
-193
-194
-195
-196
-197
-198</pre>
+249
+250
+251
+252
+253
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 249</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_load_plugin_gems identifier id'>load_plugin_gems</span><span class='lparen token'>(</span><span class='rubyid_context identifier id'>context</span><span class='rparen token'>)</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_local_directories identifier id'>find_local_directories</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span>
@@ -1200,12 +1370,12 @@
       <pre class="lines">
 
 
-270
-271
-272</pre>
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 328</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='notop op'>!</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
@@ -1245,26 +1415,26 @@ things.</p>
       <pre class="lines">
 
 
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258</pre>
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 300</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_recursive_reject_key identifier id'>recursive_reject_key</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_block identifier id'>block</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1318,28 +1488,28 @@ us to avoid walking ‘_resolved’ subtrees, for example)</p>
       <pre class="lines">
 
 
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235</pre>
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 275</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_nested identifier id'>search_nested</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='comma token'>,</span> <span class='rubyid_keys identifier id'>keys</span><span class='comma token'>,</span> <span class='rubyid_ignore_keys identifier id'>ignore_keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:key?</span><span class='rparen token'>)</span>
@@ -1496,18 +1666,18 @@ production.</p>
       <pre class="lines">
 
 
-202
-203
-204
-205
-206
-207
-208
-209
-210</pre>
+260
+261
+262
+263
+264
+265
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'common/asutils.rb', line 260</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_object identifier id'>object</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_object identifier id'>object</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1529,9 +1699,9 @@ production.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:01 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:01:48 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>

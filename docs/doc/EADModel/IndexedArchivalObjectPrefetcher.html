@@ -6,7 +6,7 @@
 <title>
   Class: EADModel::IndexedArchivalObjectPrefetcher
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -222,18 +222,29 @@ it elsewhere, but for now I’ll let it incubate here :)</p>
 73
 74
 75
-76</pre>
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/ead.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_ao_ids identifier id'>ao_ids</span><span class='comma token'>,</span> <span class='rubyid_resolve identifier id'>resolve</span><span class='rparen token'>)</span>
-  <span class='comment val'># For each record of interest, calculate its URI and obtain its latest lock_version.</span>
+  <span class='comment val'># For each record of interest, calculate its URI and obtain its latest lock_version</span>
+  <span class='comment val'># and position.</span>
   <span class='rubyid_uri_to_version identifier id'>uri_to_version</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
-  <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ao_ids identifier id'>ao_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='symbol val'>:lock_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
+  <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ao_ids identifier id'>ao_ids</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='symbol val'>:lock_version</span><span class='comma token'>,</span> <span class='symbol val'>:position</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
     <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-    <span class='rubyid_uri_to_version identifier id'>uri_to_version</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_RecordVersion constant id'>RecordVersion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:lock_version</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_uri_to_version identifier id'>uri_to_version</span><span class='lbrack token'>[</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_RecordVersion constant id'>RecordVersion</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:lock_version</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># Try the search index</span>
@@ -246,7 +257,16 @@ it elsewhere, but for now I’ll let it incubate here :)</p>
     <span class='rubyid_desired_version identifier id'>desired_version</span> <span class='assign token'>=</span> <span class='rubyid_uri_to_version identifier id'>uri_to_version</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_indexed identifier id'>indexed</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span>
     <span class='rubyid_indexed_version identifier id'>indexed_version</span> <span class='assign token'>=</span> <span class='rubyid_indexed identifier id'>indexed</span><span class='lbrack token'>[</span><span class='string val'>&#39;lock_version&#39;</span><span class='rbrack token'>]</span>
 
+    <span class='rubyid_desired_position identifier id'>desired_position</span> <span class='assign token'>=</span> <span class='rubyid_uri_to_version identifier id'>uri_to_version</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_indexed identifier id'>indexed</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
+    <span class='rubyid_indexed_position identifier id'>indexed_position</span> <span class='assign token'>=</span> <span class='rubyid_indexed identifier id'>indexed</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span>
+
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_desired_version identifier id'>desired_version</span> <span class='eq op'>==</span> <span class='rubyid_indexed_version identifier id'>indexed_version</span>
+      <span class='comment val'># Reorder mode updates the position in the database without incrementing</span>
+      <span class='comment val'># the lock_version. If position in the database is different from</span>
+      <span class='comment val'># position in the index even though the lock versions are the same, set</span>
+      <span class='comment val'># position in the good record to database position which corresponds to</span>
+      <span class='comment val'># the position from re-ordering</span>
+      <span class='rubyid_indexed identifier id'>indexed</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_desired_position identifier id'>desired_position</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_indexed_position identifier id'>indexed_position</span> <span class='neq op'>!=</span> <span class='rubyid_desired_position identifier id'>desired_position</span>
       <span class='rubyid_good_records identifier id'>good_records</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_indexed identifier id'>indexed</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -274,9 +294,9 @@ it elsewhere, but for now I’ll let it incubate here :)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version 2017-12-12 Documentation Generated on Wed Dec 13 13:43:07 2017 by
+  ArchivesSpace Version v2.3.0-update-for-position Documentation Generated on Tue Jan 23 16:01:54 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.1).
 </div>
     </div>
   </body>
