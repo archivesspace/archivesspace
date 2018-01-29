@@ -3,7 +3,7 @@
     <% if form.required?("begin") %>
       <%= form.label_and_readonly "begin" %>
     <% else %>
-      <%= form.label_and_boolean "begin" %>
+      <%= form.label_and_req_boolean "begin" %>
     <% end %>
   </div>
 <% end %>
@@ -15,7 +15,7 @@
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>
       <% else %>
-        <%= form.label_and_boolean field_name %>
+        <%= form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
   </div>
@@ -28,7 +28,7 @@
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>
       <% else %>
-        <%= form.label_and_boolean field_name %>
+        <%= form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
   </div>
@@ -41,7 +41,7 @@
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>
       <% else %>
-        <%= form.label_and_boolean field_name %>
+        <%= form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
   </div>
@@ -65,7 +65,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
@@ -83,7 +83,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
@@ -101,7 +101,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
@@ -119,7 +119,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
 			<%= form.label_and_readonly "date_type" %>
@@ -144,7 +144,7 @@
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
     <% else %>
-      <%= form.label_and_boolean field_name %>
+      <%= form.label_and_req_boolean field_name %>
     <% end %>
   <% end %>
 <% end %>

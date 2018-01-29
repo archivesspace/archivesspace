@@ -168,8 +168,8 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("title") %>
-      <%= form.label_and_boolean("enumeration") %>
+      <%= form.label_and_req_boolean("title") %>
+      <%= form.label_and_req_boolean("enumeration") %>
     </div>
   </div>
 <% end %>
@@ -289,7 +289,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
 
@@ -319,7 +319,7 @@
       <% if xlink_form.required?(field_name) %>
         <%= xlink_form.label_and_readonly field_name %>
       <% else %>
-        <%= xlink_form.label_and_boolean field_name %>
+        <%= xlink_form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
   <% end %>
@@ -332,7 +332,7 @@
       <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
       <%= form.hidden_input("ingest_problem") %>
 
-      <%= form.label_and_boolean("persistent_id") %>
+      <%= form.label_and_req_boolean("persistent_id") %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
@@ -355,7 +355,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("persistent_id") %>
+      <%= form.label_and_req_boolean("persistent_id") %>
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
   </div>
@@ -406,7 +406,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("title") %>
+      <%= form.label_and_req_boolean("title") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -432,7 +432,7 @@
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>
       <% else %>
-        <%= form.label_and_boolean field_name %>
+        <%= form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
   </div>
@@ -482,7 +482,7 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("title") %>
+      <%= form.label_and_req_boolean("title") %>
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
@@ -503,12 +503,12 @@
 
 <% define_template "chronology_item" do |form, item| %>
   <div class="subrecord-form-fields" data-type="chronology_item">
-    <%= form.label_and_boolean("event_date") %>
+    <%= form.label_and_req_boolean("event_date") %>
   </div>
 <% end %>
 
 <% define_template "chronology_item_event" do |form, event| %>
-  <div class="subrecord-form-inline"><%= form.label_and_boolean(event, { :escape => false }) %></div>
+  <div class="subrecord-form-inline"><%= form.label_and_req_boolean(event, { :escape => false }) %></div>
 <% end %>
 
 <% define_template "bib_item" do |form, item| %>
@@ -662,8 +662,8 @@
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_agent_rights_statement") %>
       <%= form.hidden_input("ingest_problem") %>
-      <%= form.label_and_boolean("persistent_id") %>
-      <%= form.label_and_boolean("label") %>
+      <%= form.label_and_req_boolean("persistent_id") %>
+      <%= form.label_and_req_boolean("label") %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
     </div>
