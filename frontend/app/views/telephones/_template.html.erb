@@ -16,7 +16,7 @@
         <% if form.required?(field_name) %>
           <%= form.label_and_readonly field_name %>
         <% else %>
-          <%= form.label_and_boolean field_name %>
+          <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
     </div>

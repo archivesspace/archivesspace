@@ -254,6 +254,11 @@ module AspaceFormHelper
       label_with_field(name, checkbox(name, opts, default, force_checked), opts)
     end
 
+    def label_and_req_boolean(name, opts = {}, default = false, force_checked = false)
+      opts[:col_size] = 1
+      opts[:controls_class] = "req_checkbox"
+      label_with_field(name, req_checkbox(name, opts, default, force_checked), opts)
+    end
 
     def label_and_readonly(name, default = "", opts = {})
       value = obj[name]
@@ -285,8 +290,8 @@ module AspaceFormHelper
     end
 
     def textarea(name = nil, value = "", opts =  {})
-      value = value[0...-2] if value.is_a? String and value.end_with?("_1")
-      value = nil if value === "1"
+      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
+      value = nil if value === "REQ"
       options = {:id => id_for(name), :rows => 3}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
@@ -299,8 +304,9 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = nil, opts =  {})
       value ||= obj[name] if !name.nil?
-      value = value[0...-2] if value.is_a? String and value.end_with?("_1")
-      value = nil if value === "1"
+
+      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
+      value = nil if value === "REQ"
 
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
@@ -373,8 +379,8 @@ module AspaceFormHelper
 
 
     def label(name, opts = {}, classes = [])
-      prefix = '' 
-      prefix << "#{opts[:contextual]}." if opts[:contextual] 
+      prefix = ''
+      prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
       classes << 'control-label'
@@ -398,6 +404,13 @@ module AspaceFormHelper
     def checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => 1}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+    def req_checkbox(name, opts = {}, default = true, force_checked = false)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REQ") or (obj[name].nil? and default)
 
       @forms.tag("input", options.merge(opts), false, false)
     end
@@ -469,7 +482,7 @@ module AspaceFormHelper
       end
 
       control_group_classes << "required" if required == true
-      control_group_classes << "required" if obj[name].is_a? String and obj[name].end_with?("1")
+      control_group_classes << "required" if obj[name].is_a? String and obj[name].end_with?("REQ")
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class

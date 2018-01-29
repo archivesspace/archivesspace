@@ -54,7 +54,7 @@
            %>
         <% end %>
 
-        <%= form.label_and_boolean("description") %>
+        <%= form.label_and_req_boolean("description") %>
 
         <% if !form.readonly? || !form['dates'].blank? %>
           <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_required", :template => "date", :cardinality => :zero_to_one} %>
