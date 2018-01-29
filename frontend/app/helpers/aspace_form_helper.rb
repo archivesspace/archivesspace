@@ -257,7 +257,7 @@ module AspaceFormHelper
     def label_and_req_boolean(name, opts = {}, default = false, force_checked = false)
       opts[:col_size] = 1
       opts[:controls_class] = "req_checkbox"
-      label_with_field(name, checkbox(name, opts, default, force_checked), opts)
+      label_with_field(name, req_checkbox(name, opts, default, force_checked), opts)
     end
 
     def label_and_readonly(name, default = "", opts = {})
@@ -403,6 +403,13 @@ module AspaceFormHelper
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => 1}
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+    def req_checkbox(name, opts = {}, default = true, force_checked = false)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
 
       @forms.tag("input", options.merge(opts), false, false)
