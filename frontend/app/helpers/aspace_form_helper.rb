@@ -254,6 +254,11 @@ module AspaceFormHelper
       label_with_field(name, checkbox(name, opts, default, force_checked), opts)
     end
 
+    def label_and_req_boolean(name, opts = {}, default = false, force_checked = false)
+      opts[:col_size] = 1
+      opts[:controls_class] = "req_checkbox"
+      label_with_field(name, checkbox(name, opts, default, force_checked), opts)
+    end
 
     def label_and_readonly(name, default = "", opts = {})
       value = obj[name]
@@ -299,6 +304,7 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = nil, opts =  {})
       value ||= obj[name] if !name.nil?
+
       value = value[0...-2] if value.is_a? String and value.end_with?("_1")
       value = nil if value === "1"
 
@@ -373,8 +379,8 @@ module AspaceFormHelper
 
 
     def label(name, opts = {}, classes = [])
-      prefix = '' 
-      prefix << "#{opts[:contextual]}." if opts[:contextual] 
+      prefix = ''
+      prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
       classes << 'control-label'

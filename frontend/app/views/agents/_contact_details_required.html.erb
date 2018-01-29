@@ -8,7 +8,7 @@
       <% if form.required?(field_name) %>
         <%= form.label_and_readonly field_name %>
       <% else %>
-        <%= form.label_and_boolean field_name %>
+        <%= form.label_and_req_boolean field_name %>
       <% end %>
     <% end %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => { :form => form,  :name => "telephones", :template => "telephone_required", :heading_size => "h5" } %>
