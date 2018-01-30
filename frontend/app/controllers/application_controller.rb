@@ -255,13 +255,13 @@ class ApplicationController < ActionController::Base
                 end
                 required_a[nested_key].keys.each do |nested_key2|
                   if required_a[nested_key][nested_key2].is_a? String and obj_a.key?(nested_key)
-                    if required_a[nested_key][nested_key2] === "1" and obj_a[nested_key][nested_key2] === ""
+                    if required_a[nested_key][nested_key2] === "REQ" and obj_a[nested_key][nested_key2] === ""
                       missing << "#{key}/#{index}/#{nested_key}/#{nested_key2}"
                     end
                   end
                 end
               elsif required_a[nested_key].is_a? String
-                if required_a[nested_key] === "1" and obj_a[nested_key] === ""
+                if required_a[nested_key] === "REQ" and obj_a[nested_key] === ""
                   missing << "#{key}/#{index}/#{nested_key}"
                 end
               end
@@ -270,7 +270,7 @@ class ApplicationController < ActionController::Base
         end
       end
       if required[key].is_a? String
-         if required[key] === "1" and obj[key] === ""
+         if required[key] === "REQ" and obj[key] === ""
             missing << key
         end
       end
@@ -293,13 +293,13 @@ class ApplicationController < ActionController::Base
             end
             required_a2[nested_key2].keys.each do |nested_key3|
               if required_a2[nested_key2][nested_key3].is_a? String and obj_a2[nested_key2].key?(nested_key3)
-                if required_a2[nested_key2][nested_key3] === "1" and obj_a2[nested_key2][nested_key3] === ""
+                if required_a2[nested_key2][nested_key3] === "REQ" and obj_a2[nested_key2][nested_key3] === ""
                   missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}/#{nested_key3}"
                 end
               end
             end
           elsif required_a2[nested_key2].is_a? String
-            if required_a2[nested_key2] === "1" and obj_a2[nested_key2] === ""
+            if required_a2[nested_key2] === "REQ" and obj_a2[nested_key2] === ""
               missing << "#{key}/#{index}/#{nested_key}/#{index2}/#{nested_key2}"
             end
           end
