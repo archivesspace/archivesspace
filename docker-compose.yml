@@ -18,6 +18,10 @@ services:
       APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'
       APPCONFIG_FRONTEND_PROXY_URL: 'http://aspace.local:8888/staff/'
       APPCONFIG_PUBLIC_PROXY_URL: 'http://aspace.local:8888/public/'
+      # testing plugin initialization on startup
+      ASPACE_INITIALIZE_PLUGINS: 'newrelic'
+    volumes:
+      - ./plugins/newrelic:/archivesspace/plugins/newrelic
   db:
     image: mysql:5.7
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2
