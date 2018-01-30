@@ -285,7 +285,7 @@ module AspaceFormHelper
         opts[:class] = "form-control"
       end
       selection = obj[name]
-      selection = selection[0...-2] if selection.is_a? String and selection.end_with?("_1")
+      selection = selection[0...-4] if selection.is_a? String and selection.end_with?("_REQ")
       @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
