@@ -20,7 +20,4 @@ docker-compose up db solr web
 docker-compose run app bash # access app terminal
 ```
 
-- Create a hosts file entry: `127.0.0.1 aspace.local`
-- Browser access: 'http://aspace.local:8888'
-
 ---
