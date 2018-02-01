@@ -32,7 +32,11 @@ If you're using a different language, simply swap out the en.yml for something e
 
 ## Changing the branding logo on the PUI
 
-To change the branding logo on the public interface, open the config/config.rb file and set AppConfig[:pui_branding_img] to the name of the image file you want to use as the branding logo. Then put a copy of the image in the directory plugins/local/public/assets/images.
+To change the branding logo on the public interface, open the config/config.rb file and set `AppConfig[:pui_branding_img]` to the name of the image file, along with the path `/assets/image/` you want to use as the branding logo. Then put a copy of the image in the directory plugins/local/public/assets/images.
+
+Example:
+
+`AppConfig[:pui_branding_img] = '/assets/image/logo.png'`
 
 Restart the application and you should see your logo in the default view.
 
