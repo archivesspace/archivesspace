@@ -1,4 +1,4 @@
-UPGRADING TO 2.1.0
+UPGRADING TO 2.1.0 (these considerations also apply when upgrading to any version past 2.1.0 from a version prior to 2.1.0)
 ==================
 
 Additional upgrade considerations specific to this release. Refer to the [upgrade documentation](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md) for the standard instructions that apply in all cases.
