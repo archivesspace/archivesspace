@@ -27,7 +27,7 @@ class CreatedAccessionsReport < AbstractReport
   end
 
   def query
-    db[:accession].where(:accession_date => (@from..@to)).order(Sequel.asc(:accession_date))
+    db[:accession].where(:accession_date => (@from..@to)).order(Sequel.asc(:accession_date)).filter( :repo_id => @repo_id )
   end
 
 end
