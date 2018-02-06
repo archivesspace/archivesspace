@@ -158,6 +158,18 @@ AppConfig[:pui_indexing_frequency_seconds] = 30
 AppConfig[:pui_indexer_records_per_thread] = 25
 AppConfig[:pui_indexer_thread_count] = 1
 
+AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon s3
+# # store indexer state in amazon s3 (optional)
+# # NOTE: s3 charges for read / update requests and the pui indexer is continually
+# # writing to state files so you may want to increase pui_indexing_frequency_seconds
+# AppConfig[:index_state_s3] = {
+#   region: ENV.fetch("AWS_REGION"),
+#   aws_access_key_id: ENV.fetch("AWS_ACCESS_KEY_ID"),
+#   aws_secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY"),
+#   bucket: ENV.fetch("AWS_ASPACE_BUCKET"),
+#   prefix: proc { "#{AppConfig[:cookie_prefix]}_" },
+# }
+
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }

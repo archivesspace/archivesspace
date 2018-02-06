@@ -1,5 +1,6 @@
 require_relative 'indexer_common'
 require_relative 'index_state'
+require_relative 'index_state_s3'
 require 'time'
 require 'thread'
 require 'java'
@@ -16,7 +17,8 @@ class PeriodicIndexer < IndexerCommon
     super(backend_url || AppConfig[:backend_url])
 
     @indexer_name = indexer_name || 'PeriodicIndexer'
-    @state = state || IndexState.new
+    state_class = AppConfig[:index_state_class].constantize
+    @state = state || state_class.new
     @verbose = verbose
 
     # A small window to account for the fact that transactions might be committed
