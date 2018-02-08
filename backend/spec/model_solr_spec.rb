@@ -51,10 +51,15 @@ end
 
 describe 'Solr model' do
 
-  it "can pass a query to Solr" do
+  it "can pass a query to Solr, including params from config" do
     http = MockHTTP.new
     Net::HTTP.stub(:start) { |host, port, &block| http.start(host, port, block) }
 
+    AppConfig[:solr_params] = {
+      "bq" => proc { "title:\"#{@query_string}\"*" },
+      "pf" => 'title^10',
+      "ps" => 0,
+    }
     query = Solr::Query.create_keyword_search("hello world").
                         pagination(1, 10).
                         set_repo_id(@repo_id).
@@ -70,6 +75,9 @@ describe 'Solr model' do
     http.request.body.should match(/fq=types%3A%28]?%22optional_record_type/)
     http.request.body.should match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
     http.request.body.should match(/hl=true/)
+    http.request.body.should match(/bq=title%3A%22hello\+world%22\*/)
+    http.request.body.should match(/pf=title%5E10/)
+    http.request.body.should match(/ps=0/)
 
 
     response['offset_first'].should eq(1)

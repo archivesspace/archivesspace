@@ -77,6 +77,8 @@ AppConfig[:mysql_binlog] = false
 AppConfig[:solr_backup_schedule] = "0 * * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
+# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
+AppConfig[:solr_params] = {}
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
