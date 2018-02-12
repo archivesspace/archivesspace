@@ -102,7 +102,7 @@
         <xsl:attribute name="table-layout">fixed</xsl:attribute>
         <xsl:attribute name="width">100%</xsl:attribute>
         <xsl:attribute name="border">.5pt solid #ccc</xsl:attribute>
-        <xsl:attribute name="border-collapse">seperate</xsl:attribute>
+        <xsl:attribute name="border-collapse">separate</xsl:attribute>
         <xsl:attribute name="space-after">12pt</xsl:attribute>
     </xsl:attribute-set>
     <!-- Table headings -->
@@ -114,7 +114,7 @@
     <!-- Table cells with borders -->
     <xsl:attribute-set name="tdBorder">
         <xsl:attribute name="border">.5pt solid #ccc</xsl:attribute>
-        <xsl:attribute name="border-collapse">seperate</xsl:attribute>
+        <xsl:attribute name="border-collapse">separate</xsl:attribute>
     </xsl:attribute-set>
 
     <!--  Start main page design and layout -->
