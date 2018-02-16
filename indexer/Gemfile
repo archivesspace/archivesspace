@@ -6,3 +6,4 @@ gem "sinatra", '1.4.7', :require => false
 gem "sinatra-contrib", "1.4.7", :require => false
 gem "activesupport", "5.0.1"
 gem "fog-aws", "2.0.0", :require => false
+gem "mime-types", "3.1"
