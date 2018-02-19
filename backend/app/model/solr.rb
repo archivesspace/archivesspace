@@ -73,8 +73,19 @@ class Solr
 
       @show_suppressed = false
       @show_published_only = false
-      
       @csv_header = true
+    end
+
+    def add_solr_params_from_config
+      if AppConfig[:solr_params].any?
+        AppConfig[:solr_params].each do |param, value|
+          if value.respond_to? :call
+            add_solr_param(param, self.instance_eval(&value))
+          else
+            add_solr_param(param, value)
+          end
+        end
+      end
     end
 
     def remove_csv_header
@@ -242,6 +253,9 @@ class Solr
         add_solr_param(:pf, "four_part_id^4")
         add_solr_param(:qf, "four_part_id^3 title^2 finding_aid_filing_title^2 fullrecord")
       end
+
+      # do it here so instance variables can be resolved
+      add_solr_params_from_config
 
       Solr.search_hooks.each do |hook|
         hook.call(self)
