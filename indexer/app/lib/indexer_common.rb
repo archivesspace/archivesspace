@@ -121,7 +121,7 @@ class IndexerCommon
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
-      if %w(json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
+      if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
       elsif key =~ /_enum_s$/
       elsif val.is_a?(String)
         text << "#{val} "

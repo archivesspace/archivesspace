@@ -1945,6 +1945,8 @@
       notes: Notas
       subjects: Materia
       identifier: Identificador
+      created_by: Creado por
+      last_modified_by: Ultima modificacion por
     boolean:
       published: ¿Publicado?
       suppressed: ¿Bloqueado?

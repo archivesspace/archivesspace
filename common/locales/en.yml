@@ -1294,7 +1294,7 @@ en:
     <<: *agent_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
-  
+
   related_agents_agent_person:
     related_agents: Related Agents
   related_agents_agent_family:
@@ -1996,6 +1996,8 @@ en:
       notes: Notes
       subjects: Subject
       identifier: Identifier
+      created_by: Created by
+      last_modified_by: Last modified by
     boolean:
       published: Published?
       suppressed: Suppressed?
