@@ -2,21 +2,21 @@ class MODSSerializer < ASpaceExport::Serializer
   serializer_for :mods
 
   include JSONModel
-  
+
   def serialize(mods, opts = {})
 
     builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
-      serialize_mods(mods, xml)     
+      serialize_mods(mods, xml)
     end
-    
-    builder.to_xml 
+
+    builder.to_xml
   end
-  
+
   def serialize_mods(mods, xml)
-    
+
     root_args = {'version' => '3.4'}
-    root_args['xmlns'] = 'http://www.loc.gov/mods/v3' 
-    
+    root_args['xmlns'] = 'http://www.loc.gov/mods/v3'
+
     xml.mods(root_args){
       serialize_mods_inner(mods, xml)
     }
@@ -28,23 +28,23 @@ class MODSSerializer < ASpaceExport::Serializer
     xml.titleInfo {
       xml.title mods.title
     }
-    
+
     xml.typeOfResource mods.type_of_resource
-    
+
 
     xml.language {
       xml.languageTerm(:type => 'code') {
         xml.text mods.language_term
       }
-      
+
     }
-    
+
     xml.physicalDescription{
       mods.extents.each do |extent|
         xml.extent extent
       end
     }
-    
+
     mods.notes.each do |note|
       if note.wrapping_tag
         xml.send(note.wrapping_tag) {
@@ -63,12 +63,24 @@ class MODSSerializer < ASpaceExport::Serializer
 
     mods.subjects.each do |subject|
       xml.subject(:authority => subject['source']) {
-        subject['terms'].each do |term|
+        term = subject['term'].join(" -- ")
+        case subject['term_type'].first
+        when 'geographic', 'cultural_context'
+          xml.geographic term
+        when 'temporal'
+          xml.temporal term
+        when 'uniform_title'
+          xml.titleInfo term
+        when 'genre_form', 'style_period'
+          xml.genre term
+        when 'occupation'
+          xml.occupation term
+        else
           xml.topic term
         end
       }
     end
-    
+
     mods.names.each do |name|
 
       case name['role']
