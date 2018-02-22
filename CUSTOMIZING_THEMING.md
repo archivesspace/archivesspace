@@ -22,9 +22,9 @@ If the value you want to change is in the frontend (staff interface) en.yml file
 
     en:
      welcome:
-     heading: This is ArchivesSpace
-     message: Hey Hey Hey!!
-     message_logged_in: Yay! Yay! Yay!
+     	heading: This is ArchivesSpace
+     	message: Hey Hey Hey!!
+     	message_logged_in: Yay! Yay! Yay!
 
 If you restart ArchivesSpace, these values will take effect.
 
