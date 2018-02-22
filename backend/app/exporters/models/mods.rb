@@ -12,7 +12,7 @@ class MODSModel < ASpaceExport::ExportModel
   attr_accessor :type_of_resource
   attr_accessor :parts
   attr_accessor :repository_note
-  
+
   @archival_object_map = {
     :title => :title=,
     :language => :language_term=,
@@ -21,18 +21,18 @@ class MODSModel < ASpaceExport::ExportModel
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
   }
-  
+
   @digital_object_map = {
   }
-  
-  
+
+
   @name_type_map = {
     'agent_person' => 'personal',
     'agent_family' => 'family',
     'agent_corporate_entity' => 'corporate',
     'agent_software' => nil
   }
-  
+
   @name_part_type_map = {
     'primary_name' => 'family',
     'title' => 'termsOfAddress',
@@ -40,7 +40,7 @@ class MODSModel < ASpaceExport::ExportModel
     'family_name' => 'family',
     'prefix' => 'termsOfAddress'
   }
-    
+
 
   def initialize(tree)
     @children = tree['children']
@@ -51,21 +51,21 @@ class MODSModel < ASpaceExport::ExportModel
     @names = []
     @parts = []
   end
-    
+
 
   # meaning, 'archival object' in the abstract
   def self.from_archival_object(obj, tree)
-    
+
     mods = self.new(tree)
     mods.apply_map(obj, @archival_object_map)
 
     mods
   end
-    
-  
+
+
   def self.from_digital_object(obj, tree, opts = {})
     mods = self.from_archival_object(obj, tree)
-    
+
     if obj.respond_to? :digital_object_type
       mods.type_of_resource = obj.digital_object_type
     end
@@ -84,7 +84,7 @@ class MODSModel < ASpaceExport::ExportModel
     mods
   end
 
-  
+
   def self.name_type_map
     @name_type_map
   end
@@ -121,29 +121,29 @@ class MODSModel < ASpaceExport::ExportModel
   def new_mods_note(*a)
     self.class.new_mods_note(*a)
   end
-  
-  
+
+
   def handle_notes(notes)
     notes.each do |note|
       content = ASpaceExport::Utils.extract_note_text(note)
       mods_note = case note['type']
                   when 'accessrestrict'
-                    new_mods_note('accessCondition', 
+                    new_mods_note('accessCondition',
                                    'restrictionOnAccess',
                                    note['label'],
                                    content)
                   when 'userestrict'
-                    new_mods_note('accessCondition', 
+                    new_mods_note('accessCondition',
                                   'useAndReproduction',
                                   note['label'],
                                   content)
                   when 'legalstatus'
-                    new_mods_note('accessCondition', 
+                    new_mods_note('accessCondition',
                                   note['type'],
                                   note['label'],
                                   content)
                   when 'physdesc'
-                    new_mods_note('note', 
+                    new_mods_note('note',
                                   nil,
                                   note['label'],
                                   content,
@@ -173,8 +173,9 @@ class MODSModel < ASpaceExport::ExportModel
   def handle_subjects(subjects)
     subjects.map {|s| s['_resolved'] }.each do |subject|
       self.subjects << {
-        'terms' => subject['terms'].map {|t| t['term']},
-        'source' => subject['source']
+        'term' => subject['terms'].map {|t| t['term']},
+        'source' => subject['source'],
+        'term_type' => subject['terms'].map {|t| t['term_type']}
       }
     end
   end
@@ -188,7 +189,7 @@ class MODSModel < ASpaceExport::ExportModel
       # shift in granularity - role repeats for each name
       agent['names'].each do |name|
         self.names << {
-          'type' => name_type, 
+          'type' => name_type,
           'role' => role,
           'source' => name['source'],
           'parts' => name_parts(name, agent['jsonmodel_type']),
@@ -197,7 +198,7 @@ class MODSModel < ASpaceExport::ExportModel
       end
     end
   end
-  
+
   def name_parts(name, type)
     fields = case type
              when 'agent_person'
@@ -212,12 +213,12 @@ class MODSModel < ASpaceExport::ExportModel
     parts = []
     fields.each do |field|
       part = {}
-      part['type'] = self.class.name_part_type_map[field] 
+      part['type'] = self.class.name_part_type_map[field]
       part.delete('type') if part['type'].nil?
       part['content'] = name[field] unless name[field].nil?
       parts << part unless part.empty?
     end
-    parts    
+    parts
   end
 
   def each_related_item(children = nil, maxDepth = 20)

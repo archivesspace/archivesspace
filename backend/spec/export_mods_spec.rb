@@ -1,8 +1,8 @@
 require_relative 'export_spec_helper'
 
 # Background: These specs are the result of an attempt to interpret
-# mappings included in documentation for the Archivists' Toolkit. 
-# Where it was  possible to do so, they have been transposed from a 
+# mappings included in documentation for the Archivists' Toolkit.
+# Where it was  possible to do so, they have been transposed from a
 # file downloaded from:
 # http://archiviststoolkit.org/sites/default/files/ATexports_2008_10_08.xls
 
@@ -120,7 +120,20 @@ describe "Exported MODS metadata" do
       @subjects.each do |subject|
       @mods.should have_tag "mods/subject[@authority='#{subject['source']}']"
         subject['terms'].each do |term|
-          @mods.should have_tag "subject/topic" => term['term']
+          case term['term_type']
+          when 'geographic', 'cultural_context'
+            @mods.should have_tag "subject/geographic" => term['term']
+          when 'temporal'
+            @mods.should have_tag "subject/temporal" => term['term']
+          when 'uniform_title'
+            @mods.should have_tag "subject/titleInfo" => term['term']
+          when 'genre_form', 'style_period'
+            @mods.should have_tag "subject/genre" => term['term']
+          when 'occupation'
+            @mods.should have_tag "subject/occupation" => term['term']
+          else
+            @mods.should have_tag "subject/topic" => term['term']
+          end
         end
       end
     end
@@ -159,14 +172,14 @@ describe "Exported MODS metadata" do
                       @repo.name,
                       @repo_contact.address_1,
                       @repo_contact.address_2,
-                      @repo_contact.address_3, 
+                      @repo_contact.address_3,
                       @repo_contact.city,
                       @repo_contact.region,
                       @repo_contact.post_code,
                       @repo_contact.country].compact.join(', ')
       note_content << " (#{@repo.url})" if @repo.url
 
-      @mods.should have_tag "note[@displayLabel='Digital object made available by']" => note_content      
+      @mods.should have_tag "note[@displayLabel='Digital object made available by']" => note_content
     end
   end
 
@@ -178,5 +191,5 @@ describe "Exported MODS metadata" do
       @mods.should_not have_tag "relatedItem[@type='constituent'][#{@components.count + 1}]"
     end
   end
-    
+
 end
