@@ -8,6 +8,8 @@ AdvancedSearch.define_field(:name => 'subjects', :type => :text, :visibility => 
 AdvancedSearch.define_field(:name => 'published', :type => :boolean, :visibility => [:staff], :solr_field => 'publish')
 AdvancedSearch.define_field(:name => 'suppressed', :type => :boolean, :visibility => [:staff], :solr_field => 'suppressed')
 
+AdvancedSearch.define_field(:name => 'created_by', :type => :text, :visibility => [:staff], :solr_field => 'created_by')
+AdvancedSearch.define_field(:name => 'last_modified_by', :type => :text, :visibility => [:staff], :solr_field => 'last_modified_by')
 AdvancedSearch.define_field(:name => 'create_time', :type => :date, :visibility => [:staff], :solr_field => 'create_time')
 AdvancedSearch.define_field(:name => 'user_mtime', :type => :date, :visibility => [:staff], :solr_field => 'user_mtime')
 
@@ -15,4 +17,3 @@ AdvancedSearch.define_field(:name => 'user_mtime', :type => :date, :visibility =
 AdvancedSearch.set_default(:text, 'keyword')
 AdvancedSearch.set_default(:boolean, 'published')
 AdvancedSearch.set_default(:date, 'create_time')
-

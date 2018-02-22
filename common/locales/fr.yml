@@ -1950,6 +1950,8 @@ fr:
       notes: Notes
       subjects: Sujets
       identifier: Identifiant
+      created_by: Créé par
+      last_modified_by: Dernière modification par
     boolean:
       published: Publié?
       suppressed: Bloqué?

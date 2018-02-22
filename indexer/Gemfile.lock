@@ -31,6 +31,9 @@ GEM
       concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
     json (1.8.6-java)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
     minitest (5.10.3)
     multi_json (1.12.2)
     nokogiri (1.8.1-java)
@@ -63,6 +66,7 @@ DEPENDENCIES
   atomic (= 1.0.1)
   fog-aws (= 2.0.0)
   json (= 1.8.6)
+  mime-types (= 3.1)
   sinatra (= 1.4.7)
   sinatra-contrib (= 1.4.7)
 
