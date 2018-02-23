@@ -474,16 +474,16 @@ AppConfig[:pui_hide][:container_inventory] = false
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
-# Repository-specific examples.  Replace {repo_code} with your three-letter repository code as a hash, i.e. 'foo' - note the lower-case
+# Repository-specific examples.  Replace {repo_code} with your repository code as a hash, i.e. 'foo' - note the lower-case
 AppConfig[:pui_repos] = {}
 AppConfig[:pui_repos] = {}
 # Example:
-# AppConfig[:pui_repos][{repo_code}] = {}
-# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component] # for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)
-# AppConfig[:pui_repos][{repo_code}][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
-# AppConfig[:pui_repos][{repo_code}][:request_email] = {email address} # the email address to send any repository requests
-# AppConfig[:pui_repos][{repo_code}][:hide] = {}
-# AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
+# AppConfig[:pui_repos]['foo'] = {}
+# AppConfig[:pui_repos]['foo'][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component] # for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)
+# AppConfig[:pui_repos]['foo'][:requests_permitted_for_containers_only] = true # for a particular repository ,disable request
+# AppConfig[:pui_repos]['foo'][:request_email] = {email address} # the email address to send any repository requests
+# AppConfig[:pui_repos]['foo'][:hide] = {}
+# AppConfig[:pui_repos]['foo'][:hide][:counts] = true
 
 AppConfig[:pui_display_deaccessions] = true
 
