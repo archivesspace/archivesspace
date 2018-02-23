@@ -474,7 +474,7 @@ AppConfig[:pui_hide][:container_inventory] = false
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
-# Repository-specific examples.  Replace {repo_code} with your repository code as a hash, i.e. 'foo' - note the lower-case
+# Repository-specific examples.  Replace {repo_code} with your repository code, i.e. 'foo' - note the lower-case
 AppConfig[:pui_repos] = {}
 AppConfig[:pui_repos] = {}
 # Example:
