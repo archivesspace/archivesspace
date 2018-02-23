@@ -22,7 +22,7 @@ gem 'sass-rails', '5.0.5'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '3.0.4'
 # Use font-awesome icons
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '4.7.0'
 
 # not sure if we need to be using Compass....
 # gem 'compass-rails'
