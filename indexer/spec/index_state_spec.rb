@@ -12,7 +12,8 @@ describe "index state" do
       s_dir = "#{AppConfig[:data_directory]}" + "/indexer_state"
       expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
     end
-    it "initializes index state directory using data_directory from AppConfig and '/indexer_pui_state'" do
+    #FIXME: @state.instance_variable_get(:@state_dir)) can't be both indexer_state and indexer_pui_state
+    xit "initializes index state directory using data_directory from AppConfig and '/indexer_pui_state'" do
       s_dir = "#{AppConfig[:data_directory]}" + "/indexer_pui_state"
       expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
     end

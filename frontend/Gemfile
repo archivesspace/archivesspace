@@ -19,7 +19,7 @@ gem 'sass-rails', '5.0.5'
 gem 'coffee-rails', '4.2.1'
 gem 'coffee-script'
 gem 'coffee-script-source'
-gem 'uglifier', '3.0.4'
+gem 'uglifier'
 gem 'therubyrhino'
 
 gem 'less-rails-bootstrap'
@@ -47,7 +47,7 @@ gem "multipart-post", "1.2.0"
 gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
 gem "zip-zip", "0.3"
 
-gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
+gem 'nokogiri', '>=1.8.2' # because of https://github.com/sparklemotion/nokogiri/issues/1714
 
 
 require 'asutils'
