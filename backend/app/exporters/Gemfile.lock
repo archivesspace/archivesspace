@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (5.1.4)
+    activesupport (5.1.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
@@ -10,19 +10,19 @@ GEM
     connection_pool (2.2.1)
     factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    i18n (0.9.1)
+    i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     metaclass (0.0.4)
-    minitest (5.10.3)
+    minitest (5.11.3)
     mocha (1.3.0)
       metaclass (~> 0.0.1)
     multipart-post (2.0.0)
     net-http-persistent (3.0.0)
       connection_pool (~> 2.2)
-    nokogiri (1.8.1-java)
+    nokogiri (1.8.2-java)
     rufus-lru (1.1.0)
     thread_safe (0.3.6-java)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
 
 PLATFORMS
@@ -33,7 +33,7 @@ DEPENDENCIES
   mocha
   multipart-post
   net-http-persistent
-  nokogiri (= 1.8.1)
+  nokogiri (>= 1.8.2)
   rufus-lru
 
 BUNDLED WITH

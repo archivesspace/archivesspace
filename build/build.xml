@@ -120,6 +120,7 @@
     <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
     <antcall target="bundler"><param name="gemfile" value="../oai/Gemfile" /></antcall>
+    <antcall target="bundler"><param name="gemfile" value="../backend/app/exporters/Gemfile" /></antcall>
   </target>
 
 
