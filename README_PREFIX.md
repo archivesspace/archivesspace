@@ -1,7 +1,7 @@
 Running ArchivesSpace under a prefix
 ------------------------------------
 
-**Important Note: Prefixes do NOT work properly in versions between 2.0.1 and 2.2.2**
+**Important Note: For versions between 2.0.1 and 2.2.2**
 
 This document describes a simple approach for those wishing to deviate from the recommended
 practice of running each user-facing ArchivesSpace application on its own subdomain, and instead
