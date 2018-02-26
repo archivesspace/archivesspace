@@ -819,10 +819,10 @@
   </target>
 
   <target name="headless-tests" description="Run the non-Selenium tests">
+    <antcall target="backend:integration" />
     <antcall target="backend:test" />
     <antcall target="indexer:test" />
     <antcall target="frontend:test"/>
-    <antcall target="backend:integration" />
     <antcall target="common:test" />
   </target>
 
