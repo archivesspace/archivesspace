@@ -1,4 +1,4 @@
-<%= setup_context(:object => @accession) %>
+<%= setup_context(:object => @accession, :title => @accession.display_string) %>
 
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
 
