@@ -9,7 +9,7 @@ the latest distribution `.zip` file from the following URL:
 
   https://github.com/archivesspace/archivesspace/releases
 
-You will need to have Java 1.6 (or newer) installed on your machine.
+You will need to have Java 1.7 or 1.8 installed on your machine.
 You can check your Java version by running the command:
 
      java -version
