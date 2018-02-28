@@ -5,7 +5,7 @@ permalink: /user/running-archivesspace-under-a-prefix/
 ---
 ------------------------------------
 
-**Note: For versions > 2.0.1, the use of a prefix is not working correctly. Please look for a complete implementation for prefixes later in 2017.**
+**Important Note: For versions between 2.0.1 and 2.2.2**
 
 This document describes a simple approach for those wishing to deviate from the recommended
 practice of running each user-facing ArchivesSpace application on its own subdomain, and instead

@@ -303,10 +303,10 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
   <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_Builder constant id'>Builder</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;UTF-8&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_xml identifier id'>xml</span><span class='bitor op'>|</span>
-    <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>     
+    <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span> 
+
+  <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -343,10 +343,10 @@
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods identifier id'>serialize_mods</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_root_args identifier id'>root_args</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;version&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;3.4&#39;</span><span class='rbrace token'>}</span>
-  <span class='rubyid_root_args identifier id'>root_args</span><span class='lbrack token'>[</span><span class='string val'>&#39;xmlns&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;http://www.loc.gov/mods/v3&#39;</span> 
-  
+  <span class='rubyid_root_args identifier id'>root_args</span><span class='lbrack token'>[</span><span class='string val'>&#39;xmlns&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;http://www.loc.gov/mods/v3&#39;</span>
+
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_mods identifier id'>mods</span><span class='lparen token'>(</span><span class='rubyid_root_args identifier id'>root_args</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
     <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span>
@@ -444,7 +444,19 @@
 95
 96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 26</span>
@@ -454,23 +466,23 @@
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_titleInfo identifier id'>titleInfo</span> <span class='lbrace token'>{</span>
     <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>
   <span class='rbrace token'>}</span>
-  
+
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_typeOfResource identifier id'>typeOfResource</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_type_of_resource identifier id'>type_of_resource</span>
-  
+
 
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='lbrace token'>{</span>
     <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;code&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_language_term identifier id'>language_term</span>
     <span class='rbrace token'>}</span>
-    
+
   <span class='rbrace token'>}</span>
-  
+
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_physicalDescription identifier id'>physicalDescription</span><span class='lbrace token'>{</span>
     <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_extent identifier id'>extent</span><span class='bitor op'>|</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_extent identifier id'>extent</span> <span class='rubyid_extent identifier id'>extent</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rbrace token'>}</span>
-  
+
   <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_wrapping_tag identifier id'>wrapping_tag</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_wrapping_tag identifier id'>wrapping_tag</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
@@ -489,12 +501,24 @@
 
   <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_subjects identifier id'>subjects</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_subject identifier id'>subject</span><span class='bitor op'>|</span>
     <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_subject identifier id'>subject</span><span class='lparen token'>(</span><span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;source&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span>
+      <span class='rubyid_term identifier id'>term</span> <span class='assign token'>=</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;term&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; -- &quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_case case kw'>case</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;term_type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;geographic&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;cultural_context&#39;</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_geographic identifier id'>geographic</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;temporal&#39;</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_temporal identifier id'>temporal</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;uniform_title&#39;</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_titleInfo identifier id'>titleInfo</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;genre_form&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;style_period&#39;</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_genre identifier id'>genre</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;occupation&#39;</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_occupation identifier id'>occupation</span> <span class='rubyid_term identifier id'>term</span>
+      <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_topic identifier id'>topic</span> <span class='rubyid_term identifier id'>term</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
-  
+
   <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
 
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span>
@@ -543,18 +567,6 @@
       <pre class="lines">
 
 
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
 113
 114
 115
@@ -562,10 +574,22 @@
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 113</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -608,18 +632,18 @@
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128
-129
-130
-131</pre>
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 135</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -641,7 +665,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.3.0 Documentation Generated on Mon Feb  5 10:02:20 2018 by
+  ArchivesSpace Version v2.3.1 Documentation Generated on Wed Feb 28 09:10:55 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.1).
 </div>

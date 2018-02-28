@@ -92,6 +92,16 @@ AppConfig[:mysql_binlog] = false
 AppConfig[:solr_backup_schedule] = "0 * * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
+# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
+# Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
+# sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to 
+# each other, and sets the phrase slop (ps) parameter for the pf parameter to indicate how close the proximity should be
+#  AppConfig[:solr_params] = {
+#      "bq" => proc { "title:\"#{@query_string}\"*" },
+#      "pf" => 'title^10',
+#      "ps" => 0,
+#    }
+AppConfig[:solr_params] = {}
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -172,6 +182,18 @@ AppConfig[:pui_indexer_enabled] = true
 AppConfig[:pui_indexing_frequency_seconds] = 30
 AppConfig[:pui_indexer_records_per_thread] = 25
 AppConfig[:pui_indexer_thread_count] = 1
+
+AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon s3
+# # store indexer state in amazon s3 (optional)
+# # NOTE: s3 charges for read / update requests and the pui indexer is continually
+# # writing to state files so you may want to increase pui_indexing_frequency_seconds
+# AppConfig[:index_state_s3] = {
+#   region: ENV.fetch("AWS_REGION"),
+#   aws_access_key_id: ENV.fetch("AWS_ACCESS_KEY_ID"),
+#   aws_secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY"),
+#   bucket: ENV.fetch("AWS_ASPACE_BUCKET"),
+#   prefix: proc { "#{AppConfig[:cookie_prefix]}_" },
+# }
 
 AppConfig[:allow_other_unmapped] = false
 
@@ -475,7 +497,6 @@ AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :ac
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
 # Repository-specific examples.  Replace {repo_code} with your repository code, i.e. 'foo' - note the lower-case
-AppConfig[:pui_repos] = {}
 AppConfig[:pui_repos] = {}
 # Example:
 # AppConfig[:pui_repos]['foo'] = {}
