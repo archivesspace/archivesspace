@@ -1496,7 +1496,12 @@
             -->
             <xsl:apply-templates select="ead:unittitle"/>
             <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
-            <xsl:apply-templates select="ead:unitdate" mode="did"/>
+            <xsl:for-each select="ead:unitdate">
+              <xsl:apply-templates select="." mode="did"/>
+              <xsl:if test="position()!=last()">
+				            <xsl:text>, </xsl:text>
+              </xsl:if>
+            </xsl:for-each>
         </fo:block>
     </xsl:template>
 
@@ -1522,7 +1527,12 @@
         <fo:block margin-bottom="0">
             <xsl:apply-templates select="ead:unittitle"/>
             <xsl:if test="(string-length(ead:unittitle[1]) &gt; 1) and (string-length(ead:unitdate[1]) &gt; 1)">, </xsl:if>
-            <xsl:apply-templates select="ead:unitdate" mode="did"/>
+            <xsl:for-each select="ead:unitdate">
+              <xsl:apply-templates select="." mode="did"/>
+              <xsl:if test="position()!=last()">
+				            <xsl:text>, </xsl:text>
+              </xsl:if>
+            </xsl:for-each>
         </fo:block>
         <fo:block margin-bottom="4pt" margin-top="0">
             <xsl:apply-templates select="ead:repository" mode="dsc"/>
@@ -1540,12 +1550,14 @@
     </xsl:template>
     <!-- Formats unitdates -->
     <xsl:template match="ead:unitdate[@type = 'bulk']" mode="did">
-        (<xsl:apply-templates/>)
+        <xsl:text>(</xsl:text>
+          <xsl:apply-templates/>
+        <xsl:text>)</xsl:text>
     </xsl:template>
     <xsl:template match="ead:unitdate" mode="did"><xsl:apply-templates/></xsl:template>
 
     <!-- Special formatting for elements in the collection inventory list -->
-    <xsl:template match="ead:repository | ead:origination | ead:unitdate | ead:unitid
+    <xsl:template match="ead:repository | ead:origination | ead:unitid
         | ead:physdesc | ead:physloc | ead:langmaterial | ead:materialspec | ead:container
         | ead:abstract | ead:note" mode="dsc">
         <xsl:if test="normalize-space()">
