@@ -43,3 +43,8 @@ Gemfile.local
 supervisord.*
 mysql-connector*.jar
 common/config/config.rb
+backend/default
+frontend/default
+indexer/default
+public/default
+

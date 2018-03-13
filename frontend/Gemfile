@@ -48,6 +48,7 @@ gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues
 gem "zip-zip", "0.3"
 
 gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
+gem 'pry-debugger-jruby'
 
 
 require 'asutils'
