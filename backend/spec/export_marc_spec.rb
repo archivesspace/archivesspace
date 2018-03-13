@@ -45,6 +45,31 @@ describe 'MARC Export' do
     code.to_s
   end
 
+ describe "root node content" do
+    before(:each) do
+      @marc = get_marc(create(:json_resource))      
+      @xml = @marc.to_xml
+    end
+
+
+    it "root node should have marc namespace" do
+      expect(@xml).to match(/<marc:collection/)
+      expect(@xml).to match(/<\/marc:collection>/)
+    end
+
+    it "root node should have xmlns:marc defined" do
+      expect(@xml).to match(/<marc:collection.*xmlns:marc="http:\/\/www.loc.gov\/MARC21\/slim"/)
+
+    end
+
+    it "root node should have xmlns:xsi defined" do
+      expect(@xml).to match(/<marc:collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+    end
+
+    it "root node should have xsi:schemaLocation defined" do
+      expect(@xml).to match(/<marc:collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd http:\/\/www.loc.gov\/MARC21\/slim"/)
+    end
+  end  
 
   describe "datafield 110 name mapping" do
 
