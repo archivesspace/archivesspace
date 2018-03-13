@@ -276,6 +276,7 @@
         <env key="GEM_PATH" value="" />
         <env key="BUNDLE_PATH" value="${gem_home}" />
         <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+        <env key="JRUBY_OPTS" value="--debug" />
         <arg line="app/main.rb ${aspace.backend.port}" />
       </java>
       <record name="backend_test_log.out" action="stop" />
@@ -428,6 +429,7 @@
       <env key="GEM_PATH" value="" />
       <env key="RAILS_ENV" value="${rails.env}" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="JRUBY_OPTS" value="--debug" />
       <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
       </java>
