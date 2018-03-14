@@ -71,19 +71,6 @@ describe 'MARC Export' do
     end
   end  
 
- describe "leader content" do
-   before(:each) do
-     @marc = get_marc(create(:json_resource))      
-     @xml = @marc.to_xml
-   end
- 
-   it "should have an 'a' in position 8 of the leader string" do
-     leader = @xml[/<leader>.*<\/leader>/].gsub("<leader>", "").gsub("</leader>", "")
-
-     expect(leader[8]).to eq("a")
-   end
- end
-
   describe "datafield 110 name mapping" do
 
     before(:each) do
@@ -308,7 +295,7 @@ describe 'MARC Export' do
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
-      @marc1.at("record/leader").should have_inner_text(/00000np.\sa2200000\su\s4500/)
+      @marc1.at("record/leader").should have_inner_text(/00000np.aa2200000\su\s4500/)
     end
 
 
