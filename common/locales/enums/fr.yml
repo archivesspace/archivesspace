@@ -291,7 +291,7 @@
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings
-      ram: Répertoire d'autorités RAMEAU
+      ram: Répertoire d'autorités RAMEAU  
       rvm: Répertoire de vedettes-matière
       ulan: Union List of Artist Names
     name_rule:
@@ -433,7 +433,7 @@
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU
+      ram: Répertoire d'autorités RAMEAU  
       tgn: Getty Thesaurus of Geographic Names
     event_outcome:
       pass: Réussite
@@ -837,6 +837,7 @@
       pra: Langues prâkrit
       pro: "Provençal ancien, occitan ancien (jusqu'à 1500)"
       pus: Pachto; Pashtou
+      qaa-qtz: "Reservé pour utilisation locale"
       que: Quéchua
       raj: Rajasthani
       rap: Rapanui
