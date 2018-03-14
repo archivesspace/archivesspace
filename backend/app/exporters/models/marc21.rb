@@ -100,7 +100,7 @@ class MARCModel < ASpaceExport::ExportModel
   def self.from_resource(obj)
     marc = self.from_archival_object(obj)
     marc.apply_map(obj, @resource_map)
-    marc.leader_string = "00000np$ a2200000 u 4500"
+    marc.leader_string = "00000np$aa2200000 u 4500"
     marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
 
     marc.controlfield_string = assemble_controlfield_string(obj)
