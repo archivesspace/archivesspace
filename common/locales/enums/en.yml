@@ -27,7 +27,7 @@ en:
       att: Attributed name
       auc: Auctioneer
       aut: Author
-      aqt: Author in quotations or text abstracts
+      aqt: Author in quotations or text abstracts 
       aft: Author of afterword, colophon, etc.
       aud: Author of dialog
       aui: Author of introduction, etc.
@@ -843,6 +843,7 @@ en:
       pra: Prakrit languages
       pro: "Provençal, Old (to 1500)"
       pus: Pushto; Pashto
+      qaa-qtz: "Reserved for local use"
       que: Quechua
       raj: Rajasthani
       rap: Rapanui
@@ -1610,7 +1611,7 @@ en:
     note_rights_statement_act_type: Note Rights Statement Act Type
     note_rights_statement_type: Note Rights Statement Type
     note_singlepart_type: Note Singlepart Type
-    telephone_number_type: Telephone Number Type
+    telephone_number_type: Telephone Number Type 
     resource_finding_aid_description_rules: Resource Finding Aid Description Rules
     resource_finding_aid_status: Resource Finding Aid Status
     resource_resource_type: Resource Resource Type
