@@ -593,7 +593,6 @@ describe 'MARC Export' do
 
   end
 
-
   describe "note mappings" do
 
     let(:note_types) {

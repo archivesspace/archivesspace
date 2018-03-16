@@ -133,8 +133,20 @@ class MARCModel < ASpaceExport::ExportModel
 
   def df(*args)
     if @datafields.has_key?(args.to_s)
-      @datafields[args.to_s]
+      # Manny Rodriguez: 3/16/18
+      # Bugfix for ANW-146
+      # Separete creators should go in multiple 700 fields in the output MARCXML file. This is not happening because the different 700 fields are getting mashed in under the same key in the hash below, instead of having a new hash entry created.
+      # So, we'll get around that by using a different hash key if the code is 700.
+      # based on MARCModel#datafields, it looks like the hash keys are thrown away outside of this class, so we can use anything as a key.
+      # At the moment, we don't want to change this behavior too much in case something somewhere else is relying on the original behavior.
+
+     if(args[0] == "700")
+       @datafields[rand(10000)] = @@datafield.new(*args)
+     else 
+       @datafields[args.to_s]
+     end
     else
+
       @datafields[args.to_s] = @@datafield.new(*args)
       @datafields[args.to_s]
     end
@@ -303,10 +315,75 @@ class MARCModel < ASpaceExport::ExportModel
     df(code, ind1, ind2).with_sfs(*sfs)
   end
 
+  def handle_other_creators(linked_agents)
+    creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
+    creators = creators + linked_agents.select{|a| a['role'] == 'source'}
+
+    creators.each do |link|
+      creator = link['_resolved']
+      name = creator['display_name']
+      relator = link['relator']
+      terms = link['terms']
+      role = link['role']
+
+      if relator
+        relator_sf = ['4', relator]
+      elsif role == 'source'
+        relator_sf =  ['e', 'former owner']
+      else
+        relator_sf = ['e', 'creator']
+      end
+
+      ind2 = ' '
+
+      case creator['agent_type']
+
+      when 'agent_corporate_entity'
+        code = '710'
+        ind1 = '2'
+        sfs = [
+                ['a', name['primary_name']],
+                ['b', name['subordinate_name_1']],
+                ['b', name['subordinate_name_2']],
+                ['n', name['number']],
+                ['g', name['qualifier']],
+              ]
+
+      when 'agent_person'
+        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
+        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+        ind1 = name['name_order'] == 'direct' ? '0' : '1'
+        code = '700'
+        sfs = [
+                ['a', name_parts],
+                ['b', name['number']],
+                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+                ['q', name['fuller_form']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
+
+      when 'agent_family'
+        ind1 = '3'
+        code = '700'
+        sfs = [
+                ['a', name['family_name']],
+                ['c', name['prefix']],
+                ['d', name['dates']],
+                ['g', name['qualifier']],
+              ]
+      end
+
+      sfs << relator_sf
+      df(code, ind1, ind2).with_sfs(*sfs)
+    end
+  end
+
 
   def handle_agents(linked_agents)
 
     handle_primary_creator(linked_agents)
+    handle_other_creators(linked_agents)
 
     subjects = linked_agents.select{|a| a['role'] == 'subject'}
 
@@ -373,70 +450,6 @@ class MARCModel < ASpaceExport::ExportModel
 
       df(code, ind1, ind2, i).with_sfs(*sfs)
     end
-
-
-    creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
-    creators = creators + linked_agents.select{|a| a['role'] == 'source'}
-
-    creators.each do |link|
-      creator = link['_resolved']
-      name = creator['display_name']
-      relator = link['relator']
-      terms = link['terms']
-      role = link['role']
-
-      if relator
-        relator_sf = ['4', relator]
-      elsif role == 'source'
-        relator_sf =  ['e', 'former owner']
-      else
-        relator_sf = ['e', 'creator']
-      end
-
-      ind2 = ' '
-
-      case creator['agent_type']
-
-      when 'agent_corporate_entity'
-        code = '710'
-        ind1 = '2'
-        sfs = [
-                ['a', name['primary_name']],
-                ['b', name['subordinate_name_1']],
-                ['b', name['subordinate_name_2']],
-                ['n', name['number']],
-                ['g', name['qualifier']],
-              ]
-
-      when 'agent_person'
-        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-        ind1 = name['name_order'] == 'direct' ? '0' : '1'
-        code = '700'
-        sfs = [
-                ['a', name_parts],
-                ['b', name['number']],
-                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-                ['q', name['fuller_form']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
-              ]
-
-      when 'agent_family'
-        ind1 = '3'
-        code = '700'
-        sfs = [
-                ['a', name['family_name']],
-                ['c', name['prefix']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
-              ]
-      end
-
-      sfs << relator_sf
-      df(code, ind1, ind2).with_sfs(*sfs)
-    end
-
   end
 
 
