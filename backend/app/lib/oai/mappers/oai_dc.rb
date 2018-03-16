@@ -116,7 +116,7 @@ class OAIDCMapper
           .select {|note| ['accessrestrict', 'userestrict'].include?(note['type'])}
           .each do |note|
           OAIUtils.extract_published_note_content(note).each do |content|
-            xml['dc'].relation(content)
+            xml['dc'].rights(content)
           end
         end
 
