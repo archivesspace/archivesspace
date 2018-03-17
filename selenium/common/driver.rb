@@ -55,7 +55,9 @@ class Driver
       ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
     end
      
-     return Selenium::WebDriver.for :firefox,:profile => profile
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.profile = profile
+    return Selenium::WebDriver.for :firefox, options: options
   end
 
 
