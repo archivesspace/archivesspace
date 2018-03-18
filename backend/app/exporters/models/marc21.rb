@@ -150,8 +150,9 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_title(title, linked_agents, dates)
     creator = linked_agents.find{|a| a['role'] == 'creator'}
+    code, val = nil
 
-    # process dates first
+    # process dates first, if defined. 
     unless dates.empty?
       dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
         dates.find {|date| types.include? date['date_type'] }
@@ -159,7 +160,6 @@ class MARCModel < ASpaceExport::ExportModel
 
       dates.each do |date|
         code = date['date_type'] == 'bulk' ? 'g' : 'f'
-        val = nil
         if date['expression'] && date['date_type'] != 'bulk'
           val = date['expression']
         elsif date['date_type'] == 'single'
@@ -167,11 +167,7 @@ class MARCModel < ASpaceExport::ExportModel
         else
           val = "#{date['begin']} - #{date['end']}"
         end
-
-        df('245', '1', '0').with_sfs([code, val])
       end
-    else
-      code, val = nil
     end
 
     ind1 = creator.nil? ? "0" : "1"
