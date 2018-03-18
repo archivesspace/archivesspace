@@ -12,12 +12,11 @@ class MARCModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :repository => :handle_repo_code,
-    [:title, :linked_agents] => :handle_title,
+    [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => :handle_language,
-    :dates => :handle_dates,
+    :language => :handle_language
   }
 
   @resource_map = {
@@ -149,13 +148,37 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_title(title, linked_agents)
+  def handle_title(title, linked_agents, dates)
     creator = linked_agents.find{|a| a['role'] == 'creator'}
 
-    if creator.nil?
-      df('245', '0', '0').with_sfs(['a', title])
+    # process dates first
+    unless dates.empty?
+      dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+        dates.find {|date| types.include? date['date_type'] }
+      }.compact
+
+      dates.each do |date|
+        code = date['date_type'] == 'bulk' ? 'g' : 'f'
+        val = nil
+        if date['expression'] && date['date_type'] != 'bulk'
+          val = date['expression']
+        elsif date['date_type'] == 'single'
+          val = date['begin']
+        else
+          val = "#{date['begin']} - #{date['end']}"
+        end
+
+        df('245', '1', '0').with_sfs([code, val])
+      end
     else
-      df('245', '1', '0').with_sfs(['a', title])
+      code, val = nil
+    end
+
+    ind1 = creator.nil? ? "0" : "1"
+    if code && val
+      df('245', ind1, '0').with_sfs(['a', title], [code, val])
+    else
+      df('245', ind1, '0').with_sfs(['a', title])
     end
   end
 
@@ -166,28 +189,6 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', '0', ' ').with_sfs(['a', langcode])
   end
 
-
-  def handle_dates(dates)
-    return false if dates.empty?
-
-    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
-      dates.find {|date| types.include? date['date_type'] }
-    }.compact
-
-    dates.each do |date|
-      code = date['date_type'] == 'bulk' ? 'g' : 'f'
-      val = nil
-      if date['expression'] && date['date_type'] != 'bulk'
-        val = date['expression']
-      elsif date['date_type'] == 'single'
-        val = date['begin']
-      else
-        val = "#{date['begin']} - #{date['end']}"
-      end
-
-      df('245', '1', '0').with_sfs([code, val])
-    end
-  end
 
   def handle_repo_code(repository)
     repo = repository['_resolved']
