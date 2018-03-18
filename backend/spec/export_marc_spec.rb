@@ -139,6 +139,10 @@ describe 'MARC Export' do
         @marc.should_not have_tag "datafield[@tag='245']/subfield[@code='#{code}'][2]"
       end
     end
+
+    it "sets first indicator to 0 if the resource has no owner" do
+      @marc.should have_tag "datafield[@tag='245' and @ind1='0']"
+    end
   end
 
 
@@ -499,6 +503,11 @@ describe 'MARC Export' do
       df.at("subfield[@code='b']").should have_inner_text name['number']
       df.at("subfield[@code='c']").should have_inner_text %w(prefix title suffix).map{|p| name[p]}.compact.join(', ')
       df.at("subfield[@code='d']").should have_inner_text name['dates']
+    end
+
+    # opposite case of spec found on line 143
+    it "245 tag: sets first indicator to 1 if the resource has an owner" do
+      @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
   end

@@ -12,7 +12,7 @@ class MARCModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :repository => :handle_repo_code,
-    :title => :handle_title,
+    [:title, :linked_agents] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
@@ -149,8 +149,14 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_title(title)
-    df('245', '1', '0').with_sfs(['a', title])
+  def handle_title(title, linked_agents)
+    creator = linked_agents.find{|a| a['role'] == 'creator'}
+
+    if creator.nil?
+      df('245', '0', '0').with_sfs(['a', title])
+    else
+      df('245', '1', '0').with_sfs(['a', title])
+    end
   end
 
 
