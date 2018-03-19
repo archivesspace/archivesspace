@@ -46,7 +46,7 @@ class ResourcesController <  ApplicationController
       params[k] = v unless params.fetch(k, nil)
     end
     page = Integer(params.fetch(:page, "1"))
-    facet_types = DEFAULT_RES_FACET_TYPES
+    facet_types = DEFAULT_RES_FACET_TYPES.dup
     facet_types.unshift('repository') if !@repo_id
     set_up_and_run_search(['resource'], facet_types,search_opts, params)
     @context = repo_context(@repo_id, 'resource')
