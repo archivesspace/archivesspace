@@ -6,7 +6,6 @@ class ResourcesController <  ApplicationController
 
   include TreeApis
 
-  skip_before_filter  :verify_authenticity_token
 
 
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents}
