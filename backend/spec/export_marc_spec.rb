@@ -130,7 +130,12 @@ describe 'MARC Export' do
 
     it "maps the first bulk date to subfield 'g'" do
       date = @dates.find{|d| d.date_type == 'bulk'}
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+
+      if date.expression
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
+      else
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+      end
     end
 
 
@@ -142,6 +147,81 @@ describe 'MARC Export' do
 
     it "sets first indicator to 0 if the resource has no owner" do
       @marc.should have_tag "datafield[@tag='245' and @ind1='0']"
+    end
+  end
+
+  describe "datafield 245 mapping dates" do
+    before(:each) do
+
+      @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+
+      @inclusive_single = build(:json_date,
+                                :date_type => 'inclusive',
+                                :begin => @range[0],
+                                :end => nil,
+                                :expression => nil)
+
+      @bulk_single = build(:json_date,
+                           :date_type => 'bulk',
+                           :begin => @range[0],
+                           :end => nil,
+                           :expression => nil)
+
+      @inclusive_range = build(:json_date,
+                               :date_type => 'inclusive',
+                               :begin => @range[0],
+                               :end => @range[1],
+                               :expression => nil)
+
+
+      @bulk_range = build(:json_date,
+                          :date_type => 'bulk',
+                          :begin => @range[0],
+                          :end => @range[1],
+                          :expression => nil)
+
+      @inclusive_expression = build(:json_date,
+                                    :date_type => 'inclusive',
+                                    :begin => @range[0],
+                                    :end => @range[1],
+                                    :expression => "1981ish")
+
+      @bulk_expression = build(:json_date,
+                               :date_type => 'bulk',
+                               :begin => @range[0],
+                               :end => @range[1],
+                               :expression => "1991ish")
+
+    end
+
+    it "should use expression in bulk and inclusive dates if provided" do
+      dates = [@inclusive_expression, @bulk_expression]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "1981ish"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "1991ish"
+    end
+
+    it "should follow the format for single dates" do
+      dates = [@inclusive_single, @bulk_single]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]}"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]}"
+    end
+
+    it "should follow the format for ranged dates" do
+      dates = [@inclusive_range, @bulk_range]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]} - #{@range[1]}"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]} - #{@range[1]}"
     end
   end
 
