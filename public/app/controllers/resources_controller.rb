@@ -4,7 +4,6 @@ class ResourcesController <  ApplicationController
   helper_method :process_subjects
   helper_method :process_agents
 
-  include TreeApis
 
   skip_before_filter  :verify_authenticity_token
 

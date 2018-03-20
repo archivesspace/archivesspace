@@ -1,6 +1,9 @@
+require 'jsonmodel'
+
 class AdvancedQueryBuilder
 
   attr_reader :query
+  RangeValue = Struct.new(:from, :to)
 
   def initialize
     @query = nil
@@ -31,6 +34,7 @@ class AdvancedQueryBuilder
   def empty?
     @query.nil?
   end
+  alias_method :empty, :empty?
 
   def build
     JSONModel::JSONModel(:advanced_query).from_hash({"query" => build_query(@query)})
@@ -118,7 +122,6 @@ class AdvancedQueryBuilder
 
   def self.as_field_query(query_data)
     raise "keys should be strings only" if query_data.kind_of?(Hash) && query_data.any?{ |k,_| k.is_a? Symbol }
-
     if query_data.kind_of?(JSONModelType)
       query_data
     elsif query_data['type'] == "date"
@@ -132,6 +135,9 @@ class AdvancedQueryBuilder
         query_data["comparator"] = "empty"
       end
 
+      # Looks like sometimes the value is set to a Boolean, but :field_query
+      # schema insists this should be a String.
+      query_data["value"] = query_data["value"].to_s
       query = JSONModel::JSONModel(:field_query).from_hash(query_data)
 
       if query_data['type'] == "enum"

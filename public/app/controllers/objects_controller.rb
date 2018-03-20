@@ -1,5 +1,4 @@
 class ObjectsController <  ApplicationController
-  include TreeApis
   include ResultInfo
   helper_method :process_repo_info
   helper_method :process_subjects
