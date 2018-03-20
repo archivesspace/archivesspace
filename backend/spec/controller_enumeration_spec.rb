@@ -187,16 +187,18 @@ describe "Enumeration controller" do
 
   it "can change positions of  values" do
     obj = JSONModel(:enumeration).find(@enum_id)
-    
     val = obj.enumeration_values[0]
-   
+    position = obj.enumeration_values.length 
+
     enum_val = JSONModel(:enumeration_value).find(val['id'])
-    JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => obj.enumeration_values.length ) 
-    
+    response = JSON.parse( JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => position ).body )  
+   
+    response["position"].should eq(position)
+    response["value"].should eq(val["value"])
+
     obj = nil
     obj = JSONModel(:enumeration).find(@enum_id)
     obj.values.last.should eq(val["value"])
-    
   end
     
 
