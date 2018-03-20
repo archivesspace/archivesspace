@@ -498,8 +498,9 @@ class MARCModel < ASpaceExport::ExportModel
                   end
 
       unless marc_args.nil?
+        is_561 = note['type'] == "custodhist" 
         text = prefix ? "#{prefix}: " : ""
-        text += ASpaceExport::Utils.extract_note_text(note)
+        text += ASpaceExport::Utils.extract_note_text(note, is_561) # get note even if unpublished if type = custodhist
         df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
       end
 
