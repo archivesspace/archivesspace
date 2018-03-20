@@ -173,7 +173,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   clipboard-rails
   coffee-rails (= 4.2.1)
-  font-awesome-sass
+  font-awesome-sass (= 4.7.0)
   i18n (= 0.7.0)
   jquery-rails
   listen
