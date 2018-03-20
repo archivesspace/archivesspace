@@ -267,7 +267,7 @@ describe 'MARC Export' do
 
     it "maps arrangment and fileplan notes to datafield 351" do
       @notes.each do |note|
-        @marc.should have_tag "datafield[@tag='351']/subfield[@code='b'][1]" => note_content(note)
+        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note)
       end
     end
   end

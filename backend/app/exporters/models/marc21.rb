@@ -459,7 +459,7 @@ class MARCModel < ASpaceExport::ExportModel
       marc_args = case note['type']
 
                   when 'arrangement', 'fileplan'
-                    ['351','b']
+                    ['351', 'a']
                   when 'odd', 'dimensions', 'physdesc', 'materialspec', 'physloc', 'phystech', 'physfacet', 'processinfo', 'separatedmaterial'
                     ['500','a']
                   when 'accessrestrict'
