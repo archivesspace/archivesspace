@@ -493,7 +493,7 @@ module JSONModel::Validations
   def self.check_field_query(hash)
     errors = []
 
-    if (!hash.has_key?("value") || hash["value"].blank?) && hash["comparator"] != "empty"
+    if (!hash.has_key?("value") || hash["value"].empty?) && hash["comparator"] != "empty"
       errors << ["value", "Must specify either a value or use the 'empty' comparator"]
     end
 
