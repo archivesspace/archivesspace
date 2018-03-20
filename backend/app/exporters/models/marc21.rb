@@ -510,13 +510,13 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_extents(extents)
     extents.each do |ext|
       e = ext['number']
-      e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
+      t =  "#{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
 
       if ext['container_summary']
-        e << " (#{ext['container_summary']})"
+        t << " (#{ext['container_summary']})"
       end
 
-      df!('300').with_sfs(['a', e])
+      df!('300').with_sfs(['a', e], ['f', t])
     end
   end
 

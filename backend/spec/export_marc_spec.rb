@@ -249,10 +249,11 @@ describe 'MARC Export' do
     end
 
 
-    it "maps extent number and type to subfield a" do
+    it "maps extent number to subfield a, and type to subfield f" do
       type = I18n.t("enumerations.extent_extent_type.#{@extents[0].extent_type}")
       extent = "#{@extents[0].number} #{type}"
-      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => extent
+      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => @extents[0].number
+      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='f']" => type
     end
 
 
