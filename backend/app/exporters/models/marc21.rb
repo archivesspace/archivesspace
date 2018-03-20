@@ -304,9 +304,8 @@ class MARCModel < ASpaceExport::ExportModel
       ind1 = '3'
       sfs = [
               ['a', name['family_name']],
-              ['c', name['prefix']],
-              ['d', name['dates']],
-              ['g', name['qualifier']],
+              ['c', name['qualifier']],
+              ['d', name['dates']]
             ]
     end
 
@@ -367,9 +366,8 @@ class MARCModel < ASpaceExport::ExportModel
         code = '700'
         sfs = [
                 ['a', name['family_name']],
-                ['c', name['prefix']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
+                ['c', name['qualifier']],
+                ['d', name['dates']]
               ]
       end
 
@@ -425,9 +423,8 @@ class MARCModel < ASpaceExport::ExportModel
         ind1 = '3'
         sfs = [
                 ['a', name['family_name']],
-                ['c', name['prefix']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
+                ['c', name['qualifier']],
+                ['d', name['dates']]
               ]
 
       end
