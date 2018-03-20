@@ -681,8 +681,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps notes of type 'relatedmaterial' to df 544 (' ', ' '), sf a" do
-      note_test(@resource, @marc, %w(relatedmaterial), ['544', ' ', ' '], 'a')
+    it "maps notes of type 'relatedmaterial' to df 544 (' ', ' '), sf d" do
+      note_test(@resource, @marc, %w(relatedmaterial), ['544', ' ', ' '], 'd')
     end
 
 
