@@ -486,7 +486,8 @@ describe 'MARC Export' do
         [:json_agent_person,
           :names => [build(:json_name_person,
                            :prefix => "FZ")]
-        ]
+        ],
+        [:json_agent_family, {}]
       ].each do |type_and_opts|
         @agents << create(type_and_opts[0], type_and_opts[1])
       end
@@ -549,7 +550,7 @@ describe 'MARC Export' do
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
 
       df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['prefix']
+      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
       df.at("subfield[@code='d']").should have_inner_text name['dates']
     end
 
@@ -589,7 +590,7 @@ describe 'MARC Export' do
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
       df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['prefix']
+      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
       df.at("subfield[@code='d']").should have_inner_text name['dates']
     end
 
@@ -612,10 +613,17 @@ describe 'MARC Export' do
       @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
-    it "creates multiple 700 tags for multiple owner agents" do
-      # 3 owner agents are linked above in before block in line 373, @agents
+    it "stores qualifier in $c for secondary family creators " do
+      name = @agents[6]['names'][0]
+      inverted = name['name_order'] == 'direct' ? '0' : '1'
 
-      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(3)
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']/marc:subfield[@code='c'][contains(text(), '#{name['qualifier']}')]").length).to eq(1)
+    end
+
+    it "creates multiple 700 tags for multiple owner agents" do
+      # 4 owner agents are linked above in before block in line 373, @agents
+
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(4)
     end
   end
 
