@@ -651,8 +651,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps notes of type 'prefercite' to df 524 ('8', ' '), sf a" do
-      note_test(@resource, @marc, %w(prefercite), ['524', '8', ' '], 'a')
+    it "maps notes of type 'prefercite' to df 524 (' ', ' '), sf a" do
+      note_test(@resource, @marc, %w(prefercite), ['524', ' ', ' '], 'a')
     end
 
 
