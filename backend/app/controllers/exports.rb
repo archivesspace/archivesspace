@@ -82,10 +82,14 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.xml')
     .description("Get a MARC 21 representation of a Resource")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
+   puts "++++++++++++++++++++++++++++++" 
+   puts params.inspect
+   puts "++++++++++++++++++++++++++++++" 
     marc = generate_marc(params[:id])
 
     xml_response(marc)
@@ -95,7 +99,8 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.:fmt/metadata')
     .description("Get metadata for a MARC21 export")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
