@@ -53,8 +53,9 @@ class MARCSerializer < ASpaceExport::Serializer
         xml.controlfield(:tag => '008') {
          xml.text marc.controlfield_string
         }
+        sorted_datafields = marc.datafields.sort {|a, b| a.tag <=> b.tag}
 
-        marc.datafields.each do |df|
+        sorted_datafields.each do |df|
 
           df.ind1 = ' ' if df.ind1.nil?
           df.ind2 = ' ' if df.ind2.nil?
