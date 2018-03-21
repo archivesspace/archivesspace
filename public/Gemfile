@@ -55,4 +55,13 @@ gem 'listen', group: :development
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'pry-rails', group: :development
+group :development do
+  gem 'pry-rails'
+  gem 'pry-nav'
+end
+
+group :test do
+  gem 'rspec', "~> 3.6.0"
+  gem 'rspec-rails'
+  gem 'simplecov', "0.7.1"
+end
