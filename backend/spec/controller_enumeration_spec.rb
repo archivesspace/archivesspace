@@ -193,10 +193,9 @@ describe "Enumeration controller" do
     enum_val = JSONModel(:enumeration_value).find(val['id'])
     response = JSON.parse( JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => position ).body )  
    
-    response["position"].should eq(position)
-    response["value"].should eq(val["value"])
+    response["id"].should eq(val["id"])
+    response["status"].should eq("Updated")
 
-    obj = nil
     obj = JSONModel(:enumeration).find(@enum_id)
     obj.values.last.should eq(val["value"])
   end
