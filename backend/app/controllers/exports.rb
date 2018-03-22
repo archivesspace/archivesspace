@@ -87,10 +87,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-   puts "++++++++++++++++++++++++++++++" 
-   puts params.inspect
-   puts "++++++++++++++++++++++++++++++" 
-    marc = generate_marc(params[:id])
+
+    marc = generate_marc(params[:id], params[:include_unpublished_marc])
 
     xml_response(marc)
   end

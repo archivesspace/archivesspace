@@ -71,23 +71,28 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def initialize
+  def initialize(include_unpublished = false)
     @datafields = {}
+    @include_unpublished = include_unpublished
   end
 
   def datafields
     @datafields.map {|k,v| v}
   end
 
+  def include_unpublished?
+    @include_unpublished
+  end
 
-  def self.from_aspace_object(obj)
-    self.new
+
+  def self.from_aspace_object(obj, opts = {})
+    self.new(opts[:include_unpublished])
   end
 
   # 'archival object's in the abstract
-  def self.from_archival_object(obj)
+  def self.from_archival_object(obj, opts = {})
 
-    marc = self.from_aspace_object(obj)
+    marc = self.from_aspace_object(obj, opts)
 
     marc.apply_map(obj, @archival_object_map)
 
@@ -96,8 +101,8 @@ class MARCModel < ASpaceExport::ExportModel
 
   # subtypes of 'archival object':
 
-  def self.from_resource(obj)
-    marc = self.from_archival_object(obj)
+  def self.from_resource(obj, opts = {})
+    marc = self.from_archival_object(obj, opts)
     marc.apply_map(obj, @resource_map)
     marc.leader_string = "00000np$aa2200000 u 4500"
     marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
@@ -508,8 +513,12 @@ class MARCModel < ASpaceExport::ExportModel
 
       unless marc_args.nil?
         text = prefix ? "#{prefix}: " : ""
-        text += ASpaceExport::Utils.extract_note_text(note)
-        df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
+        text += ASpaceExport::Utils.extract_note_text(note, @include_unpublished) 
+
+        # only create a tag if there is text to show (e.g., marked published or exporting unpublished)
+        if text.length > 0 
+          df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
+        end
       end
 
     end

@@ -63,8 +63,8 @@ def get_mets(rec)
 end
 
 
-def get_marc(rec)
-  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+def get_marc(rec, include_unpublished = true)
+  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml?include_unpublished_marc=#{include_unpublished}")
   marc.instance_eval do
     def df(tag, ind1=nil, ind2=nil)
       selector ="@tag='#{tag}'"
@@ -118,28 +118,29 @@ def get_eac(rec, repo_id = $repo_id)
 end
 
 
-def multipart_note_set
+def multipart_note_set(publish = true)
   ["accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial"].map do |type|
     build(:json_note_multipart, {
-            :publish => true,
-            :type => type
+            :publish => publish,
+            :type => type,
+            :subnotes =>  [ build(:json_note_text, :publish => publish) ]
           })
   end
 end
 
 
-def singlepart_note_set
+def singlepart_note_set(publish = true)
   ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"].map do |type|
     build(:json_note_singlepart, {
-            :publish => true,
+            :publish => publish,
             :type => type
           })
   end
 end
 
 
-def full_note_set
-  multipart_note_set + singlepart_note_set
+def full_note_set(publish = true)
+  multipart_note_set(publish) + singlepart_note_set(publish)
 end
 
 

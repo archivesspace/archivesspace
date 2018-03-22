@@ -762,6 +762,47 @@ describe 'MARC Export' do
 
   end
 
+  describe "notes: include unpublished flag" do
+    before(:all) do
+      @resource = create(:json_resource,
+                         :notes => full_note_set(false))
+
+      @marc_unpub_incl   = get_marc(@resource, true)
+      @marc_unpub_unincl = get_marc(@resource, false)
+    end
+
+    after(:all) do
+      @resource.delete
+    end
+
+    it "should not create elements for unpublished notes if include_unpublished is false" do
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{506}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{524}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{535}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{540}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{541}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{544}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{545}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{561}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{583}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{584}']").length).to eq(0)
+    end
+
+    it "should create elements for unpublished notes if include_unpublished is true" do
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{506}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{524}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{535}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{540}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{541}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{544}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{545}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{561}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{583}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{584}']").length > 0).to eq(true)
+    end
+
+  end
+
 
   describe "https://archivesspace.atlassian.net/browse/AR-973" do
     # Note: I'm unclear what this issue actually means
