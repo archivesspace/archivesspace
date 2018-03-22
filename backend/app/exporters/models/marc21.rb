@@ -270,9 +270,11 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_primary_creator(linked_agents)
     link = linked_agents.find{|a| a['role'] == 'creator'}
     return nil unless link
+    return nil unless link["_resolved"]["publish"] || @include_unpublished
 
     creator = link['_resolved']
     name = creator['display_name']
+
     ind2 = ' '
     role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
@@ -318,11 +320,15 @@ class MARCModel < ASpaceExport::ExportModel
     df(code, ind1, ind2).with_sfs(*sfs)
   end
 
+  # TODO: DRY this up
+  # this method is very similair to handle_primary_creator and handle_agents
   def handle_other_creators(linked_agents)
     creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
     creators = creators + linked_agents.select{|a| a['role'] == 'source'}
 
     creators.each do |link|
+      next unless link["_resolved"]["publish"] || @include_unpublished
+
       creator = link['_resolved']
       name = creator['display_name']
       relator = link['relator']
@@ -390,6 +396,8 @@ class MARCModel < ASpaceExport::ExportModel
     subjects = linked_agents.select{|a| a['role'] == 'subject'}
 
     subjects.each_with_index do |link, i|
+      next unless link["_resolved"]["publish"] || @include_unpublished
+
       subject = link['_resolved']
       name = subject['display_name']
       relator = link['relator']
