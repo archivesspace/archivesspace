@@ -12,8 +12,14 @@ require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
 
 require_relative '../../selenium/common/backend_client_mixin'
-
-
+module BackendClientMethods
+  alias :run_all_indexers_orig :run_all_indexers
+  # patch this to also run our PUI indexer.
+  def run_all_indexers
+    run_all_indexers_orig
+    $pui.run_index_round
+  end
+end
 
 # IF we want simplecov reports
 if ENV['COVERAGE_REPORTS'] == 'true'
