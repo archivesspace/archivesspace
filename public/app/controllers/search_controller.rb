@@ -26,11 +26,12 @@ class SearchController < ApplicationController
     end
 
       search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
-    search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
+      search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
     begin
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
 #NOTE the redirect back here on error!
     rescue Exception => error
+    Rails.logger.debug(error.message)
       p error
       flash[:error] = I18n.t('search_results.error')
       redirect_back(fallback_location: root_path ) and return

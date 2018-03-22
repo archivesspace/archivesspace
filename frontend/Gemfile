@@ -10,12 +10,13 @@ gem 'sprockets-rails', '2.3.3'
 gem 'tzinfo-data'
 
 
+gem 'pry'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '5.0.5'
+gem 'sass-rails', '~> 5.0', '>= 5.0.6'
 gem 'coffee-rails', '4.2.1'
 gem 'coffee-script'
 gem 'coffee-script-source'
@@ -43,6 +44,7 @@ gem "mizuno", "0.6.11"
 
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
+gem 'multi_json', '~> 1.13.1'
 
 gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
 gem "zip-zip", "0.3"
