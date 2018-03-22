@@ -464,6 +464,54 @@ describe 'MARC Export' do
     end
   end
 
+  describe "agents: include unpublished flag" do
+    before(:all) do
+      @agents = []
+      [
+        [:json_agent_person,
+          :names => [build(:json_name_person,
+                           :prefix => "MR"),
+          :publish => false]
+        ],
+        [:json_agent_corporate_entity,  {:publish => false} ],
+        [:json_agent_family, {:publish => false} ],
+      ].each do |type_and_opts|
+        @agents << create(type_and_opts[0], type_and_opts[1])
+      end
+
+      @resource = create(:json_resource,
+                             :linked_agents => @agents.map.each_with_index {|a, j|
+                              {
+                                :ref => a.uri,
+                                :role => (j == 0) ? 'creator' : 'subject',
+                                :terms => [build(:json_term), build(:json_term)],
+                                :relator => generate(:relator)
+                              }}
+        )
+
+      @marc_unpub_incl   = get_marc(@resource, true)
+      @marc_unpub_unincl = get_marc(@resource, false)
+    end
+
+
+    after(:all) do
+      @resource.delete
+      @agents.each {|a| a.delete}
+    end
+
+    it "should not create elements for unpublished agents if include_unpublished is false" do
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{100}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{610}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{600}']").length).to eq(0)
+    end
+
+    it "should create elements for unpublished agents if include_unpublished is true" do
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{100}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{610}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{600}']").length > 0).to eq(true)
+    end
+  end
+
 
   describe 'linked agent mappings' do
     before(:all) do
