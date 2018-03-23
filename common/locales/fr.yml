@@ -602,9 +602,9 @@ fr:
         <p>Numéro de poste interne du contact.</p>
 
   telephone_required: &telephone
-    _plural: Telephone Numbers
-    number_type: Number Type
-    number: Number
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
     number_tooltip: |
         <p>Numéro de téléphone de la personne à contacter.</p>
     ext: Extension
@@ -1258,7 +1258,7 @@ fr:
     names: Formes de nom
     names_tooltip: |
       <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
-    agent_contacts: Contact Details
+    agent_contacts: Détails du contact
     contacts_tooltip: |
         <p>Enregistre une information sur la façon de contacter tel agent particulier.</p>
     notes: Notes
@@ -1477,7 +1477,7 @@ fr:
         <p>Détermine si cette ressource sera publiée ou non sur les interfaces publiques.</p>
     restrictions: Des restrictions s'appliquent?
     restrictions_tooltip: |
-        <p>Indique si les documents décris sous soumis à quelque restriction que ce soit. Des précisions concernant la restriction sont à fournir dans les notes ou la déclaration de droits appropriée pour la notice concernée.</p>
+        <p>Indique si les documents décrits sous soumis à quelque restriction que ce soit. Des précisions concernant la restriction sont à fournir dans les notes ou la déclaration de droits appropriée pour la notice concernée.</p>
         <p>See DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>Champ spécifique à l'application pour enregistrer une information relative au traitement des documents. Cette note n'est inclue dans aucun export ou rapport, et n'est pas remplie par import.</p>
@@ -2117,7 +2117,7 @@ fr:
     general_assessment_note: Note d'évaluation globale
     general_assessment_note_tooltip: <p>Toute note supplémentaire concernant une évaluation.</p>
     special_format_note: Note de format spécial
-    special_format_note_tooltip: <p>Information supplémentaire ou explicative sur les formats spéciaux attestés.</p>
+    special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats spéciaux attestés.</p>
     exhibition_value_note: Note de valeur d'exposition
     exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une lettre ou une photographie d'un haut intérêt pour l'histoire.</p>
     rating_attributes_value:
@@ -2133,17 +2133,17 @@ fr:
 
   assessment_attribute:
     rating:
-      "Reformatting Readiness": Reformatting Readiness
-      "Reformatting Readiness_tooltip": <p>A rating from 1 to 5 that indicates how easily materials can be reformatted.</p>
-      "Housing Quality": Housing Quality
-      "Housing Quality_tooltip": <p>A rating from 1 to 5 intended to describe the overall quality of housing of the materials in a collection; items or groups of materials within a collection may be in better or poorer housing than what the overall rating indicates.</p>
-      "Physical Condition": Physical Condition
-      "Physical Condition_tooltip": <p>A rating from 1 to 5 intended to describe the overall condition of the materials in a collection; items or groups of materials of particular concern will be indicated in the conservation note.</p>
-      "Physical Access (arrangement)": Physical Access (arrangement)
-      "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
-      "Intellectual Access (description)": Intellectual Access (description)
-      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p>
-      "Interest": Interest
+      "Reformatting Readiness": Aptitude au reformatage
+      "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents à être reformatés.</p>
+      "Housing Quality": Qualité de mise à l'abri
+      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de la collection est abritée; certains éléments ou groupes d'éléments de la collection peuvent bénéficier d'un abri meilleur que celui indiqué par la note.</p>
+      "Physical Condition": Etat matériel
+      "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés dans la Note de conservation.</p>
+      "Physical Access (arrangement)": Accès physique (classement)
+      "Physical Access (arrangement)_tooltip": <p>Une note de 1 à 5 pour caractériser l'agencement global d'une collection, en tenant compte de la complexité et de la taille de la collection. Par exemple, une petite collection, relativement homogène et sommairement rangée est en général plus accessible qu'une collection importante, hétérogène, sommairement rangée, ce que doit réfléter la note. (Noter qu'un classement au niveau de l'élément n'est pas souhaitable pour bien des collections; une note de 4 pourrait bien être le maximum souhaitable pour une collection.)</p>
+      "Intellectual Access (description)": Accès intellectuel (description)
+      "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la description intellectuelle d'une collection et l'accessibilité de cette description pour les utilisateurs.</p>
+      "Interest": Intérêt
       "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
       "Documentation Quality": Documentation Quality
       "Documentation Quality_tooltip": <p>A rating from 1 to 5 that applies to the richness and depth of documentation available in a collection. Interest + Documentation Quality create the "Research Value" score.</p>

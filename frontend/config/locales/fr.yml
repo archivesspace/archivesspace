@@ -303,16 +303,16 @@ fr:
   batch_delete:
     archival_records:
       success: Notices supprimées
-      error: "Pas moyen de supprimer notices:"
+      error: "Impossible de supprimer notices:"
     subjects:
       success: Mots-matières supprimés
-      error: "Pas moyen de supprimer mots-matières:"
+      error: "Impossible de supprimer mots-matières:"
     agents:
       success: Agents supprimés
-      error: "Pas moyen de supprimer agents:"
+      error: "Impossible de supprimer agents:"
     locations:
       success: Localisations supprimées
-      error: "Pas moyen de supprimer localisations:"
+      error: "Impossible de supprimer localisations:"
 
   welcome:
     heading: Bienvenue sur ArchivesSpace
@@ -382,11 +382,11 @@ fr:
       before: Ajouter items avant
       after: Ajouter items après
       as_child: Ajouter items comme fils
-    unexpected_failure: Oups! Pas moyen de récupérer cette arborescence. Veuillez rafraîchir la page.
+    unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez rafraîchir la page.
 
   errors:
     sidebar_label: Erreurs et avertissements
-    error_403: Pas moyen d'accéder à la page
+    error_403: Impossible d'accéder à la page
     error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
     error_404: Notice pas trouvée
     error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
@@ -594,7 +594,7 @@ fr:
       messages:
         value_updated: Valeur actualisée
         deleted: Valeur supprimée
-        delete_error: Pas moyen de supprimer la valeur
+        delete_error: Impossible de supprimer la valeur
         delete_conflict: "La valeur étant actuellement référencée par une notice, elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
         created: Valeur créée
@@ -1270,7 +1270,7 @@ fr:
     summary:
       locations_with_space: "Localisation ayant de l'espace disponible: <strong>%{count}</strong>"
       locations_without_space: "Localisation sans espace disponible: <strong>%{count}</strong>"
-      uncalculatable_locations: "Pas moyen de calculer: <strong>%{count}</strong>"
+      uncalculatable_locations: "Impossible de calculer: <strong>%{count}</strong>"
     view_all_toggle: Montrer localisations sans espace
     reason:
       location_lacks_a_profile: Localisation manquant d'un profil
