@@ -315,18 +315,9 @@ class MARCModel < ASpaceExport::ExportModel
             ]
 
     when 'agent_person'
-      joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-      name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-
+      ind1  = name['name_order'] == 'direct' ? '0' : '1'
       code = '100'
-      sfs = [
-              ['a', name_parts],
-              ['b', name['number']],
-              ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-              ['q', name['fuller_form']],
-              ['d', name['dates']],
-              ['g', name['qualifier']],
-            ]
+      sfs = gather_agent_person_subfield_mappings(name, role_info)
 
     when 'agent_family'
       code = '100'
@@ -338,7 +329,6 @@ class MARCModel < ASpaceExport::ExportModel
             ]
     end
 
-    sfs << role_info
     df(code, ind1, ind2).with_sfs(*sfs)
   end
 
@@ -381,18 +371,9 @@ class MARCModel < ASpaceExport::ExportModel
               ]
 
       when 'agent_person'
-        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-        ind1 = name['name_order'] == 'direct' ? '0' : '1'
+        ind1  = name['name_order'] == 'direct' ? '0' : '1'
         code = '700'
-        sfs = [
-                ['a', name_parts],
-                ['b', name['number']],
-                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-                ['q', name['fuller_form']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
-              ]
+        sfs = gather_agent_person_subfield_mappings(name, relator_sf)
 
       when 'agent_family'
         ind1 = '3'
@@ -404,7 +385,6 @@ class MARCModel < ASpaceExport::ExportModel
               ]
       end
 
-      sfs << relator_sf
       df(code, ind1, ind2).with_sfs(*sfs)
     end
   end
@@ -440,18 +420,9 @@ class MARCModel < ASpaceExport::ExportModel
               ]
 
       when 'agent_person'
-        joint, ind1 = name['name_order'] == 'direct' ? [' ', '0'] : [', ', '1']
-        name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
-        ind1 = name['name_order'] == 'direct' ? '0' : '1'
+        ind1  = name['name_order'] == 'direct' ? '0' : '1'
         code = '600'
-        sfs = [
-                ['a', name_parts],
-                ['b', name['number']],
-                ['c', %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
-                ['q', name['fuller_form']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
-              ]
+        sfs = gather_agent_person_subfield_mappings(name, [])
 
       when 'agent_family'
         code = '600'
@@ -599,5 +570,71 @@ class MARCModel < ASpaceExport::ExportModel
 
     end
   end
+
+  private
+
+    # name fields looks something this:
+    # [["a", "Dick, Philp K."], ["b", nil], ["c", "see"], ["d", "10-1-1980"], ["g", nil], ["q", nil], ["4", "aut"]]
+    def handle_agent_person_punctuation(name_fields)
+      name_fields.sort! {|a, b| a[0][0] <=> b[0][0]}
+
+      #If subfield $c is present, the value of the preceding subfield must end in a comma. 
+      #If subfield $d is present, the value of the preceding subfield must end in a comma. 
+      #If subfield $e is present, the value of the preceding subfield must end in a comma. 
+      ['c', 'd', 'e'].each do |subfield|
+        s_index = name_fields.find_index{|a| a[0] == subfield}
+
+        # check if $subfield is present
+
+        unless !s_index || s_index == 0
+          preceding_index = s_index - 1
+
+          # find preceding field and append a comma if there isn't one there already
+          unless name_fields[preceding_index][1][-1] == "," 
+            name_fields[preceding_index][1] << ","
+          end
+        end
+      end
+
+      #The value of subfield q must be enclosed in parentheses. 
+      q_index = name_fields.find_index{|a| a[0] == "q"}
+      unless !q_index
+        name_fields[q_index][1] = "(#{name_fields[q_index][1]})"
+      end
+
+      #The value of the final subfield must end in a period."
+      unless name_fields[-1][1][-1] == "." 
+        name_fields[-1][1] << "."
+      end
+
+      return name_fields
+    end
+  
+    def gather_agent_person_subfield_mappings(name, role_info)
+      joint = name['name_order'] == 'direct' ? ' ' : ', '
+      name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
+
+      subfield_e = role_info[0] == "e" ? role_info : nil
+      subfield_4 = role_info[0] == "4" ? role_info : nil
+  
+
+      name_fields = [
+                     ["a", name_parts],
+                     ["b", name['number']],
+                     ["c", %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')],
+                     ["d", name['dates']],
+                     subfield_e,
+                     ["e", nil],
+                     ["g", name['qualifier']],
+                     ["q", name['fuller_form']] 
+                    ].compact.reject {|a| a[1].nil? || a[1].empty?}
+  
+      name_fields = handle_agent_person_punctuation(name_fields)
+      name_fields.push(subfield_4) unless subfield_4.nil?
+
+      return name_fields
+    end
+
+
 
 end
