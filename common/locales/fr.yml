@@ -1393,34 +1393,34 @@ fr:
     permissions: "Les membres peuvent:"
     permission_types:
       manage_repository: gérer ce service d'archives (modifier groupes et autres préférences)
-      update_location_record: créer/modifier/supprimer notices de localisations dans ce service d'archives
-      update_subject_record: créer/actualiser notices matières
-      update_agent_record: créer/actualiser notices agents
-      update_vocabulary_record: créer/actualiser notices vocabulaire
-      update_accession_record: créer/actualiser entrées dans ce service d'archives
-      update_resource_record: créer/actualiser ressources dans ce service d'archives
-      update_digital_object_record: créer/actualiser objets numériques dans ce service d'archives
-      update_event_record: créer/actualiser notices événements dans ce service d'archives
+      update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
+      update_subject_record: créer/actualiser des notices matières
+      update_agent_record: créer/actualiser des notices agents
+      update_vocabulary_record: créer/actualiser des notices de vocabulaire
+      update_accession_record: créer/actualiser des entrées dans ce service d'archives
+      update_resource_record: créer/actualiser des ressources dans ce service d'archives
+      update_digital_object_record: créer/actualiser des objets numériques dans ce service d'archives
+      update_event_record: créer/actualiser des notices événements dans ce service d'archives
       view_repository: voir les notices dans ce service d'archives
       view_suppressed: voir les notices bloquées dans ce service d'archives
       suppress_archival_record: bloquer les principaux types de notices dans ce service d'archives
       delete_archival_record: supprimer les principaux types de notices dans ce service d'archives
       delete_event_record: supprimer des notices événements dans ce service d'archives
-      update_classification_record: créer/actualiser classements et termes de classements
-      delete_classification_record: supprimer classements et termes de classements
-      merge_agents_and_subjects: fusionner notices agent/matière
-      merge_archival_record: fusionner principaux types de notices dans ce service d'archives
+      update_classification_record: créer/actualiser des classements et termes de classements
+      delete_classification_record: supprimer des classements et termes de classements
+      merge_agents_and_subjects: fusionner des notices agent/matière
+      merge_archival_record: fusionner les principaux types de notices dans ce service d'archives
       transfer_repository: transférer le contenu entier d'un service d'archives
-      transfer_archival_record: transférer principaux types de notices d'un service d'archives vers un autre
-      manage_subject_record: créer/actualiser/supprimer notices matières
-      manage_agent_record: créer/actualiser/supprimer notices agents
-      manage_vocabulary_record: créer/actualiser/supprimer notices vocabulaire
+      transfer_archival_record: transférer les principaux types de notices d'un service d'archives vers un autre
+      manage_subject_record: créer/actualiser/supprimer des notices matières
+      manage_agent_record: créer/actualiser/supprimer des notices agents
+      manage_vocabulary_record: créer/actualiser/supprimer des notices vocabulaire
       import_records: lancer des tâches d'import
       cancel_importer_job: annuler une tâche d'import
-      update_container_record: créer/actualiser notices de conditionnements
-      manage_container_record: supprimer/actualiser en masse notices de conditionnements
-      manage_container_profile_record: créer/actualiser/supprimer notices de profils de conditionnements
-      manage_location_profile_record: créer/actualiser/supprimer notices de profils localisations
+      update_container_record: créer/actualiser des notices de conditionnements
+      manage_container_record: supprimer/actualiser en masse des notices de conditionnements
+      manage_container_profile_record: créer/actualiser/supprimer des notices de profils de conditionnements
+      manage_location_profile_record: créer/actualiser/supprimer des notices de profils localisations
       create_job: créer et lancer une tâche d'arrière-plan
       cancel_job: annuler une tâche d'arrière-plan
     _singular: Groupe
@@ -1824,7 +1824,7 @@ fr:
   defaults: &defaults_attributes
     general_section: Configuration générale
     show_suppressed: Montrer les notices bloquées?
-    show_suppressed_tooltip: Montrer ou non dans l'explorateur les notices bloquées que vous avez la permission de voir.
+    show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous avez la permission de voir.
     publish: Publier?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
@@ -1938,7 +1938,7 @@ fr:
     job_type: Type de tâche
     types:
       print_to_pdf_job: Imprimer en PDF
-      import_job: Importer données
+      import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
       report_job: Rapports
       container_conversion_job: Rapports
@@ -1960,8 +1960,8 @@ fr:
     format: Format
 
   import_job:
-    _singular: Importer tâche
-    filenames: Importer fichers
+    _singular: Importer une tâche
+    filenames: Importer des fichiers
     import_type: Importer type
     import_type_ead_xml: EAD
     import_type_assessment_csv: Evaluation CSV
@@ -2144,47 +2144,47 @@ fr:
       "Intellectual Access (description)": Accès intellectuel (description)
       "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la description intellectuelle d'une collection et l'accessibilité de cette description pour les utilisateurs.</p>
       "Interest": Intérêt
-      "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
-      "Documentation Quality": Documentation Quality
-      "Documentation Quality_tooltip": <p>A rating from 1 to 5 that applies to the richness and depth of documentation available in a collection. Interest + Documentation Quality create the "Research Value" score.</p>
-      "Documentation Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Slight</li><li><b>Rating 2</b>: Incidentally valuable</li><li><b>Rating 3</b>: Moderately rich</li><li><b>Rating 4</b>: Rich</li><li><b>Rating 5</b>: Very rich</li></ul>"
-      "Housing Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Collection housed in non‐archival boxes, might have items loose on the shelf. Majority of material is not in folders and/or boxes are overstuffed or understuffed. For bound volumes, binding is in poor condition, lacking boards or otherwise compromising the text block.</li><li><b>Rating 2</b>: Collection housed in non‐archival boxes and folders. Significant number of boxes and folders might have unreasonable amount of material in them or are not the correct size and type for the materials they house. For bound volumes, binding is in fair condition (boards might be detached).</li><li><b>Rating 3</b>: Collection housed in non‐archival boxes and folders but they are in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in good condition (somewhat the worse for wear yet intact).</li><li><b>Rating 4</b>: Collection housed partially in acid‐free boxes and folders in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in very good condition (expected wear).</li><li><b>Rating 5</b>: Collection housed completely in acid‐free boxes and folders in good condition. Boxes and folders have reasonable amount of material in them. Boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in excellent condition.</li></ul>"
-      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Rating 1</b>: Researcher has no access to collection: Internal documentation such as a donor/control file or brief or inaccessible accession record serves as the only description of the collection. While such internal documentation may vary in quantity and quality, by its nature it is inaccessible to researchers.</li><li><b>Rating 2</b>: Researcher has poor access to collection: Collection has no finding aid or a substandard finding aid. The collection has printed catalog cards or another type of offline collection‐level description, but no collection‐level MARC record in the OPAC or a national bibliographic utility. Collection has no finding aid or a substandard finding aid. The collection has a MARC record in the OPAC or national bibliographic utility, but that does not provide sufficient access because it is a large or complex collection. In either case, the collection may be described in other online or offline sources available to researchers, but because of the complexity of the collection or the inadequacy of the sources, this provides insufficient access.</li><li><b>Rating 3</b>: Researcher has fair access to collection: The finding aid is substandard or there is no finding aid. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. In the absence of a full MARC record, there is another type of online collection‐level description. The collection‐level description in online or offline sources available to researchers provides sufficient access because it is a small or straightforward collection.</li><li><b>Rating 4</b>: Researcher has good access to collection: There is a good finding aid, but it is not available online. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. There is a good finding aid, online or offline, but there is no collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. Given the quality of the finding aid, the finding aid alone provides good access. In both cases, the collection may also be described in other online or offline sources that are available to researchers.</li><li><b>Rating 5</b>: Researcher has excellent access to collection: There is a good online finding aid (EAD,HTML, PDF, or other format). There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. The collection may also be described in other online or offline sources that are available to researchers (such as a printed or online guide to collections).</li></ul>"
-      "Interest_values_tooltip": "<ul><li><b>Rating 1</b>: Negligible</li><li><b>Rating 2</b>: Slight</li><li><b>Rating 3</b>: Moderate</li><li><b>Rating 4</b>: High</li><li><b>Rating 5</b>: Very high</li></ul>"
-      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Rating 1</b>: Totally unarranged; many, sometimes most, documents not yet removed from envelopes, unfolded, and flattened. Completely inaccessible to researcher.</li><li><b>Rating 2</b>: Partial or superficial arrangement and/or non‐standard housing and labeling discourage use except with special staff assistance.</li><li><b>Rating 3</b>: Rough arrangement by date, document type, function, source, or other characteristic; papers not thoroughly screened, but have been unfolded and flattened; series not fully established; files not fully established; researchers often must work through voluminous extraneous material to locate pertinent items. Single volumes might havehad more than one use, or have items pasted in or otherwise be somewhat disorganized.</li><li><b>Rating 4</b>: Arrangement in series to file level. There is generally good order within the files. Single volumes are orderly (i.e. an account book in alphabetical order or a neat scrapbook in thematic order).</li><li><b>Rating 5</b>: Full arrangement to item level in series and, as appropriate, subseries. Single volumes are orderly and indexed (i.e. chronological accounts with a name index).</li></ul>"
-      "Physical Condition_values_tooltip": "<ul><li><b>Rating 1</b>: Poor: Significant damage/deterioration that makes collection difficult to use.</li><li><b>Rating 2</b>: Fair: Somewhat worse than expected deterioration with some further deterioration possible.</li><li><b>Rating 3</b>: Good: Expected deterioration with some further deterioration possible.</li><li><b>Rating 4</b>: Very good: Little damage with some further deterioration possible, due to the mixed quality of the material.</li><li><b>Rating 5</b>: Excellent: Little damage with no further deterioration expected, based on the high quality of the material.</li></ul>"
-      "Reformatting Readiness_values_tooltip": "<ul><li><b>Rating 1</b>: Materials would be extremely difficult to reformat. They might have serious conservation issues, be in an extremely obsolete format, or have intellectual property concerns that restrict reformatting. Metadata might be missing or incomplete.</li><li><b>Rating 2</b>: Materials would be difficult to reformat. They might have conservation issues, be in an obsolete format, or have some intellectual property concerns. Metadata might be missing or incomplete.</li><li><b>Rating 3</b>: Materials would be moderately easy to reformat. They may have some conservation issues, be in an obsolete format, or have monimal intellectual property concerns. Metadata is present or could be created easily.</li><li><b>Rating 4</b>: Materials would be relatively easy to reformat. Conservation issues are minor, formats are not completely obsolete, or there are minimal intellectual property concerns. Metadata is present.</li><li><b>Rating 5</b>: Materials could be reformatted with no difficulty. There are no conservation issues, formats are recent, or there are no intellectual property concerns. Metadata is present and complete.</li></ul>"
-      "Documentation Quality_note_tooltip": "Further information on the documentation quality of the materials."
-      "Housing Quality_note_tooltip": "Indicates areas of particular concern with regard to the housing of the collection."
-      "Intellectual Access_note_tooltip": "Further information on intellectual access to and description of the materials."
-      "Interest_note_tooltip": "Further information on interest in the materials."
-      "Physical Access_note_tooltip": "Further information on physical access to and arrangement of the materials."
-      "Physical Condition_note_tooltip": "Indicates areas of particular concern with regard to the physical condition of the collection."
-      "Reformatting Readiness_note_tooltip": "Indicates areas of concern with regard to the potential digitization or other reformatting of the materials. "
+      "Interest_tooltip": <p>Une note de  1 à 5 qui indique l'intérêt que présentent les documents pour le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation déterminent le niveau de "Valeur pour la recherche".</p>
+      "Documentation Quality": Qualité de la documentation
+      "Documentation Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la richesse de la documentation disponible dans une collection. Intérêt + Qualité de la documentation détermine le niveau de "Valeur pour la recherche".</p>
+      "Documentation Quality_values_tooltip": "<ul><li><b>Note 1</b>: Faible</li><li><b>Note 2</b>: Occasionnellement précieux</li><li><b>Note 3</b>: Assez riche</li><li><b>Note 4</b>: Riche</li><li><b>Note 5</b>: Très riche</li></ul>"
+      "Housing Quality_values_tooltip": "<ul><li><b>Note 1</b>: Collection abritée dans boîtes non homologuées, qui pourraient être instables sur l'étagère. La majeure partie des documents n'est pas rangée dans des dossiers et/ou les boîtes sont sur ou sous-remplies. S'agissant des volumes reliés, la reliure est en mauvais état, des plats manquent, ce qui compromet le maintien en bloc des papiers.</li><li><b>Note 2</b>: Collection abritée dans des boîtes et des dossiers non homologués. Un nombre non négligeable de boîtes et de dossiers contiennent trop de documents ou ne sont pas bien dimensionnés pour leur contenu. Les volumes reliés sont dans un état passable (peut-être que certains plats se détachent).</li><li><b>Note 3</b>: Collection abritée dans des boîtes et des dossiers non homologués, mais en bon état. La plupart sont correctement remplis. La plupart sont correctement dimensionnés pour les documents qu'ils abritent. S'agissant des volumes reliés, la reliure est en bon état (un peu écornée, mais qui tient).</li><li><b>Note 4</b>: Collection abritée en partie dans des boîtes et des dossiers sans acide en bon état. La plupart sont correctement remplis. La plupart sont correctement dimensionnés pour leur contenu. S'agissant des volumes reliés, la reliure est en excellent état (usure normale).</li><li><b>Note 5</b>: Collection entièrement abritée dans des boîtes et des dossiers sans acide en bon état. La plupart sont raisonnablement remplis. Boîtes et dossiers sont bien dimensionnés pour leur contenu. S'agissant des volumes reliés, la reliure est en excellent état.</li></ul>"
+      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Note 1</b>: Le chercheur n'a pas accès à la collection: la documentation interne, telle qu'un fichier de donateur, de contrôle, ou une notice d'entrée inaccessible, constitue l'unique description de la collecction. Bien qu'une documentation interne de ce genre puisse varier en qualité et en quantité, elle reste par nature inaccessible aux chercheurs.</li><li><b>Note 2</b>: Le chercheur n'a qu'un accès réduit à la collection: l'instrument de recherche est inexistant ou insuffisant. La collection a un catalogue sur fiches ou un autre type de descriptif hors ligne, mais pas de notice MARC dans l'OPAC ou dans une base bibliographique nationale. Ou bien, la notice MARC existe, mais ne fournit qu'un accès insuffisant, du fait de l'importance matérielle et de la complexité de la collection. Dans tous les cas, si des descriptifs en ligne ou hors ligne existent, ils ne fournissent pas un accès suffisant en raison de la complexité de la collection ou de leur inadéquation.</li><li><b>Note 3</b>: Le chercheur a un accès passable à la collection: l'instrument de recherche n'est pas au niveau ou inexistant. Il y a une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale, telle que l'OCLC. En l'absence de notice MARC complète, un autre type de descriptif en ligne existe. Le descriptif en ligne ou hors ligne accessible aux chercheurs fournit un accès suffisant en raison de la petite taille ou de l'homogénéité de la collection.</li><li><b>Note 4</b>: Le chercheur a un bon accès à la collection: il dispose d'un bon instrument de recherche, mais hors ligne. Il existe une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale telle que l'OCLC. Il existe un bon instrument de recherche, en ligne ou non, mais pas de notice MARC dans l'OPAC de l'institution et/ou dans une base bibliographique nationale. L'instrument de recherche, du fait de sa qualité, suffit à assurer un bon accès. Dans tous les cas, des descriptifs de la collection peuvent aussi exister dans d'autres sources, en ligne ou non, accessibles aux chercheurs.</li><li><b>Note 5</b>: Le chercheur bénéficie d'un très bon accès à la collection: l'instrument de recherche en ligne (EAD, HTML, PDF ou autre) est bon. Il existe une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale. D'autres descriptifs (tels qu'un guide des fonds), en ligne ou non, peuvent être accessibles aux chercheurs.</li></ul>"
+      "Interest_values_tooltip": "<ul><li><b>Note 1</b>: Négligeable</li><li><b>Note 2</b>: Faible</li><li><b>Note 3</b>: Moyen</li><li><b>Note 4</b>: Haut</li><li><b>Note 5</b>: Très haut</li></ul>"
+      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Note 1</b>: En total désordre; beaucoup, voire la plupart des documents sont encore pliés sous enveloppes. Complètement inaccessible au chercheur.</li><li><b>Note 2</b>: Rangement partiel ou grossier et/ou boîtage et marquage non-standard décourageant l'utilisation, sauf avec l'assistance exceptionnelle du personnel.</li><li><b>Note 3</b>: Classement grossier par date, type de document, fonction, source ou autre caractéristique; papiers pas entièrement examinés, mais dépliés et mis à plat; séries pas totalement constituées, dossiers pas entièrement constitués, les chercheurs doivent souvent naviguer dans une masse de documents étrangers pour localiser les pièces pertinentes. Tel ou tel volume pourrait avoir eu plusieurs usages, ou bien contenir des pièces insérées ou être quelque peu désorganisé.</li><li><b>Note 4</b>: Classement en série jusqu'au niveau dossier. La succession des fichiers est respectée. Les volumes se présentent de façon suivie (i.e. un livre de compte selon l'ordre alphabétique, un album selon l'ordre thématique).</li><li><b>Note 5</b>: Classement parfait en série et, le cas échéant, en sous-série jusqu'au niveau pièce. Les volumes se présentent de façon suivie et sont munis d'index (i.e. un registre en ordre chronologique est muni d'un index des noms).</li></ul>"
+      "Physical Condition_values_tooltip": "<ul><li><b>Note 1</b>: Mauvais: détériorations importantes, qui rendent la collection difficilement utilisable.</li><li><b>Note 2</b>: Passable: détérioration plus avancée que prévue, susceptible de se poursuivre.</li><li><b>Note 3</b>: Bon: détérioration normale, pouvant se poursuivre.</li><li><b>Note 4</b>: Très bon: très peu de dommages, une détérioration pourrait se produire en raison de la qualité inégale des documents.</li><li><b>Note 5</b>: Excellent: dommage minime, aucune détérioration n'est à craindre en raison de la grande qualité des documents.</li></ul>"
+      "Reformatting Readiness_values_tooltip": "<ul><li><b>Note 1</b>: documents extrêmement difficiles à reformater. Ils peuvent poser de sérieux problèmes de conservation, être dans un format archi-obsolète ou être soumis à des restrictions liées à la propriété intellectuelle. Les métadonnées peuvent manquer ou être incomplètes.</li><li><b>Note 2</b>: Documents difficiles à reformater. Ils peuvent poser des problèmes de conservation, être dans un format obsolète, ou poser des problèmes de propriété intellectuelle. Les métadonnées peuvent manquer ou être incomplètes.</li><li><b>Note 3</b>: Documents assez faciles à reformater. Ils peuvent poser des problèmes de conservation, être dans un format obsolète ou poser des questions mineures de propriété intellectuelle. Les métadonnées sont présentes ou faciles à créer.</li><li><b>Note 4</b>: Documents relativement faciles à reformater. Les problèmes de conservation sont minimes, les formats pas complètement obsolètes, les questions de propriété intellectuelle mineures. Les métadonnées sont présentes.</li><li><b>Note 5</b>: Documents aisément reformatables. Pas de problèmes de conservation, formats récents, pas de problèmes de propriété intellectuelle. Les métadonnées sont présentes et complètes.</li></ul>"
+      "Documentation Quality_note_tooltip": "Information supplémentaire sur la qualité de la documentation."
+      "Housing Quality_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne la mise à l'abri de la collection."
+      "Intellectual Access_note_tooltip": "Information supplémentaire concernant l'accès intellectuel aux documents."
+      "Interest_note_tooltip": "Information supplémentaire concernant l'intérêt des documents."
+      "Physical Access_note_tooltip": "Information supplémentaire concernant l'accès physique et le classement des documents."
+      "Physical Condition_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne l'état matériel de la collection."
+      "Reformatting Readiness_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne la numérisation ou le reformatage éventuel des documents."
     format:
-      "Architectural Materials": Architectural Materials
-      "Art Originals": Art Originals
-      "Artifacts": Artifacts
-      "Audio Materials": Audio Materials
-      "Biological Specimens": Biological Specimens
-      "Botanical Specimens": Botanical Specimens
-      "Computer Storage Units": Computer Storage Units
-      "Film (negative, slide, or motion picture)": Film (negative, slide, or motion picture)
-      "Glass": Glass
-      "Photographs": Photographs
-      "Scrapbooks": Scrapbooks
-      "Technical Drawings & Schematics": Technical Drawings & Schematics
+      "Architectural Materials": Documents d'architecture
+      "Art Originals": Oeuvres d'art originales
+      "Artifacts": Artefacts
+      "Audio Materials": Documents audio
+      "Biological Specimens": Spécimens biologiques
+      "Botanical Specimens": Spécimens botaniques
+      "Computer Storage Units": Unités de stockage informatique
+      "Film (negative, slide, or motion picture)": Film (négatif, diapo, ou image animée)
+      "Glass": Verre
+      "Photographs": Photographies
+      "Scrapbooks": Albums
+      "Technical Drawings & Schematics": Dessins techniques & schémas
       "Textiles": Textiles
-      "Vellum & Parchment": Vellum & Parchment
-      "Video Materials": Video Materials
-      "Other": Other
+      "Vellum & Parchment": Vélin & parchemin
+      "Video Materials": Documents vidéo
+      "Other": Autre
     conservation_issue:
-      "Potential Mold or Mold Damage": Potential Mold or Mold Damage
-      "Recent Pest Damage": Recent Pest Damage
-      "Deteriorating Film Base": Deteriorating Film Base
-      "Brittle Paper": Brittle Paper
-      "Metal Fasteners": Metal Fasteners
-      "Newspaper": Newspaper
-      "Tape": Tape
-      "Heat-Sensitive Paper": Heat-Sensitive Paper
-      "
+      "Potential Mold or Mold Damage": Moisissure possible ou dommage dû à la moisissure
+      "Recent Pest Damage": Dommage dû à des parasites
+      "Deteriorating Film Base": Pellicule photo en cours de dégradation
+      "Brittle Paper": Papier friable
+      "Metal Fasteners": Fermoirs métalliques
+      "Newspaper": Journaux
+      "Tape": Bande magnétique
+      "Heat-Sensitive Paper": Papier sensible à la chaleur
+      "Water Damage": Dommage dû à l'eau
