@@ -218,7 +218,7 @@ fr:
     select: Sélectionner
     building: Bâtiment
     floor: Niveau
-    room: Pièce
+    room: Salle
     area: Aire
     resource_type: Type de Ressource
     acquisition_type: Type d'acquisition
