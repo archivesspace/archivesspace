@@ -98,16 +98,16 @@ fr:
     last: Dernière
     previous: "&#171;"
     next: "&#187;"
-    summary_prefix: Montrant
+    summary_prefix: Affichage
     summary_offset_connector: "-"
     summary_total_connector: de
-    summary_suffix: Résultats
+    summary_suffix: des résultats
     page_prefix: Page
     page_connector: de
 
   search_results:
     page_title: "%{count} résultats trouvés"
-    results_head: "Montrant %{type}: %{start} - %{end} de %{total}"
+    results_head: "%{type} affichés: %{start} - %{end} de %{total}"
     results: Résultats
     head_prefix: Ont été trouvés
     head_suffix: résultats
