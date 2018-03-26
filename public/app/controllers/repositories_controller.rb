@@ -54,10 +54,10 @@ class RepositoriesController < ApplicationController
     begin
       new_search_opts =  DEFAULT_REPO_SEARCH_OPTS 
       new_search_opts['repo_id'] = @repo_id
-      
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, new_search_opts, params)
-#   NOTE the redirect back here on error!
+    #   NOTE the redirect back here on error!
     rescue Exception => error
+      Rails.logger.debug( error.backtrace ) 
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: "/repositories/#{@repo_id}/" ) and return
     end
