@@ -1337,7 +1337,7 @@ fr:
   assessment:
     _frontend:
       form_header: Evaluation %{display_string}
-      formats: Types / formats de documents
+      formats: Types/formats de documents
       ratings: Notes
       conservation_issues: Problèmes de conservation
       record_types: Types de notices

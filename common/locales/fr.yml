@@ -2084,30 +2084,30 @@ fr:
     surveyed_by: Passé en revue par
     surveyed_by_tooltip: |
         <p>CHAMP OBLIGATOIRE. Nom(s) de la/des personne(s) qui ont réalisé l'évaluation. Champ restreint aux utilisateurs qui ont un compte dans ArchivesSpace.</p>
-    survey_begin: Passage en revue Date de début
+    survey_begin: Début du passage en revue
     survey_begin_tooltip: |
         <p>CHAMP OBLIGATOIRE. Date de début du passage en revue, au format aaaa-mm-jj.</p>
-    survey_end: Date de fin du passage en revue 
+    survey_end: Fin du passage en revue 
     survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format aaaa-mm-jj.</p>
     surveyed_duration: Temps passé au passage en revue complet
-    surveyed_duration_tooltip: <p>Temps qu'il a fallu pour terminer le passage en revue, mesuré en heures.</p>
-    surveyed_extent: Masse passée en revue
+    surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une heure.</p>
+    surveyed_extent: Quantité passée en revue
     surveyed_extent_tooltip: <p>Dimensions des documents passés en revue, exprimée en mètres linéaires ou cubes.</p>
-    related_eac_records: Notice(s) EAC liées
+    related_eac_records: Notice(s) EAC liée(s)
     research_value: Valeur pour la recherche
     research_value_tooltip: <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans le champ Qualité de la documentation à celle du champ Intérêt.</p>
     review_required: Passage en revue requis?
-    review_required_tooltip: <p>Indique si un passage en revue de la collection est souhaitable en raison de son format, de son sujet, ou des circonstances.</p>
+    review_required_tooltip: <p>Indique si le format, le sujet, ou les circonstances, rendent nécessaire un passage en revue de la collection.</p>
     review_required_true: "Oui"
     review_required_false: "Non"
     review_note: Note de passage en revue
     review_note_tooltip: <p>Explication des résultats d'un passage en revue.</p>
     reviewer: Qui doit passer en revue
-    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint à ceux qui ont un compte utilisateur dans ArchivesSpace.</p>
+    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint aux personnes ayant ont un compte utilisateur dans ArchivesSpace.</p>
     purpose: But de l'évaluation
     purpose_tooltip: |
         <p>Indique la raison pour laquelle on a procédé à l'évaluation. Par exemples: priorités de conservation, de traitement, expertise, etc.</p>
-    scope: Portée de l'évaluation
+    scope: Taux d'échantillonnage
     scope_tooltip: |
       <p>Indique la portée de l'évaluation. Par exemple: échantillon de 10%; intégralité; tel format ou genre particulier dans les collections; ou tout autre contraintes ou conditions relatives aux documents effectivement examinés lors d'une évaluation.</p>
     sensitive_material: Documents confidentiels?
@@ -2118,7 +2118,7 @@ fr:
     general_assessment_note_tooltip: <p>Toute note supplémentaire concernant une évaluation.</p>
     special_format_note: Note de format spécial
     special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats spéciaux attestés.</p>
-    exhibition_value_note: Note de valeur d'exposition
+    exhibition_value_note: Note d'intérêt pour une expo
     exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une lettre ou une photographie d'un haut intérêt pour l'histoire.</p>
     rating_attributes_value:
       rating_none: Pas de note
@@ -2135,8 +2135,8 @@ fr:
     rating:
       "Reformatting Readiness": Aptitude au reformatage
       "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents à être reformatés.</p>
-      "Housing Quality": Qualité de mise à l'abri
-      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de la collection est abritée; certains éléments ou groupes d'éléments de la collection peuvent bénéficier d'un abri meilleur que celui indiqué par la note.</p>
+      "Housing Quality": Qualité de l'abri
+      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de la collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent bénéficier d'un abri meilleur que celui indiqué par la note.</p>
       "Physical Condition": Etat matériel
       "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés dans la Note de conservation.</p>
       "Physical Access (arrangement)": Accès physique (classement)

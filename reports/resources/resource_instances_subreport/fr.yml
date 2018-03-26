@@ -1,6 +1,6 @@
 fr:
   reports:
     resource_instances_subreport:
-      top_container: Top contenant
-      container_2: Contenant 2
-      container_3: Contenant 3
+      top_container: Top conditionnement
+      container_2: Conditionnement 2
+      container_3: Conditionnement 3

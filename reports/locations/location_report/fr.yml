@@ -5,7 +5,7 @@ fr:
       description: Affiche une liste de localisations, indiquant toute entrée ou ressource assignée aux localisations définies.
       total_count: Nombre de résultats
       floor: Etage
-      room: Pièce
+      room: Salle
       area: Aire
       coordinates: Coordonnées
       barcode: Code-barres
