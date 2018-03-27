@@ -431,7 +431,7 @@ fr:
         <p>La partie principale d'une forme de nom (par ex. le nom de famille ou le surnom d'une personne).</p>
         <p>Exemples:</p>
         <ul>
-        <li>Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne physique])</em></i>
+        <li>Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne physique])</em></li>
         <li>Black Foot <em>(pour Black Foot, Chief, d. 1877 [personne physique])</em></li>
         <li>International Business Machines <em>(pour International Business Machines. Microelectronics Division [personne morale])</em></li>
         </ul>
@@ -1028,7 +1028,7 @@ fr:
         <ul>
         <li>1968</li>
         <li>1979-1993</li>
-        <li>1785-1960, pour l'essentiel 1916-1958</li>
+        <li>1785-1960, majeure partie 1916-1958</li>
         <li>1827, 1952-1978</li>
         <li>environ 1870-1879</li>
         <li>17 mars 1906</li>
@@ -1178,7 +1178,7 @@ fr:
         <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
     access_restrictions_note: Note de restrictions de consultation
     access_restrictions_note_tooltip: |
-      <p>Une mention indiquant que la consultation de tels et tels documents collectés est soumise à des restrictions, formulées par telle autorité, et valables pour tant de temps. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+        <p>Une mention indiquant que la consultation de tels et tels documents collectés est soumise à des restrictions, formulées par telle autorité, et valables pour tant de temps. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
         <p>Exemples:</p>
         <ul>
         <li>Les journaux intimes conservés dans la boîte 10 ne pas communicables avant 2030 par décision du donateur.</li>
@@ -1188,7 +1188,7 @@ fr:
         <p>Une case à cocher pour indiquer que des restrictions d'utilisation s'appliquent à certains des documents collectés.</p>
     use_restrictions_note: Note de restrictions d'utilisation
     use_restrictions_note_tooltip: |
-      <p>Une mention indiquant les documents concernés par les restrictions d'utilisation, comment ils peuvent être utilisés, quelle autorité a formulé les restrictions et pour combien de temps elles sont valables. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+        <p>Une mention indiquant les documents concernés par les restrictions d'utilisation, comment ils peuvent être utilisés, quelle autorité a formulé les restrictions et pour combien de temps elles sont valables. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
         <p>Exemples:</p>
         <p>Les manuscrits de la boîte 33 sont fragiles; utiliser les photocopies à la place.</p>
     acquisition_type: Type d'acquisition
@@ -1233,11 +1233,11 @@ fr:
     relator: Cette entrée
     sibling_of: Soeur de
     relator_type: Type de relation
-    bound_with: "\"liée par \" Relation"
+    bound_with: "\"liée par\" Relationship"
 
   accession_parts_relationship:
-    _singular: "\"Partie de\" Relation"
-    part: "\"Partie de\" Relation"
+    _singular: "\"Partie de\" Relationship"
+    part: "\"Partie de\" Relationship"
     relator: Cette entrée
     forms_part_of: Fait partie de
     has_part: Participe de
@@ -1257,7 +1257,7 @@ fr:
     name: Nom agent
     names: Formes de nom
     names_tooltip: |
-      <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
+        <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
     agent_contacts: Détails du contact
     contacts_tooltip: |
         <p>Enregistre une information sur la façon de contacter tel agent particulier.</p>
@@ -1325,7 +1325,7 @@ fr:
     ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
-      <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
+        <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
     extents: Importance matérielle
     ref_id_auto_generation_message: "-- auto-généré à la sauvegarde --"
     component_id: Identifiant unique de composant
@@ -1347,7 +1347,7 @@ fr:
         <p>CHAMP OBLIGATOIRE si "Autre niveau" est la valeur sélectionnée pour Niveau. Exprime le type de niveau en-dehors de valeurs spécifiées dans le schéma EAD.</p>
     container_summary: Conditionnement
     container_summary_tooltip: |
-      <p>Pour enregistrer le nombre et le type de conditionnements composant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
+        <p>Pour enregistrer le nombre et le type de conditionnements composant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
         <p>Voir DACS 2.5</p>
         <p>Exemples:</p>
         <ul>
@@ -1358,11 +1358,11 @@ fr:
     publish: Publier?
     publish_tooltip: |
         <p>Détermine si cette ressource sera publiée sur les interfaces publiques.</p>
-    restrictions: Restrictions?
     restrictions_apply: Des restrictions s'appliquent?
-    restrictions_tooltip: |
+    restrictions_apply_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
+    repository_processing_note: Note de traitement de dépôt
     repository_processing_note_tooltip: |
          <p>Champ spécifique à l'application pour enregistrer une information concernant le traitement des documents. Cette note n'est incluse dans aucun rapport ou export, et n'est pas renseignée par import.</p>
     automate_title: Intitulé automatiquement généré
@@ -1410,6 +1410,7 @@ fr:
       delete_classification_record: supprimer des classements et termes de classements
       merge_agents_and_subjects: fusionner des notices agent/matière
       merge_archival_record: fusionner les principaux types de notices dans ce service d'archives
+      manage_rde_templates: gérer les modèles RDE
       transfer_repository: transférer le contenu entier d'un service d'archives
       transfer_archival_record: transférer les principaux types de notices d'un service d'archives vers un autre
       manage_subject_record: créer/actualiser/supprimer des notices matières
@@ -1423,8 +1424,7 @@ fr:
       manage_location_profile_record: créer/actualiser/supprimer des notices de profils localisations
       create_job: créer et lancer une tâche d'arrière-plan
       cancel_job: annuler une tâche d'arrière-plan
-    _singular: Groupe
-    _plural: Groupes
+      update_assessment_record: créer/actualiser des notices d'évaluation
       delete_assessment_record: supprimer des notices d'évaluation
       manage_assessment_attributes: créer/mettre à jour/ supprimer des définitions d'attributs d'évaluation du service
     _singular: Group
@@ -1603,9 +1603,9 @@ fr:
     country: Pays
     country_tooltip: |
         <p>Le pays dans lequel le service d'archives est situé, pris dans la liste ISO 3166.</p>
-    post_code: Code postal
-    telephone: Téléphone
-        <p>An about section or descriptive summary for the repository.</p>
+    description: Description
+    description_tooltip: |
+        <p>Une section à propos ou une description résumée du dépôt.</p>
     post_code: Code postal
     telephone: Téléphone
     telephone_ext: Poste interne

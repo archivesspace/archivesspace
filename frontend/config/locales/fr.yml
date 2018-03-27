@@ -1406,4 +1406,4 @@ fr:
         conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
         attribute_in_use: Impossible de supprimer un attribut qui sert à une évaluation
       database_value: Valeur de la base de données
-      translation: Translation
+      translation: Traduction

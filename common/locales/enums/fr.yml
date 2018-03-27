@@ -1315,10 +1315,10 @@
       disallow: Interdire
       conditional: Conditionnel
     rights_statement_rights_type:
-      intellectual_property: Propriété intellectuelle
+      copyright: Propriété intellectuelle
       license: Permission
       statute: Statut
-      institutional_policy: Politique institutionnelle
+      other: Autre
     rights_statement_ip_status:
       copyrighted: Droits d'auteur
       public_domain: Domaine public
@@ -1423,7 +1423,7 @@
       function: Fonction
       occupation: Activité
       title: Titre
-      genre_form: Genre / Forme
+      genre_form: Genre/forme
       geographic_name: Nom géographique
     user_defined_enum_1:
       novalue: Aucune valeur définie
