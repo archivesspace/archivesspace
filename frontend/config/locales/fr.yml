@@ -280,8 +280,8 @@ fr:
     manage_location_profiles: Gérer profils de localisations
     manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
-    user_global_preferences: Mes préférences globales
-    user_repo_preferences: Mes préférences de service d'archives
+    global_preferences: Préférences globales
+    user_repo_preferences: Préférences de service d'archives
     repo_preferences: Préférences par défaut de l'utilisateur
     manage_user_access: Gérer accès utilisateur
     logout: Déconnexion

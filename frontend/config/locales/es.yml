@@ -270,8 +270,8 @@
     manage_location_profiles: Gestionar Location Profiles
     manage_top_containers: Gestionar Top Containers
     manage_enumerations: Administrar listas de valores controlados
-    user_global_preferences: Mis preferencias globales
-    user_repo_preferences: Mis preferencias de repositorio
+    global_preferences: Preferencias globales
+    user_repo_preferences: Preferencias de repositorio
     repo_preferences: Valores predeterminados de preferencia de usuario
     manage_user_access: Administrar el acceso de usuario
     logout: Salir

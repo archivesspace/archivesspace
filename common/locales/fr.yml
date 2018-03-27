@@ -1775,7 +1775,7 @@ fr:
     repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par vos propres préférences pour un service d'archives.
-    user_repo: Mes préférences Service
+    user_repo: Préférences Service
     user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
