@@ -113,7 +113,6 @@ GEM
       choice (>= 0.1.0)
       ffi (>= 1.0.0)
       rack (>= 1.0.0)
-    multi_json (1.13.1)
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     nio4r (1.2.1-java)

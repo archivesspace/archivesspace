@@ -12,10 +12,10 @@ describe "index state" do
       s_dir = "#{AppConfig[:data_directory]}" + "/indexer_state"
       expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
     end
-    it "initializes index state directory using data_directory from AppConfig and '/indexer_pui_state'" do
-      s_dir = "#{AppConfig[:data_directory]}" + "/indexer_pui_state"
-      expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
-    end
+    # it "initializes index state directory using data_directory from AppConfig and '/indexer_pui_state'" do
+    #   s_dir = "#{AppConfig[:data_directory]}" + "/indexer_pui_state"
+    #   expect(@state.instance_variable_get(:@state_dir)).to eq(s_dir)
+    # end
   end
   describe "path_for" do
     it "provides the path for indexer_state file using repository_id and record_type" do

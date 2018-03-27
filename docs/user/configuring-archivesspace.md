@@ -343,6 +343,26 @@ AppConfig[:show_external_ids] = false
 AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024
 AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 
+# Container management configuration fields
+# :container_management_barcode_length defines global and repo-level barcode validations
+# (validating on length only).  Barcodes that have either no value, or a value between :min
+# and :max, will validate on save.  Set global constraints via :system_default, and use
+# the repo_code value for repository-level constraints.  Note that :system_default will
+# always inherit down its values when possible.
+#
+# Example:
+# AppConfig[:container_management_barcode_length] = {:system_default => {:min => 5, :max => 10}, 'repo' => {:min => 9, :max => 12}, 'other_repo' => {:min => 9, :max => 9} }
+
+# :container_management_extent_calculator globally defines the behavior of the exent calculator.
+# Use :report_volume (true/false) to define whether space should be reported in cubic
+# or linear dimensions.
+# Use :unit (:feet, :inches, :meters, :centimeters) to define the unit which the calculator
+# reports extents in.
+# Use :decimal_places to define how many decimal places the calculator should return.
+#
+# Example:
+# AppConfig[:container_management_extent_calculator] = { :report_volume => true, :unit => :feet, :decimal_places => 3 }
+
 # Define the fields for a record type that are inherited from ancestors
 # if they don't have a value in the record itself.
 # This is used in common/record_inheritance.rb and was developed to support

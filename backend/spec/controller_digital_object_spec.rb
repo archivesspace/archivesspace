@@ -177,7 +177,9 @@ describe 'Digital Objects controller' do
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
     tree.children.length.should eq(2)
 
-    tree.children[0]["title"].should eq(doc_1["title"])
-    tree.children[1]["title"].should eq(doc_2["title"])
+    sorted_by_id = tree.children.sort_by{ |x| x["id"]}
+
+    sorted_by_id[0]["title"].should eq(doc_1["title"])
+    sorted_by_id[1]["title"].should eq(doc_2["title"])
   end
 end
