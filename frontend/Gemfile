@@ -10,7 +10,6 @@ gem 'sprockets-rails', '2.3.3'
 gem 'tzinfo-data'
 
 
-gem 'pry'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -38,6 +37,11 @@ group :test do
   gem 'rspec', "~> 3.6.0"
   gem 'rspec-rails'
   gem 'simplecov', "0.7.1"
+end
+
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-nav'
 end
 
 gem "mizuno", "0.6.11"
