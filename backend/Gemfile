@@ -26,7 +26,6 @@ gem "warbler", "2.0.4", :group => :build
 gem "oai", "0.4.0"
 gem "activesupport", "5.0.1"
 
-
 group :test do
   gem "factory_bot"
   gem "rspec", "~> 3.6.0"
@@ -35,8 +34,15 @@ group :test do
   gem "simplecov", "0.7.1"
 end
 
+group :development, :test do
+  gem 'pry'
+  gem 'pry-nav'
+end
+
+
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
+gem 'multi_json', '~> 1.13.1'
 gem "rjack-jackson", "1.8.11.0"
 
 

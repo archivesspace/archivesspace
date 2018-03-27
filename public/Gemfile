@@ -33,6 +33,7 @@ gem 'coffee-rails', '4.2.1'
 gem 'therubyrhino'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
 gem "json", "1.8.6"
 gem 'json-schema', '1.0.10'
 gem "net-http-persistent", "2.8"
@@ -59,4 +60,16 @@ gem 'listen', group: :development
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'pry-rails', group: :development
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-nav'
+end
+
+group :test do
+  gem 'rspec', "~> 3.6.0"
+  gem 'rspec-rails'
+  gem 'rails-controller-testing' 
+  gem 'simplecov', "0.7.1"
+  gem "factory_bot_rails"
+  gem "fog-aws", "2.0.0", :require => false
+end
