@@ -206,7 +206,8 @@ en:
     user_mtime: Modified
     primary_type: Record Type
     processing_priority: Processing Priority
-    processing_status: Status
+    processing_status: Processing Status
+    processing_hours_total: Total Hours
     parent_id: Record Type
     create_time: Created
     authority_id: Authority ID
