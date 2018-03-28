@@ -439,6 +439,11 @@ describe 'MARC Export' do
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']").should have_inner_text(org_code)
     end
 
+    it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      org_code = JSONModel(:repository).find($repo_id).org_code
+      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
+    end
+
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='e']").should have_inner_text(@resource1.finding_aid_description_rules)
     end
@@ -755,11 +760,11 @@ describe 'MARC Export' do
   end
 
 
-  describe "https://archivesspace.atlassian.net/browse/AR-973" do
-    # Note: I'm unclear what this issue actually means
-
+  describe "049 OCLC tag" do
     before(:all) do
       @resource = create(:json_resource)
+      @org_code = JSONModel(:repository).find($repo_id).org_code
+
       @marc = get_marc(@resource)
     end
 
@@ -768,8 +773,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource language code to 049$a" do
-      @marc.at("datafield[@tag='049'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource.language)
+    it "maps org_code to 049 tag" do
+      @marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(@org_code)
     end
   end
 

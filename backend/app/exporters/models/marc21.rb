@@ -11,7 +11,7 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
   @archival_object_map = {
-    :repository => :handle_repo_code,
+    [:repository, :language] => :handle_repo_code,
     [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
@@ -197,11 +197,32 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_language(langcode)
     df('041', '0', ' ').with_sfs(['a', langcode])
-    df('049', '0', ' ').with_sfs(['a', langcode])
   end
 
 
-  def handle_repo_code(repository)
+  def handle_dates(dates)
+    return false if dates.empty?
+
+    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+      dates.find {|date| types.include? date['date_type'] }
+    }.compact
+
+    dates.each do |date|
+      code = date['date_type'] == 'bulk' ? 'g' : 'f'
+      val = nil
+      if date['expression'] && date['date_type'] != 'bulk'
+        val = date['expression']
+      elsif date['date_type'] == 'single'
+        val = date['begin']
+      else
+        val = "#{date['begin']} - #{date['end']}"
+      end
+
+      df('245', '1', '0').with_sfs([code, val])
+    end
+  end
+
+  def handle_repo_code(repository, langcode)
     repo = repository['_resolved']
     return false unless repo
 
@@ -211,7 +232,8 @@ class MARCModel < ASpaceExport::ExportModel
                         ['a', sfa],
                         ['b', repo['name']]
                       )
-    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['c', repo['org_code']])
+    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
+    df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
   end
 
   def source_to_code(source)
