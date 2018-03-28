@@ -145,7 +145,7 @@ describe 'MARC Export' do
       end
     end
 
-    it "sets first indicator to 0 if the resource has no owner" do
+    it "sets first indicator to 0 if the resource has no creator" do
       @marc.should have_tag "datafield[@tag='245' and @ind1='0']"
     end
   end
@@ -587,7 +587,7 @@ describe 'MARC Export' do
     end
 
     # opposite case of spec found on line 143
-    it "245 tag: sets first indicator to 1 if the resource has an owner" do
+    it "245 tag: sets first indicator to 1 if the resource has an creator" do
       @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
