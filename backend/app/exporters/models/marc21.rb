@@ -23,7 +23,7 @@ class MARCModel < ASpaceExport::ExportModel
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e'),
-    :ead_location => :handle_ead_loc
+    [:ead_location, :finding_aid_note] => :handle_ead_loc
   }
 
   attr_accessor :leader_string
@@ -521,7 +521,10 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_ead_loc(ead_loc)
+  def handle_ead_loc(ead_loc, finding_aid_note)
+    puts "++++++++++++++++++++++++++++++"
+    puts "finding aid: " + finding_aid_note.inspect
+    
     df('555', ' ', ' ').with_sfs(
                                   ['a', "Finding aid online:"],
                                   ['u', ead_loc]
