@@ -712,21 +712,6 @@ describe 'MARC Export' do
       note_test(@resource, @marc, %w(custodhist), ['561', '0', ' '], 'a', {'publish' => false})
     end
 
-    it "should publish contents of custodhist when publish => false" do
-      resource = create(:json_resource,
-                         :notes => full_note_set)
-
-
-      # set custodhist note to unpublish
-      custodhist_note = resource["notes"].select{|n| n["type"] == "custodhist"}
-      custodhist_note[0]["publish"] = false
-      custodhist_note[0]["subnotes"][0]["publish"] = false
-
-      marc = get_marc(resource)
-
-      marc.should have_tag "datafield[@tag='561']/subfield[@code='a']" => custodhist_note[0]["subnotes"][0]["content"]
-    end
-
 
     it "maps public notes of type 'appraisal' to df 583 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(appraisal), ['583', '1', ' '], 'a', {'publish' => true})
