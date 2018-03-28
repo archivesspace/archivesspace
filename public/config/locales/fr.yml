@@ -156,7 +156,7 @@ fr:
       subjects: Sujet
       primary_type: Type
       repository: Service
-      used_within_repository: Service
+      used_within_published_repository: Service
       creators: Producteur
       fullrecord: Mot-clé
       subjects_text: Sujet
@@ -497,7 +497,7 @@ fr:
 
   location: Localisation
 
-  location: Localisation
+  description: A propos
 
   contact: Contact
 
@@ -805,7 +805,6 @@ fr:
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings
-      ram: Répertoire d'autorités RAMEAU  
       rvm: Répertoire de vedettes-matière
       ulan: Union List of Artist Names
     name_rule:
@@ -947,7 +946,6 @@ fr:
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU  
       tgn: Getty Thesaurus of Geographic Names
     event_outcome:
       pass: Réussite

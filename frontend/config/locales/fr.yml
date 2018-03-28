@@ -19,6 +19,8 @@ fr:
     edit_groups: Editer groupes
     edit_default_values: Editer valeurs par défaut
     edit_default_archival_object_values: Editer composants par défaut
+    edit_required_fields: Editer champs obligatoires
+    required: Champs obligatoires
     export: Exporter
     view: Affichage
     spawn: Hériter
@@ -40,8 +42,6 @@ fr:
     remove: Supprimer
     refresh_page: Rafaîchir la page
     new_prefix: Créer
-    save_prefix: Sauvegarder
-    new_prefix: Nouveau
     save_prefix: Sauvegarder
     save_plus_one: "+1"
     save_anyway: Sauvegarder quand même
@@ -447,6 +447,7 @@ fr:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
+        delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionner ci-dessous les agents à fusionner
         merged: Agent(s) fusionné(s)
         please_select_a_agent_to_merge: Sélectionner un agent
@@ -457,7 +458,6 @@ fr:
         contacts: Détails de contact
         search_embedded: Notices liées
         linked_via_rights_statement: Notices liées via la mention de droits
-        linked_via_rights_statement: Notices liées via la déclaration de droits
       action:
         create: Créer agent
 
