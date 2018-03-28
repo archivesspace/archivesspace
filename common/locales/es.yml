@@ -134,7 +134,7 @@
     _plural: Componentes de objeto digital
 
   location: &location_attributes
-    title: Título
+    title: Ubicación
     temporary_question: ¿Temporal?
     temporary: Temporal
     temporary_tooltip: |

@@ -134,7 +134,7 @@ fr:
     _plural: Composants d'objet numérique
 
   location: &location_attributes
-    title: Titre
+    title: Localisation
     temporary_question: Temporaire?
     temporary: Temporaire
     temporary_tooltip: |
