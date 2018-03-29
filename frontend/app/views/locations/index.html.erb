@@ -1,12 +1,11 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
 <%
    @show_multiselect_column = user_can?("administer_system")
-  no_title!
 
+   title_column_header(I18n.t("location.title"))
    %w(building floor room area).each do |place|
      add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
    end
-   add_column(I18n.t("location._singular"), proc {|record| record['title']}, :sortable => true, :sort_by => 'title_sort')
    add_column(I18n.t("location_profile._singular"), proc {|record| record["location_profile_display_string_u_ssort"]}, :sortable => true, :sort_by => "location_profile_display_string_u_ssort" )
    add_column(current_repo['repo_code'] + " " + I18n.t("location.holdings"), proc {|record|
     filter_term = {"location_uris" => record['uri']}.to_json

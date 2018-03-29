@@ -134,7 +134,7 @@ en:
     _plural: Digital Object Components
 
   location: &location_attributes
-    title: Title
+    title: Location
     temporary_question: Temporary?
     temporary: Temporary
     temporary_tooltip: |
