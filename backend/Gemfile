@@ -13,7 +13,7 @@ gem "json-schema", "1.0.10"
 gem "jruby-jars", "= 9.1.8.0"
 gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
 gem "saxerator", "= 0.9.2"
-gem 'saxon-xslt'
+gem 'saxon-xslt', '~> 0.8', '>= 0.8.2.1'
 gem 'tzinfo'
 gem "rufus-scheduler", "~> 2.0.24"
 gem "rufus-lru", "1.0.5"
@@ -36,10 +36,13 @@ end
 
 group :development, :test do
   gem "pry-debugger-jruby"
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
+gem 'multi_json', '~> 1.13.1'
 gem "rjack-jackson", "1.8.11.0"
 
 

@@ -76,7 +76,7 @@ class OAIDCMapper
         # Extents
         Array(jsonmodel['extents']).each do |extent|
           extent_str = [extent['number'] + ' ' + I18n.t('enumerations.extent_extent_type.' + extent['extent_type'], :default => extent['extent_type']), extent['container_summary']].compact.join('; ')
-          xml['dc'].extent(extent_str)
+          xml['dc'].format(extent_str)
         end
 
         # Physical description and Dimensions notes are also extents
@@ -84,7 +84,7 @@ class OAIDCMapper
           .select {|note| ['physdesc', 'dimensions'].include?(note['type'])}
           .each do |note|
           OAIUtils.extract_published_note_content(note).each do |content|
-            xml['dc'].extent(content)
+            xml['dc'].format(content)
           end
         end
 
@@ -116,7 +116,7 @@ class OAIDCMapper
           .select {|note| ['accessrestrict', 'userestrict'].include?(note['type'])}
           .each do |note|
           OAIUtils.extract_published_note_content(note).each do |content|
-            xml['dc'].relation(content)
+            xml['dc'].rights(content)
           end
         end
 

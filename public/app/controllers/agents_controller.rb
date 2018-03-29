@@ -1,6 +1,5 @@
 class AgentsController <  ApplicationController
   include ResultInfo
-  include TreeApis
 
   skip_before_filter  :verify_authenticity_token
 
@@ -29,7 +28,7 @@ class AgentsController <  ApplicationController
     search_opts = default_search_opts(DEFAULT_AG_SEARCH_OPTS)
     search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search  =  repo_id ? "/repositories/#{repo_id}/agents?" : '/agents?'
-    default_facets = DEFAULT_AG_FACET_TYPES
+    default_facets = DEFAULT_AG_FACET_TYPES.dup
     default_facets.push('used_within_published_repository') unless repo_id
     page = Integer(params.fetch(:page, "1"))
     set_up_and_run_search( DEFAULT_AG_TYPES, default_facets,  search_opts, params)

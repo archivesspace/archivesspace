@@ -1,85 +1,14 @@
 require 'spec_helper'
 require 'stringio'
+require 'oai_helper'
 
 require_relative 'oai_response_checker'
 
 describe 'OAI handler' do
-
-  FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "oai")
-
-  def fake_job_monitor
-    job_monitor = Object.new
-
-    def job_monitor.method_missing(*)
-      # Do nothing
-    end
-
-    job_monitor
-  end
+  FIXTURES_DIR = OAIHelper::FIXTURES_DIR
 
   before(:all) do
-    @oai_repo_id = RequestContext.open do
-      create(:repo, {:repo_code => "oai_test", :org_code => "oai", :name => "oai_test"}).id
-    end
-
-    test_subjects = ASUtils.json_parse(File.read(File.join(FIXTURES_DIR, 'subjects.json')))
-    test_agents = ASUtils.json_parse(File.read(File.join(FIXTURES_DIR, 'agents.json')))
-
-    test_resource_template = ASUtils.json_parse(File.read(File.join(FIXTURES_DIR, 'resource.json')))
-    test_archival_object_template = ASUtils.json_parse(File.read(File.join(FIXTURES_DIR, 'archival_object.json')))
-
-    # Create some test Resource records -- fully filled out with agents,
-    # subjects and notes.
-    @test_record_count = 5
-
-    test_resources = @test_record_count.times.map do |i|
-      resource = test_resource_template.clone
-      resource['uri'] = "/repositories/2/resources/import_#{i}"
-      resource['title'] = "Test resource #{i}"
-      resource['id_0'] = "Resource OAI test #{i}"
-
-      resource['ead_id'] = "ead_id_#{i}"
-      resource['finding_aid_sponsor'] = "sponsor_#{i}"
-
-      resource
-    end
-
-    # Create some Archival Object records -- same deal.
-    test_archival_objects = @test_record_count.times.map do |i|
-      archival_object = test_archival_object_template.clone
-      archival_object['uri'] = "/repositories/2/archival_objects/import_#{SecureRandom.hex}"
-      archival_object['component_id'] = "ArchivalObject OAI test #{i}"
-      archival_object['resource'] = {'ref' => test_resources.fetch(i).fetch('uri')}
-
-      # Mark one of them with a different level for our set tests
-      archival_object['level'] = ((i == 4) ? 'fonds' : 'file')
-
-      archival_object
-    end
-
-    # Import the whole lot
-    test_data = StringIO.new(ASUtils.to_json(test_subjects +
-                                             test_agents +
-                                             test_resources +
-                                             test_archival_objects))
-
-    RequestContext.open(:repo_id => @oai_repo_id) do
-      created_records = as_test_user('admin') do
-        StreamingImport.new(test_data, fake_job_monitor, false, false).process
-      end
-
-      @test_resource_record = created_records.fetch(test_resources[0]['uri'])
-      @test_archival_object_record = created_records.fetch(test_archival_objects[0]['uri'])
-
-      as_test_user('admin') do
-        # Prepare some deletes
-        5.times do
-          ao = create(:json_archival_object)
-
-          ArchivalObject[ao.id].delete
-        end
-      end
-    end
+    @oai_repo_id, @test_record_count, @test_resource_record, @test_archival_object_record = OAIHelper.load_oai_data
   end
 
   around(:each) do |example|
@@ -422,4 +351,33 @@ describe 'OAI handler' do
 
   end
 
+  describe 'OAI mappers output' do
+    describe 'DC output' do
+      it "should map Conditions Governing Access and Conditions Governing Use to <dc:rights>" do
+
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
+
+        response = get uri
+        expect(response.body).to match(/<dc:rights>conditions governing access note<\/dc:rights>/)
+        expect(response.body).to match(/<dc:rights>conditions governing use note<\/dc:rights>/)
+
+        expect(response.body).to_not match(/<dc:relation>conditions governing access note<\/dc:relation>/)
+        expect(response.body).to_not match(/<dc:relation>conditions governing use note<\/dc:relation>/)
+      end
+
+      it "should map Extents to dc:format, not dc:extent" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
+
+        response = get uri
+
+        expect(response.body).to match(/<dc:format>10 Volumes; Container summary<\/dc:format>/)
+        expect(response.body).to match(/<dc:format>physical description note<\/dc:format>/)
+        expect(response.body).to match(/<dc:format>dimensions note<\/dc:format>/)
+
+        expect(response.body).to_not match(/<dc:extent>10 Volumes; Container summary<\/dc:extent>/)
+        expect(response.body).to_not match(/<dc:extent>physical description note<\/dc:extent>/)
+        expect(response.body).to_not match(/<dc:extent>dimensions note<\/dc:extent>/)
+      end
+    end
+  end
 end

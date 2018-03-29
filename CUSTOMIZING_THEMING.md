@@ -40,6 +40,10 @@ Example:
 
 Restart the application and you should see your logo in the default view.
 
+## Changing the branding logo on the PUI PDFs
+
+To change the branding logo on the public interface print to PDF pages, create a directory at  `/local/public/views/pdf` put in the _header.html.erb file and just change up the name of that default logo. Then put a copy of the new image in the directory `plugins/local/public/assets/images`.
+
 ## Adding some CSS rules
 
 Small CSS edits will be most easily done as a plugin. With a plugin, you can override default views, controllers, models, etc. without having to do a complete rebuild of the source code. You can customize CSS through the plugin system too. If you don't want to create a whole new plugin, the easiest way is to modify the 'local' plugin that ships with ArchivesSpace, which is intended for these kinds of site-specific changes. As long as you've still got 'local' listed in your AppConfig[:plugins] list, your changes will get picked up.

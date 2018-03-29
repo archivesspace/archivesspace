@@ -1758,7 +1758,7 @@
     repo_message: Editar estos valores para establecer valores predeterminados de preferencia de usuario para el repositorio actual. Estos valores pueden ser reemplazados por un usuario propias preferencias.
     user_global: Mis preferencias globales
     user_global_message: Editar estos valores para definir las preferencias de usuario de todo el sistema. Estos valores pueden ser anulados por el repositorio por defecto o por sus propias preferencias para un repositorio.
-    user_repo: Mis preferencias de repositorio
+    user_repo: Preferencias de repositorio
     user_repo_message: Editar estos valores para definir las preferencias de usuario de este repositorio. Estos valores no se pueden sustituir.
     _singular: Preferencias
     _plural: Preferencias

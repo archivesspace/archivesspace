@@ -93,7 +93,7 @@ We'll assume you already have the following ready to go:
     files (such as log files and Solr indexes).  Ideally this is just
     a directory on local disk.
 
-  * Java 1.6 (or above) installed on each machine.
+  * Java 1.7 or 1.8 installed on each machine.
 
 
 ## Populate your /aspace/ directory

@@ -88,7 +88,7 @@ class ArchivesSpaceService < Sinatra::Base
   do
     obj = EnumerationValue.get_or_die(params[:enum_val_id])
     obj.update_position_only(params[:position])
-    json_response(obj)
+    updated_response( obj.refresh )
   end
   
   Endpoint.post('/config/enumeration_values/:enum_val_id/suppressed')
