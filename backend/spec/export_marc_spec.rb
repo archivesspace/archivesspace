@@ -696,12 +696,17 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource.ead_location to df 555 (' ', ' '), sf a" do
-      df = @marc.df('555', ' ', ' ')
+    it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
+      df = @marc.df('856', '4', '2')
       df.sf_t('u').should eq(@resource.ead_location)
-      df.sf_t('a').should eq("Finding aid online:")
+      df.sf_t('z').should eq("Finding aid online:")
     end
 
+    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
+      df = @marc.df('555', '0', ' ')
+      df.sf_t('u').should eq(@resource.finding_aid_note)
+      df.sf_t('3').should eq("Finding aids:")
+    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
