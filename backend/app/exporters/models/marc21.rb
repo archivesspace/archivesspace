@@ -521,18 +521,35 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
+  # 3/28/18: Updated: ANW-318
   def handle_ead_loc(ead_loc, finding_aid_note)
-    puts "++++++++++++++++++++++++++++++"
-    puts "finding aid: " + finding_aid_note.inspect
-    
-    df('555', ' ', ' ').with_sfs(
-                                  ['a', "Finding aid online:"],
-                                  ['u', ead_loc]
-                                )
-    df('856', '4', '2').with_sfs(
-                                  ['z', "Finding aid online:"],
-                                  ['u', ead_loc]
-                                )
+    ead_loc_present          = ead_loc && !ead_loc.empty?
+    finding_aid_note_present = finding_aid_note && !finding_aid_note.empty?
+
+    # If there is EADlocation
+    #<datafield tag="856" ind1="4" ind2="2">
+    #  <subfield code="z">Finding aid online:</subfield>
+    #  <subfield code="u">EADlocation</subfield>
+    #</datafield>
+    if ead_loc_present
+      df('856', '4', '2').with_sfs(
+                                    ['z', "Finding aid online:"],
+                                    ['u', ead_loc]
+                                  )
+    end
+
+    # If there a OtherFindingAidNote
+    #<datafield tag="555" ind1="0" ind2="">
+    #  <subfield code="3">Finding aids:</subfield>
+    #  <subfield code="u">OtherFindingAidNote</subfield>
+    #</datafield>
+    if finding_aid_note_present
+        df('555', '0', ' ').with_sfs(
+                                ['3', "Finding aids:"],
+                                ['u', finding_aid_note]
+                              )
+
+    end
   end
 
 end
