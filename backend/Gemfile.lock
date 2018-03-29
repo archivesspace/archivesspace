@@ -22,8 +22,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
+    i18n (0.9.1)
     ffi (1.9.23-java)
-    i18n (0.7.0)
     jdbc-derby (10.12.1.1)
     jdbc-mysql (5.1.13)
     jruby-jars (9.1.8.0)
@@ -47,11 +47,14 @@ GEM
       builder (>= 3.1.0)
       faraday
       faraday_middleware
-    pry (0.9.12.6-java)
-      coderay (~> 1.0)
-      method_source (~> 0.8)
+    pry (0.10.4-java)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
       slop (~> 3.4)
       spoon (~> 0.0)
+    pry-debugger-jruby (1.2.0-java)
+      pry (>= 0.10, < 0.12)
+      ruby-debug-base (~> 0.10.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
     rack (1.6.9)
@@ -60,7 +63,7 @@ GEM
     rack-session-sequel (0.0.1)
       rack
       sequel
-    rack-test (0.8.3)
+    rack-test (1.0.0)
       rack (>= 1.0, < 3)
     rake (12.3.1)
     rjack-jackson (1.8.11.0-java)
@@ -77,6 +80,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
+    ruby-debug-base (0.10.6-java)
     rubyzip (1.2.1)
     rufus-lru (1.0.5)
     rufus-scheduler (2.0.24)
@@ -107,7 +111,7 @@ GEM
     tilt (2.0.8)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2018.3)
+    tzinfo-data (1.2018.4)
       tzinfo (>= 1.0.0)
     warbler (2.0.4)
       jruby-jars (>= 9.0.0.0)
@@ -125,7 +129,7 @@ DEPENDENCIES
   atomic (= 1.0.1)
   bcrypt (= 3.1.7)
   factory_bot
-  i18n (= 0.7.0)
+  i18n (= 0.9.1)
   jdbc-derby (= 10.12.1.1)
   jdbc-mysql (= 5.1.13)
   jruby-jars (= 9.1.8.0)
@@ -139,6 +143,7 @@ DEPENDENCIES
   net-ldap (~> 0.16.0)
   nokogiri (= 1.8.1)
   oai (= 0.4.0)
+  pry-debugger-jruby
   pry
   pry-nav
   rack-session-sequel (= 0.0.1)

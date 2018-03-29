@@ -101,6 +101,9 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
       spoon (~> 0.0)
+    pry-debugger-jruby (1.2.0-java)
+      pry (>= 0.10, < 0.12)
+      ruby-debug-base (~> 0.10.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
     pry-rails (0.3.6)
@@ -156,6 +159,7 @@ GEM
       rspec-mocks (~> 3.6.0)
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
+    ruby-debug-base (0.10.6-java)
     rubyzip (1.2.1)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
@@ -222,6 +226,7 @@ DEPENDENCIES
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
   nokogiri (= 1.8.1)
+  pry-debugger-jruby
   pry-nav
   pry-rails
   rails (= 5.0.1)

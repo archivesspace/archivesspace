@@ -45,6 +45,31 @@ describe 'MARC Export' do
     code.to_s
   end
 
+ describe "root node content" do
+    before(:each) do
+      @marc = get_marc(create(:json_resource))      
+      @xml = @marc.to_xml
+    end
+
+
+    it "root node should have marc namespace" do
+      expect(@xml).to match(/<marc:collection/)
+      expect(@xml).to match(/<\/marc:collection>/)
+    end
+
+    it "root node should have xmlns:marc defined" do
+      expect(@xml).to match(/<marc:collection.*xmlns:marc="http:\/\/www.loc.gov\/MARC21\/slim"/)
+
+    end
+
+    it "root node should have xmlns:xsi defined" do
+      expect(@xml).to match(/<marc:collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+    end
+
+    it "root node should have xsi:schemaLocation defined" do
+      expect(@xml).to match(/<marc:collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd http:\/\/www.loc.gov\/MARC21\/slim"/)
+    end
+  end  
 
   describe "datafield 110 name mapping" do
 
@@ -105,7 +130,12 @@ describe 'MARC Export' do
 
     it "maps the first bulk date to subfield 'g'" do
       date = @dates.find{|d| d.date_type == 'bulk'}
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+
+      if date.expression
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
+      else
+        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+      end
     end
 
 
@@ -113,6 +143,85 @@ describe 'MARC Export' do
       %w(f g).each do |code|
         @marc.should_not have_tag "datafield[@tag='245']/subfield[@code='#{code}'][2]"
       end
+    end
+
+    it "sets first indicator to 0 if the resource has no creator" do
+      @marc.should have_tag "datafield[@tag='245' and @ind1='0']"
+    end
+  end
+
+  describe "datafield 245 mapping dates" do
+    before(:each) do
+
+      @range = [nil, nil].map { generate(:yyyy_mm_dd) }.sort
+
+      @inclusive_single = build(:json_date,
+                                :date_type => 'inclusive',
+                                :begin => @range[0],
+                                :end => nil,
+                                :expression => nil)
+
+      @bulk_single = build(:json_date,
+                           :date_type => 'bulk',
+                           :begin => @range[0],
+                           :end => nil,
+                           :expression => nil)
+
+      @inclusive_range = build(:json_date,
+                               :date_type => 'inclusive',
+                               :begin => @range[0],
+                               :end => @range[1],
+                               :expression => nil)
+
+
+      @bulk_range = build(:json_date,
+                          :date_type => 'bulk',
+                          :begin => @range[0],
+                          :end => @range[1],
+                          :expression => nil)
+
+      @inclusive_expression = build(:json_date,
+                                    :date_type => 'inclusive',
+                                    :begin => @range[0],
+                                    :end => @range[1],
+                                    :expression => "1981ish")
+
+      @bulk_expression = build(:json_date,
+                               :date_type => 'bulk',
+                               :begin => @range[0],
+                               :end => @range[1],
+                               :expression => "1991ish")
+
+    end
+
+    it "should use expression in bulk and inclusive dates if provided" do
+      dates = [@inclusive_expression, @bulk_expression]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "1981ish"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "1991ish"
+    end
+
+    it "should follow the format for single dates" do
+      dates = [@inclusive_single, @bulk_single]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]}"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]}"
+    end
+
+    it "should follow the format for ranged dates" do
+      dates = [@inclusive_range, @bulk_range]
+
+      resource = create(:json_resource, :dates => dates)
+      marc = get_marc(resource) 
+
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]} - #{@range[1]}"
+      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]} - #{@range[1]}"
     end
   end
 
@@ -140,10 +249,11 @@ describe 'MARC Export' do
     end
 
 
-    it "maps extent number and type to subfield a" do
+    it "maps extent number to subfield a, and type to subfield f" do
       type = I18n.t("enumerations.extent_extent_type.#{@extents[0].extent_type}")
       extent = "#{@extents[0].number} #{type}"
-      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => extent
+      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => @extents[0].number
+      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='f']" => type
     end
 
 
@@ -157,7 +267,7 @@ describe 'MARC Export' do
 
     it "maps arrangment and fileplan notes to datafield 351" do
       @notes.each do |note|
-        @marc.should have_tag "datafield[@tag='351']/subfield[@code='b'][1]" => note_content(note)
+        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note)
       end
     end
   end
@@ -270,7 +380,7 @@ describe 'MARC Export' do
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
-      @marc1.at("record/leader").should have_inner_text(/00000np.\sa2200000\su\s4500/)
+      @marc1.at("record/leader").should have_inner_text(/00000np.aa2200000\su\s4500/)
     end
 
 
@@ -476,6 +586,11 @@ describe 'MARC Export' do
       df.at("subfield[@code='d']").should have_inner_text name['dates']
     end
 
+    # opposite case of spec found on line 143
+    it "245 tag: sets first indicator to 1 if the resource has an creator" do
+      @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
+    end
+
   end
 
 
@@ -536,8 +651,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps notes of type 'prefercite' to df 524 ('8', ' '), sf a" do
-      note_test(@resource, @marc, %w(prefercite), ['524', '8', ' '], 'a')
+    it "maps notes of type 'prefercite' to df 524 (' ', ' '), sf a" do
+      note_test(@resource, @marc, %w(prefercite), ['524', ' ', ' '], 'a')
     end
 
 
@@ -566,8 +681,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps notes of type 'relatedmaterial' to df 544 (' ', ' '), sf a" do
-      note_test(@resource, @marc, %w(relatedmaterial), ['544', ' ', ' '], 'a')
+    it "maps notes of type 'relatedmaterial' to df 544 (' ', ' '), sf d" do
+      note_test(@resource, @marc, %w(relatedmaterial), ['544', ' ', ' '], 'd')
     end
 
 

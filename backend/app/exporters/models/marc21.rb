@@ -12,12 +12,11 @@ class MARCModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :repository => :handle_repo_code,
-    :title => :handle_title,
+    [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => :handle_language,
-    :dates => :handle_dates,
+    :language => :handle_language
   }
 
   @resource_map = {
@@ -100,7 +99,7 @@ class MARCModel < ASpaceExport::ExportModel
   def self.from_resource(obj)
     marc = self.from_archival_object(obj)
     marc.apply_map(obj, @resource_map)
-    marc.leader_string = "00000np$ a2200000 u 4500"
+    marc.leader_string = "00000np$aa2200000 u 4500"
     marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
 
     marc.controlfield_string = assemble_controlfield_string(obj)
@@ -149,8 +148,38 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_title(title)
-    df('245', '1', '0').with_sfs(['a', title])
+  def handle_title(title, linked_agents, dates)
+    creator = linked_agents.find{|a| a['role'] == 'creator'}
+    date_codes = []
+
+    # process dates first, if defined. 
+    unless dates.empty?
+      dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+        dates.find {|date| types.include? date['date_type'] }
+      }.compact
+
+      dates.each do |date|
+        code, val = nil
+        code = date['date_type'] == 'bulk' ? 'g' : 'f'
+        if date['expression']
+          val = date['expression']
+        elsif date['end']
+          val = "#{date['begin']} - #{date['end']}"
+        else
+          val = "#{date['begin']}"
+        end
+        date_codes.push([code, val])
+      end
+    end
+
+    ind1 = creator.nil? ? "0" : "1"
+    if date_codes.length > 0
+      # we want to pass in all our date codes as separate subfield tags
+      # e.g., with_sfs(['a', title], [code1, val1], [code2, val2]... [coden, valn])
+      df('245', ind1, '0').with_sfs(['a', title], *date_codes)
+    else
+      df('245', ind1, '0').with_sfs(['a', title])
+    end
   end
 
 
@@ -160,28 +189,6 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', '0', ' ').with_sfs(['a', langcode])
   end
 
-
-  def handle_dates(dates)
-    return false if dates.empty?
-
-    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
-      dates.find {|date| types.include? date['date_type'] }
-    }.compact
-
-    dates.each do |date|
-      code = date['date_type'] == 'bulk' ? 'g' : 'f'
-      val = nil
-      if date['expression'] && date['date_type'] != 'bulk'
-        val = date['expression']
-      elsif date['date_type'] == 'single'
-        val = date['begin']
-      else
-        val = "#{date['begin']} - #{date['end']}"
-      end
-
-      df('245', '1', '0').with_sfs([code, val])
-    end
-  end
 
   def handle_repo_code(repository)
     repo = repository['_resolved']
@@ -452,7 +459,7 @@ class MARCModel < ASpaceExport::ExportModel
       marc_args = case note['type']
 
                   when 'arrangement', 'fileplan'
-                    ['351','b']
+                    ['351', 'a']
                   when 'odd', 'dimensions', 'physdesc', 'materialspec', 'physloc', 'phystech', 'physfacet', 'processinfo', 'separatedmaterial'
                     ['500','a']
                   when 'accessrestrict'
@@ -462,12 +469,12 @@ class MARCModel < ASpaceExport::ExportModel
                   when 'abstract'
                     ['520', '3', ' ', 'a']
                   when 'prefercite'
-                    ['524', '8', ' ', 'a']
+                    ['524', ' ', ' ', 'a']
                   when 'acqinfo'
                     ind1 = note['publish'] ? '1' : '0'
                     ['541', ind1, ' ', 'a']
                   when 'relatedmaterial'
-                    ['544','a']
+                    ['544','d']
                   when 'bioghist'
                     ['545','a']
                   when 'custodhist'
@@ -503,13 +510,13 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_extents(extents)
     extents.each do |ext|
       e = ext['number']
-      e << " #{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
+      t =  "#{I18n.t('enumerations.extent_extent_type.'+ext['extent_type'], :default => ext['extent_type'])}"
 
       if ext['container_summary']
-        e << " (#{ext['container_summary']})"
+        t << " (#{ext['container_summary']})"
       end
 
-      df!('300').with_sfs(['a', e])
+      df!('300').with_sfs(['a', e], ['f', t])
     end
   end
 

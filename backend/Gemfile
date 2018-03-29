@@ -19,7 +19,7 @@ gem "rufus-scheduler", "~> 2.0.24"
 gem "rufus-lru", "1.0.5"
 gem "net-ldap", '~> 0.16.0'
 gem "mizuno", "0.6.11"
-gem "i18n", "0.7.0"
+gem "i18n", "0.9.1"
 
 gem "warbler", "2.0.4", :group => :build
 
@@ -35,10 +35,10 @@ group :test do
 end
 
 group :development, :test do
+  gem "pry-debugger-jruby"
   gem 'pry'
   gem 'pry-nav'
 end
-
 
 gem "net-http-persistent", "2.8"
 gem "multipart-post", "1.2.0"
