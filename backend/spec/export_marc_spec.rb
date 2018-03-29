@@ -127,6 +127,10 @@ describe 'MARC Export' do
       end
     end
 
+    it "adds a comma after $a if a date is defined" do
+      expect(@marc.at("datafield[@tag='245']/subfield[@code='a']/text()").to_s[-1]).to eq(",")
+    end
+
 
     it "maps the first bulk date to subfield 'g'" do
       date = @dates.find{|d| d.date_type == 'bulk'}
@@ -338,7 +342,8 @@ describe 'MARC Export' do
     end
 
     it "should strip out the mixed content in title" do
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']" => "Foo  BAR  Jones"
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']"
+      expect(@marc.at("datafield[@tag='245']/subfield[@code='a']/text()").to_s).to match(/Foo  BAR  Jones/)
     end
   end
 
