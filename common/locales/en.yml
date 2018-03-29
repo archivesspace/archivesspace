@@ -100,7 +100,7 @@ en:
     level: VRA Core Level
     level_tooltip: |
         <p>Primarily for use in multi-level VRA Core compliant records in order to indicate description is about a collection, a work, or an image.</p>
-    digital_object_type: Type
+    digital_object_type: Digital Object Type
     digital_object_type_tooltip: |
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     language: Language

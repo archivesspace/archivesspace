@@ -100,7 +100,7 @@ fr:
     level: VRA Core Level
     level_tooltip: |
         <p>S'utilise principalement dans les notices conformes à la norme VRA Core multi-niveaux, pour indiquer que la description concerne une collection, une œuvre, ou une image.</p>
-    digital_object_type: Type
+    digital_object_type: Type d'objet numérique
     digital_object_type_tooltip: |
         <p>Terme générique indiquant le type de contenu basic de l'objet numérique. Les options par défaut correspondent à l'élément MODS &lt;typeOfResource&gt;.</p>
     language: Langue
