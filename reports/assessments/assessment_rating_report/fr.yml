@@ -1,0 +1,15 @@
+fr:
+  reports:
+    assessment_rating_report:
+      showing_values: Affichage des notices notées
+      assessment_number: Numéro d'évaluation
+      linked_record_type: Type de notice
+      linked_record_title: Intitulé de notice
+      no_matches: Aucune notice d'évaluation ne correspond à vos critères
+      rating: Notation
+      rating_note: Note
+      title: Rapport de notes d'évaluation
+      general_assessment_note: Note d'évaluation globale
+      surveyors: Agents
+      surveyed_extent: Importance
+      survey_end: Passage en revue terminé

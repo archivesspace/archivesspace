@@ -38,15 +38,15 @@ fr:
     new_search: Nouvelle recherche
     refine_search: Affiner la recherche
     browse: Parcourir
-    show_advanced_search: Montrer Recherche avancée
-    hide_advanced_search: Cacher Recherche avancée
+    show_advanced_search: Afficher Recherche avancée
+    hide_advanced_search: Masquer Recherche avancée
     backup:  Revenir à la page précédente
     backup_abbr: Retour
     cite: Citation
     bookmark: Signet
     request: Requête
     print: Impression
-    print-generating: Génération d'impression
+    print-generating: Génération
     collection_overview: Survol des collections
     hierarch: Organisation des collections
     numeric: Description du conditionnement
@@ -98,16 +98,16 @@ fr:
     last: Dernière
     previous: "&#171;"
     next: "&#187;"
-    summary_prefix: Montrant
+    summary_prefix: Affichage
     summary_offset_connector: "-"
     summary_total_connector: de
-    summary_suffix: Résultats
+    summary_suffix: des résultats
     page_prefix: Page
     page_connector: de
 
   search_results:
     page_title: "%{count} résultats trouvés"
-    results_head: "Montrant %{type}: %{start} - %{end} de %{total}"
+    results_head: "%{type} affichés: %{start} - %{end} de %{total}"
     results: Résultats
     head_prefix: Ont été trouvés
     head_suffix: résultats
@@ -117,6 +117,7 @@ fr:
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
     notes_contain: "la <strong>note</strong> contient  <span class='searchterm'>%{kw}</span>"
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
+    identifier_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"
     year_range: " entre <strong>%{from_year}</strong> et <strong>%{to_year}</strong>"
     anything: "*"
@@ -155,7 +156,7 @@ fr:
       subjects: Sujet
       primary_type: Type
       repository: Service
-      used_within_repository: Service
+      used_within_published_repository: Service
       creators: Producteur
       fullrecord: Mot-clé
       subjects_text: Sujet
@@ -163,6 +164,7 @@ fr:
       creators_text: Créateur
       scope: Portée
       notes: Notes
+      identifier: Identifiant
       source: Source
       published_agents: Noms
       agents_text: Noms
@@ -225,7 +227,7 @@ fr:
   errors:
     error_404: "%{type} Record Not Found"
     error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir été enlevée."
-    backend_down: Pas moyen de se connecter à la base de données
+    backend_down: Impossible de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
     unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur inattendue
 
@@ -258,11 +260,11 @@ fr:
     button_text: Chercher
     reset: Effacer
     nav_switcher:
-      show: Montrer avancée
-      hide: Cacher avancée
+      show: Afficher avancée
+      hide: Masquer avancée
     index_switcher:
-      show: Montrer Recherche avancée
-      hide: Cacher Recherche avancée
+      show: Afficher Recherche avancée
+      hide: Masquer Recherche avancée
 
   contains: "Contient %{count} %{type}"
   found: "Trouvé dans %{count} %{type}"
@@ -340,8 +342,9 @@ fr:
     what: Qu'y a-t-il dans ce service d'archives?
     details: Détails du service d'archives
     part: Fait partie de
-   
+
   context: Trouvé dans
+  context_delimiter: "/"
   bulk:
      _singular: "Majeure partie des documents trouvés en %{dates}" 
      _plural: "Majeure partie des documents trouvés entre %{dates}"
@@ -389,8 +392,8 @@ fr:
     _plural: Conditionnements
 
   related_resource:
-    _singular: Collection liée
-    _plural: Collections liées
+    _singular: Collection associée
+    _plural: Collections associées
 
   digital_object: &digital_object_attributes
     _singular: Document numérique
@@ -431,7 +434,7 @@ fr:
     identifier_separator: "."
     _public:
       actions:
-        show_subgroups: Montrer sous-groupes
+        show_subgroups: Afficher sous-groupes
 
   classification_term:
     _singular: Terme de regroupement
@@ -489,10 +492,12 @@ fr:
       link_to_digital_object: Lien vers notice
 
   record_tree:
-    record_tree_tab: Arborescence notices
-    search_tab: Chercher composants
+    record_tree_tab: Arborescence des notices
+    search_tab: Chercher des composants
 
   location: Localisation
+
+  description: A propos
 
   contact: Contact
 
@@ -782,8 +787,8 @@ fr:
       wac: Writer of added commentary
       wal: Writer of added lyrics
       wat: Writer of added text
-      win: Writer of introduction
-      wpr: Writer of preface
+      win: Auteur de l'introduction
+      wpr: Préfacier
       wst: Writer of supplementary textual content
     linked_agent_event_roles:
       authorizer: Authorizer
@@ -800,7 +805,6 @@ fr:
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings
-      ram: Répertoire d'autorités RAMEAU  
       rvm: Répertoire de vedettes-matière
       ulan: Union List of Artist Names
     name_rule:
@@ -860,8 +864,8 @@ fr:
       agreement_received: Accord reçu
       agreement_sent: Accord envoyé
       agreement_signed: Accord signé
-      appraisal: Evaluation
-      assessment: Assessment
+      appraisal: Appréciation
+      assessment: Evaluation
       capture: Capture
       cataloged: Catalogué
       collection: Collection
@@ -942,7 +946,6 @@ fr:
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU  
       tgn: Getty Thesaurus of Geographic Names
     event_outcome:
       pass: Réussite
@@ -1503,7 +1506,7 @@ fr:
       inclusive: Dates extrêmes 
       range: Fourchette
     date_label:
-      record_keeping: Maintenance notices
+      record_keeping: Maintenance
       broadcast: Diffusion
       copyright: Copyright
       creation: Création
@@ -2031,3 +2034,11 @@ fr:
   readmore:
     see_more: Voir plus
     see_less: Voir moins
+
+  skipnav:
+    main_content: Passer au contenu principal
+    sidebar: Passer à la barre latérale
+    search: Passer à la recherche
+    search_results: Passer aux résultats
+
+  search_tab: Chercher %{target}

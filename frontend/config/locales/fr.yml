@@ -19,10 +19,12 @@ fr:
     edit_groups: Editer groupes
     edit_default_values: Editer valeurs par défaut
     edit_default_archival_object_values: Editer composants par défaut
+    edit_required_fields: Editer champs obligatoires
+    required: Champs obligatoires
     export: Exporter
     view: Affichage
     spawn: Hériter
-    show_all: Montrer tout
+    show_all: Afficher tout
     transfer_record: Transférer
     more: Plus
     link_to: Lier à
@@ -33,9 +35,9 @@ fr:
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
     move: Déplacer
     move_up_a_level: Un niveau plus haut
-    move_up: Vers le haut
-    move_down: Vers le bas
-    move_down_into: Vers le bas dans...
+    move_up: Plus haut
+    move_down: Plus bas
+    move_down_into: Plus bas dans...
     paste: Coller
     remove: Supprimer
     refresh_page: Rafaîchir la page
@@ -99,7 +101,7 @@ fr:
     reorder_active: Mode réordonner activé
 
   database_warning:
-    message: "<p><strong>Avertissement de la base de données:</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
+    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations. Vous devriez utiliser MySQL en production, y compris pour les données en phase de test susceptibles d'être mises en production.</p>"
 
   states:
     auto_generated: Généré automatiquement à la sauvegarde
@@ -109,7 +111,7 @@ fr:
     include_daos: Inclure balises &lt;dao&gt;
     numbered_cs: Utiliser balises numérotées &lt;c&gt;
     print_pdf: Imprimer en PDF
-    ead3: EAD3 schema
+    ead3: Schéma EAD3
 
   pagination:
     first: Premier
@@ -118,7 +120,7 @@ fr:
     previous_label: Précédent
     next: "&#187;"
     next_label: Suivant
-    summary_prefix: Montrant
+    summary_prefix: Affichage
     summary_offset_connector: "-"
     summary_total_connector: de
     summary_suffix: Résultats
@@ -180,6 +182,16 @@ fr:
       location_profile_depth_u_sstr: Profondeur
       location_profile_dimension_units_u_sstr: Unités de mesure
       rights_statement_agent_uris: Agent de mention de droits
+      assessment_surveyors: Passé en revue par
+      assessment_review_required: Passage en revue requis
+      assessment_sensitive_material: Documents confidentiels
+      assessment_reviewer_uris: Agent
+      assessment_surveyed_by_uris: Passé en revue par
+      assessment_reviewers: Agent
+      assessment_inactive: Inactif
+      assessment_survey_year: Année du passage en revue
+      assessment_record_types: Type de notices
+      assessment_completed: Effectué
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
@@ -206,7 +218,7 @@ fr:
     select: Sélectionner
     building: Bâtiment
     floor: Niveau
-    room: Pièce
+    room: Salle
     area: Aire
     resource_type: Type de Ressource
     acquisition_type: Type d'acquisition
@@ -223,6 +235,9 @@ fr:
     digital_object_type: Type d'objet numérique
     publish: Publier
     location_profile_display_string_u_ssort: Profil de localisation
+    assessment_survey_begin: Passage en revue Début
+    assessment_survey_end: Passage en revue Fin
+    assessment_id: ID
 
   advanced_search:
     operator:
@@ -240,11 +255,11 @@ fr:
     button_text: Recherche
     reset: Réinitialiser
     nav_switcher:
-      show: Montrer Avancé
-      hide: Cacher Avancé
+      show: Afficher Avancé
+      hide: Masquer Avancé
     index_switcher:
-      show: Montrer Recherche avancée
-      hide: Cacher Recherche avancée
+      show: Afficher Recherche avancée
+      hide: Masquer Recherche avancée
     text_operator:
       contains: contient
       empty: est vide
@@ -270,8 +285,8 @@ fr:
     search_all: Toutes les notices
     search_placeholder: Chercher dans toutes les notices
     search_button_title: Chercher dans toutes les notices
-    show_advanced_search_button_title: Montrer Recherche avancée
-    hide_advanced_search_button_title: Cacher Recherche avancée
+    show_advanced_search_button_title: Afficher Recherche avancée
+    hide_advanced_search_button_title: Masquer Recherche avancée
     plugins: Plug-ins
     repositories_manage: Gérer services d'archives
     manage_groups: Gérer groupes
@@ -283,7 +298,7 @@ fr:
     global_preferences: Préférences globales
     user_repo_preferences: Préférences de service d'archives
     repo_preferences: Préférences par défaut de l'utilisateur
-    manage_user_access: Gérer accès utilisateur
+    manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
     login: Connexion
     login_expired_link: Svp %{link} de nouveau.
@@ -295,24 +310,28 @@ fr:
     global_admin: Système
     system_info: Infos système
     unpublished: Non publié
+    manage_assessment_attributes: Gérer les attributs d'évaluation
   session:
-    gone: Votre session backend n'a pas été trouvée
+    gone: Session backend introuvable
     expired: Votre session a expiré pour cause d'inactivité
     inline_login_title: Session expirée
 
   batch_delete:
     archival_records:
       success: Notices supprimées
-      error: "Pas moyen de supprimer notices:"
+      error: "Impossible de supprimer notices:"
     subjects:
       success: Mots-matières supprimés
-      error: "Pas moyen de supprimer mots-matières:"
+      error: "Impossible de supprimer mots-matières:"
     agents:
       success: Agents supprimés
-      error: "Pas moyen de supprimer agents:"
+      error: "Impossible de supprimer agents:"
     locations:
       success: Localisations supprimées
-      error: "Pas moyen de supprimer localisations:"
+      error: "Impossible de supprimer localisations:"
+    assessments:
+      success: Evaluations supprimées
+      error: "Impossible de supprimer évaluations:"
 
   welcome:
     heading: Bienvenue sur ArchivesSpace
@@ -323,9 +342,9 @@ fr:
     home: Page d'accueil
 
   save_changes_modal:
-    body: Vous avez des modifications en suspens.  Veuillez sauvegarder ou abandonner ces modifications pour continuer.
-    save: Sauvegarder modifications
-    dismiss: Abandonner modifications
+    body: Vous avez des modifications en cours.  Veuillez sauvegarder ou abandonner ces modifications pour continuer.
+    save: Sauvegarder les modifications
+    dismiss: Abandonner les modifications
 
   linker:
     link_to_prefix: Lier à
@@ -360,37 +379,48 @@ fr:
 
   default_values:
     form_title:
-      archival_object: Valeurs par défaut d'une notice composant
+      archival_object: Valeurs par défaut d'une notice Composant
       resource: Valeurs par défaut d'une notice Ressource
-      accession: Valeurs par défaut d'une notice entrée
-      subject: Valeurs par défaut d'une notice sujet
-      agent_person: Valeurs par défaut d'une notice agent (personne)
-      agent_family: Valeurs par défaut d'une notice agent (famille)
-      agent_corporate_entity: Valeurs par défaut d'une notice agent (personne morale)
-      agent_software: Valeurs par défaut d'une notice agent (logiciel)
-      digital_object: Valeurs par défaut d'un objet numérique
-      digital_object_component: Valeurs par défaut d'un objet numérique composant
-      location: Valeurs par défaut d'une notice de localisation
-      event: Valeurs par défaut d'une notice événement
-      classification: Valeurs par défaut d'une notice de classement
-      classification_term: Valeurs par défaut d'un terme de classement
+      accession: Valeurs par défaut d'une notice Entrée
+      subject: Valeurs par défaut d'une notice Sujet
+      agent_person: Valeurs par défaut d'une notice Agent (personne)
+      agent_family: Valeurs par défaut d'une notice Agent (famille)
+      agent_corporate_entity: Valeurs par défaut d'une notice Agent (personne morale)
+      agent_software: Valeurs par défaut d'une notice Agent (logiciel)
+      digital_object: Valeurs par défaut d'un Objet numérique
+      digital_object_component: Valeurs par défaut d'un Objet numérique composant
+      location: Valeurs par défaut d'une notice de Localisation
+      event: Valeurs par défaut d'une notice Evénement
+      classification: Valeurs par défaut d'une notice Classement
+      classification_term: Valeurs par défaut Terme de classement
     messages:
       defaults_updated: Valeurs par défaut actualisées
+
+  required_fields:
+    form_title:
+      agent_person: Notice Agent Champs obligatoires (personne)
+      agent_family: Notice Agent Champs obligatoires (Famille)
+      agent_corporate_entity: Notice Agent Champs obligatoires (personne morale)
+      agent_software: Notice Agent Champs obligatoires (logiciel)
+    messages:
+      required_fields_updated: Champs obligatoires mis à jour
 
   tree:
     drag_and_drop_actions:
       before: Ajouter items avant
       after: Ajouter items après
       as_child: Ajouter items comme fils
-    unexpected_failure: Oups! Pas moyen de récupérer cette arborescence. Veuillez rafraîchir la page.
+    unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez rafraîchir la page.
 
   errors:
     sidebar_label: Erreurs et avertissements
-    error_403: Pas moyen d'accéder à la page
+    error_403: Page inaccessible
     error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
-    error_404: Notice pas trouvée
+    error_404: Notice introuvable
     error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus, ou alors vous n'avez pas la permission de la voir."
     error_tree_pane_ajax: Une erreur s'est produite en chargeant ce formulaire.
+    merge_conflict: "La fusion des agents n'a pas réussi: %{message}"
+    linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
 
   accession:
     _frontend:
@@ -404,6 +434,7 @@ fr:
         transfer_description: Transférer cette entrée vers...
         transfer_target: Sélectionnez un service d'archives vers lequel opérer le transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
+        delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
       action:
@@ -416,6 +447,7 @@ fr:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
+        delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionner ci-dessous les agents à fusionner
         merged: Agent(s) fusionné(s)
         please_select_a_agent_to_merge: Sélectionner un agent
@@ -474,6 +506,7 @@ fr:
         suppressed: Document d'archives <strong>%{archival_object.title}</strong> bloqué
         suppressed_info: Document d'archives bloqué, ne peut être édité
         has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a un parent non publié.
+        delete_conflict: "Impossible de supprimer l'objet archivistique: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
       action:
@@ -504,6 +537,7 @@ fr:
         created: "Terme de classement <strong>%{classification_term.title}</strong> créé"
         created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong> créé"
         updated: "Terme de classement <strong>%{classification_term.title}</strong> actualisé"
+        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong> mis à jour"
         deleted: "Terme de classement <strong>%{classification_term.title}</strong> supprimé"
       section:
         basic_information: Informations de base
@@ -561,6 +595,7 @@ fr:
         unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
+        delete_conflict: "Impossible de supprimer l'objet numérique: <pre>%{error}</pre>"
       section:
         basic_information: Information de base
       action:
@@ -594,7 +629,7 @@ fr:
       messages:
         value_updated: Valeur actualisée
         deleted: Valeur supprimée
-        delete_error: Pas moyen de supprimer la valeur
+        delete_error: Impossible de supprimer la valeur
         delete_conflict: "La valeur étant actuellement référencée par une notice, elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
         created: Valeur créée
@@ -778,7 +813,7 @@ fr:
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
         transfer_target: Sélectionnez un service d'archives vers lequel transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives va déplacer <strong>toutes</strong> ses notices dans le service d'archives sélectionné.  <strong>Cette opération ne peut être annulée</strong>
-        cannot_delete_nonempty: Ne peut être supprimé - service d'archives non vide
+        cannot_delete_nonempty: Suppression impossible - service d'archives non vide
       section:
         all_fields: Champs service d'archives
         transfer: Transférer service d'archives
@@ -804,6 +839,7 @@ fr:
         unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
         suppressed: Ressource <strong>%{resource.title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
+        delete_conflict: "Impossible de supprimer la ressource: <pre>%{error}</pre>"
       section:
         basic_information: Information de base
         finding_aid: Données de l'instrument de recherche
@@ -973,7 +1009,7 @@ fr:
         new: Nouvelle tâche d'arrière-plan
         cancel: Annuler tâche
         add_file: Ajouter fichier
-        follow_log: Suivre log
+        follow_log: Suivre le log
       section:
         basic_information: Information de base
         status: Statut de la tâche
@@ -1081,7 +1117,7 @@ fr:
 
     batch_delete:
       success: Suppression des top conditionnements réussie
-      error: Problème rencontré pendant la suppression des top conditionnements
+      error: Problème rencontré lors de la suppression des top conditionnements
 
     _singular: Top conditionnement
     _plural: Top conditionnements
@@ -1100,11 +1136,11 @@ fr:
         updated: Top conditionnement actualisé
         filter_required: Veuillez choisir un filtre
         max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez affiner votre recherche.
-        max_results_limit_details: "Montrer <strong>%{visible}</strong> sur <strong>%{num_found}</strong> résultats correspondants"
+        max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
         bulk_action_success: Top conditionnements actualisés avec succès
-        bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications soient répercutées dans les résultats de la recherche.
+        bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications ne soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
@@ -1270,8 +1306,8 @@ fr:
     summary:
       locations_with_space: "Localisation ayant de l'espace disponible: <strong>%{count}</strong>"
       locations_without_space: "Localisation sans espace disponible: <strong>%{count}</strong>"
-      uncalculatable_locations: "Pas moyen de calculer: <strong>%{count}</strong>"
-    view_all_toggle: Montrer localisations sans espace
+      uncalculatable_locations: "Impossible de calculer: <strong>%{count}</strong>"
+    view_all_toggle: Afficher localisations sans espace
     reason:
       location_lacks_a_profile: Localisation manquant d'un profil
       location_lacks_dimension_data: Profil de localisation manquant de données de dimensions
@@ -1285,15 +1321,89 @@ fr:
     calculate_button: Notice calcul de dates
     modal_title: Calculer dates
     all_labels: Calculer pour toutes les dates
-    no_object_message: Notice pas trouvée
+    no_object_message: Notice introuvable
     results_title: Notice de date calculée
     create_date_button: Créer notice date
-    generic_create_error: Date invalide, qui n'a pu être créee
+    generic_create_error: Date invalide
     create_success: Date créée avec succès. Page en cours de rafraîchissement...
     no_dates: Pas de dates qui conviennent
-    no_dates_for_label: Pas de date %{label} trouvée
+    no_dates_for_label: Pas de date %{label} trouvée qui convienne
 
   act:
     _frontend:
       action:
         add: Ajouter convention
+
+  assessment:
+    _frontend:
+      form_header: Evaluation %{display_string}
+      formats: Types/formats de documents
+      ratings: Notes
+      conservation_issues: Problèmes de conservation
+      record_types: Types de notices
+      action:
+        create: Créer évaluation
+        save: Sauvegarder évaluation
+        add_rating_note: Ajoute note
+        remove_rating_note: Supprimer note
+        create_for_record: Créer évaluation
+      section:
+        basic_information: Informations de base
+        existing_description: Description existante
+        rating_attributes: Information d'évaluation
+        rating_attributes_empty: Aucune information n'a été saisie
+        rating_attributes_additional: Autres note(s)
+        format_attributes: Liste de types/formats de documents
+        format_attributes_empty: Aucun type/format saisi
+        format_attributes_additional: Autres types/formats de documents
+        conservation_issue_attributes: Problèmes de conservation
+        conservation_issue_attributes_empty: Aucun problème saisi
+        conservation_issue_attributes_additional: Autres problèmes de conservation
+      messages:
+        created: Evaluation créée
+        updated: Evaluation actualisée
+        deleted: Evaluation supprimée
+        attributes_hint: Veuillez contacter votre administrateur pour ajouter d'autre %{attribute_type}
+        manage_attributes_hint: Gérer les %{attribute_type} additionnels pour ce dépôt
+      assessment_review_required:
+        true_value: "Oui"
+        false_value: "Non"
+      assessment_sensitive_material:
+        true_value: "Oui"
+        false_value: "Non"
+      assessment_inactive:
+        true_value: "Oui"
+        false_value: "Non"
+      assessment_completed:
+        true_value: "Oui"
+        false_value: "Non"
+      browse_reviewers: Agents
+      linked_records:
+        heading: Notices liées
+        loading: Chargement...
+        linked_via_assessment_records: Evaluations
+        linked_via_assessment_surveyed_by: Evaluations - effectuées par
+        linked_via_assessment_reviewer: Evaluation - par
+      ratings_list:
+        rating: Notation
+        score: Score
+        note: Note
+
+  assessment_attribute_definitions:
+    _frontend:
+      title: Attributs d'évaluation
+      section:
+        formats: Types/formats de documents
+        ratings: Notations
+        conservation_issues: Problèmes de conservation
+      global: Global %{type}
+      repository: Dépôt %{type}
+      action:
+        save: Sauvegarder les attributs d'évaluation
+      messages:
+        updated: Attribut actualisés
+        error: Erreur lors de l'actualisation
+        conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
+        attribute_in_use: Impossible de supprimer un attribut qui sert à une évaluation
+      database_value: Valeur de la base de données
+      translation: Traduction

@@ -2,4 +2,4 @@ fr:
   reports:
     accession_locations_subreport:
       location: Localisation
-      container: Contenant
+      container: Conditionnement

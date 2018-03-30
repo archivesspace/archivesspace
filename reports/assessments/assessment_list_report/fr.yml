@@ -1,0 +1,50 @@
+fr:
+  reports:
+    assessment_list_report:
+      accession_report: Rapport concernant les entrées
+      appraisal: Estimation
+      assessment: Evaluation
+      assessment_information: Information d'évaluation
+      assessment_note: Note
+      assessment_rating: Note
+      assessment_score: Score
+      basic_information: Information de base
+      catalog_record: Notice catalogue (MARC)
+      conservation_issues: Problèmes de conservation
+      conservation_note: Note de conservation
+      container_list: Liste de boîtes/conditionnements
+      control_file: Fichier de collection/contrôle
+      deed_of_gift: Acte de donation
+      description: Notices de toutes les évaluations créées
+      existing_description_notes: Notes de description existantes
+      exhibition_value_note: Note d'intérêt pour une expo
+      finding_aid_ead: Instrument de recherche (EAD-encoding)
+      finding_aid_online: Instrument de recherche (en ligne)
+      finding_aid_paper: Instrument de recherche (sur papier seulement)
+      finding_aid_spreadsheet: Instrument de recherche (tableur)
+      finding_aid_word: Instrument de recherche (traitement de texte)
+      formats: Liste de types/formats de documents
+      full_title: Notices de toutes les notices d'évaluation créées
+      general_assessment_note: Note d'évaluation globale
+      inactive: Inactive
+      linked_record_title: Intitulé
+      linked_record_type: Type de notice
+      linked_record_identifier: Identifiant
+      linked_records: Notices liées
+      monetary_value: Valeur marchande
+      monetary_value_note: Note de valeur marchande
+      number_of_assessments: Nombre d'évaluations
+      purpose: But de l'évaluation
+      related_eac_records: Notices EAC associées
+      review_note: Note de passage en revue
+      review_required: Passage en revue requis?
+      reviewer: Agent
+      scope: Echantillonnage
+      sensitive_material: Documents confidentiels?
+      special_format_note: Note de format spécial
+      survey_begin: Début du passage en revue
+      survey_end: Fin du passage en revue
+      surveyed_by: Passé en revue par
+      surveyed_duration: Durée du passage en revue complet
+      surveyed_extent: Quantité passée en revue
+      title: Liste de notices d'évaluation

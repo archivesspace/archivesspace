@@ -1,24 +1,24 @@
 fr:
   plugins:
     lcnaf:
-      label: LCNAF Import
+      label: Import LCNAF
       search:
-        family_name: Primary Name 
-        given_name: Rest of Name
+        family_name: Partie principale
+        given_name: Reste du nom
       actions:
-        search: Search
-        import: Import
-        select: Select
-        show_record: Show Record 
+        search: Rechercher
+        import: Importer
+        select: Sélectionner
+        show_record: Afficher la notice
       messages:
-        none_selected: No Results Selected
-        no_results: No Results For Query
-        selected: Selected
-        import_success: Import job created
-        import_success_message: Redirecting to the job status page...
-        import_error: Error while importing from LCNAF
-        search_error: Search Error
-        service_locked: Items already selected
-        service_locked_message: Please import or remove your selected items before switching record service
-        service_warning: This plugin depends on 3rd party services that may or may not be available or supported.
-      result_summary: "Page %{page} - Showing results %{first_record_index} to %{last_record_index} of %{hit_count} matches"
+        none_selected: Aucun résultat sélectionné
+        no_results: Pas de résultat pour la requête
+        selected: Sélectionné
+        import_success: Tâche d'import créée
+        import_success_message: Redirection vers la page de statut de tâche...
+        import_error: Erreur lors de l'import à partir de LCNAF
+        search_error: Erreur de recherche
+        service_locked: Items déjà sélectionnés
+        service_locked_message: Veuillez importer ou enlever les items sélectionnés avant de changer de service d'enregistrement
+        service_warning: Ce plugin dépend de services tiers qui peuvent être ou non disponibles ou maintenus.
+      result_summary: "Page %{page} - Affichage des résultats %{first_record_index} à %{last_record_index} sur %{hit_count}"
