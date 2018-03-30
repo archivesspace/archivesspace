@@ -756,7 +756,7 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource language code to and 049$a" do
+    it "maps resource language code to 049$a" do
       @marc.at("datafield[@tag='049'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource.language)
     end
   end
