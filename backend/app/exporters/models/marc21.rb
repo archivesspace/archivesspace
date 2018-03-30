@@ -185,7 +185,6 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_language(langcode)
     df('041', '0', ' ').with_sfs(['a', langcode])
-    df('040', '0', ' ').with_sfs(['b', langcode])
     df('049', '0', ' ').with_sfs(['a', langcode])
   end
 
