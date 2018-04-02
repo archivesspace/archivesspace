@@ -1,6 +1,6 @@
 class EnumerationsController < ApplicationController
 
-  set_access_control  "manage_repository" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value]
+  set_access_control  "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value]
 
 
   def new
@@ -27,7 +27,7 @@ class EnumerationsController < ApplicationController
       render_aspace_partial :partial => "delete"
     end
   end
-  
+
   def set_default
     begin
       @enumeration = JSONModel(:enumeration).find(params[:id])
@@ -37,36 +37,36 @@ class EnumerationsController < ApplicationController
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.default_set_error")
     end
-    
+
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
 
-  end  
+  end
 
 
   # we only update position and suppression here
   def update_value
-    
+
       @enumeration_value = JSONModel(:enumeration_value).find( params[:enumeration_value_id])
-     
+
     begin
-      
+
       if params[:suppressed]
         suppress = ( params[:suppressed] == "1" )
-        @enumeration_value.set_suppressed(suppress) 
+        @enumeration_value.set_suppressed(suppress)
       end
-     
+
       if params[:position]
-        JSONModel::HTTP.post_form("#{@enumeration_value.uri}/position", :position => params[:position]) 
+        JSONModel::HTTP.post_form("#{@enumeration_value.uri}/position", :position => params[:position])
       end
 
       flash[:success] = I18n.t("enumeration._frontend.messages.value_updated")
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.value_update_error")
     end
-    
+
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
 
-  end  
+  end
 
 
   def destroy
