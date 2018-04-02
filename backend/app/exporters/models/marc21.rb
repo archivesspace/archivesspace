@@ -135,7 +135,7 @@ class MARCModel < ASpaceExport::ExportModel
     if @datafields.has_key?(args.to_s)
       # Manny Rodriguez: 3/16/18
       # Bugfix for ANW-146
-      # Separete creators should go in multiple 700 fields in the output MARCXML file. This is not happening because the different 700 fields are getting mashed in under the same key in the hash below, instead of having a new hash entry created.
+      # Separate creators should go in multiple 700 fields in the output MARCXML file. This is not happening because the different 700 fields are getting mashed in under the same key in the hash below, instead of having a new hash entry created.
       # So, we'll get around that by using a different hash key if the code is 700.
       # based on MARCModel#datafields, it looks like the hash keys are thrown away outside of this class, so we can use anything as a key.
       # At the moment, we don't want to change this behavior too much in case something somewhere else is relying on the original behavior.
