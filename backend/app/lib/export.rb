@@ -76,7 +76,9 @@ module ExportHelpers
 
     opts = {:include_unpublished => include_unpublished}
 
-    marc = ASpaceExport.model(:marc21).from_resource(JSONModel(:resource).new(obj), opts)
+    resource = JSONModel(:resource).new(obj)
+    JSONModel::set_publish_flags!(resource)
+    marc = ASpaceExport.model(:marc21).from_resource(resource, opts)
 
     ASpaceExport::serialize(marc)
   end
