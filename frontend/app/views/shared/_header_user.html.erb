@@ -18,7 +18,7 @@
   <li class="dropdown system-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <% if user_can?('manage_repository') %>
+      <% if user_can?('update_enumeration_record') %>
         <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
       <% end %>
       <% if user_can?('update_container_profile_record') %>
@@ -28,7 +28,7 @@
         <li><%= link_to I18n.t("navbar.manage_location_profiles"), :controller => :location_profiles, :action => :index %></li>
       <% end %>
 
-      <% if user_can?('manage_repository') || user_can?('update_container_profile_record') || user_can?('manage_location_profile_record') %>
+      <% if user_can?('update_enumeration_record') || user_can?('update_container_profile_record') || user_can?('manage_location_profile_record') %>
         <li class="divider"></li>
       <% end %>
 
