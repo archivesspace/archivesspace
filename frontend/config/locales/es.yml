@@ -190,7 +190,8 @@
     user_mtime: Modificado
     primary_type: Tipo de registro
     processing_priority: Prioridad de procesado
-    processing_status: Estado
+    processing_status: Estado de procesamiento
+    processing_hours_total: Procesamiento total horas
     parent_id: Tipo de registro
     create_time: Creado
     authority_id: Identificador de autoridad

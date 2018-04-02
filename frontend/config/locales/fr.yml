@@ -206,7 +206,8 @@ fr:
     user_mtime: Modifié
     primary_type: Type de notice
     processing_priority: Priorité de traitement
-    processing_status: Statut
+    processing_status: Statut de traitement
+    processing_hours_total: Durée totale de traitement
     parent_id: Type de notice
     create_time: Créé
     authority_id: Identifiant d'autorité
