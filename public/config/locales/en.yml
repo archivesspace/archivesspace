@@ -117,6 +117,7 @@ en:
     title_contain: "the <strong>title</strong> contains  <span class='searchterm'>%{kw}</span>"
     notes_contain: "the <strong>note</strong> contains  <span class='searchterm'>%{kw}</span>"
     creators_text_contain: "the <strong>creator</strong> contains <span class='searchterm'>%{kw}</span>"
+    subjects_text_contain: "the <strong>subject</strong> contains <span class='searchterm'>%{kw}</span>"
     identifier_contain: "the <strong>identifier</strong> contains <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
     year_range: " from <strong>%{from_year}</strong> to <strong>%{to_year}</strong>"
