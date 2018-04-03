@@ -12,7 +12,7 @@ file, with the relevant configuration options are prefixed with
 `:pui_`.
 
 To see the full list of available options, see the file
-[`app/archivesspace-public/app/lib/config_defaults.rb`](app/archivesspace-public/app/lib/config_defaults.rb)
+[`../common/config/config-defaults.rb`](../common/config/config-defaults.rb)
 
 ## robots.txt
 The default, the robots.txt file packaged in public.war file is open to the world so that it will be indexed by Google and other search sites. If you wish to restrict web spiders from crawling all or part of your public site, you can replace this file in the warfile with the command: `zip -uj archivesspace/wars/public.war  robots.txt`, or if you include a robots.txt file in the archivesspace/config directory, it will be used to replace the one packaged in the war file on startup.

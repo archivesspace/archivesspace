@@ -71,23 +71,35 @@ describe 'MARC Export' do
     end
   end  
 
-  describe "datafield element order" do
-    before(:each) do
-      @marc = get_marc(create(:json_resource))      
-      @xml = @marc.to_xml
-    end
+describe "datafield element order" do
+  before(:each) do
+    @marc = get_marc(create(:json_resource))      
+    @xml = @marc.to_xml
+  end
+    
+  it "should generate XML with the datafield tags in numerical order" do
+    datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
+    last_tag = 0
 
-    it "should generate XML with the datafield tags in numerical order" do
-      datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
-      last_tag = 0
-
-      # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
-      0.upto(datafield_element_count - 1) do |i|
-        this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
-        expect(this_tag >= last_tag).to eq(true)
-        last_tag = this_tag
-      end
+    # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
+    0.upto(datafield_element_count - 1) do |i|
+      this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
+      expect(this_tag >= last_tag).to eq(true)
+      last_tag = this_tag
     end
+  end
+end
+
+ describe "040 cataloging source field" do
+   before(:each) do
+     @marc = get_marc(create(:json_resource))      
+     @xml = @marc.to_xml
+   end
+
+   it "MARC record should only have one 040 element in the document" do
+     forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
+     expect(forty_count).to eql(1)
+   end
   end
 
   describe "datafield 110 name mapping" do
@@ -762,8 +774,7 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource language code to 040$b and 049$a" do
-      @marc.at("datafield[@tag='040'][@ind1='0'][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource.language)
+    it "maps resource language code to 049$a" do
       @marc.at("datafield[@tag='049'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource.language)
     end
   end

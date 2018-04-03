@@ -431,7 +431,7 @@ fr:
         <p>La partie principale d'une forme de nom (par ex. le nom de famille ou le surnom d'une personne).</p>
         <p>Exemples:</p>
         <ul>
-        <li>Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne physique])</em></i>
+        <li>Churchill <em>(pour Churchill, Winston, Sir, 1874-1965 [personne physique])</em></li>
         <li>Black Foot <em>(pour Black Foot, Chief, d. 1877 [personne physique])</em></li>
         <li>International Business Machines <em>(pour International Business Machines. Microelectronics Division [personne morale])</em></li>
         </ul>
@@ -587,10 +587,21 @@ fr:
     note: Notes relatives au contact
     note_tooltip: |
         <p>Notes supplémentaires ou informations concernant la façon de joindre la personne à contacter.</p>
+    telephones: Numéros de téléphone
     _singular: Contact
     _plural: Détails du contact
 
   telephone: &telephone
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
+    number_tooltip: |
+        <p>Numéro de téléphone du contact.</p>
+    ext: Numéro de poste interne
+    ext_tooltip: |
+        <p>Numéro de poste interne du contact.</p>
+
+  telephone_required: &telephone
     _plural: Numéros de téléphone
     number_type: Type de numéro
     number: Numéro
@@ -631,6 +642,7 @@ fr:
     description: Description
     ref: Agent associé
     date: Date
+    dates: Dates
     _singular: Relation parent/enfant
 
   agent_relationship_earlierlater:
@@ -638,6 +650,7 @@ fr:
     description: Description
     ref: Agent associé
     date: Date
+    dates: Dates
     _singular: Relation avant/après
 
   agent_relationship_subordinatesuperior:
@@ -645,12 +658,14 @@ fr:
     description: Description
     ref: Agent associé
     date: Date
+    dates: Dates
     _singular: Relation subordonné/supérieur
 
   agent_relationship_associative:
     relator: Type de relation
     description: Description
     date: Date
+    dates: Dates
     ref: Agent associé
     _singular: Relation associatif
 
@@ -756,6 +771,7 @@ fr:
 
   note_bioghist:
     <<: *note_attributes
+    subnotes: Sous notes
 
   note_abstract:
     <<: *note_attributes
@@ -859,16 +875,15 @@ fr:
   extent: &extent_attributes
     portion: Portion
     portion_tooltip: |
-        <p>Sert à préciser si une déclaration de mesure se rapporte à tout ou partie d'un objet ou d'un agrégat défini décrit.</p>
-        <p>Tout agrégat ou objet décrit avec une déclaration de mesure doit avoir une déclaration de mesure avec Portion positionné sur "Tout".</p>
+        <p>CHAMP OBLIGATOIRE. Sert à préciser si une déclaration de mesure se rapporte à tout ou partie d'un objet ou d'un agrégat défini décrit.</p>
         <p>Voir DACS 2.5.7</p>
     number: Nombre
     number_tooltip: |
-        <p>Une valeur numérique indiquant le nombre d'unités dans la déclaration de mesure, par ex. 5, 11.5, 245. S'utilise en conjonction avec le Type de mesure pour fournir une déclaration structurée de mesure.</p>
+        <p>CHAMP OBLIGATOIRE. Une valeur numérique indiquant le nombre d'unités dans la déclaration de mesure, par ex. 5, 11.5, 245. S'utilise en conjonction avec le Type de mesure pour fournir une déclaration structurée de mesure.</p>
         <p>Voir DACS 2.5</p>
     extent_type: Type
     extent_type_tooltip: &extent_type_tooltip |
-        <p>Un terme indiquant le type d'unité de mesure utilisé pour mesurer l'importance matérielle des documents décrits.</p>
+        <p>CHAMP OBLIGATOIRE. Un terme indiquant le type d'unité utilisé pour mesurer l'importance matérielle des documents décrits.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
         <p>Voir DACS 2.5</p>
     container_summary: Conditionnement
@@ -1013,7 +1028,7 @@ fr:
         <ul>
         <li>1968</li>
         <li>1979-1993</li>
-        <li>1785-1960, pour l'essentiel 1916-1958</li>
+        <li>1785-1960, majeure partie 1916-1958</li>
         <li>1827, 1952-1978</li>
         <li>environ 1870-1879</li>
         <li>17 mars 1906</li>
@@ -1163,7 +1178,7 @@ fr:
         <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
     access_restrictions_note: Note de restrictions de consultation
     access_restrictions_note_tooltip: |
-      <p>Une mention indiquant que la consultation de tels et tels documents collectés est soumise à des restrictions, formulées par telle autorité, et valables pour tant de temps. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+        <p>Une mention indiquant que la consultation de tels et tels documents collectés est soumise à des restrictions, formulées par telle autorité, et valables pour tant de temps. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
         <p>Exemples:</p>
         <ul>
         <li>Les journaux intimes conservés dans la boîte 10 ne pas communicables avant 2030 par décision du donateur.</li>
@@ -1173,7 +1188,7 @@ fr:
         <p>Une case à cocher pour indiquer que des restrictions d'utilisation s'appliquent à certains des documents collectés.</p>
     use_restrictions_note: Note de restrictions d'utilisation
     use_restrictions_note_tooltip: |
-      <p>Une mention indiquant les documents concernés par les restrictions d'utilisation, comment ils peuvent être utilisés, quelle autorité a formulé les restrictions et pour combien de temps elles sont valables. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+        <p>Une mention indiquant les documents concernés par les restrictions d'utilisation, comment ils peuvent être utilisés, quelle autorité a formulé les restrictions et pour combien de temps elles sont valables. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
         <p>Exemples:</p>
         <p>Les manuscrits de la boîte 33 sont fragiles; utiliser les photocopies à la place.</p>
     acquisition_type: Type d'acquisition
@@ -1218,11 +1233,11 @@ fr:
     relator: Cette entrée
     sibling_of: Soeur de
     relator_type: Type de relation
-    bound_with: "\"liée par \" Relation"
+    bound_with: "\"liée par\" Relationship"
 
   accession_parts_relationship:
-    _singular: "\"Partie de\" Relation"
-    part: "\"Partie de\" Relation"
+    _singular: "\"Partie de\" Relationship"
+    part: "\"Partie de\" Relationship"
     relator: Cette entrée
     forms_part_of: Fait partie de
     has_part: Participe de
@@ -1242,9 +1257,11 @@ fr:
     name: Nom agent
     names: Formes de nom
     names_tooltip: |
-      <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
+        <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
+    agent_contacts: Détails du contact
     contacts_tooltip: |
         <p>Enregistre une information sur la façon de contacter tel agent particulier.</p>
+    notes: Notes
     notes_tooltip: |
         <p>Conserve une information descriptive complémentaire concernant un agent, du genre note biographique ou histoire administrative.</p>
     related_agents_tooltip: |
@@ -1278,7 +1295,17 @@ fr:
     _singular: Personne morale
     _plural: Personnes morales
 
+  related_agents_agent_person:
+    related_agents: Agents reliés
+  related_agents_agent_family:
+    related_agents: Agents reliés
+  related_agents_agent_software:
+    related_agents: Agents reliés
+  related_agents_agent_corporate_entity:
+    related_agents: Agents reliés
+
   archival_object: &archival_object_attributes
+    <<: *section_tooltips
     title: Intitulé
     title_tooltip: |
       <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
@@ -1298,12 +1325,12 @@ fr:
     ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
-      <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
+        <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
     extents: Importance matérielle
     ref_id_auto_generation_message: "-- auto-généré à la sauvegarde --"
     component_id: Identifiant unique de composant
     component_id_tooltip: |
-        <p>Exprime un ID unique, dans le contexte de la description de notice en cours, pour le composant.</p>
+        <p>Exprime un ID unique, dans le contexte de description de la ressource, pour le composant.</p>
         <p>Exemples:</p>
         <ul>
         <li>Série organique I</li>
@@ -1320,7 +1347,7 @@ fr:
         <p>CHAMP OBLIGATOIRE si "Autre niveau" est la valeur sélectionnée pour Niveau. Exprime le type de niveau en-dehors de valeurs spécifiées dans le schéma EAD.</p>
     container_summary: Conditionnement
     container_summary_tooltip: |
-      <p>Pour enregistrer le nombre et le type de conditionnements composant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
+        <p>Pour enregistrer le nombre et le type de conditionnements composant une description ressource. Considéré comme un résumé textuel distinct des sous-notices Importance matérielle.</p>
         <p>Voir DACS 2.5</p>
         <p>Exemples:</p>
         <ul>
@@ -1331,12 +1358,13 @@ fr:
     publish: Publier?
     publish_tooltip: |
         <p>Détermine si cette ressource sera publiée sur les interfaces publiques.</p>
-    restrictions: Restrictions?
     restrictions_apply: Des restrictions s'appliquent?
-    restrictions_tooltip: |
+    restrictions_apply_tooltip: |
         <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
         <p>Voir DACS 4.1-4.4</p>
-    repository_processing_note: Note de l'archiviste
+    repository_processing_note: Note de traitement de dépôt
+    repository_processing_note_tooltip: |
+         <p>Champ spécifique à l'application pour enregistrer une information concernant le traitement des documents. Cette note n'est incluse dans aucun rapport ou export, et n'est pas renseignée par import.</p>
     automate_title: Intitulé automatiquement généré
     language: Langue
     language_tooltip: |
@@ -1365,38 +1393,42 @@ fr:
     permissions: "Les membres peuvent:"
     permission_types:
       manage_repository: gérer ce service d'archives (modifier groupes et autres préférences)
-      update_location_record: créer/modifier/supprimer notices de localisations dans ce service d'archives
-      update_subject_record: créer/actualiser notices matières
-      update_agent_record: créer/actualiser notices agents
-      update_vocabulary_record: créer/actualiser notices vocabulaire
-      update_accession_record: créer/actualiser entrées dans ce service d'archives
-      update_resource_record: créer/actualiser ressources dans ce service d'archives
-      update_digital_object_record: créer/actualiser objets numériques dans ce service d'archives
-      update_event_record: créer/actualiser notices événements dans ce service d'archives
+      update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
+      update_subject_record: créer/actualiser des notices matières
+      update_agent_record: créer/actualiser des notices agents
+      update_vocabulary_record: créer/actualiser des notices de vocabulaire
+      update_accession_record: créer/actualiser des entrées dans ce service d'archives
+      update_resource_record: créer/actualiser des ressources dans ce service d'archives
+      update_digital_object_record: créer/actualiser des objets numériques dans ce service d'archives
+      update_event_record: créer/actualiser des notices événements dans ce service d'archives
       view_repository: voir les notices dans ce service d'archives
       view_suppressed: voir les notices bloquées dans ce service d'archives
       suppress_archival_record: bloquer les principaux types de notices dans ce service d'archives
       delete_archival_record: supprimer les principaux types de notices dans ce service d'archives
       delete_event_record: supprimer des notices événements dans ce service d'archives
-      update_classification_record: créer/actualiser classements et termes de classements
-      delete_classification_record: supprimer classements et termes de classements
-      merge_agents_and_subjects: fusionner notices agent/matière
-      merge_archival_record: fusionner principaux types de notices dans ce service d'archives
+      update_classification_record: créer/actualiser des classements et termes de classements
+      delete_classification_record: supprimer des classements et termes de classements
+      merge_agents_and_subjects: fusionner des notices agent/matière
+      merge_archival_record: fusionner les principaux types de notices dans ce service d'archives
+      manage_rde_templates: gérer les modèles RDE
       transfer_repository: transférer le contenu entier d'un service d'archives
-      transfer_archival_record: transférer principaux types de notices d'un service d'archives vers un autre
-      manage_subject_record: créer/actualiser/supprimer notices matières
-      manage_agent_record: créer/actualiser/supprimer notices agents
-      manage_vocabulary_record: créer/actualiser/supprimer notices vocabulaire
+      transfer_archival_record: transférer les principaux types de notices d'un service d'archives vers un autre
+      manage_subject_record: créer/actualiser/supprimer des notices matières
+      manage_agent_record: créer/actualiser/supprimer des notices agents
+      manage_vocabulary_record: créer/actualiser/supprimer des notices vocabulaire
       import_records: lancer des tâches d'import
       cancel_importer_job: annuler une tâche d'import
-      update_container_record: créer/actualiser notices de conditionnements
-      manage_container_record: supprimer/actualiser en masse notices de conditionnements
-      manage_container_profile_record: créer/actualiser/supprimer notices de profils de conditionnements
-      manage_location_profile_record: créer/actualiser/supprimer notices de profils localisations
+      update_container_record: créer/actualiser des notices de conditionnements
+      manage_container_record: supprimer/actualiser en masse des notices de conditionnements
+      manage_container_profile_record: créer/actualiser/supprimer des notices de profils de conditionnements
+      manage_location_profile_record: créer/actualiser/supprimer des notices de profils localisations
       create_job: créer et lancer une tâche d'arrière-plan
       cancel_job: annuler une tâche d'arrière-plan
-    _singular: Groupe
-    _plural: Groupes
+      update_assessment_record: créer/actualiser des notices d'évaluation
+      delete_assessment_record: supprimer des notices d'évaluation
+      manage_assessment_attributes: créer/mettre à jour/ supprimer des définitions d'attributs d'évaluation du service
+    _singular: Group
+    _plural: Groups
 
   resource:
     <<: *archival_object_attributes
@@ -1441,6 +1473,12 @@ fr:
         <p>Voir DACS 2.5</p>
     related_accessions_tooltip: |
         <p>Sert à lier des entrées associées avec cette ressource.</p>
+    publish_tooltip: |
+        <p>Détermine si cette ressource sera publiée ou non sur les interfaces publiques.</p>
+    restrictions: Des restrictions s'appliquent?
+    restrictions_tooltip: |
+        <p>Indique si les documents décrits sous soumis à quelque restriction que ce soit. Des précisions concernant la restriction sont à fournir dans les notes ou la déclaration de droits appropriée pour la notice concernée.</p>
+        <p>See DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>Champ spécifique à l'application pour enregistrer une information relative au traitement des documents. Cette note n'est inclue dans aucun export ou rapport, et n'est pas remplie par import.</p>
     ead_id: Identifiant EAD
@@ -1565,9 +1603,12 @@ fr:
     country: Pays
     country_tooltip: |
         <p>Le pays dans lequel le service d'archives est situé, pris dans la liste ISO 3166.</p>
+    description: Description
+    description_tooltip: |
+        <p>Une section à propos ou une description résumée du dépôt.</p>
     post_code: Code postal
     telephone: Téléphone
-    telephone_ext: Extension
+    telephone_ext: Poste interne
     fax: Fax
     email: Email
     email_signature: Signature d'email
@@ -1657,7 +1698,7 @@ fr:
     department: Départment
     department_tooltip: |
         <p>Département de l'utilisateur.</p>
-    additional_contact: Information complémentaire contact
+    additional_contact: Information complémentaire de contact
     additional_contact_tooltip: |
         <p>Information supplémentaire de contact pour l'utilisateur, ou une information comme le programme de travail de l'utilisateur.</p>
     is_admin: Concéder des permissions d'administrateur système
@@ -1782,8 +1823,8 @@ fr:
 
   defaults: &defaults_attributes
     general_section: Configuration générale
-    show_suppressed: Montrer bloqués?
-    show_suppressed_tooltip: Montrer ou non dans l'explorateur les notices bloquées que vous avez la permission de voir.
+    show_suppressed: Montrer les notices bloquées?
+    show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous avez la permission de voir.
     publish: Publier?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
@@ -1840,20 +1881,22 @@ fr:
       html: HTML
 
   validation_errors:
-    agent_must_be_unique: Deux notices d'agents ne peuvent être identiques
+    agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
+    subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
     missing_required_property: Propriété requise qui manquait
-    missing_property: Propriété qui manquait
+    missing_property: Propriété manquante
     not_a_valid_date: N'est pas une date valide
-    must_not_be_before_begin: ne doit pas être avant début
+    must_not_be_before_begin: ne doit pas précéder début
     is_required_unless_a_begin_or_end_date_is_given: est requis à moins qu'une date de début ou de fin ne soit donnée
     is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression ou date de fin ne soit donnée
     is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression ou date de début ne soit donnée
-
+    must_specify_either_a_date_or_a_timestamp: Il faut spécifier soit une date, soit un horodatage
     did_not_match_regular_expression: Ne correspond pas à l'expression régulière %{regexp}
     too_few_characters: Doit comporter au moins %{min_length} caractères
     too_many_characters: Doit comporter au plus %{max_length} caractères
     max_length_is_50_characters: Ne doit pas excéder 50 caractères
     too_few_items: Un minimum de %{min_items} item(s) est requis
+    must_contain_at_least_one_subnote: Doit contenir au moins une sous-note
     invalid_value: Valeur invalide '%{value}'. Doit être comprise dans '%{valid_set}'
     wrong_type: Doit être du type %{desired_type} (vous avez entré %{actual_type})
     must_be_one_of: Le type doit être compris dans %{allowed_types} (vous avez entré %{actual_type})
@@ -1886,6 +1929,8 @@ fr:
     is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
     location_profile_name_not_unique: Un nom de profil localisation doit être unique
     must_be_a_positive_integer: Doit être un entier positif
+    must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la hiérarchie
+    short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
 
   job:
     _singular: Tâche d'arrière-plan
@@ -1893,7 +1938,7 @@ fr:
     job_type: Type de tâche
     types:
       print_to_pdf_job: Imprimer en PDF
-      import_job: Importer données
+      import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
       report_job: Rapports
       container_conversion_job: Rapports
@@ -1915,10 +1960,11 @@ fr:
     format: Format
 
   import_job:
-    _singular: Importer tâche
-    filenames: Importer fichers
+    _singular: Importer une tâche
+    filenames: Importer des fichiers
     import_type: Importer type
     import_type_ead_xml: EAD
+    import_type_assessment_csv: Evaluation CSV
     import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
@@ -1951,7 +1997,7 @@ fr:
       subjects: Sujets
       identifier: Identifiant
       created_by: Créé par
-      last_modified_by: Dernière modification par
+      last_modified_by: Modifié en dernier par
     boolean:
       published: Publié?
       suppressed: Bloqué?
@@ -1971,7 +2017,7 @@ fr:
 
   largetree:
     reparent_error:
-      title: Pas moyen d'effectuer le déplacement
+      title: Impossible d'effectuer le déplacement
       message: Le déplacement a été refusé car un parent ne peut devenir son propre fils.
 
   rights_statement_act: &rights_statement_act_attributes
@@ -1994,7 +2040,151 @@ fr:
         <p>Date à laquelle la convention entre en vigueur.</p>
     end_date: Date de fin
     end_date_tooltip: |
-        <p>Date à laquelle la convention cesse d'être en vigueur.</p>
+        <p>Date à laquelle la convention expire.</p>
 
   act:
     <<: *rights_statement_act_attributes
+
+  oai:
+    sample_page:
+      title: "%{oai_repository_name} - Sample OAI-PMH requests"
+      introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH v 2.0).</p>"
+      form_header: Send a '%{verb}' request
+      form_submit: Submit
+
+  assessment:
+    records: Notices
+    records_tooltip: |
+        <p>CHAMP OBLIGATOIRE. Un lien vers la ou les ressource(s), entrée(s), objet(s) archivistique(s) ou numérique(s) soumis à évaluation.</p>
+    accession_report: Rapport sur les entrées
+    appraisal: Appréciation
+    container_list: Liste de boîtes/conditionnements
+    catalog_record: Catalog Record (MARC)
+    collections: Collections
+    control_file: Collection/Fichier de contrôle
+    conservation_note: Note de conservation
+    conservation_note_tooltip: <p>Indique des secteurs prioritaires en ce qui concerne la conservation de la collection.</p>
+    deed_of_gift: Acte de donation
+    existing_description_notes: Notes descriptives existantes
+    existing_description_notes_tooltip: <p>Tout surcroît d'information concernant la description existante des documents.</p>
+    finding_aid_ead: Instrument de recherche (EAD-encoding)
+    finding_aid_online: Instrument de recherche (en ligne)
+    finding_aid_paper: Instrument de recherche (uniquement sur papier)
+    finding_aid_word: Instrument de recherche (traitement de texte)
+    finding_aid_spreadsheet: Instrument de recherche (tableur)
+    id: ID
+    inactive: Inactive?
+    inactive_tooltip: <p>Indique que la notice d'évaluation n'est plus considérée comme “active” et de ce fait ne devrait plus être incluse dans les recherches et les rapports.</p>
+    inactive_true: "Oui"
+    inactive_false: "Non"
+    monetary_value: Valeur marchande
+    monetary_value_tooltip: <p>Evaluation ou estimation du prix des documents évalués (valeur numérique).</p>
+    monetary_value_note: Valeur marchande Note
+    monetary_value_note_tooltip: <p>Indique qui a fourni la valeur marchande, à quelle date, etc.</p>
+    surveyed_by: Passé en revue par
+    surveyed_by_tooltip: |
+        <p>CHAMP OBLIGATOIRE. Nom(s) de la/des personne(s) qui ont réalisé l'évaluation. Champ restreint aux utilisateurs qui ont un compte dans ArchivesSpace.</p>
+    survey_begin: Début du passage en revue
+    survey_begin_tooltip: |
+        <p>CHAMP OBLIGATOIRE. Date de début du passage en revue, au format aaaa-mm-jj.</p>
+    survey_end: Fin du passage en revue 
+    survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format aaaa-mm-jj.</p>
+    surveyed_duration: Temps passé au passage en revue complet
+    surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une heure.</p>
+    surveyed_extent: Quantité passée en revue
+    surveyed_extent_tooltip: <p>Dimensions des documents passés en revue, exprimée en mètres linéaires ou cubes.</p>
+    related_eac_records: Notice(s) EAC liée(s)
+    research_value: Valeur pour la recherche
+    research_value_tooltip: <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans le champ Qualité de la documentation à celle du champ Intérêt.</p>
+    review_required: Passage en revue requis?
+    review_required_tooltip: <p>Indique si le format, le sujet, ou les circonstances, rendent nécessaire un passage en revue de la collection.</p>
+    review_required_true: "Oui"
+    review_required_false: "Non"
+    review_note: Note de passage en revue
+    review_note_tooltip: <p>Explication des résultats d'un passage en revue.</p>
+    reviewer: Qui doit passer en revue
+    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint aux personnes ayant ont un compte utilisateur dans ArchivesSpace.</p>
+    purpose: But de l'évaluation
+    purpose_tooltip: |
+        <p>Indique la raison pour laquelle on a procédé à l'évaluation. Par exemples: priorités de conservation, de traitement, expertise, etc.</p>
+    scope: Taux d'échantillonnage
+    scope_tooltip: |
+      <p>Indique la portée de l'évaluation. Par exemple: échantillon de 10%; intégralité; tel format ou genre particulier dans les collections; ou tout autre contraintes ou conditions relatives aux documents effectivement examinés lors d'une évaluation.</p>
+    sensitive_material: Documents confidentiels?
+    sensitive_material_tooltip: <p>Indique la présence de documents confidentiels.</p>
+    sensitive_material_true: "Oui"
+    sensitive_material_false: "Non"
+    general_assessment_note: Note d'évaluation globale
+    general_assessment_note_tooltip: <p>Toute note supplémentaire concernant une évaluation.</p>
+    special_format_note: Note de format spécial
+    special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats spéciaux attestés.</p>
+    exhibition_value_note: Note d'intérêt pour une expo
+    exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une lettre ou une photographie d'un haut intérêt pour l'histoire.</p>
+    rating_attributes_value:
+      rating_none: Pas de note
+      rating_1: "1"
+      rating_2: "2"
+      rating_3: "3"
+      rating_4: "4"
+      rating_5: "5"
+    rating_note: "Note %{label}"
+    _singular: Evaluation
+    _plural: Evaluations
+
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Aptitude au reformatage
+      "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents à être reformatés.</p>
+      "Housing Quality": Qualité de l'abri
+      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de la collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent bénéficier d'un abri meilleur que celui indiqué par la note.</p>
+      "Physical Condition": Etat matériel
+      "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés dans la Note de conservation.</p>
+      "Physical Access (arrangement)": Accès physique (classement)
+      "Physical Access (arrangement)_tooltip": <p>Une note de 1 à 5 pour caractériser l'agencement global d'une collection, en tenant compte de la complexité et de la taille de la collection. Par exemple, une petite collection, relativement homogène et sommairement rangée est en général plus accessible qu'une collection importante, hétérogène, sommairement rangée, ce que doit réfléter la note. (Noter qu'un classement au niveau de l'élément n'est pas souhaitable pour bien des collections; une note de 4 pourrait bien être le maximum souhaitable pour une collection.)</p>
+      "Intellectual Access (description)": Accès intellectuel (description)
+      "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la description intellectuelle d'une collection et l'accessibilité de cette description pour les utilisateurs.</p>
+      "Interest": Intérêt
+      "Interest_tooltip": <p>Une note de  1 à 5 qui indique l'intérêt que présentent les documents pour le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation déterminent le niveau de "Valeur pour la recherche".</p>
+      "Documentation Quality": Qualité de la documentation
+      "Documentation Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la richesse de la documentation disponible dans une collection. Intérêt + Qualité de la documentation détermine le niveau de "Valeur pour la recherche".</p>
+      "Documentation Quality_values_tooltip": "<ul><li><b>Note 1</b>: Faible</li><li><b>Note 2</b>: Occasionnellement précieux</li><li><b>Note 3</b>: Assez riche</li><li><b>Note 4</b>: Riche</li><li><b>Note 5</b>: Très riche</li></ul>"
+      "Housing Quality_values_tooltip": "<ul><li><b>Note 1</b>: Collection abritée dans boîtes non homologuées, qui pourraient être instables sur l'étagère. La majeure partie des documents n'est pas rangée dans des dossiers et/ou les boîtes sont sur ou sous-remplies. S'agissant des volumes reliés, la reliure est en mauvais état, des plats manquent, ce qui compromet le maintien en bloc des papiers.</li><li><b>Note 2</b>: Collection abritée dans des boîtes et des dossiers non homologués. Un nombre non négligeable de boîtes et de dossiers contiennent trop de documents ou ne sont pas bien dimensionnés pour leur contenu. Les volumes reliés sont dans un état passable (peut-être que certains plats se détachent).</li><li><b>Note 3</b>: Collection abritée dans des boîtes et des dossiers non homologués, mais en bon état. La plupart sont correctement remplis. La plupart sont correctement dimensionnés pour les documents qu'ils abritent. S'agissant des volumes reliés, la reliure est en bon état (un peu écornée, mais qui tient).</li><li><b>Note 4</b>: Collection abritée en partie dans des boîtes et des dossiers sans acide en bon état. La plupart sont correctement remplis. La plupart sont correctement dimensionnés pour leur contenu. S'agissant des volumes reliés, la reliure est en excellent état (usure normale).</li><li><b>Note 5</b>: Collection entièrement abritée dans des boîtes et des dossiers sans acide en bon état. La plupart sont raisonnablement remplis. Boîtes et dossiers sont bien dimensionnés pour leur contenu. S'agissant des volumes reliés, la reliure est en excellent état.</li></ul>"
+      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Note 1</b>: Le chercheur n'a pas accès à la collection: la documentation interne, telle qu'un fichier de donateur, de contrôle, ou une notice d'entrée inaccessible, constitue l'unique description de la collecction. Bien qu'une documentation interne de ce genre puisse varier en qualité et en quantité, elle reste par nature inaccessible aux chercheurs.</li><li><b>Note 2</b>: Le chercheur n'a qu'un accès réduit à la collection: l'instrument de recherche est inexistant ou insuffisant. La collection a un catalogue sur fiches ou un autre type de descriptif hors ligne, mais pas de notice MARC dans l'OPAC ou dans une base bibliographique nationale. Ou bien, la notice MARC existe, mais ne fournit qu'un accès insuffisant, du fait de l'importance matérielle et de la complexité de la collection. Dans tous les cas, si des descriptifs en ligne ou hors ligne existent, ils ne fournissent pas un accès suffisant en raison de la complexité de la collection ou de leur inadéquation.</li><li><b>Note 3</b>: Le chercheur a un accès passable à la collection: l'instrument de recherche n'est pas au niveau ou inexistant. Il y a une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale, telle que l'OCLC. En l'absence de notice MARC complète, un autre type de descriptif en ligne existe. Le descriptif en ligne ou hors ligne accessible aux chercheurs fournit un accès suffisant en raison de la petite taille ou de l'homogénéité de la collection.</li><li><b>Note 4</b>: Le chercheur a un bon accès à la collection: il dispose d'un bon instrument de recherche, mais hors ligne. Il existe une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale telle que l'OCLC. Il existe un bon instrument de recherche, en ligne ou non, mais pas de notice MARC dans l'OPAC de l'institution et/ou dans une base bibliographique nationale. L'instrument de recherche, du fait de sa qualité, suffit à assurer un bon accès. Dans tous les cas, des descriptifs de la collection peuvent aussi exister dans d'autres sources, en ligne ou non, accessibles aux chercheurs.</li><li><b>Note 5</b>: Le chercheur bénéficie d'un très bon accès à la collection: l'instrument de recherche en ligne (EAD, HTML, PDF ou autre) est bon. Il existe une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base bibliographique nationale. D'autres descriptifs (tels qu'un guide des fonds), en ligne ou non, peuvent être accessibles aux chercheurs.</li></ul>"
+      "Interest_values_tooltip": "<ul><li><b>Note 1</b>: Négligeable</li><li><b>Note 2</b>: Faible</li><li><b>Note 3</b>: Moyen</li><li><b>Note 4</b>: Haut</li><li><b>Note 5</b>: Très haut</li></ul>"
+      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Note 1</b>: En total désordre; beaucoup, voire la plupart des documents sont encore pliés sous enveloppes. Complètement inaccessible au chercheur.</li><li><b>Note 2</b>: Rangement partiel ou grossier et/ou boîtage et marquage non-standard décourageant l'utilisation, sauf avec l'assistance exceptionnelle du personnel.</li><li><b>Note 3</b>: Classement grossier par date, type de document, fonction, source ou autre caractéristique; papiers pas entièrement examinés, mais dépliés et mis à plat; séries pas totalement constituées, dossiers pas entièrement constitués, les chercheurs doivent souvent naviguer dans une masse de documents étrangers pour localiser les pièces pertinentes. Tel ou tel volume pourrait avoir eu plusieurs usages, ou bien contenir des pièces insérées ou être quelque peu désorganisé.</li><li><b>Note 4</b>: Classement en série jusqu'au niveau dossier. La succession des fichiers est respectée. Les volumes se présentent de façon suivie (i.e. un livre de compte selon l'ordre alphabétique, un album selon l'ordre thématique).</li><li><b>Note 5</b>: Classement parfait en série et, le cas échéant, en sous-série jusqu'au niveau pièce. Les volumes se présentent de façon suivie et sont munis d'index (i.e. un registre en ordre chronologique est muni d'un index des noms).</li></ul>"
+      "Physical Condition_values_tooltip": "<ul><li><b>Note 1</b>: Mauvais: détériorations importantes, qui rendent la collection difficilement utilisable.</li><li><b>Note 2</b>: Passable: détérioration plus avancée que prévue, susceptible de se poursuivre.</li><li><b>Note 3</b>: Bon: détérioration normale, pouvant se poursuivre.</li><li><b>Note 4</b>: Très bon: très peu de dommages, une détérioration pourrait se produire en raison de la qualité inégale des documents.</li><li><b>Note 5</b>: Excellent: dommage minime, aucune détérioration n'est à craindre en raison de la grande qualité des documents.</li></ul>"
+      "Reformatting Readiness_values_tooltip": "<ul><li><b>Note 1</b>: documents extrêmement difficiles à reformater. Ils peuvent poser de sérieux problèmes de conservation, être dans un format archi-obsolète ou être soumis à des restrictions liées à la propriété intellectuelle. Les métadonnées peuvent manquer ou être incomplètes.</li><li><b>Note 2</b>: Documents difficiles à reformater. Ils peuvent poser des problèmes de conservation, être dans un format obsolète, ou poser des problèmes de propriété intellectuelle. Les métadonnées peuvent manquer ou être incomplètes.</li><li><b>Note 3</b>: Documents assez faciles à reformater. Ils peuvent poser des problèmes de conservation, être dans un format obsolète ou poser des questions mineures de propriété intellectuelle. Les métadonnées sont présentes ou faciles à créer.</li><li><b>Note 4</b>: Documents relativement faciles à reformater. Les problèmes de conservation sont minimes, les formats pas complètement obsolètes, les questions de propriété intellectuelle mineures. Les métadonnées sont présentes.</li><li><b>Note 5</b>: Documents aisément reformatables. Pas de problèmes de conservation, formats récents, pas de problèmes de propriété intellectuelle. Les métadonnées sont présentes et complètes.</li></ul>"
+      "Documentation Quality_note_tooltip": "Information supplémentaire sur la qualité de la documentation."
+      "Housing Quality_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne la mise à l'abri de la collection."
+      "Intellectual Access_note_tooltip": "Information supplémentaire concernant l'accès intellectuel aux documents."
+      "Interest_note_tooltip": "Information supplémentaire concernant l'intérêt des documents."
+      "Physical Access_note_tooltip": "Information supplémentaire concernant l'accès physique et le classement des documents."
+      "Physical Condition_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne l'état matériel de la collection."
+      "Reformatting Readiness_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne la numérisation ou le reformatage éventuel des documents."
+    format:
+      "Architectural Materials": Documents d'architecture
+      "Art Originals": Oeuvres d'art originales
+      "Artifacts": Artefacts
+      "Audio Materials": Documents audio
+      "Biological Specimens": Spécimens biologiques
+      "Botanical Specimens": Spécimens botaniques
+      "Computer Storage Units": Unités de stockage informatique
+      "Film (negative, slide, or motion picture)": Film (négatif, diapo, ou image animée)
+      "Glass": Verre
+      "Photographs": Photographies
+      "Scrapbooks": Albums
+      "Technical Drawings & Schematics": Dessins techniques & schémas
+      "Textiles": Textiles
+      "Vellum & Parchment": Vélin & parchemin
+      "Video Materials": Documents vidéo
+      "Other": Autre
+    conservation_issue:
+      "Potential Mold or Mold Damage": Moisissure possible ou dommage dû à la moisissure
+      "Recent Pest Damage": Dommage dû à des parasites
+      "Deteriorating Film Base": Pellicule photo en cours de dégradation
+      "Brittle Paper": Papier friable
+      "Metal Fasteners": Fermoirs métalliques
+      "Newspaper": Journaux
+      "Tape": Bande magnétique
+      "Heat-Sensitive Paper": Papier sensible à la chaleur
+      "Water Damage": Dommage dû à l'eau
