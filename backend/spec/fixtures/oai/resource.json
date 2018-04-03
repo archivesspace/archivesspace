@@ -319,6 +319,19 @@
             },
             {
                 "jsonmodel_type": "note_multipart",
+                "persistent_id": "7777454613971085b51abca792386053",
+                "publish": false,
+                "subnotes": [
+                    {
+                        "content": "note with unpublished parent node",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "relatedmaterial"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
                 "persistent_id": "8c5cc9b1b18b28e24b82c393fee167df",
                 "publish": false,
                 "subnotes": [
