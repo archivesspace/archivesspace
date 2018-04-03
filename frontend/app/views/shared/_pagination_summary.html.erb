@@ -13,6 +13,14 @@
           </div>
         </a>
         <ul class="dropdown-menu pull-right">
+          <% if show_record_type? %>
+            <li class="dropdown-submenu"><%= link_to I18n.t("search_sorting.primary_type"), build_search_params("sort2" => @search_data.sort_filter_for("primary_type", "desc")) %>
+              <ul class="dropdown-menu">
+                <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort2" => "primary_type asc") %></li>
+                <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort2" => "primary_type desc") %></li>
+              </ul>
+            </li>
+          <% end %>
           <% if @search_data.weightable? %>
             <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort2" => "") %></li>
           <% end %>
@@ -60,6 +68,14 @@
             <ul class="dropdown-menu">
               <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "title_sort asc") %></li>
               <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "title_sort desc") %></li>
+            </ul>
+          </li>
+        <% end %>
+        <% if show_record_type? %>
+          <li class="dropdown-submenu"><%= link_to I18n.t("search_sorting.primary_type"), build_search_params("sort2" => @search_data.sort_filter_for("primary_type", "desc")) %>
+            <ul class="dropdown-menu">
+              <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "primary_type asc") %></li>
+              <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "primary_type desc") %></li>
             </ul>
           </li>
         <% end %>
