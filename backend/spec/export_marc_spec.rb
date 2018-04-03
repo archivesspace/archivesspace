@@ -478,6 +478,14 @@ describe 'MARC Export' do
         [:json_agent_person,
           :names => [build(:json_name_person,
                            :prefix => "MS")]
+        ],
+        [:json_agent_person,
+          :names => [build(:json_name_person,
+                           :prefix => "QR")]
+        ],
+        [:json_agent_person,
+          :names => [build(:json_name_person,
+                           :prefix => "FZ")]
         ]
       ].each do |type_and_opts|
         @agents << create(type_and_opts[0], type_and_opts[1])
@@ -604,8 +612,12 @@ describe 'MARC Export' do
       @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
-  end
+    it "creates multiple 700 tags for multiple owner agents" do
+      # 3 owner agents are linked above in before block in line 373, @agents
 
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(3)
+    end
+  end
 
   describe "note mappings" do
 
