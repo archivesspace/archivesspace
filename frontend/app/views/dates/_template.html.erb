@@ -59,6 +59,18 @@
 <% end %>
 
 
+<% define_template "event_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <%= form.label_and_select "label", form.possible_options_for("label") %>
+      <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => "Describe the date or date range"}, :required => :conditionally} %>
+			<%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["bulk", "inclusive"]), :required => true %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
 <% define_template "archival_record_date", jsonmodel_definition(:date) do |form| %>
   <div class="subrecord-form-fields">
     <div class="date-container">
