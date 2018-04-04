@@ -223,7 +223,7 @@ class ArchivesSpaceService
                       :level => "global")
 
     Permission.define("manage_enumeration_record",
-                      "The ability to create, modify and delete an enumeration record",
+                      "The ability to create, modify and delete a controlled vocabulary list record",
                       :level => "repository")
 
     Permission.define("update_enumeration_record",
