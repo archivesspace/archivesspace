@@ -16,7 +16,7 @@ class MODSModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :title => :title=,
-    :language => :language_term=,
+    :language => :handle_language,
     :extents => :handle_extent,
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
@@ -207,6 +207,15 @@ class MODSModel < ASpaceExport::ExportModel
 
   def handle_id(digital_object_id)
     self.identifier = digital_object_id
+  end
+
+
+  def handle_language(language_term)
+      unless language_term.nil? || language_term.empty?
+        self.language_term = I18n.t("enumerations.language_iso639_2." + language_term)
+      else
+        self.language_term = nil
+      end
   end
 
 

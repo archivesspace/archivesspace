@@ -48,6 +48,7 @@ describe "Exported MODS metadata" do
                              :linked_agents => linked_agents,
                              :subjects => linked_subjects,
                              :digital_object_type => "notated_music",
+                             :language => "fre",
                              :notes => notes)
 
     use_statements = []
@@ -148,6 +149,10 @@ describe "Exported MODS metadata" do
 
     it "creates a typeOfResource tag for the digital object type" do
       @mods.should have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
+    end
+
+    it "creates a language/languageTerm tag for the language" do
+      @mods.should have_tag "language/languageTerm" => I18n.t("enumerations.language_iso639_2." + @digital_object['language'])
     end
   end
 
