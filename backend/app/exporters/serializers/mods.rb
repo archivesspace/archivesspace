@@ -29,6 +29,8 @@ class MODSSerializer < ASpaceExport::Serializer
       xml.title mods.title
     }
 
+    xml.identifier mods.identifier
+
     xml.typeOfResource mods.type_of_resource
 
 

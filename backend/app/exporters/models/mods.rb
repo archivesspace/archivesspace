@@ -12,6 +12,7 @@ class MODSModel < ASpaceExport::ExportModel
   attr_accessor :type_of_resource
   attr_accessor :parts
   attr_accessor :repository_note
+  attr_accessor :identifier
 
   @archival_object_map = {
     :title => :title=,
@@ -20,6 +21,7 @@ class MODSModel < ASpaceExport::ExportModel
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
+    :digital_object_id => :handle_id
   }
 
   @digital_object_map = {
@@ -198,6 +200,11 @@ class MODSModel < ASpaceExport::ExportModel
       end
     end
   end
+
+  def handle_id(digital_object_id)
+    self.identifier = digital_object_id
+  end
+
 
   def name_parts(name, type)
     fields = case type

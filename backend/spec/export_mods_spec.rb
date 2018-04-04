@@ -140,6 +140,13 @@ describe "Exported MODS metadata" do
   end
 
 
+  describe "mods_inner" do
+    it "creates an identifier tag for the digitial object id" do
+      @mods.should have_tag "identifier" => @digital_object['digital_object_id']
+    end
+  end
+
+
   describe "notes" do
 
     it "maps each note to the right type of tag" do
