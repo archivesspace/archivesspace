@@ -18,6 +18,7 @@ class Accession < Record
   end
 
   def deaccessions
+    return '' unless AppConfig[:pui_display_deaccessions]
     ASUtils.wrap(json['deaccessions'])
   end
 
