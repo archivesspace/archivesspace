@@ -50,6 +50,10 @@ module AspaceFactories
         end
       }
 
+      sequence(:generic_description) {|n| "Description: #{n}"}
+      sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
+      sequence(:alphanumstr) { SecureRandom.hex }
+
       sequence(:username) {|n| "testuser_#{n}_#{Time.now.to_i}"}
       sequence(:user_name) {|n| "Test User #{n}_#{Time.now.to_i}"}
 
@@ -78,7 +82,7 @@ module AspaceFactories
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
         name { generate :repo_name }
-        publish true 
+        publish true
         org_code "123"
         image_url "http://foo.com/bar"
         url "http://foo.com"
@@ -95,12 +99,40 @@ module AspaceFactories
         id_1 { generate(:accession_id) }
         id_2 { generate(:accession_id) }
         id_3 { generate(:accession_id) }
-        publish true 
+        publish true
         content_description "9 guinea pigs"
         condition_description "furious"
         accession_date "1990-01-01"
       end
 
+      factory :json_date_single, class: JSONModel(:date) do
+        date_type 'single'
+        label 'creation'
+        self.begin { generate(:yyyy_mm_dd) }
+        self.certainty 'inferred'
+        self.era 'ce'
+        self.calendar 'gregorian'
+        expression { generate(:alphanumstr) }
+      end
+
+      factory :json_deaccession, class: JSONModel(:deaccession) do
+        scope { "whole" }
+        description { generate(:generic_description) }
+        date { build(:json_date_single) }
+      end
+
+      factory :accession_with_deaccession, class: JSONModel(:accession) do
+        title { generate(:accession_title) }
+        id_0 { generate(:accession_id) }
+        id_1 { generate(:accession_id) }
+        id_2 { generate(:accession_id) }
+        id_3 { generate(:accession_id) }
+        publish true
+        content_description { generate(:generic_description) }
+        condition_description { generate(:generic_description) }
+        accession_date { generate(:yyyy_mm_dd) }
+        deaccessions { [build(:json_deaccession)] }
+      end
 
       factory :collection_management, class: JSONModel(:collection_management) do
         processing_total_extent "10"
