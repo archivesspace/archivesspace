@@ -469,6 +469,54 @@ describe 'MARC Export' do
     end
   end
 
+  describe "agents: include unpublished flag" do
+    before(:all) do
+      @agents = []
+      [
+        [:json_agent_person,
+          :names => [build(:json_name_person,
+                           :prefix => "MR"),
+          :publish => false]
+        ],
+        [:json_agent_corporate_entity,  {:publish => false} ],
+        [:json_agent_family, {:publish => false} ],
+      ].each do |type_and_opts|
+        @agents << create(type_and_opts[0], type_and_opts[1])
+      end
+
+      @resource = create(:json_resource,
+                             :linked_agents => @agents.map.each_with_index {|a, j|
+                              {
+                                :ref => a.uri,
+                                :role => (j == 0) ? 'creator' : 'subject',
+                                :terms => [build(:json_term), build(:json_term)],
+                                :relator => generate(:relator)
+                              }}
+        )
+
+      @marc_unpub_incl   = get_marc(@resource, true)
+      @marc_unpub_unincl = get_marc(@resource, false)
+    end
+
+
+    after(:all) do
+      @resource.delete
+      @agents.each {|a| a.delete}
+    end
+
+    it "should not create elements for unpublished agents if include_unpublished is false" do
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{100}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{610}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{600}']").length).to eq(0)
+    end
+
+    it "should create elements for unpublished agents if include_unpublished is true" do
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{100}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{610}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{600}']").length > 0).to eq(true)
+    end
+  end
+
 
   describe 'linked agent mappings' do
     before(:all) do
@@ -491,7 +539,8 @@ describe 'MARC Export' do
         [:json_agent_person,
           :names => [build(:json_name_person,
                            :prefix => "FZ")]
-        ]
+        ],
+        [:json_agent_family, {}]
       ].each do |type_and_opts|
         @agents << create(type_and_opts[0], type_and_opts[1])
       end
@@ -554,7 +603,7 @@ describe 'MARC Export' do
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
 
       df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['prefix']
+      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
       df.at("subfield[@code='d']").should have_inner_text name['dates']
     end
 
@@ -594,7 +643,7 @@ describe 'MARC Export' do
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
       df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['prefix']
+      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
       df.at("subfield[@code='d']").should have_inner_text name['dates']
     end
 
@@ -617,10 +666,17 @@ describe 'MARC Export' do
       @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
-    it "creates multiple 700 tags for multiple owner agents" do
-      # 3 owner agents are linked above in before block in line 373, @agents
+    it "stores qualifier in $c for secondary family creators " do
+      name = @agents[6]['names'][0]
+      inverted = name['name_order'] == 'direct' ? '0' : '1'
 
-      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(3)
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']/marc:subfield[@code='c'][contains(text(), '#{name['qualifier']}')]").length).to eq(1)
+    end
+
+    it "creates multiple 700 tags for multiple owner agents" do
+      # 4 owner agents are linked above in before block in line 373, @agents
+
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(4)
     end
   end
 
@@ -760,6 +816,47 @@ describe 'MARC Export' do
 
     it "maps notes of type 'accruals' to df 584 (' ', ' '), sf a" do
       note_test(@resource, @marc, %w(accruals), ['584', ' ', ' '], 'a')
+    end
+
+  end
+
+  describe "notes: include unpublished flag" do
+    before(:all) do
+      @resource = create(:json_resource,
+                         :notes => full_note_set(false))
+
+      @marc_unpub_incl   = get_marc(@resource, true)
+      @marc_unpub_unincl = get_marc(@resource, false)
+    end
+
+    after(:all) do
+      @resource.delete
+    end
+
+    it "should not create elements for unpublished notes if include_unpublished is false" do
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{506}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{524}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{535}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{540}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{541}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{544}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{545}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{561}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{583}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{584}']").length).to eq(0)
+    end
+
+    it "should create elements for unpublished notes if include_unpublished is true" do
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{506}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{524}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{535}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{540}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{541}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{544}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{545}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{561}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{583}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{584}']").length > 0).to eq(true)
     end
 
   end

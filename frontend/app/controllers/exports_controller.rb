@@ -14,7 +14,9 @@ class ExportsController < ApplicationController
 
   def download_marc
     download_export(
-      "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml", 
+      :include_unpublished_marc => params[:include_unpublished_marc]
+      )
   end
 
 

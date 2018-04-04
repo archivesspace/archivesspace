@@ -71,23 +71,28 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def initialize
+  def initialize(include_unpublished = false)
     @datafields = {}
+    @include_unpublished = include_unpublished
   end
 
   def datafields
     @datafields.map {|k,v| v}
   end
 
+  def include_unpublished?
+    @include_unpublished
+  end
 
-  def self.from_aspace_object(obj)
-    self.new
+
+  def self.from_aspace_object(obj, opts = {})
+    self.new(opts[:include_unpublished])
   end
 
   # 'archival object's in the abstract
-  def self.from_archival_object(obj)
+  def self.from_archival_object(obj, opts = {})
 
-    marc = self.from_aspace_object(obj)
+    marc = self.from_aspace_object(obj, opts)
 
     marc.apply_map(obj, @archival_object_map)
 
@@ -96,8 +101,8 @@ class MARCModel < ASpaceExport::ExportModel
 
   # subtypes of 'archival object':
 
-  def self.from_resource(obj)
-    marc = self.from_archival_object(obj)
+  def self.from_resource(obj, opts = {})
+    marc = self.from_archival_object(obj, opts)
     marc.apply_map(obj, @resource_map)
     marc.leader_string = "00000np$aa2200000 u 4500"
     marc.leader_string[7] = obj.level == 'item' ? 'm' : 'c'
@@ -265,9 +270,11 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_primary_creator(linked_agents)
     link = linked_agents.find{|a| a['role'] == 'creator'}
     return nil unless link
+    return nil unless link["_resolved"]["publish"] || @include_unpublished
 
     creator = link['_resolved']
     name = creator['display_name']
+
     ind2 = ' '
     role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
 
@@ -304,9 +311,8 @@ class MARCModel < ASpaceExport::ExportModel
       ind1 = '3'
       sfs = [
               ['a', name['family_name']],
-              ['c', name['prefix']],
-              ['d', name['dates']],
-              ['g', name['qualifier']],
+              ['c', name['qualifier']],
+              ['d', name['dates']]
             ]
     end
 
@@ -314,11 +320,15 @@ class MARCModel < ASpaceExport::ExportModel
     df(code, ind1, ind2).with_sfs(*sfs)
   end
 
+  # TODO: DRY this up
+  # this method is very similair to handle_primary_creator and handle_agents
   def handle_other_creators(linked_agents)
     creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
     creators = creators + linked_agents.select{|a| a['role'] == 'source'}
 
     creators.each do |link|
+      next unless link["_resolved"]["publish"] || @include_unpublished
+
       creator = link['_resolved']
       name = creator['display_name']
       relator = link['relator']
@@ -367,9 +377,8 @@ class MARCModel < ASpaceExport::ExportModel
         code = '700'
         sfs = [
                 ['a', name['family_name']],
-                ['c', name['prefix']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
+                ['c', name['qualifier']],
+                ['d', name['dates']]
               ]
       end
 
@@ -387,6 +396,8 @@ class MARCModel < ASpaceExport::ExportModel
     subjects = linked_agents.select{|a| a['role'] == 'subject'}
 
     subjects.each_with_index do |link, i|
+      next unless link["_resolved"]["publish"] || @include_unpublished
+
       subject = link['_resolved']
       name = subject['display_name']
       relator = link['relator']
@@ -425,9 +436,8 @@ class MARCModel < ASpaceExport::ExportModel
         ind1 = '3'
         sfs = [
                 ['a', name['family_name']],
-                ['c', name['prefix']],
-                ['d', name['dates']],
-                ['g', name['qualifier']],
+                ['c', name['qualifier']],
+                ['d', name['dates']]
               ]
 
       end
@@ -511,8 +521,12 @@ class MARCModel < ASpaceExport::ExportModel
 
       unless marc_args.nil?
         text = prefix ? "#{prefix}: " : ""
-        text += ASpaceExport::Utils.extract_note_text(note)
-        df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
+        text += ASpaceExport::Utils.extract_note_text(note, @include_unpublished) 
+
+        # only create a tag if there is text to show (e.g., marked published or exporting unpublished)
+        if text.length > 0 
+          df!(*marc_args[0...-1]).with_sfs([marc_args.last, *Array(text)])
+        end
       end
 
     end
