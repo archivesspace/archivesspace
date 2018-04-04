@@ -69,7 +69,11 @@ class MODSModel < ASpaceExport::ExportModel
     mods = self.from_archival_object(obj, tree)
 
     if obj.respond_to? :digital_object_type
-      mods.type_of_resource = obj.digital_object_type
+      unless obj.digital_object_type.nil? || obj.digital_object_type.empty?
+        mods.type_of_resource = I18n.t("enumerations.digital_object_digital_object_type." + obj.digital_object_type)
+      else
+        mods.type_of_resource = nil
+      end
     end
 
     mods.apply_map(obj, @digital_object_map, opts)

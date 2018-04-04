@@ -47,6 +47,7 @@ describe "Exported MODS metadata" do
     @digital_object = create(:json_digital_object,
                              :linked_agents => linked_agents,
                              :subjects => linked_subjects,
+                             :digital_object_type => "notated_music",
                              :notes => notes)
 
     use_statements = []
@@ -143,6 +144,10 @@ describe "Exported MODS metadata" do
   describe "mods_inner" do
     it "creates an identifier tag for the digitial object id" do
       @mods.should have_tag "identifier" => @digital_object['digital_object_id']
+    end
+
+    it "creates a typeOfResource tag for the digital object type" do
+      @mods.should have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
     end
   end
 
