@@ -188,7 +188,7 @@ class MARCModel < ASpaceExport::ExportModel
     if date_codes.length > 0
       # we want to pass in all our date codes as separate subfield tags
       # e.g., with_sfs(['a', title], [code1, val1], [code2, val2]... [coden, valn])
-      df('245', ind1, '0').with_sfs(['a', title], *date_codes)
+      df('245', ind1, '0').with_sfs(['a', title + ","], *date_codes)
     else
       df('245', ind1, '0').with_sfs(['a', title])
     end
