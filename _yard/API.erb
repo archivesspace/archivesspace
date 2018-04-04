@@ -209,7 +209,7 @@ __Returns__
 
 <% if example %>
 ```shell 
-<% if e[:method] == :get %>
+<% if e[:method][0] == :get %>
   <% if e[:paginated] %>
 # return first 10 records    
 curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?page=1&page_size=10"
@@ -220,14 +220,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gs
   <% else %> 
 curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
   <% end %>
-<% elsif e[:method] == :post %>
+<% elsif e[:method][0] == :post %>
   <% example.each_pair do |k,v| %>  
   <% next if k == "id" %>   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
   "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
   <% end %>
-<% elsif e[:method] == :delete %>
+<% elsif e[:method][0] == :delete %>
 curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
 <% else %>
   <% example.each_pair do |k,v| %>  
