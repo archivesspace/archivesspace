@@ -74,7 +74,7 @@ module ManipulateNode
     text
   end
 
-  private 
+  private
 
 # because ead lists have heads; gotta deal with them
   def move_list_heads
@@ -90,10 +90,12 @@ module ManipulateNode
     newnode = el.clone
     if newnode.key? "render"
       newnode = process_render(newnode)
-    elsif newnode.name.match(/ptr$/) 
+    elsif newnode.name.match(/ptr$/)
       newnode = process_pointer(newnode)
     elsif  newnode.name.match(/^extref/)
       newnode = process_anchor(newnode)
+    elsif newnode.name == 'blockquote'
+      newnode.name = 'blockquote'
     elsif newnode.name == 'table'
       newnode.name = 'table'
       newnode['class'] = "table"
@@ -124,7 +126,7 @@ module ManipulateNode
         unless role.blank?
           newnode.remove_attribute('role')
         end
-        newnode['class']  = "#{newnode.name} #{clss} #{role}".strip 
+        newnode['class']  = "#{newnode.name} #{clss} #{role}".strip
         newnode.name = newnode.name == 'accession' ? 'div' : 'span'
       end
     end
@@ -133,12 +135,12 @@ module ManipulateNode
   end
 
   def process_anchor(node)
-    href = node['href']  
+    href = node['href']
     href.strip! if href
     href = node['xlink:href'] if href.blank?
     target = node['target']
     target.strip! if target
-    return node if href.blank? && target.blank? 
+    return node if href.blank? && target.blank?
     ttl = node['title']
     anchornode = node.document.create_element('a')
     anchornode['href'] = href || "\##{target}"
@@ -146,7 +148,7 @@ module ManipulateNode
       anchornode['title'] = ttl.strip
     elsif node.name == 'extref'
       ttl == node.content
-    end 
+    end
     if node.name == 'extref'
       anchornode['target'] = 'extref'
       ttl = node.content
@@ -183,7 +185,7 @@ module ManipulateNode
               'q'
              when /alt/
               'q'
-             when /super/ 
+             when /super/
               'sup'
               when /sub/
               'sub'
