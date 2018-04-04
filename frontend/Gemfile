@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.1'
 gem "activesupport", "5.0.1"
 gem 'loofah', '2.0.3'
-gem 'i18n', '0.7.0'
+gem "i18n", "0.9.1"
 
 gem 'sprockets-rails', '2.3.3'
 
