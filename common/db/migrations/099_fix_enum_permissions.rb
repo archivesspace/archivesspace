@@ -25,27 +25,6 @@ Sequel.migration do
                                             :system_mtime => Time.now,
                                             :user_mtime => Time.now)
       end
-
-      # default permission to enabled for specified default groups
-      self[:group].filter(:group_code => 'repository-advanced-data-entry').select(:id).each do |group|
-        self[:group_permission].insert(:permission_id => manage_enumeration_record_id, :group_id => group[:id])
-      end
-
-      self[:group].filter(:group_code => 'repository-project-managers').select(:id).each do |group|
-        self[:group_permission].insert(:permission_id => manage_enumeration_record_id, :group_id => group[:id])
-      end
-
-      self[:group].filter(:group_code => 'repository-archivists').select(:id).each do |group|
-        self[:group_permission].insert(:permission_id => manage_enumeration_record_id, :group_id => group[:id])
-      end
-
-      self[:group].filter(:group_code => 'repository-managers').select(:id).each do |group|
-        self[:group_permission].insert(:permission_id => manage_enumeration_record_id, :group_id => group[:id])
-      end
-
-      self[:group].filter(:group_code => 'administrators').select(:id).each do |group|
-        self[:group_permission].insert(:permission_id => manage_enumeration_record_id, :group_id => group[:id])
-      end
     end
   end
 
