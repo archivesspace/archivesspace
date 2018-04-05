@@ -71,18 +71,36 @@ describe 'MARC Export' do
     end
   end  
 
- describe "040 cataloging source field" do
-    before(:each) do
-      @marc = get_marc(create(:json_resource))      
-      @xml = @marc.to_xml
-    end
+describe "datafield element order" do
+  before(:each) do
+    @marc = get_marc(create(:json_resource))      
+    @xml = @marc.to_xml
+  end
+    
+  it "should generate XML with the datafield tags in numerical order" do
+    datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
+    last_tag = 0
 
-    it "MARC record should only have one 040 element in the document" do
-      forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
-      expect(forty_count).to eql(1)
+    # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
+    0.upto(datafield_element_count - 1) do |i|
+      this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
+      expect(this_tag >= last_tag).to eq(true)
+      last_tag = this_tag
     end
   end
+end
 
+ describe "040 cataloging source field" do
+   before(:each) do
+     @marc = get_marc(create(:json_resource))      
+     @xml = @marc.to_xml
+   end
+
+   it "MARC record should only have one 040 element in the document" do
+     forty_count = @xml.scan(/(?=#{'tag="040"'})/).count
+     expect(forty_count).to eql(1)
+   end
+  end
 
   describe "datafield 110 name mapping" do
 
@@ -138,6 +156,10 @@ describe 'MARC Export' do
       else
         @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.begin} - #{date.end}"
       end
+    end
+
+    it "adds a comma after $a if a date is defined" do
+      expect(@marc.at("datafield[@tag='245']/subfield[@code='a']/text()").to_s[-1]).to eq(",")
     end
 
 
@@ -351,7 +373,8 @@ describe 'MARC Export' do
     end
 
     it "should strip out the mixed content in title" do
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']" => "Foo  BAR  Jones"
+      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']"
+      expect(@marc.at("datafield[@tag='245']/subfield[@code='a']/text()").to_s).to match(/Foo  BAR  Jones/)
     end
   end
 
@@ -437,6 +460,11 @@ describe 'MARC Export' do
       org_code = JSONModel(:repository).find($repo_id).org_code
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(org_code)
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']").should have_inner_text(org_code)
+    end
+
+    it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      org_code = JSONModel(:repository).find($repo_id).org_code
+      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
@@ -778,12 +806,17 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource.ead_location to df 555 (' ', ' '), sf a" do
-      df = @marc.df('555', ' ', ' ')
+    it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
+      df = @marc.df('856', '4', '2')
       df.sf_t('u').should eq(@resource.ead_location)
-      df.sf_t('a').should eq("Finding aid online:")
+      df.sf_t('z').should eq("Finding aid online:")
     end
 
+    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
+      df = @marc.df('555', '0', ' ')
+      df.sf_t('u').should eq(@resource.finding_aid_note)
+      df.sf_t('3').should eq("Finding aids:")
+    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
@@ -879,12 +912,11 @@ describe 'MARC Export' do
     end
   end
 
-
-  describe "https://archivesspace.atlassian.net/browse/AR-973" do
-    # Note: I'm unclear what this issue actually means
-
+  describe "049 OCLC tag" do
     before(:all) do
       @resource = create(:json_resource)
+      @org_code = JSONModel(:repository).find($repo_id).org_code
+
       @marc = get_marc(@resource)
     end
 
@@ -893,8 +925,8 @@ describe 'MARC Export' do
     end
 
 
-    it "maps resource language code to 049$a" do
-      @marc.at("datafield[@tag='049'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource.language)
+    it "maps org_code to 049 tag" do
+      @marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(@org_code)
     end
   end
 

@@ -736,8 +736,9 @@
                 row.data('child_count', node.child_count);
 
                 var title = row.find('.title');
+                var strippedTitle = $("<div>").html(node.title).text();
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
-                title.attr('title', node.title);
+                title.attr('title', strippedTitle);
 
                 if (node.child_count === 0) {
                     row.find('.expandme').css('visibility', 'hidden');
@@ -764,7 +765,7 @@
             });
 
             elt.after.apply(elt, newRows);
- 
+
             elt.addClass('populated');
 
             activeWaypointPopulates[key] = false;

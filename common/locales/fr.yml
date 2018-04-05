@@ -1085,6 +1085,9 @@ fr:
   usage_date:
     <<: *date_attributes
 
+  event_date:
+    <<: *date_attributes
+
   archival_record_date:
     <<: *date_attributes
 

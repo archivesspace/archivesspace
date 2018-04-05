@@ -827,6 +827,7 @@
     <antcall target="indexer:test" />
     <antcall target="frontend:test"/>
     <antcall target="common:test" />
+    <antcall target="public:test" />    
   </target>
 
 
@@ -862,7 +863,7 @@
     </concat>
 
   </target>
-  
+
   <target name="public:test" depends="set-classpath" description="Run the unit test suite">
     <property name="spec" value=""/>
     <property name="example" value=""/>
@@ -877,7 +878,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="--debug ../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec} spec/controllers/${spec}" />
+      <arg line="--debug ../build/gems/bin/rspec -b --format d --order rand:1 ${example-arg}" />
     </java>
   </target>
 

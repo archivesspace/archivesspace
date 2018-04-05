@@ -11,7 +11,7 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
   @archival_object_map = {
-    :repository => :handle_repo_code,
+    [:repository, :language] => :handle_repo_code,
     [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
@@ -23,7 +23,7 @@ class MARCModel < ASpaceExport::ExportModel
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e'),
-    :ead_location => :handle_ead_loc
+    [:ead_location, :finding_aid_note] => :handle_ead_loc
   }
 
   attr_accessor :leader_string
@@ -193,7 +193,7 @@ class MARCModel < ASpaceExport::ExportModel
     if date_codes.length > 0
       # we want to pass in all our date codes as separate subfield tags
       # e.g., with_sfs(['a', title], [code1, val1], [code2, val2]... [coden, valn])
-      df('245', ind1, '0').with_sfs(['a', title], *date_codes)
+      df('245', ind1, '0').with_sfs(['a', title + ","], *date_codes)
     else
       df('245', ind1, '0').with_sfs(['a', title])
     end
@@ -202,11 +202,32 @@ class MARCModel < ASpaceExport::ExportModel
 
   def handle_language(langcode)
     df('041', '0', ' ').with_sfs(['a', langcode])
-    df('049', '0', ' ').with_sfs(['a', langcode])
   end
 
 
-  def handle_repo_code(repository)
+  def handle_dates(dates)
+    return false if dates.empty?
+
+    dates = [["single", "inclusive", "range"], ["bulk"]].map {|types|
+      dates.find {|date| types.include? date['date_type'] }
+    }.compact
+
+    dates.each do |date|
+      code = date['date_type'] == 'bulk' ? 'g' : 'f'
+      val = nil
+      if date['expression'] && date['date_type'] != 'bulk'
+        val = date['expression']
+      elsif date['date_type'] == 'single'
+        val = date['begin']
+      else
+        val = "#{date['begin']} - #{date['end']}"
+      end
+
+      df('245', '1', '0').with_sfs([code, val])
+    end
+  end
+
+  def handle_repo_code(repository, langcode)
     repo = repository['_resolved']
     return false unless repo
 
@@ -216,7 +237,8 @@ class MARCModel < ASpaceExport::ExportModel
                         ['a', sfa],
                         ['b', repo['name']]
                       )
-    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['c', repo['org_code']])
+    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
+    df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
   end
 
   def source_to_code(source)
@@ -547,15 +569,35 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_ead_loc(ead_loc)
-    df('555', ' ', ' ').with_sfs(
-                                  ['a', "Finding aid online:"],
-                                  ['u', ead_loc]
-                                )
-    df('856', '4', '2').with_sfs(
-                                  ['z', "Finding aid online:"],
-                                  ['u', ead_loc]
-                                )
+  # 3/28/18: Updated: ANW-318
+  def handle_ead_loc(ead_loc, finding_aid_note)
+    ead_loc_present          = ead_loc && !ead_loc.empty?
+    finding_aid_note_present = finding_aid_note && !finding_aid_note.empty?
+
+    # If there is EADlocation
+    #<datafield tag="856" ind1="4" ind2="2">
+    #  <subfield code="z">Finding aid online:</subfield>
+    #  <subfield code="u">EADlocation</subfield>
+    #</datafield>
+    if ead_loc_present
+      df('856', '4', '2').with_sfs(
+                                    ['z', "Finding aid online:"],
+                                    ['u', ead_loc]
+                                  )
+    end
+
+    # If there a OtherFindingAidNote
+    #<datafield tag="555" ind1="0" ind2="">
+    #  <subfield code="3">Finding aids:</subfield>
+    #  <subfield code="u">OtherFindingAidNote</subfield>
+    #</datafield>
+    if finding_aid_note_present
+        df('555', '0', ' ').with_sfs(
+                                ['3', "Finding aids:"],
+                                ['u', finding_aid_note]
+                              )
+
+    end
   end
 
 end

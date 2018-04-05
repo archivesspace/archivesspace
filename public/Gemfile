@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.1'
 
 gem 'loofah', '2.0.3'
-gem 'i18n', '0.7.0'
+gem "i18n", "0.9.1"
 
 # Use jdbcsqlite3 as the database for Active Record
 # gem 'activerecord-jdbcsqlite3-adapter'
@@ -68,7 +68,7 @@ end
 group :test do
   gem 'rspec', "~> 3.6.0"
   gem 'rspec-rails'
-  gem 'rails-controller-testing' 
+  gem 'rails-controller-testing'
   gem 'simplecov', "0.7.1"
   gem "factory_bot_rails"
   gem "fog-aws", "2.0.0", :require => false
