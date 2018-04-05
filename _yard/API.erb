@@ -178,29 +178,31 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 <% if e[:method][0] == :get %>
   <% if e[:paginated] %>
 # return first 10 records    
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?page=1&page_size=10"
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>?page=1&page_size=10"
 # return first 5 records in the Fibonacci sequence
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?id_set=1,2,3,5,8"
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>?id_set=1,2,3,5,8"
 # return an array of all the ids 
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?all_ids=true"
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>?all_ids=true"
   <% else %> 
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>"
   <% end %>
 <% elsif e[:method][0] == :post %>
   <% example.each_pair do |k,v| %>  
-  <% next if k == "id" %>   
+  <% next if k == "id" %>
+  <% next if k == "repo_id" %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
-  "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+  "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>"
   <% end %>
 <% elsif e[:method][0] == :delete %>
-curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>"
 <% else %>
   <% example.each_pair do |k,v| %>  
-  <% next if k == "id" %>   
+  <% next if k == "id" %>
+  <% next if k == "repo_id" %>   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
-  "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
+  "http://localhost:8089<%= e[:uri].gsub(":id", "1").gsub(":repo_id", "2") %>"
   <% end %>
 <% end %>
 
