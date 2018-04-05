@@ -15,7 +15,7 @@ Sequel.migration do
       # add permission for managing controlled value lists
       manage_enumeration_record_id = self[:permission].filter(:permission_code => 'manage_enumeration_record').get(:id)
 
-      if manage_enumeration_record_id
+      if !manage_enumeration_record_id
         manage_enumeration_record_id = self[:permission].insert(:permission_code => 'manage_enumeration_record',
                                             :description => 'The ability to create, modify and delete a controlled vocabulary list record',
                                             :level => 'repository',
