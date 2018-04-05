@@ -48,6 +48,7 @@ class ASpaceEnvironment
     if environment != :auto
       @environment = environment
     elsif ENV["ASPACE_DEMO"] == 'true'
+      # to use this mechanism, put URL to demo database in AppConfig[:demo_data_url]
       download_demo_db
       @environment = :production
     else
