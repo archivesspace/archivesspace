@@ -7,7 +7,7 @@ Sequel.migration do
 
       # remove unused permission
       system_config_id = self[:permission].filter(:permission_code => 'system_config').get(:id)
-      unless system_config_id
+      if system_config_id
         self[:group_permission].filter(:permission_id => system_config_id).delete
         self[:permission].filter(:permission_code => 'system_config').delete
       end
