@@ -62,6 +62,7 @@ describe JSONModel do
         "uri" => "/repositories/:repo_id/stubs",
         "properties" => {
           "uri" => {"type" => "string", "required" => false},
+          "publish" => {"type" => "boolean", "required" => false},
           "ref_id" => {"type" => "string", "ifmissing" => "error", "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},
           "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
           "title" => {"type" => "string", "minLength" => 1, "required" => true},
@@ -183,4 +184,80 @@ describe JSONModel do
       response.should_not be(nil)
     end
   end
+
+  describe "jsonmodel utils" do
+    describe "set_publish_flags" do
+      before(:each) do
+        @p_false = @klass.JSONModel(:stub).from_hash({"ref_id" => "abc", "title"=> "Stub Object", "publish" => false})
+        @p_true = @klass.JSONModel(:stub).from_hash({"ref_id" => "abc", "title"=> "Stub Object", "publish" => true})
+
+
+        @np_resource = @klass.JSONModel(:stub).from_hash(
+          {"ref_id" => "abc", 
+           "title"=> "Stub Object", 
+           "publish" => false,
+           "subjects" => [@p_false, @p_true]}
+        )
+
+        @p_resource = @klass.JSONModel(:stub).from_hash(
+          {"ref_id" => "abc", 
+           "title"=> "Stub Object", 
+           "publish" => true,
+           "subjects" => [@p_false, @p_true]}
+        )
+
+        @p_nested_resource = @klass.JSONModel(:stub).from_hash(
+          {"ref_id" => "abc", 
+           "title"=> "Stub Object", 
+           "publish" => true,
+           "subjects" => [@p_resource, @np_resource]}
+        )
+
+        @np_nested_resource = @klass.JSONModel(:stub).from_hash(
+          {"ref_id" => "abc", 
+           "title"=> "Stub Object", 
+           "publish" => false,
+           "subjects" => [@p_resource, @np_resource]}
+        )
+      end
+
+      it "set publish flags based on parent if parent publish == false" do
+        JSONModel.set_publish_flags!(@np_resource)
+
+        expect(@np_resource['subjects'][0]['publish']).to eq(false)
+        expect(@np_resource['subjects'][1]['publish']).to eq(false)
+      end
+
+      it "leave publish flags alone if parent publish == true" do
+        JSONModel.set_publish_flags!(@p_resource)
+
+        expect(@p_resource['subjects'][0]['publish']).to eq(false)
+        expect(@p_resource['subjects'][1]['publish']).to eq(true)
+      end
+
+      it "set publish flags based on parent if parent publish == false (doubly nested)" do
+        JSONModel.set_publish_flags!(@np_nested_resource)
+
+        expect(@np_nested_resource['subjects'][0]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][1]['publish']).to eq(false)
+
+        expect(@np_nested_resource['subjects'][0]['subjects'][0]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][0]['subjects'][1]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][1]['subjects'][0]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][1]['subjects'][1]['publish']).to eq(false)
+      end
+
+      it "set publish flags based on parent if parent publish == false (doubly nested)" do
+        JSONModel.set_publish_flags!(@p_nested_resource)
+
+        expect(@p_nested_resource['subjects'][0]['publish']).to eq(true)
+        expect(@p_nested_resource['subjects'][1]['publish']).to eq(false)
+
+        expect(@p_nested_resource['subjects'][0]['subjects'][0]['publish']).to eq(false)
+        expect(@p_nested_resource['subjects'][0]['subjects'][1]['publish']).to eq(true)
+        expect(@p_nested_resource['subjects'][1]['subjects'][0]['publish']).to eq(false)
+        expect(@p_nested_resource['subjects'][1]['subjects'][1]['publish']).to eq(false)
+      end
+    end
+  end 
 end

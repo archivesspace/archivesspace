@@ -9,6 +9,8 @@ class ArchivesSpaceOAIRecord
   def initialize(sequel_record, jsonmodel_record)
     @jsonmodel_record = JSONModel::JSONModel(:resource).new(
         URIResolver.resolve_references( jsonmodel_record, ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container', 'top_container::container_profile'] ))
+
+    JSONModel::set_publish_flags!(@jsonmodel_record)
     @sequel_record = sequel_record
   end
 

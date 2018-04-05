@@ -200,6 +200,7 @@ class JSONModelType
 
 
   attr_reader :uri
+  attr_accessor :data
 
   def uri=(val)
     @uri = val

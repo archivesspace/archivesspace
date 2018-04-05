@@ -712,7 +712,8 @@ end
     before(:all) do
 
       @resource = create(:json_resource,
-                         :notes => full_note_set)
+                         :notes => full_note_set(true),
+                         :publish => true)
 
       @marc = get_marc(@resource)
     end
@@ -884,6 +885,32 @@ end
 
   end
 
+  describe "notes: inherit publish from parent" do
+    before(:all) do
+      @resource = create(:json_resource,
+                         :notes => full_note_set(true),
+                         :publish => false)
+
+      @marc_unpub_unincl = get_marc(@resource, false)
+    end
+
+    after(:all) do
+      @resource.delete
+    end
+
+    it "should not create elements for published notes if they have a parent with publish == false" do
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{506}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{524}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{535}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{540}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{541}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{544}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{545}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{561}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{583}']").length).to eq(0)
+      expect(@marc_unpub_unincl.xpath("//marc:datafield[@tag = '#{584}']").length).to eq(0)
+    end
+  end
 
   describe "049 OCLC tag" do
     before(:all) do
