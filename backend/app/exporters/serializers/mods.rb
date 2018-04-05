@@ -23,6 +23,7 @@ class MODSSerializer < ASpaceExport::Serializer
   end
 
 
+
   def serialize_mods_inner(mods, xml)
 
     xml.titleInfo {
@@ -38,8 +39,25 @@ class MODSSerializer < ASpaceExport::Serializer
       xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
         xml.text mods.language_term
       }
-
     }
+
+    mods.dates.each do |date|
+      attrs = process_date_attrs(date)
+      case date['label']
+      when 'creation'
+        xml.dateCreated(attrs) { xml.text(process_date_string(date)) }
+      when 'digitized'
+        xml.dateCaptured(attrs) { xml.text(process_date_string(date)) }
+      when 'copyright'
+        xml.copyrightDate(attrs) { xml.text(process_date_string(date)) }
+      when 'modified'
+        xml.dateModified(attrs) { xml.text(process_date_string(date)) }
+      when 'broadcast', 'issued', 'publication'
+        xml.dateIssued(attrs) { xml.text(process_date_string(date)) }
+      else 
+        xml.dateOther(attrs) { xml.text(process_date_string(date)) }
+      end
+    end
 
     xml.physicalDescription{
       mods.extents.each do |extent|
@@ -143,4 +161,49 @@ class MODSSerializer < ASpaceExport::Serializer
       xml.text note.content
     }
   end
+
+  private
+
+  def process_date_string(date)
+    # use date expression, if present
+    unless date['expression'].nil? || date['expression'].empty?
+      return date['expression']
+    end
+
+    # if end date specified, use begin - end form
+    unless date['end'].nil? || date['end'].empty?
+      return "#{date['begin']} - #{date['end']}"
+
+    # otherwise, just use begin date
+    else
+      return date['begin']
+    end
+  end
+
+  def process_date_attrs(date)
+    attrs = {}
+
+    # qualifier
+    if date.has_key?('certainty')
+      case date['certainty']
+      when "approximate"
+        attrs["qualifier"] = "approximate"
+      when "inferred"
+        attrs["qualifier"] = "inferred"
+      when "questionable"
+        attrs["qualifier"] = "questionable"
+      end
+    end
+    # encoding
+    attrs['encoding'] = "w3cdtf"
+
+    # keyDate
+    attrs['keyDate'] = "yes"
+
+    # point
+    attrs['point'] = "end"
+
+    return attrs
+  end
+
 end

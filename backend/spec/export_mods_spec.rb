@@ -44,11 +44,23 @@ describe "Exported MODS metadata" do
 
     notes = digital_object_note_set + [build(:json_note_bibliography)]
 
+    dates = [
+      {"label" => "creation", "expression" => "1970s-ish", "certainty" => "questionable", "date_type" => "bulk"},
+      {"label" => "digitized", "begin" => "10-10-2018", "certainty" => "inferred", "date_type" => "bulk"},
+      {"label" => "copyright", "begin" => "10-10-1998", "end" => "10-10-2008", "certainty" => "approximate", "date_type" => "bulk"},
+      {"label" => "modified", "expression" => "Last week", "certainty" => "approximate", "date_type" => "bulk"},
+      {"label" => "broadcast", "begin" => "04-01-2018", "date_type" => "bulk"},
+      {"label" => "issued", "begin" => "05-01-2018", "date_type" => "bulk"},
+      {"label" => "publication", "begin" => "06-01-2018", "date_type" => "bulk"},
+      {"label" => "other", "begin" => "07-01-2018", "date_type" => "bulk"},
+    ]
+
     @digital_object = create(:json_digital_object,
                              :linked_agents => linked_agents,
                              :subjects => linked_subjects,
                              :digital_object_type => "notated_music",
                              :language => "fre",
+                             :dates => dates,
                              :notes => notes)
 
     use_statements = []
@@ -138,6 +150,49 @@ describe "Exported MODS metadata" do
           end
         end
       end
+    end
+  end
+
+  describe "dates" do
+    it "maps to dateCreated" do
+      @mods.should have_tag "dateCreated" => "1970s-ish"
+    end
+
+    it "maps to dateIssued" do
+      @mods.should have_tag "dateIssued" => "04-01-2018"
+      @mods.should have_tag "dateIssued" => "05-01-2018"
+      @mods.should have_tag "dateIssued" => "06-01-2018"
+    end
+
+    it "maps to dateCaptured" do
+      @mods.should have_tag "dateIssued" => "06-01-2018"
+    end
+
+    it "maps to copyrightDate" do
+      @mods.should have_tag "copyrightDate" => "10-10-1998 - 10-10-2008"
+    end
+
+    it "maps to dateModified" do
+      @mods.should have_tag "dateModified" => "Last week"
+    end
+
+    it "maps to dateOther" do
+      @mods.should have_tag "dateOther" => "07-01-2018"
+    end
+
+    it "should to correct qualifier tag" do
+      @mods.should have_tag "dateCreated[@qualifier='questionable']"
+      @mods.should have_tag "dateCaptured[@qualifier='inferred']"
+      @mods.should have_tag "copyrightDate[@qualifier='approximate']"
+    end
+
+    it "should set encoding, keyDate and point attributes" do
+      @mods.should have_tag "dateCreated[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+      @mods.should have_tag "dateCaptured[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+      @mods.should have_tag "copyrightDate[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+      @mods.should have_tag "dateModified[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+      @mods.should have_tag "dateIssued[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+      @mods.should have_tag "dateOther[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
     end
   end
 

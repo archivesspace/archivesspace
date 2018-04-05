@@ -13,6 +13,7 @@ class MODSModel < ASpaceExport::ExportModel
   attr_accessor :parts
   attr_accessor :repository_note
   attr_accessor :identifier
+  attr_accessor :dates
 
   @archival_object_map = {
     :title => :title=,
@@ -21,7 +22,8 @@ class MODSModel < ASpaceExport::ExportModel
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
-    :digital_object_id => :handle_id
+    :digital_object_id => :handle_id,
+    :dates => :handle_dates
   }
 
   @digital_object_map = {
@@ -52,6 +54,7 @@ class MODSModel < ASpaceExport::ExportModel
     @subjects = []
     @names = []
     @parts = []
+    @dates = []
   end
 
 
@@ -207,6 +210,13 @@ class MODSModel < ASpaceExport::ExportModel
 
   def handle_id(digital_object_id)
     self.identifier = digital_object_id
+  end
+
+
+  def handle_dates(dates)
+    dates.each do |date|
+      self.dates.push date
+    end
   end
 
 
