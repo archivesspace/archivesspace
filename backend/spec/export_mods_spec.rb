@@ -196,6 +196,11 @@ describe "Exported MODS metadata" do
     end
   end
 
+  describe "extents" do
+    it "should export textents in a physicalDescription/extent tag" do
+      @mods.should have_tag "physicalDescription/extent" => @digital_object['extents'][0]['number'] + " " + @digital_object['extents'][0]['extent_type']
+    end
+  end
 
   describe "mods_inner" do
     it "creates an identifier tag for the digitial object id" do

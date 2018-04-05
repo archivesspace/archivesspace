@@ -171,7 +171,6 @@ class MODSModel < ASpaceExport::ExportModel
   def handle_extent(extents)
     extents.each do |ext|
       e = ext['number']
-      e << " (#{ext['portion']})" if ext['portion']
       e << " #{ext['extent_type']}"
 
       self.extents << e
