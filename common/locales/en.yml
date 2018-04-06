@@ -1430,6 +1430,7 @@ en:
       update_assessment_record: create/update assessment records
       delete_assessment_record: delete assessment records
       manage_assessment_attributes: create/update/delete repository assessment attributes definitions
+      manage_enumeration_record: create/update/delete controlled value records
     _singular: Group
     _plural: Groups
 

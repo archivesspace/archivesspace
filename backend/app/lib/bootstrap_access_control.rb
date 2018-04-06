@@ -64,10 +64,6 @@ class ArchivesSpaceService
 
 
     ## Standard permissions
-    Permission.define("system_config",
-                      "The ability to manage system configuration options",
-                      :level => "global")
-
     Permission.define("administer_system",
                       "The ability to act as a system administrator",
                       :level => "global")
@@ -176,7 +172,7 @@ class ArchivesSpaceService
                       :level => "repository")
 
 
-    # Updates and deletes to locations, subjects and agents are a bit funny: they're
+    # Updates and deletes to locations, subjects, agents, and enumerations are a bit funny: they're
     # global objects, but users are granted permission to modify them by being
     # associated with a group within a repository.
     Permission.define("manage_subject_record",
@@ -224,6 +220,15 @@ class ArchivesSpaceService
     Permission.define("delete_vocabulary_record",
                       "The ability to delete vocabulary records",
                       :implied_by => 'delete_archival_record',
+                      :level => "global")
+
+    Permission.define("manage_enumeration_record",
+                      "The ability to create, modify and delete a controlled vocabulary list record",
+                      :level => "repository")
+
+    Permission.define("update_enumeration_record",
+                      "The ability to manage controlled vocabulary lists",
+                      :implied_by => 'manage_enumeration_record',
                       :level => "global")
 
 
