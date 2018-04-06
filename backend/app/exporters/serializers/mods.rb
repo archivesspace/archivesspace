@@ -159,19 +159,19 @@ class MODSSerializer < ASpaceExport::Serializer
                   !date['expression'].nil? &&
                   !date['expression'].empty?
 
-    # if end specified, we need a point="end" date.
+    # if end specified, we need a point="end" tag.
     has_end = date.has_key?('end') && 
               !date['end'].nil? && 
               !date['end'].empty? &&
               !has_expression
 
-    # if beginning specified, we need a point="start" date.
+    # if beginning specified, we need a point="start" tag.
     has_begin = date.has_key?('begin') && 
                 !date['begin'].nil? && 
                 !date['begin'].empty? &&
                 !has_expression
 
-    # xml.dateCreated(attrs) { xml.text(process_date_string(date)) }
+    # the tag created depends on the type of date
     case date['label']
     when 'creation'
       type = "dateCreated"
