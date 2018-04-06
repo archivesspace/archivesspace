@@ -42,21 +42,7 @@ class MODSSerializer < ASpaceExport::Serializer
     }
 
     mods.dates.each do |date|
-      attrs = process_date_attrs(date)
-      case date['label']
-      when 'creation'
-        xml.dateCreated(attrs) { xml.text(process_date_string(date)) }
-      when 'digitized'
-        xml.dateCaptured(attrs) { xml.text(process_date_string(date)) }
-      when 'copyright'
-        xml.copyrightDate(attrs) { xml.text(process_date_string(date)) }
-      when 'modified'
-        xml.dateModified(attrs) { xml.text(process_date_string(date)) }
-      when 'broadcast', 'issued', 'publication'
-        xml.dateIssued(attrs) { xml.text(process_date_string(date)) }
-      else 
-        xml.dateOther(attrs) { xml.text(process_date_string(date)) }
-      end
+      handle_date(xml, date)
     end
 
     xml.physicalDescription{
@@ -164,26 +150,62 @@ class MODSSerializer < ASpaceExport::Serializer
 
   private
 
-  def process_date_string(date)
-    # use date expression, if present
-    unless date['expression'].nil? || date['expression'].empty?
-      return date['expression']
+
+  def handle_date(xml, date)
+    attrs = process_date_qualifier_attrs(date)
+
+    # if expression is provided, use that for this date
+    has_expression = date.has_key?('expression') &&
+                  !date['expression'].nil? &&
+                  !date['expression'].empty?
+
+    # if end specified, we need a point="end" date.
+    has_end = date.has_key?('end') && 
+              !date['end'].nil? && 
+              !date['end'].empty? &&
+              !has_expression
+
+    # if beginning specified, we need a point="start" date.
+    has_begin = date.has_key?('begin') && 
+                !date['begin'].nil? && 
+                !date['begin'].empty? &&
+                !has_expression
+
+    # xml.dateCreated(attrs) { xml.text(process_date_string(date)) }
+    case date['label']
+    when 'creation'
+      type = "dateCreated"
+    when 'digitized'
+      type = "dateCaptured"
+    when 'copyright'
+      type = "copyrightDate"
+    when 'modified'
+      type = "dateModified"
+    when 'broadcast', 'issued', 'publication'
+      type = "dateIssued"
+    else 
+      type = "dateOther"
     end
 
-    # if end date specified, use begin - end form
-    unless date['end'].nil? || date['end'].empty?
-      return "#{date['begin']} - #{date['end']}"
+    if has_expression
+      xml.send(type, attrs) { xml.text(date['expression']) }
+    else 
+      if has_begin
+        attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "start"})
+        xml.send(type, attrs) { xml.text(date['begin']) }
+      end
 
-    # otherwise, just use begin date
-    else
-      return date['begin']
+      if has_end
+        attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "end"})
+        xml.send(type, attrs) { xml.text(date['end']) }
+      end
     end
   end
 
-  def process_date_attrs(date)
+
+  def process_date_qualifier_attrs(date)
     attrs = {}
 
-    # qualifier
     if date.has_key?('certainty')
       case date['certainty']
       when "approximate"
@@ -194,14 +216,6 @@ class MODSSerializer < ASpaceExport::Serializer
         attrs["qualifier"] = "questionable"
       end
     end
-    # encoding
-    attrs['encoding'] = "w3cdtf"
-
-    # keyDate
-    attrs['keyDate'] = "yes"
-
-    # point
-    attrs['point'] = "end"
 
     return attrs
   end

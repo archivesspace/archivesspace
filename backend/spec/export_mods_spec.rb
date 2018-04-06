@@ -154,30 +154,31 @@ describe "Exported MODS metadata" do
   end
 
   describe "dates" do
-    it "maps to dateCreated" do
+    it "maps to dateCreated (expression date)" do
       @mods.should have_tag "dateCreated" => "1970s-ish"
     end
 
-    it "maps to dateIssued" do
-      @mods.should have_tag "dateIssued" => "04-01-2018"
-      @mods.should have_tag "dateIssued" => "05-01-2018"
-      @mods.should have_tag "dateIssued" => "06-01-2018"
+    it "maps to dateIssued (begin only)" do
+      @mods.should have_tag "dateIssued[@point='start']" => "04-01-2018"
+      @mods.should have_tag "dateIssued[@point='start']" => "05-01-2018"
+      @mods.should have_tag "dateIssued[@point='start']" => "06-01-2018"
     end
 
-    it "maps to dateCaptured" do
-      @mods.should have_tag "dateIssued" => "06-01-2018"
+    it "maps to dateCaptured (begin only)" do
+      @mods.should have_tag "dateIssued[@point='start']" => "06-01-2018"
     end
 
-    it "maps to copyrightDate" do
-      @mods.should have_tag "copyrightDate" => "10-10-1998 - 10-10-2008"
+    it "maps to copyrightDate as two tags with start and end" do
+      @mods.should have_tag "copyrightDate[@point='start']" => "10-10-1998"
+      @mods.should have_tag "copyrightDate[@point='end']" => "10-10-2008"
     end
 
-    it "maps to dateModified" do
+    it "maps to dateModified (expression date)" do
       @mods.should have_tag "dateModified" => "Last week"
     end
 
-    it "maps to dateOther" do
-      @mods.should have_tag "dateOther" => "07-01-2018"
+    it "maps to dateOther (begin only)" do
+      @mods.should have_tag "dateOther[@point='start']" => "07-01-2018"
     end
 
     it "should to correct qualifier tag" do
@@ -186,13 +187,20 @@ describe "Exported MODS metadata" do
       @mods.should have_tag "copyrightDate[@qualifier='approximate']"
     end
 
-    it "should set encoding, keyDate and point attributes" do
-      @mods.should have_tag "dateCreated[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
-      @mods.should have_tag "dateCaptured[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
-      @mods.should have_tag "copyrightDate[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
-      @mods.should have_tag "dateModified[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
-      @mods.should have_tag "dateIssued[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
-      @mods.should have_tag "dateOther[@encoding='w3cdtf'][@keyDate='yes'][@point='end']"
+    it "should set encoding, keyDate attributes correctly" do
+      @mods.should have_tag "dateCaptured[@encoding='w3cdtf'][@keyDate='yes']"
+      @mods.should have_tag "copyrightDate[@encoding='w3cdtf'][@keyDate='yes']"
+      @mods.should have_tag "dateIssued[@encoding='w3cdtf'][@keyDate='yes']"
+      @mods.should have_tag "dateOther[@encoding='w3cdtf'][@keyDate='yes']"
+
+      # expression dates should not have encoding, keydate or point attrs
+      @mods.should_not have_tag "dateCreated[@encoding='w3cdtf']"
+      @mods.should_not have_tag "dateCreated[@keyDate='yes']"
+      @mods.should_not have_tag "dateCreated[@point]"
+
+      @mods.should_not have_tag "dateModified[@encoding='w3cdtf']"
+      @mods.should_not have_tag "dateModified[@keyDate='yes']"
+      @mods.should_not have_tag "dateModified[@point]"
     end
   end
 
