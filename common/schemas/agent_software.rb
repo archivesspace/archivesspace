@@ -4,7 +4,7 @@
     "version" => 1,
     "type" => "object",
     "parent" => "abstract_agent",
-    "uri" => "/agents/software",
+    "uri" => "/agents/agent_software",
     "properties" => {
       "display_name" => {
         "type" => "JSONModel(:name_software) object",
