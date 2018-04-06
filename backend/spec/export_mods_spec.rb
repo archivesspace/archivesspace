@@ -208,6 +208,14 @@ describe "Exported MODS metadata" do
     it "should export textents in a physicalDescription/extent tag" do
       @mods.should have_tag "physicalDescription/extent" => @digital_object['extents'][0]['number'] + " " + @digital_object['extents'][0]['extent_type']
     end
+
+    it "should map contents of extent['dimensions'] to a note tag" do
+      @mods.should have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => @digital_object['extents'][0]['dimensions']
+    end
+
+    it "should map contents of extent['physical_details'] to a note tag" do
+      @mods.should have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => @digital_object['extents'][0]['physical_details']
+    end
   end
 
   describe "mods_inner" do
@@ -246,7 +254,9 @@ describe "Exported MODS metadata" do
         when 'legalstatus'
           @mods.should have_tag "accessCondition" => content
         when 'physdesc'
-          @mods.should have_tag "physicalDescription/note" => content
+          @mods.should have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => content
+        when 'dimensions'
+          @mods.should have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => content
         end
       end
     end

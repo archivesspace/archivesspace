@@ -124,6 +124,7 @@ FactoryBot.define do
       resource_id nil
       archival_object_id nil
       dimensions { generate(:alphanumstr) }
+      physical_details { generate(:alphanumstr) }
     end
 
     factory :archival_object do
@@ -412,6 +413,7 @@ FactoryBot.define do
     number { generate(:number) }
     extent_type { generate(:extent_type) }
     dimensions { generate(:alphanumstr) }
+    physical_details { generate(:alphanumstr) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do

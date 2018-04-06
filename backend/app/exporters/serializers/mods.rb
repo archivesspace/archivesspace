@@ -49,6 +49,10 @@ class MODSSerializer < ASpaceExport::Serializer
       mods.extents.each do |extent|
         xml.extent extent
       end
+
+      mods.extent_notes.each do |note|
+        serialize_note(note, xml)
+      end
     }
 
     mods.notes.each do |note|

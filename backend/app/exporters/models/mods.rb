@@ -7,6 +7,7 @@ class MODSModel < ASpaceExport::ExportModel
   attr_accessor :language_term
   attr_accessor :extents
   attr_accessor :notes
+  attr_accessor :extent_notes
   attr_accessor :subjects
   attr_accessor :names
   attr_accessor :type_of_resource
@@ -18,7 +19,7 @@ class MODSModel < ASpaceExport::ExportModel
   @archival_object_map = {
     :title => :title=,
     :language => :handle_language,
-    :extents => :handle_extent,
+    [:extents, :notes] => :handle_extents,
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
@@ -51,6 +52,7 @@ class MODSModel < ASpaceExport::ExportModel
 
     @extents = []
     @notes = []
+    @extent_notes = []
     @subjects = []
     @names = []
     @parts = []
@@ -134,6 +136,8 @@ class MODSModel < ASpaceExport::ExportModel
 
   def handle_notes(notes)
     notes.each do |note|
+      # physdesc and dimensions are treated separately from other notes
+      next if note['type'] == 'physdesc' || note['type'] == 'dimensions'
       content = ASpaceExport::Utils.extract_note_text(note)
       mods_note = case note['type']
                   when 'accessrestrict'
@@ -151,12 +155,6 @@ class MODSModel < ASpaceExport::ExportModel
                                   note['type'],
                                   note['label'],
                                   content)
-                  when 'physdesc'
-                    new_mods_note('note',
-                                  nil,
-                                  note['label'],
-                                  content,
-                                  'physicalDescription')
                   else
                     new_mods_note('note',
                                   note['type'],
@@ -167,14 +165,50 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
+  # notes relating to extents are treated differently than other notes 
+  # when the model is serialized.
+  def handle_extents_notes(notes)
+    notes.each do |note|
+      next unless note['type'] == 'physdesc' || note['type'] == 'dimensions'
 
-  def handle_extent(extents)
+      content = ASpaceExport::Utils.extract_note_text(note)
+      mods_note = case note['type']
+                  when 'physdesc'
+                    new_mods_note('note',
+                                  'physical_description',
+                                  "Physical Details",
+                                  content)
+                  when 'dimensions'
+                    new_mods_note('note',
+                                  'dimensions',
+                                  "Dimensions",
+                                  content)
+                  end
+      self.extent_notes << mods_note
+    end
+  end
+
+
+  def handle_extents(extents, notes)
     extents.each do |ext|
       e = ext['number']
       e << " #{ext['extent_type']}"
 
       self.extents << e
+
+      # the extents hash may have data under keys 'physical_details' and 'dimensions'.
+      # If found, we'll treat them as if they were notes of that type.
+      if ext.has_key?('physical_details') && !ext['physical_details'].nil?
+        extent_notes << new_mods_note('note', 'physical_description', "Physical Details", ext['physical_details'])
+      end
+        
+      if ext.has_key?('dimensions') && !ext['dimensions'].nil?
+        extent_notes << new_mods_note('note', 'dimensions', "Dimensions", ext['dimensions'])
+      end
     end
+
+    # process any physical_description and dimension notes that may be in the note list.
+    handle_extents_notes(notes)
   end
 
 
