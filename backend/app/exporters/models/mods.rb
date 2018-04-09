@@ -170,6 +170,7 @@ class MODSModel < ASpaceExport::ExportModel
   def handle_extents_notes(notes)
     notes.each do |note|
       next unless note['type'] == 'physdesc' || note['type'] == 'dimensions'
+      next unless note['publish'] == true
 
       content = ASpaceExport::Utils.extract_note_text(note)
       mods_note = case note['type']

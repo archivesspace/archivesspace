@@ -205,7 +205,7 @@ describe "Exported MODS metadata" do
   end
 
   describe "extents" do
-    it "should export textents in a physicalDescription/extent tag" do
+    it "should export extents in a physicalDescription/extent tag" do
       @mods.should have_tag "physicalDescription/extent" => @digital_object['extents'][0]['number'] + " " + @digital_object['extents'][0]['extent_type']
     end
 
@@ -286,5 +286,31 @@ describe "Exported MODS metadata" do
       @mods.should_not have_tag "relatedItem[@type='constituent'][#{@components.count + 1}]"
     end
   end
+end
 
+describe "unpublished extent notes" do
+  before(:all) do
+    notes = unpublished_extent_note_set
+    @dimension_note = notes.select {|n| n['type'] == 'dimensions' }
+    @physdesc_note = notes.select {|n| n['type'] == 'physdesc' }
+
+    @digital_object_unpub = create(:json_digital_object,
+                                    :notes => notes) 
+
+    @mods = get_mods(@digital_object_unpub)
+  end
+
+  after(:all) do
+    @digital_object_unpub.flatten.each do |rec|
+      rec.delete
+    end
+  end
+
+  it "should not export extent notes if unpublished" do
+    @mods.should_not have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => note_content(@dimension_note[0])
+  end
+
+  it "should not export physical_description note if it is unpublished" do
+    @mods.should_not have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => note_content(@physdesc_note[0])
+  end
 end

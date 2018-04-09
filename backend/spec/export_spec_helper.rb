@@ -152,3 +152,12 @@ def digital_object_note_set
           })
   end
 end
+
+def unpublished_extent_note_set
+  ["dimensions", "physdesc"].map do |type|
+    build(:json_note_digital_object, {
+            :publish => false,
+            :type => type
+          })
+  end
+end
