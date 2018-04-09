@@ -47,7 +47,7 @@ describe 'MARC Export' do
 
  describe "root node content" do
     before(:each) do
-      @marc = get_marc(create(:json_resource))      
+      @marc = get_marc(create(:json_resource))
       @xml = @marc.to_xml
     end
 
@@ -69,14 +69,14 @@ describe 'MARC Export' do
     it "root node should have xsi:schemaLocation defined" do
       expect(@xml).to match(/<marc:collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd http:\/\/www.loc.gov\/MARC21\/slim"/)
     end
-  end  
+  end
 
 describe "datafield element order" do
   before(:each) do
-    @marc = get_marc(create(:json_resource))      
+    @marc = get_marc(create(:json_resource))
     @xml = @marc.to_xml
   end
-    
+
   it "should generate XML with the datafield tags in numerical order" do
     datafield_element_count = @marc.xpath("//marc:record/marc:datafield").length
     last_tag = 0
@@ -92,7 +92,7 @@ end
 
  describe "040 cataloging source field" do
    before(:each) do
-     @marc = get_marc(create(:json_resource))      
+     @marc = get_marc(create(:json_resource))
      @xml = @marc.to_xml
    end
 
@@ -233,7 +233,7 @@ end
       dates = [@inclusive_expression, @bulk_expression]
 
       resource = create(:json_resource, :dates => dates)
-      marc = get_marc(resource) 
+      marc = get_marc(resource)
 
       marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "1981ish"
       marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "1991ish"
@@ -243,7 +243,7 @@ end
       dates = [@inclusive_single, @bulk_single]
 
       resource = create(:json_resource, :dates => dates)
-      marc = get_marc(resource) 
+      marc = get_marc(resource)
 
       marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]}"
       marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]}"
@@ -253,7 +253,7 @@ end
       dates = [@inclusive_range, @bulk_range]
 
       resource = create(:json_resource, :dates => dates)
-      marc = get_marc(resource) 
+      marc = get_marc(resource)
 
       marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]} - #{@range[1]}"
       marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]} - #{@range[1]}"
@@ -591,7 +591,6 @@ end
 
     after(:all) do
       @resources.each {|r| r.delete}
-      @agents.each {|a| a.delete}
     end
 
 

@@ -117,7 +117,7 @@ class PeriodicIndexer < IndexerCommon
         modified_since = [@state.get_last_mtime(repository.id, type) - @window_seconds, 0].max
 
         # we get all the ids of this record type out of the repo
-        id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since)
+        id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since) || ''
 
         next if id_set.empty?
 
