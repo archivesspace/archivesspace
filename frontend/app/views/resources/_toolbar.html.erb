@@ -37,13 +37,13 @@
         <div class="dropdown-menu" id="form_download_marc">
           <fieldset>
             <input type="hidden" name="id", value="<%= @resource.id %>" />
-            <input type="hidden" name="foo", value="bar" />
             <label class="checkbox" for="include-unpublished-marc">
               <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" checked="checked"/>
               <%= I18n.t("export_options.include_unpublished") %>&#160;
             </label>
             <%# END - MARC %>
           </fieldset>
+        </div>
       </li>
 
 
