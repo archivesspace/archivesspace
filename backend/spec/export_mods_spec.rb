@@ -35,7 +35,8 @@ describe "Exported MODS metadata" do
 
     @subject_person = create(:json_agent_person)
 
-    @subjects = (0..5).map { create(:json_subject) }
+    @subjects = (0..6).map { create(:json_subject) }
+    @subjects[6]['term_type'] = 'technique' # ensure at least one subject will be of type 'technique'
 
     linked_agents = [{
                        :role => 'creator',
@@ -157,7 +158,7 @@ describe "Exported MODS metadata" do
             @mods.should have_tag "subject/temporal" => term['term']
           when 'uniform_title'
             @mods.should have_tag "subject/titleInfo" => term['term']
-          when 'genre_form', 'style_period'
+          when 'genre_form', 'style_period', 'technique'
             @mods.should have_tag "subject/genre" => term['term']
           when 'occupation'
             @mods.should have_tag "subject/occupation" => term['term']

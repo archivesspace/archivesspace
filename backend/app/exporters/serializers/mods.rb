@@ -81,7 +81,7 @@ class MODSSerializer < ASpaceExport::Serializer
           xml.temporal term
         when 'uniform_title'
           xml.titleInfo term
-        when 'genre_form', 'style_period'
+        when 'genre_form', 'style_period', 'technique'
           xml.genre term
         when 'occupation'
           xml.occupation term
