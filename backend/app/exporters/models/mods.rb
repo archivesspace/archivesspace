@@ -235,6 +235,7 @@ class MODSModel < ASpaceExport::ExportModel
           'type' => name_type,
           'role' => role,
           'source' => name['source'],
+          'authority_id' => name['authority_id'],
           'parts' => name_parts(name, agent['jsonmodel_type']),
           'displayForm' => name['sort_name']
         }

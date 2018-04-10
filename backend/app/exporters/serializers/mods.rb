@@ -123,6 +123,7 @@ class MODSSerializer < ASpaceExport::Serializer
   def serialize_name(name, xml)
     atts = {:type => name['type']}
     atts[:authority] = name['source'] if name['source']
+    atts["valueURI"] = name['authority_id'] if name['authority_id']
     xml.name(atts) {
       name['parts'].each do |part|
         if part['type']

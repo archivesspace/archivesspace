@@ -27,6 +27,12 @@ describe "Exported MODS metadata" do
     @agent_person = create(:json_agent_person,
                            :names => names)
 
+    @agent_corporation = create(:json_agent_corporate_entity, 
+                                :names => [build(:json_name_corporate_entity,
+                                    :authority_id => rand(1000000).to_s
+                                  )]
+                                )
+
     @subject_person = create(:json_agent_person)
 
     @subjects = (0..5).map { create(:json_subject) }
@@ -34,6 +40,10 @@ describe "Exported MODS metadata" do
     linked_agents = [{
                        :role => 'creator',
                        :ref => @agent_person.uri
+                     },
+                     {
+                       :role => 'creator',
+                       :ref => @agent_corporation.uri
                      },
                      {
                        :role => 'subject',
@@ -115,6 +125,12 @@ describe "Exported MODS metadata" do
 
     it "creates a role for each name" do
       @mods.should have_tag "mods/name[@type='personal']/role/roleTerm[@type='text'][@authority='marcrelator']" => "creator"
+    end
+
+    it "should put authority_id and source in the name tag for corporate agents" do
+      authority_id = @agent_corporation['names'][0]['authority_id']
+      source       = @agent_corporation['names'][0]['source']
+      @mods.should have_tag "name[@type='corporate'][@valueURI='#{authority_id}'][@authority='#{source}']"
     end
   end
 
@@ -298,12 +314,6 @@ describe "unpublished extent notes" do
                                     :notes => notes) 
 
     @mods = get_mods(@digital_object_unpub)
-  end
-
-  after(:all) do
-    @digital_object_unpub.flatten.each do |rec|
-      rec.delete
-    end
   end
 
   it "should not export extent notes if unpublished" do
