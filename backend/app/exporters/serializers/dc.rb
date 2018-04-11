@@ -16,6 +16,10 @@ class DCSerializer < ASpaceExport::Serializer
     
     builder.to_xml   
   end
+
+  def serialize_dc(dc, xml)
+    _root(dc, xml) 
+  end
   
   private
 
