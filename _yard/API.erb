@@ -171,6 +171,65 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 ## <%= e[:method].map &:upcase %> <%= e[:uri]%> 
 
+<% example =  @examples[e[:uri]][e[:method].to_s] %>
+
+<% if example %>
+
+<% url_params = e[:params].map{|p| p[0] unless (e[:uri].include?("/:#{p[0]}") or (p[3] or {})[:body] or p[1] == :body_stream or ["repo_id", "id"].include?(p[0])) }.compact %>
+<% request_uri = "http://localhost:8089#{e[:uri].gsub(":repo_id", "2").gsub(":id", "1").gsub(/(?<=\/)(:.*?)(?=\/)/, "1").gsub(/(?<=\/):.*?$/, "1")}" %>
+<% if !url_params.empty? && !e[:paginated] %>
+  <% url_param_examples = [] %>
+  <% url_params.each do |param| %>
+    <% if param == "resolve" %>
+      <% url_param_examples << "#{param}[]=[record_types, to_resolve]" %>
+    <% elsif example[param] %>
+      <% if example[param] == "BooleanParam" %>
+        <% url_param_examples << "#{param}=true" %>
+      <% else %>
+        <% url_param_examples << "#{param}=#{example[param]}" %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% request_uri += "?#{url_param_examples.join("&")}" %>
+<% end %>
+
+<% data_params = e[:params].map{|p| p[0] if ((p[3] or {})[:body] or p[1] == :body_stream)}.compact %>
+<% if !data_params.empty? %>
+  <% data_param = data_params[0] %>
+  <% data_example = example[data_param] ? example[data_param].to_json.gsub("{", "{ ").gsub(",", ",\n") : "Example Missing" %>
+<% else %>
+  <% data_example = "Example Missing" %>
+<% end %>
+
+```shell 
+<% if e[:method] == [:get] %>
+  <% if e[:paginated] %>
+# return first 10 records    
+curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?page=1&page_size=10"
+# return first 5 records in the Fibonacci sequence
+curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?id_set=1,2,3,5,8"
+# return an array of all the ids 
+curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?all_ids=true"
+  <% else %> 
+curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>"
+  <% end %>
+<% elsif e[:method] == [:post] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= data_example %>' \
+  "<%= request_uri %>"
+<% elsif e[:method] == [:delete] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "<%= request_uri %>"
+<% else %>
+  <% example.each_pair do |k,v| %>  
+    <% next if e[:uri].include?("/:#{k}") %>  
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
+  "<%= request_uri %>"
+  <% end %>
+<% end %>
+
+```
+
 __Description__
 
 <%= e[:description]%>
@@ -191,11 +250,12 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 <% end %>
 <% e[:params].each do |param| 
   opts = (param[3] or {})
-  vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
+  vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
+  optional = opts[:optional] ? " (Optional)" : "" %>
 <% if opts[:body] %>
 	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
 <% else %>
-	<%= "#{param[1]} #{param[0]} -- #{param[2]}#{vs}" %>
+	<%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
 <% end %>
 <% end %>
 
@@ -205,40 +265,6 @@ __Returns__
 <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
-<% example =  @examples[e[:uri]][e[:method].to_s] %>
-
-<% if example %>
-```shell 
-<% if e[:method] == :get %>
-  <% if e[:paginated] %>
-# return first 10 records    
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?page=1&page_size=10"
-# return first 5 records in the Fibonacci sequence
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?id_set=1,2,3,5,8"
-# return an array of all the ids 
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>?all_ids=true"
-  <% else %> 
-curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089<%= e[:uri].gsub(":id", "1") %>"
-  <% end %>
-<% elsif e[:method] == :post %>
-  <% example.each_pair do |k,v| %>  
-  <% next if k == "id" %>   
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
-  "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
-  <% end %>
-<% elsif e[:method] == :delete %>
-curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
-<% else %>
-  <% example.each_pair do |k,v| %>  
-  <% next if k == "id" %>   
-curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
-  "http://localhost:8089/<%= e[:uri].gsub(":id", "1") %>"
-  <% end %>
-<% end %>
-
-```
 <% end %>
 
 <% end %>
