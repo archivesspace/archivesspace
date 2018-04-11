@@ -553,12 +553,16 @@ class MARCModel < ASpaceExport::ExportModel
     # name fields looks something this:
     # [["a", "Dick, Philp K."], ["b", nil], ["c", "see"], ["d", "10-1-1980"], ["g", nil], ["q", nil], ["4", "aut"]]
     def handle_agent_person_punctuation(name_fields)
-      name_fields.sort! {|a, b| a[0][0] <=> b[0][0]}
+      #The value of subfield q must be enclosed in parentheses. 
+      q_index = name_fields.find_index{|a| a[0] == "q"}
+      unless !q_index
+        name_fields[q_index][1] = "(#{name_fields[q_index][1]})"
+      end
 
       #If subfield $c is present, the value of the preceding subfield must end in a comma. 
       #If subfield $d is present, the value of the preceding subfield must end in a comma. 
       #If subfield $e is present, the value of the preceding subfield must end in a comma. 
-      ['c', 'd', 'e', 'q'].each do |subfield|
+      ['c', 'd', 'e'].each do |subfield|
         s_index = name_fields.find_index{|a| a[0] == subfield}
 
         # check if $subfield is present
@@ -573,11 +577,7 @@ class MARCModel < ASpaceExport::ExportModel
         end
       end
 
-      #The value of subfield q must be enclosed in parentheses. 
-      q_index = name_fields.find_index{|a| a[0] == "q"}
-      unless !q_index
-        name_fields[q_index][1] = "(#{name_fields[q_index][1]})"
-      end
+
 
       #The value of the final subfield must end in a period."
       unless name_fields[-1][1][-1] == "." 
@@ -605,11 +605,11 @@ class MARCModel < ASpaceExport::ExportModel
       name_fields = [
                      ["a", name_parts],
                      ["b", number],
+                     ["q", fuller_form],
                      ["c", extras],
                      ["d", dates],
                      subfield_e,
                      ["g", qualifier],
-                     ["q", fuller_form] 
                     ].compact.reject {|a| a[1].nil? || a[1].empty?}
   
       name_fields = handle_agent_person_punctuation(name_fields)
@@ -620,13 +620,11 @@ class MARCModel < ASpaceExport::ExportModel
 
     #For family types 
     def handle_agent_family_punctuation(name_fields)
-      name_fields.sort! {|a, b| a[0][0] <=> b[0][0]}
-
       # TODO: DRY this up eventually. Leaving it as it is for now in case the logic changes.
-      #If subfield $c is present, the value of the preceding subfield must end in a colon. 
       #If subfield $d is present, the value of the preceding subfield must end in a colon. 
+      #If subfield $c is present, the value of the preceding subfield must end in a colon. 
       #If subfield $e is present, the value of the preceding subfield must end in a comma. 
-      ['c', 'd', 'e'].each do |subfield|
+      ['d', 'c', 'e'].each do |subfield|
         s_index = name_fields.find_index{|a| a[0] == subfield}
 
         # check if $subfield is present
@@ -661,8 +659,8 @@ class MARCModel < ASpaceExport::ExportModel
 
       name_fields = [
                       ['a', family_name],
-                      ['c', qualifier],
                       ['d', dates],
+                      ['c', qualifier],
                       subfield_e,
                     ].compact.reject {|a| a[1].nil? || a[1].empty?}
   

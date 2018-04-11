@@ -615,19 +615,20 @@ end
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
 
       b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
-      q_text = df.at("subfield[@code='q']").text
+      g_text = df.at("subfield[@code='g']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(b_text[-1]).to eq(",")
+        expect(q_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(q_text[-1]).to eq(".")
+      expect(g_text[-1]).to eq(".")
 
       expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
@@ -681,19 +682,20 @@ end
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
       b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
-      q_text = df.at("subfield[@code='q']").text
+      g_text = df.at("subfield[@code='g']").text
 
       unless c_text.nil? || c_text.empty?
-        expect(b_text[-1]).to eq(",")
+        expect(q_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(q_text[-1]).to eq(".")
+      expect(g_text[-1]).to eq(".")
 
       expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
@@ -748,12 +750,12 @@ end
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
       a_text = df.at("subfield[@code='a']").text
-      c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
+      c_text = df.at("subfield[@code='c']").text
 
       expect(a_text[-1]).to eq(",")
-      expect(c_text[-1]).to eq(",")
-      expect(d_text[-1]).to eq(".")
+      expect(d_text[-1]).to eq(",")
+      expect(c_text[-1]).to eq(".")
     end
 
 
@@ -778,20 +780,21 @@ end
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
       b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
       c_text = df.at("subfield[@code='c']").text
       d_text = df.at("subfield[@code='d']").text
-      q_text = df.at("subfield[@code='q']").text
+      g_text = df.at("subfield[@code='g']").text
 
 
       unless c_text.nil? || c_text.empty?
-        expect(b_text[-1]).to eq(",")
+        expect(q_text[-1]).to eq(",")
       end
 
       unless d_text.nil? || d_text.empty?
         expect(c_text[-1]).to eq(",")
       end
 
-      expect(q_text[-1]).to eq(".")
+      expect(g_text[-1]).to eq(".")
 
       expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
