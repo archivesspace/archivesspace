@@ -42,7 +42,7 @@ Restart the application and you should see your logo in the default view.
 
 ## Changing the branding logo on the PUI PDFs
 
-To change the branding logo on the public interface print to PDF pages, create a directory at  `/local/public/views/pdf` put in the _header.html.erb file and just change up the name of that default logo. Then put a copy of the new image in the directory `plugins/local/public/assets/images`.
+To change the branding logo on the public interface print to PDF pages, create a directory at  `/local/public/views/pdf` put in the _titlepage.html.erb file and just change up the name of that default logo. Then put a copy of the new image in the directory `plugins/local/public/assets/images`. Be sure to change up `asset_path("archivesspace.small.png")` to match your new image name as well.
 
 ## Adding some CSS rules
 
