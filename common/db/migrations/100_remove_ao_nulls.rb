@@ -18,10 +18,8 @@ Sequel.migration do
       set_column_not_null :publish
     end
 
-    up do
-      [:archival_object].each do |table|
-        self[table].update(:system_mtime => Time.now)
-      end
+    [:archival_object].each do |table|
+      self[table].update(:system_mtime => Time.now)
     end
 
   end
