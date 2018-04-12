@@ -58,8 +58,8 @@ else
 end
 
 
-def get_mets(rec)
-  get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml")
+def get_mets(rec, dmd = "mods")
+  get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml?dmd=#{dmd}")
 end
 
 

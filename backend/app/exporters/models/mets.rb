@@ -61,7 +61,7 @@ class METSModel < ASpaceExport::ExportModel
       @json = JSONModel::JSONModel(:digital_object_component).new(obj)
       @tree = tree
       @mods_model = ASpaceExport.model(:mods).from_digital_object_component(obj, {})
-      @dc_model = ASpaceExport.model(:dc).from_digital_object_component(obj)
+      @dc_model = ASpaceExport.model(:dc).from_digital_object(obj)
       @dmd_id = @json.id
     end
     

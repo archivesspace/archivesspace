@@ -172,7 +172,7 @@ class METSSerializer < ASpaceExport::Serializer
           xml.xmlData {
             ASpaceExport::Serializer.with_namespace('dc', xml) do
               dc_serializer = ASpaceExport.serializer(:dc).new
-              dc_serializer.serialize_dc(data.dc_model, xml)
+              dc_serializer.serialize_dc(component_data.dc_model, xml)
             end
           }
         }
