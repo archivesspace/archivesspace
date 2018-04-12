@@ -168,7 +168,7 @@ class METSSerializer < ASpaceExport::Serializer
           }
         }
       elsif dmd == 'dc'
-        xml.mdWrap(:MDTYPE => 'MODS') {
+        xml.mdWrap(:MDTYPE => 'DC') {
           xml.xmlData {
             ASpaceExport::Serializer.with_namespace('dc', xml) do
               dc_serializer = ASpaceExport.serializer(:dc).new
