@@ -27,6 +27,7 @@ class METSSerializer < ASpaceExport::Serializer
   def mets(data, xml, dmd = "mods")
     xml.mets('xmlns' => 'http://www.loc.gov/METS/', 
              'xmlns:mods' => 'http://www.loc.gov/mods/v3', 
+             'xmlns:dc' => 'http://purl.org/dc/elements/1.1/', 
              'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => "http://www.loc.gov/standards/mets/mets.xsd"){
@@ -167,11 +168,13 @@ class METSSerializer < ASpaceExport::Serializer
           }
         }
       elsif dmd == 'dc'
-        xml.xmlData {
-          ASpaceExport::Serializer.with_namespace('dc', xml) do
-            dc_serializer = ASpaceExport.serializer(:dc).new
-            dc_serializer.serialize_dc(data.dc_model, xml)
-          end
+        xml.mdWrap(:MDTYPE => 'MODS') {
+          xml.xmlData {
+            ASpaceExport::Serializer.with_namespace('dc', xml) do
+              dc_serializer = ASpaceExport.serializer(:dc).new
+              dc_serializer.serialize_dc(data.dc_model, xml)
+            end
+          }
         }
       end
     }
