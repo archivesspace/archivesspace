@@ -569,8 +569,8 @@ FactoryBot.define do
     org_code { generate(:alphanumstr) }
     image_url { generate(:url) }
     url { generate(:url) }
+    country { 'US' }
   end
-
 
   factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
     repository { build(:json_repo) }

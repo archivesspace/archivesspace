@@ -436,16 +436,16 @@ end
       @marc3.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}i/)
     end
 
+    it "sets record/controlfield[@tag='008']/text()[15..16] with country code" do
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}US/)
+    end
+
     it "sets record/controlfield[@tag='008']/text()[7..10] with resource.dates[0]['begin']" do
       @marc2.at("record/controlfield").should have_inner_text(/^.{7}1900/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[11..14] with resource.dates[0]['end']" do
       @marc3.at("record/controlfield").should have_inner_text(/^.{11}1850/)
-    end
-
-    it "sets record/controlfield[@tag='008']/text()[15..16] with 'xx'" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xx/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
@@ -465,6 +465,10 @@ end
     it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
       org_code = JSONModel(:repository).find($repo_id).org_code
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
+    end
+
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a" do
+      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("US")
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
