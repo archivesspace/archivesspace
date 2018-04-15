@@ -88,11 +88,13 @@ module ASUtils
     # JRuby 9K seems to be adding this strange suffix...
     #
     # Example: /pat/to/archivesspace/backend/uri:classloader:
-    this_dir = __dir__.gsub(/uri:classloader:\z/, '')
+    this_dir = __dir__.gsub(/uri:classloader:/, '')
 
     res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
      java.lang.System.get_property("catalina.base"),
-     File.join(*[this_dir, "..", root].compact)].find {|dir|
+     File.join(*[this_dir, "..", root].compact),
+     File.join(*[File.realpath(this_dir), "..", root].compact)
+    ].find {|dir|
       dir && Dir.exist?(dir)
     }
 
