@@ -121,7 +121,7 @@ end
     end
 
     it "maps primary_name to subfield 'a'" do
-      @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name
+      @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + ','
     end
   end
 
@@ -600,11 +600,37 @@ end
       name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
-      df.at("subfield[@code='a']").should have_inner_text name_string
-      df.at("subfield[@code='b']").should have_inner_text name['number']
-      df.at("subfield[@code='c']").should have_inner_text %w(prefix title suffix).map{|p| name[p]}.compact.join(', ')
-      df.at("subfield[@code='d']").should have_inner_text name['dates']
-      df.at("subfield[@code='q']").should have_inner_text name['fuller_form']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
+      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+      df.at("subfield[@code='q']").should have_inner_text(/#{name['fuller_form']}/)
+    end
+
+    it "should add required punctuation to 100 tag agent-person subfields" do
+      name = @agents[0]['names'][0]
+      inverted = name['name_order'] == 'direct' ? '0' : '1'
+      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+
+      df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
+
+      b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
+      c_text = df.at("subfield[@code='c']").text
+      d_text = df.at("subfield[@code='d']").text
+      g_text = df.at("subfield[@code='g']").text
+
+      unless c_text.nil? || c_text.empty?
+        expect(q_text[-1]).to eq(",")
+      end
+
+      unless d_text.nil? || d_text.empty?
+        expect(c_text[-1]).to eq(",")
+      end
+
+      expect(g_text[-1]).to eq(".")
+
+      expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
 
 
@@ -613,9 +639,9 @@ end
 
       df = @marcs[1].at("datafield[@tag='110'][@ind1='2'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text name['primary_name']
-      df.at("subfield[@code='b']").should have_inner_text name['subordinate_name_1']
-     df.at("subfield[@code='n']").should have_inner_text name['number']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name['primary_name']}/)
+      df.at("subfield[@code='b']").should have_inner_text(/#{name['subordinate_name_1']}/)
+     df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
     end
 
 
@@ -624,9 +650,9 @@ end
 
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
-      df.at("subfield[@code='d']").should have_inner_text name['dates']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name['family_name']}/)
+      df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
+      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
     end
 
 
@@ -639,10 +665,39 @@ end
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text name_string
-      df.at("subfield[@code='b']").should have_inner_text name['number']
-      df.at("subfield[@code='c']").should have_inner_text %w(prefix title suffix).map{|p| name[p]}.compact.join(', ')
-      df.at("subfield[@code='d']").should have_inner_text name['dates']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
+      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+    end
+
+    it "should add required punctuation to 600 tag agent-person subfields" do
+      name = @agents[0]['names'][0]
+      inverted = name['name_order'] == 'direct' ? '0' : '1'
+      ind2 =  source_to_code(name['source'])
+
+      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+
+      df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
+
+      b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
+      c_text = df.at("subfield[@code='c']").text
+      d_text = df.at("subfield[@code='d']").text
+      g_text = df.at("subfield[@code='g']").text
+
+      unless c_text.nil? || c_text.empty?
+        expect(q_text[-1]).to eq(",")
+      end
+
+      unless d_text.nil? || d_text.empty?
+        expect(c_text[-1]).to eq(",")
+      end
+
+      expect(g_text[-1]).to eq(".")
+
+      expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
 
 
@@ -652,9 +707,27 @@ end
 
       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text name['primary_name']
-      df.at("subfield[@code='b']").should have_inner_text name['subordinate_name_1']
-     df.at("subfield[@code='n']").should have_inner_text name['number']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name['primary_name']}/)
+      df.at("subfield[@code='b']").should have_inner_text(/#{name['subordinate_name_1']}/)
+      df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+    end
+
+    it "should add required punctuation to 610 tag agent-corp subfields" do
+      name = @agents[1]['names'][0]
+      ind2 =  source_to_code(name['source'])
+
+      df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
+
+      a_text = df.at("subfield[@code='a']").text
+      b_text = df.at("subfield[@code='b']").text
+      n_text = df.at("subfield[@code='n']").text
+
+      expect(a_text[-1]).to eq(",")
+      expect(b_text[-1]).to eq(",")
+
+      expect(n_text[-1]).to eq(".")
+      expect(n_text =~ /\(.*\)/).to_not eq(nil)
     end
 
 
@@ -664,9 +737,25 @@ end
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text name['family_name']
-      df.at("subfield[@code='c']").should have_inner_text name['qualifier']
-      df.at("subfield[@code='d']").should have_inner_text name['dates']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name['family_name']}/)
+      df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
+      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+    end
+
+    it "should add required punctuation to 600 tag agent-family subfields" do
+      name = @agents[2]['names'][0]
+      ind2 =  source_to_code(name['source'])
+
+      df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
+
+      a_text = df.at("subfield[@code='a']").text
+      d_text = df.at("subfield[@code='d']").text
+      c_text = df.at("subfield[@code='c']").text
+
+      expect(a_text[-1]).to eq(",")
+      expect(d_text[-1]).to eq(",")
+      expect(c_text[-1]).to eq(".")
     end
 
 
@@ -677,10 +766,37 @@ end
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text name_string
-      df.at("subfield[@code='b']").should have_inner_text name['number']
-      df.at("subfield[@code='c']").should have_inner_text %w(prefix title suffix).map{|p| name[p]}.compact.join(', ')
-      df.at("subfield[@code='d']").should have_inner_text name['dates']
+      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
+      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+    end
+
+    it "should add required punctuation to 700 tag agent-person subfields" do
+      name = @agents[3]['names'][0]
+      inverted = name['name_order'] == 'direct' ? '0' : '1'
+      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+
+      df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
+
+      b_text = df.at("subfield[@code='b']").text
+      q_text = df.at("subfield[@code='q']").text
+      c_text = df.at("subfield[@code='c']").text
+      d_text = df.at("subfield[@code='d']").text
+      g_text = df.at("subfield[@code='g']").text
+
+
+      unless c_text.nil? || c_text.empty?
+        expect(q_text[-1]).to eq(",")
+      end
+
+      unless d_text.nil? || d_text.empty?
+        expect(c_text[-1]).to eq(",")
+      end
+
+      expect(g_text[-1]).to eq(".")
+
+      expect(q_text =~ /\(.*\)/).to_not eq(nil)
     end
 
     # opposite case of spec found on line 143
