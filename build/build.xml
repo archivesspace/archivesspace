@@ -896,7 +896,7 @@
   </target>
 
   <!-- Style Checker -->
-  <target name="public:cop" depends="set-classpath" description="Run bundler against a gemfile" >
+  <target name="public:cop" depends="set-classpath" description="Run rubocop against PUI code" >
     <property name="build.home" location="."/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -908,7 +908,7 @@
     </java>
   </target>
 
-  <target name="backend:cop" depends="set-classpath" description="Run bundler against a gemfile" >
+  <target name="backend:cop" depends="set-classpath" description="Run rubocop against backend code" >
     <property name="build.home" location="."/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -920,7 +920,7 @@
     </java>
   </target>
   
-  <target name="staff:cop" depends="set-classpath" description="Run bundler against a gemfile" >
+  <target name="staff:cop" depends="set-classpath" description="Run rubocop against staff interface" >
     <property name="build.home" location="."/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -932,7 +932,7 @@
     </java>
   </target>
   
-  <target name="indexer:cop" depends="set-classpath" description="Run bundler against a gemfile" >
+  <target name="indexer:cop" depends="set-classpath" description="Run rubocop against indexer code" >
     <property name="build.home" location="."/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
