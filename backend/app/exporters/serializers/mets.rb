@@ -2,9 +2,12 @@ class METSSerializer < ASpaceExport::Serializer
   serializer_for :mets
 
   def build(data, opts = {})
-
     builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
-      mets(data, xml)     
+      if opts[:dmd]
+        mets(data, xml, opts[:dmd])     
+      else
+        mets(data, xml)     
+      end
     end   
     
     builder
@@ -21,9 +24,10 @@ class METSSerializer < ASpaceExport::Serializer
 
   private
 
-  def mets(data, xml)
+  def mets(data, xml, dmd = "mods")
     xml.mets('xmlns' => 'http://www.loc.gov/METS/', 
              'xmlns:mods' => 'http://www.loc.gov/mods/v3', 
+             'xmlns:dc' => 'http://purl.org/dc/elements/1.1/', 
              'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
              'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
              'xsi:schemaLocation' => "http://www.loc.gov/standards/mets/mets.xsd"){
@@ -37,18 +41,29 @@ class METSSerializer < ASpaceExport::Serializer
       }
 
       xml.dmdSec(:ID => data.dmd_id) {
-        xml.mdWrap(:MDTYPE => 'MODS') {
-          xml.xmlData {
-            ASpaceExport::Serializer.with_namespace('mods', xml) do
-              mods_serializer = ASpaceExport.serializer(:mods).new
-              mods_serializer.serialize_mods(data.mods_model, xml)
-            end
+        if dmd == 'mods'
+          xml.mdWrap(:MDTYPE => 'MODS') {
+            xml.xmlData {
+              ASpaceExport::Serializer.with_namespace('mods', xml) do
+                mods_serializer = ASpaceExport.serializer(:mods).new
+                mods_serializer.serialize_mods(data.mods_model, xml)
+              end
+            }
+          }          
+        elsif dmd == 'dc'
+          xml.mdWrap(:MDTYPE => 'DC') {
+            xml.xmlData {
+              ASpaceExport::Serializer.with_namespace('dc', xml) do
+                dc_serializer = ASpaceExport.serializer(:dc).new
+                dc_serializer.serialize_dc(data.dc_model, xml)
+              end
+            }
           }
-        }          
+        end
       }
 
       data.children.each do |component_data|
-        serialize_child_dmd(component_data, xml)
+        serialize_child_dmd(component_data, xml, dmd)
       end
 
       xml.amdSec {
@@ -141,19 +156,30 @@ class METSSerializer < ASpaceExport::Serializer
   end
 
 
-  def serialize_child_dmd(component_data, xml)
+  def serialize_child_dmd(component_data, xml, dmd = "mods")
     xml.dmdSec(:ID => component_data.dmd_id) {
-      xml.mdWrap(:MDTYPE => 'MODS') {
-        xml.xmlData {
-          ASpaceExport::Serializer.with_namespace('mods', xml) do
-            mods_serializer = ASpaceExport.serializer(:mods).new
-            mods_serializer.serialize_mods(component_data.mods_model, xml)
-          end
+      if dmd == 'mods'
+        xml.mdWrap(:MDTYPE => 'MODS') {
+          xml.xmlData {
+            ASpaceExport::Serializer.with_namespace('mods', xml) do
+              mods_serializer = ASpaceExport.serializer(:mods).new
+              mods_serializer.serialize_mods(component_data.mods_model, xml)
+            end
+          }
         }
-      }
+      elsif dmd == 'dc'
+        xml.mdWrap(:MDTYPE => 'DC') {
+          xml.xmlData {
+            ASpaceExport::Serializer.with_namespace('dc', xml) do
+              dc_serializer = ASpaceExport.serializer(:dc).new
+              dc_serializer.serialize_dc(component_data.dc_model, xml)
+            end
+          }
+        }
+      end
     }
     component_data.children.each do |child|
-      serialize_child_dmd(child, xml)
+      serialize_child_dmd(child, xml, dmd)
     end
   end
 

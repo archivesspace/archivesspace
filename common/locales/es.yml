@@ -1966,3 +1966,8 @@
 
   resource_component:
    _singular: Componente de recurso
+
+  export_options:
+    use_mods: Usar MODS
+    use_dc: Usar Dublin Core
+

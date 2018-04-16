@@ -1,6 +1,6 @@
 ASpaceExport::serializer :tsv do
   
-  def serialize(obj)
+  def serialize(obj, opts = {})
 
     tsv = obj.headers.join("\t") << "\r"
     obj.rows.each do |r|

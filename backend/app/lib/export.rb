@@ -47,7 +47,7 @@ module ExportHelpers
   end
 
 
-  def generate_mets(id)
+  def generate_mets(id, dmd = "mods")
     digital_object = DigitalObject.get_or_die(id)
     obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
                              ['repository::agent_representation', 'linked_agents', 'subjects'])
@@ -57,7 +57,7 @@ module ExportHelpers
     # get this data out?
     mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj),
                                                          digital_object.tree(:all))
-    ASpaceExport::serialize(mets)
+    ASpaceExport::serialize(mets, {:dmd => dmd})
   end
 
 

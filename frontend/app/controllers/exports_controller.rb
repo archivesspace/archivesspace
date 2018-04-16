@@ -35,7 +35,7 @@ class ExportsController < ApplicationController
 
   def download_mets
     download_export(
-      "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml")
+      "/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml", :dmd => params[:dmd_scheme])
   end
 
 

@@ -1,5 +1,4 @@
 $(function () {
-
   $(document).on("loadedrecordform.aspace", function(event) {
 
     // allow option sidebar to stay open when
@@ -13,6 +12,11 @@ $(function () {
     });
     $('.record-toolbar').on('click', 'a.download-marc-action', function(e) {
       var url = AS.quickTemplate(decodeURIComponent($("#download-marc-dropdown").data("download-marc-url")), {  include_unpublished_marc: $("input#include-unpublished-marc").is(':checked')});
+      console.log(url);
+      location.href = url;
+    });
+    $('.record-toolbar').on('click', 'a.download-mets-action', function(e) {
+      var url = AS.quickTemplate(decodeURIComponent($("#download-mets-dropdown").data("download-mets-url")), {  dmd_scheme: $("input#js-dmd_scheme_mods").is(':checked') ? "mods" : "dc"});
       console.log(url);
       location.href = url;
     });
