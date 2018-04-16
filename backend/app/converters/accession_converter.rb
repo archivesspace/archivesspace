@@ -119,6 +119,7 @@ class AccessionConverter < Converter
       'user_defined_enum_4' => 'user_defined.enum_4',
 
       'agent_role' => 'accession.agent_role',
+      'agent_relator' => 'accession.agent_relator',
       'agent_type' => 'agent.agent_type',
 
       'agent_contact_address_1' => 'agent_contact.address_1',
@@ -142,6 +143,7 @@ class AccessionConverter < Converter
       'agent_name_name_order' => 'agent_name.name_order',
       'agent_name_number' => 'agent_name.number',
       'agent_name_prefix' => 'agent_name.prefix',
+      'agent_name_title' => 'agent_name.title',
       'agent_name_primary_name' => 'agent_name.primary_name',
       'agent_name_qualifier' => 'agent_name.qualifier',
       'agent_name_rest_of_name' => 'agent_name.rest_of_name',
@@ -154,7 +156,7 @@ class AccessionConverter < Converter
 
       'agent_name_description_note' => 'note_bioghist.content',
       'agent_name_description_citation' => 'note_citation.content',
-      
+
       'subject_source' => 'subject.source',
       'subject_term' => 'subject.term',
       'subject_term_type' => 'subject.term_type',
@@ -177,7 +179,7 @@ class AccessionConverter < Converter
         :on_row_complete => Proc.new {|cache, agent|
           accession = cache.find {|obj| obj.class.record_type == 'accession' }
 
-          if accession 
+          if accession
             accession.linked_agents[0]['ref'] = agent.uri
           else
             cache.reject! {|obj| obj.key == agent.key}
@@ -211,7 +213,11 @@ class AccessionConverter < Converter
       :accession => {
         :on_create => Proc.new {|data, obj|
             if data['agent_role']
-              obj.linked_agents << {'role' => data['agent_role']}
+              if data['agent_relator']
+                obj.linked_agents << {'role' => data['agent_role'], 'relator' => data['agent_relator']}
+              else
+                obj.linked_agents << {'role' => data['agent_role']}
+              end
             end
         },
         :on_row_complete => Proc.new { |queue, accession|
@@ -220,7 +226,7 @@ class AccessionConverter < Converter
           end
         }
       },
-      
+
       :note_bioghist => {
         :on_create => Proc.new {|data, obj|
           obj.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => data['content']}]
@@ -346,10 +352,10 @@ class AccessionConverter < Converter
 
     @date_flip
   end
-  
+
   # need to resue the agent type
   def self.agent_type
-    @agent_type ||= "agent_family" 
+    @agent_type ||= "agent_family"
     @agent_type
   end
 
