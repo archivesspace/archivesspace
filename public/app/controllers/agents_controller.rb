@@ -1,8 +1,6 @@
 class AgentsController <  ApplicationController
   include ResultInfo
 
-  skip_before_filter  :verify_authenticity_token
-
   DEFAULT_AG_TYPES = %w{repository resource accession archival_object digital_object}
   DEFAULT_AG_FACET_TYPES = %w{primary_type subjects}
   DEFAULT_AG_SEARCH_OPTS = {

@@ -1,7 +1,6 @@
 class RepositoriesController < ApplicationController
   include ResultInfo
   helper_method :process_repo_info
-  skip_before_filter  :verify_authenticity_token  
 
   DEFAULT_SEARCH_FACET_TYPES = ['primary_type', 'subjects', 'published_agents']
   DEFAULT_REPO_SEARCH_OPTS = {
