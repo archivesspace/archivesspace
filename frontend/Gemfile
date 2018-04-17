@@ -43,6 +43,7 @@ group :development, :test do
   gem 'pry-debugger-jruby'
   gem 'pry-rails'
   gem 'pry-nav'
+  gem 'rubocop', '~> 0.54.0', require: false
 end
 
 gem "mizuno", "0.6.11"
