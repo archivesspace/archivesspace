@@ -378,6 +378,37 @@ end
     end
   end
 
+  describe "record leader mappings - country not defined in repo" do
+    before(:all) do
+      @repo_nc = create(:json_repo_without_country)
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_nc.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource1 = create(:json_resource,
+                          :level => 'collection',
+                          :finding_aid_description_rules => 'dacs')
+
+      @marc1 = get_marc(@resource1)
+    end
+
+    after(:all) do
+      @resource1.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xx" do
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xx/)
+    end
+
+    it "datafield[@tag='044'] not present if repo has no country code" do
+      @marc1.should_not have_tag("datafield[@tag='044']")
+    end
+  end
 
   describe "record leader mappings" do
     before(:all) do
@@ -436,16 +467,16 @@ end
       @marc3.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}i/)
     end
 
+    it "sets record/controlfield[@tag='008']/text()[15..16] with country code" do
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}US/)
+    end
+
     it "sets record/controlfield[@tag='008']/text()[7..10] with resource.dates[0]['begin']" do
       @marc2.at("record/controlfield").should have_inner_text(/^.{7}1900/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[11..14] with resource.dates[0]['end']" do
       @marc3.at("record/controlfield").should have_inner_text(/^.{11}1850/)
-    end
-
-    it "sets record/controlfield[@tag='008']/text()[15..16] with 'xx'" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xx/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
@@ -466,6 +497,11 @@ end
       org_code = JSONModel(:repository).find($repo_id).org_code
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
     end
+
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a" do
+      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("US")
+    end
+
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='e']").should have_inner_text(@resource1.finding_aid_description_rules)

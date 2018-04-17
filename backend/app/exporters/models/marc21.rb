@@ -119,7 +119,15 @@ class MARCModel < ASpaceExport::ExportModel
     string += obj.level == 'item' && date['date_type'] == 'single' ? 's' : 'i'
     string += date['begin'] ? date['begin'][0..3] : "    "
     string += date['end'] ? date['end'][0..3] : "    "
-    string += "xx"
+
+    repo = obj['repository']['_resolved']
+
+    if repo.has_key?('country') && !repo['country'].empty?
+      string += repo['country']
+    else
+      string += "xx"
+    end
+
     18.times { string += ' ' }
     string += (obj.language || '|||')
     string += ' d'
@@ -239,6 +247,10 @@ class MARCModel < ASpaceExport::ExportModel
                       )
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
+
+    if repo.has_key?('country') && !repo['country'].empty?
+      df('044', ' ', ' ').with_sfs(['a', repo['country']])
+    end
   end
 
   def source_to_code(source)
