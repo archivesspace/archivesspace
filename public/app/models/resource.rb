@@ -93,10 +93,12 @@ class Resource < Record
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
-    md['inLanguage'] = {
-      '@type' => 'Language',
-      'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
-    }
+    if raw['language'].try(:any?)
+         md['inLanguage'] = {
+           '@type' => 'Language',
+           'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
+         }
+    end
 
     md['provider'] = {
       '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
