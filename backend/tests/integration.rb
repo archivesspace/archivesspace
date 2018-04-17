@@ -12,7 +12,6 @@ require 'simplecov'
 require 'active_support/inflector'
 
 
-Dir.chdir(File.dirname(__FILE__))
 $solr_port = 2999
 $ldap_port = 3897
 $port = 3434
@@ -71,7 +70,7 @@ end
 def start_ldap
   Ladle::Server.new(:tmpdir => Dir.tmpdir,
                     :port => $ldap_port,
-                    :ldif => File.absolute_path("data/aspace.ldif"),
+                    :ldif => File.absolute_path("tests/data/aspace.ldif"),
                     :java_bin => ["java", "-Xmx64m"],
                     :domain => "dc=archivesspace,dc=org").tap do |s|
     s.start
