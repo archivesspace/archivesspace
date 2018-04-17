@@ -106,7 +106,7 @@ describe "Exported MODS metadata" do
 
 
   after(:all) do
-    [@agent_person, @subject_person, @subjects, @components, @digital_object].flatten.each do |rec|
+    [@agent_person, @subject_person, @subjects, @components, @digital_object, @digital_object_unpub].flatten.each do |rec|
       rec.delete
     end
 
