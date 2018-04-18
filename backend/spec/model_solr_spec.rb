@@ -69,25 +69,25 @@ describe 'Solr model' do
 
     response = Solr.search(query)
 
-    http.request.body.should match(/hello\+world/)
-    http.request.body.should match(/wt=json/)
-    http.request.body.should match(/suppressed%3Afalse/)
-    http.request.body.should match(/fq=types%3A%28]?%22optional_record_type/)
-    http.request.body.should match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
-    http.request.body.should match(/hl=true/)
-    http.request.body.should match(/bq=title%3A%22hello\+world%22\*/)
-    http.request.body.should match(/pf=title%5E10/)
-    http.request.body.should match(/ps=0/)
+    expect(http.request.body).to match(/hello\+world/)
+    expect(http.request.body).to match(/wt=json/)
+    expect(http.request.body).to match(/suppressed%3Afalse/)
+    expect(http.request.body).to match(/fq=types%3A%28]?%22optional_record_type/)
+    expect(http.request.body).to match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
+    expect(http.request.body).to match(/hl=true/)
+    expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
+    expect(http.request.body).to match(/pf=title%5E10/)
+    expect(http.request.body).to match(/ps=0/)
 
 
-    response['offset_first'].should eq(1)
-    response['offset_last'].should eq(1)
+    expect(response['offset_first']).to eq(1)
+    expect(response['offset_last']).to eq(1)
 
-    response['total_hits'].should eq(1)
-    response['first_page'].should eq(1)
-    response['this_page'].should eq(1)
-    response['last_page'].should eq(1)
-    response['results'][0]['title'].should eq("A Resource")
+    expect(response['total_hits']).to eq(1)
+    expect(response['first_page']).to eq(1)
+    expect(response['this_page']).to eq(1)
+    expect(response['last_page']).to eq(1)
+    expect(response['results'][0]['title']).to eq("A Resource")
   end
 
   it "adjusts date searches for the local timezone" do
@@ -105,7 +105,7 @@ describe 'Solr model' do
 
     query = Solr::Query.create_advanced_search(advanced_query)
 
-    CGI.unescape(query.pagination(1, 10).to_solr_url.to_s).should include(test_time.utc.iso8601)
+    expect(CGI.unescape(query.pagination(1, 10).to_solr_url.to_s)).to include(test_time.utc.iso8601)
   end
 
 
@@ -135,9 +135,50 @@ describe 'Solr model' do
     it "compensates for purely negative expressions by adding a match-all clause" do
       query_string = Solr::Query.construct_advanced_query_string(canned_query)
 
-      query_string.should eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
+      expect(query_string).to eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
     end
 
+  end
+
+  describe 'Solr params from AppConfig' do
+    let (:advanced_query) {
+        { "query" => {
+            "subqueries" => [
+                {
+                    "field" => "types",
+                    "value" => "resource",
+                    "literal" => true,
+                    "jsonmodel_type" => "field_query",
+                    "negated" => false
+                },
+                {
+                    "field" => "published",
+                    "value" => "true",
+                    "literal" => true,
+                    "jsonmodel_type" => "field_query",
+                    "negated" => false
+                }
+            ],
+            "jsonmodel_type" => "boolean_query"
+        },
+        "jsonmodel_type" => "advanced_query" }
+    }
+
+    let (:query) { Solr::Query.create_advanced_search(advanced_query).
+                        pagination(1, 10).
+                        set_repo_id(@repo_id) }
+
+    it 'does not include op parameter in solr url when not configured' do
+        AppConfig[:solr_params] = { }
+        url = query.to_solr_url
+        expect(url.query).not_to include('&op=')
+    end
+
+    it 'includes op parameter in solr url when configured' do
+      AppConfig[:solr_params] = { "op" => "AND" }
+      url = query.to_solr_url
+      expect(url.query).to include('&op=AND')
+    end
   end
 
 end
