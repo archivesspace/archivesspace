@@ -25,7 +25,7 @@
 
     <xsl:strip-space elements="*"/>
 
-    <!-- The following attribute sets are reusabe styles used throughout the stylesheet. -->
+    <!-- The following attribute sets are reusable styles used throughout the stylesheet. -->
     <!-- Headings -->
     <xsl:attribute-set name="h1">
         <xsl:attribute name="font-size">22pt</xsl:attribute>
@@ -75,7 +75,7 @@
 
     <!-- Linking attributes styles -->
     <xsl:attribute-set name="ref">
-        <xsl:attribute name="color">#14A6DC</xsl:attribute>
+        <xsl:attribute name="color">#0D6CB6</xsl:attribute>
         <xsl:attribute name="text-decoration">underline</xsl:attribute>
     </xsl:attribute-set>
 
@@ -159,13 +159,13 @@
             <fo:page-sequence master-reference="toc">
                 <!-- Page header -->
                 <fo:static-content flow-name="xsl-region-before" margin-top=".15in">
-                    <fo:block color="gray" font-size="8pt" text-align="center">
+                    <fo:block color="dimgray" font-size="10pt" text-align="center">
                         <xsl:apply-templates select="ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="pageHeader"/>
                     </fo:block>
                 </fo:static-content>
                 <!-- Page footer-->
                 <fo:static-content flow-name="xsl-region-after">
-                    <fo:block text-align="center" color="gray">
+                    <fo:block text-align="center" color="dimgray">
                         <xsl:text>- Page </xsl:text>
                         <fo:page-number/>
                         <xsl:text> -</xsl:text>
@@ -180,7 +180,7 @@
             <fo:page-sequence master-reference="contents">
                 <!-- Page header -->
                 <fo:static-content flow-name="xsl-region-before" margin-top=".15in">
-                    <fo:block color="gray" font-size="8pt" text-align="center">
+                    <fo:block color="dimgray" font-size="10pt" text-align="center">
                         <xsl:apply-templates select="ead:ead/ead:eadheader/ead:filedesc/ead:titlestmt" mode="pageHeader"/>
                     </fo:block>
                 </fo:static-content>
@@ -203,7 +203,7 @@
     <!-- Named template to link back to the table of contents  -->
     <xsl:template name="toc">
         <fo:block font-size="11pt" margin-top="12pt" margin-bottom="18pt">
-            <fo:basic-link text-decoration="none" internal-destination="toc" color="#14A6DC"><fo:inline font-weight="bold">^</fo:inline> Return to Table of Contents </fo:basic-link>
+            <fo:basic-link text-decoration="none" internal-destination="toc" color="#0D6CB6"><fo:inline font-weight="bold">^</fo:inline> Return to Table of Contents </fo:basic-link>
         </fo:block>
     </xsl:template>
 
