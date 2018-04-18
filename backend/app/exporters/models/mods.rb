@@ -257,7 +257,7 @@ class MODSModel < ASpaceExport::ExportModel
 
   def handle_language(language_term)
       unless language_term.nil? || language_term.empty?
-        self.language_term = I18n.t("enumerations.language_iso639_2." + language_term)
+        self.language_term = I18n.t("enumerations.language_iso639_2." + language_term) + ":" + language_term
       else
         self.language_term = nil
       end

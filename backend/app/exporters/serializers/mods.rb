@@ -37,7 +37,11 @@ class MODSSerializer < ASpaceExport::Serializer
 
     xml.language {
       xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
-        xml.text mods.language_term
+        xml.text mods.language_term.split(":")[0]
+      }
+
+      xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
+        xml.text mods.language_term.split(":")[1]
       }
     }
 

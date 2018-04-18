@@ -244,8 +244,12 @@ describe "Exported MODS metadata" do
       @mods.should have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
     end
 
-    it "creates a language/languageTerm tag for the language" do
-      @mods.should have_tag "language/languageTerm" => I18n.t("enumerations.language_iso639_2." + @digital_object['language'])
+    it "creates a language/languageTerm tag for the language term" do
+      @mods.should have_tag "language/languageTerm[@type='text'][@authority='iso639-2b']" => I18n.t("enumerations.language_iso639_2." + @digital_object['language'])
+    end
+
+    it "creates a language/languageTerm tag for the language code" do
+      @mods.should have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => 'fre'
     end
   end
 
