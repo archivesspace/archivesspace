@@ -50,9 +50,13 @@ class DCModel < ASpaceExport::ExportModel
     
     dc.apply_map(obj, @digital_object_map)
 
-    dc.identifier = "#{AppConfig[:backend_url]}#{obj.uri}"
+    if obj.respond_to?('uri')
+      dc.identifier = "#{AppConfig[:backend_url]}#{obj.uri}"
+    end
 
-    dc.type = obj.digital_object_type
+    if obj.respond_to?('digital_object_type')
+      dc.type = obj.digital_object_type
+    end
   
     dc
   end
@@ -83,47 +87,57 @@ class DCModel < ASpaceExport::ExportModel
   end
 
   def each_description
-    @json.notes.each do |note|
-      if self.class.DESCRIPTIVE_NOTE_TYPES.include? note['type']
-        yield extract_note_content(note)
+    if @json.respond_to?('notes')
+      @json.notes.each do |note|
+        if self.class.DESCRIPTIVE_NOTE_TYPES.include? note['type']
+          yield extract_note_content(note)
+        end
       end
+
+      repo = @json.repository['_resolved']
+      repo_info = "Digital object made available by #{repo['name']}"
+      repo_info << " (#{repo['url']})" if repo['url']
+
+      yield repo_info
     end
-
-    repo = @json.repository['_resolved']
-    repo_info = "Digital object made available by #{repo['name']}"
-    repo_info << " (#{repo['url']})" if repo['url']
-
-    yield repo_info
   end
 
   def each_rights
-    @json.notes.each do |note|
-      if self.class.RIGHTS_NOTE_TYPES.include? note['type']
-        yield extract_note_content(note)
+    if @json.respond_to?('notes')
+      @json.notes.each do |note|
+        if self.class.RIGHTS_NOTE_TYPES.include? note['type']
+          yield extract_note_content(note)
+        end
       end
     end
   end
 
   def each_format
-    @json.notes.each do |note|
-      if self.class.FORMAT_NOTE_TYPES.include? note['type']
-        yield extract_note_content(note)
+    if @json.respond_to?('notes')
+      @json.notes.each do |note|
+        if self.class.FORMAT_NOTE_TYPES.include? note['type']
+          yield extract_note_content(note)
+        end
       end
     end
   end
 
   def each_source
-    @json.notes.each do |note|
-      if self.class.SOURCE_NOTE_TYPES.include? note['type']
-        yield extract_note_content(note)
+    if @json.respond_to?('notes')
+      @json.notes.each do |note|
+        if self.class.SOURCE_NOTE_TYPES.include? note['type']
+          yield extract_note_content(note)
+        end
       end
     end
   end
 
   def each_relation
-    @json.notes.each do |note|
-      if self.class.RELATION_NOTE_TYPES.include? note['type']
-        yield extract_note_content(note)
+    if @json.respond_to?('notes')
+      @json.notes.each do |note|
+        if self.class.RELATION_NOTE_TYPES.include? note['type']
+          yield extract_note_content(note)
+        end
       end
     end
   end

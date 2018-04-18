@@ -89,7 +89,7 @@ module ASpaceExport
 
   def self.serialize(model, opts = {})
     s = get_serializer_for(model, opts)
-    s.serialize(model)
+    s.serialize(model, opts)
   end
 
 

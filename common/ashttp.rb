@@ -1,6 +1,5 @@
 # Small wrapper for common net/http functions.  Just to give us a central place to set parameters.
 require 'net/http'
-require 'http_generic_request'
 
 class ASHTTP
 

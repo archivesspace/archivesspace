@@ -30,11 +30,12 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.xml')
     .description("Get a METS representation of a Digital Object ")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["dmd", String, "DMD Scheme to use", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:digital_object)"]) \
   do
-    mets = generate_mets(params[:id])
+    mets = generate_mets(params[:id], params[:dmd])
 
     xml_response(mets)
   end

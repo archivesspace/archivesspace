@@ -5,7 +5,7 @@ class ResourcesController <  ApplicationController
   helper_method :process_agents
 
 
-  skip_before_filter  :verify_authenticity_token
+  skip_before_action  :verify_authenticity_token
 
 
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents}

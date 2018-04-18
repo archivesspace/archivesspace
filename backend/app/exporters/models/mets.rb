@@ -9,6 +9,7 @@ class METSModel < ASpaceExport::ExportModel
   attr_accessor :header_agent_type
 
   attr_accessor :mods_model
+  attr_accessor :dc_model
   attr_accessor :wrapped_dmd
   
   attr_accessor :extents
@@ -50,6 +51,7 @@ class METSModel < ASpaceExport::ExportModel
   
   @doc = Class.new do
     attr_accessor :mods_model
+    attr_accessor :dc_model
     attr_accessor :dmd_id
     
     def initialize(tree)
@@ -59,6 +61,7 @@ class METSModel < ASpaceExport::ExportModel
       @json = JSONModel::JSONModel(:digital_object_component).new(obj)
       @tree = tree
       @mods_model = ASpaceExport.model(:mods).from_digital_object_component(obj, {})
+      @dc_model = ASpaceExport.model(:dc).from_digital_object(obj)
       @dmd_id = @json.id
     end
     
@@ -154,6 +157,7 @@ class METSModel < ASpaceExport::ExportModel
 
     # wrapped DMD
     mets.mods_model = ASpaceExport.model(:mods).from_digital_object(obj, :ignore => [:tree])
+    mets.dc_model = ASpaceExport.model(:dc).from_digital_object(obj)
     mets
   end
 

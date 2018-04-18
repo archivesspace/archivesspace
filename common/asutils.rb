@@ -1,8 +1,3 @@
-# Note: ASUtils gets pulled in all over the place, and in some places prior to
-# any gems having been loaded.  Be careful about loading gems here, as the gem
-# path might not yet be configured.  For example, loading the 'json' gem can
-# cause you to pull in the version that ships with JRuby, rather than the one in
-# your Gemfile.
 
 require 'java'
 require 'tmpdir'
@@ -10,45 +5,46 @@ require 'tempfile'
 require 'config/config-distribution'
 require 'asconstants'
 
+# Some basic helpers that are used in all parts of the application, both
+# development and packaged.
+# Note: ASUtils gets pulled in all over the place, and in some places prior to
+# any gems having been loaded.  Be careful about loading gems here, as the gem
+# path might not yet be configured.  For example, loading the 'json' gem can
+# cause you to pull in the version that ships with JRuby, rather than the one in
+# your Gemfile.
 module ASUtils
-
   def self.keys_as_strings(hash)
     result = {}
 
     hash.each do |key, value|
-      result[key.to_s] = value.is_a?(Date) ? value.to_s : value 
+      result[key.to_s] = value.is_a?(Date) ? value.to_s : value
     end
 
     result
   end
 
-
   def self.as_array(thing)
     return [] if thing.nil?
-    thing.kind_of?(Array) ? thing : [thing]
+    thing.is_a?(Array) ? thing : [thing]
   end
 
-
   def self.jsonmodels_to_hashes(elt)
-
     if elt.is_a?(JSONModelType)
       elt = elt.to_hash(:raw)
     end
 
     if elt.is_a?(Hash)
-      Hash[elt.map {|k, v| [k, self.jsonmodels_to_hashes(v)]}]
+      Hash[elt.map { |k, v| [k, self.jsonmodels_to_hashes(v)] }]
     elsif elt.is_a?(Array)
-      elt.map {|v| self.jsonmodels_to_hashes(v)}
+      elt.map { |v| self.jsonmodels_to_hashes(v) }
     else
       elt
     end
   end
 
-
   def self.json_parse(s)
-    JSON.parse(s, :max_nesting => false, :create_additions => false)
+    JSON.parse(s, max_nesting: false, create_additions: false)
   end
-
 
   # A bit funny to wrap this ourselves, but there's an interesting case when
   # running under rspec.
@@ -74,110 +70,107 @@ module ASUtils
     Tempfile.new("#{base}_#{java.lang.System.currentTimeMillis}")
   end
 
-
   def self.to_json(obj, opts = {})
     if obj.respond_to?(:jsonize)
-      obj.jsonize(opts.merge(:max_nesting => false))
+      obj.jsonize(opts.merge(max_nesting: false))
     else
-      obj.to_json(opts.merge(:max_nesting => false))
+      obj.to_json(opts.merge(max_nesting: false))
     end
   end
 
+  def self.fixed_jruby_path(root = nil)
+    this_dir = __dir__.gsub(%r{uri:classloader:(\/)?}, '')
+    this_dir = this_dir.length.zero? ? '.' : this_dir
+    [
+      File.join(*[this_dir, '..', root].compact),
+      File.join(*[File.realpath(this_dir), '..', root].compact)
+    ].find { |dir| dir && Dir.exist?(dir) }
+  end
 
   def self.find_base_directory(root = nil)
     # JRuby 9K seems to be adding this strange suffix...
-    #
     # Example: /pat/to/archivesspace/backend/uri:classloader:
-    this_dir = __dir__.gsub(/uri:classloader:\z/, '')
-
-    res = [java.lang.System.get_property("ASPACE_LAUNCHER_BASE"),
-     java.lang.System.get_property("catalina.base"),
-     File.join(*[this_dir, "..", root].compact)].find {|dir|
-      dir && Dir.exist?(dir)
-    }
+    res = [java.lang.System.get_property('ASPACE_LAUNCHER_BASE'),
+           java.lang.System.get_property('catalina.base'),
+           fixed_jruby_path(root)]
+          .find { |dir| dir && Dir.exist?(dir) }
 
     res
   end
 
-
   def self.find_local_directories(base = nil, *plugins)
     plugins = AppConfig[:plugins] if plugins.empty?
     # if a specific plugins directory is set in config.rb,
-    # we use that. Otherwise, find the 'plugins' dir in the 
+    # we use that. Otherwise, find the 'plugins' dir in the
     # aspace base.
     base_directory =
-      AppConfig.changed?(:plugins_directory) ?
-        AppConfig[:plugins_directory] :
+      if AppConfig.changed?(:plugins_directory)
+        AppConfig[:plugins_directory]
+      else
         File.join( *[ self.find_base_directory, 'plugins'])
-    Array(plugins).map { |plugin| File.join(*[base_directory, plugin, base].compact) }
+      end
+    Array(plugins).map do |plugin|
+      File.join(*[base_directory, plugin, base].compact)
+    end
   end
-
 
   def self.find_locales_directories(base = nil)
-    [File.join(*[self.find_base_directory("common"), "locales", base].compact)]
+    [File.join(*[self.find_base_directory('common'), 'locales', base].compact)]
   end
-
 
   def self.extract_nested_strings(coll)
     if coll.is_a?(Hash)
-      coll.values.map {|v| self.extract_nested_strings(v)}.flatten.compact
+      coll.values.map { |v| self.extract_nested_strings(v) }.flatten.compact
     elsif coll.is_a?(Array)
-      coll.map {|v| self.extract_nested_strings(v)}.flatten.compact
+      coll.map { |v| self.extract_nested_strings(v) }.flatten.compact
     else
       coll
     end
   end
 
- def self.get_diagnostics(exception = nil )
+  def self.get_diagnostics(exception = nil)
     runtime = java.lang.Runtime.getRuntime
-   {
-      :version =>ASConstants.VERSION,
-      :appconfig => defined?(AppConfig) ? AppConfig.dump_sanitized : "not loaded",
-      :memory => {
-        :free => runtime.freeMemory,
-        :max => runtime.maxMemory,
-        :total => runtime.totalMemory
-      },
-      :cpu_count => runtime.availableProcessors,
-      :exception => exception && {:msg => exception, :backtrace => exception.backtrace}
+    {
+      version: ASConstants.VERSION,
+      appconfig: defined?(AppConfig) ? AppConfig.dump_sanitized : 'not loaded',
+      memory: { free: runtime.freeMemory, max: runtime.maxMemory,
+                total: runtime.totalMemory },
+      cpu_count: runtime.availableProcessors,
+      exception: exception && { msg: exception, backtrace: exception.backtrace }
     }
-   
- end
+  end
+
+  def self.diagnostic_trace_msg
+    <<ERRMSG
+      #{'=' * 72}
+      A trace file has been written to the following location: #{tmp}
+
+      This file contains information that will assist developers in diagnosing
+      problems with your ArchivesSpace installation.  Please review the file's
+      contents for sensitive information (such as passwords) that you might not
+      want to share.
+      #{'=' * 72}
+ERRMSG
+  end
 
   def self.dump_diagnostics(exception = nil)
     unless defined?(JSON)
-      # We might get invoked before everything has been loaded, so just load a minimal set.
+      # We might get invoked before everything has been loaded,
+      # so just load a minimal set.
       require 'json'
     end
-
-    diagnostics = self.get_diagnostics( exception ) 
+    diagnostics = get_diagnostics(exception)
     tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
-    File.open(tmp, "w") do |fh|
-      fh.write(JSON.pretty_generate(diagnostics))
-    end
-
-    msg = <<EOF
-A trace file has been written to the following location: #{tmp}
-
-This file contains information that will assist developers in diagnosing
-problems with your ArchivesSpace installation.  Please review the file's
-contents for sensitive information (such as passwords) that you might not
-want to share.
-EOF
-
-    $stderr.puts("=" * 72)
-    $stderr.puts(msg)
-    $stderr.puts("=" * 72)
-
+    File.open(tmp, 'w') { |fh| fh.write(JSON.pretty_generate(diagnostics)) }
+    $stderr.puts diagnostic_trace_msg
     raise exception if exception
   end
-
 
   # Recursively overlays hash2 onto hash 1
   def self.deep_merge(hash1, hash2)
     target = hash1.dup
-    hash2.keys.each do |key|
-      if hash2[key].is_a? Hash and hash1[key].is_a? Hash
+    hash2.each_key do |key|
+      if hash2[key].is_a?(Hash) && hash1[key].is_a?(Hash)
         target[key] = self.deep_merge(target[key], hash2[key])
         next
       end
@@ -244,18 +237,17 @@ EOF
     target
   end
 
-
   def self.load_plugin_gems(context)
     ASUtils.find_local_directories.each do |plugin|
       gemfile = File.join(plugin, 'Gemfile')
       if File.exist?(gemfile)
+        # only load Gemfiles we find
         context.instance_eval(File.read(gemfile))
       end
     end
   end
 
-
-  # Borrowed from: file activesupport/lib/active_support/core_ext/array/wrap.rb, line 36
+  # Borrowed from:activesupport/lib/active_support/core_ext/array/wrap.rb:36
   def self.wrap(object)
     if object.nil?
       []
@@ -302,9 +294,9 @@ EOF
     elsif obj.respond_to?(:each_pair)
       result = {}
       obj.each_pair do |k, v|
-	if !block.call(k)
-	  result[k] = recursive_reject_key(v, &block)
-	end
+        if !block.call(k)
+          result[k] = recursive_reject_key(v, &block)
+        end
       end
       result
     elsif obj.respond_to?(:map)
@@ -327,5 +319,4 @@ EOF
   def self.present?(obj)
     !blank?(obj)
   end
-
 end

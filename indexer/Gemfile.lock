@@ -7,7 +7,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     atomic (1.0.1-java)
-    backports (3.11.1)
+    backports (3.11.2)
     builder (3.2.3)
     concurrent-ruby (1.0.5-java)
     excon (0.62.0)
@@ -73,4 +73,4 @@ DEPENDENCIES
   sinatra-contrib (= 1.4.7)
 
 BUNDLED WITH
-   1.12.5
+   1.16.1

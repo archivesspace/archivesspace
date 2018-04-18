@@ -47,6 +47,7 @@ describe "Exported METS document" do
                          :file_versions => @file_versions[8..-1])
 
     @mets = get_mets(@digital_object)
+    @dc_mets = get_mets(@digital_object, "dc")
 
     # puts "SOURCE: #{@digital_object.inspect}\n"
     # puts "RESULT: #{@mets.to_xml}\n"
@@ -67,6 +68,7 @@ describe "Exported METS document" do
     @mets.should have_namespaces({
                                    "xmlns" => "http://www.loc.gov/METS/",
                                    "xmlns:mods"=> "http://www.loc.gov/mods/v3",
+                                   "xmlns:dc"=> "http://purl.org/dc/elements/1.1/",
                                    "xmlns:xlink" => "http://www.w3.org/1999/xlink",
                                    "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance"
                                  })
@@ -112,6 +114,20 @@ describe "Exported METS document" do
     it "creates a dmdSec for each component" do
       @components.each do |rec|
         @mets.should have_tag "dmdSec[@ID='#{rec.id}']"
+      end
+    end
+  end
+
+  describe "dmdSec - DC" do
+    it "creates a DC dmdSec for the top-level digital object if DC is chosen" do
+      @dc_mets.should have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/dc:dc"
+      @dc_mets.should have_tag "dmdSec/mdWrap[@MDTYPE='DC']"
+      @dc_mets.should_not have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
+    end
+
+    it "creates a DC dmdSec for each component" do
+      @components.each do |rec|
+        @dc_mets.should have_tag "dmdSec[@ID='#{rec.id}']/mdWrap[@MDTYPE='DC']"
       end
     end
   end

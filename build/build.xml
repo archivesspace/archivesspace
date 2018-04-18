@@ -2,8 +2,8 @@
 
 <project name="ArchivesSpace" default="help">
 
-  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.8.0/jruby-complete-9.1.8.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.1.8.0.jar" />
+  <property name="jruby_url" value="https://s3.amazonaws.com/jruby.org/downloads/9.1.16.0/jruby-complete-9.1.16.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.1.16.0.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
@@ -107,7 +107,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 1.12.5" />
+      <arg line="-S gem install bundler -v 1.16.1" />
     </java>
 
     <antcall target="bundler">
@@ -895,6 +895,58 @@
     </java>
   </target>
 
+  <!-- Style Checker -->
+  <target name="public:cop" depends="set-classpath" description="Run rubocop against PUI code" >
+    <property name="build.home" location="."/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/rubocop  ../public" />
+    </java>
+  </target>
+
+  <target name="backend:cop" depends="set-classpath" description="Run rubocop against backend code" >
+    <property name="build.home" location="."/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/rubocop ../backend" />
+    </java>
+  </target>
+  
+  <target name="staff:cop" depends="set-classpath" description="Run rubocop against staff interface" >
+    <property name="build.home" location="."/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/rubocop ../frontend" />
+    </java>
+  </target>
+  
+  <target name="indexer:cop" depends="set-classpath" description="Run rubocop against indexer code" >
+    <property name="build.home" location="."/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/rubocop ../indxer" />
+    </java>
+  </target>
+
+
+
+  <!-- Packaging --> 
 
   <target name="public:war" depends="set-classpath, public:clean, public:copy-shared-resources" description="Deploy the public application as a .war file">
    <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
