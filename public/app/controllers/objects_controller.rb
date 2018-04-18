@@ -6,7 +6,7 @@ class ObjectsController <  ApplicationController
   helper_method :process_digital
   helper_method :process_digital_instance
 
-  skip_before_filter  :verify_authenticity_token
+  skip_before_action  :verify_authenticity_token
   
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents)
   DEFAULT_OBJ_SEARCH_OPTS = {

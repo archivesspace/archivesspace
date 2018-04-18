@@ -1,7 +1,7 @@
 class AccessionsController <  ApplicationController
   include ResultInfo
 
-  skip_before_filter  :verify_authenticity_token
+  skip_before_action  :verify_authenticity_token
 
   DEFAULT_AC_TYPES = %w{accession}
   DEFAULT_AC_FACET_TYPES = %w{primary_type subjects published_agents repository}
