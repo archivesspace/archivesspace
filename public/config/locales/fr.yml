@@ -57,7 +57,7 @@ fr:
     search_remove_row: Supprimer une ligne dessous
     staff_link: Réservé au personnel
 
-  page_actions: Page Actions    
+  page_actions: Page Actions
 
   request:
     required: obligatoire
@@ -118,6 +118,7 @@ fr:
     notes_contain: "la <strong>note</strong> contient  <span class='searchterm'>%{kw}</span>"
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
     identifier_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
+    four_part_id_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"
     year_range: " entre <strong>%{from_year}</strong> et <strong>%{to_year}</strong>"
     anything: "*"
@@ -223,7 +224,7 @@ fr:
     recordgrp: Groupe d'archives
     subfonds: Sous-fonds
     subgrp: Sous-groupe
- 
+
   errors:
     error_404: "%{type} Record Not Found"
     error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir été enlevée."
@@ -252,7 +253,7 @@ fr:
     collapse: Réduire tout
 
   advanced_search:
-    operator_label: Opérateur 
+    operator_label: Opérateur
     operator:
       AND: Et
       OR: Ou
@@ -268,10 +269,10 @@ fr:
 
   contains: "Contient %{count} %{type}"
   found: "Trouvé dans %{count} %{type}"
-  coll_obj: 
+  coll_obj:
     _singular: Collection ou document
     _plural: Collections et/ou documents
- 
+
   # I don't have a place for these, so I'm putting them here
   scope_note : Note de portée
   multiple_containers: Conditionnements divers
@@ -296,7 +297,7 @@ fr:
   linked_digital_objects: Objets numériques
 
   accession:
-   _singular: Non traitée 
+   _singular: Non traitée
    _plural: Instances de matériel non traité
    _public:
       section:
@@ -346,7 +347,7 @@ fr:
   context: Trouvé dans
   context_delimiter: "/"
   bulk:
-     _singular: "Majeure partie des documents trouvés en %{dates}" 
+     _singular: "Majeure partie des documents trouvés en %{dates}"
      _plural: "Majeure partie des documents trouvés entre %{dates}"
 
   resource:
@@ -442,7 +443,7 @@ fr:
     identifier_separator: "/"
 
   all_agents: Noms
-  
+
   an_agent: Nom
 
   pui_agent:
@@ -470,7 +471,7 @@ fr:
         dates_of_existence: Dates
         related_agent_description: Description
         related_agent_dates: Dates
-   
+
   agent_person:
     _singular: Personne
 
@@ -508,7 +509,7 @@ fr:
   parent_inst: Institution mère
 
   email: Envoyer courriel
- 
+
   fax: Fax
 
 #  The following are the enums for things like notes type, etc.
@@ -1503,7 +1504,7 @@ fr:
       expression: Expression
       single: Unique
       bulk: Dates de la majeure partie
-      inclusive: Dates extrêmes 
+      inclusive: Dates extrêmes
       range: Fourchette
     date_label:
       record_keeping: Maintenance
