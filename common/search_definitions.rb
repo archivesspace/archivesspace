@@ -1,6 +1,6 @@
 AdvancedSearch.define_field(:name => 'keyword', :type => :text, :visibility => [:staff, :public], :solr_field => 'fullrecord')
 AdvancedSearch.define_field(:name => 'title', :type => :text, :visibility => [:staff, :public], :solr_field => 'title')
-AdvancedSearch.define_field(:name => 'identifier', :type => :text, :visibility => [:staff, :public], :solr_field => 'identifier')
+AdvancedSearch.define_field(:name => 'identifier', :type => :text, :visibility => [:staff, :public], :solr_field => 'four_part_id')
 AdvancedSearch.define_field(:name => 'creators', :type => :text, :visibility => [:staff, :public], :solr_field => 'creators_text')
 AdvancedSearch.define_field(:name => 'notes', :type => :text, :visibility => [:staff, :public], :solr_field => 'notes')
 AdvancedSearch.define_field(:name => 'subjects', :type => :text, :visibility => [:staff, :public], :solr_field => 'subjects_text')
