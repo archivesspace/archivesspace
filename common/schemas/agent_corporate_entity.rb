@@ -4,7 +4,7 @@
     "version" => 1,
     "type" => "object",
     "parent" => "abstract_agent",
-    "uri" => "/agents/corporate_entities",
+    "uri" => "/agents/agent_corporate_entity",
     "properties" => {
       "names" => {
         "type" => "array",

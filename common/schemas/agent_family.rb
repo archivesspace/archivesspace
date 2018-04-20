@@ -4,7 +4,7 @@
     "version" => 1,
     "type" => "object",
     "parent" => "abstract_agent",
-    "uri" => "/agents/families",
+    "uri" => "/agents/agent_family",
     "properties" => {
       "names" => {
         "type" => "array",
