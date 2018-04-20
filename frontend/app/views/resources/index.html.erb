@@ -5,6 +5,10 @@
 
    add_browse_columns("resource", {"level" => "archival_record_level", "language" => "language_iso639_2"})
 
+   if params[:include_components] === "true"
+     @display_context = true
+   end 
+
 %>
 
 <div class="row">
