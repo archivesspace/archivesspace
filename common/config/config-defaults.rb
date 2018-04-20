@@ -595,3 +595,11 @@ AppConfig[:pui_request_use_repo_email] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450
+
+# NAAN value to use in ARK identifiers.
+# Should be set to institutional NAAN, or any other value valid in URLs.
+AppConfig[:ark_naan] = "f00001"
+
+# URL prefix to use in ARK identifiers. 
+# In most cases this will be the same as the PUI URL.
+AppConfig[:ark_url_prefix] = "http://localhost:8081"
