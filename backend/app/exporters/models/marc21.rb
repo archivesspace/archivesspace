@@ -123,7 +123,7 @@ class MARCModel < ASpaceExport::ExportModel
     repo = obj['repository']['_resolved']
 
     if repo.has_key?('country') && !repo['country'].empty?
-      string += repo['country']
+      string += repo['country'].downcase
     else
       string += "xx"
     end
@@ -249,7 +249,7 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
-      df('044', ' ', ' ').with_sfs(['a', repo['country']])
+      df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
     end
   end
 

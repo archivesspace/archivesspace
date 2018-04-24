@@ -468,7 +468,7 @@ end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] with country code" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}US/)
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}us/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[7..10] with resource.dates[0]['begin']" do
@@ -499,7 +499,7 @@ end
     end
 
     it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a" do
-      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("US")
+      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("us")
     end
 
 
