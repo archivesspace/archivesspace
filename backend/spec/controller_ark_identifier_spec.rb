@@ -1,10 +1,9 @@
 require 'spec_helper'
 
-
 describe 'ARK Identifier controller' do
   it "should redirecto to resource" do
     resource = create_resource(:title => generate(:generic_title))
-    ark = ARKIdentifer.create(:resource_id => resource[:id])
+    ark = ARKIdentifer.first(:resource_id => resource.id)
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
@@ -13,7 +12,7 @@ describe 'ARK Identifier controller' do
   
   it "should redirect to accession" do
     accession = create_accession
-    ark = ARKIdentifer.create(:accession_id => accession[:id])
+    ark = ARKIdentifer.first(:accession_id => accession.id)
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
@@ -22,8 +21,7 @@ describe 'ARK Identifier controller' do
   it "should redirect to digital object" do
     json = build(:json_digital_object)
     digital_object = DigitalObject.create_from_json(json)
-
-    ark = ARKIdentifer.create(:digital_object_id => digital_object[:id])
+    ark = ARKIdentifer.first(:digital_object_id => digital_object.id)
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)

@@ -10,6 +10,25 @@ describe 'Digital object model' do
     DigitalObject[digital_object[:id]].title.should eq(json.title)
   end
 
+  it "creates an ARK Identifier with a digital object" do
+    json = build(:json_digital_object)
+
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
+
+    expect(ARKIdentifer.first(:digital_object_id => digital_object.id)).to_not be_nil
+  end
+
+  it "deletes ARK Identifier when digital_object is deleted" do
+    json = build(:json_digital_object)
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
+    digital_object_id = digital_object.id
+
+    expect(ARKIdentifer.first(:digital_object_id => digital_object_id)).to_not be_nil
+
+    digital_object.delete
+    expect(ARKIdentifer.first(:digital_object_id => digital_object_id)).to be_nil
+  end
+
 
   it "prevents duplicate IDs " do
     json1 = build(:json_digital_object, :digital_object_id => '123')
