@@ -28,4 +28,31 @@ class ARKIdentifer < Sequel::Model(:ark_identifier)
       errors.add(:base, 'Exactly one of [resource_id, digital_object_id, accession_id] must be defined.') 
     end
   end
+
+  def self.create_from_resource(resource)
+    self.insert(:resource_id      => resource.id,
+                :created_by       => 'admin',
+                :last_modified_by => 'admin',
+                :create_time      => Time.now,
+                :system_mtime     => Time.now,
+                :user_mtime       => Time.now)
+  end
+
+  def self.create_from_accession(accession)
+    self.insert(:accession_id     => accession.id,
+                :created_by       => 'admin',
+                :last_modified_by => 'admin',
+                :create_time      => Time.now,
+                :system_mtime     => Time.now,
+                :user_mtime       => Time.now)
+  end
+
+  def self.create_from_digital_object(digital_object)
+    self.insert(:digital_object_id => digital_object.id,
+                :created_by        => 'admin',
+                :last_modified_by  => 'admin',
+                :create_time       => Time.now,
+                :system_mtime      => Time.now,
+                :user_mtime        => Time.now)
+  end
 end
