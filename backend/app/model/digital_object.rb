@@ -34,6 +34,15 @@ class DigitalObject < Sequel::Model(:digital_object)
                       :contains_references_to_types => proc {[Instance]})
 
 
+  def create_from_json(json, opts)
+    puts "++++++++++++++++++++++++++++++"
+    puts "CREATING!"
+    dig_obj = super(json, opts)
+    ARKIdentifer.create_from_digital_object(dig_obj)
+    return dig_obj
+  end
+
+
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
