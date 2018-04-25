@@ -35,15 +35,17 @@ class MODSSerializer < ASpaceExport::Serializer
     xml.typeOfResource mods.type_of_resource
 
 
-    xml.language {
-      xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
-        xml.text mods.language_term.split(":")[0]
-      }
+    unless mods.language_term.nil?
+      xml.language {
+        xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
+          xml.text mods.language_term.split(":")[0]
+        }
 
-      xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
-        xml.text mods.language_term.split(":")[1]
+        xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
+          xml.text mods.language_term.split(":")[1]
+        }
       }
-    }
+    end
 
     mods.dates.each do |date|
       handle_date(xml, date)

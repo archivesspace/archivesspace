@@ -255,6 +255,14 @@ describe "Exported MODS metadata" do
     it "creates a language/languageTerm tag for the language code" do
       @mods.should have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => 'fre'
     end
+
+    it "does not create a language/languageTerm tag if language is not specified" do
+      digital_object = create(:json_digital_object_no_lang,
+                              :digital_object_type => "notated_music")
+
+      mods = get_mods(digital_object)
+      mods.should_not have_tag "language/languageTerm"
+    end
   end
 
 
