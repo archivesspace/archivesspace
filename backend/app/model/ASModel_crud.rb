@@ -232,6 +232,9 @@ module ASModel
       successfully_deleted_models = []
       last_error = nil
 
+      #delete ARK Identifier (if exists) first
+      self.delete_ark_identifier
+
       while true
         progressed = false
         object_graph.each do |model, ids_to_delete|
@@ -318,6 +321,33 @@ module ASModel
       @system_modified = true
     end
 
+    def create_ark_identifier
+      if self.class == Resource 
+        ARKIdentifer.create_from_resource(self)
+      end
+
+      if self.class == DigitalObject
+        ARKIdentifer.create_from_digital_object(self)
+      end
+
+      if self.class == Accession
+        ARKIdentifer.create_from_accession(self)
+      end
+    end
+
+    def delete_ark_identifier
+      if self.class == Resource 
+        ARKIdentifer.first(:resource_id => self.id).delete
+      end
+
+      if self.class == DigitalObject
+        ARKIdentifer.first(:digital_object_id => self.id).delete
+      end
+
+      if self.class == Accession
+        ARKIdentifer.first(:accession_id => self.id).delete
+      end
+    end
 
     module ClassMethods
 
@@ -341,6 +371,7 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
+        obj.create_ark_identifier
         obj
       end
 

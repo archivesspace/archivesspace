@@ -56,9 +56,7 @@ class Resource < Sequel::Model(:resource)
       sponsor[:finding_aid_sponsor_sha1] = Digest::SHA1.hexdigest(json.finding_aid_sponsor)
     end
 
-    resource = super(json, opts.merge(sponsor))
-    ARKIdentifer.create_from_resource(resource)
-    return resource
+    super(json, opts.merge(sponsor))
   end
 
 
