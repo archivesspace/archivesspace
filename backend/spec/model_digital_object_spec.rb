@@ -15,7 +15,7 @@ describe 'Digital object model' do
 
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
 
-    expect(ARKIdentifer.first(:digital_object_id => digital_object.id)).to_not be_nil
+    expect(ARKIdentifier.first(:digital_object_id => digital_object.id)).to_not be_nil
   end
 
   it "deletes ARK Identifier when digital_object is deleted" do
@@ -23,10 +23,10 @@ describe 'Digital object model' do
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
     digital_object_id = digital_object.id
 
-    expect(ARKIdentifer.first(:digital_object_id => digital_object_id)).to_not be_nil
+    expect(ARKIdentifier.first(:digital_object_id => digital_object_id)).to_not be_nil
 
     digital_object.delete
-    expect(ARKIdentifer.first(:digital_object_id => digital_object_id)).to be_nil
+    expect(ARKIdentifier.first(:digital_object_id => digital_object_id)).to be_nil
   end
 
 

@@ -1,4 +1,4 @@
-class ARKIdentifer < Sequel::Model(:ark_identifier)
+class ARKIdentifier < Sequel::Model(:ark_identifier)
   include ASModel
 
   one_to_one :resource  

@@ -323,29 +323,29 @@ module ASModel
 
     def create_ark_identifier
       if self.class == Resource 
-        ARKIdentifer.create_from_resource(self)
+        ARKIdentifier.create_from_resource(self)
       end
 
       if self.class == DigitalObject
-        ARKIdentifer.create_from_digital_object(self)
+        ARKIdentifier.create_from_digital_object(self)
       end
 
       if self.class == Accession
-        ARKIdentifer.create_from_accession(self)
+        ARKIdentifier.create_from_accession(self)
       end
     end
 
     def delete_ark_identifier
       if self.class == Resource 
-        ARKIdentifer.first(:resource_id => self.id).delete
+        ARKIdentifier.first(:resource_id => self.id).delete
       end
 
       if self.class == DigitalObject
-        ARKIdentifer.first(:digital_object_id => self.id).delete
+        ARKIdentifier.first(:digital_object_id => self.id).delete
       end
 
       if self.class == Accession
-        ARKIdentifer.first(:accession_id => self.id).delete
+        ARKIdentifier.first(:accession_id => self.id).delete
       end
     end
 

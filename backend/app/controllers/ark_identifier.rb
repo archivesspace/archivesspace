@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([404, "Not found"],
              [302, :redirect]) \
   do
-    if ark = ARKIdentifer[params[:id]]
+    if ark = ARKIdentifier[params[:id]]
       if ark.resource_id
         # redirect to resource 
         if resource = Resource.any_repo.filter(:id => ark.resource_id).first
