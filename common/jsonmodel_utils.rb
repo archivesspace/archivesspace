@@ -19,9 +19,15 @@ module JSONModel
     when :digital_object
       ark = ARKIdentifier.first(:digital_object_id => id)
       return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-    when :reousrce
+    when :resource
+      ark = ARKIdentifier.first(:resource_id => id)
+      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
     when :accession
+      ark = ARKIdentifier.first(:accession_id => id)
+      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
     end
+
+    return ""
   end
 
   private
