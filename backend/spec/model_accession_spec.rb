@@ -11,17 +11,17 @@ describe 'Accession model' do
   it "creates an ARK Identifier for accessions" do
     accession = create_accession
 
-    expect(ARKIdentifer.first(:accession_id => accession.id)).to_not be_nil
+    expect(ARKIdentifier.first(:accession_id => accession.id)).to_not be_nil
   end
 
   it "deletes ARK Identifier when accession is deleted" do
     accession = create_accession
     accession_id = accession.id
 
-    expect(ARKIdentifer.first(:accession_id => accession_id)).to_not be_nil
+    expect(ARKIdentifier.first(:accession_id => accession_id)).to_not be_nil
 
     accession.delete
-    expect(ARKIdentifer.first(:accession_id => accession_id)).to be_nil
+    expect(ARKIdentifier.first(:accession_id => accession_id)).to be_nil
   end
 
 
