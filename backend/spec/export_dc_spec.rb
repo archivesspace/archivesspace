@@ -120,6 +120,12 @@ describe "Exported Dublin Core metadata" do
       @dc.should have_tag "dc/language" => @digital_object.language
     end
 
+    it "maps ARK identifier to identifier" do
+      ark = ARKIdentifier.first(:digital_object_id => @digital_object.id)
+      url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
+      @dc.should have_tag "identifier" => url
+    end
+
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|

@@ -50,8 +50,8 @@ class DCModel < ASpaceExport::ExportModel
     
     dc.apply_map(obj, @digital_object_map)
 
-    if obj.respond_to?('uri')
-      dc.identifier = "#{AppConfig[:backend_url]}#{obj.uri}"
+    if obj.respond_to?(:id)
+      dc.identifier = JSONModel::get_ark_url(obj.id, :digital_object)
     end
 
     if obj.respond_to?('digital_object_type')
