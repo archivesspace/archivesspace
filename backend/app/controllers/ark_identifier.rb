@@ -10,7 +10,7 @@ class ArchivesSpaceService < Sinatra::Base
       if ark.resource_id
         # redirect to resource 
         if resource = Resource.any_repo.filter(:id => ark.resource_id).first
-          redirect AppConfig[:ark_url_prefix] + 
+          redirect AppConfig[:public_proxy_url] + 
                    "/repositories/" +
                    resource[:repo_id].to_s + 
                    "/resources/" +
@@ -23,7 +23,7 @@ class ArchivesSpaceService < Sinatra::Base
       elsif ark.accession_id
         # redirect to accession
         if accession = Accession.any_repo.filter(:id => ark.accession_id).first
-          redirect AppConfig[:ark_url_prefix] + 
+          redirect AppConfig[:public_proxy_url] + 
                    "/repositories/" +
                    accession[:repo_id].to_s + 
                    "/accessions/" +
@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
       elsif ark.digital_object_id
         # redirect to digital object
         if dig_obj = DigitalObject.any_repo.filter(:id => ark.digital_object_id).first
-          redirect AppConfig[:ark_url_prefix] + 
+          redirect AppConfig[:public_proxy_url] + 
                    "/repositories/" +
                    dig_obj[:repo_id].to_s + 
                    "/digital_objects/" +

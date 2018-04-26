@@ -23,7 +23,19 @@ class MODSModel < ASpaceExport::ExportModel
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
-    :digital_object_id => :handle_id,
+    :id => :handle_ark_id,
+    :dates => :handle_dates
+  }
+
+  # Need a different map for object components as a differnet ID (digital_object_id, instead of ARK) will be used
+  @archival_object_component_map = {
+    :title => :title=,
+    :language => :handle_language,
+    [:extents, :notes] => :handle_extents,
+    :subjects => :handle_subjects,
+    :linked_agents => :handle_agents,
+    :notes => :handle_notes,
+    :digital_object_id => :handle_digital_object_id,
     :dates => :handle_dates
   }
 
@@ -61,10 +73,15 @@ class MODSModel < ASpaceExport::ExportModel
 
 
   # meaning, 'archival object' in the abstract
-  def self.from_archival_object(obj, tree)
+  def self.from_archival_object(obj, tree, opts = {})
 
     mods = self.new(tree)
-    mods.apply_map(obj, @archival_object_map)
+
+    if opts[:component]
+      mods.apply_map(obj, @archival_object_component_map)
+    else
+      mods.apply_map(obj, @archival_object_map)
+    end
 
     mods
   end
@@ -90,7 +107,7 @@ class MODSModel < ASpaceExport::ExportModel
 
 
   def self.from_digital_object_component(obj, tree)
-    mods = self.from_archival_object(obj, tree)
+    mods = self.from_archival_object(obj, tree, :component => true)
 
     mods
   end
@@ -243,7 +260,13 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_id(digital_object_id)
+  def handle_ark_id(id)
+    ark_url = JSONModel::get_ark_url(id, :digital_object)
+    self.identifier = ark_url
+  end
+
+
+  def handle_digital_object_id(digital_object_id)
     self.identifier = digital_object_id
   end
 
