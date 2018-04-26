@@ -14,6 +14,13 @@ describe 'Accession model' do
     expect(ARKIdentifier.first(:accession_id => accession.id)).to_not be_nil
   end
 
+  it "creates an ARK url for an accession" do
+    accession = create_accession
+    ark = ARKIdentifier.first(:accession_id => accession.id)
+
+    expect(JSONModel::get_ark_url(accession.id, :accession)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+  end
+
   it "deletes ARK Identifier when accession is deleted" do
     accession = create_accession
     accession_id = accession.id
