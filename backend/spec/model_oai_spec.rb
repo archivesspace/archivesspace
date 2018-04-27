@@ -378,6 +378,43 @@ describe 'OAI handler' do
         expect(response.body).to_not match(/<dc:extent>physical description note<\/dc:extent>/)
         expect(response.body).to_not match(/<dc:extent>dimensions note<\/dc:extent>/)
       end
+
+      it "should output ARK identifier in identifer tag" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
+
+        response = get uri
+
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = JSONModel.get_ark_url(resource_id.to_i, :resource)
+
+        expect(response.body).to match(/<dc:identifier>#{ark_url}<\/dc:identifier>/)
+      end
+    end
+
+    describe 'DCTerms output' do
+      it "should output ARK identifier in identifer tag" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+
+        response = get uri
+
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = JSONModel.get_ark_url(resource_id.to_i, :resource)
+
+        expect(response.body).to match(/<dcterms:identifier>#{ark_url}<\/dcterms:identifier>/)
+      end
+    end
+
+    describe 'MODS output' do
+      it "should output ARK identifier in identifer tag" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
+
+        response = get uri
+
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = JSONModel.get_ark_url(resource_id.to_i, :resource)
+
+        expect(response.body).to match(/<identifier>#{ark_url}<\/identifier>/)
+      end
     end
   end
 
