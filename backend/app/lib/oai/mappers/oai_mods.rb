@@ -16,14 +16,27 @@ class OAIMODSMapper
         }
 
         # Identifier -> identifier
+        # TODO: Reuse after implementing 'off' switch for ARK
+
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
                               ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
                             else
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
 
-        unless merged_identifier.empty?
-          xml.identifier(merged_identifier)
+        case jsonmodel['jsonmodel_type']
+        when "resource"
+          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :resource)
+        when "digital_object"
+          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :digital_object)
+        when "accession"
+          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :accession)
+        else 
+          ark_identifier = ""
+        end
+
+        unless ark_identifier.empty?
+          xml.identifier(ark_identifier)
         end
 
         # Creator -> name/namePart
