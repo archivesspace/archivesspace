@@ -1123,6 +1123,22 @@ end
       df.sf_t('z').should eq("Finding aid online:")
     end
 
+    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank" do
+      resource = create(:json_resource_blank_ead_location)
+      marc = get_marc(resource)
+      ark_url = JSONModel.get_ark_url(resource.id, :resource)
+
+      df = marc.df('856', '4', '2')
+      df.sf_t('u').should eq(ark_url)
+      df.sf_t('z').should eq("Finding aid online:")
+    end
+
+    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
+      pending "should this test be removed?"
+      df = @marc.df('555', '0', ' ')
+      df.sf_t('u').should eq(@resource.finding_aid_note)
+      df.sf_t('3').should eq("Finding aids:")
+    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
