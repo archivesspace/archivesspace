@@ -21,9 +21,9 @@ class MARCModel < ASpaceExport::ExportModel
 
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
+    [:ead_location, :finding_aid_note] => :handle_ead_loc,
     :notes => :handle_notes,
-    :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e'),
-    [:ead_location, :finding_aid_note] => :handle_ead_loc
+    :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
 
   attr_accessor :leader_string
@@ -511,6 +511,8 @@ class MARCModel < ASpaceExport::ExportModel
                     ['540', 'a']
                   when 'langmaterial'
                     ['546', 'a']
+                  when 'otherfindaid'
+                    ['555', '0', ' ', 'u']
                   else
                     nil
                   end
