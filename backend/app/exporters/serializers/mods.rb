@@ -23,25 +23,41 @@ class MODSSerializer < ASpaceExport::Serializer
   end
 
 
+
   def serialize_mods_inner(mods, xml)
 
     xml.titleInfo {
       xml.title mods.title
     }
 
+    xml.identifier mods.identifier
+
     xml.typeOfResource mods.type_of_resource
 
 
-    xml.language {
-      xml.languageTerm(:type => 'code') {
-        xml.text mods.language_term
-      }
+    unless mods.language_term.nil?
+      xml.language {
+        xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
+          xml.text mods.language_term.split(":")[0]
+        }
 
-    }
+        xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
+          xml.text mods.language_term.split(":")[1]
+        }
+      }
+    end
+
+    mods.dates.each do |date|
+      handle_date(xml, date)
+    end
 
     xml.physicalDescription{
       mods.extents.each do |extent|
         xml.extent extent
+      end
+
+      mods.extent_notes.each do |note|
+        serialize_note(note, xml)
       end
     }
 
@@ -71,7 +87,7 @@ class MODSSerializer < ASpaceExport::Serializer
           xml.temporal term
         when 'uniform_title'
           xml.titleInfo term
-        when 'genre_form', 'style_period'
+        when 'genre_form', 'style_period', 'technique', 'function'
           xml.genre term
         when 'occupation'
           xml.occupation term
@@ -113,6 +129,7 @@ class MODSSerializer < ASpaceExport::Serializer
   def serialize_name(name, xml)
     atts = {:type => name['type']}
     atts[:authority] = name['source'] if name['source']
+    atts["valueURI"] = name['authority_id'] if name['authority_id']
     xml.name(atts) {
       name['parts'].each do |part|
         if part['type']
@@ -141,4 +158,77 @@ class MODSSerializer < ASpaceExport::Serializer
       xml.text note.content
     }
   end
+
+  private
+
+
+  def handle_date(xml, date)
+    attrs = process_date_qualifier_attrs(date)
+
+    # if expression is provided, use that for this date
+    has_expression = date.has_key?('expression') &&
+                  !date['expression'].nil? &&
+                  !date['expression'].empty?
+
+    # if end specified, we need a point="end" tag.
+    has_end = date.has_key?('end') && 
+              !date['end'].nil? && 
+              !date['end'].empty? &&
+              !has_expression
+
+    # if beginning specified, we need a point="start" tag.
+    has_begin = date.has_key?('begin') && 
+                !date['begin'].nil? && 
+                !date['begin'].empty? &&
+                !has_expression
+
+    # the tag created depends on the type of date
+    case date['label']
+    when 'creation'
+      type = "dateCreated"
+    when 'digitized'
+      type = "dateCaptured"
+    when 'copyright'
+      type = "copyrightDate"
+    when 'modified'
+      type = "dateModified"
+    when 'broadcast', 'issued', 'publication'
+      type = "dateIssued"
+    else 
+      type = "dateOther"
+    end
+
+    if has_expression
+      xml.send(type, attrs) { xml.text(date['expression']) }
+    else 
+      if has_begin
+        attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "start"})
+        xml.send(type, attrs) { xml.text(date['begin']) }
+      end
+
+      if has_end
+        attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "end"})
+        xml.send(type, attrs) { xml.text(date['end']) }
+      end
+    end
+  end
+
+
+  def process_date_qualifier_attrs(date)
+    attrs = {}
+
+    if date.has_key?('certainty')
+      case date['certainty']
+      when "approximate"
+        attrs["qualifier"] = "approximate"
+      when "inferred"
+        attrs["qualifier"] = "inferred"
+      when "questionable"
+        attrs["qualifier"] = "questionable"
+      end
+    end
+
+    return attrs
+  end
+
 end

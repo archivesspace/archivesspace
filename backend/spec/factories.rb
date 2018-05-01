@@ -124,6 +124,7 @@ FactoryBot.define do
       resource_id nil
       archival_object_id nil
       dimensions { generate(:alphanumstr) }
+      physical_details { generate(:alphanumstr) }
     end
 
     factory :archival_object do
@@ -370,6 +371,14 @@ FactoryBot.define do
     dates { few_or_none(:json_date) }
   end
 
+  factory :json_digital_object_no_lang, class: JSONModel(:digital_object) do
+    title { "Digital Object #{generate(:generic_title)}" }
+    digital_object_id { generate(:alphanumstr) }
+    extents { [build(:json_extent)] }
+    file_versions { few_or_none(:json_file_version) }
+    dates { few_or_none(:json_date) }
+  end
+
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
     component_id { generate(:alphanumstr) }
     title { "Digital Object Component #{generate(:generic_title)}" }
@@ -412,6 +421,7 @@ FactoryBot.define do
     number { generate(:number) }
     extent_type { generate(:extent_type) }
     dimensions { generate(:alphanumstr) }
+    physical_details { generate(:alphanumstr) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do

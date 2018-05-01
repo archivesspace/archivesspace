@@ -123,7 +123,7 @@ class MARCModel < ASpaceExport::ExportModel
     repo = obj['repository']['_resolved']
 
     if repo.has_key?('country') && !repo['country'].empty?
-      string += repo['country']
+      string += repo['country'].downcase
     else
       string += "xx"
     end
@@ -249,7 +249,7 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
-      df('044', ' ', ' ').with_sfs(['a', repo['country']])
+      df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
     end
   end
 
@@ -606,13 +606,11 @@ class MARCModel < ASpaceExport::ExportModel
       subfield_e = role_info[0] == "e" ? role_info : nil
       subfield_4 = role_info[0] == "4" ? role_info : nil
   
-      # remove any commas or periods that may be there at the end already and add extra stuff
-      name_parts = name_parts.gsub(/[\.,]+$/, "") rescue nil
-      number = name['number'].gsub(/[\.,]+$/, "")  rescue nil
-      extras = (%w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ')).gsub(/[\.,]+$/, "") rescue nil
-      dates = name['dates'].gsub(/[\.,]+$/, "") rescue nil
-      qualifier = name['qualifier'].gsub(/[\.,]+$/, "") rescue nil
-      fuller_form = name['fuller_form'].gsub(/[\.,]+$/, "") rescue nil
+      number      = name['number'] rescue nil
+      extras      = %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ') rescue nil
+      dates       = name['dates'] rescue nil
+      qualifier   = name['qualifier'] rescue nil
+      fuller_form = name['fuller_form'] rescue nil
 
       name_fields = [
                      ["a", name_parts],
@@ -664,10 +662,9 @@ class MARCModel < ASpaceExport::ExportModel
       subfield_e = role_info[0] == "e" ? role_info : nil
       subfield_4 = role_info[0] == "4" ? role_info : nil
 
-      # remove any commas or periods that may be there at the end already and add extra stuff
-      family_name = name['family_name'].gsub(/[\.,]+$/, "") rescue nil
-      qualifier   = name['qualifier'].gsub(/[\.,]+$/, "") rescue nil
-      dates       = name['dates'].gsub(/[\.,]+$/, "") rescue nil
+      family_name = name['family_name'] rescue nil
+      qualifier   = name['qualifier'] rescue nil
+      dates       = name['dates'] rescue nil
 
       name_fields = [
                       ['a', family_name],
@@ -732,13 +729,12 @@ class MARCModel < ASpaceExport::ExportModel
       subfield_e = role_info[0] == "e" ? role_info : nil
       subfield_4 = role_info[0] == "4" ? role_info : nil
 
-      # remove any commas or periods that may be there at the end already and add extra stuff
-      primary_name = name['primary_name'].gsub(/[\.,]+$/, "") rescue nil
-      sub_name1    = name['subordinate_name_1'].gsub(/[\.,]+$/, "") rescue nil
-      sub_name2    = name['subordinate_name_2'].gsub(/[\.,]+$/, "") rescue nil
+      primary_name = name['primary_name'] rescue nil
+      sub_name1    = name['subordinate_name_1'] rescue nil
+      sub_name2    = name['subordinate_name_2'] rescue nil
       sub_name     = "#{sub_name1} #{sub_name2}"
-      number       = name['number'].gsub(/[\.,]+$/, "") rescue nil
-      qualifier    = name['qualifier'].gsub(/[\.,]+$/, "") rescue nil
+      number       = name['number'] rescue nil
+      qualifier    = name['qualifier'] rescue nil
 
 
       name_fields = [
