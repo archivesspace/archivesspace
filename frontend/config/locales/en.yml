@@ -115,6 +115,10 @@ en:
     use_mods: Use MODS
     use_dc: Use Dublin Core
 
+  harvest_options: 
+    enable: OAI Harvesting Enabled
+    set_title: Select sets defined by the level of description assigned to resources to include in OAI feed
+
   pagination:
     first: First
     last: Last
@@ -294,6 +298,7 @@ en:
     plugins: Plug-ins
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
+    manage_harvesting: Manage Harvesting
     manage_users: Manage Users
     manage_container_profiles: Manage Container Profiles
     manage_location_profiles: Manage Location Profiles

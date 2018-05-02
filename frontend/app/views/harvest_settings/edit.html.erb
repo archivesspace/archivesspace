@@ -1,0 +1,39 @@
+<%= setup_context :trail => [[I18n.t("navbar.manage_harvesting"), :title => I18n.t("navbar.manage_harvesting")]] %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="record-pane">
+      <h2><%= I18n.t("navbar.manage_harvesting") %></h2>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input id="oai_enable"
+                   name="oai_enable"
+                   type="checkbox"
+                    <% if true %>
+                     checked="checked"
+                    <% end %> />
+          </span>
+          <input type="text" disabled class="form-control" value="<%= I18n.t("harvest_options.enable") %>" />
+        </div>
+      </div>
+
+      <br />
+      <p><%= I18n.t("harvest_options.set_title") %></p>
+      <div class="form-group">
+        <% @values.each do |v| %>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input id="<%= v.value %>"
+                     name="<%= v.value %>"
+                     type="checkbox"
+                      <% if true %>
+                       checked="checked"
+                      <% end %> />
+            </span>
+            <input type="text" disabled class="form-control" value="<%= v.value %>"harvest_options.enable") %>" />
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
