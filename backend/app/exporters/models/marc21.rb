@@ -123,12 +123,19 @@ class MARCModel < ASpaceExport::ExportModel
     repo = obj['repository']['_resolved']
 
     if repo.has_key?('country') && !repo['country'].empty?
-      string += repo['country'].downcase
+      # US is a special case, because ASpace has no knowledge of states, the 
+      # correct value is 'xxu'
+      if repo['country'] == "US"
+        string += "xxu"
+      else
+        string += repo['country'].downcase
+      end
     else
       string += "xx"
     end
 
-    18.times { string += ' ' }
+    # variable number of spaces needed since country code could have 2 or 3 chars
+    (35-(string.length)).times { string += ' ' }
     string += (obj.language || '|||')
     string += ' d'
 
@@ -249,7 +256,14 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
-      df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
+
+      # US is a special case, because ASpace has no knowledge of states, the 
+      # correct value is 'xxu'
+      if repo['country'] == "US"
+        df('044', ' ', ' ').with_sfs(['a', "xxu"])
+      else
+        df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
+      end
     end
   end
 
