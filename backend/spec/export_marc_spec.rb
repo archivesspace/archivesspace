@@ -962,8 +962,8 @@ end
     end
 
 
-    it "maps notes of type 'otherfindaid' to df 555, sf u" do
-      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], 'u')
+    it "maps notes of type 'otherfindaid' to df 555, sf 3" do
+      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], '3')
     end
 
 
@@ -1028,14 +1028,6 @@ end
       df.sf_t('z').should eq("Finding aid online:")
     end
 
-    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
-      fa_node = @marc.at("datafield[@tag='555'][@ind1='0'][@ind2=' ']/subfield[@code='3']")
-      fa_parent = fa_node.parent
-      u_node = fa_parent.at("subfield[@code='u']")
-
-      fa_node.should have_inner_text("Finding aids:")
-      u_node.should have_inner_text(@resource.finding_aid_note)
-    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
