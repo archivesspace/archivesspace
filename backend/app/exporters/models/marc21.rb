@@ -21,7 +21,7 @@ class MARCModel < ASpaceExport::ExportModel
 
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
-    [:ead_location, :finding_aid_note] => :handle_ead_loc,
+    :ead_location => :handle_ead_loc,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
@@ -498,7 +498,7 @@ class MARCModel < ASpaceExport::ExportModel
                   when 'langmaterial'
                     ['546', 'a']
                   when 'otherfindaid'
-                    ['555', '0', ' ', 'u']
+                    ['555', '0', ' ', '3']
                   else
                     nil
                   end
@@ -531,10 +531,8 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  # 3/28/18: Updated: ANW-318
-  def handle_ead_loc(ead_loc, finding_aid_note)
-    ead_loc_present          = ead_loc && !ead_loc.empty?
-    finding_aid_note_present = finding_aid_note && !finding_aid_note.empty?
+  def handle_ead_loc(ead_loc)
+    ead_loc_present = ead_loc && !ead_loc.empty?
 
     # If there is EADlocation
     #<datafield tag="856" ind1="4" ind2="2">
@@ -546,19 +544,6 @@ class MARCModel < ASpaceExport::ExportModel
                                     ['z', "Finding aid online:"],
                                     ['u', ead_loc]
                                   )
-    end
-
-    # If there a OtherFindingAidNote
-    #<datafield tag="555" ind1="0" ind2="">
-    #  <subfield code="3">Finding aids:</subfield>
-    #  <subfield code="u">OtherFindingAidNote</subfield>
-    #</datafield>
-    if finding_aid_note_present
-        df('555', '0', ' ').with_sfs(
-                                ['3', "Finding aids:"],
-                                ['u', finding_aid_note]
-                              )
-
     end
   end
 
