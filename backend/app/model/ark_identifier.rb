@@ -35,7 +35,8 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
                 :last_modified_by => 'admin',
                 :create_time      => Time.now,
                 :system_mtime     => Time.now,
-                :user_mtime       => Time.now)
+                :user_mtime       => Time.now,
+                :lock_version     => 0)
   end
 
   def self.create_from_accession(accession)
@@ -44,7 +45,8 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
                 :last_modified_by => 'admin',
                 :create_time      => Time.now,
                 :system_mtime     => Time.now,
-                :user_mtime       => Time.now)
+                :user_mtime       => Time.now,
+                :lock_version     => 0)
   end
 
   def self.create_from_digital_object(digital_object)
@@ -53,6 +55,7 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
                 :last_modified_by  => 'admin',
                 :create_time       => Time.now,
                 :system_mtime      => Time.now,
-                :user_mtime        => Time.now)
+                :user_mtime        => Time.now,
+                :lock_version      => 0)
   end
 end
