@@ -127,6 +127,10 @@ FactoryBot.define do
       physical_details { generate(:alphanumstr) }
     end
 
+    factory :ark_external_id, class: JSONModel(:ark_identifier) do
+      external_id { "http://external.id" }
+    end
+
     factory :archival_object do
       json_schema_version { 1 }
       title { generate(:generic_title) }

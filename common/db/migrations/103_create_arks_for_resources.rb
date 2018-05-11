@@ -4,6 +4,11 @@ require_relative 'utils'
 # resources, accessions, and digital objects
 Sequel.migration do
   up do
+    alter_table(:ark_identifier) do
+      add_column(:external_id, String)
+      add_column(:lock_version, Integer)
+    end
+    
     # resources
     self[:resource].select(:id).each do |r|
       self[:ark_identifier].insert(:resource_id      => r[:id],
@@ -11,17 +16,19 @@ Sequel.migration do
                                    :last_modified_by => 'admin',
                                    :create_time      => Time.now,
                                    :system_mtime     => Time.now,
-                                   :user_mtime       => Time.now)
+                                   :user_mtime       => Time.now,
+                                   :lock_version     => 0)
     end
 
     # accessions
     self[:accession].select(:id).each do |r|
-      self[:ark_identifier].insert(:accession_id      => r[:id],
+      self[:ark_identifier].insert(:accession_id     => r[:id],
                                    :created_by       => 'admin',
                                    :last_modified_by => 'admin',
                                    :create_time      => Time.now,
                                    :system_mtime     => Time.now,
-                                   :user_mtime       => Time.now)
+                                   :user_mtime       => Time.now,
+                                   :lock_version     => 0)
     end
 
     # digital objects
@@ -31,7 +38,8 @@ Sequel.migration do
                                    :last_modified_by  => 'admin',
                                    :create_time       => Time.now,
                                    :system_mtime      => Time.now,
-                                   :user_mtime        => Time.now)
+                                   :user_mtime        => Time.now,
+                                   :lock_version      => 0)
     end
   end
 end
