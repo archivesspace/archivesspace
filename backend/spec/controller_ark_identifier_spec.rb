@@ -31,4 +31,17 @@ describe 'ARK Identifier controller' do
     get "/ark:/f00001/42"
     expect(last_response.status).to eq(404)
   end
+
+  it "should redirect to external ID if specified" do
+    resource = create_resource(:title => generate(:generic_title))
+    ark = ARKIdentifier.first(:resource_id => resource.id)
+
+    json = build(:ark_external_id)
+    ark.update_from_json(json, {lock_version: 0})
+
+    get "/ark:/f00001/#{ark.id}"
+
+    expect(last_response.status).to eq(302)
+    expect(last_response.location).to eq('http://external.id')
+  end
 end
