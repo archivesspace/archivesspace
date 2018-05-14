@@ -123,6 +123,7 @@ class IndexerCommon
     doc.each do |key, val|
       if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
       elsif key =~ /_enum_s$/
+      elsif key =~ /^id_/
       elsif val.is_a?(String)
         text << "#{val} "
       elsif val.is_a?(Hash)
@@ -141,6 +142,9 @@ class IndexerCommon
     text
   end
 
+  def self.generate_four_part_id(record)
+    (0..3).map {|n| record['record']["id_#{n}"]}.compact.join(" ")
+  end
 
   def self.build_fullrecord(record)
     fullrecord = IndexerCommon.extract_string_values(record)
@@ -155,6 +159,8 @@ class IndexerCommon
         IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
+    four_part_id = generate_four_part_id(record)
+    fullrecord << four_part_id unless four_part_id.empty?
     fullrecord
   end
 
@@ -486,7 +492,7 @@ class IndexerCommon
 
     # Index four-part IDs separately
     add_document_prepare_hook {|doc, record|
-      four_part_id = (0..3).map {|n| record['record']["id_#{n}"]}.compact.join(" ")
+      four_part_id = generate_four_part_id(record)
 
       unless four_part_id.empty?
         doc['four_part_id'] = four_part_id
@@ -1050,6 +1056,7 @@ class IndexerCommon
       end
     end
   end
+
 end
 
 

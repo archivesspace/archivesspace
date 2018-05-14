@@ -186,56 +186,71 @@ describe "indexer common" do
       it "builds full record" do
         rec = {}
         rec['record'] = {}
-        rec['record']['id'] = "ID1"
+        rec['record']['id_0'] = "ID0"
+        rec['record']['id_1'] = "ID1"
+        rec['record']['id_2'] = "ID2"
+        rec['record']['id_3'] = "ID3"
         rec['record']['uri'] = "URI1"
         rec['record']['title'] =  "Test record 1"
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('URI1 Test record 1 ID0 ID1 ID2 ID3')
       end
     end
     describe "record has finding_aid_subtitle" do
       it "builds full record" do
         rec = {}
         rec['record'] = {}
-        rec['record']['id'] = "ID3"
+        rec['record']['id_0'] = "ID0"
+        rec['record']['id_1'] = "ID1"
+        rec['record']['id_2'] = "ID2"
+        rec['record']['id_3'] = "ID3"
         rec['record']['uri'] = "URI3"
         rec['record']['title'] =  "Test record 3"
         rec['record']['finding_aid_subtitle'] = 'Finding Aid Subtitle 3'
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID3 URI3 Test record 3 Finding Aid Subtitle 3 Finding Aid Subtitle 3 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('URI3 Test record 3 Finding Aid Subtitle 3 Finding Aid Subtitle 3 ID0 ID1 ID2 ID3')
       end
     end
     describe "record has finding_aid_author" do
       it "builds full record" do
         rec = {}
         rec['record'] = {}
-        rec['record']['id'] = "ID2"
+        rec['record']['id_0'] = "ID0"
+        rec['record']['id_1'] = "ID1"
+        rec['record']['id_2'] = "ID2"
+        rec['record']['id_3'] = "ID3"
         rec['record']['uri'] = "URI2"
         rec['record']['title'] =  "Test record 2"
         rec['record']['finding_aid_author'] = 'Finding Aid Author 2'
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2 ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2 ID0 ID1 ID2 ID3')
       end
     end
     describe "record has names" do
       it "builds full record" do
         rec = {}
         rec['record'] = {}
-        rec['record']['id'] = "ID2"
+        rec['record']['id_0'] = "ID0"
+        rec['record']['id_1'] = "ID1"
+        rec['record']['id_2'] = "ID2"
+        rec['record']['id_3'] = "ID3"
         rec['record']['uri'] = "URI2"
         rec['record']['title'] =  "Test record 2"
         rec['record']['names'] = {'name1': 'NAME1', 'name2': 'NAME2', 'name3': 'NAME3'}
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID2 URI2 Test record 2 NAME1 NAME2 NAME3   ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('URI2 Test record 2 NAME1 NAME2 NAME3   ID0 ID1 ID2 ID3')
       end
     end
     describe "record has finding_aid_subtitle, finding_aid_author, and names" do
       it "builds full record" do
         rec = {}
         rec['record'] = {}
-        rec['record']['id'] = "ID1"
+        rec['record']['id_0'] = "ID0"
+        rec['record']['id_1'] = "ID1"
+        rec['record']['id_2'] = "ID2"
+        rec['record']['id_3'] = "ID3"
         rec['record']['uri'] = "URI1"
         rec['record']['title'] =  "Test record 1"
         rec['record']['finding_aid_subtitle'] = 'Finding Aid Subtitle 1'
         rec['record']['finding_aid_author'] = 'Finding Aid Author 1'
         rec['record']['names'] = {'name1': 'NAME1', 'name2': 'NAME2', 'name3': 'NAME3'}
-        expect(IndexerCommon.build_fullrecord(rec)).to eq('ID1 URI1 Test record 1 Finding Aid Subtitle 1 Finding Aid Author 1 NAME1 NAME2 NAME3 Finding Aid Subtitle 1 Finding Aid Author 1   ')
+        expect(IndexerCommon.build_fullrecord(rec)).to eq('URI1 Test record 1 Finding Aid Subtitle 1 Finding Aid Author 1 NAME1 NAME2 NAME3 Finding Aid Subtitle 1 Finding Aid Author 1   ID0 ID1 ID2 ID3')
       end
     end
   end
@@ -418,6 +433,28 @@ describe "indexer common" do
   describe "apply_pui_fields" do
     it "applies PUI fields" do
       # def apply_pui_fields(doc, record)
+    end
+  end
+  describe "generate_four_part_id" do
+    it "does not add four_part_id to fullrecord if four_part_id is empty" do
+      rec = {}
+      rec['record'] = {}
+      rec['record']['uri'] = "URI2"
+      rec['record']['title'] =  "Test record 2"
+      rec['record']['finding_aid_author'] = 'Finding Aid Author 2'
+      expect(IndexerCommon.build_fullrecord(rec)).to eq('URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2 ')
+    end
+    it "adds four_part_id to fullrecord if four_part_id is not empty" do
+      rec = {}
+      rec['record'] = {}
+      rec['record']['id_0'] = "ID0"
+      rec['record']['id_1'] = "ID1"
+      rec['record']['id_2'] = "ID2"
+      rec['record']['id_3'] = "ID3"
+      rec['record']['uri'] = "URI2"
+      rec['record']['title'] =  "Test record 2"
+      rec['record']['finding_aid_author'] = 'Finding Aid Author 2'
+      expect(IndexerCommon.build_fullrecord(rec)).to eq('URI2 Test record 2 Finding Aid Author 2 Finding Aid Author 2 ID0 ID1 ID2 ID3')
     end
   end
 end
