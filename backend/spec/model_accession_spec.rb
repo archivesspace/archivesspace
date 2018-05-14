@@ -30,6 +30,30 @@ describe 'Accession model' do
     accession.delete
     expect(ARKIdentifier.first(:accession_id => accession_id)).to be_nil
   end
+  
+  it "Adds accession ID as external_id in ARKIdentifier record if accession id looks like an ARK url" do
+    opts = {:id_0 => "http://foo.com/ark:/234/123", :title => generate(:generic_title)}
+    accession = create_accession(opts)
+
+    accession_id = accession.id
+
+    ark = ARKIdentifier.first(:accession_id => accession_id)
+    expect(ark).to_not be_nil
+    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
+  end
+
+  it "updates accession ID as external_id in ARKIdentifier record if accession id updated with ARK url" do
+    opts = {:title => generate(:generic_title)}
+    accession = create_accession(opts)
+
+    json = build(:json_accession, {:id_0 => "http://foo.com/ark:/234/123", :id_1 => "5678", :id_2 => "9876", :id_3 => "5432"})
+    accession.update_from_json(json, {lock_version: 0})
+
+    accession_id = accession.id
+    ark = ARKIdentifier.first(:accession_id => accession_id)
+    expect(ark).to_not be_nil
+    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
+  end
 
 
   it "enforces ID uniqueness" do
