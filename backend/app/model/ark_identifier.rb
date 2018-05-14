@@ -50,12 +50,18 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
   end
 
   def self.create_from_accession(accession)
+    # same deal as above
+    id_ary = accession.identifier.gsub('[', "").gsub(']', "").gsub('"', '').split(",")
+    id = nil
+    id_ary.each {|i| id = i if i =~ /ark:\//}
+
     self.insert(:accession_id     => accession.id,
                 :created_by       => 'admin',
                 :last_modified_by => 'admin',
                 :create_time      => Time.now,
                 :system_mtime     => Time.now,
                 :user_mtime       => Time.now,
+                :external_id      => id,
                 :lock_version     => 0)
   end
 
