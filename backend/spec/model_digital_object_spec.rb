@@ -38,6 +38,30 @@ describe 'Digital object model' do
     expect(ARKIdentifier.first(:digital_object_id => digital_object_id)).to be_nil
   end
 
+  it "Adds digital_object_id as external_id in ARKIdentifier record if id looks like an ARK url" do
+    json = build(:json_digital_object, {:digital_object_id => 'http://foo.com/ark:/234/123'})
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
+
+    digital_object_id = digital_object.id
+
+    ark = ARKIdentifier.first(:digital_object_id => digital_object_id)
+    expect(ark).to_not be_nil
+    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
+  end
+
+  it "updates digital_object_id as external_id in ARKIdentifier record if digital object updated with an ARK url" do
+    json = build(:json_digital_object)
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
+
+    update_json = build(:json_digital_object, {:digital_object_id => "http://foo.com/ark:/234/123"})
+    digital_object.update_from_json(update_json, {lock_version: 0})
+
+    digital_object_id = digital_object.id
+    ark = ARKIdentifier.first(:digital_object_id => digital_object_id)
+    expect(ark).to_not be_nil
+    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
+  end
+
 
   it "prevents duplicate IDs " do
     json1 = build(:json_digital_object, :digital_object_id => '123')

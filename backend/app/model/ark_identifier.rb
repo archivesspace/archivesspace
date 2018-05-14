@@ -35,9 +35,9 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
     # "[\"https://n2t.net/ark:/00001/f1mw5e\",null,null,null]"
     # We need to remove superflous charaters so we can turn it into an actual array.
 
-    ia = resource.identifier.gsub('[', "").gsub(']', "").gsub('"', '').split(",")
+    id_ary = resource.identifier.gsub('[', "").gsub(']', "").gsub('"', '').split(",")
     id = nil
-    ia.each {|i| id = i if i =~ /ark:\//}
+    id_ary.each {|i| id = i if i =~ /ark:\//}
 
     self.insert(:resource_id      => resource.id,
                 :created_by       => 'admin',
@@ -60,12 +60,15 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
   end
 
   def self.create_from_digital_object(digital_object)
+    id = digital_object.digital_object_id =~ /ark:\// ? digital_object.digital_object_id : nil
+
     self.insert(:digital_object_id => digital_object.id,
                 :created_by        => 'admin',
                 :last_modified_by  => 'admin',
                 :create_time       => Time.now,
                 :system_mtime      => Time.now,
                 :user_mtime        => Time.now,
+                :external_id      => id,
                 :lock_version      => 0)
   end
 end
