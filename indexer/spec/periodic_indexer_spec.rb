@@ -30,6 +30,10 @@ describe "periodic indexer" do
       result
     end
 
+    def indexer.generate_four_part_id(record)
+      (0..3).map {|n| record['record']["id_#{n}"]}.compact.join(" ")
+    end
+
     indexer
   end
 
