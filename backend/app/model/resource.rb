@@ -97,4 +97,23 @@ class Resource < Sequel::Model(:resource)
     result
   end
 
+  # If we have an ID in any of the ID fields for a resource that looks like an ARK, 
+  # update the external_id field in the linked ARKIdentifier record
+  def after_save
+    # self.identifier is a String representation of an array, like:
+    # "[\"https://n2t.net/ark:/00001/f1mw5e\",null,null,null]"
+    # We need to remove superflous charaters so we can turn it into an actual array.
+
+    ia = self.identifier.gsub('[', "").gsub(']', "").gsub('"', '').split(",")
+
+    ia.each do |i|
+      if i =~ /ark:\//
+        ark = ARKIdentifier.first(resource_id: self.id)
+        ark.update(:external_id => i) if ark
+      end
+    end
+
+    super
+  end
+
 end
