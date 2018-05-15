@@ -171,9 +171,7 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    if field.include? 'resources'
-      clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
-    elsif field.include? 'digital_objects'
+    if field.include?('resources') || field.include?('digital_objects')
       clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
     else
       clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
@@ -181,8 +179,7 @@ module SearchHelper
   end
 
   def context_separator(result)
-    case
-    when result['ancestors'] || result['linked_instance_uris']
+    if result['ancestors'] || result['linked_instance_uris']
       @separator = '>'
     else
       @separator = '<br />'.html_safe
