@@ -182,4 +182,38 @@ describe 'Digital Objects controller' do
     sorted_by_id[0]["title"].should eq(doc_1["title"])
     sorted_by_id[1]["title"].should eq(doc_2["title"])
   end
+
+
+
+    it "updates a parent record if a linked digital object is deleted" do
+      sacrificial_do = create(:json_digital_object)
+
+      resource = create(:json_resource,
+                        :instances => [build(:json_instance_digital,
+                                             :digital_object => {:ref => sacrificial_do.uri})])
+
+      archival_object = create(:json_archival_object,
+                       :instances => [build(:json_instance_digital,
+                                            :digital_object => {:ref => sacrificial_do.uri})])
+
+      sacrificial_do = JSONModel(:digital_object).find(sacrificial_do.id)
+      sacrificial_do.linked_instances = [{'ref' => resource.uri}, {'ref' => archival_object.uri}]
+      sacrificial_do.save
+
+      sacrificial_do.linked_instances.count.should be(2)
+
+      sacrificial_do.delete
+
+      expect {
+        JSONModel(:digital_object).find(sacrificial_do.id)
+      }.to raise_error(RecordNotFound)
+
+      resource = JSONModel(:resource).find(resource.id)
+      resource.should_not eq(nil)
+      resource.instances.count.should be(0)
+
+      archival_object = JSONModel(:archival_object).find(archival_object.id)
+      archival_object.should_not eq(nil)
+      archival_object.instances.count.should be(0)
+    end
 end
