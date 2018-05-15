@@ -566,8 +566,9 @@ end
     end
 
 
-    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2=' ']/sf[@code='a']" do
-      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource1.language)
+    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
+      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']").should have_inner_text(@resource1.language)
+      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']").should have_inner_text('iso639-2b')
     end
 
 
