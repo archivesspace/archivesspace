@@ -19,14 +19,12 @@ class ApplicationController < ActionController::Base
   helper_method :process_json_notes
 
   protect_from_forgery with: :exception
- 
-  
-  rescue_from Exception, :with => :render_general_error
+
   rescue_from LoginFailedException, :with => :render_backend_failure
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
-  
-  
+
+
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
     ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
@@ -44,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def render_backend_failure(exception)
     Rails.logger.error(exception)
-    render :template => '/error/backend_request_failure', :status => 500 
+    render :template => '/error/backend_request_failure', :status => 500
   end
 
   def render_no_results_found(exception)
@@ -55,12 +53,6 @@ class ApplicationController < ActionController::Base
     else
       redirect_to('/')
     end
-  end
-  
-  def render_general_error(exception)
-    Rails.logger.error(exception)
-    flash[:error] = I18n.t('errors.unexpected_error')
-    redirect_back(fallback_location: '/') and return
   end
 
 end

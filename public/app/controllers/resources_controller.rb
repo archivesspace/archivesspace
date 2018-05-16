@@ -9,7 +9,7 @@ class ResourcesController <  ApplicationController
 
 
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents}
-  
+
   DEFAULT_RES_INDEX_OPTS = {
     'resolve[]' => ['repository:id',  'resource:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'sort' => 'title_sort asc',
@@ -47,7 +47,16 @@ class ResourcesController <  ApplicationController
     page = Integer(params.fetch(:page, "1"))
     facet_types = DEFAULT_RES_FACET_TYPES.dup
     facet_types.unshift('repository') if !@repo_id
-    set_up_and_run_search(['resource'], facet_types,search_opts, params)
+    begin
+      set_up_and_run_search(['resource'], facet_types, search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/' ) and return
+    end
+
     @context = repo_context(@repo_id, 'resource')
      if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
@@ -77,7 +86,7 @@ class ResourcesController <  ApplicationController
 #    end
   end
 
-  def search 
+  def search
     repo_id = params.require(:repo_id)
     res_id = "/repositories/#{repo_id}/resources/#{params.require(:id)}"
     search_opts = DEFAULT_RES_SEARCH_OPTS
@@ -104,9 +113,9 @@ class ResourcesController <  ApplicationController
       process_search_results(@base_search)
       title = ''
       title =  strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) if @results['results'][0] &&  @results['results'][0].dig('_resolved_resource', 'json')
-       
+
       @context = []
-      @context.push({:uri => "/repositories/#{repo_id}", 
+      @context.push({:uri => "/repositories/#{repo_id}",
                       :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}")})
       unless title.blank?
         @context.push({:uri => "#{res_id}", :crumb => title})

@@ -32,8 +32,17 @@ class ClassificationsController <  ApplicationController
 
     @base_search = repo_id ? "repositories/#{repo_id}/classifications?" : '/classifications?'
     page = Integer(params.fetch(:page, "1"))
-    set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES,  search_opts, params)
-    
+
+    begin
+      set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES, search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/') and return
+    end
+
     if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true

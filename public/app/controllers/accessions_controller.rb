@@ -33,8 +33,16 @@ class AccessionsController <  ApplicationController
     page = Integer(params.fetch(:page, "1"))
     search_opts = default_search_opts( DEFAULT_AC_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"/repositories/#{@repo_id}\""] if @repo_id
-    set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  search_opts, params)
-    
+    begin
+      set_up_and_run_search( DEFAULT_AC_TYPES, DEFAULT_AC_FACET_TYPES,  search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/') and return
+    end
+
     if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
       @search[:text_within] = true
