@@ -78,6 +78,17 @@ module SearchHelper
     @display_identifier
   end
 
+
+  def show_context_column?
+    @display_context
+  end
+
+
+  def context_column_header_label
+    @context_column_header or I18n.t("search_results.context")
+  end
+
+
   def show_title_column?
     @search_data.has_titles? && !@no_title
   end
@@ -151,6 +162,46 @@ module SearchHelper
     end
   end
 
+  def ids_to_identifier(field)
+    id0 = JSONModel::HTTP.get_json(field)['id_0'] ? (JSONModel::HTTP.get_json(field)['id_0']).to_s : nil
+    id1 = JSONModel::HTTP.get_json(field)['id_1'] ? (JSONModel::HTTP.get_json(field)['id_1']).to_s : nil
+    id2 = JSONModel::HTTP.get_json(field)['id_2'] ? (JSONModel::HTTP.get_json(field)['id_2']).to_s : nil
+    id3 = JSONModel::HTTP.get_json(field)['id_3'] ? (JSONModel::HTTP.get_json(field)['id_3']).to_s : nil
+    [id0, id1, id2, id3].compact.join('.')
+  end
+
+  def get_ancestor_title(field)
+    if field.include?('resources') || field.include?('digital_objects')
+      clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
+    else
+      clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
+    end
+  end
+
+  def context_separator(result)
+    if result['ancestors'] || result['linked_instance_uris']
+      @separator = '>'
+    else
+      @separator = '<br />'.html_safe
+    end
+  end
+
+  def context_ancestor(result)
+    case
+    when result['ancestors']
+      ancestors = result['ancestors']
+    when result['linked_instance_uris']
+      ancestors = result['linked_instance_uris']
+    when result['linked_record_uris']
+      ancestors = result['linked_record_uris']
+    when result['primary_type'] == 'top_container'
+      ancestors = result['collection_uri_u_sstr']
+    when result['primary_type'] == 'digital_object_component'
+      ancestors = result['digital_object'].split
+    else
+      ancestors = ['']
+    end
+  end
 
   def extra_columns
     @extra_columns

@@ -5,6 +5,10 @@
 
   add_browse_columns("digital_object")
 
+  if params[:include_components] === "true"
+    @display_context = true
+  end 
+
 %>
 
 <div class="row">
