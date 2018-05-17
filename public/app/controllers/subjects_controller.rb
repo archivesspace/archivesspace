@@ -18,17 +18,26 @@ class SubjectsController <  ApplicationController
   }
   def index
     repo_id = params.fetch(:rid, nil)
-    if !params.fetch(:q, nil) 
+    if !params.fetch(:q, nil)
       DEFAULT_SUBJ_SEARCH_PARAMS.each do |k, v|
         params[k] = v unless params.fetch(k,nil)
       end
     end
     search_opts = default_search_opts(DEFAULT_SUBJ_SEARCH_OPTS)
     search_opts['fq'] = ["used_within_published_repository:\"/repositories/#{repo_id}\""] if repo_id
-    @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?' 
+    @base_search  =  repo_id ? "/repositories/#{repo_id}/subjects?" : '/subjects?'
     default_facets = repo_id ? [] : ['used_within_published_repository']
     page = Integer(params.fetch(:page, "1"))
-    set_up_and_run_search(['subject'],default_facets,search_opts, params)
+    begin
+      set_up_and_run_search(['subject'], default_facets, search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/subjects' ) and return
+    end
+
     @context = repo_context(repo_id, 'subject')
     if @results['total_hits'] > 1
       @search[:dates_within] = false
@@ -85,7 +94,7 @@ Rails.logger.debug("we hit search!")
       @results = fetch_subject_results(@result['title'],uri, params)
       if !@results.blank?
         params[:q] = '*'
-        @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page']) 
+        @pager =  Pager.new(@base_search, @results['this_page'],@results['last_page'])
       else
         @pager = nil
       end
@@ -99,8 +108,8 @@ Rails.logger.debug("we hit search!")
       render  'shared/not_found', :status => 404
     end
   end
-  private 
-  
+  private
+
   def fetch_subject_results(title, uri, params)
     @results = []
     qry = "subjects:\"#{title}\" AND types:pui"
