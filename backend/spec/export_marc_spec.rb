@@ -659,7 +659,12 @@ end
           :names => [build(:json_name_person,
                            :prefix => "FZ")]
         ],
-        [:json_agent_family, {}]
+        [:json_agent_family, {}],
+        [:json_agent_person,
+          :names => [build(:json_name_person,
+                           :prefix => "QM",
+                           :authority_id => nil)]
+        ]
       ].each do |type_and_opts|
         @agents << create(type_and_opts[0], type_and_opts[1])
       end
@@ -701,6 +706,15 @@ end
       df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='q']").should have_inner_text(/#{name['fuller_form']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+    end
+
+    it "agent has no authority_id, it should not create a subfield $0" do
+      name = @agents[7]['names'][0]
+      name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
+      df = @marcs[0].at("datafield[@tag='700']/subfield[@code='a'][text()='#{name_string}']")
+      parent_node = df.parent
+      parent_node.at("subfield[@code='0']").should eq(nil)
     end
 
     it "should add required punctuation to 100 tag agent-person subfields" do
@@ -766,6 +780,7 @@ end
       df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
     it "should add required punctuation to 600 tag agent-person subfields" do
@@ -866,6 +881,7 @@ end
       df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
       df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
     it "should add required punctuation to 700 tag agent-person subfields" do
@@ -910,7 +926,7 @@ end
     it "creates multiple 700 tags for multiple owner agents" do
       # 4 owner agents are linked above in before block in line 373, @agents
 
-      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(4)
+      expect(@marcs[0].xpath("//marc:datafield[@tag='700']").length).to eq(5)
     end
   end
 
