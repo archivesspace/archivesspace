@@ -504,8 +504,6 @@ class EADSerializer < ASpaceExport::Serializer
 
       if publish_file_uri
         atts['xlink:href'] = file_versions.first['file_uri'] 
-      else
-        atts['xlink:href'] = digital_object['digital_object_id']
       end
 
       atts['xlink:actuate'] = file_versions.first['xlink_actuate_attribute'] || 'onRequest'
@@ -527,8 +525,6 @@ class EADSerializer < ASpaceExport::Serializer
 
           if publish_file_uri
             atts['xlink:href'] = file_version['file_uri'] 
-          else
-            atts['xlink:href'] = digital_object['digital_object_id']
           end
 
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']

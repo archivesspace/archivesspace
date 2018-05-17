@@ -1046,7 +1046,7 @@ describe "EAD export mappings" do
           if publish
             @doc_unpub.should have_node(basepath + "[@xlink:href='#{file_uri}']")
           else
-            @doc_unpub.should have_node(basepath + "[@xlink:href='#{digital_object_id}']")
+            @doc_unpub.should_not have_node(basepath + "[@xlink:href='#{file_uri}']")
           end
         end
       end
