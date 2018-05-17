@@ -962,8 +962,8 @@ end
     end
 
 
-    it "maps notes of type 'otherfindaid' to df 555, sf 3" do
-      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], '3')
+    it "maps notes of type 'otherfindaid' to df 555, sf a" do
+      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], 'a')
     end
 
 
