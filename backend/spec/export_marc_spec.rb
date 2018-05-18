@@ -751,7 +751,8 @@ end
 
       df.at("subfield[@code='a']").should have_inner_text(/#{name['primary_name']}/)
       df.at("subfield[@code='b']").should have_inner_text(/#{name['subordinate_name_1']}/)
-     df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
 
@@ -763,6 +764,7 @@ end
       df.at("subfield[@code='a']").should have_inner_text(/#{name['family_name']}/)
       df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
 
@@ -822,6 +824,7 @@ end
       df.at("subfield[@code='b']").should have_inner_text(/#{name['subordinate_name_1']}/)
       df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
     it "should add required punctuation to 610 tag agent-corp subfields" do
@@ -852,6 +855,7 @@ end
       df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
     end
 
     it "should add required punctuation to 600 tag agent-family subfields" do
