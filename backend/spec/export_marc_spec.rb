@@ -27,7 +27,8 @@ describe 'MARC Export' do
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     xml_content.should_not be_empty
-    notes.map{|n| note_content(n)}.join('').should eq(xml_content)
+    note_string = notes.map{|n| note_content(n)}.join('')
+    xml_content.should match(/#{note_string}/)
   end
 
 
@@ -410,6 +411,70 @@ end
     end
   end
 
+  describe "record leader mappings - US is country defined" do
+    before(:all) do
+      @repo_us = create(:json_repo_us)
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_us.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource1 = create(:json_resource,
+                          :level => 'collection',
+                          :finding_aid_description_rules => 'dacs')
+
+      @marc1 = get_marc(@resource1)
+    end
+
+    after(:all) do
+      @resource1.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xxu/)
+    end
+
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
+      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("xxu")
+    end
+  end
+
+  describe "record leader mappings - country defined - NOT US" do
+    before(:all) do
+      @repo_not_us = create(:json_repo_not_us)
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_not_us.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource1 = create(:json_resource,
+                          :level => 'collection',
+                          :finding_aid_description_rules => 'dacs')
+
+      @marc1 = get_marc(@resource1)
+    end
+
+    after(:all) do
+      @resource1.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
+      @marc1.at("record/controlfield").should have_inner_text(/^.{15}th/)
+    end
+
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
+      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("th")
+    end
+  end
+
   describe "record leader mappings" do
     before(:all) do
       @resource1 = create(:json_resource,
@@ -467,17 +532,16 @@ end
       @marc3.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}i/)
     end
 
-    it "sets record/controlfield[@tag='008']/text()[15..16] with country code" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}us/)
-    end
 
     it "sets record/controlfield[@tag='008']/text()[7..10] with resource.dates[0]['begin']" do
       @marc2.at("record/controlfield").should have_inner_text(/^.{7}1900/)
     end
 
+
     it "sets record/controlfield[@tag='008']/text()[11..14] with resource.dates[0]['end']" do
       @marc3.at("record/controlfield").should have_inner_text(/^.{11}1850/)
     end
+
 
     it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
       @marc1.at("record/controlfield").should have_inner_text(Regexp.new("^.{35}#{@resource1.language}"))
@@ -498,18 +562,14 @@ end
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
     end
 
-    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a" do
-      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("us")
-    end
-
-
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
       @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='e']").should have_inner_text(@resource1.finding_aid_description_rules)
     end
 
 
-    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2=' ']/sf[@code='a']" do
-      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2=' ']/subfield[@code='a']").should have_inner_text(@resource1.language)
+    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
+      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']").should have_inner_text(@resource1.language)
+      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']").should have_inner_text('iso639-2b')
     end
 
 
@@ -857,7 +917,7 @@ end
   describe "note mappings" do
 
     let(:note_types) {
-      %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist)
+      %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist otherfindaid )
     }
 
     before(:all) do
@@ -899,6 +959,11 @@ end
 
     it "maps notes of type 'accessrestrict' to df 506, sf a" do
       note_test(@resource, @marc, %w(accessrestrict), ['506', ' ', ' '], 'a')
+    end
+
+
+    it "maps notes of type 'otherfindaid' to df 555, sf 3" do
+      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], '3')
     end
 
 
@@ -963,11 +1028,6 @@ end
       df.sf_t('z').should eq("Finding aid online:")
     end
 
-    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
-      df = @marc.df('555', '0', ' ')
-      df.sf_t('u').should eq(@resource.finding_aid_note)
-      df.sf_t('3').should eq("Finding aids:")
-    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})

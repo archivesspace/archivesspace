@@ -31,7 +31,16 @@ class AgentsController <  ApplicationController
     default_facets = DEFAULT_AG_FACET_TYPES.dup
     default_facets.push('used_within_published_repository') unless repo_id
     page = Integer(params.fetch(:page, "1"))
-    set_up_and_run_search( DEFAULT_AG_TYPES, default_facets,  search_opts, params)
+
+    begin
+      set_up_and_run_search( DEFAULT_AG_TYPES, default_facets, search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/agents') and return
+    end
 
     @context = repo_context(repo_id, 'agent')
     if @results['total_hits'] > 1

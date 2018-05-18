@@ -89,13 +89,15 @@ class AppConfig
 
 
   def self.dump_sanitized
+    protected_terms = /(key|password|secret)/
     Hash[@@parameters.map {|k, v|
-           if k.to_s =~ /(password|secret)/
+           if k == :db_url
+             [k, AppConfig[:db_url_redacted]]
+           elsif k.to_s =~ protected_terms or v.to_s =~ protected_terms
              [k, "[SECRET]"]
            elsif v.is_a? (Proc)
              [k, v.call]
            else
-             v = v.to_s.gsub(/password=.*?[$&]/, '[SECRET]')
              [k, v]
            end
          }]

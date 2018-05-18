@@ -11,7 +11,6 @@ class ArchivesSpaceClient
   LOGIN_TIMEOUT_SECONDS = 10
 
   DEFAULT_SEARCH_OPTS = {
-#    'sort' => 'title_sort asc',
     'publish' => true,
     'page_size' => AppConfig[:pui_search_results_page_size]  }
 
@@ -47,12 +46,8 @@ class ArchivesSpaceClient
   end
 
   def search(query, page = 1, search_opts = {})
-#    Rails.logger.debug("input opts #{search_opts}")
-#    query = "#{query}#{process_filters(search_opts)}"
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-#    Rails.logger.debug("merged opts: #{search_opts}")
+    search_opts = set_search_opts(search_opts)
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
-#    Rails.logger.debug("SEARCH URL: #{url}")
     results = do_search(url)
 
     SolrResults.new(results, search_opts)
@@ -60,7 +55,7 @@ class ArchivesSpaceClient
 
   # handles multi-line searching
   def advanced_search(base, page = 1, search_opts = {})
-    search_opts =  DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = set_search_opts(search_opts)
     url = build_url(base,  search_opts.merge(:page => page))
     results = do_search(url)
 
@@ -68,7 +63,8 @@ class ArchivesSpaceClient
   end
   # calls the '/search/records' endpoint
   def search_records(record_list, search_opts = {}, full_notes = false)
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = set_search_opts(search_opts)
+
     url = build_url('/search/records', search_opts.merge("uri[]" => record_list))
     results = do_search(url)
 
@@ -79,7 +75,7 @@ class ArchivesSpaceClient
   end
 
   def get_raw_record(uri, search_opts = {})
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = set_search_opts(search_opts)
     url = build_url('/search/records', search_opts.merge("uri[]" => ASUtils.wrap(uri)))
     results = do_search(url)
 
@@ -97,8 +93,8 @@ class ArchivesSpaceClient
   end
 
   def search_repository( base, repo_id, page = 1, search_opts = {})
-#    query = "#{query}#{process_filters(search_opts)}"
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = set_search_opts(search_opts)
+
     url = build_url(base,search_opts.merge(:page => page))
     results = do_search(url)
 
@@ -125,7 +121,7 @@ class ArchivesSpaceClient
   end
 
   def get_repos_sublist(uri, type, search_opts = {})
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    search_opts = set_search_opts(search_opts)
     search_opts = search_opts.merge({"q" => "(used_within_published_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
     url = build_url("/search", search_opts)
     results = do_search(url)
@@ -133,33 +129,28 @@ class ArchivesSpaceClient
     SolrResults.new(results, search_opts)
   end
 
-  def get_full_url(path)
-    "#{@url}#{path}"
-  end
-
   private
-  
 
-  # perform the actual search, returning json-ized results, 
+
+  # perform the actual search, returning json-ized results,
   # or raising an error
   def do_search(url, use_get = false)
     if use_get
       request = Net::HTTP::Get.new(url)
-    Rails.logger.debug("GET Search url: #{url}")
+      Rails.logger.debug("GET Search url: #{url}")
     else
       request = Net::HTTP::Post.new(url)
       Rails.logger.debug("POST Search url: #{url} ")
     end
     response = do_http_request(request)
-    if response.code != '200' 
+    if response.code != '200'
       Rails.logger.debug("Code: #{response.code}")
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end
     results = JSON.parse(response.body)
- #    binding.pry
     results
   end
-  
+
 
   # Authenticate to ArchivesSpace and grab a session token.  If @session isn't
   # nil, this won't do anything.  If multiple threads attempt to log in at the
@@ -273,6 +264,21 @@ class ArchivesSpaceClient
       search_opts.delete('filter')
     end
     filter_str
+  end
+
+  # Include configurable solr parameters from AppConfig in the search options hash
+  def set_search_opts(search_opts = {})
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
+    if AppConfig[:solr_params].any?
+      AppConfig[:solr_params].each do |param, value|
+        if value.respond_to? :call
+          search_opts[param.to_sym] = self.instance_eval(&value)
+        else
+          search_opts[param.to_sym] = value
+        end
+      end
+    end
+    search_opts
   end
 
 end

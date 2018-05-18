@@ -21,9 +21,9 @@ class MARCModel < ASpaceExport::ExportModel
 
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
+    :ead_location => :handle_ead_loc,
     :notes => :handle_notes,
-    :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e'),
-    [:ead_location, :finding_aid_note] => :handle_ead_loc
+    :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
 
   attr_accessor :leader_string
@@ -123,12 +123,19 @@ class MARCModel < ASpaceExport::ExportModel
     repo = obj['repository']['_resolved']
 
     if repo.has_key?('country') && !repo['country'].empty?
-      string += repo['country'].downcase
+      # US is a special case, because ASpace has no knowledge of states, the 
+      # correct value is 'xxu'
+      if repo['country'] == "US"
+        string += "xxu"
+      else
+        string += repo['country'].downcase
+      end
     else
       string += "xx"
     end
 
-    18.times { string += ' ' }
+    # variable number of spaces needed since country code could have 2 or 3 chars
+    (35-(string.length)).times { string += ' ' }
     string += (obj.language || '|||')
     string += ' d'
 
@@ -209,7 +216,7 @@ class MARCModel < ASpaceExport::ExportModel
 
 
   def handle_language(langcode)
-    df('041', '0', ' ').with_sfs(['a', langcode])
+    df('041', '0', '7').with_sfs(['a', langcode], ['2', 'iso639-2b'])
   end
 
 
@@ -249,7 +256,14 @@ class MARCModel < ASpaceExport::ExportModel
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
-      df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
+
+      # US is a special case, because ASpace has no knowledge of states, the 
+      # correct value is 'xxu'
+      if repo['country'] == "US"
+        df('044', ' ', ' ').with_sfs(['a', "xxu"])
+      else
+        df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
+      end
     end
   end
 
@@ -497,6 +511,8 @@ class MARCModel < ASpaceExport::ExportModel
                     ['540', 'a']
                   when 'langmaterial'
                     ['546', 'a']
+                  when 'otherfindaid'
+                    ['555', '0', ' ', '3']
                   else
                     nil
                   end
@@ -529,10 +545,8 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  # 3/28/18: Updated: ANW-318
-  def handle_ead_loc(ead_loc, finding_aid_note)
-    ead_loc_present          = ead_loc && !ead_loc.empty?
-    finding_aid_note_present = finding_aid_note && !finding_aid_note.empty?
+  def handle_ead_loc(ead_loc)
+    ead_loc_present = ead_loc && !ead_loc.empty?
 
     # If there is EADlocation
     #<datafield tag="856" ind1="4" ind2="2">
@@ -544,19 +558,6 @@ class MARCModel < ASpaceExport::ExportModel
                                     ['z', "Finding aid online:"],
                                     ['u', ead_loc]
                                   )
-    end
-
-    # If there a OtherFindingAidNote
-    #<datafield tag="555" ind1="0" ind2="">
-    #  <subfield code="3">Finding aids:</subfield>
-    #  <subfield code="u">OtherFindingAidNote</subfield>
-    #</datafield>
-    if finding_aid_note_present
-        df('555', '0', ' ').with_sfs(
-                                ['3', "Finding aids:"],
-                                ['u', finding_aid_note]
-                              )
-
     end
   end
 

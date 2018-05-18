@@ -7,14 +7,14 @@ class ObjectsController <  ApplicationController
   helper_method :process_digital_instance
 
   skip_before_action  :verify_authenticity_token
-  
+
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1,
     'sort' =>  'title_sort asc'
   }
-  
+
   def index
     repo_id = params.fetch(:rid, nil)
      if !params.fetch(:q,nil)
@@ -26,7 +26,17 @@ class ObjectsController <  ApplicationController
     search_opts = default_search_opts(DEFAULT_OBJ_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"/repositories/#{repo_id}\""] if repo_id
     @base_search = repo_id ? "/repositories/#{repo_id}/objects?" : '/objects?'
-    set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts,params)
+
+    begin
+      set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts, params)
+    rescue NoResultsError
+      flash[:error] = I18n.t('search_results.no_results')
+      redirect_back(fallback_location: '/') and return
+    rescue Exception => error
+      flash[:error] = I18n.t('errors.unexpected_error')
+      redirect_back(fallback_location: '/objects' ) and return
+    end
+
     @context = repo_context(repo_id, 'record')
     if @results['total_hits'] > 1
       @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
@@ -79,7 +89,7 @@ class ObjectsController <  ApplicationController
     uri = uri.sub("\#pui",'')
     @criteria = {}
     @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'linked_instance_uris:id', 'digital_object_uris:id']
-    
+
     begin
       @result = archivesspace.get_record(url, @criteria)
 
@@ -122,7 +132,7 @@ class ObjectsController <  ApplicationController
       {}
     end
   end
-  
+
   # get archival info
   def digital_archival_info(dig_json)
     Rails.logger.debug("****\tdigital_archival_info: #{dig_json['linked_instances']}")

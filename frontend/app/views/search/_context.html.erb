@@ -1,0 +1,16 @@
+<% ancestors = context_ancestor(result) %>
+<% if ancestors == [''] %>
+  <% if result['primary_type'] == 'digital_object' && result['linked_instance_uris'] == nil %>
+    <p>No parent record</p>
+  <% else %>
+    <p>Top level record</p>
+  <% end %>
+<% else %>
+  <% ancestors.reverse.each_with_index do |ancestor, i| %>
+    <%= ids_to_identifier(ancestor) %>
+    <%= resolve_readonly_link_to((get_ancestor_title(ancestor).html_safe), ancestor) %>
+    <% if i < ancestors.length - 1 %>
+      <%= context_separator(result) %>
+    <% end %>
+  <% end %>
+<% end %>
