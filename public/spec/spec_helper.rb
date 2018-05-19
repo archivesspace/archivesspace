@@ -28,7 +28,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
     add_filter '/spec'
   end
   SimpleCov.command_name 'spec'
-end 
+end
 
 require 'aspace_gems'
 
@@ -41,7 +41,7 @@ $solr_port = TestUtils::free_port_from(2989)
 $backend = "http://localhost:#{$backend_port}"
 $frontend = "http://localhost:#{$frontend_port}"
 $expire = 30000
-  
+
 AppConfig[:backend_url] = $backend
 AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
 
@@ -62,11 +62,12 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 include FactoryBot::Syntax::Methods
 
+
 RSpec.configure do |config|
-  
+
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
-  
+
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type
     config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
@@ -83,16 +84,17 @@ RSpec.configure do |config|
       $period = PeriodicIndexer.new($backend, nil, "periodic_indexer", false)
       $pui = PUIIndexer.new($backend, nil, "pui_periodic_indexer")
     end
-    FactoryBot.reload 
+    FactoryBot.reload
     AspaceFactories.init
-     
   end
 
   config.after(:suite) do
     $server_pids.each do |pid|
       TestUtils::kill(pid)
     end
+    # For some reason we have to manually shutdown mizuno for the test suite to
+    # quit.
+    Rack::Handler.get('mizuno').instance_variable_get(:@server).stop
   end
 
 end
-
