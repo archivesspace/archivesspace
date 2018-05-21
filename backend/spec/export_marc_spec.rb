@@ -828,6 +828,10 @@ end
       df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 600 tag agent-person subfields" do
@@ -869,6 +873,10 @@ end
       df.at("subfield[@code='b']").should have_inner_text(/#{name['subordinate_name_1']}/)
       df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+      
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 610 tag agent-corp subfields" do
@@ -899,6 +907,10 @@ end
       df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
+
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 600 tag agent-family subfields" do

@@ -428,6 +428,7 @@ class MARCModel < ASpaceExport::ExportModel
       terms = link['terms']
       ind2 = source_to_code(name['source'])
 
+
       if relator
         relator_sf = ['4', relator]
       else
@@ -450,7 +451,6 @@ class MARCModel < ASpaceExport::ExportModel
         code = '600'
         ind1 = '3'
         sfs = gather_agent_family_subfield_mappings(name, relator_sf)
-
       end
 
       terms.each do |t|
@@ -465,7 +465,7 @@ class MARCModel < ASpaceExport::ExportModel
       end
 
       if ind2 == '7'
-        sfs << ['2', subject['source']]
+        sfs << ['2', subject['names'].first['source']]
       end
 
       df(code, ind1, ind2, i).with_sfs(*sfs)

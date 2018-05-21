@@ -57,7 +57,7 @@ module ASpaceMappings
     def self.get_marc_source_code(code)
 
       marc_code = case code
-                  when 'naf', 'lcsh'; 0
+                  when 'naf', 'lcsh', 'lcnaf'; 0
                   when 'lcshac'; 1
                   when 'mesh'; 2
                   when 'nal'; 3
