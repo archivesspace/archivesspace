@@ -512,7 +512,7 @@ class MARCModel < ASpaceExport::ExportModel
                   when 'langmaterial'
                     ['546', 'a']
                   when 'otherfindaid'
-                    ['555', '0', ' ', '3']
+                    ['555', '0', ' ', 'a']
                   else
                     nil
                   end
