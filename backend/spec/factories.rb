@@ -614,6 +614,24 @@ FactoryBot.define do
     agent_representation { build(:json_agent_corporate_entity) }
   end
 
+  factory :json_repo_no_org_code, class: JSONModel(:repository) do
+    repo_code { generate(:repo_code) }
+    name { generate(:generic_description) }
+    image_url { generate(:url) }
+    url { generate(:url) }
+    country { 'US' }
+  end
+
+  factory :json_repo_parent_org, class: JSONModel(:repository) do
+    repo_code { generate(:repo_code) }
+    name { generate(:generic_description) }
+    org_code { generate(:alphanumstr) }
+    image_url { generate(:url) }
+    parent_institution_name { generate(:alphanumstr) }
+    url { generate(:url) }
+    country { 'US' }
+  end
+
   # may need factories for each rights type
   factory :json_rights_statement, class: JSONModel(:rights_statement) do
     rights_type 'copyright'
