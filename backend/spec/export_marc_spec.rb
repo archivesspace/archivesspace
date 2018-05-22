@@ -28,6 +28,7 @@ describe 'MARC Export' do
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     xml_content.should_not be_empty
     note_string = notes.map{|n| note_content(n)}.join('')
+    xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     xml_content.should match(/#{note_string}/)
   end
 
@@ -301,9 +302,9 @@ end
     end
 
 
-    it "maps arrangment and fileplan notes to datafield 351" do
+    it "maps arrangment and fileplan notes to datafield 351, and appends trailing punctuation" do
       @notes.each do |note|
-        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note)
+        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note) + "."
       end
     end
   end
@@ -1053,6 +1054,15 @@ end
       note_test(@resource, @marc, %w(accruals), ['584', ' ', ' '], 'a')
     end
 
+    it "5XX tags should end in punctuation" do
+      types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist otherfindaid )
+      notes = @resource.notes.select{|n| types.include?(n['type'])}
+
+      notes.each do |note|
+        content = note_content(note)
+        expect(@marc.to_xml).to match(/#{content + "."}/)
+      end
+    end
   end
 
   describe "notes: include unpublished flag" do
