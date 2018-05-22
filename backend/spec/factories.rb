@@ -371,6 +371,15 @@ FactoryBot.define do
     dates { few_or_none(:json_date) }
   end
 
+  factory :json_digital_object_unpub_files, class: JSONModel(:digital_object) do
+    title { "Digital Object #{generate(:generic_title)}" }
+    language { generate(:archival_object_language) }
+    digital_object_id { generate(:alphanumstr) }
+    extents { [build(:json_extent)] }
+    file_versions { few_or_none(:json_file_version_unpub) }
+    dates { few_or_none(:json_date) }
+  end
+
   factory :json_digital_object_no_lang, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
     digital_object_id { generate(:alphanumstr) }
@@ -434,6 +443,20 @@ FactoryBot.define do
     file_size_bytes { generate(:number).to_i }
     checksum { generate(:alphanumstr) }
     checksum_method { generate(:checksum_method) }
+    publish { true }
+  end
+
+  factory :json_file_version_unpub, class: JSONModel(:file_version) do
+    file_uri { generate(:alphanumstr) }
+    use_statement { generate(:use_statement) }
+    xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
+    xlink_show_attribute { generate(:xlink_show_attribute) }
+    file_format_name { generate(:file_format_name) }
+    file_format_version { generate(:alphanumstr) }
+    file_size_bytes { generate(:number).to_i }
+    checksum { generate(:alphanumstr) }
+    checksum_method { generate(:checksum_method) }
+    publish { false }
   end
 
   factory :json_external_document, class: JSONModel(:external_document) do
