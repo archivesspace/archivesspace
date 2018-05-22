@@ -117,7 +117,7 @@ en:
 
   harvest_options: 
     enable: OAI Harvesting Enabled
-    set_title: Select sets defined by the level of description assigned to resources to include in OAI feed
+    set_title: "Select sets defined by the level of description assigned to resources to include in OAI feed:"
 
   pagination:
     first: First
