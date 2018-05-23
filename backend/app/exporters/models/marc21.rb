@@ -176,7 +176,6 @@ class MARCModel < ASpaceExport::ExportModel
   def handle_id(*ids)
     ids.reject!{|i| i.nil? || i.empty?}
     df('099', ' ', ' ').with_sfs(['a', ids.join('.')])
-    df('852', ' ', ' ').with_sfs(['c', ids.join('.')])
   end
 
 
@@ -248,10 +247,26 @@ class MARCModel < ASpaceExport::ExportModel
 
     sfa = repo['org_code'] ? repo['org_code'] : "Repository: #{repo['repo_code']}"
 
-    df('852', ' ', ' ').with_sfs(
-                        ['a', sfa],
+    # ANW-529: options for 852 datafield:
+    # 1.) $a => org_code || repo_name
+    # 2.) $a => $parent_institution_name && $b => repo_name
+
+    if repo['parent_institution_name']
+      subfields_852 = [
+                        ['a', repo['parent_institution_name']],
                         ['b', repo['name']]
-                      )
+                      ]
+    elsif repo['org_code']
+      subfields_852 = [
+                        ['a', repo['org_code']],
+                      ]
+    else
+      subfields_852 = [
+                        ['a', repo['name']]
+                      ]
+    end
+
+    df('852', ' ', ' ').with_sfs(*subfields_852)
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
@@ -413,6 +428,7 @@ class MARCModel < ASpaceExport::ExportModel
       terms = link['terms']
       ind2 = source_to_code(name['source'])
 
+
       if relator
         relator_sf = ['4', relator]
       else
@@ -435,7 +451,6 @@ class MARCModel < ASpaceExport::ExportModel
         code = '600'
         ind1 = '3'
         sfs = gather_agent_family_subfield_mappings(name, relator_sf)
-
       end
 
       terms.each do |t|
@@ -450,7 +465,7 @@ class MARCModel < ASpaceExport::ExportModel
       end
 
       if ind2 == '7'
-        sfs << ['2', subject['source']]
+        sfs << ['2', subject['names'].first['source']]
       end
 
       df(code, ind1, ind2, i).with_sfs(*sfs)
