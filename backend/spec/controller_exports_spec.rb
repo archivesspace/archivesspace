@@ -20,8 +20,8 @@ describe 'Exports controller' do
 
 
     get "/repositories/#{$repo_id}/archival_contexts/softwares/1.xml"
-    last_response.should be_ok
-    last_response.body.should match(/<eac-cpf/)
+    expect(last_response).to be_ok
+    expect(last_response.body).to include("<eac-cpf")
   end
 
 
@@ -29,9 +29,9 @@ describe 'Exports controller' do
     id = create(:json_agent_person).id
     get "/repositories/#{$repo_id}/archival_contexts/people/#{id}.xml"
     resp = last_response.body
-    resp.should match(/<eac-cpf/)
-    resp.should match(/<control>/)
-    resp.should match(/<entityType>person<\/entityType>/)
+    expect(resp).to include("<eac-cpf")
+    expect(resp).to include("<control>")
+    expect(resp).to include("<entityType>person</entityType>")
   end
 
 
@@ -39,9 +39,9 @@ describe 'Exports controller' do
     id = create(:json_agent_family).id
     get "/repositories/#{$repo_id}/archival_contexts/families/#{id}.xml"
     resp = last_response.body
-    resp.should match(/<eac-cpf/)
-    resp.should match(/<control>/)
-    resp.should match(/<entityType>family<\/entityType>/)
+    expect(resp).to include("<eac-cpf")
+    expect(resp).to include("<control>")
+    expect(resp).to include("<entityType>family</entityType>")
   end
 
 
@@ -49,9 +49,9 @@ describe 'Exports controller' do
     id = create(:json_agent_corporate_entity).id
     get "/repositories/#{$repo_id}/archival_contexts/corporate_entities/#{id}.xml"
     resp = last_response.body
-    resp.should match(/<eac-cpf/)
-    resp.should match(/<control>/)
-    resp.should match(/<entityType>corporateBody<\/entityType>/)
+    expect(resp).to include("<eac-cpf")
+    expect(resp).to include("<control>")
+    expect(resp).to include("<entityType>corporateBody</entityType>")
   end
 
 
@@ -59,17 +59,16 @@ describe 'Exports controller' do
     id = create(:json_agent_software).id
     get "/repositories/#{$repo_id}/archival_contexts/softwares/#{id}.xml"
     resp = last_response.body
-    resp.should match(/<eac-cpf/)
-    resp.should match(/<control>/)
-    resp.should match(/<entityType>software<\/entityType>/)
+    expect(resp).to include("<eac-cpf")
+    expect(resp).to include("<control>")
+    expect(resp).to include("<entityType>software</entityType>")
   end
 
 
   it "lets you export a resource in EAD" do
     res = create(:json_resource, :publish => true)
     get "/repositories/#{$repo_id}/resource_descriptions/#{res.id}.xml"
-    resp = last_response.body
-    resp.should match(/<ead/)
+    expect(last_response.body).to include("<ead")
   end
 
 
@@ -92,8 +91,7 @@ describe 'Exports controller' do
     end
 
     get "/repositories/#{$repo_id}/resource_descriptions/#{id}.xml"
-    resp = last_response.body
-    resp.should_not match(/australia/)
+    expect(last_response.body).not_to include("australia")
   end
 
 
@@ -118,16 +116,15 @@ describe 'Exports controller' do
 
     get "/repositories/#{$repo_id}/resource_descriptions/#{id}.xml?include_unpublished=true"
     resp = last_response.body
-    resp.should match(/australia/)
-    resp.should match(/audience=\"internal\"/)
+    expect(resp).to include("australia")
+    expect(resp).to include("audience=\"internal\"")
   end
 
 
   it "lets you export a resource in MARC 21" do
     res = create(:json_resource)
     get "/repositories/#{$repo_id}/resources/marc21/#{res.id}.xml"
-    resp = last_response.body
-    resp.should match(/<subfield code="c">#{res.id_0}/)
+    expect(last_response.body).to include("<subfield code=\"a\">#{res.id_0}")
   end
 
 
@@ -137,7 +134,7 @@ describe 'Exports controller' do
     # create the record with all the instance/container etc
     location = create(:json_location, :temporary => generate(:temporary_location_type))
     status = 'current'
-    
+
     container_profile = create(:json_container_profile)
 
     top_container = create(:json_top_container,
@@ -148,41 +145,36 @@ describe 'Exports controller' do
                                                       'end_date' => generate(:yyyy_mm_dd)}])
 
     archival_object = create(:json_archival_object,
-                             :resource => { :ref => resource.uri }, 
+                             :resource => { :ref => resource.uri },
                              :instances => [build(:json_instance,
                                                   :sub_container => build(:json_sub_container,
                                                                           :top_container => {:ref => top_container.uri}))]
                              )
 
-    id = resource.id 
+    id = resource.id
     get "/repositories/#{$repo_id}/resource_labels/#{id}.tsv"
     resp = last_response.body
-  
+
     # it should have the headers...
-    headers = %w(
-      Repository\ Name Resource\ Title  Resource\ Identifier Series\ Archival\ Object\ Title
-      Archival\ Object\ Title Container\ Profile Top\ Container Top\ Container\ Barcode
-      SubContainer\ 1 SubContainer\ 2 Current\ Location 
-    ).join('\t')
-    resp.should match(headers)
+    headers = "Repository Name\tResource Title\tResource Identifier\tSeries Archival Object Title\tArchival Object Title\tContainer Profile\tTop Container\tTop Container Barcode\tSubContainer 1\tSubContainer 2\tCurrent Location"
+    expect(resp).to include("#{headers}")
 
     # it should have our location
-    resp.should match( Regexp.escape( location.title ))
-
+    expect(resp).to include("#{location.title}")
 
     # it should have all our tc info
-    resp.should match(Regexp.escape( container_profile.name ))
-    resp.should match(Regexp.escape( top_container.indicator ))
-    resp.should match(Regexp.escape( top_container.type ))
-  
+    expect(resp).to include(Regexp.escape( container_profile.name ))
+    expect(resp).to include(Regexp.escape( top_container.indicator ))
+    expect(resp).to include(Regexp.escape( top_container.type ))
+
     # it should have our top container info
     sub = archival_object.instances.first["sub_container"]
-    
-    resp.should match( Regexp.escape( sub["type_2"] ))
-    resp.should match( Regexp.escape( sub["type_3"] )) 
-    
-    resp.should match( Regexp.escape( sub["indicator_2"] ))
-    resp.should match( Regexp.escape( sub["indicator_3"] ))
+
+    expect(resp).to include( Regexp.escape( sub["type_2"] ))
+    expect(resp).to include( Regexp.escape( sub["type_3"] ))
+
+    expect(resp).to include( Regexp.escape( sub["indicator_2"] ))
+    expect(resp).to include( Regexp.escape( sub["indicator_3"] ))
 
   end
 
@@ -191,24 +183,21 @@ describe 'Exports controller' do
   it "lets you export a digital object in MODS" do
     dig = create(:json_digital_object)
     get "/repositories/#{$repo_id}/digital_objects/mods/#{dig.id}.xml"
-    resp = last_response.body
-    resp.should match(/<title>#{dig.title}<\/title>/)
+    expect(last_response.body).to include("<title>#{dig.title}</title>")
   end
 
 
   it "lets you export a digital object in METS" do
     dig = create(:json_digital_object)
     get "/repositories/#{$repo_id}/digital_objects/mets/#{dig.id}.xml"
-    resp = last_response.body
-    resp.should match(/<mods:title>#{dig.title}<\/mods:title>/)
+    expect(last_response.body).to include("<mods:title>#{dig.title}</mods:title>")
   end
 
 
   it "lets you export a digital object in Dublin Core" do
     dig = create(:json_digital_object)
     get "/repositories/#{$repo_id}/digital_objects/dublin_core/#{dig.id}.xml"
-    resp = last_response.body
-    resp.should match(/<title>#{dig.title}<\/title>/)
+    expect(last_response.body).to include("<title>#{dig.title}</title>")
   end
 
 
@@ -240,8 +229,8 @@ describe 'Exports controller' do
   def check_metadata(export_uri)
     get "/repositories/#{$repo_id}/#{export_uri}/metadata"
     resp = ASUtils.json_parse(last_response.body)
-    resp.has_key?('mimetype').should be true
-    resp.has_key?('filename').should be true
+    expect(resp).to have_key("mimetype")
+    expect(resp).to have_key("filename")
   end
 
 end
