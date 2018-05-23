@@ -302,7 +302,7 @@ end
     end
 
 
-    it "maps arrangment and fileplan notes to datafield 351, and appends trailing punctuation" do
+    it "maps arrangement and fileplan notes to datafield 351, and appends trailing punctuation" do
       @notes.each do |note|
         @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note) + "."
       end
