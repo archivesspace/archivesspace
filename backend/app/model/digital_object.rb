@@ -69,6 +69,11 @@ class DigitalObject < Sequel::Model(:digital_object)
     jsons
   end
 
+  def delete
+    related_records(:instance_do_link).map {|sub| sub.delete }
+    super
+  end
+
 
   repo_unique_constraint(:digital_object_id,
                          :message => "Must be unique",

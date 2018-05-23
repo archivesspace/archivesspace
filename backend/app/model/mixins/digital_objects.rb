@@ -1,10 +1,5 @@
 module DigitalObjects
 
-  def handle_delete
-    related_records(:instance_do_link).map {|sub| Instance[sub.instance_id].delete }
-    super
-  end
-
   def update_from_json(json, opts = {}, apply_nested_records = true)
     result = super
     reindex_linked_records
