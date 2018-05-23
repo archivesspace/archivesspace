@@ -28,6 +28,7 @@ describe 'MARC Export' do
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
     xml_content.should_not be_empty
     note_string = notes.map{|n| note_content(n)}.join('')
+    xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
     xml_content.should match(/#{note_string}/)
   end
 
@@ -301,9 +302,9 @@ end
     end
 
 
-    it "maps arrangment and fileplan notes to datafield 351" do
+    it "maps arrangement and fileplan notes to datafield 351, and appends trailing punctuation" do
       @notes.each do |note|
-        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note)
+        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note) + "."
       end
     end
   end
@@ -475,6 +476,70 @@ end
     end
   end
 
+  describe "record leader mappings - parent_org_defined" do
+    before(:all) do
+      @repo_parent = create(:json_repo_parent_org)
+
+      @parent_institution_name = @repo_parent.parent_institution_name
+      @name = @repo_parent.name
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_parent.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource1 = create(:json_resource,
+                          :level => 'collection',
+                          :finding_aid_description_rules => 'dacs')
+
+      @marc1 = get_marc(@resource1)
+    end
+
+    after(:all) do
+      @resource1.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
+      df = @marc1.df('852', ' ', ' ')
+      df.sf_t('a').should include(@parent_institution_name)
+      df.sf_t('b').should eq(@name)
+    end
+  end
+
+  describe "record leader mappings - NO org_code defined" do
+    before(:all) do
+      @repo_no_org_code = create(:json_repo_no_org_code)
+
+      @name = @repo_no_org_code.name
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_no_org_code.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource1 = create(:json_resource,
+                          :level => 'collection',
+                          :finding_aid_description_rules => 'dacs')
+
+      @marc1 = get_marc(@resource1)
+    end
+
+    after(:all) do
+      @resource1.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "df 852: if parent org and repo_code UNdefined, $a repo name" do
+      df = @marc1.df('852', ' ', ' ')
+      df.sf_t('a').should eq(@name)
+    end
+  end
+
   describe "record leader mappings" do
     before(:all) do
       @resource1 = create(:json_resource,
@@ -578,13 +643,11 @@ end
       @marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(ids)
     end
 
-    it "maps repository identifier data to df 852" do
+    it "df 852: $a should get org_code if org_code defined and parent_institution_name not" do
       repo = JSONModel(:repository).find($repo_id)
 
       df = @marc1.df('852', ' ', ' ')
       df.sf_t('a').should include(repo.org_code)
-      df.sf_t('b').should eq(repo.name)
-      df.sf_t('c').should eq((0..3).map{|i| @resource1.send("id_#{i}")}.compact.join('.'))
     end
   end
 
@@ -783,6 +846,10 @@ end
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
       df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 600 tag agent-person subfields" do
@@ -825,6 +892,10 @@ end
       df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
       df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 610 tag agent-corp subfields" do
@@ -856,6 +927,10 @@ end
       df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
       df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
       df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+
+      if ind2 == '7'
+        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+      end
     end
 
     it "should add required punctuation to 600 tag agent-family subfields" do
@@ -982,8 +1057,8 @@ end
     end
 
 
-    it "maps notes of type 'otherfindaid' to df 555, sf 3" do
-      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], '3')
+    it "maps notes of type 'otherfindaid' to df 555, sf a" do
+      note_test(@resource, @marc, %w(otherfindaid), ['555', '0', ' '], 'a')
     end
 
 
@@ -1073,6 +1148,15 @@ end
       note_test(@resource, @marc, %w(accruals), ['584', ' ', ' '], 'a')
     end
 
+    it "5XX tags should end in punctuation" do
+      types = %w(odd dimensions physdesc materialspec physloc phystech physfacet processinfo separatedmaterial arrangement fileplan accessrestrict abstract scopecontent prefercite acqinfo bibliography index altformavail originalsloc userestrict legalstatus relatedmaterial custodhist appraisal accruals bioghist otherfindaid )
+      notes = @resource.notes.select{|n| types.include?(n['type'])}
+
+      notes.each do |note|
+        content = note_content(note)
+        expect(@marc.to_xml).to match(/#{content + "."}/)
+      end
+    end
   end
 
   describe "notes: include unpublished flag" do

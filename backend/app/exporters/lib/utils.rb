@@ -5,12 +5,20 @@ module ASpaceExport
 
     # Extract a string of a note's content (including the content field and any
     # text subnotes)
-    def self.extract_note_text(note, include_unpublished = false)
+    def self.extract_note_text(note, include_unpublished = false, add_punct = false)
       subnotes = note['subnotes'] || []
-      (Array(note['content']) +
-       subnotes.map { |sn|
-         sn['content'] if (sn['jsonmodel_type'] == 'note_text' && include_unpublished || sn["publish"])
-       }.compact).join(" ")
+      note_text = (Array(note['content']) +
+                  subnotes.map { |sn|
+                    sn['content'] if (sn['jsonmodel_type'] == 'note_text' && include_unpublished || sn["publish"])
+                  }.compact).join(" ")
+
+      # ANW-654: Check if last character of the note_text is terminal punctuation.
+      # If not, append a period to the end of the note.
+      if add_punct == true && !note_text.empty? && !['.', '!', '?'].include?(note_text[-1])
+        note_text << "."
+      end
+
+      return note_text
     end
 
     def self.has_html?(text)
@@ -57,7 +65,7 @@ module ASpaceMappings
     def self.get_marc_source_code(code)
 
       marc_code = case code
-                  when 'naf', 'lcsh'; 0
+                  when 'naf', 'lcsh', 'lcnaf'; 0
                   when 'lcshac'; 1
                   when 'mesh'; 2
                   when 'nal'; 3
