@@ -132,6 +132,7 @@ en:
   search_results:
     title: Search Results
     context: Result context
+    identifier: Identifier
     no_results: No records found
     no_results_prefix: There were no search results for
     result_type: Record Type
