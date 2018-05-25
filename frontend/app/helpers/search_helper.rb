@@ -162,14 +162,6 @@ module SearchHelper
     end
   end
 
-  def ids_to_identifier(field)
-    id0 = JSONModel::HTTP.get_json(field)['id_0'] ? (JSONModel::HTTP.get_json(field)['id_0']).to_s : nil
-    id1 = JSONModel::HTTP.get_json(field)['id_1'] ? (JSONModel::HTTP.get_json(field)['id_1']).to_s : nil
-    id2 = JSONModel::HTTP.get_json(field)['id_2'] ? (JSONModel::HTTP.get_json(field)['id_2']).to_s : nil
-    id3 = JSONModel::HTTP.get_json(field)['id_3'] ? (JSONModel::HTTP.get_json(field)['id_3']).to_s : nil
-    [id0, id1, id2, id3].compact.join('.')
-  end
-
   def get_ancestor_title(field)
     if field.include?('resources') || field.include?('digital_objects')
       clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
