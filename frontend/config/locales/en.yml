@@ -808,6 +808,7 @@ en:
         add: Add Revision Statement
 
   repository:
+    oai_is_disabled: OAI Harvesting Disabled?
     _frontend:
       messages:
         created: Repository Created
@@ -826,6 +827,7 @@ en:
       section:
         all_fields: Repository Fields
         transfer: Transfer Repository
+        oai_settings: OAI Settings
       action:
         select: Select Repository
         create: Create Repository

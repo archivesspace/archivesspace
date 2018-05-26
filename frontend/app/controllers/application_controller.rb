@@ -112,6 +112,11 @@ class ApplicationController < ActionController::Base
         end
       end
 
+      puts "++++++++++++++++++++++++++++"
+      puts "FRONTEND APP CONTROLLER"
+      puts model.inspect
+      puts obj.inspect
+
       # Make the updated object available to templates
       instance_variable_set("@#{opts[:instance]}".intern, obj)
 

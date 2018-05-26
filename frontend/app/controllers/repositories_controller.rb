@@ -64,6 +64,9 @@ class RepositoriesController < ApplicationController
 
   def update
     generate_names(params[:repository])
+    puts "=================="
+    puts "FRONTEND REPO CONTROLLER"
+    puts params.inspect
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
                 :replace => false,

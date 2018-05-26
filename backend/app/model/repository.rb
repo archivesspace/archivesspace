@@ -155,8 +155,24 @@ class Repository < Sequel::Model(:repository)
     "#{name} (#{repo_code})"
   end
 
+  def update(things)
+    puts "THIS CLASS"
+    puts things.inspect
+    puts "========"
+    puts "id before:" + self[:id].to_s
+    puts "oai before" + self[:oai_is_disabled].to_s
+    puts "publish before" + self[:publish].to_s
+    super(things)
+    puts "id after" + self[:id].to_s
+    puts "oai after" + self[:oai_is_disabled].to_s
+    puts "publish after" + self[:publish].to_s
+  end
+
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
+      puts "++++++++++++++++++++++++++++"
+      puts "IN BACKEND MODEL"
+      puts json.inspect
     reindex_required = self.publish != (json['publish'] ? 1 : 0)
     classification_reindex_required = self.name != json['name']
 
