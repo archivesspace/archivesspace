@@ -32,7 +32,6 @@ common/ARCHIVESSPACE_VERSION
 .yardoc
 API.md
 endpoint_examples*
-config/gemnasium.yml
 build/demo_db_backups
 *.jasper
 .bundle
@@ -47,4 +46,3 @@ backend/default
 frontend/default
 indexer/default
 public/default
-
