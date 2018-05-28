@@ -60,10 +60,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:create_repository])
     .returns([200, :updated]) \
   do
-    puts "++++++++++++++++++++++++++++"
-    puts "BACKEND!"
-    puts params.inspect
-    
     rwa = params[:repository_with_agent]
 
     repo = Repository.get_or_die(params[:id])

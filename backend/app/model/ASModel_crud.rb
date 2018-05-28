@@ -177,11 +177,6 @@ module ASModel
 
 
     def update_from_json(json, extra_values = {}, apply_nested_records = true)
-
-      puts "++++++++++++++++++++++++++++"
-      puts "IN ASMODEL"
-      puts json.inspect
-
       if self.values.has_key?(:suppressed)
         if self[:suppressed] == 1
           raise ReadOnlyException.new("Can't update an object that has been suppressed")
@@ -212,24 +207,13 @@ module ASModel
 
       self.class.strict_param_setting = false
 
-      puts "CLASS UPDATING"
-      puts self.class
-
-      puts self.class.prepare_for_db(json.class, updated).merge(:user_mtime => Time.now, :last_modified_by => RequestContext.get(:current_username))
-
-
       self.update(self.class.prepare_for_db(json.class, updated).
                   merge(:user_mtime => Time.now,
                         :last_modified_by => RequestContext.get(:current_username)))
 
-      puts "SELF"
-      puts self.inspect
-
-
       if apply_nested_records
         self.apply_nested_records(json)
       end
-
 
       self.class.fire_update(json, self)
 
@@ -375,12 +359,8 @@ module ASModel
           # We don't index records without URIs, so no point digging them out of the database either.
           return unless uri
 
-          hash_light = model.to_jsonmodel(sequel_obj.id)
           hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
-          puts "++++++++++++++++++++++++++++"
-          puts "IN CRUD"
-          puts json.inspect
-          puts sequel_obj.inspect
+          
           DB.after_commit do
             RealtimeIndexing.record_update(hash, uri)
           end
