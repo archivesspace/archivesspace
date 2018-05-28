@@ -128,9 +128,11 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   private
 
   def add_visibility_restrictions(dataset)
-    unpublished_repos = Repository.exclude(:publish => 1).select(:id).map {|row| row[:id]}
+    unpublished_repos  = Repository.exclude(:publish => 1).select(:id).map {|row| row[:id]}
+    oai_disabled_repos = Repository.exclude(:oai_is_disabled => 0).select(:id).map {|row| row[:id]}
+    restricted_repos = (unpublished_repos + oai_disabled_repos).uniq
 
-    dataset.exclude(:repo_id => unpublished_repos).filter(:publish => 1, :suppressed => 0)
+    dataset.exclude(:repo_id => restricted_repos).filter(:publish => 1, :suppressed => 0)
   end
 
   # Don't show deletes for repositories that aren't published.

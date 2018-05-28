@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'stringio'
 require 'oai_helper'
 
+require_relative 'export_spec_helper'
 require_relative 'oai_response_checker'
 
 describe 'OAI handler' do
@@ -406,5 +407,33 @@ describe 'OAI handler' do
       expect(response.body).to_not match(/note with unpublished parent node/)
     end
 
+  end
+
+  describe "respository with OAI harvesting disabled" do
+    before(:all) do
+      @repo_disabled = create(:json_repo, :oai_is_disabled => true)
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_disabled.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource = create(:json_resource,
+                          :level => 'collection')
+    end
+
+    after(:all) do
+      @resource.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "does not publish resources in a repository with OAI disabled" do
+      uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@resource['uri']}&metadataPrefix=oai_marc"
+
+      response = get uri
+      expect(response.body).to match(/<error code="idDoesNotExist">/)
+    end
   end
 end
