@@ -18,12 +18,15 @@ module JSONModel
     case type
     when :digital_object
       ark = ARKIdentifier.first(:digital_object_id => id)
+      return ark.external_id if ark.external_id
       return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
     when :resource
       ark = ARKIdentifier.first(:resource_id => id)
+      return ark.external_id if ark.external_id
       return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
     when :accession
       ark = ARKIdentifier.first(:accession_id => id)
+      return ark.external_id if ark.external_id
       return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
     end
 
