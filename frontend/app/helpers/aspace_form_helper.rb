@@ -4,24 +4,23 @@ module AspaceFormHelper
 
   COMBOBOX_MIN_LIMIT = 50 # if a <select> has equal or more options than this value, output a combobox
 
+  class FormHelpers
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::FormTagHelper
+    include ActionView::Helpers::FormOptionsHelper
+  end
+
   class FormContext
 
     def initialize(name, values_from, parent)
 
       values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
 
-      @forms = Object.new
+      @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
       @path_to_i18n_map = {}
-
-      class << @forms
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::FormTagHelper
-        include ActionView::Helpers::FormOptionsHelper
-      end
-
     end
 
 
