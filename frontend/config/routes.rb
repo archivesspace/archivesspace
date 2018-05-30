@@ -38,8 +38,6 @@ ArchivesSpace::Application.routes.draw do
 
     resources :groups
 
-    match 'harvest_settings/edit' => 'harvest_settings#edit', :via => [:get]
-
     match 'groups/:id' => 'groups#update', :via => [:post]
     match 'groups/:id/delete' => 'groups#delete', :via => [:post]
 

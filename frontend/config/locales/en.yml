@@ -115,10 +115,6 @@ en:
     use_mods: Use MODS
     use_dc: Use Dublin Core
 
-  harvest_options: 
-    enable: OAI Harvesting Enabled
-    set_title: "Select sets defined by the level of description assigned to resources to include in OAI feed:"
-
   pagination:
     first: First
     last: Last
@@ -298,7 +294,6 @@ en:
     plugins: Plug-ins
     repositories_manage: Manage Repositories
     manage_groups: Manage Groups
-    manage_harvesting: Manage Harvesting
     manage_users: Manage Users
     manage_container_profiles: Manage Container Profiles
     manage_location_profiles: Manage Location Profiles
@@ -807,8 +802,11 @@ en:
       action:
         add: Add Revision Statement
 
-  repository:
+  repository_oai:
     oai_is_disabled: OAI Harvesting Disabled?
+    oai_sets_available: Sets included in OAI
+
+  repository:
     _frontend:
       messages:
         created: Repository Created
@@ -826,6 +824,7 @@ en:
         cannot_delete_nonempty: Cannot delete - repository not empty
       section:
         all_fields: Repository Fields
+        oai_fields: OAI Harvest Settings
         transfer: Transfer Repository
         oai_settings: OAI Settings
       action:

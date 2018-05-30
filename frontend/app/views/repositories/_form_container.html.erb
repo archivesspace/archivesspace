@@ -14,8 +14,13 @@
       <%= form.label_and_textarea "description" %>
       <%= form.label_and_textfield "url" %>
       <%= form.label_and_textfield "image_url" %>
-      <hr/>
+    </section>
+  <% end %>
+
+  <% define_template("repository_oai", jsonmodel_definition(:repository)) do |form| %>
+    <section id="oai_fields">
       <%= form.label_and_boolean "oai_is_disabled", {} %>
+      <%= form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>
     </section>
   <% end %>
   
@@ -42,48 +47,15 @@
     <% form.emit_template("repository") %>
   <% end %>
 
+  <h3><%= I18n.t("repository._frontend.section.oai_fields") %></h3>
+  <% form.push("repository_oai", form['repository']) do |form| %>
+    <% form.emit_template("repository_oai") %>
+  <% end %>
+
   <h3><%= I18n.t("agent_contact._plural") %></h3>
   <% form.push("agent_representation", form['agent_representation'] || {}) do |form| %>
     <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
       <% form.emit_template("agent_contact", item) %>
     <% end %>
   <% end %>
-
-  <!--
-  <section id="repository_oai_settings">
-    <h3><%= I18n.t("repository._frontend.section.oai_settings") %></h3>
-    <div class="form-group">
-      <label class="control-label">
-        <input id="oai_enable" name="oai_enable" type="checkbox"
-          <% if true %>
-            checked="checked"
-          <% end %> />
-        <%= I18n.t("harvest_options.enable") %>
-      </label>
-    </div>
-
-    <br />
-    <p><%= I18n.t("harvest_options.set_title") %></p>
-    <table class="table table-striped table-bordered table-condensed">
-      <tbody>
-        <% [{id: "1", value: "One"}, {id: "2", value: "Two"}].each do |v| %>
-        <%# @enum['enumeration_values'].each do |v| %>
-          <tr>
-            <td>
-              <input id="<%= v['id'] %>"
-                     name="<%= v['value'] %>"
-                     type="checkbox"
-                      <% if true %>
-                       checked="checked"
-                      <% end %> />
-            </td>
-            <td><%= v['value'] %></td>
-            <td>Thing</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </section> -->
-
-
 </fieldset>

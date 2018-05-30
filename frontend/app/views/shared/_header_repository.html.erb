@@ -134,7 +134,6 @@
                   <% if user_can?('manage_repository') %>
                     <% found_an_item = true %>
                     <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-                    <li><%= link_to I18n.t("navbar.manage_harvesting"), :controller => :harvest_settings, :action => :edit %></li>
                     <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
                   <% end %>
                   <% if user_can?('manage_assessment_attributes') %>

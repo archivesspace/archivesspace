@@ -408,6 +408,45 @@ module AspaceFormHelper
       @forms.tag("input", options.merge(opts), false, false)
     end
 
+    # takes a JSON representation of the current options selected and the list of archival_record_level enums
+    # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
+    def checkboxes_for_oai_sets(set_json, value_list)
+      #puts "++++++++++++++++++++++++++++"
+      #puts "IN FORM HELPER"
+      set_arry = JSON::parse(set_json)
+
+      html = "" 
+
+      html << "<div class='row'>"
+        html << "<div class='col-sm-2'>"
+          html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
+        html << "</div>"
+          html << "<div class='col-sm-8'>&nbsp;"
+          html << "<table class=\"table table-striped table-bordered table-condensed\">"
+            html << "<tbody>"
+              value_list['enumeration_values'].each do |v|
+                checked = set_arry.include?(v['id'].to_s)
+
+                html << "<tr>"
+                  html << "<td>"
+                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\""
+                    if checked
+                      html << "checked=\"checked\" />"
+                    else
+                      html << "/>"
+                    end
+                   html << "</td>"
+                  html << "<td>#{v['value']}</td>"
+                 html << "</tr>"
+              end
+            html << "</tbody>"
+          html << "</table>"
+        html << "</div>"
+      html << "</div>"
+
+      return html.html_safe
+    end
+
     def req_checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REQ") or (obj[name].nil? and default)
