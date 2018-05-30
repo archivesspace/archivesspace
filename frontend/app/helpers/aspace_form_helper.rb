@@ -427,7 +427,9 @@ module AspaceFormHelper
           html << "<table class=\"table table-striped table-bordered table-condensed\">"
             html << "<tbody>"
               value_list['enumeration_values'].each do |v|
-                checked = set_arry.include?(v['id'].to_s)
+                # if we have an empty list of checkboxes, assume all sets are enabled.
+                # otherwise, a checkbox is on if it's the in the list we get from the backend.
+                checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
 
                 html << "<tr>"
                   html << "<td>"
