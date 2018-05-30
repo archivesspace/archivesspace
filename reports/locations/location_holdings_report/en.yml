@@ -2,6 +2,7 @@ en:
   reports:
     location_holdings_report:
       title: Location Holdings
+      identifier_prefix: Location
       description: Report on containers shelved at one or more locations
       repository_report_type: Repository
       building_report_type: Building
@@ -10,3 +11,21 @@ en:
       search_range: Report on a range of locations
       start_range: First location
       end_range: Last location
+      building: Building
+      floor: Floor
+      room: Room
+      location_in_room: Location in Room
+      location_url: Location URL
+      location_profile: Location Profile
+      containers: Top Conatiners
+      records: Resources and Accessions
+      type: Record Type
+      top_container_indicator: Top Container Indicator
+      top_container_barcode: Top Container Barcode
+      ils_item_id: ILS Item ID
+      ils_holding_id: ILD Holding ID
+      repository: Repository
+      record_identifier: Identifier
+      record_title: Title
+      location_barcode: Location Barcode
+      container_profile: Container Profile

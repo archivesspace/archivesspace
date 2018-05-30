@@ -44,6 +44,7 @@ from
 
     if ASUtils.present?(params['building'])
       @building = params['building']
+      @building = @building.gsub("'", "''")
     elsif ASUtils.present?(params['repository_uri'])
       @repository_uri = params['repository_uri']
 
@@ -63,7 +64,7 @@ from
 
   def query
     query_string = if building
-                     "#{QUERY_BASE} where building = '#{building.gsub!("'", "''")}' #{QUERY_ORDER}"
+                     "#{QUERY_BASE} where building = '#{building}' #{QUERY_ORDER}"
                    elsif repository_uri
                      "#{QUERY_BASE} where location_id in
                      (select distinct location_id from
@@ -104,8 +105,7 @@ from
     containers.each do |container_row|
       container = container_row.to_hash
       container[:container_profile] = query_profiles(container[:id])
-      container[:resources] = query_resources(container[:id])
-      container[:accessions] = query_accessions(container[:id])
+      container[:records] = query_resources_and_accessions(container[:id])
       container.delete(:id)
       container_array.push(container)
     end
@@ -128,8 +128,9 @@ where top_container_id = #{container_id}"
     profile_string.empty? ? nil : profile_string
   end
 
-  def query_resources(container_id)
-    query_string = "select identifier, title from
+  def query_resources_and_accessions(container_id)
+    resource_query_string = "select 'resource' as type,
+  identifier as record_identifier, title as record_title from
 	resource natural join
 	(select distinct GetResourceIdentiferForInstance(instance_id) as identifier, repo_id from
 		sub_container join top_container_link_rlshp
@@ -137,39 +138,34 @@ where top_container_id = #{container_id}"
         join top_container on top_container_id = top_container.id
 	where top_container_id = #{container_id}) as tbl
 where resource.repo_id = tbl.repo_id"
-    resources = db.fetch(query_string)
-    resource_array = []
+    resources = db.fetch(resource_query_string)
+    array = []
     resources.each do |resource_row|
       resource = resource_row.to_hash
-      identifier = ASUtils.json_parse(resource[:identifier])
-      resource[:identifier] = identifier.compact.join('/')
-      resource_array.push(resource)
+      identifier = ASUtils.json_parse(resource[:record_identifier])
+      resource[:record_identifier] = identifier.compact.join('/')
+      array.push(resource)
     end
-    resource_array.empty? ? nil : resource_array
-  end
 
-  def query_accessions(container_id)
-    query_string = "select identifier, title from
-	accession join instance
-    on accession.id = accession_id
-    join sub_container
-    on instance.id = instance_id
-    join top_container_link_rlshp
-    on sub_container.id = sub_container_id
+    accession_query_string = "select 'accession' as type,
+  identifier as record_identifier, title as record_title from
+	accession join instance on accession.id = accession_id
+    join sub_container on instance.id = instance_id
+    join top_container_link_rlshp on sub_container.id = sub_container_id
 where top_container_id = #{container_id}"
-    accessions = db.fetch(query_string)
-    accession_array = []
+    accessions = db.fetch(accession_query_string)
     accessions.each do |accession_row|
       accession = accession_row.to_hash
-      identifier = ASUtils.json_parse(accession[:identifier])
-      accession[:identifier] = identifier.compact.join('/')
-      accession_array.push(accession)
+      identifier = ASUtils.json_parse(accession[:record_identifier])
+      accession[:record_identifier] = identifier.compact.join('/')
+      array.push(accession)
     end
-    accession_array.empty? ? nil : accession_array
+
+    array.empty? ? nil : array
   end
 
   def identifier(record)
-    "#{title}: #{record[:location_url]}"
+    record[:location_url]
   end
 
 end

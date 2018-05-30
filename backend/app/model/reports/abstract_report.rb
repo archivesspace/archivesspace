@@ -1,4 +1,5 @@
 require_relative 'report_manager'
+require_relative '../../lib/reports/report_utils'
 require 'erb'
 
 class AbstractReport
@@ -10,7 +11,6 @@ class AbstractReport
   attr_accessor :db
   attr_accessor :job
   attr_accessor :info
-  attr_accessor :template
 
   def initialize(params, job, db)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
@@ -18,29 +18,20 @@ class AbstractReport
     @params = params
     @db = db
     @job = job
-    @info = hash.new
-    @template = 'generic_listing.erb'
+    @info = {}
   end
 
   def title
     I18n.t("reports.#{code}.title", :default => code)
   end
 
-  def get_binding
-    binding
-  end
-
-  def report
-    self
-  end
-
   def layout
     AppConfig[:report_page_layout]
   end
 
-  def orientation
-    "portrait"
-  end
+  # def orientation
+  #   "portrait"
+  # end
 
   def current_user
     @job.owner
@@ -50,41 +41,16 @@ class AbstractReport
     raise 'Please specify a query to return your reportable results'
   end
 
-  def generate(file)
-    if format == 'json'
-      generate_json(file)
-    elsif format == 'html'
-      generate_html(file)
-    else
-      generate_json(file)
-    end
-  end
-
-  def generate_json(file)
-    json = ASUtils.to_json(query)
-    file.write(json)
-  end
-
-  def generate_html(file)
-    renderer = ERB.new(File.read(template))
-    file.write(renderer.result)
-  end
-
-  def format_sub_report(name, contents)
-    ''
-  end
-
-  def each
-    results = query
-    results.each
-  end
-
-  def identifier(record)
-    nil
+  def code
+    self.class.code
   end
 
   def self.code
     self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
+  end
+
+  def identifier(record)
+    nil
   end
 
 end
