@@ -1,0 +1,19 @@
+<ul>
+  <% value = sub_report_data_stack.last %>
+  <% value.each do |item| %>
+    <li>
+      <dl>
+        <% item.each do |key, value| %>
+          <% if value.kind_of?(Array) %>
+            <dt><%= t(key) %></dt>
+            <br/>
+            <%= show_in_list(value) %>
+          <% elsif value %>
+            <dt><%= t(key) %></dt>
+            <dd><%= value %></dd>
+          <% end %>
+        <% end %>
+      </dl>
+    </li>
+  <% end %>
+</ul>

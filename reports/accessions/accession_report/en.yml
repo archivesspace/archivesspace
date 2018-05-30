@@ -5,9 +5,11 @@ en:
       description: Displays all accessions for a given repository. Report includes data entered into basic information fields for each accession.
       number_of_accessions: Number of accessions
       identifier_prefix: Accession
+      accession_number: Accession Number
+      accession_title: Title
       accession_date: Accession Date
       extent: Extent
-      container: Container
+      container_summary: Container
       deaccessions: Deaccessions
       locations: Locations
       general_note: General Note
@@ -16,16 +18,20 @@ en:
       bulk_begin_date: Bulk Begin Date
       bulk_end_date: Bulk End Date
       date_expression: Date Expression
-      description_section: Description
+      acquisition_type: Acquissition Type
+      description_note: Description
       names: Names
       subjects: Subjects
       acquisitions: Acquisitions
-      retention: Retention
-      condition: Condition
+      retention_rule: Retention
+      condition_note: Condition
       inventory: Inventory
-      disposition: Disposition
+      disposition_note: Disposition
       restrictions_apply: Retrictions Apply?
+      access_restrictions: Access Restrictions?
       access_restrictions_note: Access Restrictions Note
-      user_restrictions_note: Use Restrictions Note
+      use_restrictions: Use Restrictions?
+      use_restrictions_note: Use Restrictions Note
       rights_transferred: Rights Transferred?
       rights_transferred_note: Rights Transferred Note
+      acknowledgement_sent: Acknowledgement Sent?

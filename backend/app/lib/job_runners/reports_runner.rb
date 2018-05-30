@@ -1,5 +1,6 @@
-require_relative '../reports/report_response'
-require_relative '../reports/report_helper'
+# require_relative '../reports/report_response'
+# require_relative '../reports/report_helper'
+require_relative '../reports/../reports/report_generator'
 require 'json'
 
 class ReportRunner < JobRunner
@@ -38,7 +39,7 @@ class ReportRunner < JobRunner
       end
 
       file = ASUtils.tempfile('report_job_')
-      report.generate(file)
+      ReportGenerator.new(report).generate(file)
 
       # do something to convert to correct format
 
