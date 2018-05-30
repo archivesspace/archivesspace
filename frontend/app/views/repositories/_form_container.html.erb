@@ -23,7 +23,6 @@
       <%= form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>
     </section>
   <% end %>
-  
 
   <% define_template("agent_contact", jsonmodel_definition(:agent_contact)) do |item| %>
     <section id="agent_contact">

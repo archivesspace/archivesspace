@@ -411,9 +411,11 @@ module AspaceFormHelper
     # takes a JSON representation of the current options selected and the list of archival_record_level enums
     # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
     def checkboxes_for_oai_sets(set_json, value_list)
-      #puts "++++++++++++++++++++++++++++"
-      #puts "IN FORM HELPER"
+      # puts "++++++++++++++++++++++++++++"
+      # puts "IN FORM HELPER"
+
       set_arry = JSON::parse(set_json)
+
 
       html = "" 
 
@@ -429,12 +431,17 @@ module AspaceFormHelper
 
                 html << "<tr>"
                   html << "<td>"
-                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\""
+                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
                     if checked
-                      html << "checked=\"checked\" />"
+                      html << "checked=\"checked\" "
+                    end
+
+                    if readonly?
+                      html << "disabled />"
                     else
                       html << "/>"
-                    end
+                    end # of checkbox tag
+
                    html << "</td>"
                   html << "<td>#{v['value']}</td>"
                  html << "</tr>"
